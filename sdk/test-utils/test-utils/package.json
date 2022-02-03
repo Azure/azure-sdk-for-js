@@ -56,11 +56,11 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "mocha": "^7.1.1",
     "@azure-tools/test-recorder": "^1.0.0",
-    "tslib": "^2.2.0",
     "@azure/core-tracing": "1.0.0-preview.14",
-    "@opentelemetry/api": "^1.0.3"
+    "@opentelemetry/api": "^1.0.3",
+    "mocha": "^7.1.1",
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -73,6 +73,7 @@
     "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.1.0",
     "eslint": "^7.15.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
