@@ -30,15 +30,13 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
   // This function returns the special NoOpCredential in playback mode, which
   // is a special TokenCredential implementation that does not make any requests
   // to AAD.
+  const client = new ConfigurationClient(endpoint, createTestCredential());
 
-  // recorder.configureClientOptionsCoreV1 mixes in the necessary options that
-  // need to be passed to the corev1 ConfigurationClient for the recorder to
-  // capture requests.
-  return new ConfigurationClient(
-    endpoint,
-    createTestCredential(),
-    recorder.configureClientOptionsCoreV1({})
-  );
+  // recorder.configureClient updates the pipeline by adding the test proxy policy to
+  // redirect the requests to reach the proxy tool in record/playback modes instead of
+  // hitting the live service.
+  recorder.configureClient(client["client"]);
+  return client;
 }
 
 // You want to give the test suite a descriptive name. Here, I add [AAD] to
