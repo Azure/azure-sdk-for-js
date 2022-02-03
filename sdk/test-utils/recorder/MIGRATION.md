@@ -134,6 +134,9 @@ Under the hood, this is powered by the Unified Recorder's sanitizer functionalit
 
 **⚠️Important:** To access environment variables, you must use the `env` export made available from the **new** recorder. This ensures that environment variables are sourced from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
+`recorder.start()` internally sets up the environment variables for playback.
+So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
+
 ## Recorder variables
 
 If you want to compute a value at record time and re-use it during playback, the Unified Recorder's variable functionality is for you. This API lets you declare variables which are stored with the recording at record time. During playback, instead of computing the variable afresh, the value will be retrieved from the recording. A use case of this might be to set a value randomly during record time that needs to be the same during playback.
@@ -173,8 +176,9 @@ await recorder.addSanitizers({
 });
 ```
 
-This example has two sanitizers: 
-- The first sanitizer replaces all instances of "find" in the recording with "replace". 
+This example has two sanitizers:
+
+- The first sanitizer replaces all instances of "find" in the recording with "replace".
 - The second example demonstrates the use of a regular expression for replacement, where anything matching the .NET regular expression `[Rr]egex` (i.e. "Regex" and "regex") would be replaced with "replace".
 
 ### ConnectionStringSanitizer
@@ -217,6 +221,8 @@ $ rush add --dev --caret -p @azure-tools/test-credential
 This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
 
 ```ts
+import { createTestCredential } from "@azure-tools/test-credential";
+
 const credential = createTestCredential();
 
 // Create your client using the test credential.
@@ -255,6 +261,11 @@ module.exports = function (config) {
 The following configuration options in `karma.config.js` should be **removed**:
 
 ```ts
+// files section
+.concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+
+/* ... */
+
 browserConsoleLogOptions: {
   terminal: !isRecordMode(),
 }
