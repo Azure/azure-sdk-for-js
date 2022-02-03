@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  env,
   isPlaybackMode,
   record,
   Recorder,
@@ -31,9 +32,12 @@ describe("Download Content", function() {
   let recorder: Recorder;
   const url =
     "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata";
-  const callingServerServiceClient = new CallingServerClient(
-    "endpoint=https://endpoint/;accesskey=banana"
-  );
+
+  const connectionString =
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
+    "endpoint=https://endpoint/;accesskey=banana";
+
+  const callingServerServiceClient = new CallingServerClient(connectionString);
 
   beforeEach(async function(this: Context) {
     recorder = record(this, environmentSetup);
@@ -47,13 +51,21 @@ describe("Download Content", function() {
   });
 
   it("download", async function(this: Context) {
-    if (!isPlaybackMode()) {
-      this.skip();
+    let domainName = "us-storage.asm.skype.com";
+    if (isPlaybackMode()) {
+      domainName = "endpoint";
     }
-
-    const downloadResponse = await callingServerServiceClient.download(url);
-    const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
-    assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
+    try {
+      const downloadUrl =
+        "https://" +
+        domainName +
+        "/v1/objects/0-wus-d8-9c3c0c769f74d4bb8f8c6af86257dec2/content/acsmetadata";
+      const downloadResponse = await callingServerServiceClient.download(downloadUrl);
+      const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
+      assert.strictEqual(metadata.includes("0-wus-d8-9c3c0c769f74d4bb8f8c6af86257dec2"), true);
+    } catch (e) {
+      console.log(e);
+    }
   });
 
   it("downloadToFile", async function(this: Context) {

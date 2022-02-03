@@ -2,19 +2,21 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata",
+   "url": "https://endpoint/v1/objects/0-wus-d8-9c3c0c769f74d4bb8f8c6af86257dec2/content/acsmetadata",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\r\n  \"chunkDocumentId\": \"0-eus-d15-af5689148b0afa252a57a0121b744dcd\"\r\n}",
+   "response": "{\r\n  \"resourceId\": \"e333a5b5-c1e4-4984-b752-447bf92d10b7\",\r\n  \"callId\": \"f954192d-52ef-4385-85e3-50662ca971ae\",\r\n  \"chunkDocumentId\": \"0-wus-d8-9c3c0c769f74d4bb8f8c6af86257dec2\",\r\n  \"chunkIndex\": 0,\r\n  \"chunkStartTime\": \"2022-02-02T12:07:03.5246240Z\",\r\n  \"chunkDuration\": 23820.0,\r\n  \"pauseResumeIntervals\": [],\r\n  \"recordingInfo\": {\r\n    \"contentType\": \"audioVideo\",\r\n    \"channelType\": \"mixed\",\r\n    \"format\": \"mp4\",\r\n    \"audioConfiguration\": {\r\n      \"sampleRate\": 16000,\r\n      \"bitRate\": 128000,\r\n      \"channels\": 1\r\n    },\r\n    \"videoConfiguration\": {\r\n      \"longerSideLength\": 1920,\r\n      \"shorterSideLength\": 1080,\r\n      \"framerate\": 15,\r\n      \"bitRate\": 1000000\r\n    }\r\n  },\r\n  \"participants\": [\r\n    {\r\n      \"participantId\": \"8:acs:e333a5b5-c1e4-4984-b752-447bf92d10b7_0000000f-5a35-fb16-02c3-593a0d00053c\"\r\n    },\r\n    {\r\n      \"participantId\": \"8:acs:e333a5b5-c1e4-4984-b752-447bf92d10b7_0000000f-5a36-3141-e3c7-593a0d00fc67\"\r\n    }\r\n  ]\r\n}",
    "responseHeaders": {
     "cache-control": "no-cache, max-age=0, s-maxage=0, private",
-    "content-length": "65",
-    "content-range": "bytes 0-64/65",
+    "content-length": "959",
+    "content-range": "bytes 0-958/959",
     "content-type": "application/octet-stream",
-    "date": "Thu, 14 Oct 2021 23:40:58 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "strict-transport-security": "max-age=31536000; includeSubDomains"
+    "date": "Wed, 02 Feb 2022 13:36:57 GMT",
+    "last-modified": "Wed, 02 Feb 2022 12:07:29 GMT",
+    "ms-cv": "UfDOfo8hi0GPVy+39xxqTg.0",
+    "server": "Kestrel",
+    "strict-transport-security": "max-age=2592000; includeSubDomains"
    }
   }
  ],
@@ -22,5 +24,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "72a047668641841240c24ee9c374c387"
+ "hash": "88a0a0c0462d52f442582243b935683a"
 }
