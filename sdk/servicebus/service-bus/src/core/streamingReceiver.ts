@@ -203,17 +203,12 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
         );
-        if (
-          sbError?.code &&
-          ["MessagingEntityDisabled", "MessagingEntityNotFound"].includes(sbError.code)
-        ) {
-          this._messageHandlers().processError({
-            error: sbError,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host,
-          });
-        }
+        this._messageHandlers().processError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host,
+        });
       }
     };
 
