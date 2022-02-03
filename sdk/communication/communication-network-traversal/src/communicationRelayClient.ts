@@ -7,11 +7,7 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { 
-  isTokenCredential, 
-  KeyCredential,
-  TokenCredential 
-} from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
