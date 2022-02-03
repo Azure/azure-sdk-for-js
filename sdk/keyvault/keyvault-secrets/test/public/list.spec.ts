@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import chai from "chai";
 import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
@@ -11,8 +10,6 @@ import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-
-const { expect } = chai;
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
@@ -153,7 +150,7 @@ describe("Secret client - list secrets in various ways", () => {
     results.sort(comp);
     versions.sort(comp);
 
-    expect(results).to.deep.equal(versions);
+    assert.deepEqual(results, versions);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -255,7 +252,7 @@ describe("Secret client - list secrets in various ways", () => {
     results.sort(comp);
     versions.sort(comp);
 
-    expect(results).to.deep.equal(versions);
+    assert.deepEqual(results, versions);
   });
 
   it("can list secret versions by page (non existing)", async function (this: Context) {

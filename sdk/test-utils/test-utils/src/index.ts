@@ -10,6 +10,7 @@ export {
 } from "./multiVersion";
 
 export { chaiAzure } from "./chaiAzure";
+export { chai, assert } from "./chai";
 export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
 export { getYieldedValue } from "./getYieldedValue";

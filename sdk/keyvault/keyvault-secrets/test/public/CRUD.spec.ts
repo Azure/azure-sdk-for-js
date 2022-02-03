@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
