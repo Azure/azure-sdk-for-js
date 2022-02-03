@@ -21,6 +21,10 @@ export interface SubscribeOptions {
    * Max number of events a batch can have.
    */
   maxBatchSize: number;
+  /**
+   * Max number of events to return per second
+   */
+  maxEventsPerSecond: number;
 }
 
 /**
@@ -37,21 +41,25 @@ export interface EventHandlers {
   processError(err: Error): Promise<void>;
 }
 
-export class MockEventReceiver2 {
+export class MockEventHubConsumerClient {
   private closeCalled: boolean;
   private partitions: number;
   private minDelay: number; // min delay between events in milliseconds
   private maxDelay: number;
   private timers: NodeJS.Timeout[];
   private maxBatchSize: number;
+  private maxEventsPerSecond: number;
+  private maxEventsPerSecondPerPartition: number;
 
   constructor() {
     this.closeCalled = false;
     this.partitions = 12;
-    this.minDelay = 5;
-    this.maxDelay = 10;
+    this.minDelay = 1;
+    this.maxDelay = 2;
     this.maxBatchSize = 10;
     this.timers = [];
+    this.maxEventsPerSecond = 1000;
+    this.maxEventsPerSecondPerPartition = Math.ceil(this.maxEventsPerSecond / this.partitions);
   }
 
   public subscribe(
@@ -89,14 +97,25 @@ export class MockEventReceiver2 {
     processEvents: (events: Event[], context: { partitionId: number }) => Promise<void>,
     partitionId: number
   ) {
+    const startTime = process.hrtime();
+    let eventsRaised = 0;
     while (this.closeCalled === false) {
-      let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
-      const events: Event[] = [];
-      while (numberOfEvents--) events.push({ body: generateUuid() });
-      await this.processFuncWithDelay(
-        async () => processEvents(events, { partitionId }),
-        this.getRandomInteger(this.minDelay, this.maxDelay)
-      );
+      const elapsed = process.hrtime(startTime);
+      const elapsedSeconds = elapsed[0] + elapsed[1] / 1000000000;
+      const targetEventsRaised = elapsedSeconds * this.maxEventsPerSecondPerPartition;
+
+      if (eventsRaised < targetEventsRaised) {
+        let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
+        const events: Event[] = [];
+        while (numberOfEvents--) events.push({ body: generateUuid() });
+        await this.processFuncWithDelay(
+          async () => processEvents(events, { partitionId }),
+          this.getRandomInteger(this.minDelay, this.maxDelay)
+        );
+        eventsRaised += events.length;
+      } else {
+        await this.processFuncWithDelay(async () => {}, 1000 / this.maxEventsPerSecondPerPartition);
+      }
     }
   }
 

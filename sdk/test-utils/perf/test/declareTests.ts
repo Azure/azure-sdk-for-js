@@ -10,7 +10,7 @@ import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
 import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
-import { MockEventReceiver2Test } from "./event/mockEventReceiver2Test.spec";
+import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec";
 import { PerfTestConstructor } from "../src";
 
 type NormalizedTestDefinition = { testClass: PerfTestConstructor; options?: string };
@@ -37,7 +37,7 @@ const tests: TestDefinition[] = [
     options: "--url http://bing.com/",
   },
   MockEventReceiverTest,
-  MockEventReceiver2Test,
+  MockEventHubConsumerClientTest,
 ];
 
 // Normalize everything in the array above for export.
