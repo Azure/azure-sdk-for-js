@@ -889,6 +889,13 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@azure/core-tracing/1.0.0-preview.14:
+    resolution: {integrity: sha512-FFIzVoQ+kcvyxJi+OJdiM+Ec3dNdNnWTpErdppbPCU7XRqBjWn+LARc/5j4feEDkKh1nPq6Cb82MI6ExH3GR6A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
   /@azure/core-tracing/1.0.0-preview.9:
     resolution: {integrity: sha512-zczolCLJ5QG42AEPQ+Qg9SRYNUyB+yZ5dzof4YEc+dyWczO9G2sBqbAjLB7IqrsdHN2apkiB2oXeDKCsq48jug==}
     engines: {node: '>=8.0.0'}
@@ -15051,11 +15058,12 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-Ql6Zj6oQc/mTv66926SKB0v2MkYIOawoDD1pPmxHH8VSs9iwmzaL+Z01G+CaXf0VcXFpnT1pDm7sr9oBFlqrYg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-QpbQ27v5Vwh319CCySclHolgDDf/5uAAanlMcSlD51Mmdr6y9T+ym/8Y8KQQOy2/RlmfNxREoLkZoeTXS/eu0g==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
@@ -16643,11 +16651,11 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-XjDzZSPkmEmY2imZM4FOD5UHrO3s0REmYXzf1e9QlWNAeOSaPAP12S11UsA8wp9SiYpxHqhNwQVpdrjIeGDqJw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-8Q/LDsOe5mFTNAEbgsVzTFfd1VBAHI70Xv6F2fzLOCCKyJhljbXrCa7M0Bc+jmpGMDZgQDa5YmjJAezCPjjYIQ==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
@@ -16781,11 +16789,12 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-g1r/9w1F5Zwt10FSPAT8f2X1KFQeCG6st3sxpjoaEhWlEWFbi2CuVoml4Zbdltw/GRNl37Jkx52cqvLnBCvamA==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-iUJcgmoWCzsjKvpxThO9MybQx0pNQM6KqOUzLqst/0SYMxkxtwnqIJhvpUAGF0ECaVswSSxEmaDwyZD/dTdHHQ==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
