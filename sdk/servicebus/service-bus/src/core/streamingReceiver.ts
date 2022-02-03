@@ -220,6 +220,12 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'session_error' event occurred. The associated error is`
         );
+        this._messageHandlers().processError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host,
+        });
       }
     };
 
