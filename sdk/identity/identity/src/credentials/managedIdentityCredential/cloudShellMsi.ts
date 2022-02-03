@@ -35,7 +35,7 @@ function prepareRequestOptions(
     body.client_id = clientId;
   }
   if (resourceId) {
-    body.resource_id = resourceId;
+    body.mi_res_id = resourceId;
   }
 
   // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.

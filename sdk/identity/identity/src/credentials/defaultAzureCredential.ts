@@ -10,7 +10,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { AzureCliCredential } from "./azureCliCredential";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
-import { ManagedIdentityCredential } from "./managedIdentityCredential";
+import { ManagedIdentityCredential, ManagedIdentityCredentialOptions } from "./managedIdentityCredential";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**
@@ -27,6 +27,10 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
    * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
    */
   managedIdentityClientId?: string;
+  /**
+   * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
+   */
+  managedIdentityResourceId?: string;
 }
 
 /**
@@ -34,7 +38,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
  * `DefaultAzureCredentialOptions`.
  */
 interface DefaultCredentialConstructor {
-  new (options?: DefaultAzureCredentialOptions): TokenCredential;
+  new(options?: DefaultAzureCredentialOptions): TokenCredential;
 }
 
 /**
@@ -45,11 +49,17 @@ interface DefaultCredentialConstructor {
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
+    const managedResourceId = options?.managedIdentityResourceId;
+    const managedIdentityOptions: ManagedIdentityCredentialOptions = {
+      resourceIdentifier: managedResourceId,
+      ...options
+    }
+
     const managedIdentityClientId = options?.managedIdentityClientId ?? process.env.AZURE_CLIENT_ID;
     if (managedIdentityClientId !== undefined) {
-      super(managedIdentityClientId, options);
+      super(managedIdentityClientId, managedIdentityOptions);
     } else {
-      super(options);
+      super(managedIdentityOptions);
     }
   }
 }

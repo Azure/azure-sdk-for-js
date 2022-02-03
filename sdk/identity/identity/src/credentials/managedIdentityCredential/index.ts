@@ -26,7 +26,7 @@ export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions
   /**
    * Allows specifying a custom resource Id.
    */
-  resourceId?: string;
+  resourceIdentifier?: string;
 }
 
 /**
@@ -68,11 +68,11 @@ export class ManagedIdentityCredential implements TokenCredential {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.resourceId = options?.resourceId;
+      this.resourceId = options?.resourceIdentifier;
       this.identityClient = new IdentityClient(options);
     } else {
       // options only constructor
-      this.resourceId = clientIdOrOptions?.resourceId;
+      this.resourceId = clientIdOrOptions?.resourceIdentifier;
       this.identityClient = new IdentityClient(clientIdOrOptions);
     }
   }
