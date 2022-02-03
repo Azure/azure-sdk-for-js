@@ -17,4 +17,4 @@ const assert = chai.assert;
 const expect = chai.expect;
 
 export { chai, assert, expect };
-export type { chaiAsPromised, chaiAzure, chaiExclude };
+export type { chaiAzure };
