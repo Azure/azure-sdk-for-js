@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { MixedRealityStsRestClientOptionalParams } from "./models";
 
-const packageName = "@azure/mixed-reality-authentication";
-const packageVersion = "1.0.0-beta.1";
-
-/** @hidden */
-export class MixedRealityStsRestClientContext extends coreHttp.ServiceClient {
+/** @internal */
+export class MixedRealityStsRestClientContext extends coreClient.ServiceClient {
   $host: string;
   apiVersion?: string;
 
@@ -26,17 +23,25 @@ export class MixedRealityStsRestClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: MixedRealityStsRestClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-mixed-reality-authentication/1.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "https://sts.mixedreality.azure.com";
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://sts.mixedreality.azure.com"
+    };
+    super(optionsWithDefaults);
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://sts.mixedreality.azure.com";

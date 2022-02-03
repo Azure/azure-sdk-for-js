@@ -303,6 +303,10 @@ nodeResolve({
 
 For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
 
+### Core Client libraries
+
+Our packages depends on a set of [Azure Core Client libraries](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core), which provide common functionality for interacting with Azure services.
+
 ### Dev Packages
 
 The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.

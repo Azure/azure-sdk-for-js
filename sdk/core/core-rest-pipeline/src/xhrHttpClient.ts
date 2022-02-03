@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
-
 import { AbortError } from "@azure/abort-controller";
 import {
   HttpClient,

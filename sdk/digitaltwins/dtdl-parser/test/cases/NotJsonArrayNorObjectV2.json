@@ -1,0 +1,18 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    626
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:notJsonObject",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

@@ -12,7 +12,7 @@ import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestU
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 import { readFileSync } from "fs";
-import { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { PipelineResponse } from "@azure/core-rest-pipeline";
 
 const ASSET_PATH = "assets";
 
@@ -93,12 +93,10 @@ describe("ClientCertificateCredential", function () {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
-      {
-        certificatePath,
-      },
+      certificatePath,
       {
         httpClient: {
-          async sendRequest(_request: PipelineRequest): Promise<PipelineResponse> {
+          async sendRequest(): Promise<PipelineResponse> {
             await delay(100);
             throw new Error("Fake HTTP client.");
           },

@@ -1,0 +1,38 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:friends:Romans:countrymen:lend:me:your:ears:I:come:to:bury:Caesar:not:to:praise:him:the:evil:that:men:do:lives:after:them;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Component",
+          "name": "child",
+          "schema": {
+            "@id": "dtmi:test:anInterface;1",
+            "@type": "Interface",
+            "contents": [
+              {
+                "@id": "dtmi:test:aProperty;1",
+                "@type": "Property",
+                "name": "expectedDistance",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:friends:Romans:countrymen:lend:me:your:ears:I:come:to:bury:Caesar:not:to:praise:him:the:evil:that:men:do:lives:after:them;1",
+        "type": "Interface",
+        "properties": {}
+      }
+    ]
+  }
+}

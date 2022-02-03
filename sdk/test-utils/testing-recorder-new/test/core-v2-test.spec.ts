@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
+import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure-tools/test-recorder";
 import { createSimpleEntity, assertEnvironmentVariable } from "./utils/utils";
-import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 
 const fakeConnString =
   "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval";
@@ -16,7 +15,7 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] },
-  generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }],
+  generalSanitizers: [{ target: "abc", value: "fake_abc" }],
 };
 
 const recorderOptions: RecorderStartOptions = {

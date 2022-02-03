@@ -1,0 +1,58 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": "Telemetry",
+      "name": "Foo",
+      "displayName": {
+        "de": "foo",
+        "fr": "foo",
+        "ja": "foo",
+        "zh-Hant": "foo",
+        "zh-Hans": "foo",
+        "sr-Cyrl": "foo",
+        "sr-Latn": "foo",
+        "de-DE": "foo",
+        "en-US": "foo",
+        "zh-TW": "foo",
+        "es-419": "foo",
+        "fr-155": "foo",
+        "zh-Hans-CN": "foo",
+        "sr-Latn-RS": "foo"
+      },
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "Foo",
+          "schema": "dtmi:dtdl:instance:Schema:double;3",
+          "displayName": {
+            "de": "foo",
+            "fr": "foo",
+            "ja": "foo",
+            "zh-Hant": "foo",
+            "zh-Hans": "foo",
+            "sr-Cyrl": "foo",
+            "sr-Latn": "foo",
+            "de-DE": "foo",
+            "en-US": "foo",
+            "zh-TW": "foo",
+            "es-419": "foo",
+            "fr-155": "foo",
+            "zh-Hans-CN": "foo",
+            "sr-Latn-RS": "foo"
+          },
+          "definedIn": null
+        }
+      }
+    ]
+  }
+}

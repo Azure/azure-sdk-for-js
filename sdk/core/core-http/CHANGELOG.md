@@ -1,14 +1,11 @@
 # Release History
 
-## 2.2.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.2.4 (2022-02-03)
 
 ### Bugs Fixed
 
-### Other Changes
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+  - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
 
 ## 2.2.3 (2022-01-06)
 

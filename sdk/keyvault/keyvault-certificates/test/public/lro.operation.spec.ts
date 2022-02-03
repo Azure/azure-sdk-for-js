@@ -11,9 +11,10 @@ import {
   DefaultCertificatePolicy,
   KeyVaultCertificateWithPolicy,
 } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `lroOperation${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -23,7 +24,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

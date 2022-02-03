@@ -7,10 +7,11 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { assertThrowsAbortError } from "./utils/common";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - LRO - recoverDelete", () => {
   const certificatePrefix = `lroRecover${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -20,7 +21,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

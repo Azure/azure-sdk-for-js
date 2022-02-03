@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { AzureNamedKeyCredential, generateAccountSas, generateTableSas } from "../../../src";
 import * as sinon from "sinon";
+import { AzureNamedKeyCredential, generateAccountSas, generateTableSas } from "../../../src";
+import { assert } from "chai";
 
 describe("SAS generation", function () {
   describe("generateTableSAS", () => {
