@@ -66,7 +66,9 @@ export interface MessageHandlers {
    * This handler will be called for any error that occurs in the receiver when
    *   - receiving the message, or
    *   - executing your `processMessage` callback, or
-   *   - the receiver automatically completes or abandons the message.
+   *   - receiver is completing the message on your behalf after successfully running your `processMessage` callback and `autoCompleteMessages` is enabled
+   *   - receiver is abandoning the message on your behalf if running your `processMessage` callback fails and `autoCompleteMessages` is enabled
+   *   - receiver is renewing the lock on your behalf due to auto lock renewal feature being enabled
    * @param args - The error and additional context to indicate where
    * the error originated.
    */
