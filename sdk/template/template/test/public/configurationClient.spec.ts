@@ -90,6 +90,7 @@ describe("[AAD] ConfigurationClient functional tests", function () {
     // the `getConfigurationSetting` method is being traced correctly, that the
     // tracing span is properly parented and closed.
     it("supports tracing", async () => {
+      await recorder.setMatcher("HeaderlessMatcher");
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
       await assert.supportsTracing(
         (options) => client.getConfigurationSetting(key, options),
