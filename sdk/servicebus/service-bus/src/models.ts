@@ -62,6 +62,11 @@ export interface MessageHandlers {
   processMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
+   *
+   * This handler will be called for any error that occurs in the receiver when
+   *   - receiving the message, or
+   *   - executing your `processMessage` callback, or
+   *   - the receiver automatically completes or abandons the message.
    * @param args - The error and additional context to indicate where
    * the error originated.
    */
