@@ -251,7 +251,9 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new ManagedIdentityCredential("client", {
+        resourceIdentifier: "resource-id",
+      }),
       insecureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -264,7 +266,7 @@ describe("ManagedIdentityCredential", function () {
     const imdsPingRequest = authDetails.requests[0];
     assert.equal(
       imdsPingRequest.url,
-      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client&mi_res_id=resource-id"
     );
   });
 
@@ -330,7 +332,9 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new ManagedIdentityCredential("client", {
+        resourceIdentifier: "resource-id",
+      }),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -344,6 +348,7 @@ describe("ManagedIdentityCredential", function () {
 
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("clientid"), "client");
+    assert.equal(query.get("mi_res_id"), "resource-id");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.MSI_ENDPOINT),
@@ -367,13 +372,18 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new ManagedIdentityCredential("client", {
+        resourceIdentifier: "resource-id",
+      }),
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
 
     const authRequest = authDetails.requests[0];
     assert.equal(authRequest.method, "POST");
     assert.equal(authDetails.result!.token, "token");
+
+    const body = new URLSearchParams(authRequest.body);
+    assert.equal(body.get("mi_res_id"), "resource-id");
   });
 
   it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
@@ -455,7 +465,9 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new ManagedIdentityCredential("client", {
+        resourceIdentifier: "resource-id",
+      }),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -471,6 +483,7 @@ describe("ManagedIdentityCredential", function () {
 
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("client_id"), "client");
+    assert.equal(query.get("mi_res_id"), "resource-id");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
@@ -510,7 +523,9 @@ describe("ManagedIdentityCredential", function () {
 
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
-        credential: new ManagedIdentityCredential(parameterClientId),
+        credential: new ManagedIdentityCredential(parameterClientId, {
+          resourceIdentifier: "resource-id",
+        }),
         secureResponses: [
           createResponse(200, {
             access_token: "token",
@@ -530,6 +545,7 @@ describe("ManagedIdentityCredential", function () {
       assert.strictEqual(authRequest.method, "POST");
       assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
       assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+      assert.strictEqual(decodeURIComponent(body.get("mi_res_id")!), "resource-id");
       assert.strictEqual(
         decodeURIComponent(body.get("client_assertion_type")!),
         "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"

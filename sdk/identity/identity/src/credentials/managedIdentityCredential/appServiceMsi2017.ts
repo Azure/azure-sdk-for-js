@@ -45,7 +45,7 @@ function prepareRequestOptions(
     queryParameters.clientid = clientId;
   }
   if (resourceId) {
-    queryParameters.resourceid = resourceId;
+    queryParameters.mi_res_id = resourceId;
   }
 
   const query = new URLSearchParams(queryParameters);

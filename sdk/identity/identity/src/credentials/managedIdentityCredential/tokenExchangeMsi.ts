@@ -36,7 +36,7 @@ function prepareRequestOptions(
   };
 
   if (resourceId) {
-    bodyParams.resource_id = resourceId;
+    bodyParams.mi_res_id = resourceId;
   }
 
   const urlParams = new URLSearchParams(bodyParams);

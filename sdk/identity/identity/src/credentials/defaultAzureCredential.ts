@@ -10,7 +10,10 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { AzureCliCredential } from "./azureCliCredential";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
-import { ManagedIdentityCredential, ManagedIdentityCredentialOptions } from "./managedIdentityCredential";
+import {
+  ManagedIdentityCredential,
+  ManagedIdentityCredentialOptions,
+} from "./managedIdentityCredential";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**
@@ -38,7 +41,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
  * `DefaultAzureCredentialOptions`.
  */
 interface DefaultCredentialConstructor {
-  new(options?: DefaultAzureCredentialOptions): TokenCredential;
+  new (options?: DefaultAzureCredentialOptions): TokenCredential;
 }
 
 /**
@@ -52,8 +55,8 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedResourceId = options?.managedIdentityResourceId;
     const managedIdentityOptions: ManagedIdentityCredentialOptions = {
       resourceIdentifier: managedResourceId,
-      ...options
-    }
+      ...options,
+    };
 
     const managedIdentityClientId = options?.managedIdentityClientId ?? process.env.AZURE_CLIENT_ID;
     if (managedIdentityClientId !== undefined) {
