@@ -114,7 +114,9 @@ export class MockEventHubConsumerClient {
         );
         eventsRaised += events.length;
       } else {
-        await this.processFuncWithDelay(async () => {}, 1000 / this.maxEventsPerSecondPerPartition);
+        await this.processFuncWithDelay(async () => {
+          /* empty */
+        }, 1000 / this.maxEventsPerSecondPerPartition);
       }
     }
   }
