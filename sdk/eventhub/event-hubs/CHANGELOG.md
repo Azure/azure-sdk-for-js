@@ -1,14 +1,10 @@
 # Release History
 
-## 5.7.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 5.7.0-beta.2 (2022-02-08)
 
 ### Other Changes
+
+- Added a sample for buffered producer. [PR #18674](https://github.com/Azure/azure-sdk-for-js/pull/18674)
 
 ## 5.7.0-beta.1 (2021-11-12)
 
