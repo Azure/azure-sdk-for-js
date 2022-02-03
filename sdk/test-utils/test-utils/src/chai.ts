@@ -5,4 +5,5 @@ chai.use(chaiAzure);
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
+export type { chaiAsPromised };
 export { chai, assert };

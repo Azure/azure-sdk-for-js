@@ -215,18 +215,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, secretValue, {
       enabled: false,
     });
-    let error;
-    try {
-      await client.getSecret(secretName);
-      throw Error("Expecting an error but not catching one.");
-    } catch (e) {
-      error = e;
-    }
-    assert.equal(
-      error.message,
-      "Operation get is not allowed on a disabled secret.",
-      "Unexpected error after trying to get a disabled secret"
-    );
+    await assert.isRejected(client.getSecret(secretName), /not allowed on a disabled secret/);
   });
 
   it("can retrieve the latest version of a secret value", async function (this: Context) {
