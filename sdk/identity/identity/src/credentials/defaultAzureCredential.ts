@@ -32,6 +32,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
   managedIdentityClientId?: string;
   /**
    * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
+   * Resource IDs may be built by convention, in which cases it may be required to specify this parameter to fully control what resource ID to use.
    */
   managedIdentityResourceId?: string;
 }

@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support to specify a custom resource Id on the `ManagedIdentityCredential`.
+- Added support to specify a custom resource Id on the `ManagedIdentityCredential` and the `DefaultAzureCredential`. Resource IDs may be built by convention, in which cases specifying `resourceId` on the `ManagedIdentityCredential` (or `managedResourceId` on the `DefaultAzureCredential`) allows users the possibility to fully control what resource ID to use.
 
 ### Breaking Changes
 
