@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
 
   const client = new SecretClient(url, credential);
 
-  // Create a secre
+  // Create a secret
   // The secret can be a string of any kind. For example,
   // a multiline text block such as an RSA private key (with newline characters), 
   // or a stringified JSON object (JSON.stringify({ mySecret: 'MySecretValue'})).
