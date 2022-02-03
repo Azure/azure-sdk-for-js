@@ -30,10 +30,10 @@ function GetMsAliasFromGithub ($TenantId, $ClientId, $ClientSecret, $GithubUser)
         $opsAuthToken = Generate-AadToken -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret
         $Headers["Authorization"] = "Bearer $opsAuthToken"
         Write-Host "Fetching aad identity for github user: $GithubUser"
-        $resp = Invoke-RestMethod $OpensourceAPIBaseURI -Method 'GET' -Headers $Headers -MaximumRetryCount 3
+        $resp = Invoke-RestMethod $OpensourceAPIBaseURI -Method 'GET' -Headers $Headers
     }
     catch { 
-        Write-Warning $_
+        Write-Error $_
         return $null
     }
 
@@ -43,7 +43,7 @@ function GetMsAliasFromGithub ($TenantId, $ClientId, $ClientSecret, $GithubUser)
         Write-Host "Fetched aad identity $($resp.aad.alias) for github user $GithubUser."
         return $resp.aad.alias
     }
-    Write-Warning "Failed to retrieve the aad identity from given github user: $GithubName"
+    Write-Error "Failed to retrieve the aad identity from given github user: $GithubName"
     return $null
 }
 
@@ -54,6 +54,6 @@ function GetPrimaryCodeOwner ($TargetDirectory)
         Write-Host "Code Owners are $codeOwnerArray."
         return $codeOwnerArray[0]
     }
-    Write-Warning "No code owner found in $TargetDirectory."
+    Write-Error "No code owner found in $TargetDirectory."
     return $null
 }
