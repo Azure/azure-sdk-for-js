@@ -52,7 +52,7 @@ export async function createClients<IndexModel>(
 ): Promise<Clients<IndexModel>> {
   await recorder.start(recorderOptions);
 
-  recorder.variable("TEST_INDEX_NAME", indexName);
+  indexName = recorder.variable("TEST_INDEX_NAME", indexName);
   const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {

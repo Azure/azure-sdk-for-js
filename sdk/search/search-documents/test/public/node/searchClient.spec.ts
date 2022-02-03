@@ -35,7 +35,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       TEST_INDEX_NAME = createRandomIndexName();
       ({
         searchClient,
-        indexClient
+        indexClient,
+        indexName: TEST_INDEX_NAME
       } = await createClients<Hotel>(serviceVersion, recorder, TEST_INDEX_NAME));
       await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(WAIT_TIME);
