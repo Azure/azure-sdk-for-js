@@ -287,7 +287,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   protected abstract delay(): Promise<void>;
 
   /**
-   * @internal
    * Starts a loop that will break only if the poller is done
    * or if the poller is stopped.
    */
@@ -302,7 +301,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * @internal
    * pollOnce does one polling, by calling to the update method of the underlying
    * poll operation to make any relevant change effective.
    *
@@ -336,7 +334,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * @internal
    * fireProgress calls the functions passed in via onProgress the method of the poller.
    *
    * It loops over all of the callbacks received from onProgress, and executes them, sending them
@@ -351,7 +348,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * @internal
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */
