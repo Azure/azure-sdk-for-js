@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { RequestBodyType } from "@azure/core-rest-pipeline";
 import { FormRecognizerError } from "../error";
 import {
   AnalyzeResult as GeneratedAnalyzeResult,
@@ -28,9 +27,14 @@ import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
- * inputs as URLs, so to send a string as a _binary_ input, write the string to a Buffer or Typed Array first.
+ * inputs as URLs, so to send a string as a _binary_ input, first convert the string to one of the following input
+ * types.
  */
-export type FormRecognizerRequestBody = Exclude<RequestBodyType, string>;
+export type FormRecognizerRequestBody =
+  | NodeJS.ReadableStream
+  | Blob
+  | ArrayBuffer
+  | ArrayBufferView;
 
 /**
  * An extracted document object.

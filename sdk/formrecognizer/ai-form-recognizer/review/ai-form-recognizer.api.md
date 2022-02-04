@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
@@ -11,7 +13,6 @@ import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -542,7 +543,7 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type FormRecognizerRequestBody = Exclude<RequestBodyType, string>;
+export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;
 
 // @public
 export interface GeneralDocumentResult extends LayoutResult {
