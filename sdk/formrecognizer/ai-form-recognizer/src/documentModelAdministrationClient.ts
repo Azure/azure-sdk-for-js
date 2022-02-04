@@ -341,7 +341,6 @@ export class DocumentModelAdministrationClient {
    *
    * This is the meat of all training polling operations.
    *
-   * @internal
    * @param definition - operation definition (start operation method, request options)
    * @returns a training poller that produces a ModelInfo
    */

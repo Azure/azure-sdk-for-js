@@ -1,0 +1,35 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:illegalEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "@id": "dtmi:test:firstValue;1",
+          "name": "duplicateName",
+          "enumValue": 1
+        },
+        {
+          "@id": "dtmi:test:secondValue;1",
+          "name": "duplicateName",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:nonUniquePropertyValue",
+        "PrimaryID": "dtmi:test:illegalEnum;1",
+        "SecondaryID": null,
+        "Property": "enumValues",
+        "Value": "name"
+      }
+    ]
+  }
+}

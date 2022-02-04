@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable @typescript-eslint/no-invalid-this */
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../../src";
+import { ChatClient, ChatThreadClient, ChatMessage } from "../../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
 import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
 import { Context } from "mocha";
@@ -94,11 +95,31 @@ describe("ChatThreadClient", function () {
     assert.isDefined(message.metadata?.tags);
   });
 
-  it("successfully lists messages", async function () {
-    const list: string[] = [];
-    for await (const message of chatThreadClient.listMessages()) {
-      list.push(message.id!);
+  it("successfully lists messages one by one and by page", async function () {
+    if (isPlaybackMode()) {
+      this.skip();
     }
+
+    const receivedItems: ChatMessage[] = [];
+    for await (const message of chatThreadClient.listMessages()) {
+      receivedItems.push(message);
+    }
+
+    let pagesCount = 0;
+    const maxPageSize = 3;
+    const receivedPagedItems: ChatMessage[] = [];
+    for await (const page of chatThreadClient.listMessages({ maxPageSize: maxPageSize }).byPage()) {
+      ++pagesCount;
+      let pageSize = 0;
+      for (const message of page) {
+        ++pageSize;
+        receivedPagedItems.push(message);
+      }
+      assert.isAtMost(pageSize, maxPageSize);
+    }
+
+    assert.equal(pagesCount, Math.ceil(receivedItems.length / maxPageSize));
+    assert.deepEqual(receivedPagedItems, receivedItems);
   });
 
   it("successfully deletes a message", async function () {

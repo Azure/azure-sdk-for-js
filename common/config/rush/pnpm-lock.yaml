@@ -180,6 +180,7 @@ specifiers:
   '@rush-temp/data-tables': file:./projects/data-tables.tgz
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
+  '@rush-temp/dtdl-parser': file:./projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:./projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
@@ -434,6 +435,7 @@ dependencies:
   '@rush-temp/data-tables': file:projects/data-tables.tgz
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
+  '@rush-temp/dtdl-parser': file:projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
@@ -884,6 +886,13 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       '@opentelemetry/api': 1.0.4
+      tslib: 2.3.1
+    dev: false
+
+  /@azure/core-tracing/1.0.0-preview.14:
+    resolution: {integrity: sha512-FFIzVoQ+kcvyxJi+OJdiM+Ec3dNdNnWTpErdppbPCU7XRqBjWn+LARc/5j4feEDkKh1nPq6Cb82MI6ExH3GR6A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
       tslib: 2.3.1
     dev: false
 
@@ -1491,6 +1500,13 @@ packages:
       '@rushstack/node-core-library': 3.45.0
     dev: false
 
+  /@microsoft/api-extractor-model/7.7.10:
+    resolution: {integrity: sha512-gMFDXwUgoQYz9TgatyNPALDdZN4xBC3Un3fGwlzME+vM13PoJ26pGuqI7kv/OlK9+q2sgrEdxWns8D3UnLf2TA==}
+    dependencies:
+      '@microsoft/tsdoc': 0.12.19
+      '@rushstack/node-core-library': 3.19.6
+    dev: false
+
   /@microsoft/api-extractor/7.19.4:
     resolution: {integrity: sha512-iehC6YA3DGJvxTUaK7HUtQmP6hAQU07+Q/OR8TG4dVR6KpqCi9UPEVk8AgCvQkiK+6FbVEFQTx0qLuYk4EeuHg==}
     hasBin: true
@@ -1509,6 +1525,21 @@ packages:
       typescript: 4.5.5
     dev: false
 
+  /@microsoft/api-extractor/7.7.11:
+    resolution: {integrity: sha512-kd2kakdDoRgI54J5H11a76hyYZBMhtp4piwWAy4bYTwlQT0v/tp+G/UMMgjUL4vKf0kTNhitEUX/0LfQb1AHzQ==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.7.10
+      '@microsoft/tsdoc': 0.12.19
+      '@rushstack/node-core-library': 3.19.6
+      '@rushstack/ts-command-line': 4.3.13
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.8.1
+      source-map: 0.6.1
+      typescript: 3.7.7
+    dev: false
+
   /@microsoft/tsdoc-config/0.15.2:
     resolution: {integrity: sha512-mK19b2wJHSdNf8znXSMYVShAHktVr/ib0Ck2FA3lsVBSEhSI/TfXT7DJQkAYgcztTuwazGcg58ZjYdk0hTCVrA==}
     dependencies:
@@ -1516,6 +1547,10 @@ packages:
       ajv: 6.12.6
       jju: 1.4.0
       resolve: 1.19.0
+    dev: false
+
+  /@microsoft/tsdoc/0.12.19:
+    resolution: {integrity: sha512-IpgPxHrNxZiMNUSXqR1l/gePKPkfAmIKoDRP9hp7OwjU29ZR8WCJsOJ8iBKgw0Qk+pFwR+8Y1cy8ImLY6e9m4A==}
     dev: false
 
   /@microsoft/tsdoc/0.13.2:
@@ -1787,6 +1822,17 @@ packages:
       rollup: 2.66.1
     dev: false
 
+  /@rollup/plugin-inject/4.0.4_rollup@1.32.1:
+    resolution: {integrity: sha512-4pbcU4J/nS+zuHk+c+OL3WtmEQhqxlZ9uqfjQMQDOHOPld7PsCd8k5LWs8h5wjwJN7MgnAn768F2sDxEP4eNFQ==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
+      estree-walker: 2.0.2
+      magic-string: 0.25.7
+      rollup: 1.32.1
+    dev: false
+
   /@rollup/plugin-inject/4.0.4_rollup@2.66.1:
     resolution: {integrity: sha512-4pbcU4J/nS+zuHk+c+OL3WtmEQhqxlZ9uqfjQMQDOHOPld7PsCd8k5LWs8h5wjwJN7MgnAn768F2sDxEP4eNFQ==}
     peerDependencies:
@@ -1892,6 +1938,16 @@ packages:
       rollup: 2.66.1
     dev: false
 
+  /@rollup/plugin-replace/2.4.2_rollup@1.32.1:
+    resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
+      magic-string: 0.25.7
+      rollup: 1.32.1
+    dev: false
+
   /@rollup/plugin-replace/2.4.2_rollup@2.66.1:
     resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
     peerDependencies:
@@ -1934,6 +1990,18 @@ packages:
       rollup: 2.66.1
     dev: false
 
+  /@rushstack/node-core-library/3.19.6:
+    resolution: {integrity: sha512-1+FoymIdr9W9k0D8fdZBBPwi5YcMwh/RyESuL5bY29rLICFxSLOPK+ImVZ1OcWj9GEMsvDx5pNpJ311mHQk+MA==}
+    dependencies:
+      '@types/node': 10.17.13
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      jju: 1.4.0
+      semver: 5.3.0
+      timsort: 0.3.0
+      z-schema: 3.18.4
+    dev: false
+
   /@rushstack/node-core-library/3.45.0:
     resolution: {integrity: sha512-YMuIJl19vQT1+g/OU9mLY6T5ZBT9uDlmeXExDQACpGuxTJW+LHNbk/lRX+eCApQI2eLBlaL4U68r3kZlqwbdmw==}
     dependencies:
@@ -1962,6 +2030,14 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.1
+    dev: false
+
+  /@rushstack/ts-command-line/4.3.13:
+    resolution: {integrity: sha512-BUBbjYu67NJGQkpHu8aYm7kDoMFizL1qx78+72XE3mX/vDdXYJzw/FWS7TPcMJmY4kNlYs979v2B0Q0qa2wRiw==}
+    dependencies:
+      '@types/argparse': 1.0.33
+      argparse: 1.0.10
+      colors: 1.2.5
     dev: false
 
   /@sinonjs/commons/1.8.3:
@@ -1996,8 +2072,8 @@ packages:
       type-detect: 4.0.8
     dev: false
 
-  /@sinonjs/samsam/6.1.1:
-    resolution: {integrity: sha512-cZ7rKJTLiE7u7Wi/v9Hc2fs3Ucc3jrWeMgPHbbTCeVAB2S0wOBbYlkJVeNSL04i7fdhT8wIbDq1zhC/PXTD2SA==}
+  /@sinonjs/samsam/6.0.2:
+    resolution: {integrity: sha512-jxPRPp9n93ci7b8hMfJOFDPRLFYadN6FSpeROFTR4UNF4i5b+EK6m4QXPO46BDhFgRy1JuS87zAnFOzCUwMJcQ==}
     dependencies:
       '@sinonjs/commons': 1.8.3
       lodash.get: 4.4.2
@@ -2034,6 +2110,10 @@ packages:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
     dev: false
 
+  /@types/argparse/1.0.33:
+    resolution: {integrity: sha512-VQgHxyPMTj3hIlq9SY1mctqx+Jj8kpQfoLvDlVSDNOyuYs8JYfkuY3OW/4+dO657yPmNhHpePRx0/Tje5ImNVQ==}
+    dev: false
+
   /@types/argparse/1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
     dev: false
@@ -2046,7 +2126,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/chai-as-promised/7.1.4:
@@ -2072,14 +2152,14 @@ packages:
   /@types/concurrently/6.4.0:
     resolution: {integrity: sha512-CYU1eyFHsIa2IZIsb8gfUOdiewfnZcyM2Hg1Zaq95xnmB0Ix/bTRM8SttqZ2Cjy6JGPZLttHjZewVsDg1yvnJg==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
       chalk: 4.1.2
     dev: false
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2114,7 +2194,7 @@ packages:
   /@types/express-serve-static-core/4.17.28:
     resolution: {integrity: sha512-P1BJAEAW3E2DJUlkgq4tOL3RyMunoWXqbSCygWo5ZIWTjUgN1YnaXWW4VWl/oc8vs/XoYibEGBKP0uZyF4AHig==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2131,26 +2211,26 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/json-schema/7.0.9:
@@ -2164,13 +2244,13 @@ packages:
   /@types/jsonwebtoken/8.5.8:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/jws/3.2.4:
     resolution: {integrity: sha512-aqtH4dPw1wUjFZaeMD1ak/pf8iXlu/odFe+trJrvw0g1sTh93i+SCykg0Ek8C6B7rVK3oBORbfZAsKO7P10etg==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/jwt-decode/2.2.1:
@@ -2188,7 +2268,7 @@ packages:
   /@types/md5/2.3.1:
     resolution: {integrity: sha512-OK3oe+ALIoPSo262lnhAYwpqFNXbiwH2a+0+Z5YBnkQEwWD8fk5+PIeRhYA48PzvX9I4SGNpWy+9bLj8qz92RQ==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/mime/1.3.2:
@@ -2214,13 +2294,13 @@ packages:
   /@types/mock-fs/4.13.1:
     resolution: {integrity: sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/mock-require/2.0.1:
     resolution: {integrity: sha512-O7U5DVGboY/Crueb5/huUCIRjKtRVRaLmRDbZJBlDQgJn966z3aiFDN+6AtYviu2ExwMkl34LjT/IiC0OPtKuQ==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/ms/0.7.31:
@@ -2234,8 +2314,12 @@ packages:
   /@types/node-fetch/2.5.12:
     resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
       form-data: 3.0.1
+    dev: false
+
+  /@types/node/10.17.13:
+    resolution: {integrity: sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==}
     dev: false
 
   /@types/node/12.20.24:
@@ -2244,10 +2328,6 @@ packages:
 
   /@types/node/12.20.42:
     resolution: {integrity: sha512-aI3/oo5DzyiI5R/xAhxxRzfZlWlsbbqdgxfTPkqu/Zt+23GXiJvMCyPJT4+xKSXOnLqoL8jJYMLTwvK2M3a5hw==}
-    dev: false
-
-  /@types/node/17.0.13:
-    resolution: {integrity: sha512-Y86MAxASe25hNzlDbsviXl8jQHb0RDvKt4c40ZJQ1Don0AAL0STLZSs4N+6gLEO55pedy7r2cLwS+ZDxPm/2Bw==}
     dev: false
 
   /@types/prettier/2.4.3:
@@ -2269,7 +2349,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -2280,11 +2360,11 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
-  /@types/sinon/10.0.9:
-    resolution: {integrity: sha512-xGZVAe61omKnVGedBdTbAveuJ5QyI0LrMIcp0hc1LmVI5IEjs5qG4fM0sv9GIBA2JVoKuf7332IjQX4y5qqMMQ==}
+  /@types/sinon/10.0.8:
+    resolution: {integrity: sha512-XZbSLlox2KM7VaEJPZ5G/fMZXJNuAtYiFOax7UT51quZMAJRWKvugPMqNA0mV3jC9HIYpQSg6qbV+ilQMwLqyA==}
     dependencies:
       '@sinonjs/fake-timers': 7.1.2
     dev: false
@@ -2302,7 +2382,7 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/tough-cookie/4.0.1:
@@ -2312,13 +2392,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2332,26 +2412,26 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/ws/8.2.2:
     resolution: {integrity: sha512-NOn5eIcgWLOo6qW8AcuLZ7G8PycXu0xTxxkS6Q18VWFxgPUSOwV0pBj2a/4viNZVu25i7RIB7GttdkAIUUXOOg==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/xml2js/0.4.9:
     resolution: {integrity: sha512-CHiCKIihl1pychwR2RNX5mAYmJDACgFVCMT5OArMaO3erzwXVcBqPcusr+Vl8yeeXukxZqtF8mZioqX+mpjjdw==}
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
     dev: false
     optional: true
 
@@ -2870,8 +2950,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001304
-      electron-to-chromium: 1.4.57
+      caniuse-lite: 1.0.30001301
+      electron-to-chromium: 1.4.52
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -2955,45 +3035,44 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /caniuse-lite/1.0.30001304:
-    resolution: {integrity: sha512-bdsfZd6K6ap87AGqSHJP/s1V+U6Z5lyrcbBu3ovbCCf8cSYpwTtGrCBObMpJqwxfTbLW6YTIdbb1jEeTelcpYQ==}
+  /caniuse-lite/1.0.30001301:
+    resolution: {integrity: sha512-csfD/GpHMqgEL3V3uIgosvh+SVIQvCh43SNu9HRbP1lnxkKm1kjDG4f32PP571JplkLjfS+mg2p1gxR7MYrrIA==}
     dev: false
 
-  /chai-as-promised/7.1.1_chai@4.3.6:
+  /chai-as-promised/7.1.1_chai@4.3.4:
     resolution: {integrity: sha512-azL6xMoi+uxu6z4rhWQ1jbdUhOMhis2PvscD/xjLqNMkv3BPPp2JyyuTHOrf9BOosGpNQ11v6BKv/g57RXbiaA==}
     peerDependencies:
       chai: '>= 2.1.2 < 5'
     dependencies:
-      chai: 4.3.6
+      chai: 4.3.4
       check-error: 1.0.2
     dev: false
 
-  /chai-exclude/2.1.0_chai@4.3.6:
+  /chai-exclude/2.1.0_chai@4.3.4:
     resolution: {integrity: sha512-IBnm50Mvl3O1YhPpTgbU8MK0Gw7NHcb18WT2TxGdPKOMtdtZVKLHmQwdvOF7mTlHVQStbXuZKFwkevFtbHjpVg==}
     peerDependencies:
       chai: '>= 4.0.0 < 5'
     dependencies:
-      chai: 4.3.6
+      chai: 4.3.4
       fclone: 1.0.11
     dev: false
 
-  /chai-string/1.5.0_chai@4.3.6:
+  /chai-string/1.5.0_chai@4.3.4:
     resolution: {integrity: sha512-sydDC3S3pNAQMYwJrs6dQX0oBQ6KfIPuOZ78n7rocW0eJJlsHPh2t3kwW7xfwYA/1Bf6/arGtSUo16rxR2JFlw==}
     peerDependencies:
       chai: ^4.1.2
     dependencies:
-      chai: 4.3.6
+      chai: 4.3.4
     dev: false
 
-  /chai/4.3.6:
-    resolution: {integrity: sha512-bbcp3YfHCUzMOvKqsztczerVgBKSsEijCySNlHHbX3VG1nskvqjz5Rfso1gGwD6w6oOV3eI60pKuMOV5MV7p3Q==}
+  /chai/4.3.4:
+    resolution: {integrity: sha512-yS5H68VYOCtN1cjfwumDSuzn/9c+yza4f3reKXlE5rUg7SFcCEy90gJvydNgOYtblyf4Zi6jIWRnXOgErta0KA==}
     engines: {node: '>=4'}
     dependencies:
       assertion-error: 1.1.0
       check-error: 1.0.2
       deep-eql: 3.0.1
       get-func-name: 2.0.0
-      loupe: 2.3.1
       pathval: 1.1.1
       type-detect: 4.0.8
     dev: false
@@ -3332,6 +3411,10 @@ packages:
     resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
     dev: false
 
+  /debounce/1.2.1:
+    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
+    dev: false
+
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     dependencies:
@@ -3581,8 +3664,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.57:
-    resolution: {integrity: sha512-FNC+P5K1n6pF+M0zIK+gFCoXcJhhzDViL3DRIGy2Fv5PohuSES1JHR7T+GlwxSxlzx4yYbsuzCZvHxcBSRCIOw==}
+  /electron-to-chromium/1.4.52:
+    resolution: {integrity: sha512-JGkh8HEh5PnVrhU4HbpyyO0O791dVY6k7AdqfDeqbcRMeoGxtNHWT77deR2nhvbLe4dKpxjlDEvdEwrvRLGu2Q==}
     dev: false
 
   /emoji-regex/7.0.3:
@@ -3617,7 +3700,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
       accepts: 1.3.7
       base64id: 2.0.0
       cookie: 0.4.1
@@ -3732,8 +3815,8 @@ packages:
       resolve: 1.22.0
     dev: false
 
-  /eslint-module-utils/2.7.3:
-    resolution: {integrity: sha512-088JEC7O3lDZM9xGe0RerkOMd0EjFl+Yvd1jPWIkMT5u3H9+HC34mWWPnqPrN13gieT9pBOO+Qt07Nb/6TresQ==}
+  /eslint-module-utils/2.7.2:
+    resolution: {integrity: sha512-zquepFnWCY2ISMFwD/DqzaM++H+7PDzOpUvotJWm/y1BAFt5R4oeULgdrTejKqLkz7MA/tgstsUMNYc7wNdTrg==}
     engines: {node: '>=4'}
     dependencies:
       debug: 3.2.7
@@ -3763,7 +3846,7 @@ packages:
       doctrine: 2.1.0
       eslint: 7.32.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.3
+      eslint-module-utils: 2.7.2
       has: 1.0.3
       is-core-module: 2.8.1
       is-glob: 4.0.3
@@ -4207,7 +4290,7 @@ packages:
     resolution: {integrity: sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg==}
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
-      flatted: 3.2.5
+      flatted: 3.2.4
       rimraf: 3.0.2
     dev: false
 
@@ -4218,8 +4301,8 @@ packages:
       is-buffer: 2.0.5
     dev: false
 
-  /flatted/3.2.5:
-    resolution: {integrity: sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==}
+  /flatted/3.2.4:
+    resolution: {integrity: sha512-8/sOawo8tJ4QOBX8YlQBMxL8+RLZfxMQOif9o0KUKTNTjMYElWPE0r/m5VNFxTRd0NSw8qSy8dajrwX4RYI1Hw==}
     dev: false
 
   /folktale/2.3.2:
@@ -4549,7 +4632,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     dev: false
 
   /has-ansi/2.0.0:
@@ -5326,13 +5409,13 @@ packages:
     resolution: {integrity: sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=}
     dev: false
 
-  /karma-chai/0.1.0_chai@4.3.6+karma@6.3.12:
+  /karma-chai/0.1.0_chai@4.3.4+karma@6.3.12:
     resolution: {integrity: sha1-vuWtQEAFF4Ea40u5RfdikJEIt5o=}
     peerDependencies:
       chai: '*'
       karma: '>=0.10.9'
     dependencies:
-      chai: 4.3.6
+      chai: 4.3.4
       karma: 6.3.12
     dev: false
 
@@ -5425,6 +5508,17 @@ packages:
     resolution: {integrity: sha512-Tzd5HBjm8his2OA4bouAsATYEpZrp9vC7z5E5j4C5Of5Rrs1jY67RAwXNcVmd/Bnk1wgvQRou0zGVLey44G4tQ==}
     dependencies:
       minimist: 1.2.5
+    dev: false
+
+  /karma-rollup-preprocessor/7.0.7_rollup@1.32.1:
+    resolution: {integrity: sha512-Y1QwsTCiCBp8sSALZdqmqry/mWIWIy0V6zonUIpy+0/D/Kpb2XZvR+JZrWfacQvcvKQdZFJvg6EwlnKtjepu3Q==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: '>= 1.0.0'
+    dependencies:
+      chokidar: 3.5.3
+      debounce: 1.2.1
+      rollup: 1.32.1
     dev: false
 
   /karma-source-map-support/1.4.0:
@@ -5639,7 +5733,7 @@ packages:
     dependencies:
       date-format: 4.0.3
       debug: 4.3.3
-      flatted: 3.2.5
+      flatted: 3.2.4
       rfdc: 1.3.0
       streamroller: 3.0.2
     transitivePeerDependencies:
@@ -5648,12 +5742,6 @@ packages:
 
   /long/4.0.0:
     resolution: {integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==}
-    dev: false
-
-  /loupe/2.3.1:
-    resolution: {integrity: sha512-EN1D3jyVmaX4tnajVlfbREU4axL647hLec1h/PXAb8CPDMJiYitcWF2UeLVNttRqaIqQs4x+mRvXf+d+TlDrCA==}
-    dependencies:
-      get-func-name: 2.0.0
     dev: false
 
   /lru-cache/4.1.5:
@@ -6553,6 +6641,12 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: false
 
+  /prettier/1.19.1:
+    resolution: {integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==}
+    engines: {node: '>=4'}
+    hasBin: true
+    dev: false
+
   /prettier/2.2.1:
     resolution: {integrity: sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==}
     engines: {node: '>=10.13.0'}
@@ -6900,6 +6994,12 @@ packages:
       supports-preserve-symlinks-flag: 1.0.0
     dev: false
 
+  /resolve/1.8.1:
+    resolution: {integrity: sha512-AicPrAC7Qu1JxPCZ9ZgCZlY35QgFnNqc+0LtbRNxnVw4TXvjQ72wnuL9JQcEBgXkI9JM8MsT9kaQoHcpCRJOYA==}
+    dependencies:
+      path-parse: 1.0.7
+    dev: false
+
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -6941,6 +7041,10 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.0
+    dev: false
+
+  /rollup-plugin-local-resolve/1.0.7:
+    resolution: {integrity: sha1-xIZwFxbBWt0hJ1ZcLqoQESMyCIc=}
     dev: false
 
   /rollup-plugin-node-resolve/3.4.0:
@@ -7003,6 +7107,19 @@ packages:
       source-map-resolve: 0.6.0
     dev: false
 
+  /rollup-plugin-terser/5.3.1_rollup@1.32.1:
+    resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
+    peerDependencies:
+      rollup: '>=0.66.0 <3'
+    dependencies:
+      '@babel/code-frame': 7.16.7
+      jest-worker: 24.9.0
+      rollup: 1.32.1
+      rollup-pluginutils: 2.8.2
+      serialize-javascript: 4.0.0
+      terser: 4.8.0
+    dev: false
+
   /rollup-plugin-terser/5.3.1_rollup@2.66.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
     peerDependencies:
@@ -7014,6 +7131,20 @@ packages:
       rollup-pluginutils: 2.8.2
       serialize-javascript: 4.0.0
       terser: 4.8.0
+    dev: false
+
+  /rollup-plugin-visualizer/4.2.2_rollup@1.32.1:
+    resolution: {integrity: sha512-10/TsugsaQL5rdynl0lrklBngTtkRBESZdxUJy+3fN+xKqNdg5cr7JQU1OoPx4p5mhQ+nspa6EvX3qc8SsBvnA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    peerDependencies:
+      rollup: '>=1.20.0'
+    dependencies:
+      nanoid: 3.2.0
+      open: 7.4.2
+      rollup: 1.32.1
+      source-map: 0.7.3
+      yargs: 16.2.0
     dev: false
 
   /rollup-plugin-visualizer/4.2.2_rollup@2.66.1:
@@ -7055,7 +7186,7 @@ packages:
     hasBin: true
     dependencies:
       '@types/estree': 0.0.50
-      '@types/node': 17.0.13
+      '@types/node': 12.20.42
       acorn: 7.4.1
     dev: false
 
@@ -7099,6 +7230,11 @@ packages:
   /semaphore/1.1.0:
     resolution: {integrity: sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==}
     engines: {node: '>=0.8.0'}
+    dev: false
+
+  /semver/5.3.0:
+    resolution: {integrity: sha1-myzl094C0XxgEq0yaqa00M9U+U8=}
+    hasBin: true
     dev: false
 
   /semver/5.7.1:
@@ -7242,7 +7378,7 @@ packages:
     dependencies:
       '@sinonjs/commons': 1.8.3
       '@sinonjs/fake-timers': 8.1.0
-      '@sinonjs/samsam': 6.1.1
+      '@sinonjs/samsam': 6.0.2
       diff: 5.0.0
       nise: 5.1.0
       supports-color: 7.2.0
@@ -8029,8 +8165,8 @@ packages:
     resolution: {integrity: sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==}
     dev: false
 
-  /uglify-js/3.15.0:
-    resolution: {integrity: sha512-x+xdeDWq7FiORDvyIJ0q/waWd4PhjBNOm5dQUOq2AKC0IEjxOS66Ha9tctiVDGcRQuh69K7fgU5oRuTK4cysSg==}
+  /uglify-js/3.14.5:
+    resolution: {integrity: sha512-qZukoSxOG0urUTvjc2ERMTcAy+BiFh3weWAkeurLwjrCba73poHmG3E36XEjd/JGukMzwTL7uCxZiAexj8ppvQ==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     dev: false
@@ -8136,6 +8272,11 @@ packages:
 
   /validator/13.7.0:
     resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
+    engines: {node: '>= 0.10'}
+    dev: false
+
+  /validator/8.2.0:
+    resolution: {integrity: sha512-Yw5wW34fSv5spzTXNkokD6S6/Oq92d8q/t14TqsS3fAiA1RYnxSFSIZ+CY3n6PGGRCq5HhJTSepQvFUS2QUDxA==}
     engines: {node: '>= 0.10'}
     dev: false
 
@@ -8489,6 +8630,17 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /z-schema/3.18.4:
+    resolution: {integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==}
+    hasBin: true
+    dependencies:
+      lodash.get: 4.4.2
+      lodash.isequal: 4.5.0
+      validator: 8.2.0
+    optionalDependencies:
+      commander: 2.20.3
+    dev: false
+
   /z-schema/5.0.2:
     resolution: {integrity: sha512-40TH47ukMHq5HrzkeVE40Ad7eIDKaRV2b+Qpi2prLc9X9eFJFzV7tMe5aH12e6avaSS/u5l653EQOv+J9PirPw==}
     engines: {node: '>=8.0.0'}
@@ -8510,7 +8662,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -8530,6 +8682,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
@@ -8548,12 +8701,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.7
+      '@azure-rest/core-client-paging': 1.0.0-beta.1
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -8577,6 +8731,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -8599,7 +8754,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       csv-parse: 5.0.4
       dotenv: 8.6.0
@@ -8621,6 +8776,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -8633,7 +8789,7 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-UuJeVOwRAi2feGCvUkQqm2Ja6ezmDCMeqL2nUP8n3j/6U70oSbyE2k5Eqte3YwK6ApBbwFd3gQztashUpB3hIA==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-zozcQnuyn2AHp1noXpJiELpHf3M5jnmcfbwIPGe6noz7Hx88+wzVeV+mx4/07BEr+3499X5rTrMDD6crnevR3Q==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
@@ -8643,7 +8799,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -8666,13 +8822,13 @@ packages:
       nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -8689,8 +8845,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -8712,6 +8868,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -8736,8 +8893,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -8759,6 +8916,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
@@ -8787,8 +8945,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -8811,6 +8969,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
@@ -8845,7 +9004,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -8875,7 +9034,7 @@ packages:
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -8905,7 +9064,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8930,7 +9089,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8955,7 +9114,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -8980,7 +9139,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9005,7 +9164,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9030,7 +9189,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9055,7 +9214,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9080,7 +9239,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9101,7 +9260,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     dev: false
 
   file:projects/arm-avs.tgz:
@@ -9123,7 +9282,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9148,7 +9307,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9173,7 +9332,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9198,7 +9357,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9223,7 +9382,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9248,7 +9407,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9273,7 +9432,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9298,7 +9457,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9323,7 +9482,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9348,7 +9507,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9373,7 +9532,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9398,7 +9557,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9423,7 +9582,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9448,7 +9607,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9473,7 +9632,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9498,7 +9657,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9523,7 +9682,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9548,7 +9707,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9573,7 +9732,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9598,7 +9757,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9623,7 +9782,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9648,7 +9807,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9673,7 +9832,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9698,7 +9857,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9723,7 +9882,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9748,7 +9907,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9773,7 +9932,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9798,7 +9957,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9823,7 +9982,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9848,7 +10007,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9873,7 +10032,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9898,7 +10057,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9923,7 +10082,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9948,7 +10107,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9973,7 +10132,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -9998,7 +10157,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10023,7 +10182,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10048,7 +10207,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10072,7 +10231,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10097,7 +10256,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10122,7 +10281,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10147,7 +10306,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10172,7 +10331,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10197,7 +10356,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10222,7 +10381,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10247,7 +10406,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10272,7 +10431,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10298,7 +10457,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10323,7 +10482,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10348,7 +10507,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10373,7 +10532,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10398,7 +10557,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10423,7 +10582,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10448,7 +10607,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10473,7 +10632,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10498,7 +10657,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10523,7 +10682,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10548,7 +10707,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10573,7 +10732,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10598,7 +10757,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10623,7 +10782,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10648,7 +10807,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10673,7 +10832,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10698,7 +10857,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10723,7 +10882,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10748,7 +10907,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10773,7 +10932,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10798,7 +10957,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10823,7 +10982,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10848,7 +11007,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10873,7 +11032,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10898,7 +11057,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10923,7 +11082,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10948,7 +11107,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10973,7 +11132,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -10998,7 +11157,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11023,7 +11182,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11048,7 +11207,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11073,7 +11232,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11098,7 +11257,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11123,7 +11282,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11148,7 +11307,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11173,7 +11332,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11198,7 +11357,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11223,7 +11382,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11248,7 +11407,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11273,7 +11432,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11298,7 +11457,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11323,7 +11482,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11348,7 +11507,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11373,7 +11532,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11398,7 +11557,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11423,7 +11582,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11448,7 +11607,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11473,7 +11632,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11498,7 +11657,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11523,7 +11682,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11548,7 +11707,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11573,7 +11732,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11598,7 +11757,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11623,7 +11782,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11648,7 +11807,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11673,7 +11832,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11698,7 +11857,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11723,7 +11882,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11748,7 +11907,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11773,7 +11932,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11798,7 +11957,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11823,7 +11982,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11848,7 +12007,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11873,7 +12032,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11898,7 +12057,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11923,7 +12082,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11948,7 +12107,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -11966,7 +12125,7 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.66.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@2.66.1
       '@types/chai': 4.3.0
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11975,7 +12134,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12000,7 +12159,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12025,7 +12184,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12050,7 +12209,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12075,7 +12234,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12100,7 +12259,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12125,7 +12284,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12150,7 +12309,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12175,7 +12334,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12200,7 +12359,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12225,7 +12384,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12250,7 +12409,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12275,7 +12434,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12300,7 +12459,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12325,7 +12484,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12350,7 +12509,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12375,7 +12534,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12400,7 +12559,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12425,7 +12584,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -12436,6 +12595,7 @@ packages:
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
@@ -12443,8 +12603,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       buffer: 6.0.3
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -12471,6 +12631,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       safe-buffer: 5.2.1
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
@@ -12496,12 +12657,17 @@ packages:
       '@azure/communication-signaling': 1.0.0-beta.12
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12525,6 +12691,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12545,14 +12716,19 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/jwt-decode': 2.2.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       events: 3.3.0
@@ -12574,6 +12750,10 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12593,11 +12773,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12621,6 +12806,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12650,7 +12840,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12698,11 +12888,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12726,6 +12921,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12745,11 +12945,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12773,6 +12978,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12792,11 +13002,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12818,6 +13033,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12841,7 +13061,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12864,6 +13084,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -12887,8 +13108,8 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12911,6 +13132,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12941,7 +13163,7 @@ packages:
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       debug: 4.3.3
       downlevel-dts: 0.8.0
@@ -12980,13 +13202,14 @@ packages:
     dev: false
 
   file:projects/core-asynciterator-polyfill.tgz:
-    resolution: {integrity: sha512-F/VNkfLxLD0yor6ywJFxnvJ0WWOob9Uox4CU1e4eck3Eqg1ZCnv65h/KZ730YVLqiJFpiYvSuE5NA0J4OzDgNw==, tarball: file:projects/core-asynciterator-polyfill.tgz}
+    resolution: {integrity: sha512-GpIo8tI50+VINBys3AHw8vrLY2nyzln2wybGK6diXtnESTBIxDNsglH3sbB9K0mtTbjLsHsg/Rmuhor7Mkc4xQ==, tarball: file:projects/core-asynciterator-polyfill.tgz}
     name: '@rush-temp/core-asynciterator-polyfill'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.42
       eslint: 7.32.0
       prettier: 2.5.1
+      rimraf: 3.0.2
       typescript: 4.2.4
     transitivePeerDependencies:
       - supports-color
@@ -13001,7 +13224,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13010,6 +13233,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -13018,7 +13242,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-VJDaBigC7m/RLkZKPK3expFqrcb6FrhVErkxSTck77oDo+P1S5ZOiZrP0Ma8cuias//+fwTjCGm48rsGSr8rbA==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-36Z3KNLPXfY5EZKDK1mY7EvHsv5/IbUHOhdqlHS2E+oz0Vle+EH9lp8d/QUozpaW/yq7IUdI3pKzgY9yhQ3phg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -13028,7 +13252,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13048,6 +13272,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -13072,7 +13297,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
@@ -13091,6 +13316,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -13112,7 +13338,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
@@ -13131,6 +13357,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -13143,7 +13370,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-Xwvmnur0oqRGATJk6ScXN7bEK1gfgULs+OzrdIaiqCXTtB42NDDxNtOxDvN3RNbzP/9u8oV+XVdtaA2qzN8bRw==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-PtXu2tdeBOmMdUlWxsxh9SUxhJtzjYmhjy0BpwJFkGaLIqcriWwrRLJaXlNr6CMjB3v7cm5o3gV60MJDbzSyKA==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -13152,7 +13379,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
@@ -13171,9 +13398,11 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
+      util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -13194,7 +13423,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13246,7 +13475,7 @@ packages:
       '@types/uuid': 8.3.4
       '@types/xml2js': 0.4.9
       babel-runtime: 6.26.0
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13255,11 +13484,12 @@ packages:
       form-data: 4.0.0
       glob: 7.2.0
       karma: 6.3.12
-      karma-chai: 0.1.0_chai@4.3.6+karma@6.3.12
+      karma-chai: 0.1.0_chai@4.3.4+karma@6.3.12
       karma-chrome-launcher: 3.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.12
       karma-firefox-launcher: 1.3.0
       karma-mocha: 2.0.1
+      karma-rollup-preprocessor: 7.0.7_rollup@1.32.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13271,6 +13501,7 @@ packages:
       puppeteer: 10.4.0
       regenerator-runtime: 0.13.9
       rimraf: 3.0.2
+      rollup: 1.32.1
       shx: 0.3.4
       sinon: 9.2.4
       tough-cookie: 4.0.0
@@ -13278,7 +13509,7 @@ packages:
       tslib: 2.3.1
       tunnel: 0.0.6
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
       uuid: 8.3.2
       xhr-mock: 2.5.1
       xml2js: 0.4.23
@@ -13302,7 +13533,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       karma: 6.3.12
@@ -13322,10 +13553,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13344,7 +13576,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       downlevel-dts: 0.8.0
       eslint: 7.32.0
       karma: 6.3.12
@@ -13362,6 +13594,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -13384,7 +13617,7 @@ packages:
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13407,6 +13640,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -13430,7 +13664,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
@@ -13449,6 +13683,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -13470,7 +13705,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13490,6 +13725,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -13512,7 +13748,7 @@ packages:
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/xml2js': 0.4.9
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -13533,6 +13769,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -13550,6 +13787,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
@@ -13574,6 +13813,8 @@ packages:
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-local-resolve: 1.0.7
       semaphore: 1.1.0
       sinon: 9.2.4
       snap-shot-it: 7.9.6
@@ -13597,12 +13838,18 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-inject': 4.0.4_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -13624,6 +13871,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -13658,8 +13910,8 @@ packages:
       '@types/node': 12.20.42
       '@types/prettier': 2.4.3
       builtin-modules: 3.2.0
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       chalk: 4.1.2
       concurrently: 6.5.1
       dotenv: 8.6.0
@@ -13696,7 +13948,7 @@ packages:
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -13719,11 +13971,69 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/dtdl-parser.tgz:
+    resolution: {integrity: sha512-HkF/GM4awodeF184YdeRQvLU+4ZEtC14BZNKwc+K3Z08l9qb+MyNS5/M6OogfKRwL0V6T+bgYGNRciYVn4JO3Q==, tarball: file:projects/dtdl-parser.tgz}
+    name: '@rush-temp/dtdl-parser'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.66.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.66.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.66.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.66.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.3.0
+      '@types/chai-as-promised': 7.1.4
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.42
+      '@types/sinon': 9.0.11
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      eslint: 7.32.0
+      inherits: 2.0.4
+      karma: 6.3.12
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.1.0
+      karma-edge-launcher: 0.4.2_karma@6.3.12
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.12
+      karma-json-preprocessor: 0.3.3_karma@6.3.12
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.12
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.12
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 2.66.1
+      rollup-plugin-sourcemaps: 0.6.3_659d6a17a324ff5112931e2d48319831
+      rollup-plugin-terser: 5.3.1_rollup@2.66.1
+      rollup-plugin-visualizer: 5.5.4_rollup@2.66.1
+      sinon: 9.2.4
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.1
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -13748,7 +14058,7 @@ packages:
       '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.2.4
       '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.2.4
       '@typescript-eslint/typescript-estree': 4.19.0_typescript@4.2.4
-      chai: 4.3.6
+      chai: 4.3.4
       eslint: 7.32.0
       eslint-config-prettier: 7.2.0_eslint@7.32.0
       eslint-plugin-import: 2.25.4_eslint@7.32.0
@@ -13769,7 +14079,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-ojLvhm10+tt8QAPXgfzzntZZgb/XxpPCtXvq9A1P9FiPRSjTKKukRezRUr8cQQMcznu/wN1HK2RBLNI3mDtBIw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-pBrhEn6e2Di9awJaS8boEUBHwzLdLA6udItp6pqvGjjIl4LqQZSlYinDrlevKddv+aijwT0GXH1VcJJ8ANBxZQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -13793,10 +14103,10 @@ packages:
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-exclude: 2.1.0_chai@4.3.6
-      chai-string: 1.5.0_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.1.0_chai@4.3.4
+      chai-string: 1.5.0_chai@4.3.4
       cross-env: 7.0.3
       debug: 4.3.3
       dotenv: 8.6.0
@@ -13853,14 +14163,19 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/service-bus': 7.4.0
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -13882,6 +14197,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
@@ -13912,9 +14232,9 @@ packages:
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-string: 1.5.0_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      chai-string: 1.5.0_chai@4.3.4
       cross-env: 7.0.3
       debug: 4.3.3
       dotenv: 8.6.0
@@ -13939,6 +14259,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
@@ -13966,9 +14287,9 @@ packages:
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-string: 1.5.0_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      chai-string: 1.5.0_chai@4.3.4
       cross-env: 7.0.3
       debug: 4.3.3
       dotenv: 8.6.0
@@ -13992,6 +14313,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
@@ -14028,6 +14350,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -14063,6 +14386,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -14093,7 +14417,7 @@ packages:
       '@types/sinon': 9.0.11
       '@types/stoppable': 1.1.1
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14115,6 +14439,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       stoppable: 1.1.0
       tslib: 2.3.1
@@ -14144,10 +14469,11 @@ packages:
       mkdirp: 1.0.4
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
       uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
@@ -14163,7 +14489,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14187,6 +14513,7 @@ packages:
       nyc: 14.1.1
       prettier: 2.2.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typedoc: 0.15.2
@@ -14199,18 +14526,23 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-CkwX4EaeV2CNizJBlNXplmjoFNBTGSl9oComMh5pqwu9C+JQZeZXSgtxY7HLFm23z9GattcF92b7tAuTXwDxig==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-8vv01i7TIUzwOzsmvb9iY/zEq50GhIT3TAv/ZQhK1nrfqAghvFK7M4tChn+oErNgLkI8ltad4XV4MKG/jyZOmg==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
       events: 3.3.0
@@ -14232,6 +14564,10 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -14242,7 +14578,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -14262,8 +14597,8 @@ packages:
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14273,6 +14608,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -14292,11 +14628,16 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/keyvault-secrets': 4.3.0
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14320,6 +14661,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -14361,9 +14707,9 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-exclude: 2.1.0_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.1.0_chai@4.3.4
       cross-env: 7.0.3
       dayjs: 1.10.7
       dotenv: 8.6.0
@@ -14388,6 +14734,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -14409,11 +14756,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14437,6 +14789,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -14460,7 +14817,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       delay: 4.4.1
       dotenv: 8.6.0
@@ -14482,6 +14839,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -14507,8 +14865,8 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14531,6 +14889,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -14555,8 +14914,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/uuid': 8.3.4
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -14578,6 +14937,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -14632,6 +14992,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -14658,8 +15019,8 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -14683,9 +15044,11 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
+      util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14695,11 +15058,12 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-Ql6Zj6oQc/mTv66926SKB0v2MkYIOawoDD1pPmxHH8VSs9iwmzaL+Z01G+CaXf0VcXFpnT1pDm7sr9oBFlqrYg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-QpbQ27v5Vwh319CCySclHolgDDf/5uAAanlMcSlD51Mmdr6y9T+ym/8Y8KQQOy2/RlmfNxREoLkZoeTXS/eu0g==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
@@ -14707,8 +15071,8 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      '@types/sinon': 10.0.9
-      chai: 4.3.6
+      '@types/sinon': 10.0.8
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -14732,6 +15096,7 @@ packages:
       nyc: 14.1.1
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 12.0.1
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -15037,7 +15402,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-bWYNxuFrCq2vaETECiEOezIqefS87rjYMH1x78m9obtk1B2SHnjhPZafV29/nHiI3q+DL0jVlydcJSyI4e2USg==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-lm2jxNxZPi6K3EJMmT1OVMu8/+XCk7bapbkkAQ+HF0AJNYTBkgaZ9Yi1P9st98WlNjPixw7HstE8Hu5otIY+Yw==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -15177,7 +15542,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15201,6 +15566,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15223,7 +15589,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15247,6 +15613,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15269,7 +15636,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15293,6 +15660,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15315,7 +15683,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15339,6 +15707,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15363,7 +15732,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15387,6 +15756,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15417,8 +15787,8 @@ packages:
       '@types/uuid': 8.3.4
       avsc: 5.7.3
       buffer: 6.0.3
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15461,14 +15831,15 @@ packages:
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15490,6 +15861,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15512,7 +15884,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15536,6 +15908,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -15569,9 +15942,9 @@ packages:
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
-      chai-exclude: 2.1.0_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.1.0_chai@4.3.4
       cross-env: 7.0.3
       debug: 4.3.3
       dotenv: 8.6.0
@@ -15628,11 +16001,15 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/storage-blob': 12.8.0
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -15660,6 +16037,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
@@ -15684,11 +16066,16 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/node-fetch': 2.5.12
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -15716,6 +16103,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -15739,10 +16131,15 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -15771,6 +16168,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -15794,10 +16196,14 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -15825,6 +16231,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -15847,10 +16258,14 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
@@ -15876,6 +16291,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -15899,10 +16319,14 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -15929,6 +16353,11 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
@@ -15957,8 +16386,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15981,12 +16410,13 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -15998,7 +16428,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-RrX0ZFtx73mCi07Igdjx6J17qXeIE53eedvytz+T/pqRImRv9wHdAtB0dt0HQMRhXZu8Yq0IvpCNRPoJVxWBfQ==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-r+K5go02ZzvB1eNv2HgJluelwAinqtfhWqRX4/yV5lfL7RMk3gizbot6n8Ne8aBVxiXRWPNRDKnEz9l8bTju7Q==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -16012,8 +16442,8 @@ packages:
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16036,25 +16466,25 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-YxJBI8or6XEUHmUQrCXKBqLbfjF+ThYrhJHRFlA9hynfKoGKuXmoIsOWGcScO9ZPT6B3UFqQgMZ6e485WyagLA==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-KtQYlsVRkcz2GDW/LadS55O5Y1OZNEmKcrCsRF9MHT45Q4BkTat50HPy+xYWEHKa/v/UNeHVAiOuRMDPf252Nw==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -16066,8 +16496,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16090,18 +16520,18 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.4.0_9caadd75d4da1d562e333c9688cf8197
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16117,8 +16547,8 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16141,9 +16571,10 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -16167,7 +16598,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -16183,8 +16614,8 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16207,9 +16638,10 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.0
+      uglify-js: 3.14.5
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -16219,18 +16651,18 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-eXX86JMkmBnERJ1PIGJprOkcx+vgMpFEIPn8TrBCFJadgmxDB3h/gjYtHxt8QrRNWPI6kpWmKT1yGfnQ4gF8Iw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-8Q/LDsOe5mFTNAEbgsVzTFfd1VBAHI70Xv6F2fzLOCCKyJhljbXrCa7M0Bc+jmpGMDZgQDa5YmjJAezCPjjYIQ==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
@@ -16254,6 +16686,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       source-map-support: 0.5.21
       tslib: 2.3.1
       typescript: 4.2.4
@@ -16275,6 +16708,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       typescript: 4.2.4
     transitivePeerDependencies:
       - encoding
@@ -16292,7 +16726,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       concurrently: 6.5.1
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16314,6 +16748,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -16354,19 +16789,20 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-g1r/9w1F5Zwt10FSPAT8f2X1KFQeCG6st3sxpjoaEhWlEWFbi2CuVoml4Zbdltw/GRNl37Jkx52cqvLnBCvamA==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-iUJcgmoWCzsjKvpxThO9MybQx0pNQM6KqOUzLqst/0SYMxkxtwnqIJhvpUAGF0ECaVswSSxEmaDwyZD/dTdHHQ==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       eslint: 7.32.0
       karma: 6.3.12
       karma-chrome-launcher: 3.1.0
@@ -16375,6 +16811,7 @@ packages:
       mocha: 7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       tslib: 2.3.1
       typescript: 4.2.4
@@ -16400,7 +16837,7 @@ packages:
       '@types/nise': 1.4.0
       '@types/node': 12.20.42
       '@types/uuid': 8.3.4
-      chai: 4.3.6
+      chai: 4.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
       karma: 6.3.12
@@ -16424,6 +16861,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       typescript: 4.2.4
       uuid: 8.3.2
       xhr-mock: 2.5.1
@@ -16447,8 +16885,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       azure-iothub: 1.14.6
-      chai: 4.3.6
-      chai-as-promised: 7.1.1_chai@4.3.6
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16470,6 +16908,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.5.1
       rimraf: 3.0.2
+      rollup: 1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -16495,7 +16934,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
-      chai: 4.3.6
+      chai: 4.3.4
       cloudevents: 4.0.3
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16520,6 +16959,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -16546,7 +16986,7 @@ packages:
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       '@types/ws': 8.2.2
-      chai: 4.3.6
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16571,6 +17011,7 @@ packages:
       prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
+      rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
