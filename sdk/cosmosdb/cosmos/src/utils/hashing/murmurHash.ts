@@ -211,9 +211,11 @@ function x86Hash32(bytes: Buffer, seed?: number) {
   switch (remainder) {
     case 3:
       k1 ^= bytes[j + 2] << 16;
+      break;
 
     case 2:
       k1 ^= bytes[j + 1] << 8;
+      break;
 
     case 1:
       k1 ^= bytes[j];
@@ -221,6 +223,7 @@ function x86Hash32(bytes: Buffer, seed?: number) {
       k1 = _x86Rotl(k1, 15);
       k1 = _x86Multiply(k1, c2);
       h1 ^= k1;
+      break;
   }
 
   h1 ^= bytes.length;
@@ -307,9 +310,11 @@ function x86Hash128(bytes: Buffer, seed?: number) {
   switch (remainder) {
     case 15:
       k4 ^= bytes[j + 14] << 16;
+      break;
 
     case 14:
       k4 ^= bytes[j + 13] << 8;
+      break;
 
     case 13:
       k4 ^= bytes[j + 12];
@@ -317,15 +322,19 @@ function x86Hash128(bytes: Buffer, seed?: number) {
       k4 = _x86Rotl(k4, 18);
       k4 = _x86Multiply(k4, c1);
       h4 ^= k4;
+      break;
 
     case 12:
       k3 ^= bytes[j + 11] << 24;
+      break;
 
     case 11:
       k3 ^= bytes[j + 10] << 16;
+      break;
 
     case 10:
       k3 ^= bytes[j + 9] << 8;
+      break;
 
     case 9:
       k3 ^= bytes[j + 8];
@@ -333,15 +342,19 @@ function x86Hash128(bytes: Buffer, seed?: number) {
       k3 = _x86Rotl(k3, 17);
       k3 = _x86Multiply(k3, c4);
       h3 ^= k3;
+      break;
 
     case 8:
       k2 ^= bytes[j + 7] << 24;
+      break;
 
     case 7:
       k2 ^= bytes[j + 6] << 16;
+      break;
 
     case 6:
       k2 ^= bytes[j + 5] << 8;
+      break;
 
     case 5:
       k2 ^= bytes[j + 4];
@@ -349,15 +362,19 @@ function x86Hash128(bytes: Buffer, seed?: number) {
       k2 = _x86Rotl(k2, 16);
       k2 = _x86Multiply(k2, c3);
       h2 ^= k2;
+      break;
 
     case 4:
       k1 ^= bytes[j + 3] << 24;
+      break;
 
     case 3:
       k1 ^= bytes[j + 2] << 16;
+      break;
 
     case 2:
       k1 ^= bytes[j + 1] << 8;
+      break;
 
     case 1:
       k1 ^= bytes[j];
@@ -365,6 +382,7 @@ function x86Hash128(bytes: Buffer, seed?: number) {
       k1 = _x86Rotl(k1, 15);
       k1 = _x86Multiply(k1, c2);
       h1 ^= k1;
+      break;
   }
 
   h1 ^= bytes.length;
@@ -455,21 +473,27 @@ function x64Hash128(bytes: Buffer, seed?: number) {
   switch (remainder) {
     case 15:
       k2 = _x64Xor(k2, _x64LeftShift([0, bytes[j + 14]], 48));
+      break;
 
     case 14:
       k2 = _x64Xor(k2, _x64LeftShift([0, bytes[j + 13]], 40));
+      break;
 
     case 13:
       k2 = _x64Xor(k2, _x64LeftShift([0, bytes[j + 12]], 32));
+      break;
 
     case 12:
       k2 = _x64Xor(k2, _x64LeftShift([0, bytes[j + 11]], 24));
+      break;
 
     case 11:
       k2 = _x64Xor(k2, _x64LeftShift([0, bytes[j + 10]], 16));
+      break;
 
     case 10:
       k2 = _x64Xor(k2, _x64LeftShift([0, bytes[j + 9]], 8));
+      break;
 
     case 9:
       k2 = _x64Xor(k2, [0, bytes[j + 8]]);
@@ -477,27 +501,35 @@ function x64Hash128(bytes: Buffer, seed?: number) {
       k2 = _x64Rotl(k2, 33);
       k2 = _x64Multiply(k2, c1);
       h2 = _x64Xor(h2, k2);
+      break;
 
     case 8:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 7]], 56));
+      break;
 
     case 7:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 6]], 48));
+      break;
 
     case 6:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 5]], 40));
+      break;
 
     case 5:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 4]], 32));
+      break;
 
     case 4:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 3]], 24));
+      break;
 
     case 3:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 2]], 16));
+      break;
 
     case 2:
       k1 = _x64Xor(k1, _x64LeftShift([0, bytes[j + 1]], 8));
+      break;
 
     case 1:
       k1 = _x64Xor(k1, [0, bytes[j]]);
@@ -505,6 +537,7 @@ function x64Hash128(bytes: Buffer, seed?: number) {
       k1 = _x64Rotl(k1, 31);
       k1 = _x64Multiply(k1, c2);
       h1 = _x64Xor(h1, k1);
+      break;
   }
 
   h1 = _x64Xor(h1, [0, bytes.length]);

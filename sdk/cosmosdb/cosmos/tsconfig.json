@@ -5,7 +5,6 @@
     "strict": false,
     "noImplicitAny": true,
     "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
     "outDir": "./dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
