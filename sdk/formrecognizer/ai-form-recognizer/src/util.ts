@@ -36,7 +36,7 @@ export const capitalize = <S extends string = string>(s: S): Capitalize<S> =>
  * A string that is a capital letter. See the `Acronymic` type for the use of this seemingly-trivial type.
  * @hidden
  */
-export type CapitalLetter =
+export type EnglishCapitalLetter =
   | "A"
   | "B"
   | "C"
@@ -75,7 +75,7 @@ export type CapitalLetter =
  *
  * @hidden
  */
-export type Acronymic = `${CapitalLetter}${CapitalLetter}${string}`;
+export type Acronymic = `${EnglishCapitalLetter}${EnglishCapitalLetter}${string}`;
 
 /**
  * Tests if a string looks like it begins with an acronym, i.e. it starts with two capital letters.

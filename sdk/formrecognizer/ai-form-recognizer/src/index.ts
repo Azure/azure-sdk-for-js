@@ -58,4 +58,4 @@ export { TrainingPoller, TrainingPollOperationState } from "./lro/training";
 export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
-export { CapitalLetter, Acronymic } from "./util";
+export { EnglishCapitalLetter, Acronymic } from "./util";

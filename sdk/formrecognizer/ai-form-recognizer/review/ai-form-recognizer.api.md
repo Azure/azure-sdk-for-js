@@ -15,7 +15,7 @@ import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type Acronymic = `${CapitalLetter}${CapitalLetter}${string}`;
+export type Acronymic = `${EnglishCapitalLetter}${EnglishCapitalLetter}${string}`;
 
 // @public
 export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLike<DocumentAnalysisPollOperationState<Result>, Result>;
@@ -192,9 +192,6 @@ export const BusinessCardSchema: {
         };
     };
 };
-
-// @public
-export type CapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
 
 // @public
 export interface CommonModelCreationOptions {
@@ -524,6 +521,9 @@ export interface DocumentWord {
     content: string;
     span: DocumentSpan;
 }
+
+// @public
+export type EnglishCapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
 
 // @public
 export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema | WellKnownObjectFieldSchema;
