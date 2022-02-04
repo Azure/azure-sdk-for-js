@@ -13,9 +13,10 @@ import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
 import { AbortController } from "@azure/abort-controller";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
 import { BatchingPartitionChannel } from "./batchingPartitionChannel";
 import { PartitionAssigner } from "./impl/partitionAssigner";
+import { logger } from "./log";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -166,6 +167,16 @@ export class EventHubBufferedProducerClient {
   private _clientOptions: EventHubBufferedProducerClientOptions;
 
   /**
+   * The interval at which the background management operation should run.
+   */
+  private _backgroundManagementInterval = 10000; // 10 seconds
+
+  /**
+   * Indicates whether the background management loop is running.
+   */
+  private _isBackgroundManagementRunning = false;
+
+  /**
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
@@ -290,7 +301,8 @@ export class EventHubBufferedProducerClient {
       await this.flush(options);
     }
     // Calling abort signals to the BatchingPartitionChannels that they
-    // should stop reading/sending events.
+    // should stop reading/sending events, and to the background management
+    // loop that it should stop periodic partition id updates.
     this._abortController.abort();
     return this._producer.close();
   }
@@ -323,11 +335,20 @@ export class EventHubBufferedProducerClient {
       );
     }
 
-    // TODO: Start a loop that queries partition Ids.
-    // partition ids can be added to an Event Hub after it's been created.
     if (!this._partitionIds.length) {
-      this._partitionIds = await this.getPartitionIds();
-      this._partitionAssigner.setPartitionIds(this._partitionIds);
+      await this._updatePartitionIds();
+    }
+    if (!this._isBackgroundManagementRunning) {
+      this._startPartitionIdsUpdateLoop().catch((e) => {
+        logger.error(
+          `The following error occured during batch creation or sending: ${JSON.stringify(
+            e,
+            undefined,
+            "  "
+          )}`
+        );
+      });
+      this._isBackgroundManagementRunning = true;
     }
 
     const partitionId = this._partitionAssigner.assignPartition({
@@ -452,5 +473,21 @@ export class EventHubBufferedProducerClient {
     }
 
     return total;
+  }
+
+  private async _updatePartitionIds(): Promise<void> {
+    const queriedPartitionIds = await this.getPartitionIds();
+
+    if (this._partitionIds.length !== queriedPartitionIds.length) {
+      this._partitionIds = queriedPartitionIds;
+      this._partitionAssigner.setPartitionIds(this._partitionIds);
+    }
+  }
+
+  private async _startPartitionIdsUpdateLoop(): Promise<void> {
+    while (!this._abortController.signal.aborted) {
+      await delay<void>(this._backgroundManagementInterval);
+      await this._updatePartitionIds();
+    }
   }
 }
