@@ -19,6 +19,10 @@ export async function createClient(
 ): Promise<DocumentTranslatorClient> {
   await recorder.start({ envSetupForPlayback });
   const credential = { key: env.DOCUMENT_TRANSLATOR_API_KEY ?? "" };
-  const client = DocumentTranslator(env.ENDPOINT ?? "", credential, recorder.configureClientOptions(options));
+  const client = DocumentTranslator(
+    env.ENDPOINT ?? "",
+    credential,
+    recorder.configureClientOptions(options || {})
+  );
   return client;
 }

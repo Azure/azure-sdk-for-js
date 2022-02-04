@@ -7,7 +7,11 @@ import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder"
 
 export function createRecordedClient(recorder: Recorder): DeviceUpdateRestClient {
   const credential = createTestCredential();
-  const client = DeviceUpdate(assertEnvironmentVariable("ENDPOINT"), credential, recorder.configureClientOptions({}));
+  const client = DeviceUpdate(
+    assertEnvironmentVariable("ENDPOINT"),
+    credential,
+    recorder.configureClientOptions({})
+  );
   return client;
 }
 
