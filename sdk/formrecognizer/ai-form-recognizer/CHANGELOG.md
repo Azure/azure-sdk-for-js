@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.3 (2022-02-08)
+## 4.0.0-beta.3 (2022-02-10)
 
 ### Features Added
 
@@ -25,7 +25,7 @@
 - Renamed `beginExtractGenericDocument` and `GenericDocumentResult` to `beginExtractGeneralDocument` and `GeneralDocumentResult` for consistency with other Form Recognizer SDK packages.
 - Several of the prebuilt model schemas and result types have changed:
   - The document type naming convention has changed. Instead of separation by colons (e.g. "prebuilt:receipt"), prebuilt model document type names are now separated by periods and are no longer prefixed with "prebuilt" ("prebuilt:idDocument:driverLicense" becomes "idDocument.driverLicense", "prebuilt:invoice" becomes just "invoice").
-  - In the `prebuilt-receipt` model and the `prebuilt-invoice` models, several numeric fields that represented amounts of money have been changed to a designated `"currency"` type. These include the `subTotal`, `totalTax`, `invoiceTotal`, `amountDue`, and `previousUnpaidBalance` fields of invoices; the `amount`, `tax`, and `unitPrice`
+  - In the `prebuilt-invoice` model, several numeric fields that represented amounts of money have been changed to a designated `"currency"` type. These include the `subTotal`, `totalTax`, `invoiceTotal`, `amountDue`, and `previousUnpaidBalance` fields of invoices and the `amount`, `tax`, and `unitPrice` fields of invoice items (a subfield of invoices).
 
 ### Bugs Fixed
 

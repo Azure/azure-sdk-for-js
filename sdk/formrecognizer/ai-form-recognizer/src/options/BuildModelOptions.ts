@@ -14,6 +14,8 @@ import { PollerOptions } from "./PollerOptions";
  *   that have the same structure of data, but different layouts (for example, W2 tax forms, which may vary from company
  *   to company, but always contain the same information).
  * - "template", which requires all documents to have the same fixed layout (template).
+ *
+ * Please see the following link for more information: https://aka.ms/azsdk/formrecognizer/buildmode
  */
 export type DocumentModelBuildMode =
   typeof DocumentModelBuildMode[keyof typeof DocumentModelBuildMode];
