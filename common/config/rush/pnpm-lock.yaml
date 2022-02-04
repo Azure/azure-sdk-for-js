@@ -12966,7 +12966,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-DBJrNjfBDQPpuhuC1CK2Tf09gwxZR8AFbUUmjOkxzU4Ra4+k8WNYyADJUQPWDxUnCg+/wckXoRZL/jkX39lpSg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-EFTZnQnEhHbqmL1CZJWw7bgI7vYq4WRTRkjsjf8ixNAarMw/NVp3eLd+skni99Hs4F+x4ZhIihyjSIExV5yLJA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -13007,7 +13007,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13601,7 +13600,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-DaRzGWNUMNnkx5XtovGZ1VfqT6XHzNoh6ivGkD3kWQEGRtv11tnZ75Aguv/eG/3SromlH20PiCA+RQWcLm3FLQ==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-TEbNW856SR3kFwVpkaq6xq+/lScXvhz1tDQwNF6qBlgQOSMwk5VnR+R82rTsPT0G9gSoTWrnox0ZpAja5SolDA==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -13646,7 +13645,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13836,11 +13834,11 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-pBrhEn6e2Di9awJaS8boEUBHwzLdLA6udItp6pqvGjjIl4LqQZSlYinDrlevKddv+aijwT0GXH1VcJJ8ANBxZQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-itrh9O/PoTinG39ND5MqHEWiUIvLDTNSZvBlCO4LmU7MliEmXRHUhN4p99BWuXPf89pfZ5e08o7Ad+rmdpzXGQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.67.1
@@ -13965,7 +13963,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-Zjderk9z4yJ2X0VCX+Bg2mv4sRQQVGvPYhz4bqwQe8ekduCFek0KT0230RKdGANBSmWtYN/zbxmPbjexRtOv8A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-/D9UB0TNxhGrAggxo5vIN6OmKdenUTYw+XbUlwEbi7efhTrXpxmBXPBZ9fDjYvWWurgmrcB5BmDbs79tY6R8Ow==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -15786,7 +15784,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Wxf71HaHGk3OUsxKZVuBej88ap8Pft5N//7ZiLUVN3If1B+1fCanIE/T52XQhsyBXWsgvQFKFTehFLaryX4eIQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-2ZH8fLmpPVmWUGAVGdmZ8P0MjIFOKfaaovnt9M901HdH6hzf7cA0zDJWrYWUdyBdWlJWr9/lcc7hNJgNHvRADw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
