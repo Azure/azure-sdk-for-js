@@ -123,7 +123,7 @@ export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptio
 /**
  * Operation options for the AttestTpm API.
  */
-export interface AttestTpmOptions extends AttestationClientOperationOptions {}
+export interface AttestTpmOptions extends AttestationClientOperationOptions { }
 
 /**
  * Attestation Client class.
@@ -187,25 +187,14 @@ export class AttestationClient {
   ) {
     let credentialScopes: string[] | undefined = undefined;
     let credential: TokenCredential | undefined = undefined;
-    let options: AttestationClientOptions = {};
-
-    // If arg2 is defined, it's either a tokenCredential or it's a client options.
-    if (credentialsOrOptions !== undefined) {
-      if (isTokenCredential(credentialsOrOptions)) {
-        credential = credentialsOrOptions;
-        credentialScopes = ["https://attest.azure.net/.default"];
-      } else {
-        options = credentialsOrOptions;
-      }
-    }
-
-    // If arg3 is defined, it has to be clientOptions and arg2 has to be a token credential
-    if (
-      clientOptions !== undefined &&
-      credentialsOrOptions !== undefined &&
-      isTokenCredential(credentialsOrOptions)
-    ) {
+    let options: AttestationClientOptions;
+    
+    if (credentialsOrOptions && isTokenCredential(credentialsOrOptions)) {
+      credential = credentialsOrOptions;
+      credentialScopes = ["https://attest.azure.net/.default"];
       options = clientOptions;
+    } else {
+      options = credentialsOrOptions || {};
     }
 
     const internalPipelineOptions: GeneratedClientOptionalParams = {
@@ -255,19 +244,19 @@ export class AttestationClient {
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
-            data: initData,
-            dataType:
-              options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
+          data: initData,
+          dataType:
+            options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+        }
         : undefined;
 
       const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
 
       const runTimeData: RuntimeData | undefined = runData
         ? {
-            data: runData,
-            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
+          data: runData,
+          dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+        }
         : undefined;
 
       const attestationResponse = await this._client.attestation.attestOpenEnclave(
@@ -337,18 +326,18 @@ export class AttestationClient {
 
       const initTimeData: InitTimeData | undefined = initData
         ? {
-            data: initData,
-            dataType:
-              options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
+          data: initData,
+          dataType:
+            options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+        }
         : undefined;
 
       const runData = await Uint8ArrayFromInput(options.runTimeData ?? options.runTimeJson);
       const runTimeData: RuntimeData | undefined = runData
         ? {
-            data: runData,
-            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
-          }
+          data: runData,
+          dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
+        }
         : undefined;
 
       const attestationResponse = await this._client.attestation.attestSgxEnclave(
