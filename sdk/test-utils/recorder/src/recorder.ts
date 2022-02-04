@@ -133,8 +133,9 @@ export class Recorder {
     if (isLiveMode()) return;
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
-      const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.start
-        }`;
+      const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
+        paths.start
+      }`;
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
@@ -228,17 +229,20 @@ export class Recorder {
   /**
    * For core-v2 - libraries depending on core-rest-pipeline.
    * This method adds the recording policy to the additionalPolicies in the client options.
-   * 
+   *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
-   * 
+   *
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T>(options: T & { additionalPolicies?: AdditionalPolicyConfig[] }): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
+  public configureClientOptions<T>(
+    options: T & { additionalPolicies?: AdditionalPolicyConfig[] }
+  ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
     options.additionalPolicies.push({
-      policy: this.recorderHttpPolicy(), position: "perRetry"
-    })
+      policy: this.recorderHttpPolicy(),
+      position: "perRetry",
+    });
     return options;
   }
 
@@ -248,11 +252,11 @@ export class Recorder {
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    */
-  public configureClientOptionsCoreV1<
-    T
-  >(options: T & {
-    httpClient?: HttpClientCoreV1;
-  }): T & {
+  public configureClientOptionsCoreV1<T>(
+    options: T & {
+      httpClient?: HttpClientCoreV1;
+    }
+  ): T & {
     httpClient?: HttpClientCoreV1;
   } {
     if (isLiveMode()) return options;
