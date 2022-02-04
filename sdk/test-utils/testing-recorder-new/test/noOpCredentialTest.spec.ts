@@ -45,7 +45,11 @@ describe(`NoOp credential with Tables`, () => {
       "table-name",
       `table${Math.ceil(Math.random() * 1000 + 1000)}`
     );
-    const client = new TableServiceClient(assertEnvironmentVariable("TABLES_URL"), credential, recorder.configureClientOptions({}));
+    const client = new TableServiceClient(
+      assertEnvironmentVariable("TABLES_URL"),
+      credential,
+      recorder.configureClientOptions({})
+    );
     await client.createTable(tableName);
     await client.deleteTable(tableName);
   });

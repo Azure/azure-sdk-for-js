@@ -40,7 +40,8 @@ describe("Core V2 tests", () => {
   it("data-tables create entity", async function () {
     const client = TableClient.fromConnectionString(
       assertEnvironmentVariable("TABLES_SAS_CONNECTION_STRING"),
-      recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`), recorder.configureClientOptions({})
+      recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`),
+      recorder.configureClientOptions({})
     );
     await client.createTable();
     const simpleEntity: TableEntity = createSimpleEntity();
