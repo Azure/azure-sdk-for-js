@@ -35,6 +35,10 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can update a phone number's capabilities", async function () {
+      const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
+      if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
+        this.skip();
+      }
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
         update
