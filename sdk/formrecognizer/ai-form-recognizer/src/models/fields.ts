@@ -254,6 +254,10 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
         return { values: field.valueArray?.map((v) => toDocumentField(v) ?? []) };
       case "object":
         return { properties: toAnalyzedDocumentFieldsFromGenerated(field.valueObject ?? {}) };
+      default:
+        // Exhaustiveness check
+        const __exhaust: never = kind;
+        throw new Error(`Unrecognized DocumentField type: ${__exhaust}`);
     }
   })();
 
