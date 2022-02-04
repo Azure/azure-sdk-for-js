@@ -24,11 +24,7 @@ import {
   TokenCredential,
   GetTokenOptions,
 } from "@azure/core-auth";
-import {
-  createClient,
-  createRecorder,
-  recorderStartOptions,
-} from "../utils/recordedClient";
+import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient";
 
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 
