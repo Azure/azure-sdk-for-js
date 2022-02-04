@@ -73,7 +73,7 @@ export interface MessageHandlers {
    * Note that when receiving messages in a stream using `subscribe()`, the receiver will automatically retry receiving messages on all errors unless
    * `close()` is called on the subscription. It is completely up to users to decide what errors are considered non-recoverable and to handle them
    * accordingly in this callback.
-   * For a list of errors occurs within Service Bus, please refer to https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebuserror?view=azure-node-latest
+   * For a list of errors occurs within Service Bus, please refer to https://docs.microsoft.com/javascript/api/\@azure/service-bus/servicebuserror?view=azure-node-latest
    * @param args - The error and additional context to indicate where
    * the error originated.
    */
