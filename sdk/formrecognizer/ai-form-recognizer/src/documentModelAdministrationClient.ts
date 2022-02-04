@@ -255,6 +255,7 @@ export class DocumentModelAdministrationClient {
               modelId: submodelId,
             })),
             description: options.description,
+            tags: options.tags,
           },
           options
         ),
@@ -287,6 +288,7 @@ export class DocumentModelAdministrationClient {
       {
         modelId: destinationModelId,
         description: options.description,
+        tags: options.tags,
       },
       options
     );

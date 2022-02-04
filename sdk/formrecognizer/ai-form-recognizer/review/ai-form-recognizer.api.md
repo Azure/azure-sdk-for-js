@@ -73,11 +73,7 @@ export interface BoundingRegion {
 }
 
 // @public
-export interface BuildModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
-    description?: string;
-    tags?: {
-        [name: string]: string;
-    };
+export interface BuildModelOptions extends OperationOptions, CommonModelCreationOptions, PollerOptions<TrainingPollOperationState> {
 }
 
 // @public
@@ -199,6 +195,12 @@ export const BusinessCardSchema: {
 
 // @public
 export type CapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
+
+// @public
+export interface CommonModelCreationOptions {
+    description?: string;
+    tags?: Record<string, string>;
+}
 
 // @public
 export type ContentType = "application/octet-stream" | "application/pdf" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
@@ -549,8 +551,7 @@ export interface GeneralDocumentResult extends LayoutResult {
 }
 
 // @public
-export interface GetCopyAuthorizationOptions extends OperationOptions {
-    description?: string;
+export interface GetCopyAuthorizationOptions extends OperationOptions, CommonModelCreationOptions {
 }
 
 // @public
@@ -1728,9 +1729,7 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
     operationId: string;
     percentCompleted: number;
     status: OperationStatus;
-    tags?: {
-        [tag: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public

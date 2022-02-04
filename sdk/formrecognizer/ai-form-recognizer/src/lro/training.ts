@@ -50,7 +50,7 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
   /**
    * Additional, user-defined key-value pairs associated with the model as metadata.
    */
-  tags?: { [tag: string]: string };
+  tags?: Record<string, string>;
 }
 
 /**

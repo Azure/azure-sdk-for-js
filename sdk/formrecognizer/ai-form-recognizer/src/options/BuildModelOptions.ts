@@ -38,18 +38,25 @@ export const DocumentModelBuildMode = {
 } as const;
 
 /**
- * Options for the model build operation.
+ * Options common to all operations that define new models, such as `beginBuildModel`, `beginComposeModel`, and
+ * `getCopyAuthorization`.
  */
-export interface BuildModelOptions
-  extends OperationOptions,
-    PollerOptions<TrainingPollOperationState> {
+export interface CommonModelCreationOptions {
   /**
    * A textual description of the model (can be any text).
    */
   description?: string;
 
   /**
-   * Additional, arbitrary key-value pairs to associate with the model as persistent metadata.
+   * Additional, user-specified key-value pairs to associate with the model as persistent metadata.
    */
-  tags?: { [name: string]: string };
+  tags?: Record<string, string>;
 }
+
+/**
+ * Options for the model build operation.
+ */
+export interface BuildModelOptions
+  extends OperationOptions,
+    CommonModelCreationOptions,
+    PollerOptions<TrainingPollOperationState> {}
