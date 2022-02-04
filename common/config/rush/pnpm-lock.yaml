@@ -5409,6 +5409,10 @@ packages:
     resolution: {integrity: sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=}
     dev: false
 
+  /jwt-decode/3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
+
   /karma-chai/0.1.0_chai@4.3.4+karma@6.3.12:
     resolution: {integrity: sha1-vuWtQEAFF4Ea40u5RfdikJEIt5o=}
     peerDependencies:
@@ -12710,7 +12714,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-JNZu7uDtneT79gZw3AWEdcPzB33SLRfh4ZrPUKoc9nw4fW1x+kfp72JegDejHts6v8SDFuxWF5zgaWRc6qzdxg==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-wOnmTjckWBwZi7PF2QhrMsY051qfW2MDFsLmwlAmiJHEfS2RJ7H4REF8UF8qeLUf3bHVUoK5ts78Fxua1PFjqw==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -12733,7 +12737,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      jwt-decode: 2.2.0
+      jwt-decode: 3.1.2
       karma: 6.3.12
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.1.0
