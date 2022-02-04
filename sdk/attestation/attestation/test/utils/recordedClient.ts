@@ -92,7 +92,7 @@ export function createRecordedClient(
       },
     };
   }
-  if (authenticatedClient !== undefined && authenticatedClient) {
+  if (authenticatedClient) {
     const attClient = new AttestationClient(
       getAttestationUri(endpointType),
       createTestCredential(),
