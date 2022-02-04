@@ -3,11 +3,7 @@
 
 import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
 import { Context } from "mocha";
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiExclude from "chai-exclude";
-chai.use(chaiExclude);
+import { assert } from "@azure/test-utils";
 import sinon from "sinon";
 import {
   CryptographyClient,

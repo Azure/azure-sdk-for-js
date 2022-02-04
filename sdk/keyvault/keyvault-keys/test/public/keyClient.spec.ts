@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import chaiExclude from "chai-exclude";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiExclude);
-chai.use(chaiAsPromised);
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
