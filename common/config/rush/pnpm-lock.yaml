@@ -14587,7 +14587,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-ZlISdrpyH+B37EmVaN8SOpMli6R+C4A3VLUBJ5t7Gqmf3adWrgc5ygGAO2SebiIYbQKrl+PwLV2+72l1u2RsGQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-WpQTDR3pLUXDu+KbQpeGClXV2uyQfRXWdhRa96K5g0+BSIAyw8cBAqf/4+2/sCNLsvXFAQt9eMUqpkHcq25FOQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -14624,7 +14624,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-Gom2pZOGfHUPLmmtnRN4rfnA60DpDrIKKXvogqWDCAfVViN/Y1RO26zcEDvsbitWfdMG0DgOvGq6cU2OI3LTIg==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-FFqpOyEOPKlG5FVXIX0fWHPcvCNwjoy6IcG/FOvKgMghU8UjFldzb5D85IB7YJbrwio3bF/WfDNAU62AibS8Ig==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -14699,7 +14699,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-jfIKTw0llo9ZQYkDo1Jd2PHlQY6DKkcBA04+hq3oi6LSrwVfqjokEu3aNjcWHV9FINPF5E4Ptl86OgVGFM+Zog==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-dQzdT04bqLSAq7hQviHjlFPX1A5DQhvx4vhWKleTWO+Nwl4RE4HtDTUCtrFdS7jVMWuQEqEJZlmOdZPEyPZadA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -14753,7 +14753,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-YA6UXAhEmJ+lMUMn6P2lMH71mqGh2Y9YxOdtW3cRey/ZiuW3yleQZEtQ2+01W3enpoGpgmSW+V+bMsXC9Mr8BQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-0Qm0AwdRdWPpXJvSQreg1r32oOy4JUMJtFRzQgf3nMwMU4uq5EDasz8f80x+IEsHpAS9dd0uuLmnLr7IzbKSQg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -16655,7 +16655,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-8Q/LDsOe5mFTNAEbgsVzTFfd1VBAHI70Xv6F2fzLOCCKyJhljbXrCa7M0Bc+jmpGMDZgQDa5YmjJAezCPjjYIQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-CTBBP55k5Gn8eegFG6hDQkZt/uAY5kl+Y9LUAOaAVR2FPNJCrEhXJ1uRVi3pJselMFmmQx2sunqO65Y9W34HDA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -16793,7 +16793,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-iUJcgmoWCzsjKvpxThO9MybQx0pNQM6KqOUzLqst/0SYMxkxtwnqIJhvpUAGF0ECaVswSSxEmaDwyZD/dTdHHQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-AFgkL3dgLAohwVqFbcheVU/1ilNuMd0EKWTXQa3icxO3aqg6o1lvZRCCfPAtUNfApHLJHOZ59atB5j11Z22PXg==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -16802,11 +16802,13 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
+      '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
+      chai-exclude: 2.1.0_chai@4.3.4
       eslint: 7.32.0
       karma: 6.3.12
       karma-chrome-launcher: 3.1.0
