@@ -374,7 +374,7 @@ export class EventHubProducerClient {
       const partitionAssignment = extractPartitionAssignmentFromBatch(batch, options);
       partitionId = partitionAssignment.partitionId;
       partitionKey = partitionAssignment.partitionKey;
-      spanContextsToLink = batch._messageSpanContexts;
+      spanContextsToLink = (batch as EventDataBatchImpl)._messageSpanContexts;
     } else {
       if (!Array.isArray(batch)) {
         batch = [batch];

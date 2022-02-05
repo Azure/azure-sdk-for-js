@@ -95,7 +95,6 @@ export interface EventDataAdapterParameters {
 export interface EventDataBatch {
     readonly count: number;
     readonly maxSizeInBytes: number;
-    readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
     // @internal

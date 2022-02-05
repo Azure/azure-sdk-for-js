@@ -111,13 +111,6 @@ export interface EventDataBatch {
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
-
-  /**
-   * Gets the "message" span contexts that were created when adding events to the batch.
-   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
-   * @hidden
-   */
-  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**
