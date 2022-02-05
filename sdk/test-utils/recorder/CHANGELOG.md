@@ -2,6 +2,14 @@
 
 ## 2.0.0 (Unreleased)
 
+## 2022-02-04
+
+- [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.
+  Leveraging the new option, `configureClientOptions` method is added to the `Recorder`.
+  [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
+
+  With the support from the new `Recorder#configureClientOptions` method, we no longer need the `Recorder#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies. [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175) removes the `Recorder#configureClient` along with the new addition.
+
 ## 2022-01-27
 
 Add support for the new string sanitizers, including **breaking changes**:
