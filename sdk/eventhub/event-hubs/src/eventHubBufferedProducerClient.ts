@@ -297,6 +297,7 @@ export class EventHubBufferedProducerClient {
    * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(options: BufferedCloseOptions = {}): Promise<void> {
+    logger.verbose("closing buffered producer client...");
     if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
@@ -304,7 +305,8 @@ export class EventHubBufferedProducerClient {
     // should stop reading/sending events, and to the background management
     // loop that it should stop periodic partition id updates.
     this._abortController.abort();
-    return this._producer.close();
+    await this._producer.close();
+    this._isClosed = true;
   }
 
   /**
@@ -488,9 +490,11 @@ export class EventHubBufferedProducerClient {
 
   private async _startPartitionIdsUpdateLoop(): Promise<void> {
     logger.verbose("Starting a background loop to check and apply partition id updates...");
-    while (!this._abortController.signal.aborted) {
+    while (!this._abortController.signal.aborted && !this._isClosed) {
       await delay<void>(this._backgroundManagementInterval);
-      await this._updatePartitionIds();
+      if (!this._isClosed) {
+        await this._updatePartitionIds();
+      }
     }
   }
 }

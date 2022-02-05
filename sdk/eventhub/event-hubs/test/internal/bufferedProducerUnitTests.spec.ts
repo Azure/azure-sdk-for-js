@@ -46,6 +46,13 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
+    afterEach("Ensure client is closed between tests.", async () => {
+      if (client) {
+        await client.close();
+        client = undefined;
+      }
+    });
+
     it("should update partition ids periodically", async function () {
       const fakeGetPartitionIds = stub();
       fakeGetPartitionIds.onCall(0).resolves(["0", "1"]);
