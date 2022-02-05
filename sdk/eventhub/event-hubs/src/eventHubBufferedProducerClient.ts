@@ -476,15 +476,18 @@ export class EventHubBufferedProducerClient {
   }
 
   private async _updatePartitionIds(): Promise<void> {
+    logger.verbose("Checking for partition Id updates...");
     const queriedPartitionIds = await this.getPartitionIds();
 
     if (this._partitionIds.length !== queriedPartitionIds.length) {
+      logger.verbose("Applying partition Id updates");
       this._partitionIds = queriedPartitionIds;
       this._partitionAssigner.setPartitionIds(this._partitionIds);
     }
   }
 
   private async _startPartitionIdsUpdateLoop(): Promise<void> {
+    logger.verbose("Starting a background loop to check and apply partition id updates...");
     while (!this._abortController.signal.aborted) {
       await delay<void>(this._backgroundManagementInterval);
       await this._updatePartitionIds();
