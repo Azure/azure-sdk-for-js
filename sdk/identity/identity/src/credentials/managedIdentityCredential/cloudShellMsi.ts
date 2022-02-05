@@ -53,12 +53,19 @@ function prepareRequestOptions(
 
 /**
  * Defines how to determine whether the Azure Cloud Shell MSI is available, and also how to retrieve a token from the Azure Cloud Shell MSI.
+ * Since Azure Managed Identities aren't available in the Azure Cloud Shell, we log a warning for users that try to access cloud shell using user assigned identity.
  */
 export const cloudShellMsi: MSI = {
-  async isAvailable(scopes): Promise<boolean> {
+  async isAvailable(scopes, _identityClient, clientId): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
+      return false;
+    }
+    if (clientId) {
+      logger.warning(
+        `${msiName}: Unavailable. Azure Managed Identities aren't available in the Azure Cloud Shell.`
+      );
       return false;
     }
     const result = Boolean(process.env.MSI_ENDPOINT);
