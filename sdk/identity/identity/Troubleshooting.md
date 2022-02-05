@@ -75,7 +75,7 @@ This error contains several pieces of information:
 The Azure Identity library has the same [logging capabilities](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.md#logging) as the rest of the Azure SDK.
 The simplest way to see the logs to help debug authentication issues is to enable the console logging.
 
-To help diagnose any errors in credentials that encompass multiple credentials like `DefaultAzureCredential`, [enabling logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md) will also help you get a better understanding.
+To help debug authentication issues or diagnose any errors in credentials that encompass multiple credentials like `DefaultAzureCredential`, [enabling logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md) will also help you get a better understanding.
 
 ```ts
 import { setLogLevel } from "@azure/logger";
