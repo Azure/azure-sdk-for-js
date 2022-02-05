@@ -48,7 +48,7 @@ import @azure/keyvault-secrets
 
 ### CredentialUnavailableError
 
-The `CredentialUnavailableError` is used to indicate that the credential can’t authenticate in the current environment, due to lack of required configuration or setup. This error is also used as a signal to chained credential types, such as `DefaultAzureCredential` and `ChainedTokenCredential`, that the chained credential should continue to try other credential types later in the chain.
+The `CredentialUnavailableError` is used to indicate that the credential can’t authenticate in the current environment, due to lack of required configuration or setup. This error is also used as a signal to chained credential types, such as `DefaultAzureCredential` and `ChainedTokenCredential`, that the chained credential should continue to try other credential types later in the chain. In `ManagedIdentityCredential` it can also trigger if the authentication endpoints (like the IMDS endpoint) is unavailable.
 
 ### AuthenticationError
 
