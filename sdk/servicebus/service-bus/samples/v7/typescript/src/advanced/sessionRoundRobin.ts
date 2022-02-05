@@ -95,7 +95,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
-      await processError(err, undefined);
+      await processError(<Error>err, undefined);
     }
 
     await delay(delayOnErrorMs);
@@ -128,7 +128,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     await sessionFullyRead;
     await sessionClosed("idle_timeout", sessionReceiver.sessionId);
   } catch (err) {
-    await processError(err, sessionReceiver.sessionId);
+    await processError(<Error>err, sessionReceiver.sessionId);
     await sessionClosed("error", sessionReceiver.sessionId);
   } finally {
     await sessionReceiver.close();
