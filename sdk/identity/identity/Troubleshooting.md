@@ -58,7 +58,10 @@ The `AuthenticationError` is used to indicate about a failure to authenticate wi
 
 `AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the AAD STS and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message.
 
-<--TODO-->
+` AuthenticationRequiredError: invalid_request: 9002331 - [2022-02-04 00:28:06Z]: AADSTS9002331: Application '6b666991-4567-4982-9981-61877200efy1'(kaghiya-identity) is configured for use by Microsoft Account users only. Please use the /consumers endpoint to serve this request.
+Trace ID: 00a7e15c-4557-4974-91d5-886428b00e00
+Correlation ID: 20267531-0284-4543-93d7-cf50919fd841
+Timestamp: 2022-02-04 00:28:06Z - Correlation ID: 20267531-0284-4543-93d7-cf50919fd841 - Trace ID: 00a7e15c-4557-4974-91d5-886428b00e00`
 This error contains several pieces of information:
 
 - **Failing Credential Type**: The type of credential that failed to authenticate. This can be helpful when diagnosing issues with chained credential types such as `DefaultAzureCredential` or `ChainedTokenCredential`.
