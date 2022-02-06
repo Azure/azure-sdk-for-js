@@ -208,22 +208,20 @@ function x86Hash32(bytes: Buffer, seed?: number) {
 
   k1 = 0;
 
-  switch (remainder) {
-    case 3:
+  if (remainder === 3) {
       k1 ^= bytes[j + 2] << 16;
-      break;
+  }
 
-    case 2:
+  if (remainder === 2 || remainder === 3) {
       k1 ^= bytes[j + 1] << 8;
-      break;
+  }
 
-    case 1:
+  if (remainder >= 1 || remainder <= 3) {
       k1 ^= bytes[j];
       k1 = _x86Multiply(k1, c1);
       k1 = _x86Rotl(k1, 15);
       k1 = _x86Multiply(k1, c2);
       h1 ^= k1;
-      break;
   }
 
   h1 ^= bytes.length;
