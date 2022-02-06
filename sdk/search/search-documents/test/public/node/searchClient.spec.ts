@@ -4,9 +4,9 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
-import { createClients, environmentSetup } from "../utils/recordedClient";
+import { createClients } from "../utils/recordedClient";
 import {
   SearchClient,
   SearchIndexClient,
@@ -17,39 +17,37 @@ import {
   AzureKeyCredential,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
-import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
+import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
-
-const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
+    let TEST_INDEX_NAME: string;
 
     this.timeout(99999);
 
     beforeEach(async function (this: Context) {
-      ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
-      if (!isPlaybackMode()) {
-        await createIndex(indexClient, TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-        await populateIndex(searchClient);
-      }
-      recorder = record(this, environmentSetup);
-      // create the clients again, but hooked up to the recorder
-      ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
+      recorder = new Recorder(this.currentTest);
+      TEST_INDEX_NAME = createRandomIndexName();
+      ({
+        searchClient,
+        indexClient,
+        indexName: TEST_INDEX_NAME,
+      } = await createClients<Hotel>(serviceVersion, recorder, TEST_INDEX_NAME));
+      await createIndex(indexClient, TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
+      await populateIndex(searchClient);
     });
 
     afterEach(async function () {
+      await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
       if (recorder) {
         await recorder.stop();
-      }
-      if (!isPlaybackMode()) {
-        await indexClient.deleteIndex(TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
       }
     });
 

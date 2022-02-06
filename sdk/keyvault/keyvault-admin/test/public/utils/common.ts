@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../../src/constants";

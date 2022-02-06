@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import { chaiAzure } from "@azure/test-utils";
-chai.use(chaiAzure);
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
