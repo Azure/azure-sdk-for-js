@@ -2774,7 +2774,7 @@ export class ShareDirectoryClient extends StorageClient {
    * ```js
    *
    * // Rename the directory
-   * await diretoryClient.create(destinationPath);
+   * await diretoryClient.rename(destinationPath);
    * console.log("Renamed directory successfully!");
    * ```
    */
@@ -3463,10 +3463,9 @@ export interface FileRenameOptions extends CommonOptions {
   copyFileSmbInfo?: CopyFileSmbInfo;
 
   /**
-   * Optional.
-   * File HTTP headers to set to destination file.
+   * A name-value pair to associate with a file storage object.
    */
-  fileHttpHeaders?: FileHttpHeaders;
+  metadata?: Metadata;
 
   /**
    * Optional.
@@ -3530,6 +3529,12 @@ export interface DirectoryRenameOptions extends CommonOptions {
    * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+
+  /**
+   * Optional.
+   * A name-value pair to associate with a file storage object.
+   */
+  metadata?: Metadata;
 
   /**
    * Optional.

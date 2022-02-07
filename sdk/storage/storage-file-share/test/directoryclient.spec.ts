@@ -907,6 +907,33 @@ describe("DirectoryClient", () => {
     }
   });
 
+  it("rename with metadata", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const metadata = {
+      key1: "vala",
+      key2: "valb",
+    };
+
+    const result = await dirClient.rename(destDirName, {
+      metadata: metadata,
+    });
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    const propertiesResult = await result.destinationDirectoryClient.getProperties();
+    assert.deepStrictEqual(propertiesResult.metadata, metadata, "Metadata should be expected.");
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
   it("rename to under a different directory", async () => {
     const sourceParentDirName = recorder.getUniqueName("sourceParentdir");
     const sourceParentDir = shareClient.getDirectoryClient(sourceParentDirName);

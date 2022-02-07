@@ -583,4 +583,99 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await shareClient.delete();
   });
+
+  it("rename file - source and destination with different SAS", async () => {
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const sourceUrl = shareClient.generateSasUrl({
+      permissions: ShareSASPermissions.parse("r"),
+      expiresOn: tmr,
+    });
+
+    const sasShareClient = new ShareClient(sourceUrl);
+    const sasSourceFileClient = sasShareClient.getDirectoryClient("").getFileClient(sourceFileName);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const destFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await destFileClient.create(2048);
+
+    const sharedKeyCredential = serviceClient["credential"];
+    const destSAS = generateFileSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: FileSASPermissions.parse("w"),
+        shareName: shareName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const result = await sasSourceFileClient.rename(destFileName + "?" + destSAS, {
+      replaceIfExists: true,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename directory - source and destination with different SAS", async () => {
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const shareSASUrl = shareClient.generateSasUrl({
+      permissions: ShareSASPermissions.parse("r"),
+      expiresOn: tmr,
+    });
+
+    const sasShareClient = new ShareClient(shareSASUrl);
+    const sasSourceDirClient = sasShareClient.getDirectoryClient(sourceDirName);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const destFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await destFileClient.create(2048);
+
+    const sharedKeyCredential = serviceClient["credential"];
+    const destSAS = generateFileSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: FileSASPermissions.parse("w"),
+        shareName: shareName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const result = await sasSourceDirClient.rename(destFileName + "?" + destSAS, {
+      replaceIfExists: true,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    assert.isFalse(await sourceDirClient.exists(), "Source directory should not exist anymore");
+  });
 });

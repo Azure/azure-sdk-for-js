@@ -3348,6 +3348,13 @@ export const DirectoryRenameHeaders: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -5186,6 +5193,13 @@ export const FileRenameHeaders: coreHttp.CompositeMapper = {
       fileId: {
         serializedName: "x-ms-file-id",
         xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
         type: {
           name: "String"
         }

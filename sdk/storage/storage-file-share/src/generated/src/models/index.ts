@@ -924,6 +924,8 @@ export interface DirectoryRenameHeaders {
   fileChangeTime?: Date;
   /** The fileId of the file. */
   fileId?: string;
+  /** The parent fileId of the directory. */
+  fileParentId?: string;
 }
 
 /** Defines headers for Directory_rename operation. */
@@ -1466,6 +1468,8 @@ export interface FileRenameHeaders {
   fileChangeTime?: Date;
   /** The fileId of the file. */
   fileId?: string;
+  /** The parent fileId of the directory. */
+  fileParentId?: string;
 }
 
 /** Defines headers for File_rename operation. */
@@ -2330,6 +2334,8 @@ export interface DirectoryRenameOptionalParams
   copyFileSmbInfo?: CopyFileSmbInfo;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2749,10 +2755,10 @@ export interface FileRenameOptionalParams extends coreHttp.OperationOptions {
   destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
   /** Parameter group */
   copyFileSmbInfo?: CopyFileSmbInfo;
-  /** Parameter group */
-  fileHttpHeaders?: FileHttpHeaders;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */

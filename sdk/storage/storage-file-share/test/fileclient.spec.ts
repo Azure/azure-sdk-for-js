@@ -859,6 +859,33 @@ describe("FileClient", () => {
     }
   });
 
+  it("rename with metadata", async () => {
+    await fileClient.create(1024);
+
+    const metadata = {
+      key1: "vala",
+      key2: "valb",
+    };
+    const destFileName = recorder.getUniqueName("destfile");
+    const result = await fileClient.rename(destFileName, {
+      metadata: metadata,
+    });
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    const propertiesResult = await result.destinationFileClient.getProperties();
+    assert.deepStrictEqual(propertiesResult.metadata, metadata, "Metadata should be expected.");
+
+    try {
+      await fileClient.getProperties();
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
   it("rename to under a different directory", async () => {
     const sourceParentDirName = recorder.getUniqueName("sourcedir");
     const sourceParentDir = shareClient.getDirectoryClient(sourceParentDirName);

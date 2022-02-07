@@ -925,6 +925,7 @@ const renameOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.metadata,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -934,8 +935,7 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.destinationLeaseId,
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
-    Parameters.fileLastWriteTime,
-    Parameters.fileContentType
+    Parameters.fileLastWriteTime
   ],
   isXML: true,
   serializer: xmlSerializer

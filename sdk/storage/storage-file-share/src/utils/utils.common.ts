@@ -517,31 +517,10 @@ export function httpAuthorizationToString(
 }
 
 /**
- * Get URL path and query from an URL string.
- *
- * @param url - Source URL string
- */
-export function getURLPathAndQuery(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  const pathString = urlParsed.getPath();
-  if (!pathString) {
-    throw new RangeError("Invalid url without valid path.");
-  }
-
-  let queryString = urlParsed.getQuery() || "";
-  queryString = queryString.trim();
-  if (queryString !== "") {
-    queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
-  }
-
-  return `${pathString}${queryString}`;
-}
-
-/**
  * Set URL path.
  *
- * @param url -
- * @param path -
+ * @param url - URL to change path to.
+ * @param path - Path to set into the URL.
  */
 export function setURLPath(url: string, path?: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -552,8 +531,8 @@ export function setURLPath(url: string, path?: string): string {
 /**
  * Set URL query string.
  *
- * @param url -
- * @param queryString -
+ * @param url - URL to set query string to.
+ * @param queryString - Query string to set to the URL.
  */
 export function setURLQueries(url: string, queryString: string): string {
   const urlParsed = URLBuilder.parse(url);

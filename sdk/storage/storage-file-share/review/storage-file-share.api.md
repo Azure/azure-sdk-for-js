@@ -399,6 +399,7 @@ export interface DirectoryRenameHeaders {
     fileCreationTime?: Date;
     fileId?: string;
     fileLastWriteTime?: Date;
+    fileParentId?: string;
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
@@ -414,6 +415,7 @@ export interface DirectoryRenameOptions extends CommonOptions {
     filePermission?: string;
     filePermissionKey?: string;
     ignoreReadOnly?: boolean;
+    metadata?: Metadata;
     replaceIfExists?: boolean;
     sourceLeaseAccessConditions?: LeaseAccessConditions;
     timeoutInSeconds?: number;
@@ -887,6 +889,7 @@ export interface FileRenameHeaders {
     fileCreationTime?: Date;
     fileId?: string;
     fileLastWriteTime?: Date;
+    fileParentId?: string;
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
@@ -899,10 +902,10 @@ export interface FileRenameOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
     destinationLeaseAccessConditions?: LeaseAccessConditions;
-    fileHttpHeaders?: FileHttpHeaders;
     filePermission?: string;
     filePermissionKey?: string;
     ignoreReadOnly?: boolean;
+    metadata?: Metadata;
     replaceIfExists?: boolean;
     sourceLeaseAccessConditions?: LeaseAccessConditions;
     timeoutInSeconds?: number;
