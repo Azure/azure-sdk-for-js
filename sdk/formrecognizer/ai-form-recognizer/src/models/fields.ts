@@ -256,6 +256,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
         return { properties: toAnalyzedDocumentFieldsFromGenerated(field.valueObject ?? {}) };
       default:
         // Exhaustiveness check
+        // eslint-disable-next-line no-case-declarations
         const __exhaust: never = kind;
         throw new Error(`Unrecognized DocumentField type: ${__exhaust}`);
     }

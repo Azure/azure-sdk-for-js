@@ -117,11 +117,13 @@ function createSpecForField(field: DocumentField | undefined): FieldSpec {
     case "array":
       return field.values.map(createSpecForField);
     case "object":
-      const result: { [k: string]: FieldSpec } = {};
-      for (const [fieldName, fieldValue] of Object.entries(field.properties)) {
-        result[fieldName] = createSpecForField(fieldValue);
-      }
-      return result;
+      return Object.entries(field.properties).reduce(
+        (fields, [fieldName, fieldValue]) => ({
+          ...fields,
+          [fieldName]: createSpecForField(fieldValue),
+        }),
+        {} as { [k: string]: FieldSpec }
+      );
     case "currency":
       return field.value as FieldSpec;
     default:
