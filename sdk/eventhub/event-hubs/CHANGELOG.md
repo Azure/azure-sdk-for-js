@@ -6,6 +6,8 @@
 
 - `createEventDataAdapter` is added which specifies how to convert an `EventData` to a simple message with `body` and `contentType` fields. This adapter can be used with the Avro encoder in `@azure/schema-registry-avro` starting from version 1.0.0-beta.6 to create `EventData` messages with Avro-encoded bodies.
 
+- Add idempotent publishing support to `EventHubBufferedProducerClient`.  The functionality can be enabled by setting the `enableIdempotentPartition` client option to `true`.  [PR #20156](https://github.com/Azure/azure-sdk-for-js/pull/20156)
+
 ### Other Changes
 
 - Added a sample for buffered producer. [PR #18674](https://github.com/Azure/azure-sdk-for-js/pull/18674)
