@@ -45,13 +45,13 @@ async function main() {
   if (result) {
     const receipt = result.fields;
     console.log("=== Receipt Information ===");
-    console.log("Type:", (receipt["ReceiptType"] as DocumentStringField).value);
+    console.log("Type:", result.docType);
     console.log("Merchant:", (receipt["MerchantName"] as DocumentStringField).value);
+
     console.log("Items:");
     for (const { properties: item } of ((receipt["Items"] as DocumentArrayField).values ??
       []) as DocumentObjectField[]) {
-      console.log("-", (item["Name"] as DocumentStringField).value ?? "<undefined>");
-      //console.log("  Price:", item?.price);
+      console.log("- Description:", (item["Description"] as DocumentStringField).value);
       console.log("  Total Price:", (item["TotalPrice"] as DocumentStringField).value);
     }
   } else {
