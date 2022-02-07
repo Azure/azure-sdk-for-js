@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // delete this pipeline options
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+import { OperationOptions, PipelineOptions } from "@azure/core-http";
 
 /**
  * Client options used to configure the CommunicationNetworkTraversal API requests.

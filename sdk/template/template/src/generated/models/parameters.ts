@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import { ConfigurationSetting as ConfigurationSettingMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -147,7 +146,7 @@ export const select: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const accept2: OperationParameter = {
@@ -239,7 +238,7 @@ export const select1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const nextLink: OperationURLParameter = {
