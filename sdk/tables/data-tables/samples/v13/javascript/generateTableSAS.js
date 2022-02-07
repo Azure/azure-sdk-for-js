@@ -48,7 +48,7 @@ async function generateTableSasSample() {
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
   const accountSas = generateAccountSas(cred, {
     permissions,
-    expiresOn: new Date("2021-12-12")
+    expiresOn: new Date(Date.now() + 60 * 60 * 1000)
   });
 
   const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSas));
@@ -78,7 +78,7 @@ async function generateTableSasSample() {
 
   // Create the table SAS token
   const tableSas = generateTableSas(tableName, cred, {
-    expiresOn: new Date("2021-12-12"),
+    expiresOn: new Date(Date.now() + 60 * 60 * 1000),
     permissions: tablePermissions
   });
 
