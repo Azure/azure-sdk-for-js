@@ -2,6 +2,10 @@
 
 ## 5.7.0-beta.2 (2022-02-08)
 
+### Features Added
+
+- `createEventDataAdapter` is added which specifies how to convert an `EventData` to a simple message with `body` and `contentType` fields. This adapter can be used with the Avro encoder in `@azure/schema-registry-avro` starting from version 1.0.0-beta.6 to create `EventData` messages with Avro-encoded bodies.
+
 ### Other Changes
 
 - Added a sample for buffered producer. [PR #18674](https://github.com/Azure/azure-sdk-for-js/pull/18674)
