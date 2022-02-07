@@ -114,7 +114,7 @@
 /sdk/schemaregistry/ @deyaaeldeen @nguerrera
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @witemple-msft @jeremymeng
+/sdk/formrecognizer/ @witemple-msft @HarshaNalluru @jeremymeng
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
