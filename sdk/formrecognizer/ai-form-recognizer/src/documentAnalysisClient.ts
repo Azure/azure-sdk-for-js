@@ -564,7 +564,6 @@ export class DocumentAnalysisClient {
    *
    * This is the meat of all analysis polling operations.
    *
-   * @internal
    * @param input - either a string for URL inputs or a FormRecognizerRequestBody to upload a file directly to the Form
    *                Recognizer API
    * @param definition - operation definition (initial model ID, operation transforms, request options)

@@ -1,15 +1,16 @@
 import { ArtifactsClient } from "../../src/artifactsClient";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient";
 
 describe("IntegrationRuntimes", () => {
   let recorder: Recorder;
   let client: ArtifactsClient;
 
-  beforeEach(function() {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = await createClient(recorder);
   });
 
   afterEach(async () => {

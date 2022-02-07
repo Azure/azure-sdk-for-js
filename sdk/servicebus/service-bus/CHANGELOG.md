@@ -11,6 +11,8 @@
 
 ### Bugs Fixed
 
+- The `processError` callback to `subscribe()` was previously called only for errors on setting up the receiver, errors on message settlement or message lock renewal and not for errors on AMQP link or session. This is now fixed. [PR #19189](https://github.com/Azure/azure-sdk-for-js/pull/19189)
+
 ### Other Changes
 
 ## 7.4.0 (2021-11-08)
