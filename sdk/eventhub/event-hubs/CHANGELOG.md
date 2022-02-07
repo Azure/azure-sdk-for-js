@@ -8,10 +8,6 @@
 
 - Add idempotent publishing support to `EventHubBufferedProducerClient`.  The functionality can be enabled by setting the `enableIdempotentPartition` client option to `true`.  [PR #20156](https://github.com/Azure/azure-sdk-for-js/pull/20156)
 
-### Other Changes
-
-- Added a sample for buffered producer. [PR #18674](https://github.com/Azure/azure-sdk-for-js/pull/18674)
-
 ## 5.7.0-beta.1 (2021-11-12)
 
 ### Features Added
