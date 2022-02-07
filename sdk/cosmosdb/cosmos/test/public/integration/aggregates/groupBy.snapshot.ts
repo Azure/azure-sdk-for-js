@@ -1,87 +1,6 @@
-exports['Cross partition GROUP BY with AVG 1'] = [
-  {
-    "name": "Abby",
-    "min_age": 14.75
-  },
-  {
-    "name": "Adam",
-    "min_age": 14
-  },
-  {
-    "name": "Alex",
-    "min_age": 13.25
-  },
-  {
-    "name": "Bill",
-    "min_age": 13.25
-  },
-  {
-    "name": "Carl",
-    "min_age": 17
-  },
-  {
-    "name": "Dave",
-    "min_age": 15
-  },
-  {
-    "name": "Ella",
-    "min_age": 16.5
-  },
-  {
-    "name": "Eric",
-    "min_age": 15
-  },
-  {
-    "name": "Fred",
-    "min_age": 15.5
-  },
-  {
-    "name": "Gary",
-    "min_age": 15.5
-  },
-  {
-    "name": "John",
-    "min_age": 14
-  },
-  {
-    "name": "Lisa",
-    "min_age": 13.5
-  },
-  {
-    "name": "Lori",
-    "min_age": 14
-  },
-  {
-    "name": "Lucy",
-    "min_age": 13.2
-  },
-  {
-    "name": "Mady",
-    "min_age": 15.666666666666666
-  },
-  {
-    "name": "Mary",
-    "min_age": 16.833333333333332
-  },
-  {
-    "name": "Mike",
-    "min_age": 15
-  },
-  {
-    "name": "Rose",
-    "min_age": 14
-  },
-  {
-    "name": "Ryan",
-    "min_age": 11.5
-  },
-  {
-    "name": "Zara",
-    "min_age": 13
-  }
-]
+let snapshot: Record<string, unknown> = {};
 
-exports['Cross partition GROUP BY by number 1'] = [
+snapshot['Cross partition GROUP BY by number 1'] = [
   {
     "age": 11
   },
@@ -108,7 +27,7 @@ exports['Cross partition GROUP BY by number 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY by string 1'] = [
+snapshot['Cross partition GROUP BY by string 1'] = [
   {
     "name": "Abby"
   },
@@ -171,7 +90,7 @@ exports['Cross partition GROUP BY by string 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY by id 1'] = [
+snapshot['Cross partition GROUP BY by id 1'] = [
   {
     "id": "01"
   },
@@ -366,7 +285,7 @@ exports['Cross partition GROUP BY by id 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with multiple fields 1'] = [
+snapshot['Cross partition GROUP BY with multiple fields 1'] = [
   {
     "age": 11,
     "name": "Alex"
@@ -565,7 +484,7 @@ exports['Cross partition GROUP BY with multiple fields 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with COUNT 1'] = [
+snapshot['Cross partition GROUP BY with COUNT 1'] = [
   {
     "age": 11,
     "count": 8
@@ -600,7 +519,7 @@ exports['Cross partition GROUP BY with COUNT 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with MIN 1'] = [
+snapshot['Cross partition GROUP BY with MIN 1'] = [
   {
     "name": "Abby",
     "min_age": 12
@@ -683,7 +602,7 @@ exports['Cross partition GROUP BY with MIN 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with MAX 1'] = [
+snapshot['Cross partition GROUP BY with MAX 1'] = [
   {
     "name": "Abby",
     "min_age": 17
@@ -766,7 +685,7 @@ exports['Cross partition GROUP BY with MAX 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with SUM 1'] = [
+snapshot['Cross partition GROUP BY with SUM 1'] = [
   {
     "name": "Abby",
     "min_age": 59
@@ -849,7 +768,90 @@ exports['Cross partition GROUP BY with SUM 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with multiple aggregates 1'] = [
+snapshot['Cross partition GROUP BY with AVG 1'] = [
+  {
+    "name": "Abby",
+    "min_age": 14.75
+  },
+  {
+    "name": "Adam",
+    "min_age": 14
+  },
+  {
+    "name": "Alex",
+    "min_age": 13.25
+  },
+  {
+    "name": "Bill",
+    "min_age": 13.25
+  },
+  {
+    "name": "Carl",
+    "min_age": 17
+  },
+  {
+    "name": "Dave",
+    "min_age": 15
+  },
+  {
+    "name": "Ella",
+    "min_age": 16.5
+  },
+  {
+    "name": "Eric",
+    "min_age": 15
+  },
+  {
+    "name": "Fred",
+    "min_age": 15.5
+  },
+  {
+    "name": "Gary",
+    "min_age": 15.5
+  },
+  {
+    "name": "John",
+    "min_age": 14
+  },
+  {
+    "name": "Lisa",
+    "min_age": 13.5
+  },
+  {
+    "name": "Lori",
+    "min_age": 14
+  },
+  {
+    "name": "Lucy",
+    "min_age": 13.2
+  },
+  {
+    "name": "Mady",
+    "min_age": 15.666666666666666
+  },
+  {
+    "name": "Mary",
+    "min_age": 16.833333333333332
+  },
+  {
+    "name": "Mike",
+    "min_age": 15
+  },
+  {
+    "name": "Rose",
+    "min_age": 14
+  },
+  {
+    "name": "Ryan",
+    "min_age": 11.5
+  },
+  {
+    "name": "Zara",
+    "min_age": 13
+  }
+]
+
+snapshot['Cross partition GROUP BY with multiple aggregates 1'] = [
   {
     "name": "Abby",
     "count": 4,
@@ -972,21 +974,14 @@ exports['Cross partition GROUP BY with multiple aggregates 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with VALUE and aggregate 1'] = [
-  14.277777777777779,
-  14.444444444444445,
-  14.533333333333333,
-  14.846153846153847
-]
-
-exports['Cross partition GROUP BY with VALUE with string 1'] = [
+snapshot['Cross partition GROUP BY with VALUE with string 1'] = [
   "A",
   "B",
   "C",
   "D"
 ]
 
-exports['Cross partition GROUP BY with VALUE with number 1'] = [
+snapshot['Cross partition GROUP BY with VALUE with number 1'] = [
   11,
   12,
   13,
@@ -997,61 +992,108 @@ exports['Cross partition GROUP BY with VALUE with number 1'] = [
   18
 ]
 
-exports['Cross partition GROUP BY with aggregates and fields that do not exist 1'] = [
+snapshot['Cross partition GROUP BY with VALUE and aggregate 1'] = [
+  14.277777777777779,
+  14.444444444444445,
+  14.533333333333333,
+  14.846153846153847
+]
+
+snapshot['Cross partition GROUP BY with aggregates and fields that do not exist 1'] = [
   {
     "age": 11,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 12,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 13,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 14,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 15,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 16,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 17,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   },
   {
     "age": 18,
     "undefined_count": 0,
-    "undefined_sum": 0
+    "undefined_sum": 0,
+    "undefined_min": undefined,
+    "undefined_max": undefined,
+    "undefined_avg": undefined
   }
 ]
 
-exports['Cross partition GROUP BY with missing aggregate field 1'] = [
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {}
+snapshot['Cross partition GROUP BY with missing aggregate field 1'] = [
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  },
+  {
+    "avg_asdf": undefined,
+  }
 ]
 
-exports['Cross partition GROUP BY with missing GROUP BY projection 1'] = [
+snapshot['Cross partition GROUP BY with missing GROUP BY projection 1'] = [
   {
     "age": 11
   },
@@ -1077,3 +1119,5 @@ exports['Cross partition GROUP BY with missing GROUP BY projection 1'] = [
     "age": 18
   }
 ]
+
+export default snapshot;
