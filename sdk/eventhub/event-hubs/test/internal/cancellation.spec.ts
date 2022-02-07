@@ -134,7 +134,7 @@ testWithServiceTypes((serviceVersion) => {
     describe("EventHubSender", () => {
       let client: EventHubSender;
       beforeEach("instantiate EventHubSender", () => {
-        client = new EventHubSender(context);
+        client = new EventHubSender(context, { enableIdempotentProducer: false });
       });
 
       afterEach("close EventHubSender", () => {

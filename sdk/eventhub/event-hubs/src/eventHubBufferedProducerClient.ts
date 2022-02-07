@@ -75,6 +75,14 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
    * The handler to call when a batch fails to publish.
    */
   onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+  /**
+   * Indicates whether or not the EventHubProducerClient should enable idempotent publishing to Event Hub partitions.
+   * If enabled, the producer will only be able to publish directly to partitions;
+   * it will not be able to publish to the Event Hubs gateway for automatic partition routing
+   * nor will it be able to use a partition key.
+   * Default: false
+   */
+  enableIdempotentPartitions?: boolean;
 }
 
 /**
@@ -271,6 +279,10 @@ export class EventHubBufferedProducerClient {
       );
       this._clientOptions = { ...options4! };
     }
+
+    // setting internal idempotent publishing option on the standard producer.
+    (this._producer as any)._enableIdempotentPartitions =
+      this._clientOptions.enableIdempotentPartitions;
   }
 
   /**

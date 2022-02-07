@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.2 (2022-01-30)
 
 ### Bugs Fixed
 
+- Fix the issue that `UserEventRequest` failed to process request with content-type `application/octet-stream` correctly into `dataType` `binary`
+
 ### Other Changes
+
+- Remove `cloudevents` package dependency
 
 ## 1.0.1 (2022-01-11)
 
