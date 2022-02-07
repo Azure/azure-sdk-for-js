@@ -17,7 +17,7 @@ import { AdditionalPolicyConfig } from "@azure/core-client";
  */
 export abstract class BatchPerfTest<
   TOptions = Record<string, unknown>
-  > extends PerfTestBase<TOptions> {
+> extends PerfTestBase<TOptions> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;
@@ -60,7 +60,9 @@ export abstract class BatchPerfTest<
    *
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] }>(options: T): T {
+  public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] }>(
+    options: T
+  ): T {
     if (this.testProxy) {
       this.testProxyHttpClient = new TestProxyHttpClient(
         this.testProxy,
@@ -72,8 +74,9 @@ export abstract class BatchPerfTest<
           this.testProxyHttpClient,
           this.testProxy.startsWith("https"),
           this.parsedOptions["insecure"].value ?? false
-        ), position: "perRetry"
-      })
+        ),
+        position: "perRetry",
+      });
     }
     return options;
   }
