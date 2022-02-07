@@ -442,8 +442,6 @@ export class StreamingReceiver extends MessageReceiver {
     });
 
     try {
-      // this allows external callers (ie: ServiceBusReceiver) to prevent concurrent `subscribe` calls
-      // by not starting new receiving options while this one has started.
       this._receiverHelper.resume();
       return await this._subscribeImpl("subscribe");
     } catch (err) {
