@@ -44,8 +44,6 @@ export interface EventHandlers {
 export class MockEventHubConsumerClient {
   private closeCalled: boolean;
   private partitions: number;
-  private minDelay: number; // min delay between events in milliseconds
-  private maxDelay: number;
   private timers: NodeJS.Timeout[];
   private maxBatchSize: number;
   private maxEventsPerSecond: number;
@@ -54,8 +52,6 @@ export class MockEventHubConsumerClient {
   constructor() {
     this.closeCalled = false;
     this.partitions = 12;
-    this.minDelay = 1;
-    this.maxDelay = 2;
     this.maxBatchSize = 10;
     this.timers = [];
     this.maxEventsPerSecond = 1000;
@@ -108,10 +104,7 @@ export class MockEventHubConsumerClient {
         let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
         const events: Event[] = [];
         while (numberOfEvents--) events.push({ body: generateUuid() });
-        await this.processFuncWithDelay(
-          async () => processEvents(events, { partitionId }),
-          this.getRandomInteger(this.minDelay, this.maxDelay)
-        );
+        await processEvents(events, { partitionId });
         eventsRaised += events.length;
       } else {
         await this.processFuncWithDelay(async () => {
