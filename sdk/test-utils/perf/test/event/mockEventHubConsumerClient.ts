@@ -23,6 +23,8 @@ export interface SubscribeOptions {
   maxBatchSize: number;
   /**
    * Max number of events to return per second
+   *
+   * If not provided or is less than 1, we'll default it to max (Infinity)
    */
   maxEventsPerSecond: number;
 }
@@ -46,16 +48,12 @@ export class MockEventHubConsumerClient {
   private partitions: number;
   private timers: NodeJS.Timeout[];
   private maxBatchSize: number;
-  private maxEventsPerSecond: number;
-  private maxEventsPerSecondPerPartition: number;
 
   constructor() {
     this.closeCalled = false;
     this.partitions = 12;
     this.maxBatchSize = 10;
     this.timers = [];
-    this.maxEventsPerSecond = 1000;
-    this.maxEventsPerSecondPerPartition = Math.ceil(this.maxEventsPerSecond / this.partitions);
   }
 
   public subscribe(
@@ -74,9 +72,19 @@ export class MockEventHubConsumerClient {
 
   private async internalSubscribe(handlers: EventHandlers, options?: SubscribeOptions) {
     this.partitions = options?.partitions || this.partitions;
+    let maxEventsPerSecond: number;
+    let maxEventsPerSecondPerPartition: number;
+    if (options && options.maxEventsPerSecond > 0) {
+      maxEventsPerSecond = options.maxEventsPerSecond;
+    } else {
+      maxEventsPerSecond = Infinity;
+    }
+    maxEventsPerSecondPerPartition = Math.ceil(maxEventsPerSecond / this.partitions);
     const promises = [];
     for (let i = 0; i < this.partitions; i++) {
-      promises.push(this.handlePartition(handlers.processEvents, i));
+      promises.push(
+        this.handlePartition(handlers.processEvents, i, maxEventsPerSecondPerPartition)
+      );
     }
     if (options?.raiseErrorAfterInSeconds) {
       promises.push(
@@ -91,14 +99,15 @@ export class MockEventHubConsumerClient {
 
   private async handlePartition(
     processEvents: (events: Event[], context: { partitionId: number }) => Promise<void>,
-    partitionId: number
+    partitionId: number,
+    maxEventsPerSecondPerPartition: number
   ) {
     const startTime = process.hrtime();
     let eventsRaised = 0;
     while (this.closeCalled === false) {
       const elapsed = process.hrtime(startTime);
       const elapsedSeconds = elapsed[0] + elapsed[1] / 1000000000;
-      const targetEventsRaised = elapsedSeconds * this.maxEventsPerSecondPerPartition;
+      const targetEventsRaised = elapsedSeconds * maxEventsPerSecondPerPartition;
 
       if (eventsRaised < targetEventsRaised) {
         let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
@@ -109,7 +118,7 @@ export class MockEventHubConsumerClient {
       } else {
         await this.processFuncWithDelay(async () => {
           /* empty */
-        }, 1000 / this.maxEventsPerSecondPerPartition);
+        }, 1000 / maxEventsPerSecondPerPartition);
       }
     }
   }
