@@ -2,11 +2,16 @@
 // Licensed under the MIT license.
 
 import { RestError, TableClient, TableServiceClient } from "../../src";
-import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
+import {
+  createTableClient,
+  createTableServiceClient,
+  recordedEnvironmentSetup,
+} from "./utils/recordedClient";
 import { Context } from "mocha";
 import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
 import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("TableClient CreationHandling", () => {
   let client: TableClient;
@@ -72,6 +77,10 @@ describe("TableClient CreationHandling", () => {
 describe("TableServiceClient CreationHandling", () => {
   let client: TableServiceClient;
   beforeEach(function (this: Context) {
+    if (isPlaybackMode()) {
+      env.SAS_CONNECTION_STRING =
+        recordedEnvironmentSetup.replaceableVariables["SAS_CONNECTION_STRING"];
+    }
     client = createTableServiceClient();
   });
 
