@@ -1,0 +1,37 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;3"
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "Event"
+      ],
+      "name": "someEvent",
+      "schema": "string"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "someEvent",
+          "schema": "dtmi:dtdl:instance:Schema:string;3",
+          "definedIn": null
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:Event;3"
+        ],
+        "supplementalProperties": {
+        }
+      }
+    ]
+  }
+}

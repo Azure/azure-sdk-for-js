@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "0b6d9f65-dbec-4970-85d0-cd67cbc8550f"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "059e4be3-003a-4324-9106-08575212dd98"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,13 +18,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "76",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 28 Jan 2022 21:27:13 GMT",
-        "elapsed-time": "8",
+        "Date": "Thu, 03 Feb 2022 20:03:43 GMT",
+        "elapsed-time": "6",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "0b6d9f65-dbec-4970-85d0-cd67cbc8550f",
+        "request-id": "059e4be3-003a-4324-9106-08575212dd98",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -43,8 +43,8 @@
         "Connection": "keep-alive",
         "Content-Length": "133",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "24361764-7a43-4e3f-869d-54b62e5fc1d4"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "47bb3ebe-8de1-4592-a939-2916bdada7b7"
       },
       "RequestBody": {
         "name": "my-azure-synonymmap-1",
@@ -56,20 +56,20 @@
         "Cache-Control": "no-cache",
         "Content-Length": "258",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 28 Jan 2022 21:27:13 GMT",
-        "elapsed-time": "21",
-        "ETag": "W/\u00220x8D9E2A4F39E1E65\u0022",
+        "Date": "Thu, 03 Feb 2022 20:03:43 GMT",
+        "elapsed-time": "22",
+        "ETag": "W/\u00220x8D9E75047A33962\u0022",
         "Expires": "-1",
         "Location": "https://endpoint/synonymmaps(\u0027my-azure-synonymmap-1\u0027)?api-version=2021-04-30-Preview",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "24361764-7a43-4e3f-869d-54b62e5fc1d4",
+        "request-id": "47bb3ebe-8de1-4592-a939-2916bdada7b7",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": {
         "@odata.context": "https://endpoint/$metadata#synonymmaps/$entity",
-        "@odata.etag": "\u00220x8D9E2A4F39E1E65\u0022",
+        "@odata.etag": "\u00220x8D9E75047A33962\u0022",
         "name": "my-azure-synonymmap-1",
         "format": "solr",
         "synonyms": "United States, United States of America =\u003E USA\nWashington, Wash. =\u003E WA",
@@ -86,8 +86,8 @@
         "Connection": "keep-alive",
         "Content-Length": "133",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "9cfe6078-bf40-4ce8-9fe8-ec1bef0db37f"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "88ddc4c2-7f9a-47a2-a438-2f1affc94aea"
       },
       "RequestBody": {
         "name": "my-azure-synonymmap-2",
@@ -99,20 +99,20 @@
         "Cache-Control": "no-cache",
         "Content-Length": "258",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 28 Jan 2022 21:27:13 GMT",
-        "elapsed-time": "43",
-        "ETag": "W/\u00220x8D9E2A4F3A2156F\u0022",
+        "Date": "Thu, 03 Feb 2022 20:03:43 GMT",
+        "elapsed-time": "20",
+        "ETag": "W/\u00220x8D9E75047A7306E\u0022",
         "Expires": "-1",
         "Location": "https://endpoint/synonymmaps(\u0027my-azure-synonymmap-2\u0027)?api-version=2021-04-30-Preview",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "9cfe6078-bf40-4ce8-9fe8-ec1bef0db37f",
+        "request-id": "88ddc4c2-7f9a-47a2-a438-2f1affc94aea",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": {
         "@odata.context": "https://endpoint/$metadata#synonymmaps/$entity",
-        "@odata.etag": "\u00220x8D9E2A4F3A2156F\u0022",
+        "@odata.etag": "\u00220x8D9E75047A7306E\u0022",
         "name": "my-azure-synonymmap-2",
         "format": "solr",
         "synonyms": "United States, United States of America =\u003E USA\nWashington, Wash. =\u003E WA",
@@ -127,13 +127,13 @@
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "Content-Length": "704",
+        "Content-Length": "707",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "947bc537-42dc-400f-862c-c7885ebce07b"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "ac5aa62c-fa11-46fd-a84f-bd53561181bf"
       },
       "RequestBody": {
-        "name": "hotel-live-test15518",
+        "name": "hotel-live-test-1047340",
         "fields": [
           {
             "name": "id",
@@ -188,23 +188,23 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "1692",
+        "Content-Length": "1695",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 28 Jan 2022 21:27:13 GMT",
-        "elapsed-time": "704",
-        "ETag": "W/\u00220x8D9E2A4F410304E\u0022",
+        "Date": "Thu, 03 Feb 2022 20:03:43 GMT",
+        "elapsed-time": "737",
+        "ETag": "W/\u00220x8D9E750481746C8\u0022",
         "Expires": "-1",
-        "Location": "https://endpoint/indexes(\u0027hotel-live-test15518\u0027)?api-version=2021-04-30-Preview",
+        "Location": "https://endpoint/indexes(\u0027hotel-live-test-1047340\u0027)?api-version=2021-04-30-Preview",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "947bc537-42dc-400f-862c-c7885ebce07b",
+        "request-id": "ac5aa62c-fa11-46fd-a84f-bd53561181bf",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": {
         "@odata.context": "https://endpoint/$metadata#indexes/$entity",
-        "@odata.etag": "\u00220x8D9E2A4F410304E\u0022",
-        "name": "hotel-live-test15518",
+        "@odata.etag": "\u00220x8D9E750481746C8\u0022",
+        "name": "hotel-live-test-1047340",
         "defaultScoringProfile": null,
         "fields": [
           {
@@ -307,38 +307,38 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test15518\u0027)?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1047340\u0027)?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=minimal",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "a2cc24bc-61d6-442e-af66-09b48874d3be"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "c34b759e-d1e8-4eb4-b8bc-de2987f45b3f"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Length": "1692",
+        "Content-Length": "1695",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 28 Jan 2022 21:27:18 GMT",
-        "elapsed-time": "26",
-        "ETag": "W/\u00220x8D9E2A4F410304E\u0022",
+        "Date": "Thu, 03 Feb 2022 20:03:48 GMT",
+        "elapsed-time": "25",
+        "ETag": "W/\u00220x8D9E750481746C8\u0022",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "a2cc24bc-61d6-442e-af66-09b48874d3be",
+        "request-id": "c34b759e-d1e8-4eb4-b8bc-de2987f45b3f",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
       "ResponseBody": {
         "@odata.context": "https://endpoint/$metadata#indexes/$entity",
-        "@odata.etag": "\u00220x8D9E2A4F410304E\u0022",
-        "name": "hotel-live-test15518",
+        "@odata.etag": "\u00220x8D9E750481746C8\u0022",
+        "name": "hotel-live-test-1047340",
         "defaultScoringProfile": null,
         "fields": [
           {
@@ -441,25 +441,25 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test15518\u0027)?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1047340\u0027)?api-version=2021-04-30-Preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=minimal",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "b8a3fd83-b333-472c-9c58-602ed9134f17"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d933a2fa-f3d1-4f0c-a404-afe0a5d93d5d"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Fri, 28 Jan 2022 21:27:18 GMT",
-        "elapsed-time": "148",
+        "Date": "Thu, 03 Feb 2022 20:03:48 GMT",
+        "elapsed-time": "143",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "b8a3fd83-b333-472c-9c58-602ed9134f17",
+        "request-id": "d933a2fa-f3d1-4f0c-a404-afe0a5d93d5d",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
@@ -472,18 +472,18 @@
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "cd780a67-645f-4d69-a7ea-2a8e5b6086fe"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "181d4646-5723-48c2-b5c9-322a8c809ef2"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Fri, 28 Jan 2022 21:27:22 GMT",
-        "elapsed-time": "11",
+        "Date": "Thu, 03 Feb 2022 20:03:52 GMT",
+        "elapsed-time": "12",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "cd780a67-645f-4d69-a7ea-2a8e5b6086fe",
+        "request-id": "181d4646-5723-48c2-b5c9-322a8c809ef2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
@@ -496,24 +496,24 @@
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "467b61d3-5df0-40cc-8aeb-1207a5b02564"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "3481b183-8dd6-4cb4-b1c1-efee7895fbaf"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Fri, 28 Jan 2022 21:27:22 GMT",
-        "elapsed-time": "11",
+        "Date": "Thu, 03 Feb 2022 20:03:52 GMT",
+        "elapsed-time": "13",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "467b61d3-5df0-40cc-8aeb-1207a5b02564",
+        "request-id": "3481b183-8dd6-4cb4-b1c1-efee7895fbaf",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "TEST_INDEX_NAME": "hotel-live-test15518"
+    "TEST_INDEX_NAME": "hotel-live-test-1047340"
   }
 }

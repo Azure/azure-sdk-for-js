@@ -1,0 +1,43 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    [
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:firstMap;1",
+        "@type": "Map",
+        "mapKey": {
+          "name": "myMapKey",
+          "schema": "string"
+        },
+        "mapValue": {
+          "@id": "_:myBlankNode",
+          "name": "myMapValue",
+          "schema": "double"
+        }
+      },
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:secondMap;1",
+        "@type": "Map",
+        "mapKey": {
+          "name": "myMapKey",
+          "schema": "string"
+        },
+        "mapValue": "_:myBlankNode"
+      }
+    ]
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:invalidId",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": "_:myBlankNode"
+      }
+    ]
+  }
+}

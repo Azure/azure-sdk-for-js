@@ -1,0 +1,285 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:deepMap;1",
+      "@type": "Map",
+      "mapKey": {
+        "name": "myMapKey",
+        "schema": "string"
+      },
+      "mapValue": {
+        "name": "myMapValue",
+        "schema": {
+          "@type": "Map",
+          "mapKey": {
+            "name": "myMapKey",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "myMapValue",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "myMapKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "myMapValue",
+                "schema": {
+                  "@type": "Map",
+                  "mapKey": {
+                    "name": "myMapKey",
+                    "schema": "string"
+                  },
+                  "mapValue": {
+                    "name": "myMapValue",
+                    "schema": {
+                      "@type": "Map",
+                      "mapKey": {
+                        "name": "myMapKey",
+                        "schema": "string"
+                      },
+                      "mapValue": {
+                        "name": "myMapValue",
+                        "schema": "double"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:deepMap;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:deepMap:_mapKey;1",
+          "mapValue": "dtmi:test:deepMap:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;3"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:test:deepMap:_mapValue:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:deepMap:_mapValue:_schema:_mapKey;1",
+          "mapValue": "dtmi:test:deepMap:_mapValue:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;3"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapKey;1",
+          "mapValue": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;3"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapKey;1",
+          "mapValue": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;3"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapKey;1",
+          "mapValue": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;3"
+      },
+      {
+        "id": "dtmi:test:deepMap:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue:_schema:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:dtdl:instance:Schema:double;3"
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": true,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": 6.28 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": true,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": 6.28 }, \"e\": { \"gym\": 9.42 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": true,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14 }, \"e\": { \"gym\": 9.42 } } }, \"f\": { \"g\": { \"h\": { \"office\": 6.28 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14 } }, \"e\": { \"gym\": 9.42 } }, { \"f\": { \"office\": 6.28 } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": true, \"office\": 6.28 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": \"6.28\" } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": true,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": true,
+      "submit": "{ \"a\": { \"b\": { \"c\": { } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": 3.14 } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"home\": 3.14 }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": true,
+      "submit": "{ }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": true, \"office\": 6.28 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": null } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": \"6.28\" } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "[ { \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": 6.28 } } } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "\"{ \"a\": { \"b\": { \"c\": { \"d\": { \"home\": 3.14, \"office\": 6.28 } } } } }\""
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:test:deepMap;1",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

@@ -7,11 +7,18 @@
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AdditionalPolicyConfig {
+    policy: PipelinePolicy;
+    position: "perCall" | "perRetry";
+}
 
 // @public
 export interface CertificateCredential {
@@ -35,6 +42,7 @@ export type ClientOptions = PipelineOptions & {
     baseUrl?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
+    additionalPolicies?: AdditionalPolicyConfig[];
 };
 
 // @public
