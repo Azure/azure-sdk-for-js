@@ -19,6 +19,7 @@ import {
 import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
 import { IdentityTestContext } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
+import { setLogLevel } from "@azure/logger";
 
 describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
@@ -360,16 +361,34 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request correctly in an Cloud Shell environment", async () => {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential(),
+      secureResponses: [createResponse(200, { access_token: "token" })],
+    });
+    console.dir(authDetails);
+    const authRequest = authDetails.requests[0];
+    assert.equal(authRequest.method, "POST");
+    assert.equal(authDetails.result!.token, "token");
+  });
 
+  it("authorization request fails with client id passed in an Cloud Shell environment", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+    setLogLevel("warning");
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
-
-    const authRequest = authDetails.requests[0];
-    assert.equal(authRequest.method, "POST");
-    assert.equal(authDetails.result!.token, "token");
+    console.dir(authDetails);
+    assert.equal(authDetails.result, null);
+    assert.equal(authDetails.error?.name, "CredentialUnavailableError");
+    assert.equal(
+      authDetails.error?.message,
+      "ManagedIdentityCredential: Authentication failed. Message No responses left."
+    );
+    assert.equal(authDetails.requests.length, 0);
   });
 
   it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
