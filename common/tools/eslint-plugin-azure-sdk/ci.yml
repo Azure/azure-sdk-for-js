@@ -44,6 +44,10 @@ jobs:
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
 
+      - script: |
+          rush update
+        displayName: "Install dependencies"
+
       # Run Unit Tests
       - script: |
           npm --prefix ./common/tools/eslint-plugin-azure-sdk run test
