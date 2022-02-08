@@ -46,5 +46,5 @@ jobs:
 
       # Run Unit Tests
       - script: |
-          npm run unit-test
+          node eng/tools/rush-runner.js test
         displayName: "ESLint Unit Tests"
