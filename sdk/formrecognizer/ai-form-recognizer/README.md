@@ -2,9 +2,9 @@
 
 Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to analyze text and structured data from your documents. It includes the following main features:
 
-- Read - Extract textual elements only, such as pages with words and lines,
 - Layout - Extract text, table structures, and selection marks, along with their bounding region coordinates, from documents.
 - Document - Analyze entities, key-value pairs, tables, and selection marks from documents using the general prebuilt document model.
+- Read - Read information about textual elements, such as page words and lines in addition to text language information.
 - Prebuilt - Analyze data from certain types of common documents (such as receipts, invoices, business cards, or identity documents) using prebuilt models.
 - Custom - Build custom models to extract text, field values, selection marks, and table data from documents. Custom models are built with your own data, so they're tailored to your documents.
 
