@@ -73,13 +73,12 @@ export class MockEventHubConsumerClient {
   private async internalSubscribe(handlers: EventHandlers, options?: SubscribeOptions) {
     this.partitions = options?.partitions || this.partitions;
     let maxEventsPerSecond: number;
-    let maxEventsPerSecondPerPartition: number;
     if (options && options.maxEventsPerSecond > 0) {
       maxEventsPerSecond = options.maxEventsPerSecond;
     } else {
       maxEventsPerSecond = Infinity;
     }
-    maxEventsPerSecondPerPartition = Math.ceil(maxEventsPerSecond / this.partitions);
+    const maxEventsPerSecondPerPartition = Math.ceil(maxEventsPerSecond / this.partitions);
     const promises = [];
     for (let i = 0; i < this.partitions; i++) {
       promises.push(
