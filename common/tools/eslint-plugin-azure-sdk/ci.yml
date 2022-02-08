@@ -46,5 +46,5 @@ jobs:
 
       # Run Unit Tests
       - script: |
-          node eng/tools/rush-runner.js test
+          npm --prefix ./common/tools/eslint-plugin-azure-sdk run test
         displayName: "ESLint Unit Tests"
