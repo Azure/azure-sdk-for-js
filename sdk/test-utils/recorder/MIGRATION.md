@@ -237,7 +237,7 @@ Since AAD traffic is not recorded by the new recorder, there is no longer a need
 When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
 
 ```ts
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
@@ -259,20 +259,38 @@ module.exports = function (config) {
 };
 ```
 
-The following configuration options in `karma.config.js` should be **removed**:
+The following configuration options in `karma.config.js` is unnecessary and should be **removed**:
 
 ```ts
-// files section
+// imports - to be deleted
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode,
+} = require("@azure-tools/test-recorder");
+
+// plugins - to be removed
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor",
+
+// files section - snippet to remove
 .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
 
-/* ... */
+// preprocessors - to be removed
+      "recordings/browsers/**/*.json": ["json"],
 
+// reporters - to be removed
+      "json-to-file"
+      
+/* ... */
+// log options - to be removed
 browserConsoleLogOptions: {
   terminal: !isRecordMode(),
 }
 
 /* ... */
-
+// jsonToFileReporter - to be removed
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
 }
