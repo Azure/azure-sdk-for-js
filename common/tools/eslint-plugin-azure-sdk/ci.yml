@@ -1,3 +1,12 @@
+trigger:
+  branches:
+    include:
+      - main
+      
+  paths:
+    include:
+      - common/tools/eslint-plugin-azure-sdk
+
 pr:
   branches:
     include:
@@ -19,6 +28,11 @@ jobs:
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
+
+      # Run Unit Tests
+      - script: |
+      node eng/tools/rush-runner.js unit-test
+    displayName: "Unit tests"
 
       # Run lint step for all SDK
       - template: /eng/pipelines/templates/steps/run-eslint.yml
