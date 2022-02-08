@@ -32,7 +32,7 @@ jobs:
       # Run lint step for all SDK
       - template: /eng/pipelines/templates/steps/run-eslint.yml
 
-  - job: 'RunESLint'
+  - job: 'RunESLintUnitTests'
     displayName: 'Run ESLint Unit Tests'
 
     variables:
