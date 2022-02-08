@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentLanguage } from "../generated";
+import { DocumentLanguage, DocumentStyle } from "../generated";
 import {
   AnalyzeResult,
   AnalyzeResultCommon,
@@ -14,7 +14,7 @@ import {
  * @internal
  */
 export function toReadResult(analyzeResult: AnalyzeResult<unknown>): ReadResult {
-  const { apiVersion, modelId, content, pages, languages } = analyzeResult;
+  const { apiVersion, modelId, content, pages, languages, styles } = analyzeResult;
 
   return {
     apiVersion,
@@ -22,6 +22,7 @@ export function toReadResult(analyzeResult: AnalyzeResult<unknown>): ReadResult 
     content,
     pages: pages.map(toDocumentPageFromGenerated),
     languages,
+    styles,
   };
 }
 
@@ -40,4 +41,11 @@ export interface ReadResult extends AnalyzeResultCommon {
    * Extracted text languages.
    */
   languages: DocumentLanguage[];
+
+  /**
+   * The text styles that were observed in the input.
+   *
+   * For example, this contains information about regions of the input where handwritten text occurs.
+   */
+  styles: DocumentStyle[];
 }
