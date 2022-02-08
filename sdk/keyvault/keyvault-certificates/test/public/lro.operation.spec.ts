@@ -46,6 +46,7 @@ describe("Certificates client - LRO - certificate operation", () => {
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
     createPoller.stopPolling();
     const poller = await client.getCertificateOperation(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
@@ -73,6 +74,7 @@ describe("Certificates client - LRO - certificate operation", () => {
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
 
     createPoller.stopPolling();
 
