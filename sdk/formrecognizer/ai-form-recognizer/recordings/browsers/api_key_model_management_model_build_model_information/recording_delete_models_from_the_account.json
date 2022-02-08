@@ -2,38 +2,38 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/documentModels/modelName163226013887303315",
+   "url": "https://endpoint/formrecognizer/documentModels/modelName164373515407607598",
    "query": {
-    "api-version": "2021-09-30-preview"
+    "api-version": "2022-01-30-preview"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "5ff9b6e8-35bb-48c1-9dd0-a576ce0a668e",
+    "apim-request-id": "f9d6ac28-5f9e-40b1-b0df-2b6e9aa04b22",
     "content-length": "0",
-    "date": "Tue, 21 Sep 2021 21:35:59 GMT",
+    "date": "Tue, 01 Feb 2022 17:06:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "218"
+    "x-envoy-upstream-service-time": "91"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/documentModels/modelName163226013887303315",
+   "url": "https://endpoint/formrecognizer/documentModels/modelName164373515407607598",
    "query": {
-    "api-version": "2021-09-30-preview"
+    "api-version": "2022-01-30-preview"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\n  \"error\": {\n    \"code\": \"NotFound\",\n    \"message\": \"Resource not found.\",\n    \"innererror\": {\n      \"code\": \"ModelNotFound\",\n      \"message\": \"The requested model was not found.\"\n    }\n  }\n}",
    "responseHeaders": {
-    "apim-request-id": "1e545330-c11c-40ce-9bb2-5e019ef47596",
+    "apim-request-id": "423ea1d2-5acf-46e5-83b3-89ed8bc62fc4",
     "content-type": "application/json",
-    "date": "Tue, 21 Sep 2021 21:36:00 GMT",
+    "date": "Tue, 01 Feb 2022 17:06:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "158"
+    "x-envoy-upstream-service-time": "41"
    }
   }
  ],
@@ -41,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "4b301e80abe3405e0ac47fd5f57a6338"
+ "hash": "f9bc3d577d889f4b00f2735f91c160d6"
 }

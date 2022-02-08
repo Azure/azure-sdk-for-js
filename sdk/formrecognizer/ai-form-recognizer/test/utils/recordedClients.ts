@@ -11,12 +11,13 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 
-import { AzureKeyCredential } from "../../src";
+import { AzureKeyCredential, PollerOptions } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CommonClientOptions } from "@azure/core-client";
+import { PollOperationState } from "@azure/core-lro";
 
 export const logger = createClientLogger("ai-form-recognizer:test");
 
@@ -47,8 +48,9 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
-export const testPollingOptions = {
+export const testPollingOptions: PollerOptions<PollOperationState<unknown>> = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+  onProgress: (state) => logger.verbose("Poll state progressed:", state),
 };
 
 export const recorderOptions: RecorderStartOptions = {

@@ -15,6 +15,7 @@
 import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
+import { DocumentModelBuildMode } from "../src/options/BuildModelOptions";
 dotenv.config();
 
 export async function main() {
@@ -53,12 +54,17 @@ export async function main() {
     Object.entries(purchaseOrderSasUrls)
       .map(async ([kind, sasUrl]) => {
         const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
-        const poller = await trainingClient.beginBuildModel(modelId, sasUrl, {
-          description: "A model that extracts data from " + kind + " purchase orders.",
-          onProgress: ({ status }) => {
-            console.log(`training model "${kind}": ${status}`);
-          },
-        });
+        const poller = await trainingClient.beginBuildModel(
+          modelId,
+          sasUrl,
+          DocumentModelBuildMode.Neural,
+          {
+            description: "A model that extracts data from " + kind + " purchase orders.",
+            onProgress: ({ status }) => {
+              console.log(`training model "${kind}": ${status}`);
+            },
+          }
+        );
 
         return poller.pollUntilDone();
       })

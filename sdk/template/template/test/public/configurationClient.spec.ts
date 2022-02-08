@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import { chaiAzure } from "@azure/test-utils";
-chai.use(chaiAzure);
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
@@ -30,12 +28,15 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
   // This function returns the special NoOpCredential in playback mode, which
   // is a special TokenCredential implementation that does not make any requests
   // to AAD.
-  const client = new ConfigurationClient(endpoint, createTestCredential());
+  const client = new ConfigurationClient(
+    endpoint,
+    createTestCredential(),
+    // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
+    // redirect the requests to reach the proxy tool in record/playback modes instead of
+    // hitting the live service.
+    recorder.configureClientOptions({})
+  );
 
-  // recorder.configureClient updates the pipeline by adding the test proxy policy to
-  // redirect the requests to reach the proxy tool in record/playback modes instead of
-  // hitting the live service.
-  recorder.configureClient(client["client"]);
   return client;
 }
 

@@ -20,8 +20,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      client = new ServiceClient({ baseUri: getTestServerUrl() });
-      recorder.configureClient(client);
+      client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
     });
 
     afterEach(async () => {

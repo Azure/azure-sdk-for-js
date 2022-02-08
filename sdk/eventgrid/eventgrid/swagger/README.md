@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-require: "https://github.com/Azure/azure-rest-api-specs/blob/397017728a17dd50b6755e7de0d283b93562a634/specification/eventgrid/data-plane/readme.md"
+require: "https://github.com/Azure/azure-rest-api-specs/blob/03da592cccfa0e52ccd6ecc53d232afda8a38c95/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
-package-version: "4.6.1"
+package-version: "4.7.0"
 title: GeneratedClient
 description: EventGrid Client
 generate-metadata: false
@@ -125,4 +125,17 @@ directive:
           }
         }
       }
+```
+
+### Don't use x-ms-client-name for EventHub Event.
+
+The wire format for the event uses camel cassing and the `x-ms-client-name` attribute was added to the API Specification (in Azure/azure-rest-api-specs#17565) to work around an issue without introducing a breaking
+change. For JavaScript, we want to generate types that match the format of the wire events, so remove `x-ms-client-name`.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.EventHubCaptureFileCreatedEventData
+    transform: >
+      delete $.properties.fileUrl["x-ms-client-name"]
 ```

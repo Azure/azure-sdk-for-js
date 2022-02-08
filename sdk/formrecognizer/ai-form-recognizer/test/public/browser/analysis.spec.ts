@@ -8,7 +8,7 @@ import { AzureKeyCredential, PrebuiltModels, DocumentAnalysisClient } from "../.
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, testEnv, testPollingOptions } from "../../utils/recordedClients";
 
-describe("FormRecognizerClient browser only", () => {
+describe("analysis (browser)", () => {
   let client: DocumentAnalysisClient;
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
@@ -47,15 +47,18 @@ describe("FormRecognizerClient browser only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginAnalyzeDocuments(
+    const poller = await client.beginAnalyzeDocument(
       PrebuiltModels.Receipt,
       url,
       testPollingOptions
     );
     const { documents: receipts } = await poller.pollUntilDone();
 
-    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
+    assert.ok(
+      receipts && receipts.length > 0,
+      `Expected at least one receipt, but got ${receipts}`
+    );
     const receipt = receipts![0];
-    assert.equal(receipt.docType, "prebuilt:receipt");
+    assert.equal(receipt.docType, "receipt.retailMeal");
   });
 }).timeout(60000);
