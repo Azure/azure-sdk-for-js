@@ -562,12 +562,11 @@ describe("Certificates client - create, read, update and delete", () => {
     this.retries(2);
 
     const certificateName = recorder.getUniqueName("crudcertoperation");
-    const certificatePoller = await client.beginCreateCertificate(
+    await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties
     );
-    await certificatePoller.pollUntilDone();
 
     let certificateOperation: any;
 
