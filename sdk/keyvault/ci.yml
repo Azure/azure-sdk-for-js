@@ -8,7 +8,11 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/keyvault/
+      - sdk/keyvault/ci.yml
+      - sdk/keyvault/keyvault-certificates/
+      - sdk/keyvault/keyvault-keys/
+      - sdk/keyvault/keyvault-secrets/
+      - sdk/keyvault/keyvault-admin/
 pr:
   branches:
     include:
@@ -20,7 +24,11 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/keyvault/
+      - sdk/keyvault/ci.yml
+      - sdk/keyvault/keyvault-certificates/
+      - sdk/keyvault/keyvault-keys/
+      - sdk/keyvault/keyvault-secrets/
+      - sdk/keyvault/keyvault-admin/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,5 +42,3 @@ extends:
         safeName: azurekeyvaultsecrets
       - name: azure-keyvault-admin
         safeName: azurekeyvaultadmin
-      - name: azure-arm-keyvault
-        safeName: azurearmkeyvault
