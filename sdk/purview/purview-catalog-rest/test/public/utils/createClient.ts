@@ -5,7 +5,9 @@ import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { ClientOptions } from "@azure-rest/core-client";
 import { env } from "@azure-tools/test-recorder";
-import "./env";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
   const credential = new ClientSecretCredential(

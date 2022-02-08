@@ -5,7 +5,6 @@ import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { ClientOptions } from "@azure-rest/core-client";
 import { env } from "@azure-tools/test-recorder";
-import "./env";
 import { createXhrHttpClient } from "@azure/test-utils";
 
 export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
