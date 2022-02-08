@@ -403,7 +403,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           );
           should.equal(
             (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-              (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
+            (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
             "Unexpected namespace name in the getNamespaceProperties response"
           );
           await serviceBusAdministrationClient.deleteQueue(managementQueue1);
@@ -426,7 +426,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
 
         should.equal(
           (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-            (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
+          (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
           "Unexpected namespace name in the getNamespaceProperties response"
         );
       });
