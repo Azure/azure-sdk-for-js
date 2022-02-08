@@ -8,7 +8,12 @@ import { matrix, getYieldedValue } from "@azure/test-utils";
 
 import { env, Recorder } from "@azure-tools/test-recorder";
 
-import { testPollingOptions, createRecorder, makeCredential } from "../utils/recordedClients";
+import {
+  testPollingOptions,
+  createRecorder,
+  makeCredential,
+  getHttpClient,
+} from "../utils/recordedClients";
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
 
@@ -50,7 +55,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
       beforeEach(function () {
         // Create a client using the current AAD/API Key configuration
-        client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad));
+        client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), {
+          httpClient: getHttpClient(),
+        });
       });
 
       describe(`custom model from trainingdata-v3`, async () => {
@@ -108,7 +115,9 @@ matrix([[true, false]] as const, async (useAad) => {
           let recognizerClient: DocumentAnalysisClient;
 
           beforeEach(() => {
-            recognizerClient = new DocumentAnalysisClient(endpoint(), makeCredential(useAad));
+            recognizerClient = new DocumentAnalysisClient(endpoint(), makeCredential(useAad), {
+              httpClient: getHttpClient(),
+            });
           });
 
           it("form from url", async () => {
@@ -218,7 +227,9 @@ matrix([[true, false]] as const, async (useAad) => {
     // #endregion
 
     it("compose model", async function () {
-      const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad));
+      const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), {
+        httpClient: getHttpClient(),
+      });
 
       // Helper function to train/validate single model
       async function makeModel(prefix: string): Promise<string> {
@@ -258,7 +269,8 @@ matrix([[true, false]] as const, async (useAad) => {
 
       const trainingClient = new DocumentModelAdministrationClient(
         endpoint(),
-        makeCredential(useAad)
+        makeCredential(useAad),
+        { httpClient: getHttpClient() }
       );
       const modelId = recorder.getUniqueName("copySource");
 

@@ -11,9 +11,11 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
+import { isNode, createXhrHttpClient } from "@azure/test-utils";
 import { AzureKeyCredential } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { HttpClient } from "@azure/core-rest-pipeline";
 
 export interface RecordedClient<T> {
   client: T;
@@ -81,20 +83,36 @@ export function createRecorder(context: Context): Recorder {
   return record(context, environmentSetup);
 }
 
+export function getHttpClient(): HttpClient | undefined {
+  return isNode ? undefined : createXhrHttpClient();
+}
+
 /**
  * Returns an appropriate credential depending on the value of `useAad`.
  */
 export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCredential {
   return useAad
-    ? new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    ? new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET,
+        { httpClient: getHttpClient() }
+      )
     : new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY);
 }
 
 export function createRecordedClient<T>(
   context: Context,
-  ctor: { new (endpoint: string, credential: TokenCredential | KeyCredential): T },
+  ctor: {
+    new (
+      endpoint: string,
+      credential: TokenCredential | KeyCredential,
+      options?: { httpClient?: HttpClient }
+    ): T;
+  },
   apiKey?: AzureKeyCredential
 ): RecordedClient<T> {
+  const httpClient = getHttpClient();
   const recorder = record(context, environmentSetup);
   return {
     client: new ctor(
@@ -103,8 +121,10 @@ export function createRecordedClient<T>(
         new ClientSecretCredential(
           testEnv.AZURE_TENANT_ID,
           testEnv.AZURE_CLIENT_ID,
-          testEnv.AZURE_CLIENT_SECRET
-        )
+          testEnv.AZURE_CLIENT_SECRET,
+          { httpClient }
+        ),
+      { httpClient }
     ),
     recorder,
   };
