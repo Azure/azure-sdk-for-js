@@ -275,7 +275,7 @@ const {
       "karma-json-preprocessor",
 
 // files section - snippet to remove
-.concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+     .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
 
 // preprocessors - to be removed
       "recordings/browsers/**/*.json": ["json"],
