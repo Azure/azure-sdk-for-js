@@ -5,6 +5,7 @@ import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
+import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
 import "./env";
@@ -48,6 +49,7 @@ export function createClient(
   authMethod: AuthMethod,
   options?: TextAnalyticsClientOptions
 ): TextAnalyticsClient {
+  const httpClient = isNode ? undefined : createXhrHttpClient();
   let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
     case "APIKey": {
@@ -58,7 +60,8 @@ export function createClient(
       credential = new ClientSecretCredential(
         env.AZURE_TENANT_ID,
         env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
+        env.AZURE_CLIENT_SECRET,
+        { httpClient }
       );
       break;
     }
@@ -73,7 +76,7 @@ export function createClient(
   return new TextAnalyticsClient(
     env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
     credential,
-    options
+    { httpClient, ...options }
   );
 }
 
