@@ -67,7 +67,7 @@ describe("ClientSecretCredential (internal)", function () {
     });
   });
 
-  it("Authenticates silently after the initial request", async function () {
+  it.only("Authenticates silently after the initial request", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
