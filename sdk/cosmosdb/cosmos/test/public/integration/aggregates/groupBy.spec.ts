@@ -525,7 +525,7 @@ const items = [
   },
 ];
 
-describe.only("Cross partition GROUP BY", () => {
+describe("Cross partition GROUP BY", () => {
   const containerDefinition: ContainerDefinition = {
     id: "sample container",
     partitionKey: {

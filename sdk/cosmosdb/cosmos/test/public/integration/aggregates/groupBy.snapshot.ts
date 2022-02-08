@@ -1,4 +1,7 @@
-let snapshot: Record<string, unknown> = {};
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+const snapshot: Record<string, unknown> = {};
 
 snapshot["Cross partition GROUP BY by number 1"] = [
   {
