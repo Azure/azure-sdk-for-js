@@ -172,6 +172,14 @@ export class EventHubProducerClient {
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
    * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
    *
+   * Events with different values for partitionKey or partitionId will need to be put into different batches.
+   * To simplify such batch management across partitions or to have the client automatically batch events
+   * and send them in specific intervals, use `EventHubBufferedProducerClient` instead.
+   *
+   * The below example assumes you have an array of events at hand to be batched safely.
+   * If you have events coming in one by one, `EventHubBufferedProducerClient` is recommended instead
+   * for effecient management of batches.
+   *
    * Example usage:
    * ```ts
    * const client = new EventHubProducerClient(connectionString);
@@ -291,7 +299,12 @@ export class EventHubProducerClient {
   }
 
   /**
-   * Sends an array of events to the associated Event Hub.
+   * Sends an array of events as a batch to the associated Event Hub.
+   *
+   * Azure Event Hubs has a limit on the size of the batch that can be sent which if exceeded
+   * will result in an error with code `MessageTooLargeError`.
+   * To safely send within batch size limits, use `EventHubProducerClient.createBatch()` or
+   * `EventHubBufferedProducerClient` instead.
    *
    * Example usage:
    * ```ts
@@ -307,6 +320,7 @@ export class EventHubProducerClient {
    * - `partitionKey` : A value that is hashed to produce a partition assignment. If set, `partitionId` can not be set.
    *
    * @returns Promise<void>
+   * @throws MessageTooLargeError if all the events in the input array cannot be fit into a batch.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
@@ -316,7 +330,15 @@ export class EventHubProducerClient {
     options?: SendBatchOptions
   ): Promise<void>;
   /**
-   * Sends a batch of events to the associated Event Hub.
+   * Sends a batch of events created using `EventHubProducerClient.createBatch()` to the associated Event Hub.
+   *
+   * Events with different values for partitionKey or partitionId will need to be put into different batches.
+   * To simplify such batch management across partitions or to have the client automatically batch events
+   * and send them in specific intervals, use `EventHubBufferedProducerClient` instead.
+   *
+   * The below example assumes you have an array of events at hand to be batched safely.
+   * If you have events coming in one by one, `EventHubBufferedProducerClient` is recommended instead
+   * for effecient management of batches.
    *
    * Example usage:
    * ```ts
