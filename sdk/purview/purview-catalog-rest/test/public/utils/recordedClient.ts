@@ -4,13 +4,9 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { Context } from "mocha";
+import { Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
-import { ClientSecretCredential } from "@azure/identity";
-
-import "./env";
-import { ClientOptions } from "@azure-rest/core-client";
+export { createClient } from "./createClient";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -35,15 +31,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   ],
   queryParametersToSkip: [],
 };
-
-export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
-  return PurviewCatalog(env.ENDPOINT, credential, options);
-}
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
