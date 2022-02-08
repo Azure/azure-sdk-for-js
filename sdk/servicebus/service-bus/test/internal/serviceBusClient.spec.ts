@@ -301,7 +301,7 @@ describe("ServiceBusClient live tests", () => {
 
     const env = getEnvVars();
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.windows.net)"
+      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))"
     ) || "")[1];
 
     /**
