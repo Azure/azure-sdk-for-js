@@ -36,6 +36,7 @@
 # PRLabel: %Communication
 /sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
 /sdk/communication/communication-identity/ @petrsvihlik @martinbarnas-ms
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
