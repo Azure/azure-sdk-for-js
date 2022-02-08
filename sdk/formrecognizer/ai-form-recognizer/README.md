@@ -335,7 +335,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new DocumentAnalysisClient(endpoint, credential);
+  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginReadDocument(readStream);
 
   // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
