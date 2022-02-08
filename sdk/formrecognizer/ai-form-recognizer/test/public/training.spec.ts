@@ -6,14 +6,15 @@ import { Context } from "mocha";
 
 import { matrix, getYieldedValue } from "@azure/test-utils";
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
-import { testPollingOptions, createRecorder, makeCredential } from "../utils/recordedClients";
+import { testPollingOptions, makeCredential, createRecorder } from "../utils/recordedClients";
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
 
-const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
-const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
+const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
+const containerSasUrl = (): string =>
+  assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
