@@ -14,9 +14,14 @@ import {
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
+import { createXhrHttpClient } from "@azure/test-utils";
+import { HttpClient } from "@azure/core-rest-pipeline";
 
+let xhrClient: HttpClient | undefined;
 if (isNode) {
   dotenv.config();
+} else {
+  xhrClient = createXhrHttpClient();
 }
 
 export interface RecordedClient {
@@ -65,5 +70,7 @@ export function createChatClient(userToken: string): ChatClient {
   }
   const { url } = parseClientArguments(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
 
-  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken));
+  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken), {
+    httpClient: xhrClient,
+  });
 }
