@@ -103,7 +103,7 @@ export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCrede
     : new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"));
 }
 
-export async function createRecorder(currentTest?: Test) {
+export async function createRecorder(currentTest?: Test): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
   return recorder;
@@ -133,6 +133,6 @@ export async function createRecordedClient<T>(
   };
 }
 
-export function getRandomNumber() {
+export function getRandomNumber(): number {
   return Math.ceil(Math.random() * 1000 + 10000);
 }
