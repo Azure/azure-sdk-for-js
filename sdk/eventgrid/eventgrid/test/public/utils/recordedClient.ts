@@ -6,7 +6,9 @@ import { Context } from "mocha";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
+import { isNode } from "./testUtils";
 import { KeyCredential } from "@azure/core-auth";
+import { createXhrHttpClient } from "@azure/test-utils";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
@@ -54,9 +56,10 @@ export function createRecordedClient<T extends InputSchema>(
   credential: KeyCredential
 ): RecordedClient<T> {
   const recorder = record(context, environmentSetup);
+  const httpClient = isNode ? undefined : createXhrHttpClient();
 
   return {
-    client: new EventGridPublisherClient(endpoint, eventSchema, credential),
+    client: new EventGridPublisherClient(endpoint, eventSchema, credential, { httpClient }),
     recorder,
   };
 }
