@@ -1,8 +1,10 @@
 # Release History
 
-## 2.0.3 (Unreleased)
+## 2.1.0 (2022-02-08)
 
 ### Features Added
+
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments
 
 ### Breaking Changes
 
@@ -64,8 +66,8 @@ useIdentityPlugin(cachePersistencePlugin);
 async function main() {
   const credential = new DeviceCodeCredential({
     tokenCachePersistenceOptions: {
-      enabled: true
-    }
+      enabled: true,
+    },
   });
 }
 ```
@@ -131,6 +133,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - We have also renamed the error `CredentialUnavailable` to `CredentialUnavailableError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
 - In v1 of Identity some `getToken` calls could resolve with `null` in the case the authentication request succeeded with a malformed output. In v2, issues with the `getToken` method will always throw errors.
 - Breaking changes to InteractiveBrowserCredential
+
   - The `InteractiveBrowserCredential` will use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to better support browsers with enhanced security restrictions. Learn how to migrate in the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md). Read more about the latest `InteractiveBrowserCredential` [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md).
   - The default client ID used for `InteractiveBrowserCredential` was viable only in Node.js and not for the browser. Therefore, on v2 client ID is a required parameter when using this credential in browser apps.
   - Identity v2 also removes the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option wasn't being used. Instead of using this option, use MSAL directly. For more information, see [Authenticating with the @azure/msal-browser Public Client](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-the-azuremsal-browser-public-client).
