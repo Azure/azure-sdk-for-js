@@ -4,18 +4,18 @@
    "method": "GET",
    "url": "https://endpoint/formrecognizer/info",
    "query": {
-    "api-version": "2021-09-30-preview"
+    "api-version": "2022-01-30-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\n  \"customDocumentModels\": {\n    \"count\": 92,\n    \"limit\": 20000\n  }\n}",
+   "response": "{\n  \"customDocumentModels\": {\n    \"count\": 182,\n    \"limit\": 20000\n  }\n}",
    "responseHeaders": {
-    "apim-request-id": "02ccb64b-80be-4874-a85d-f98e380e8f9d",
+    "apim-request-id": "10b1b920-e8bf-4ee6-9958-1172e13c40e4",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 21 Sep 2021 21:35:53 GMT",
+    "date": "Tue, 01 Feb 2022 17:06:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "65"
+    "x-envoy-upstream-service-time": "16"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f9b988cd2c88eaf3bda64d60f90b3e8a"
+ "hash": "fb70913b949c4b0f0d819d9bd751ae87"
 }

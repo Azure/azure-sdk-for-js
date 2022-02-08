@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { parseKeyVaultKeyIdentifier } from "../../src/identifier";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 
 describe("Key Vault Keys Identifier", () => {
   it("It should work with a URI of a key before it gets a version", async function () {

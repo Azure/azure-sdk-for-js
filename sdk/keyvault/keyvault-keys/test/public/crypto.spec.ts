@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
