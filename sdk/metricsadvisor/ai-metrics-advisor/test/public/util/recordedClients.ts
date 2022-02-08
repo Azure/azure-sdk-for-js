@@ -12,6 +12,7 @@ import {
   MetricsAdvisorAdministrationClient,
 } from "../../../src";
 import * as dotenv from "dotenv";
+import { createXhrHttpClient } from "@azure/test-utils";
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.
@@ -25,6 +26,7 @@ export const isNode =
 if (isNode) {
   dotenv.config();
 }
+const httpClient = isNode ? undefined : createXhrHttpClient();
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
@@ -94,7 +96,9 @@ export function createRecordedAdminClient(
 ): RecordedAdminClient {
   const recorder = record(context, environmentSetup);
   return {
-    client: new MetricsAdvisorAdministrationClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
+    client: new MetricsAdvisorAdministrationClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey, {
+      httpClient,
+    }),
     recorder,
   };
 }
@@ -105,7 +109,7 @@ export function createRecordedAdvisorClient(
 ): RecordedAdvisorClient {
   const recorder = record(context, environmentSetup);
   return {
-    client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
+    client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey, { httpClient }),
     recorder,
   };
 }
@@ -118,7 +122,10 @@ export function makeCredential(useAad: boolean): TokenCredential | MetricsAdviso
     ? new ClientSecretCredential(
         testEnv.AZURE_TENANT_ID,
         testEnv.AZURE_CLIENT_ID,
-        testEnv.AZURE_CLIENT_SECRET
+        testEnv.AZURE_CLIENT_SECRET,
+        {
+          httpClient,
+        }
       )
     : new MetricsAdvisorKeyCredential(
         testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
