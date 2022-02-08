@@ -31,8 +31,8 @@ jobs:
 
       # Run Unit Tests
       - script: |
-        node eng/tools/rush-runner.js unit-test
-      displayName: "UnitTests"
+          node eng/tools/rush-runner.js unit-test
+        displayName: "ESLint Unit Tests"
 
       # Run lint step for all SDK
       - template: /eng/pipelines/templates/steps/run-eslint.yml
