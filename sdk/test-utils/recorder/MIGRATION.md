@@ -259,7 +259,7 @@ module.exports = function (config) {
 };
 ```
 
-The following configuration options in `karma.config.js` is unnecessary and should be **removed**:
+The following configuration options in `karma.config.js` are unnecessary and should be **removed**:
 
 ```ts
 // imports - to be deleted
