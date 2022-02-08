@@ -110,7 +110,7 @@ describe("DataTransformer", function() {
       isBuffer(encoded.content).should.equal(true);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, arrayBody);
+      assert.deepEqual(decoded, arrayBody);
       done();
     });
 
@@ -120,7 +120,7 @@ describe("DataTransformer", function() {
       isBuffer(encoded.content).should.equal(true);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, objectBody);
+      assert.deepEqual(decoded, objectBody);
       done();
     });
 
@@ -130,7 +130,7 @@ describe("DataTransformer", function() {
       isBuffer(encoded.content).should.equal(true);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, bufferBody);
+      assert.deepEqual(decoded, bufferBody);
       done();
     });
 
@@ -140,7 +140,7 @@ describe("DataTransformer", function() {
       isBuffer(encoded.content).should.equal(true);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, hexBufferBody);
+      assert.deepEqual(decoded, hexBufferBody);
       done();
     });
   });
@@ -208,7 +208,7 @@ describe("DataTransformer", function() {
       encoded.typecode.should.equal(expectedTypeCode);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, arrayBody);
+      assert.deepEqual(decoded, arrayBody);
       done();
     });
 
@@ -217,7 +217,7 @@ describe("DataTransformer", function() {
       encoded.typecode.should.equal(expectedTypeCode);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, objectBody);
+      assert.deepEqual(decoded, objectBody);
       done();
     });
 
@@ -227,7 +227,7 @@ describe("DataTransformer", function() {
       isBuffer(encoded.content).should.equal(true);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, bufferBody);
+      assert.deepEqual(decoded, bufferBody);
       done();
     });
 
@@ -237,7 +237,7 @@ describe("DataTransformer", function() {
       isBuffer(encoded.content).should.equal(true);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, hexBufferBody);
+      assert.deepEqual(decoded, hexBufferBody);
       done();
     });
   });
@@ -269,7 +269,7 @@ describe("DataTransformer", function() {
       encoded.typecode.should.equal(expectedTypeCode);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, arrayBody);
+      assert.deepEqual(decoded, arrayBody);
       done();
     });
 
@@ -278,7 +278,7 @@ describe("DataTransformer", function() {
       encoded.typecode.should.equal(expectedTypeCode);
       const { body: decoded, bodyType: decodedType } = transformer.decode(encoded, false);
       should.equal(decodedType, bodyType);
-      assert.deepStrictEqual(decoded, objectBody);
+      assert.deepEqual(decoded, objectBody);
       done();
     });
   });
@@ -372,56 +372,56 @@ describe("DataTransformer", function() {
     it("should correctly decode an array message body", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(arrayBody, false);
       should.equal(decodedType, "value");
-      assert.deepStrictEqual(decoded, arrayBody);
+      assert.deepEqual(decoded, arrayBody);
       done();
     });
 
     it("should correctly decode an array message body, setting skipParsingBodyAsJson to true", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(arrayBody, true);
       should.equal(decodedType, "value");
-      assert.deepStrictEqual(decoded, arrayBody);
+      assert.deepEqual(decoded, arrayBody);
       done();
     });
 
     it("should correctly decode an object message body", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(objectBody, false);
       should.equal(decodedType, "value");
-      assert.deepStrictEqual(decoded, objectBody);
+      assert.deepEqual(decoded, objectBody);
       done();
     });
 
     it("should correctly decode an object message body, setting skipParsingBodyAsJson to true", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(objectBody, true);
       should.equal(decodedType, "value");
-      assert.deepStrictEqual(decoded, objectBody);
+      assert.deepEqual(decoded, objectBody);
       done();
     });
 
     it("should correctly decode a buffer message body", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(bufferBody, false);
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, bufferBody);
+      assert.deepEqual(decoded, bufferBody);
       done();
     });
 
     it("should correctly decode a buffer message body, setting skipParsingBodyAsJson to true", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(bufferBody, true);
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, bufferBody);
+      assert.deepEqual(decoded, bufferBody);
       done();
     });
 
     it("should correctly decode a hex buffer message body", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(hexBufferBody, false);
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, hexBufferBody);
+      assert.deepEqual(decoded, hexBufferBody);
       done();
     });
 
     it("should correctly decode a hex buffer message body, setting skipParsingBodyAsJson to true", (done) => {
       const { body: decoded, bodyType: decodedType } = transformer.decode(hexBufferBody, false);
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, hexBufferBody);
+      assert.deepEqual(decoded, hexBufferBody);
       done();
     });
 
@@ -435,7 +435,7 @@ describe("DataTransformer", function() {
         false
       );
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, jsonBody);
+      assert.deepEqual(decoded, jsonBody);
       done();
     });
 
@@ -449,7 +449,7 @@ describe("DataTransformer", function() {
         true
       );
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, jsonStringBufferBody);
+      assert.deepEqual(decoded, jsonStringBufferBody);
       done();
     });
 
@@ -464,7 +464,7 @@ describe("DataTransformer", function() {
       };
       const { body: decoded, bodyType: decodedType } = transformer.decode(rheaAmqpSection, false);
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, jsonBody);
+      assert.deepEqual(decoded, jsonBody);
       done();
     });
 
@@ -479,7 +479,7 @@ describe("DataTransformer", function() {
       };
       const { body: decoded, bodyType: decodedType } = transformer.decode(rheaAmqpSection, true);
       should.equal(decodedType, "data");
-      assert.deepStrictEqual(decoded, jsonStringBufferBody);
+      assert.deepEqual(decoded, jsonStringBufferBody);
       done();
     });
   });
