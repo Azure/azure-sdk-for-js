@@ -264,6 +264,18 @@ export const AnalyzeResult: coreClient.CompositeMapper = {
           }
         }
       },
+      languages: {
+        serializedName: "languages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentLanguage"
+            }
+          }
+        }
+      },
       documents: {
         serializedName: "documents",
         type: {
@@ -934,6 +946,46 @@ export const DocumentStyle: coreClient.CompositeMapper = {
   }
 };
 
+export const DocumentLanguage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentLanguage",
+    modelProperties: {
+      languageCode: {
+        serializedName: "languageCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      spans: {
+        serializedName: "spans",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentSpan"
+            }
+          }
+        }
+      },
+      confidence: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        serializedName: "confidence",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const Document: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1083,6 +1135,13 @@ export const DocumentField: coreClient.CompositeMapper = {
           value: { type: { name: "Composite", className: "DocumentField" } }
         }
       },
+      valueCurrency: {
+        serializedName: "valueCurrency",
+        type: {
+          name: "Composite",
+          className: "CurrencyValue"
+        }
+      },
       content: {
         serializedName: "content",
         type: {
@@ -1127,6 +1186,28 @@ export const DocumentField: coreClient.CompositeMapper = {
   }
 };
 
+export const CurrencyValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CurrencyValue",
+    modelProperties: {
+      amount: {
+        serializedName: "amount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      currencySymbol: {
+        serializedName: "currencySymbol",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BuildDocumentModelRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1151,11 +1232,25 @@ export const BuildDocumentModelRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      buildMode: {
+        serializedName: "buildMode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       azureBlobSource: {
         serializedName: "azureBlobSource",
         type: {
           name: "Composite",
           className: "AzureBlobContentSource"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -1223,6 +1318,13 @@ export const ComposeDocumentModelRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -1269,6 +1371,13 @@ export const AuthorizeCopyRequest: coreClient.CompositeMapper = {
         serializedName: "description",
         type: {
           name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -1420,6 +1529,47 @@ export const OperationInfo: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const GetModelsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetModelsResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelSummary"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1455,6 +1605,19 @@ export const ModelSummary: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -1470,6 +1633,12 @@ export const DocTypeInfo: coreClient.CompositeMapper = {
           MaxLength: 4096
         },
         serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      buildMode: {
+        serializedName: "buildMode",
         type: {
           name: "String"
         }
@@ -1542,34 +1711,6 @@ export const DocumentFieldSchema: coreClient.CompositeMapper = {
   }
 };
 
-export const GetModelsResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GetModelsResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ModelSummary"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const GetInfoResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1625,8 +1766,8 @@ export const GetOperationResponse: coreClient.CompositeMapper = {
       result: {
         serializedName: "result",
         type: {
-          name: "Composite",
-          className: "ModelInfo"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
