@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": false,
     "noEmit": true,
-    "strict": false
+    "strict": true
   },
   "exclude": [
     "documents/DatabaseAccount.ts",
