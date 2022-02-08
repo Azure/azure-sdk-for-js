@@ -631,6 +631,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-logic/8.0.0:
+    resolution: {integrity: sha512-OK+ELY2PxSkk8pkzFInmrybN0WTZcgWgopDqnvg7Q3krSnwZ2PdjFFGJcrisQHmL/OWeCmoWksRdKQBHekIw0Q==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.4.0
+      '@azure/core-lro': 2.2.3
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.4.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common/1.1.0:
     resolution: {integrity: sha512-vqTtzDtb4NG3LWoWoqlOOJApZRRIIImNUKlGyTa6c1YC+v5A7UEOL9TX8NRDxvFVUF2wDHsSnkhLBVBgkcAhIQ==}
     engines: {node: '>=12.0.0'}
@@ -10693,22 +10708,22 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-sYD1w98lAunJUS9fTYhBeGzi2w4TTzjkoXdODwHhgEPJ6reaQ332Fea9bTW9tRGPVNkSrzkyfNM8+7NyM9XnKA==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-DJ/Dk2yD4GDkHKbprdNE/d2V8132hmWq0RBIc74T4hPvuQsB4IJVtpVReZpVaKwwWuqBj2qRfuDqAdPoVrkoYg==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.66.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.66.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.66.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.66.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.66.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.66.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -11018,11 +11033,12 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-fGEPUwHrAFIOY7+1ZoH/b4M+AgudqMrq42bQJTcvBtZXpPz5CaTn3DQmJpPQEUultLOwocA/k9NOsXEk+BxrHQ==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Tbo/1yeI/ikTRo2/f5s/QFXEzQwEoIxnQ9wyWXGVc0WTE+GbzSFHrAY5xnO4ObWHZvcf8tP66M2cY7dmiI235A==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-logic': 8.0.0
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -14159,7 +14175,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-9BGMqsBlp2lJdjX4ZlpoQuRKM/sLcpaIHFI7xaztqIaCq17bheVkFsBqw6izuZ59sn4DkAmcsovdtlA4S+jO5w==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-cRipNDlfS0co7HptArkxqp6lbNAffyBqpvSVSDhMe/ZR5cBJs6ywzCsV/QxHhxBpp6Z7p5To9h98IYOOIhMp+A==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -14223,7 +14239,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-oaci2FUFMd9FnSPqfC0F8b+nxppSBb4Auh4e3jdZA/k8mdxi2lCd8AAVZMJPHLCMRMfz1YMTb5YkZKelznmmeg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-mGcs2vWqVqLXm7vXEIvHN5fB82d0MGEuCUFxZkmnwISHGLgj0Eg/yGM4WsDouYtUFdboeTrNSg1gaORB+WrC5A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -14484,7 +14500,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-XwF1/EW7RR/mN5meDZOLMADblUIf6RywLM7pIbHeDfDxcfkihfXEMTvl7aLF26rA04TPxRah4r+OKrCbi8Sv7g==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-rsm9IpQrX4PDeRoGSnfHltpD9jmpulpHFNu/lxAyTKHQPAk2Ji9ag1panuQZwQp+2ASA3AoA6DzbB2Q2Mx29cQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -14906,7 +14922,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-VgQHNefK86fzHOi0cygpHZC2D3hUr/RaubfDXBfMUREwuaYaN+bocDDHjlTxXaPx4D2qSC4vGVH5l6NYSdksbw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-Yr+M8WwBsngMTQg81CxTA4LnpQrFmcmCfjbKMkKHrnYeKbpY+u949zpJXWvwGiOCAN7T/eW5BcOvK8IPds5I4A==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -14949,7 +14965,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -15425,7 +15440,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-pKuhxHEjhyGAKk5t/XaVzB6JHLSGzv/PE9Q5zgt+fEkcKrw19H7qsWJsBqPU2TIHjX1ddRgv+GW0c79shGEWbg==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-I9NPyEoKnxP89clzbNdSHyCWIYH86+mEBa8PR9tZLv7waQHsjFtuQj6tBhkqEqODTLjmKpJgr5ikmc7ZufEKBQ==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -15443,7 +15458,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -15877,7 +15891,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-ENpAvvdCwGkqJ4unWOWpywLDjQIYT2+T+YqE7QarLd7IMf+aWx6HLFlhlvUpgNM0Tw8oL3txyCOGvI6rFqtz+Q==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -15923,7 +15937,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16432,7 +16445,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-r+K5go02ZzvB1eNv2HgJluelwAinqtfhWqRX4/yV5lfL7RMk3gizbot6n8Ne8aBVxiXRWPNRDKnEz9l8bTju7Q==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-8OFSsIvvqKFB4r7z6QtpS+ElPHWoYwnnd8q25qy7+sD5Y6Fke1y/IQ16i0Se/DEnUbO7qOMaLgs1vF0PT/VJkg==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -16927,7 +16940,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-8EEE22d16CmEuerZx9Ujjt93Cp95PU6AuX15zwcHxvu83uTk0/ZEKPFleSpUijzF87q4KvhX8RVrxbrec1p0mA==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-S3B5Djij2dsoN1DIjNhDf/kW+X66TXFixQJTh9io/179afvCTqf1KUeiyLXs4iqiUYhTmBW2fxeybwxdFJ4EdA==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
