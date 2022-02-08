@@ -2,6 +2,16 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2022-02-04
+
+- [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.
+  By leveraging this new option, `configureClientOptions` method is added to the `PerfTest`.
+
+  [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
+
+  - With the support from the new `PerfTest#configureClientOptions` method, we no longer need the `PerfTest#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies. 
+  - [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175) removes the `PerfTest#configureClient` along with the new addition.
+
 ### 2021-11-24
 
 - Adds `PerfTestBase` and `BatchPerfTest`.
