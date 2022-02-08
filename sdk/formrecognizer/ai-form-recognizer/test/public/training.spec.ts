@@ -62,7 +62,11 @@ matrix(
 
         beforeEach(function () {
           // Create a client using the current AAD/API Key configuration
-          client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad));
+          client = new DocumentModelAdministrationClient(
+            endpoint(),
+            makeCredential(useAad),
+            recorder.configureClientOptions({})
+          );
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
@@ -121,7 +125,11 @@ matrix(
             let recognizerClient: DocumentAnalysisClient;
 
             beforeEach(() => {
-              recognizerClient = new DocumentAnalysisClient(endpoint(), makeCredential(useAad));
+              recognizerClient = new DocumentAnalysisClient(
+                endpoint(),
+                makeCredential(useAad),
+                recorder.configureClientOptions({})
+              );
             });
 
             it("form from url", async () => {
@@ -233,7 +241,11 @@ matrix(
       // #endregion
 
       it(`compose model (${buildMode})`, async function () {
-        const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad));
+        const client = new DocumentModelAdministrationClient(
+          endpoint(),
+          makeCredential(useAad),
+          recorder.configureClientOptions({})
+        );
 
         // Helper function to train/validate single model
         async function makeModel(prefix: string): Promise<string> {
@@ -281,7 +293,8 @@ matrix(
 
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
-          makeCredential(useAad)
+          makeCredential(useAad),
+          recorder.configureClientOptions({})
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 

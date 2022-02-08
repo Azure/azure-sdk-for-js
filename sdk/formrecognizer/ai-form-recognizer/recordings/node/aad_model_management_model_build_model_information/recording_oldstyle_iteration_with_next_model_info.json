@@ -5,31 +5,22 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "feb39df2-4960-4af9-88bf-626b2a5d91ba",
-        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "2baf76c9-4198-412d-bdd1-1dc5e3c808a3"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "eb14f554-a5b2-4094-bfb1-37629b3963b5",
+        "apim-request-id": "9503d44b-6a0c-42cb-a550-c1187b03ea76",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Feb 2022 22:00:04 GMT",
+        "Date": "Tue, 08 Feb 2022 22:12:29 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "1844"
+        "x-envoy-upstream-service-time": "1821"
       },
       "ResponseBody": {
         "value": [
@@ -206,8 +197,18 @@
             "apiVersion": "2022-01-30-preview"
           },
           {
+            "modelId": "input210315",
+            "createdDateTime": "2022-02-08T22:12:18Z",
+            "apiVersion": "2022-01-30-preview"
+          },
+          {
             "modelId": "input210709",
             "createdDateTime": "2022-02-08T19:29:47Z",
+            "apiVersion": "2022-01-30-preview"
+          },
+          {
+            "modelId": "input110633",
+            "createdDateTime": "2022-02-08T22:00:12Z",
             "apiVersion": "2022-01-30-preview"
           },
           {
@@ -266,13 +267,13 @@
             "apiVersion": "2022-01-30-preview"
           },
           {
-            "modelId": "input110114",
-            "createdDateTime": "2022-02-08T21:39:00Z",
+            "modelId": "modelName10496",
+            "createdDateTime": "2022-02-08T22:12:12Z",
             "apiVersion": "2022-01-30-preview"
           },
           {
-            "modelId": "modelName10419",
-            "createdDateTime": "2022-02-08T21:59:51Z",
+            "modelId": "input110114",
+            "createdDateTime": "2022-02-08T21:39:00Z",
             "apiVersion": "2022-01-30-preview"
           },
           {
@@ -283,6 +284,16 @@
           {
             "modelId": "input110284",
             "createdDateTime": "2022-02-08T21:59:39Z",
+            "apiVersion": "2022-01-30-preview"
+          },
+          {
+            "modelId": "composedModelName10736",
+            "createdDateTime": "2022-02-08T22:00:16Z",
+            "apiVersion": "2022-01-30-preview"
+          },
+          {
+            "modelId": "input110676",
+            "createdDateTime": "2022-02-08T21:30:12Z",
             "apiVersion": "2022-01-30-preview"
           },
           {
@@ -376,6 +387,11 @@
             "apiVersion": "2022-01-30-preview"
           },
           {
+            "modelId": "composedModelName10933",
+            "createdDateTime": "2022-02-08T19:29:51Z",
+            "apiVersion": "2022-01-30-preview"
+          },
+          {
             "modelId": "input2-10161",
             "createdDateTime": "2022-02-08T02:46:28Z",
             "apiVersion": "2022-01-30-preview"
@@ -393,6 +409,11 @@
           {
             "modelId": "composedModelName10822",
             "createdDateTime": "2022-02-08T05:56:55Z",
+            "apiVersion": "2022-01-30-preview"
+          },
+          {
+            "modelId": "input210452",
+            "createdDateTime": "2022-02-08T22:00:12Z",
             "apiVersion": "2022-01-30-preview"
           },
           {
@@ -458,11 +479,6 @@
           {
             "modelId": "input210484",
             "createdDateTime": "2022-02-08T21:39:00Z",
-            "apiVersion": "2022-01-30-preview"
-          },
-          {
-            "modelId": "input210930",
-            "createdDateTime": "2022-02-08T21:25:32Z",
             "apiVersion": "2022-01-30-preview"
           }
         ]

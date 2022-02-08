@@ -4,20 +4,19 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { AzureKeyCredential, PrebuiltModels, DocumentAnalysisClient } from "../../../src";
+import { PrebuiltModels, DocumentAnalysisClient } from "../../../src";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient, testEnv, testPollingOptions } from "../../utils/recordedClients";
+import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients";
 
 describe("analysis (browser)", () => {
   let client: DocumentAnalysisClient;
   let recorder: Recorder;
-  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(async function (this: Context) {
     ({ recorder, client } = await createRecordedClient(
       this.currentTest,
       DocumentAnalysisClient,
-      apiKey
+      true
     ));
   });
 

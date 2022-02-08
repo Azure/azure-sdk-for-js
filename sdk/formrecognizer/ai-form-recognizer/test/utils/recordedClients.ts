@@ -12,7 +12,6 @@ import {
 } from "@azure-tools/test-recorder";
 
 import { AzureKeyCredential, PollerOptions } from "../../src";
-import { ClientSecretCredential } from "@azure/identity";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -32,7 +31,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   FORM_RECOGNIZER_API_KEY: "api_key",
   FORM_RECOGNIZER_ENDPOINT: "https://endpoint/",
-  FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
+  FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata-v3?sastoken",
   FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
   FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
     "https://storageaccount/selectionmark-v3?sastoken",
@@ -119,18 +118,15 @@ export async function createRecordedClient<T>(
       options?: CommonClientOptions
     ): T;
   },
-  apiKey?: AzureKeyCredential
+  useApiKey: boolean = false
 ): Promise<RecordedClient<T>> {
   const recorder = await createRecorder(currentTest);
   return {
     client: new ctor(
       testEnv.FORM_RECOGNIZER_ENDPOINT,
-      apiKey ||
-        new ClientSecretCredential(
-          testEnv.AZURE_TENANT_ID,
-          testEnv.AZURE_CLIENT_ID,
-          testEnv.AZURE_CLIENT_SECRET
-        ),
+      useApiKey
+        ? new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"))
+        : createTestCredential(),
       recorder.configureClientOptions({})
     ),
     recorder,
