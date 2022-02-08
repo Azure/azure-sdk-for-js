@@ -1,12 +1,12 @@
 # Release History
 
-## 5.7.0-beta.2 (2022-02-08)
+## 5.8.0-beta.1 (2022-02-08)
 
 ### Features Added
 
 - A new function `createEventDataAdapter` is exported that can convert an `EventData` to a simple message with `body` and `contentType` fields. This adapter can be used with the Avro encoder in `@azure/schema-registry-avro` starting from version 1.0.0-beta.6 to create `EventData` messages with Avro-encoded bodies.
 
-- Add idempotent publishing support to `EventHubBufferedProducerClient`.  The functionality can be enabled by setting the `enableIdempotentPartition` client option to `true`.  [PR #20156](https://github.com/Azure/azure-sdk-for-js/pull/20156)
+- When publishing events to Event Hubs, timeouts or other transient failures may introduce ambiguity into the understanding of whether a batch of events was received by the service. To assist in this scenario, the option to publish events idempotently has been added to `EventHubBufferedProducerClient`. The functionality can be enabled by setting the `enableIdempotentPartitions` client option to `true`. If enabled, retries during publishing will attempt to avoid duplication with a minor cost to throughput. Duplicates are still possible but the chance of them occurring is much lower when idempotent retries are enabled. [PR #20156](https://github.com/Azure/azure-sdk-for-js/pull/20156)
 
 ## 5.7.0-beta.1 (2021-11-12)
 
