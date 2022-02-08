@@ -8,7 +8,12 @@ import { matrix, getYieldedValue } from "@azure/test-utils";
 
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
-import { testPollingOptions, makeCredential, createRecorder } from "../utils/recordedClients";
+import {
+  testPollingOptions,
+  makeCredential,
+  createRecorder,
+  getRandomNumber,
+} from "../utils/recordedClients";
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
@@ -29,8 +34,8 @@ matrix(
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
 
-      beforeEach(function (this: Context) {
-        recorder = createRecorder(this);
+      beforeEach(async function (this: Context) {
+        recorder = await createRecorder(this.currentTest);
       });
 
       afterEach(async function () {
@@ -72,7 +77,7 @@ matrix(
           async function requireModel(): Promise<ModelInfo> {
             if (!_model) {
               // Compute a unique name for the model
-              modelId = recorder.getUniqueName("modelName", getId().toString());
+              modelId = recorder.variable(getId().toString(), `modelName${getRandomNumber()}`);
               const poller = await client.beginBuildModel(
                 modelId,
                 containerSasUrl(),
@@ -122,7 +127,9 @@ matrix(
             it("form from url", async () => {
               const model = await requireModel();
 
-              const testingContainerUrl = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
+              const testingContainerUrl = assertEnvironmentVariable(
+                "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+              );
               const urlParts = testingContainerUrl.split("?");
               const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
@@ -230,7 +237,7 @@ matrix(
 
         // Helper function to train/validate single model
         async function makeModel(prefix: string): Promise<string> {
-          const modelId = recorder.getUniqueName(prefix);
+          const modelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
           const poller = await client.beginBuildModel(
             modelId,
             containerSasUrl(),
@@ -248,7 +255,10 @@ matrix(
 
         const componentModelIds = await Promise.all([makeModel("input1"), makeModel("input2")]);
 
-        const modelId = recorder.getUniqueName("composedModelName");
+        const modelId = recorder.variable(
+          "composedModelName",
+          `composedModelName${getRandomNumber()}`
+        );
         const composePoller = await client.beginComposeModel(
           modelId,
           componentModelIds,
@@ -273,7 +283,7 @@ matrix(
           endpoint(),
           makeCredential(useAad)
         );
-        const modelId = recorder.getUniqueName("copySource");
+        const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
         const trainingPoller = await trainingClient.beginBuildModel(
           modelId,
@@ -285,7 +295,7 @@ matrix(
 
         assert.equal(sourceModel.modelId, modelId);
 
-        const targetModelId = recorder.getUniqueName("copyTarget");
+        const targetModelId = recorder.variable("copyTarget", `copyTarget${getRandomNumber()}`);
         const targetAuth = await trainingClient.getCopyAuthorization(targetModelId);
 
         const poller = await trainingClient.beginCopyModel(
