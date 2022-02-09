@@ -7,6 +7,7 @@ import { tmpdir } from "os";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
+import Sinon from "sinon";
 import {
   imdsHost,
   imdsApiVersion,
@@ -20,6 +21,8 @@ import { createResponse, IdentityTestContextInterface } from "../../httpRequests
 import { IdentityTestContext } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
 import { setLogLevel } from "@azure/logger";
+import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
+import { Context } from "mocha";
 
 describe("ManagedIdentityCredential", function () {
   let testContext: IdentityTestContextInterface;
@@ -366,29 +369,28 @@ describe("ManagedIdentityCredential", function () {
       credential: new ManagedIdentityCredential(),
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
-    console.dir(authDetails);
     const authRequest = authDetails.requests[0];
     assert.equal(authRequest.method, "POST");
     assert.equal(authDetails.result!.token, "token");
   });
 
-  it("authorization request fails with client id passed in an Cloud Shell environment", async () => {
+  it("authorization request fails with client id passed in an Cloud Shell environment", async function (this: Context) {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
+    const msiGetTokenSpy = Sinon.spy(ManagedIdentityCredential.prototype, "getToken");
+    const loggerSpy = Sinon.spy(logger, "warning");
     setLogLevel("warning");
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
-    console.dir(authDetails);
-    assert.equal(authDetails.result, null);
-    assert.equal(authDetails.error?.name, "CredentialUnavailableError");
-    assert.equal(
-      authDetails.error?.message,
-      "ManagedIdentityCredential: Authentication failed. Message No responses left."
-    );
-    assert.equal(authDetails.requests.length, 0);
+    assert.equal(authDetails.result!.token, "token");
+    assert.equal(msiGetTokenSpy.called, true);
+    assert.equal(loggerSpy.calledOnce, true);
+    assert.deepEqual(loggerSpy.args[0], [
+      "ManagedIdentityCredential - CloudShellMSI: does not support user-assigned identities in the Cloud Shell environment. Argument clientId is not needed and not used.",
+    ]);
   });
 
   it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {

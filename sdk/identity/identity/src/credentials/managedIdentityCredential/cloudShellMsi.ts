@@ -12,7 +12,7 @@ import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - CloudShellMSI";
-const logger = credentialLogger(msiName);
+export const logger = credentialLogger(msiName);
 
 /**
  * Generates the options used on the request for an access token.
@@ -56,18 +56,13 @@ function prepareRequestOptions(
  * Since Azure Managed Identities aren't available in the Azure Cloud Shell, we log a warning for users that try to access cloud shell using user assigned identity.
  */
 export const cloudShellMsi: MSI = {
-  async isAvailable(scopes, _identityClient, clientId): Promise<boolean> {
+  async isAvailable(scopes, _identityClient): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
       return false;
     }
-    if (clientId) {
-      logger.warning(
-        `${msiName}: Unavailable. Azure Managed Identities aren't available in the Azure Cloud Shell.`
-      );
-      return false;
-    }
+
     const result = Boolean(process.env.MSI_ENDPOINT);
     if (!result) {
       logger.info(`${msiName}: Unavailable. The environment variable MSI_ENDPOINT is needed.`);
@@ -80,6 +75,11 @@ export const cloudShellMsi: MSI = {
   ): Promise<AccessToken | null> {
     const { identityClient, scopes, clientId } = configuration;
 
+    if (clientId) {
+      logger.warning(
+        `${msiName}: does not support user-assigned identities in the Cloud Shell environment. Argument clientId is not needed and not used.`
+      );
+    }
     logger.info(
       `${msiName}: Using the endpoint coming form the environment variable MSI_ENDPOINT = ${process.env.MSI_ENDPOINT}.`
     );
