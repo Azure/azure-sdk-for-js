@@ -8,11 +8,10 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/keyvault/ci.yml
-      - sdk/keyvault/keyvault-certificates/
-      - sdk/keyvault/keyvault-keys/
-      - sdk/keyvault/keyvault-secrets/
-      - sdk/keyvault/keyvault-admin/
+      - sdk/keyvault/
+    exclude:
+      - sdk/keyvault/ci.mgmt.yml
+      - sdk/keyvault/arm-keyvault/
 pr:
   branches:
     include:
@@ -24,11 +23,10 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/keyvault/ci.yml
-      - sdk/keyvault/keyvault-certificates/
-      - sdk/keyvault/keyvault-keys/
-      - sdk/keyvault/keyvault-secrets/
-      - sdk/keyvault/keyvault-admin/
+      - sdk/keyvault/
+    exclude:
+      - sdk/keyvault/ci.mgmt.yml
+      - sdk/keyvault/arm-keyvault
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
