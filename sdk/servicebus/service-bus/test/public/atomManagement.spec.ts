@@ -1204,9 +1204,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           );
           should.equal(
             error.message.startsWith("The messaging entity") ||
-              error.message.startsWith("Entity") ||
-              error.message.startsWith("SubCode") ||
-              error.message.startsWith("No service"),
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
             true,
             `Unexpected error message found.`
           );
@@ -1290,9 +1290,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
             should.equal(
               error.message.startsWith("The messaging entity") ||
-                error.message.startsWith("Entity") ||
-                error.message.startsWith("SubCode") ||
-                error.message.startsWith("No service"),
+              error.message.startsWith("Entity") ||
+              error.message.startsWith("SubCode") ||
+              error.message.startsWith("No service"),
               true,
               `Unexpected error message found.`
             );
@@ -1314,9 +1314,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
             should.equal(
               error.message.startsWith("The messaging entity") ||
-                error.message.startsWith("Entity") ||
-                error.message.startsWith("SubCode") ||
-                error.message.startsWith("No service"),
+              error.message.startsWith("Entity") ||
+              error.message.startsWith("SubCode") ||
+              error.message.startsWith("No service"),
               true,
               `Unexpected error message found.`
             );
@@ -1370,9 +1370,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
             should.equal(
               error.message.startsWith("The messaging entity") ||
-                error.message.startsWith("Entity") ||
-                error.message.startsWith("SubCode") ||
-                error.message.startsWith("No service"),
+              error.message.startsWith("Entity") ||
+              error.message.startsWith("SubCode") ||
+              error.message.startsWith("No service"),
               true,
               `Unexpected error message found.`
             );
@@ -1470,61 +1470,61 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         input?: CreateSubscriptionOptions;
         output: SubscriptionProperties;
       }[] = [
-        {
-          testCaseTitle: "Undefined subscription options",
-          input: undefined,
-          output: {
-            autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-            deadLetteringOnMessageExpiration: false,
-            deadLetteringOnFilterEvaluationExceptions: true,
-            defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
-            forwardDeadLetteredMessagesTo: undefined,
-            enableBatchedOperations: true,
-            forwardTo: undefined,
-            userMetadata: undefined,
-            lockDuration: "PT1M",
-            maxDeliveryCount: 10,
-            requiresSession: false,
-            status: "Active",
-            subscriptionName: managementSubscription1,
-            topicName: managementTopic1,
-            availabilityStatus: "Available",
+          {
+            testCaseTitle: "Undefined subscription options",
+            input: undefined,
+            output: {
+              autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+              deadLetteringOnMessageExpiration: false,
+              deadLetteringOnFilterEvaluationExceptions: true,
+              defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+              forwardDeadLetteredMessagesTo: undefined,
+              enableBatchedOperations: true,
+              forwardTo: undefined,
+              userMetadata: undefined,
+              lockDuration: "PT1M",
+              maxDeliveryCount: 10,
+              requiresSession: false,
+              status: "Active",
+              subscriptionName: managementSubscription1,
+              topicName: managementTopic1,
+              availabilityStatus: "Available",
+            },
           },
-        },
-        {
-          testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
-          input: {
-            lockDuration: "PT5M",
-            maxDeliveryCount: 20,
-            defaultMessageTimeToLive: "P2D",
-            autoDeleteOnIdle: "PT1H",
-            deadLetteringOnFilterEvaluationExceptions: false,
-            deadLetteringOnMessageExpiration: true,
-            enableBatchedOperations: false,
-            requiresSession: true,
-            userMetadata: "test metadata",
-            status: "ReceiveDisabled" as EntityStatus,
-            availabilityStatus: "Available" as EntityAvailabilityStatus,
+          {
+            testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+            input: {
+              lockDuration: "PT5M",
+              maxDeliveryCount: 20,
+              defaultMessageTimeToLive: "P2D",
+              autoDeleteOnIdle: "PT1H",
+              deadLetteringOnFilterEvaluationExceptions: false,
+              deadLetteringOnMessageExpiration: true,
+              enableBatchedOperations: false,
+              requiresSession: true,
+              userMetadata: "test metadata",
+              status: "ReceiveDisabled" as EntityStatus,
+              availabilityStatus: "Available" as EntityAvailabilityStatus,
+            },
+            output: {
+              lockDuration: "PT5M",
+              maxDeliveryCount: 20,
+              defaultMessageTimeToLive: "P2D",
+              autoDeleteOnIdle: "PT1H",
+              deadLetteringOnFilterEvaluationExceptions: false,
+              deadLetteringOnMessageExpiration: true,
+              enableBatchedOperations: false,
+              requiresSession: true,
+              forwardDeadLetteredMessagesTo: undefined,
+              forwardTo: undefined,
+              userMetadata: "test metadata",
+              status: "ReceiveDisabled",
+              subscriptionName: managementSubscription1,
+              topicName: managementTopic1,
+              availabilityStatus: "Available",
+            },
           },
-          output: {
-            lockDuration: "PT5M",
-            maxDeliveryCount: 20,
-            defaultMessageTimeToLive: "P2D",
-            autoDeleteOnIdle: "PT1H",
-            deadLetteringOnFilterEvaluationExceptions: false,
-            deadLetteringOnMessageExpiration: true,
-            enableBatchedOperations: false,
-            requiresSession: true,
-            forwardDeadLetteredMessagesTo: undefined,
-            forwardTo: undefined,
-            userMetadata: "test metadata",
-            status: "ReceiveDisabled",
-            subscriptionName: managementSubscription1,
-            topicName: managementTopic1,
-            availabilityStatus: "Available",
-          },
-        },
-      ];
+        ];
       createSubscriptionTestCases.push({
         testCaseTitle: "case-2 with defaultRuleOptions",
         input: {
@@ -1863,104 +1863,104 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         input: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name"> | undefined;
         output: RuleProperties;
       }[] = [
-        {
-          testCaseTitle: "Sql Filter rule options",
-          input: {
-            filter: {
-              sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-              sqlParameters: { "@intParam": 1, "@stringParam": "b" },
-            },
-            action: { sqlExpression: "SET a='b'" },
-          },
-          output: {
-            filter: {
-              sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-              sqlParameters: { "@intParam": 1, "@stringParam": "b" },
-            },
-            action: {
-              sqlExpression: "SET a='b'",
-              sqlParameters: undefined,
-            },
-            name: managementRule1,
-          },
-        },
-        {
-          testCaseTitle: "Correlation Filter rule options with a single property",
-          input: {
-            filter: {
-              correlationId: "abcd",
-              applicationProperties: {
-                randomState: "WA",
+          {
+            testCaseTitle: "Sql Filter rule options",
+            input: {
+              filter: {
+                sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+                sqlParameters: { "@intParam": 1, "@stringParam": "b" },
               },
+              action: { sqlExpression: "SET a='b'" },
             },
-            action: { sqlExpression: "SET sys.label='GREEN'" },
-          },
-          output: {
-            filter: {
-              correlationId: "abcd",
-              contentType: undefined,
-              subject: undefined,
-              messageId: undefined,
-              replyTo: undefined,
-              replyToSessionId: undefined,
-              sessionId: undefined,
-              to: undefined,
-              applicationProperties: {
-                randomState: "WA",
+            output: {
+              filter: {
+                sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+                sqlParameters: { "@intParam": 1, "@stringParam": "b" },
               },
-            },
-            action: {
-              sqlExpression: "SET sys.label='GREEN'",
-              sqlParameters: undefined,
-            },
-            name: managementRule1,
-          },
-        },
-        {
-          testCaseTitle: "Correlation Filter rule options with multiple properties",
-          input: {
-            filter: {
-              correlationId: "abcd",
-              applicationProperties: {
-                randomState: "WA",
-                randomCountry: "US",
-                randomInt: 25,
-                randomIntDisguisedAsDouble: 3.0,
-                randomDouble: 12.4,
-                randomBool: true,
-                randomDate: randomDate,
+              action: {
+                sqlExpression: "SET a='b'",
+                sqlParameters: undefined,
               },
+              name: managementRule1,
             },
-            action: { sqlExpression: "SET sys.label='GREEN'" },
           },
-          output: {
-            filter: {
-              correlationId: "abcd",
-              contentType: undefined,
-              subject: undefined,
-              messageId: undefined,
-              replyTo: undefined,
-              replyToSessionId: undefined,
-              sessionId: undefined,
-              to: undefined,
-              applicationProperties: {
-                randomState: "WA",
-                randomCountry: "US",
-                randomInt: 25,
-                randomIntDisguisedAsDouble: 3.0,
-                randomDouble: 12.4,
-                randomBool: true,
-                randomDate: randomDate,
+          {
+            testCaseTitle: "Correlation Filter rule options with a single property",
+            input: {
+              filter: {
+                correlationId: "abcd",
+                applicationProperties: {
+                  randomState: "WA",
+                },
               },
+              action: { sqlExpression: "SET sys.label='GREEN'" },
             },
-            action: {
-              sqlExpression: "SET sys.label='GREEN'",
-              sqlParameters: undefined,
+            output: {
+              filter: {
+                correlationId: "abcd",
+                contentType: undefined,
+                subject: undefined,
+                messageId: undefined,
+                replyTo: undefined,
+                replyToSessionId: undefined,
+                sessionId: undefined,
+                to: undefined,
+                applicationProperties: {
+                  randomState: "WA",
+                },
+              },
+              action: {
+                sqlExpression: "SET sys.label='GREEN'",
+                sqlParameters: undefined,
+              },
+              name: managementRule1,
             },
-            name: managementRule1,
           },
-        },
-      ];
+          {
+            testCaseTitle: "Correlation Filter rule options with multiple properties",
+            input: {
+              filter: {
+                correlationId: "abcd",
+                applicationProperties: {
+                  randomState: "WA",
+                  randomCountry: "US",
+                  randomInt: 25,
+                  randomIntDisguisedAsDouble: 3.0,
+                  randomDouble: 12.4,
+                  randomBool: true,
+                  randomDate: randomDate,
+                },
+              },
+              action: { sqlExpression: "SET sys.label='GREEN'" },
+            },
+            output: {
+              filter: {
+                correlationId: "abcd",
+                contentType: undefined,
+                subject: undefined,
+                messageId: undefined,
+                replyTo: undefined,
+                replyToSessionId: undefined,
+                sessionId: undefined,
+                to: undefined,
+                applicationProperties: {
+                  randomState: "WA",
+                  randomCountry: "US",
+                  randomInt: 25,
+                  randomIntDisguisedAsDouble: 3.0,
+                  randomDouble: 12.4,
+                  randomBool: true,
+                  randomDate: randomDate,
+                },
+              },
+              action: {
+                sqlExpression: "SET sys.label='GREEN'",
+                sqlParameters: undefined,
+              },
+              name: managementRule1,
+            },
+          },
+        ];
       createRuleTests.forEach((testCase) => {
         it(`${testCase.testCaseTitle}`, async () => {
           const response = await createEntity(
