@@ -27,6 +27,17 @@ export function prepareMSALResponses(): RawTestResponse[] {
 }
 
 /**
+ * Keep track of requested resources.
+ * @internal
+ */
+export type TrackedRequest = {
+  url: string;
+  body: string;
+  method: string;
+  headers: Record<string, string>;
+};
+
+/**
  * Sets up the environment necessary to do unit testing to Identity credentials.
  * We leverage Sinon to mock the internals of the http and the https modules (in Node, and the SinonFakeXMLHttpRequest in the browser).
  * Once the environment is set, we return a set of utility functions.
@@ -41,8 +52,8 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   public oldLogLevel: AzureLogLevel | undefined;
   public oldLogger: any;
   public logMessages: string[];
-  public server: sinon.SinonFakeServer;
-  public requests: sinon.SinonFakeXMLHttpRequest[];
+  public fetch: sinon.SinonStub;
+  public requests: TrackedRequest[];
   public responses: RawTestResponse[];
 
   constructor({ replaceLogger, logLevel }: { replaceLogger?: boolean; logLevel?: AzureLogLevel }) {
@@ -54,9 +65,9 @@ export class IdentityTestContext implements IdentityTestContextInterface {
 
     /**
      * Browser specific code.
-     * Sets up a fake server that will be used to answer any outgoing request.
+     * Sets up a fake fetch implementation that will be used to answer any outgoing request.
      */
-    this.server = this.sandbox.useFakeServer();
+    this.fetch = this.sandbox.stub(window, "fetch");
     this.requests = [];
     this.responses = [];
 
@@ -69,6 +80,22 @@ export class IdentityTestContext implements IdentityTestContextInterface {
         this.logMessages.push(args);
       };
     }
+  }
+
+  private _trackRequest(url: RequestInfo, request?: RequestInit) {
+    const headers = new Headers(request?.headers);
+    const rawHeaders: Record<string, string> = {};
+
+    headers.forEach((key, value) => {
+      rawHeaders[key] = value;
+    });
+
+    this.requests.push({
+      url: url.toString(),
+      body: request?.body?.toString() ?? "",
+      method: request?.method ?? "GET",
+      headers: rawHeaders,
+    });
   }
 
   async restore(): Promise<void> {
@@ -89,12 +116,15 @@ export class IdentityTestContext implements IdentityTestContextInterface {
      * Both keeps track of the outgoing requests,
      * and ensures each request answers with each received response, in order.
      */
-    this.server.respondWith((xhr) => {
-      this.requests.push(xhr);
-      xhr.respond(response.statusCode, response.headers, response.body);
+    this.fetch.callsFake(async (url, request) => {
+      this._trackRequest(url, request);
+
+      return new Response(response.body, {
+        headers: response.headers,
+        status: response.statusCode,
+      });
     });
     const promise = sendPromise();
-    this.server.respond();
     await this.clock.runAllAsync();
     return promise;
   }
@@ -135,16 +165,22 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     }[];
   }> {
     this.responses.push(...[...insecureResponses, ...secureResponses]);
-    this.server.respondWith((xhr) => {
-      this.requests.push(xhr);
+    this.fetch.callsFake(async (url, request) => {
+      this._trackRequest(url, request);
       if (!this.responses.length) {
         throw new Error("No responses to send");
       }
       const { response, error } = this.responses.shift()!;
       if (response) {
-        xhr.respond(response.statusCode, response.headers, response.body);
+        return new Response(response.body, {
+          headers: response.headers,
+          status: response.statusCode,
+        });
       } else if (error) {
-        xhr.respond(error.statusCode!, {}, error.message);
+        return new Response(error.message, {
+          headers: {},
+          status: error.statusCode,
+        });
       } else {
         throw new Error("No response or error to send");
       }
@@ -158,7 +194,6 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       // We need the promises to begin triggering, so the server has something to respond to,
       // and only then we can wait for all of the async processes to finish.
       const promise = credential.getToken(scopes, getTokenOptions);
-      this.server.respond();
       await this.clock.runAllAsync();
       result = await promise;
     } catch (e) {
@@ -168,14 +203,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     return {
       result,
       error,
-      requests: this.requests.map((request) => {
-        return {
-          url: request.url,
-          body: request.requestBody,
-          method: request.method,
-          headers: request.requestHeaders,
-        };
-      }),
+      requests: this.requests,
     };
   }
 }
