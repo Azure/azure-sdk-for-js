@@ -15,6 +15,7 @@ The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. U
   // ...
   "devDependencies": {
     // ...
+    "@azure-tools/test-credential" : "^1.0.0" // If you're using `@azure/identity` in your tests 
     "@azure-tools/test-recorder": "^2.0.0"
   }
 }
@@ -213,13 +214,9 @@ Other sanitizers for more complex use cases are also available.
 
 ## AAD and the new `NoOpCredential`
 
-The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package, installed as follows:
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package.
 
-```bash
-$ rush add --dev --caret -p @azure-tools/test-credential
-```
-
-This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
+This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between `NoOpCredential` in playback and `ClientSecretCredential` when recording for you:
 
 ```ts
 import { createTestCredential } from "@azure-tools/test-credential";
