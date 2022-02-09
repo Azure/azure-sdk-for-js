@@ -120,6 +120,7 @@ Thumbs.db
 *.pfx
 *.pem
 *.key
+*.srl
 
 # WebStorm #
 .idea/
