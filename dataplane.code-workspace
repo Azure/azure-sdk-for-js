@@ -284,6 +284,9 @@
     },
     {
       "path": "sdk/test-utils/test-utils"
+    },
+    {
+      "path": "sdk/purview/purview-administration-rest"
     }
   ],
   "settings": {
