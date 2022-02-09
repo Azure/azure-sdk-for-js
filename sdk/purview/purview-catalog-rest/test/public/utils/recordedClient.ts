@@ -3,10 +3,19 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
+import { ClientSecretCredential } from "@azure/identity";
+import { ClientOptions } from "@azure-rest/core-client";
+import { env } from "@azure-tools/test-recorder";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import * as dotenv from "dotenv";
+
 import { Context } from "mocha";
 import { Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
-export { createClient } from "./createClient";
+if (isNode) {
+  dotenv.config();
+}
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -14,6 +23,20 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
 };
+
+export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
+  const httpClient = isNode ? undefined : createXhrHttpClient();
+  const credential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET,
+    { httpClient }
+  );
+  return PurviewCatalog(env.ENDPOINT, credential, {
+    ...options,
+    httpClient,
+  });
+}
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
