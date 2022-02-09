@@ -28,12 +28,6 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
-  // sanitizerOptions: [
-  //   (recording: string): string =>
-  //     recording.replace(/"aeg-sas-key"\s?:\s?"[^"]*"/g, `"aeg-sas-key":"aeg-sas-key"`),
-  //   (recording: string): string =>
-  //     recording.replace(/"aeg-sas-token"\s?:\s?"[^"]*"/g, `"aeg-sas-token":"aeg-sas-token"`),
-  // ],
 };
 
 export async function createRecordedClient<T extends InputSchema>(
