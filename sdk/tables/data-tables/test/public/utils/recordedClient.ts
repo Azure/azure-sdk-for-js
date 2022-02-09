@@ -3,12 +3,12 @@
 
 import "./env";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { RecorderEnvironmentSetup, env } from "@azure-tools/test-recorder";
+import { RecorderEnvironmentSetup, env, isLiveMode } from "@azure-tools/test-recorder";
 import { TableClient, TableServiceClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
-const httpClient = isNode ? undefined : createXhrHttpClient();
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 const mockAccountName = "fakeaccount";
 const mockAccountKey = "fakeKey";
 const fakeSas =

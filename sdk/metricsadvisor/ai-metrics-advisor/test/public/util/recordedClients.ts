@@ -3,7 +3,13 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { TokenCredential } from "@azure/core-auth";
 import {
@@ -26,7 +32,7 @@ export const isNode =
 if (isNode) {
   dotenv.config();
 }
-const httpClient = isNode ? undefined : createXhrHttpClient();
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;

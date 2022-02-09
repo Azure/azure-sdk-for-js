@@ -6,7 +6,7 @@
 import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { ClientOptions } from "@azure-rest/core-client";
-import { env } from "@azure-tools/test-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 import * as dotenv from "dotenv";
 
@@ -25,7 +25,7 @@ const replaceableVariables: { [k: string]: string } = {
 };
 
 export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
-  const httpClient = isNode ? undefined : createXhrHttpClient();
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,

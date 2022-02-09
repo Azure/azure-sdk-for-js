@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import "./env";
-import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  record,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { MixedRealityStsClient } from "../../src";
@@ -42,7 +48,7 @@ export function createClient(): MixedRealityStsClient {
   const accountDomain = getEnv("MIXEDREALITY_ACCOUNT_DOMAIN");
   const accountId = getEnv("MIXEDREALITY_ACCOUNT_ID");
   const accountKey = getEnv("MIXEDREALITY_ACCOUNT_KEY");
-  const httpClient = isNode ? undefined : createXhrHttpClient();
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
   const keyCredential = new AzureKeyCredential(accountKey);
 

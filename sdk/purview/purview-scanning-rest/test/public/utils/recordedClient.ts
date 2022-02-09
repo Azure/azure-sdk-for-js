@@ -5,7 +5,13 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import PurviewScanning, { PurviewScanningRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode, createXhrHttpClient } from "@azure/test-utils";
@@ -38,7 +44,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClient(options?: ClientOptions): PurviewScanningRestClient {
-  const httpClient = isNode ? undefined : createXhrHttpClient();
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,

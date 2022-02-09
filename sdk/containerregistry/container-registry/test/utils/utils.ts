@@ -6,6 +6,7 @@ import {
   env,
   RecorderEnvironmentSetup,
   pluginForClientSecretCredentialTests,
+  isLiveMode,
 } from "@azure-tools/test-recorder";
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { isNode } from "./isNode";
@@ -94,7 +95,7 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const httpClient = isNode ? undefined : createXhrHttpClient();
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const clientOptions = {
     audience,
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,

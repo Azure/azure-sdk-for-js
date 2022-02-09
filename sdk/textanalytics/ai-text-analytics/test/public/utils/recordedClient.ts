@@ -3,7 +3,13 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
@@ -49,7 +55,7 @@ export function createClient(
   authMethod: AuthMethod,
   options?: TextAnalyticsClientOptions
 ): TextAnalyticsClient {
-  const httpClient = isNode ? undefined : createXhrHttpClient();
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
     case "APIKey": {
