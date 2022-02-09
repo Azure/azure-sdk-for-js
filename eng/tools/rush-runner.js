@@ -5,9 +5,6 @@ const { spawnSync } = require("child_process");
 
 const reducedDependencyTestMatrix = {
   'core': ['@azure-rest/core-client',
-    '@azure-rest/core-client-lro',
-    '@azure-rest/core-client-paging',
-    '@azure-rest/purview-account',
     '@azure-tests/perf-storage-blob',
     '@azure/ai-text-analytics',
     '@azure/arm-compute',
@@ -24,7 +21,6 @@ const reducedDependencyTestMatrix = {
     '@azure/synapse-monitoring'
   ],
   'test-utils': [
-    '@azure-rest/purview-account',
     '@azure-tests/perf-storage-blob',
     '@azure-tests/perf-data-tables',
     '@azure/arm-eventgrid',
@@ -37,9 +33,6 @@ const reducedDependencyTestMatrix = {
   ],
   'identity': [
     '@azure-rest/core-client',
-    '@azure-rest/core-client-lro',
-    '@azure-rest/core-client-paging',
-    '@azure-rest/purview-account',
     '@azure-tests/perf-storage-blob',
     '@azure/ai-text-analytics',
     '@azure/arm-compute',
@@ -107,7 +100,7 @@ const getPackageJsons = (searchDir) => {
 const getServicePackages = (baseDir, serviceDirs) => {
   const packageNames = [];
   const packageDirs = [];
-  const validSdkTypes =  ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
+  const validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
