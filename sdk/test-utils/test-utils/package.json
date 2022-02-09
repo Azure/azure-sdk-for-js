@@ -14,9 +14,9 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle",
     "build:samples": "echo Skipped.",
-    "build:test": "echo not needed",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -26,12 +26,12 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "unit-test:browser": "echo skipped",
+    "unit-test:browser": "cross-env karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test:browser": "npm run clean && npm run build npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build && npm run unit-test:node",
-    "test": "npm run clean && npm run build && npm run unit-test"
+    "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "files": [
     "dist/",
@@ -76,6 +76,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
+    "cross-env": "^7.0.2",
     "eslint": "^7.15.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
