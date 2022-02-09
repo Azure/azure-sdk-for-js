@@ -18,7 +18,7 @@ export const IdentityDocumentSchema = {
     "Prebuilt model to extract key information from US driver licenses and international passports.",
   createdDateTime: "2021-07-30T00:00:00Z",
   docTypes: {
-    "prebuilt:idDocument:driverLicense": {
+    "idDocument.driverLicense": {
       description: "Driver License - Currently, only US driver licenses are supported.",
       fieldSchema: {
         CountryRegion: {
@@ -84,7 +84,7 @@ export const IdentityDocumentSchema = {
         },
       },
     },
-    "prebuilt:idDocument:passport": {
+    "idDocument.passport": {
       description: "Passport",
       fieldSchema: {
         MachineReadableZone: {
