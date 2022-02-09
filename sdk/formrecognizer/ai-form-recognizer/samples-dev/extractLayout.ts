@@ -25,8 +25,8 @@ async function main() {
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
 
-  // Generic Document extraction produces all data from the Layout operation as well as the additional key-value pairs
-  // (associations between elements, such as labeled elements), and document entities.
+  // Layout extraction only produces basic elements such as pages, words, lines, etc. as well as information about the
+  // appearance (styles) of textual elements.
   const { pages, tables } = await poller.pollUntilDone();
 
   if (pages.length <= 0) {

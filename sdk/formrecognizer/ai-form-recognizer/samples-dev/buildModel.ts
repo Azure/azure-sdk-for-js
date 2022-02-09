@@ -16,6 +16,7 @@
 import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
+import { DocumentModelBuildMode } from "../src/options/BuildModelOptions";
 dotenv.config();
 
 async function main() {
@@ -30,7 +31,11 @@ async function main() {
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
-  const poller = await client.beginBuildModel(modelId, trainingDataSasUrl);
+  const poller = await client.beginBuildModel(
+    modelId,
+    trainingDataSasUrl,
+    DocumentModelBuildMode.Template
+  );
   const model = await poller.pollUntilDone();
 
   console.log("Model ID:", model.modelId);

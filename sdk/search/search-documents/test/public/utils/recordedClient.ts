@@ -55,19 +55,28 @@ export async function createClients<IndexModel>(
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
   const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {
-    serviceVersion,
-  });
-  const indexClient = new SearchIndexClient(endPoint, credential, {
-    serviceVersion,
-  });
-  const indexerClient = new SearchIndexerClient(endPoint, credential, {
-    serviceVersion,
-  });
-
-  recorder.configureClient(searchClient["client"]);
-  recorder.configureClient(indexClient["client"]);
-  recorder.configureClient(indexerClient["client"]);
+  const searchClient = new SearchClient<IndexModel>(
+    endPoint,
+    indexName,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+    })
+  );
+  const indexClient = new SearchIndexClient(
+    endPoint,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+    })
+  );
+  const indexerClient = new SearchIndexerClient(
+    endPoint,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+    })
+  );
 
   return {
     searchClient,
