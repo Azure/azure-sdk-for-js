@@ -56,7 +56,7 @@ function prepareRequestOptions(
  * Since Azure Managed Identities aren't available in the Azure Cloud Shell, we log a warning for users that try to access cloud shell using user assigned identity.
  */
 export const cloudShellMsi: MSI = {
-  async isAvailable(scopes, _identityClient): Promise<boolean> {
+  async isAvailable(scopes): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
