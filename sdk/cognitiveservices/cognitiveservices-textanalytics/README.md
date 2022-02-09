@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK for TextAnalyticsClient.
 
-> Please note, a newer package [@azure/ai-text-analytics](https://www.npmjs.com/package/@azure/ai-text-analytics) is available as of June, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade.
+> Please note, a newer package [@azure/ai-text-analytics](https://www.npmjs.com/package/@azure/ai-text-analytics) is available as of June, 2020 that uses Text Analytics API v3.0 or newer.. While this package will continue to receive critical bug fixes, it uses Text Analytics API v2.1, and we strongly encourage you to upgrade.
 
 ### Currently supported environments
 
