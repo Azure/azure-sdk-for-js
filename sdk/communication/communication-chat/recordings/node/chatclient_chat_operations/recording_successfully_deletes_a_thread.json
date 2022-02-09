@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AERou-0IWJpYQZJdmp8QzK6Q_utLTUJg1mdi_mrigWYw1%40thread.v2?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3AZnyu2UC0MOPfsvtoixtOTj8IOLGvuUx-76ba3ScHags1%40thread.v2?api-version=2021-09-07",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,18 +9,18 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "b8890dc8-438c-4f11-8551-f94eaba9f3b0"
+        "x-ms-client-request-id": "711c1305-eac5-411f-9e35-d2888a5f8187"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Date": "Wed, 09 Feb 2022 03:21:46 GMT",
-        "MS-CV": "2ANoJXYh70GGP984Vf6Vog.0",
+        "Date": "Wed, 09 Feb 2022 03:44:22 GMT",
+        "MS-CV": "Z2LDGaEdWEmdn5vJG4oq8w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0SjMDYgAAAAARrCqwsAIbT7eFO1QBXebfV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0ljgDYgAAAAAUdT3\u002BrQECSLc8zndCDxcuV1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "728ms"
+        "X-Processing-Time": "157ms"
       },
       "ResponseBody": null
     }

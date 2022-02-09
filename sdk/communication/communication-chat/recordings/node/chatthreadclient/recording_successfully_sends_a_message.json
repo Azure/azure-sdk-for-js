@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AI4Uwz5aNTmzzLrj3Ss_Pl1rxKiPA6qN_wvpEUrYdVy01%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ARmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1%40thread.v2/messages?api-version=2021-09-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "51",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "5d23b967-ed88-4b2f-8934-dea90d2e489c"
+        "x-ms-client-request-id": "29081644-542e-4208-ba21-737004160abd"
       },
       "RequestBody": {
         "content": "content",
@@ -23,17 +23,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 03:21:47 GMT",
-        "Location": "https://endpoint/chat/threads/19%3AI4Uwz5aNTmzzLrj3Ss_Pl1rxKiPA6qN_wvpEUrYdVy01@thread.v2/messages/1644376908763",
-        "MS-CV": "vmikZoFM/Ua2mHVgGq8MiA.0",
+        "Date": "Wed, 09 Feb 2022 03:44:23 GMT",
+        "Location": "https://endpoint/chat/threads/19%3ARmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1@thread.v2/messages/1644378264388",
+        "MS-CV": "0sWnFxMSKUSgP1ZB6EwWqQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0TDMDYgAAAACtITMAVrcZRax5b3vwEMMIV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0mDgDYgAAAAC4o5pQnfhtRppC3oYOvvPAV1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "201ms"
+        "X-Processing-Time": "142ms"
       },
       "ResponseBody": {
-        "id": "1644376908763"
+        "id": "1644378264388"
       }
     }
   ],

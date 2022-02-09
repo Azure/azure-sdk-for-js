@@ -27,6 +27,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
+const fakeToken = generateToken();
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: {
@@ -36,11 +37,8 @@ export const recorderOptions: RecorderStartOptions = {
         actualConnString: env["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"] || undefined,
       },
     ],
+    bodyKeySanitizers: [{ jsonPath: "$.accessToken.token", value: fakeToken }],
   },
-  // customizationsOnRecordings: [
-  //   (recording: string): string => recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"token"`),
-  //   (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-  // ],
 };
 
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
