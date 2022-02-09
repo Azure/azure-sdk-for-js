@@ -6,13 +6,13 @@ import {
   Recorder,
   RecorderEnvironmentSetup,
   env,
-  record,
   isLiveMode,
+  record,
 } from "@azure-tools/test-recorder";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { MixedRealityStsClient } from "../../src";
-import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with
