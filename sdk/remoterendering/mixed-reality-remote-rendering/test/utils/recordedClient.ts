@@ -11,6 +11,7 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
+import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import { RemoteRenderingClient } from "../../src";
 import "./env";
@@ -56,7 +57,8 @@ export function createClient(): RemoteRenderingClient {
     // the AccessToken auth path.
     const maxTimestampMs = 8640000000000000;
     const credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
-    return new RemoteRenderingClient(serviceEndpoint, accountId, credential);
+    const httpClient = isNode ? undefined : createXhrHttpClient();
+    return new RemoteRenderingClient(serviceEndpoint, accountId, credential, { httpClient });
   } else {
     const credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
     return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
