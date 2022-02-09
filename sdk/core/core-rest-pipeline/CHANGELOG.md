@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- The pipeline now internally caches a function that was previously constructed on every request, granting a slight decrease in the amount of time it takes to send a request.
+
 ## 1.5.0 (2022-02-03)
 
 ### Features Added
