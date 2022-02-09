@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "fcae71fe9c0a2f3a3343d2cefa28466e";
+module.exports.hash = "4f2483a5528b2b3494c181e09c89ed4f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8b07acae-1cf9-4d56-8538-d1dd00594e00',
+  '0581f14d-088e-4a17-bea3-5cc88a567900',
   'x-ms-ests-server',
-  '2.1.12071.26 - SCUS ProdSlices',
+  '2.1.12381.24 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AowcZctkwE1Kg2HQ6u10E1M; expires=Wed, 03-Nov-2021 18:24:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Al-M_DQw_JlLlcNpdrSO3KA; expires=Thu, 03-Mar-2022 22:03:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrSF9xz4b2o5xnhj1QggXbgQbew5Db0SIGBKRJWlMwFZnRLgfZFrj-wg6T0YlwD_wleYqeOsKrOArCReB9d6EfmX3VL8shqgT1E8ZubtkiX1NtpRQ05dw7Pt242FBDDhlxEOiDrQ8Jn2-0bo8oirD4JMwqoettouJ6b2bdSGMUCT4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr5ETIs4WoY3ADT6cV4mGmzVWEMmCoHUqYIvuPe1gnogto9nSQMNUb1Z_tZcrXoyKwLah6AupRCE3DmFS8B6_2Ne5miqmEnn68JjZ8uJ0MdnaCJYc85cpT-7b-ngV_CE1CWdvsy4_w6JmLu1rRWlbDszMrLXOShmhnFVMpKfqs2AkgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 04 Oct 2021 18:24:27 GMT',
+  'Tue, 01 Feb 2022 22:03:32 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4285420d-4c63-4f6f-92cf-601a6a553d00',
+  'ed3bd156-e262-478e-98aa-3ecbe8d4d900',
   'x-ms-ests-server',
-  '2.1.12071.28 - NCUS ProdSlices',
+  '2.1.12381.24 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AkyN_3YmAmdDrMJ0XrLmaag; expires=Wed, 03-Nov-2021 18:24:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoPqu6Z_K1pHlQBx2OB9cKM; expires=Thu, 03-Mar-2022 22:03:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevroQW8gGE0KLVJgljctgXBHRidrUwF8ppRtGX9a5iIO_pC9nCNWCFqVmnnERpE9U8IDjeQhEbFhsT8mqmnbYC-DnwfpkelZlAN4kZPNcAhOaK3Me9G2Jla_FqPLpEioewfkqv0tJxpuDEptK7QPpxY2W86DZkwQXYyvcNmna1L6DUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr-3MhAaoRkwf_4k4RkWjr6LliHEiTnCY9o5cy-WSpinpsA1aBFiG_wKY7-aplbDnCYJuVLMCNPawaA_upsgwabZmbHVUP8WjR-Fi5o-0vGztxYD_qpVtxtSNBStxRKHldx30bc2gqml4eOWStXZq7MikcuFJ0BZY6krnIMJCeUHIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 04 Oct 2021 18:24:27 GMT',
+  'Tue, 01 Feb 2022 22:03:32 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.1&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=7d82804d-554d-43d9-9de9-d80467ad3c6c&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=31d72ff9-2718-49ac-811d-713f91880c12&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '07c9bf16-69ed-4f7c-9348-397697ce5300',
+  'd2d2e5c5-9839-4ed2-aa08-61f128ebb800',
   'x-ms-ests-server',
-  '2.1.12071.28 - EUS ProdSlices',
+  '2.1.12381.24 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=As3wk9obUopLpnfo_y5qTek; expires=Wed, 03-Nov-2021 18:24:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AldHpL2Bw6FHsJmeRoRu6hY; expires=Thu, 03-Mar-2022 22:03:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 04 Oct 2021 18:24:27 GMT',
+  'Tue, 01 Feb 2022 22:03:32 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -113,19 +113,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/formrecognizer/documentModels')
   .query(true)
-  .reply(200, {"value":[{"modelId":"prebuilt-idDocument","createdDateTime":"2021-07-30T00:00:00Z","description":"Prebuilt model to extract key information from US driver licenses and international passports."},{"modelId":"prebuilt-layout","createdDateTime":"2021-07-30T00:00:00Z","description":"Prebuilt model to extract text, selection marks, tables, and other layout information."},{"modelId":"prebuilt-invoice","createdDateTime":"2021-07-30T00:00:00Z","description":"Prebuilt model to extract key information from English invoices, including customer, vendor, invoice ID, due date, total, and more."},{"modelId":"prebuilt-document","createdDateTime":"2021-07-30T00:00:00Z","description":"Prebuilt model to extract text, selection marks, tables, entities, and general key-value pairs."},{"modelId":"prebuilt-receipt","createdDateTime":"2021-07-30T00:00:00Z","description":"Prebuilt model to extract key information from English receipts, including merchant name, transaction date, transaction total, and more."},{"modelId":"prebuilt-businessCard","createdDateTime":"2021-07-30T00:00:00Z","description":"Prebuilt model to extract key information from English business cards, including personal contact info, company name, job title, and more."},{"modelId":"copyTarget163337131337006713","createdDateTime":"2021-10-04T18:15:09Z"},{"modelId":"composedModelName163337183914902643","createdDateTime":"2021-10-04T18:23:59Z"},{"modelId":"modelName163337185322503533","createdDateTime":"2021-10-04T18:24:15Z"},{"modelId":"azsdkJavaScript037058","createdDateTime":"2021-10-04T18:10:39Z"},{"modelId":"input2163337183083602943","createdDateTime":"2021-10-04T18:23:54Z"},{"modelId":"copySource163337130657801160","createdDateTime":"2021-10-04T18:15:09Z"},{"modelId":"customFormModelName163337115963302920","createdDateTime":"2021-10-04T18:12:42Z"},{"modelId":"input1163337125098407403","createdDateTime":"2021-10-04T18:14:13Z"},{"modelId":"composedModelName163337130609209319","createdDateTime":"2021-10-04T18:15:06Z"},{"modelId":"input2163337125098509178","createdDateTime":"2021-10-04T18:14:13Z"},{"modelId":"input1163337183083404470","createdDateTime":"2021-10-04T18:23:53Z"},{"modelId":"copySource163337125885001523","createdDateTime":"2021-10-04T18:14:21Z"},{"modelId":"customFormModelName163337173870804431","createdDateTime":"2021-10-04T18:22:21Z"},{"modelId":"copySource163337183967902573","createdDateTime":"2021-10-04T18:24:02Z"},{"modelId":"customFormModelName163337159276803720","createdDateTime":"2021-10-04T18:19:55Z"},{"modelId":"copyTarget163337184656409458","createdDateTime":"2021-10-04T18:24:02Z"},{"modelId":"copyTarget163337126577104571","createdDateTime":"2021-10-04T18:14:21Z"},{"modelId":"input2163337129909206437","createdDateTime":"2021-10-04T18:15:01Z"},{"modelId":"composedModelName163337125806502764","createdDateTime":"2021-10-04T18:14:18Z"},{"modelId":"input1163337129908806200","createdDateTime":"2021-10-04T18:15:01Z"}]}, [
+  .reply(200, {"value":[{"modelId":"prebuilt-businessCard","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract key information from English business cards, including personal contact info, company name, job title, and more."},{"modelId":"prebuilt-document","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract text, selection marks, tables, entities, and general key-value pairs."},{"modelId":"prebuilt-idDocument","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract key information from US driver licenses and international passports."},{"modelId":"prebuilt-invoice","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract key information from English invoices, including customer, vendor, invoice ID, due date, total, and more."},{"modelId":"prebuilt-layout","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract text, selection marks, tables, and other layout information."},{"modelId":"prebuilt-receipt","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract key information from English receipts, including merchant name, transaction date, transaction total, and more."},{"modelId":"prebuilt-tax.us.w2","createdDateTime":"2022-01-30T00:00:00Z","apiVersion":"2022-01-30-preview","description":"Prebuilt model to extract key information from IRS US W2 tax forms (year 2018-2021)"},{"modelId":"input2163225987212408525","createdDateTime":"2021-09-21T21:31:16Z","apiVersion":"2021-07-30-preview"},{"modelId":"copySource163225988631507929","createdDateTime":"2021-09-21T21:31:30Z","apiVersion":"2021-07-30-preview"},{"modelId":"input1163113109668902281","createdDateTime":"2021-09-08T19:58:21Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163113248153505751","createdDateTime":"2021-09-08T20:21:25Z","apiVersion":"2021-07-30-preview"},{"modelId":"copySource163237519378307187","createdDateTime":"2021-09-23T05:33:18Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163113250880806719","createdDateTime":"2021-09-08T20:21:52Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName164375298596203582","createdDateTime":"2022-02-01T22:03:11Z","apiVersion":"2022-01-30-preview"},{"modelId":"input2163113109670701032","createdDateTime":"2021-09-08T19:58:21Z","apiVersion":"2021-07-30-preview"},{"modelId":"composedModelName163113111005107104","createdDateTime":"2021-09-08T19:58:30Z","apiVersion":"2021-07-30-preview"},{"modelId":"copyTarget163226013235708643","createdDateTime":"2021-09-21T21:35:28Z","apiVersion":"2021-07-30-preview"},{"modelId":"composedModelName163237539928802537","createdDateTime":"2021-09-23T05:36:40Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163112101595907208","createdDateTime":"2021-09-08T17:10:19Z","apiVersion":"2021-07-30-preview"},{"modelId":"input1163287095585905071","createdDateTime":"2021-09-28T23:16:00Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163112436624101146","createdDateTime":"2021-09-08T18:06:11Z","apiVersion":"2021-07-30-preview"},{"modelId":"copyTarget163225945514709890","createdDateTime":"2021-09-21T21:24:11Z","apiVersion":"2021-07-30-preview"},{"modelId":"azsdkJavaScript871456","createdDateTime":"2021-09-21T21:14:36Z","apiVersion":"2021-07-30-preview"},{"modelId":"copySource163237540514707220","createdDateTime":"2021-09-23T05:36:50Z","apiVersion":"2021-07-30-preview"},{"modelId":"copyTarget163237520176206090","createdDateTime":"2021-09-23T05:33:18Z","apiVersion":"2021-07-30-preview"},{"modelId":"copyModelName163113159166606844","createdDateTime":"2021-09-08T20:06:37Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163113225393208484","createdDateTime":"2021-09-08T20:17:37Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163113223443705279","createdDateTime":"2021-09-08T20:17:18Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163113250650601315","createdDateTime":"2021-09-08T20:21:50Z","apiVersion":"2021-07-30-preview"},{"modelId":"copySource163225944741401940","createdDateTime":"2021-09-21T21:24:11Z","apiVersion":"2021-07-30-preview"},{"modelId":"input1163237517970002616","createdDateTime":"2021-09-23T05:33:03Z","apiVersion":"2021-07-30-preview"},{"modelId":"composedModelName164375297951902160","createdDateTime":"2022-02-01T22:03:01Z","apiVersion":"2022-01-30-preview"},{"modelId":"composedModelName163113105718707490","createdDateTime":"2021-09-08T19:57:38Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163113249535404329","createdDateTime":"2021-09-08T20:21:39Z","apiVersion":"2021-07-30-preview"},{"modelId":"input1163225987212409177","createdDateTime":"2021-09-21T21:31:16Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163112893633403661","createdDateTime":"2021-09-08T19:22:21Z","apiVersion":"2021-07-30-preview"},{"modelId":"copyModelName163113221826906658","createdDateTime":"2021-09-08T20:17:02Z","apiVersion":"2021-07-30-preview"},{"modelId":"composedModelName163237518783605359","createdDateTime":"2021-09-23T05:33:08Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163112218040803833","createdDateTime":"2021-09-08T17:29:45Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163112476698303571","createdDateTime":"2021-09-08T18:12:54Z","apiVersion":"2021-07-30-preview"},{"modelId":"modelName163112850615809534","createdDateTime":"2021-09-08T19:15:10Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163112134627105335","createdDateTime":"2021-09-08T17:15:51Z","apiVersion":"2021-07-30-preview"},{"modelId":"220a7072-44d1-4fb5-8bdf-444c8d4cec6f","createdDateTime":"2021-11-17T19:14:13Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163276659392204568","createdDateTime":"2021-09-27T18:16:38Z","apiVersion":"2021-07-30-preview"},{"modelId":"customFormModelName163225936721405143","createdDateTime":"2021-09-21T21:22:52Z","apiVersion":"2021-07-30-preview"},{"modelId":"copySource163113181450007698","createdDateTime":"2021-09-08T20:10:18Z","apiVersion":"2021-07-30-preview"},{"modelId":"input1163226010901703902","createdDateTime":"2021-09-21T21:35:13Z","apiVersion":"2021-07-30-preview"},{"modelId":"input2163237545457201891","createdDateTime":"2021-09-23T05:37:39Z","apiVersion":"2021-07-30-preview"}],"nextLink":"https://endpoint/formrecognizer/documentModels?api-version=2022-01-30-preview&nextLink=2!216!MDAwMTE3IXN1YnNjcmlwdGlvbnMvYzVhMWYyNjJhOTFhNGFlOThkMDY0NTBmODRjMWU4ZDYvbW9kZWxzLzZkNThhNjQ2LWI2MjItNDA4YS04ZjgxLTI1NDc3YzI0NGE1ZS92ZXJzaW9uLTIwMjEtMDctMzAtcHJldmlldyEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiE-"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '155',
+  '3042',
   'apim-request-id',
-  'ffccbdb1-c266-4a6d-89ec-46ea142f38a1',
+  'a228e9c5-f86c-4072-bb5d-f24239d197de',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 04 Oct 2021 18:24:27 GMT'
+  'Tue, 01 Feb 2022 22:03:35 GMT'
 ]);

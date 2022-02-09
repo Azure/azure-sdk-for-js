@@ -1,0 +1,24 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aRelationship;1",
+      "@type": "Relationship",
+      "name": "proximity",
+      "dtmi:dtdl:property:languageVersion;3": 2
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:noTypeThatAllows",
+        "PrimaryID": "dtmi:test:aRelationship;1",
+        "SecondaryID": null,
+        "Property": "dtmi:dtdl:property:languageVersion;3",
+        "Value": null
+      }
+    ]
+  }
+}

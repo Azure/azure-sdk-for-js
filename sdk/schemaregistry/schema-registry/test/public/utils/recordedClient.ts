@@ -23,8 +23,8 @@ export function createRecordedClient(recorder: Recorder): SchemaRegistryClient {
   const credential = createTestCredential();
   const client = new SchemaRegistryClient(
     assertEnvironmentVariable("SCHEMA_REGISTRY_ENDPOINT"),
-    credential
+    credential,
+    recorder.configureClientOptions({})
   );
-  recorder.configureClient(client["client"]);
   return client;
 }

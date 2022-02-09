@@ -60,12 +60,13 @@ beforeEach(function (this: Context) {
 });
 ```
 
-To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled. Note that for this method to work, the `pipeline` object must be exposed as a property on the client.
+To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClientOptions` method. This method will add the necessary policies to the client options' `additionalPolicies` array for the recording to be enabled. Note that for this method to work, the `additionalPolicies` options has to be part of the client options.
 
 ```ts
-const client = /* ... initialize your client as normal ... */;
-// recorderHttpPolicy is provided as an export from the test-recorder-new package.
-recorder.configureClient(client);
+const client = new MyServiceClient(
+  /* ... insert options here ... */,
+  recorder.configureClientOptions({ /* any additional options to pass through */ }),
+);
 ```
 
 ### For Core v1 SDKs
@@ -134,6 +135,9 @@ Under the hood, this is powered by the Unified Recorder's sanitizer functionalit
 
 **⚠️Important:** To access environment variables, you must use the `env` export made available from the **new** recorder. This ensures that environment variables are sourced from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
+`recorder.start()` internally sets up the environment variables for playback.
+So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
+
 ## Recorder variables
 
 If you want to compute a value at record time and re-use it during playback, the Unified Recorder's variable functionality is for you. This API lets you declare variables which are stored with the recording at record time. During playback, instead of computing the variable afresh, the value will be retrieved from the recording. A use case of this might be to set a value randomly during record time that needs to be the same during playback.
@@ -173,8 +177,9 @@ await recorder.addSanitizers({
 });
 ```
 
-This example has two sanitizers: 
-- The first sanitizer replaces all instances of "find" in the recording with "replace". 
+This example has two sanitizers:
+
+- The first sanitizer replaces all instances of "find" in the recording with "replace".
 - The second example demonstrates the use of a regular expression for replacement, where anything matching the .NET regular expression `[Rr]egex` (i.e. "Regex" and "regex") would be replaced with "replace".
 
 ### ConnectionStringSanitizer
@@ -217,6 +222,8 @@ $ rush add --dev --caret -p @azure-tools/test-credential
 This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
 
 ```ts
+import { createTestCredential } from "@azure-tools/test-credential";
+
 const credential = createTestCredential();
 
 // Create your client using the test credential.
@@ -230,7 +237,7 @@ Since AAD traffic is not recorded by the new recorder, there is no longer a need
 When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
 
 ```ts
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
@@ -252,15 +259,38 @@ module.exports = function (config) {
 };
 ```
 
-The following configuration options in `karma.config.js` should be **removed**:
+The following configuration options in `karma.config.js` are unnecessary and should be **removed**:
 
 ```ts
+// imports - to be deleted
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode,
+} = require("@azure-tools/test-recorder");
+
+// plugins - to be removed
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor",
+
+// files section - snippet to remove
+     .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+
+// preprocessors - to be removed
+      "recordings/browsers/**/*.json": ["json"],
+
+// reporters - to be removed
+      "json-to-file"
+      
+/* ... */
+// log options - to be removed
 browserConsoleLogOptions: {
   terminal: !isRecordMode(),
 }
 
 /* ... */
-
+// jsonToFileReporter - to be removed
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
 }

@@ -14,6 +14,7 @@ import {
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { testSchemaIds } from "./dummies";
+import { v4 as uuid } from "uuid";
 
 export function createTestRegistry(neverLive = false): SchemaRegistry {
   if (!neverLive && isLiveMode()) {
@@ -50,8 +51,8 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
     return result!.properties;
 
     function newId(): string {
-      if (idCounter === testSchemaIds.length) {
-        throw new Error("Out of IDs. Generate more GUIDs and paste them above.");
+      if (idCounter >= testSchemaIds.length) {
+        return uuid();
       }
       const id = testSchemaIds[idCounter];
       idCounter++;

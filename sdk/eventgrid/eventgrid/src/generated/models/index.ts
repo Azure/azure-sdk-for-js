@@ -140,7 +140,7 @@ export interface StorageDirectoryDeletedEventData {
   /** The path to the deleted directory. */
   url: string;
   /** Is this event for a recursive delete operation. */
-  recursive: boolean;
+  recursive: string;
   /** An opaque string value representing the logical sequence of events for any particular directory name. Users can use standard string comparison to understand the relative sequence of two events on the same directory name. */
   sequencer: string;
   /** The identity of the requester that triggered this event. */
@@ -280,7 +280,7 @@ export interface StorageBlobInventoryPolicyCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
-  fileurl: string;
+  fileUrl: string;
   /** The file type of the capture file. */
   fileType: string;
   /** The shard ID. */

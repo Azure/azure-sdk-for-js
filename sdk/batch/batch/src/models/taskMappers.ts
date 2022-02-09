@@ -25,6 +25,7 @@ export {
   ExitCodeRangeMapping,
   ExitConditions,
   ExitOptions,
+  HttpHeader,
   MultiInstanceSettings,
   NameValuePair,
   OutputFile,

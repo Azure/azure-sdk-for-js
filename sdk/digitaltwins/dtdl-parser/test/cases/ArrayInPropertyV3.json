@@ -1,0 +1,119 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:example:someInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Property",
+          "name": "myProp",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "Foo",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "myMapValue",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "x",
+                    "schema": "integer"
+                  },
+                  {
+                    "name": "y",
+                    "schema": {
+                      "@type": "Array",
+                      "elementSchema": "double"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:example:someInterface;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+            "myProp": "dtmi:example:someInterface:_contents:__myProp;1"
+          }
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp;1",
+        "type": "Property",
+        "name": "myProp",
+        "schema": "dtmi:example:someInterface:_contents:__myProp:_schema;1"
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapKey;1",
+          "mapValue": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapKey;1",
+        "type": "MapKey",
+        "properties": {
+          "name": "Foo",
+          "schema": "dtmi:dtdl:instance:Schema:string;3"
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue;1",
+        "type": "MapValue",
+        "properties": {
+          "name": "myMapValue",
+          "schema": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema;1"
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__x;1",
+            "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__y;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__x;1",
+        "type": "Field",
+        "properties": {
+          "name": "x",
+          "schema": "dtmi:dtdl:instance:Schema:integer;3"
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__y;1",
+        "type": "Field",
+        "properties": {
+          "name": "y",
+          "schema": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__y:_schema;1"
+        }
+      },
+      {
+        "id": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__y:_schema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:dtdl:instance:Schema:double;3"
+        }
+      }
+    ]
+  }
+}

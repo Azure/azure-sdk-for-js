@@ -41,6 +41,17 @@ export function getClient(
   }
 
   const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
+  if (clientOptions.additionalPolicies?.length) {
+    for (const { policy, position } of clientOptions.additionalPolicies) {
+      // Sign happens after Retry and is commonly needed to occur
+      // before policies that intercept post-retry.
+      const afterPhase = position === "perRetry" ? "Sign" : undefined;
+      pipeline.addPolicy(policy, {
+        afterPhase,
+      });
+    }
+  }
+
   const { allowInsecureConnection } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
     return {
