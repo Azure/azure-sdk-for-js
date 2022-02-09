@@ -285,15 +285,15 @@ const {
       "json-to-file"
       
 /* ... */
-// log options - to be removed
-browserConsoleLogOptions: {
-  terminal: !isRecordMode(),
-}
-
-/* ... */
 // jsonToFileReporter - to be removed
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
+}
+
+/* ... */
+// log options - to be removed
+browserConsoleLogOptions: {
+  terminal: !isRecordMode(),
 }
 ```
 
