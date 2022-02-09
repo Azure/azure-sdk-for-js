@@ -28,8 +28,7 @@ function expiresOnParser(requestBody: TokenResponseParsedBody): number {
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string,
-  resourceId?: string
+  clientId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -43,9 +42,6 @@ function prepareRequestOptions(
 
   if (clientId) {
     queryParameters.clientid = clientId;
-  }
-  if (resourceId) {
-    queryParameters.mi_res_id = resourceId;
   }
 
   const query = new URLSearchParams(queryParameters);
@@ -72,7 +68,13 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
  */
 export const appServiceMsi2017: MSI = {
-  async isAvailable({ scopes }): Promise<boolean> {
+  async isAvailable({ scopes, resourceId }): Promise<boolean> {
+    if (resourceId) {
+      logger.info(
+        `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported by the App Service Managed Identity Endpoint 2017.`
+      );
+      return false;
+    }
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -91,7 +93,7 @@ export const appServiceMsi2017: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId, resourceId } = configuration;
+    const { identityClient, scopes, clientId } = configuration;
 
     logger.info(
       `${msiName}: Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
@@ -99,7 +101,7 @@ export const appServiceMsi2017: MSI = {
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId, resourceId),
+      ...prepareRequestOptions(scopes, clientId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true,
     });

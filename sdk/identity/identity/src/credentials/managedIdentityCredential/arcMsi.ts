@@ -96,7 +96,19 @@ async function filePathRequest(
  * Defines how to determine whether the Azure Arc MSI is available, and also how to retrieve a token from the Azure Arc MSI.
  */
 export const arcMsi: MSI = {
-  async isAvailable({ scopes }): Promise<boolean> {
+  async isAvailable({ scopes, clientId, resourceId }): Promise<boolean> {
+    if (clientId) {
+      logger.info(
+        `${msiName}: Unavailable. User assigned identity is not supported by the Azure Arc Managed Identity Endpoint. To authenticate with the system assigned identity, omit the client id when constructing the ManagedIdentityCredential, or if authenticating with the DefaultAzureCredential ensure the AZURE_CLIENT_ID environment variable is not set.`
+      );
+      return false;
+    }
+    if (resourceId) {
+      logger.info(
+        `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported by the Azure Arc Managed Identity Endpoint.`
+      );
+      return false;
+    }
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -114,20 +126,9 @@ export const arcMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId, resourceId } = configuration;
+    const { identityClient, scopes } = configuration;
 
     logger.info(`${msiName}: Authenticating.`);
-
-    if (clientId) {
-      throw new Error(
-        `${msiName}: User assigned identity is not supported by the Azure Arc Managed Identity Endpoint. To authenticate with the system assigned identity, omit the client id when constructing the ManagedIdentityCredential, or if authenticating with the DefaultAzureCredential ensure the AZURE_CLIENT_ID environment variable is not set.`
-      );
-    }
-    if (resourceId) {
-      throw new Error(
-        `${msiName}: User defined managed Identity by resource Id is not supported by the Azure Arc Managed Identity Endpoint.`
-      );
-    }
 
     const requestOptions = {
       disableJsonStringifyOnBody: true,

@@ -32,7 +32,10 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
   managedIdentityClientId?: string;
   /**
    * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
-   * Resource IDs may be built by convention, in which cases it may be required to specify this parameter to fully control what resource ID to use.
+   * In scenarios such as when user assigned identities are created using an ARM template,
+   * where the resource Id of the identity is known but the client Id can't be known ahead of time,
+   * this parameter allows programs to use these user assigned identities
+   * without having to first determine the client Id of the created identity.
    */
   managedIdentityResourceId?: string;
 }
@@ -55,7 +58,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
   constructor(options?: DefaultAzureCredentialOptions) {
     const managedResourceId = options?.managedIdentityResourceId;
     const managedIdentityOptions: ManagedIdentityCredentialOptions = {
-      resourceIdentifier: managedResourceId,
+      resourceId: managedResourceId,
       ...options,
     };
 

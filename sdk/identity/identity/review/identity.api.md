@@ -255,7 +255,8 @@ export class ManagedIdentityCredential implements TokenCredential {
 
 // @public
 export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
-    resourceIdentifier?: string;
+    clientId?: string;
+    resourceId?: string;
 }
 
 // @public

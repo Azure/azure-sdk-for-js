@@ -24,9 +24,17 @@ const logger = credentialLogger("ManagedIdentityCredential");
  */
 export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
   /**
-   * Allows specifying a custom resource Id.
+   * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
    */
-  resourceIdentifier?: string;
+  clientId?: string;
+  /**
+   * Allows specifying a custom resource Id.
+   * In scenarios such as when user assigned identities are created using an ARM template,
+   * where the resource Id of the identity is known but the client Id can't be known ahead of time,
+   * this parameter allows programs to use these user assigned identities
+   * without having to first determine the client Id of the created identity.
+   */
+  resourceId?: string;
 }
 
 /**
@@ -68,11 +76,12 @@ export class ManagedIdentityCredential implements TokenCredential {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.resourceId = options?.resourceIdentifier;
+      this.resourceId = options?.resourceId;
       this.identityClient = new IdentityClient(options);
     } else {
       // options only constructor
-      this.resourceId = clientIdOrOptions?.resourceIdentifier;
+      this.clientId = clientIdOrOptions?.clientId;
+      this.resourceId = clientIdOrOptions?.resourceId;
       this.identityClient = new IdentityClient(clientIdOrOptions);
     }
   }

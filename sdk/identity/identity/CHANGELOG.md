@@ -4,7 +4,10 @@
 
 ### Features Added
 
-- Added support to specify a custom resource Id on the `ManagedIdentityCredential` and the `DefaultAzureCredential`. Resource IDs may be built by convention, in which cases specifying `resourceId` on the `ManagedIdentityCredential` (or `managedResourceId` on the `DefaultAzureCredential`) allows users the possibility to fully control what resource ID to use.
+- Added support to specify a custom resource Id on the `ManagedIdentityCredential` and the `DefaultAzureCredential`.
+  - In scenarios such as when user assigned identities are created using an ARM template, where the resource Id of the identity is known but the client Id can't be known ahead of time, this parameter allows programs to use these user assigned identities without having to first determine the client Id of the created identity.
+  - If `resourceId` is sent, the managed identities that don't support this parameter will be skipped.
+- Added `clientId` to the optional parameters of the `ManagedIdentityCredential`.
 
 ### Breaking Changes
 

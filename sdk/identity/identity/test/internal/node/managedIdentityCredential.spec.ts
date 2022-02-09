@@ -252,7 +252,7 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client", {
-        resourceIdentifier: "resource-id",
+        resourceId: "resource-id",
       }),
       insecureResponses: [
         createResponse(200, {
@@ -332,9 +332,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
-        resourceIdentifier: "resource-id",
-      }),
+      credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -348,7 +346,6 @@ describe("ManagedIdentityCredential", function () {
 
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("clientid"), "client");
-    assert.equal(query.get("mi_res_id"), "resource-id");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.MSI_ENDPOINT),
@@ -366,24 +363,55 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
+  it("App Service does not support resourceId", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+    process.env.MSI_SECRET = "secret";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client", {
+        resourceId: "resource-id",
+      }),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    assert.isEmpty(authDetails.requests);
+  });
+
   it("sends an authorization request correctly in an Cloud Shell environment", async () => {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
-        resourceIdentifier: "resource-id",
-      }),
+      credential: new ManagedIdentityCredential("client"),
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
 
     const authRequest = authDetails.requests[0];
     assert.equal(authRequest.method, "POST");
     assert.equal(authDetails.result!.token, "token");
+  });
 
-    const body = new URLSearchParams(authRequest.body);
-    assert.equal(body.get("mi_res_id"), "resource-id");
+  it("Cloud Shell does not support resourceId", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client", {
+        resourceId: "resource-id",
+      }),
+      secureResponses: [createResponse(200, { access_token: "token" })],
+    });
+
+    assert.isEmpty(authDetails.requests);
   });
 
   it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
@@ -466,7 +494,7 @@ describe("ManagedIdentityCredential", function () {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client", {
-        resourceIdentifier: "resource-id",
+        resourceId: "resource-id",
       }),
       secureResponses: [
         createResponse(200, {
@@ -524,7 +552,7 @@ describe("ManagedIdentityCredential", function () {
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential(parameterClientId, {
-          resourceIdentifier: "resource-id",
+          resourceId: "resource-id",
         }),
         secureResponses: [
           createResponse(200, {
