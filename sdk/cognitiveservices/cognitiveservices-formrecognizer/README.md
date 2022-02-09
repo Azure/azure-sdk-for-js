@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK for FormRecognizerClient.
 
-> Please note, a newer package [@azure/ai-form-recognizer](https://www.npmjs.com/package/@azure/ai-form-recognizer) is available as of August, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade.
+> Please note, this package is deprecated and not functional as it uses a version of the Form Recognizer service (`v1.0-preview`) that is no longer available. As of August 2020, you can instead use [@azure/ai-form-recognizer](https://www.npmjs.com/package/@azure/ai-form-recognizer).
 
 ### Currently supported environments
 
