@@ -6,12 +6,14 @@ stages:
       PackageName: "@azure/keyvault-certificates"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
+      SupportedClouds: 'Public,UsGov,China'
       AdditionalMatrixConfigs:
          - Name: Keyvault_live_test_base
            Path: sdk/keyvault/keyvault-certificates/platform-matrix.json
            Selection: sparse
            GenerateVMJobs: true
       EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_CLIENT_ID: $(KEYVAULT_CLIENT_ID)
+        AZURE_TENANT_ID: $(KEYVAULT_TENANT_ID)
+        AZURE_CLIENT_SECRET: $(KEYVAULT_CLIENT_SECRET)
+        AZURE_SUBSCRIPTION_ID: $(KEYVAULT_SUBSCRIPTION_ID)
