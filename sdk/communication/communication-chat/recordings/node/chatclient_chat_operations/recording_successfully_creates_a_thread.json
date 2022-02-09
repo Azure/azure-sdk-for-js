@@ -1,0 +1,155 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2021-03-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
+        "Cookie": "",
+        "User-Agent": "azsdk-js-communication-identity/1.0.0 core-http/1.2.6 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "691ea1e0-95ad-4f12-baa9-a393aa372be8",
+        "x-ms-content-sha256": "WTRvgEjjVd\u002BbvyKw3WgXgDkU81aV8FWq\u002B4/BE\u002Bhe0\u002BA=",
+        "x-ms-date": "Wed, 09 Feb 2022 03:21:45 GMT"
+      },
+      "RequestBody": {
+        "createTokenWithScopes": [
+          "chat"
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Length": "920",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 03:21:44 GMT",
+        "MS-CV": "X7CWp8KYo0mIWECN4phbpQ.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0STMDYgAAAABVEmy05vDHR7dopF\u002BeXvwHV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "691ea1e0-95ad-4f12-baa9-a393aa372be8",
+        "X-Processing-Time": "45ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c61-fb6f-28f4-343a0d008f9d"
+        },
+        "accessToken": {
+          "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwNCIsIng1dCI6IlJDM0NPdTV6UENIWlVKaVBlclM0SUl4Szh3ZyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjk4N2JjZjNmLWU4MzAtNDBkZS04ZTE1LWE5MWUwY2NjY2I0OV8wMDAwMDAwZi03YzYxLWZiNmYtMjhmNC0zNDNhMGQwMDhmOWQiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDQzNzY5MDUiLCJleHAiOjE2NDQ0NjMzMDUsImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiI5ODdiY2YzZi1lODMwLTQwZGUtOGUxNS1hOTFlMGNjY2NiNDkiLCJpYXQiOjE2NDQzNzY5MDV9.AiXdAnHUUvE_IiLkVLa1TUJBUwNq3Cs8vc3lSv67_iAQY7PaGHhTp-jVNzRDVX1i2qZpxEjeRdAF2KQrdSAfXqJqRSBRw0wkhMCulP-5WVuVHfSeuJAvM8tUqPBq3ipXni6pF6_RKxSSl9ZJxiCXlKIDXXfZ-s8aoMUGPZkdKKvJieo6Q0Wa86bDoPXGM4ybn__OqPXrdr_Te6Xmj3epVcQ3eoF1EDGYrZIbpkOi5vOqqbRLkeu7XW7ADjJrWNoueDGI-bePdTxA9c6ShZ9ZJDYfblXoYsgP9ufqD8xba3Fe88cLRTgj1IalUOe4DvBGU-MeniuvIaqenclj7jsCUA",
+          "expiresOn": "2022-02-10T03:21:45.6038127\u002B00:00"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2021-03-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
+        "Cookie": "",
+        "User-Agent": "azsdk-js-communication-identity/1.0.0 core-http/1.2.6 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "105d413d-c8b0-482c-967f-bf5578f6ae0d",
+        "x-ms-content-sha256": "WTRvgEjjVd\u002BbvyKw3WgXgDkU81aV8FWq\u002B4/BE\u002Bhe0\u002BA=",
+        "x-ms-date": "Wed, 09 Feb 2022 03:21:45 GMT"
+      },
+      "RequestBody": {
+        "createTokenWithScopes": [
+          "chat"
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Length": "920",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 03:21:44 GMT",
+        "MS-CV": "i0V8\u002BqYWmUue5/5BTMnexQ.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0STMDYgAAAAB/btjy2Xm7R6Giq6gzXuq\u002BV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "105d413d-c8b0-482c-967f-bf5578f6ae0d",
+        "X-Processing-Time": "100ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c61-fc09-0e04-343a0d008530"
+        },
+        "accessToken": {
+          "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwNCIsIng1dCI6IlJDM0NPdTV6UENIWlVKaVBlclM0SUl4Szh3ZyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjk4N2JjZjNmLWU4MzAtNDBkZS04ZTE1LWE5MWUwY2NjY2I0OV8wMDAwMDAwZi03YzYxLWZjMDktMGUwNC0zNDNhMGQwMDg1MzAiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDQzNzY5MDUiLCJleHAiOjE2NDQ0NjMzMDUsImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiI5ODdiY2YzZi1lODMwLTQwZGUtOGUxNS1hOTFlMGNjY2NiNDkiLCJpYXQiOjE2NDQzNzY5MDV9.EuFTRooWRkmLLzOhMs0DzUx8k85bTS3FR7Mxmiw8ciTqOAqBfar3WXxQLBpH--uUdbs0hklq9jGPPivTDRPVONfiR2UmVSH-cfgT8n7R3Gt-tqAIIESw0G_uUmXV8SbWlroK4v2XMw6CO3MzwdcooqhoyXVyqxj84Qzdj3JCWQ49161WNXKYy3OPQVdNdOUapcPj4Bw-A0gSEZwNXinalLaK89GoDCGS4t4PXZgFWNaC8W-QMNO5PQ80vpGg1zz1qjsP2Z5qzfdc_7Y8ZLAPN6VA6ZlhTsmHSYgEnuC5LRorjtP7uVstStlSTOKzufyOVyEk91O8Kl5QZmYKMuiyJA",
+          "expiresOn": "2022-02-10T03:21:45.7622313\u002B00:00"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/chat/threads?api-version=2021-09-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "317",
+        "Content-Type": "application/json",
+        "repeatability-request-id": "repeatability-request-id",
+        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "9d3ff76c-6dc3-4bec-ae97-161d2e01f0f4"
+      },
+      "RequestBody": {
+        "topic": "test topic",
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "communicationUser": {
+                "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c61-fb6f-28f4-343a0d008f9d"
+              }
+            }
+          },
+          {
+            "communicationIdentifier": {
+              "communicationUser": {
+                "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c61-fc09-0e04-343a0d008530"
+              }
+            }
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 03:21:45 GMT",
+        "Location": "https://endpoint/chat/threads/19%3AERou-0IWJpYQZJdmp8QzK6Q_utLTUJg1mdi_mrigWYw1@thread.v2",
+        "MS-CV": "j7rWdwphyUKGn1zhdpdMfQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0STMDYgAAAADSm7YW8CIZRpg14iPJZovaV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "588ms"
+      },
+      "ResponseBody": {
+        "chatThread": {
+          "id": "19:ERou-0IWJpYQZJdmp8QzK6Q_utLTUJg1mdi_mrigWYw1@thread.v2",
+          "topic": "test topic",
+          "createdOn": "2022-02-09T03:21:46Z",
+          "createdByCommunicationIdentifier": {
+            "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c61-fb6f-28f4-343a0d008f9d",
+            "communicationUser": {
+              "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c61-fb6f-28f4-343a0d008f9d"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

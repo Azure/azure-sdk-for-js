@@ -1,0 +1,88 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2021-03-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
+        "Cookie": "",
+        "User-Agent": "azsdk-js-communication-identity/1.0.0 core-http/1.2.6 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "019a7e97-e318-4976-9efb-244c1d0a8506",
+        "x-ms-content-sha256": "WTRvgEjjVd\u002BbvyKw3WgXgDkU81aV8FWq\u002B4/BE\u002Bhe0\u002BA=",
+        "x-ms-date": "Wed, 09 Feb 2022 03:21:50 GMT"
+      },
+      "RequestBody": {
+        "createTokenWithScopes": [
+          "chat"
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Length": "920",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 03:21:49 GMT",
+        "MS-CV": "sVCK7Lyd\u002B0SG6/wNmt5QpQ.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0TjMDYgAAAAA4MaWFXqXkRY4Mm5VZi\u002B2GV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "019a7e97-e318-4976-9efb-244c1d0a8506",
+        "X-Processing-Time": "43ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c62-0cfd-28f4-343a0d008f9f"
+        },
+        "accessToken": {
+          "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwNCIsIng1dCI6IlJDM0NPdTV6UENIWlVKaVBlclM0SUl4Szh3ZyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjk4N2JjZjNmLWU4MzAtNDBkZS04ZTE1LWE5MWUwY2NjY2I0OV8wMDAwMDAwZi03YzYyLTBjZmQtMjhmNC0zNDNhMGQwMDhmOWYiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDQzNzY5MTAiLCJleHAiOjE2NDQ0NjMzMTAsImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiI5ODdiY2YzZi1lODMwLTQwZGUtOGUxNS1hOTFlMGNjY2NiNDkiLCJpYXQiOjE2NDQzNzY5MTB9.a2kLdmktAgCQ6IU5CHZr4PWA0-9YBvzI423jjl3423xtIlWuf4m2DiGUO857tZ5yKq86w4aDt02-KB8R0Z4-KYeDTUC5CzJcjNaSmybcuTprbshGz5iuioAhvXjuW_zmkOX8KQzgztu0C1VHL5f2_u5_MG6hsZ7TLwbjRxzPHlQIkbGKevyfHzltRG6XwhoS2XExTj3W12PcGUnNKreK3aprDgQhDi_1t3fIYWAxqKHbb3uxVcTXtLkTtSz_1x4nmgoYMVFPzySEVJG2oSt5Iw-o5Mefj4KdfSFIS5PaXoHCe2P98VtQI3eP8plJuaHa3h8k2Rymtya_0Xd4Gpgfgw",
+          "expiresOn": "2022-02-10T03:21:50.0997031\u002B00:00"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/chat/threads/19%3AI4Uwz5aNTmzzLrj3Ss_Pl1rxKiPA6qN_wvpEUrYdVy01%40thread.v2/participants/:add?api-version=2021-09-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "157",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "65a4eb75-6ca1-4b43-99df-8bab5e1872e7"
+      },
+      "RequestBody": {
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "communicationUser": {
+                "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c62-0cfd-28f4-343a0d008f9f"
+              }
+            }
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 03:21:49 GMT",
+        "MS-CV": "m3xoGfX0yUqQqhMmx1BxMA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0TjMDYgAAAAC3gYNUfr3jQYZByDQUu/unV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "295ms"
+      },
+      "ResponseBody": {}
+    }
+  ],
+  "Variables": {}
+}
