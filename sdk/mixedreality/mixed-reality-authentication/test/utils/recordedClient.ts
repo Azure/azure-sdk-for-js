@@ -6,6 +6,7 @@ import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/te
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { MixedRealityStsClient } from "../../src";
+import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with
@@ -41,10 +42,11 @@ export function createClient(): MixedRealityStsClient {
   const accountDomain = getEnv("MIXEDREALITY_ACCOUNT_DOMAIN");
   const accountId = getEnv("MIXEDREALITY_ACCOUNT_ID");
   const accountKey = getEnv("MIXEDREALITY_ACCOUNT_KEY");
+  const httpClient = isNode ? undefined : createXhrHttpClient();
 
   const keyCredential = new AzureKeyCredential(accountKey);
 
-  return new MixedRealityStsClient(accountId, accountDomain, keyCredential);
+  return new MixedRealityStsClient(accountId, accountDomain, keyCredential, { httpClient });
 }
 
 /**
