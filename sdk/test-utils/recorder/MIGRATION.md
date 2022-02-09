@@ -41,6 +41,8 @@ Note the difference between the dev-tool `node-ts-input` and `node-js-input` com
 - `node-ts-input` runs the tests using `ts-node`, without code coverage.
 - `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
 
+Compare with the older test runs to make sure you're running all the tests/files as before.
+
 ## Initializing the recorder
 
 The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
