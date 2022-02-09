@@ -1,0 +1,7 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:test:aRelationship;1",
+  "@type": "Relationship",
+  "name": "proximity",
+  "target": "dtmi:foo:bar:baz;1"
+}

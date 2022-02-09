@@ -62,6 +62,18 @@ export interface MessageHandlers {
   processMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
+   *
+   * This handler will be called for any error that occurs in the receiver when
+   *   - receiving the message, or
+   *   - executing your `processMessage` callback, or
+   *   - receiver is completing the message on your behalf after successfully running your `processMessage` callback and `autoCompleteMessages` is enabled
+   *   - receiver is abandoning the message on your behalf if running your `processMessage` callback fails and `autoCompleteMessages` is enabled
+   *   - receiver is renewing the lock on your behalf due to auto lock renewal feature being enabled
+   *
+   * Note that when receiving messages in a stream using `subscribe()`, the receiver will automatically retry receiving messages on all errors unless
+   * `close()` is called on the subscription. It is completely up to users to decide what errors are considered non-recoverable and to handle them
+   * accordingly in this callback.
+   * For a list of errors occurs within Service Bus, please refer to https://docs.microsoft.com/javascript/api/\@azure/service-bus/servicebuserror?view=azure-node-latest
    * @param args - The error and additional context to indicate where
    * the error originated.
    */

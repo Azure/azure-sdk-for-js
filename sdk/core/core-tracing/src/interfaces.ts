@@ -2,6 +2,16 @@
 // Licensed under the MIT license.
 
 /**
+ * A narrower version of TypeScript 4.5's Awaited type which Recursively
+ * unwraps the "awaited type", emulating the behavior of `await`.
+ */
+export type Resolved<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
+  ? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the first argument
+    ? Resolved<V> // recursively unwrap the value
+    : never // the argument to `then` was not callable
+  : T; // non-object or non-thenable
+
+/**
  * Represents a client that can integrate with the currently configured {@link Instrumenter}.
  *
  * Create an instance using {@link createTracingClient}.
@@ -11,6 +21,8 @@ export interface TracingClient {
    * Wraps a callback in a tracing span, calls the callback, and closes the span.
    *
    * This is the primary interface for using Tracing and will handle error recording as well as setting the status on the span.
+   *
+   * Both synchronous and asynchronous functions will be awaited in order to reflect the result of the callback on the span.
    *
    * Example:
    *
@@ -32,7 +44,7 @@ export interface TracingClient {
     operationOptions: Options,
     callback: Callback,
     spanOptions?: TracingSpanOptions
-  ): Promise<ReturnType<Callback>>;
+  ): Promise<Resolved<ReturnType<Callback>>>;
   /**
    * Starts a given span but does not set it as the active span.
    *

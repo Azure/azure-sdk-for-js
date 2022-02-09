@@ -541,7 +541,9 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates ChangePoint feedback", async function () {
+        // Skipped due to potential errors on service side
+        // Issue - https://github.com/Azure/azure-sdk-for-js/issues/19747
+        it.skip("creates ChangePoint feedback", async function () {
           const changePointFeedback: MetricChangePointFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "ChangePoint",
@@ -558,7 +560,9 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates Period feedback", async function () {
+        // Skipped due to potential errors on service side
+        // Issue - https://github.com/Azure/azure-sdk-for-js/issues/19747
+        it.skip("creates Period feedback", async function () {
           const periodFeedback: MetricPeriodFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Period",

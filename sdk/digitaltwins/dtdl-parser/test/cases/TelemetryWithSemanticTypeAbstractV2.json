@@ -1,0 +1,27 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:illegalAbstract;1",
+      "@type": [
+        "Telemetry",
+        "SemanticType"
+      ],
+      "name": "illegal",
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:abstractSupplementalType",
+        "PrimaryID": "dtmi:test:illegalAbstract;1",
+        "SecondaryID": null,
+        "Property": "@type",
+        "Value": "SemanticType"
+      }
+    ]
+  }
+}

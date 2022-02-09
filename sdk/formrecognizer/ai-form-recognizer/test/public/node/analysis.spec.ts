@@ -8,6 +8,7 @@ import fs from "fs";
 import { Context } from "mocha";
 import path from "path";
 import {
+  AnalyzedDocument,
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
   IdentityDocument,
@@ -15,6 +16,8 @@ import {
   PrebuiltModels,
 } from "../../../src";
 import { DocumentDateField, DocumentSelectionMarkField } from "../../../src/models/fields";
+import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions";
+import { createValidator } from "../../utils/fieldValidator";
 import { createRecorder, makeCredential, testPollingOptions } from "../../utils/recordedClients";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
@@ -30,7 +33,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
 }
 
 matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
@@ -230,6 +233,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const poller = await trainingClient.beginBuildModel(
             modelName,
             env.FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL,
+            DocumentModelBuildMode.Template,
             testPollingOptions
           );
           _model = await poller.pollUntilDone();
@@ -246,7 +250,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(modelId, stream, testPollingOptions);
+        const poller = await client.beginAnalyzeDocument(modelId, stream, testPollingOptions);
         const {
           pages: [page],
           documents: [result],
@@ -277,22 +281,23 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
           testPollingOptions
         );
         const {
           documents,
-          documents: [receipt],
+          documents: [receiptNaive],
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
-        assert.equal(receipt.docType, "prebuilt:receipt");
-        assert.equal(receipt.fields.receiptType?.value, "Itemized");
+        assert.equal(receiptNaive.docType, "receipt.retailMeal");
 
-        assert.ok(receipt.fields.tax?.value, "Expecting valid 'Tax' field");
-        assert.equal(receipt.fields.tax?.kind, "number");
+        const receipt = receiptNaive as Extract<
+          typeof receiptNaive,
+          { docType: "receipt.retailMeal" }
+        >;
 
         assert.ok(receipt.fields.total, "Expecting valid 'Total' field");
         assert.equal(receipt.fields.total?.kind, "number");
@@ -304,7 +309,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
           testPollingOptions
@@ -315,13 +320,13 @@ matrix([[true, false]] as const, async (useAad) => {
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
-        assert.equal(receipt.docType, "prebuilt:receipt");
+        assert.equal(receipt.docType, "receipt.retailMeal");
       });
 
       it("url", async () => {
         const url = makeTestUrl("/contoso-allinone.jpg");
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           url,
           testPollingOptions
@@ -332,14 +337,14 @@ matrix([[true, false]] as const, async (useAad) => {
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
-        assert.equal(receipt.docType, "prebuilt:receipt");
+        assert.equal(receipt.docType, "receipt.retailMeal");
       });
 
       it("multi-page receipt with blank page", async () => {
         const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
           testPollingOptions
@@ -350,14 +355,14 @@ matrix([[true, false]] as const, async (useAad) => {
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
-        assert.equal(receipt.docType, "prebuilt:receipt");
+        assert.equal(receipt.docType, "receipt.retailMeal");
       });
 
       it("specifying locale", async () => {
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         // Just make sure that this doesn't throw
-        const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, url, {
+        const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url, {
           locale: "en-IN",
           ...testPollingOptions,
         });
@@ -369,7 +374,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         try {
-          const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, url, {
+          const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions,
           });
@@ -401,7 +406,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "businessCard", "business-card-english.jpg");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.BusinessCard,
           stream,
           testPollingOptions
@@ -438,7 +443,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("url", async () => {
         const url = makeTestUrl("/businessCard.png");
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.BusinessCard,
           url,
           testPollingOptions
@@ -476,7 +481,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const url = makeTestUrl("/businessCard.jpg");
 
         // Just make sure that this doesn't throw
-        const poller = await client.beginAnalyzeDocuments(PrebuiltModels.BusinessCard, url, {
+        const poller = await client.beginAnalyzeDocument(PrebuiltModels.BusinessCard, url, {
           locale: "en-IN",
           ...testPollingOptions,
         });
@@ -488,7 +493,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const url = makeTestUrl("/businessCard.jpg");
 
         try {
-          const poller = await client.beginAnalyzeDocuments(PrebuiltModels.BusinessCard, url, {
+          const poller = await client.beginAnalyzeDocument(PrebuiltModels.BusinessCard, url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions,
           });
@@ -523,7 +528,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "invoice", "Invoice_1.pdf");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
           stream,
           testPollingOptions
@@ -564,7 +569,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("url", async () => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
           url,
           testPollingOptions
@@ -606,7 +611,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         try {
-          const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Invoice, url, {
+          const poller = await client.beginAnalyzeDocument(PrebuiltModels.Invoice, url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions,
           });
@@ -640,7 +645,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "identityDocument", "license.jpg");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
           stream,
           testPollingOptions
@@ -653,11 +658,11 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
 
-        assert.equal(idDocumentNaive.docType, "prebuilt:idDocument:driverLicense");
+        assert.equal(idDocumentNaive.docType, "idDocument.driverLicense");
 
         const idDocument = idDocumentNaive as Extract<
           IdentityDocument,
-          { docType: "prebuilt:idDocument:driverLicense" }
+          { docType: "idDocument.driverLicense" }
         >;
 
         assert.isNotEmpty(pages);
@@ -684,7 +689,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("url", async () => {
         const url = makeTestUrl("/license.jpg");
 
-        const poller = await client.beginAnalyzeDocuments(
+        const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
           url,
           testPollingOptions
@@ -697,11 +702,11 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
 
-        assert.equal(idDocumentNaive.docType, "prebuilt:idDocument:driverLicense");
+        assert.equal(idDocumentNaive.docType, "idDocument.driverLicense");
 
         const idDocument = idDocumentNaive as Extract<
           IdentityDocument,
-          { docType: "prebuilt:idDocument:driverLicense" }
+          { docType: "idDocument.driverLicense" }
         >;
 
         assert.isNotEmpty(pages);
@@ -729,7 +734,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const url = makeTestUrl("/license.jpg");
 
         try {
-          const poller = await client.beginAnalyzeDocuments(PrebuiltModels.IdentityDocument, url, {
+          const poller = await client.beginAnalyzeDocument(PrebuiltModels.IdentityDocument, url, {
             locale: "thisIsNotAValidLocaleString",
             ...testPollingOptions,
           });
@@ -740,6 +745,99 @@ matrix([[true, false]] as const, async (useAad) => {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
+      });
+    });
+
+    describe("tax - US - w2", () => {
+      const validator = createValidator({
+        w2FormVariant: "W-2",
+        taxYear: "2018",
+        w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
+        employee: {
+          name: "BONNIE F HERNANDEZ",
+          address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
+          zipCode: "98631-5293",
+          socialSecurityNumber: "986-62-1002",
+        },
+        controlNumber: "000086242",
+        employer: {
+          idNumber: "48-1069918",
+          name: "BLUE BEACON USA, LP",
+          address: "PO BOX 856 SALINA, KS",
+          zipCode: "67402-0856",
+        },
+        wagesTipsAndOtherCompensation: 37160.56,
+        federalIncomeTaxWithheld: 3894.54,
+        socialSecurityWages: 37160.56,
+        socialSecurityTaxWithheld: 2303.95,
+        medicareWagesAndTips: 37160.56,
+        medicareTaxWithheld: 538.83,
+        socialSecurityTips: 302.3,
+        allocatedTips: 874.2,
+        dependentCareBenefits: 9873.2,
+        nonQualifiedPlans: 653.21,
+        additionalInfo: [
+          {
+            letterCode: "DD",
+            amount: 6939.68,
+          },
+          {
+            letterCode: "F",
+            amount: 5432,
+          },
+          {
+            letterCode: "D",
+            amount: 876.3,
+          },
+          {
+            letterCode: "C",
+            amount: 123.3,
+          },
+        ],
+        other: "DISINS 170.85",
+        stateTaxInfos: [
+          {
+            state: "PA",
+            employerStateIdNumber: "18574095",
+          },
+          {
+            state: "WA",
+            employerStateIdNumber: "18743231",
+          },
+        ],
+        localTaxInfos: [
+          {
+            localWagesTipsEtc: 37160.56,
+            localIncomeTax: 51,
+            localityName: "Cmberland Vly/Mddl",
+          },
+          {
+            localWagesTipsEtc: 37160.56,
+            localIncomeTax: 594.54,
+            localityName: "|E.Pennsboro/E.Pnns",
+          },
+        ],
+      });
+      it("png file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.TaxUsW2,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [w2Naive],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        assert.equal(w2Naive.docType, "tax.us.w2");
+
+        validator(w2Naive as AnalyzedDocument);
       });
     });
   }).timeout(60000);

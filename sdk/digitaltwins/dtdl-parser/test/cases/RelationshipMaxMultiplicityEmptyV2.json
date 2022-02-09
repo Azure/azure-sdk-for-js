@@ -1,0 +1,24 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:invalidRelationship;1",
+      "@type": "Relationship",
+      "name": "proximity",
+      "maxMultiplicity": []
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:integerNoValue",
+        "PrimaryID": "dtmi:test:invalidRelationship;1",
+        "SecondaryID": null,
+        "Property": "maxMultiplicity",
+        "Value": null
+      }
+    ]
+  }
+}

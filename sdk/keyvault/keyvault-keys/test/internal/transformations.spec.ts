@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import {
   DeletedKeyBundle,
   DeletedKeyItem,
@@ -21,7 +21,7 @@ import {
   getKeyPropertiesFromKeyItem,
   keyRotationTransformations,
 } from "../../src/transformations";
-import { stringToUint8Array } from "../utils/crypto";
+import { stringToUint8Array } from "../public/utils/crypto";
 
 describe("Transformations", () => {
   const releasePolicy = {

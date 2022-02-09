@@ -3,11 +3,7 @@
 
 import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
 import { Context } from "mocha";
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiExclude from "chai-exclude";
-chai.use(chaiExclude);
+import { assert } from "@azure/test-utils";
 import sinon from "sinon";
 import {
   CryptographyClient,
@@ -18,7 +14,7 @@ import {
 } from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
-import { stringToUint8Array } from "../utils/crypto";
+import { stringToUint8Array } from "../public/utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 

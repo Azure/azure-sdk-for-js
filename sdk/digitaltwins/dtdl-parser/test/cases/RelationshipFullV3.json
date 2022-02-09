@@ -1,0 +1,72 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aRelationship;1",
+      "@type": "Relationship",
+      "name": "proximity",
+      "maxMultiplicity": 5,
+      "minMultiplicity": 0,
+      "target": "dtmi:noSuchInterface;1",
+      "properties": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "double"
+        }
+      ],
+      "writable": true,
+      "displayName": {
+        "en": "Distance",
+        "es": "Distancia"
+      },
+      "description": [
+        {
+          "@language": "en",
+          "@value": "how close"
+        },
+        {
+          "@language": "es",
+          "@value": "lo cerca que"
+        }
+      ],
+      "comment": "How close are we?"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aRelationship;1",
+        "type": "Relationship",
+        "properties": {
+          "name": "proximity",
+          "maxMultiplicity": 5,
+          "minMultiplicity": 0,
+          "target": "dtmi:noSuchInterface;1",
+          "properties": [
+            "dtmi:test:aProperty;1"
+          ],
+          "displayName": {
+            "en": "Distance",
+            "es": "Distancia"
+          },
+          "description": {
+            "en": "how close",
+            "es": "lo cerca que"
+          },
+          "comment": "How close are we?",
+          "definedIn": null
+        }
+      },
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "name": "expectedDistance",
+        "schema": "dtmi:dtdl:instance:Schema:double;3"
+      }
+    ]
+  }
+}

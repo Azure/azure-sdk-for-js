@@ -94,11 +94,7 @@ export interface EventDataAdapterParameters {
 // @public
 export interface EventDataBatch {
     readonly count: number;
-    // @internal
-    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
-    // @internal
-    readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
     // @internal
@@ -125,6 +121,7 @@ export class EventHubBufferedProducerClient {
 
 // @public
 export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
+    enableIdempotentPartitions?: boolean;
     maxEventBufferLengthPerPartition?: number;
     maxWaitTimeInMs?: number;
     onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;

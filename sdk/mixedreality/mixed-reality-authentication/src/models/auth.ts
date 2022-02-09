@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  AzureKeyCredential,
   AccessToken,
+  AzureKeyCredential,
   GetTokenOptions,
   TokenCredential,
 } from "@azure/core-auth";

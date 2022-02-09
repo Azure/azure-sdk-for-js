@@ -1,0 +1,13 @@
+{
+  "valid": true,
+  "idText": "dtmi:foo;1",
+  "expect": {
+    "MajorVersion": 1,
+    "MinorVersion": 0,
+    "CompleteVersion": 1.000000,
+    "Versionless": "dtmi:foo",
+    "Labels": [ "foo" ],
+    "IsReserved": false,
+    "Fragment": ""
+  }
+}

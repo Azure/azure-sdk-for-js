@@ -12,19 +12,13 @@ import { resetTracer, setTracer } from "@azure/test-utils";
 
 import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
 
-import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { setSpan, context } from "@azure/core-tracing";
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
-  let res: FullOperationResponse | undefined;
 
   this.timeout(10000);
-
-  beforeEach(function () {
-    res = undefined;
-  });
 
   describe("#send (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
@@ -43,6 +37,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     it("sends a single event", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -56,13 +52,15 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("sends multiple events", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -86,10 +84,10 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
   });
 
@@ -152,6 +150,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     it("sends a single event", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -164,13 +164,15 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("sends multiple events", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -194,13 +196,15 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("enriches events with distributed tracing information", async () => {
+      let requestBody: string | undefined;
+
       const tracer = setTracer();
       const rootSpan = tracer.startSpan("root");
       await client.send(
@@ -220,13 +224,13 @@ describe("EventGridPublisherClient", function (this: Suite) {
           tracingOptions: {
             tracingContext: setSpan(context.active(), rootSpan),
           },
-          onResponse: (response) => (res = response),
+          onResponse: (response) => (requestBody = response.request.body as string),
         }
       );
 
       rootSpan.end();
 
-      const parsedBody = JSON.parse(res?.request.body as string);
+      const parsedBody = JSON.parse(requestBody || "");
 
       assert.isArray(parsedBody);
       assert.equal(
@@ -301,6 +305,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     it("sends a single event", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -312,13 +318,15 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("sends multiple events", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -338,10 +346,10 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
   });
 
