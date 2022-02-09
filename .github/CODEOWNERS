@@ -1279,6 +1279,7 @@ sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 /rush.json @mikeharder @praveenkuttappan
 /tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
 /**/tsconfig.json @witemple-msft @deyaaeldeen
+/**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
 
 # Add owners for notifications for specific pipelines

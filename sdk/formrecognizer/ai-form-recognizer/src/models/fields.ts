@@ -3,7 +3,7 @@
 
 import { BoundingRegion, DocumentSpan } from "..";
 
-import { DocumentField as GeneratedDocumentField } from "../generated";
+import { CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
 import { capitalize } from "../util";
 
 /**
@@ -54,13 +54,16 @@ export type DocumentField =
   | DocumentSelectionMarkField
   | DocumentCountryRegionField
   | DocumentSignatureField
+  | DocumentCurrencyField
   | DocumentArrayField
   | DocumentObjectField;
 
 /**
  * A DocumentField that has a string value.
  */
-export interface DocumentStringField extends DocumentValueField<string> {
+export interface DocumentStringField<Value extends string = string>
+  extends DocumentValueField<Value> {
+  /** Field kind: "string". */
   kind: "string";
 }
 
@@ -68,6 +71,7 @@ export interface DocumentStringField extends DocumentValueField<string> {
  * A DocumentField that has a Date value.
  */
 export interface DocumentDateField extends DocumentValueField<Date> {
+  /** Field kind: "date". */
   kind: "date";
 }
 
@@ -75,6 +79,7 @@ export interface DocumentDateField extends DocumentValueField<Date> {
  * A DocumentField that has a time value, represented as a string.
  */
 export interface DocumentTimeField extends DocumentFieldCommon {
+  /** Field kind: "time". */
   kind: "time";
   /**
    * The field's value, which is a time in "HH:MM:SS" (ISO 8601) format.
@@ -86,6 +91,7 @@ export interface DocumentTimeField extends DocumentFieldCommon {
  * A DocumentField that has a phone number value, represented as a string.
  */
 export interface DocumentPhoneNumberField extends DocumentFieldCommon {
+  /** Field kind: "phoneNumber". */
   kind: "phoneNumber";
   /**
    * The field's value, which is a string containing the phone number.
@@ -101,6 +107,7 @@ export interface DocumentPhoneNumberField extends DocumentFieldCommon {
  * A DocumentField that has a number value.
  */
 export interface DocumentNumberField extends DocumentValueField<number> {
+  /** Field kind: "number". */
   kind: "number";
 }
 
@@ -108,6 +115,7 @@ export interface DocumentNumberField extends DocumentValueField<number> {
  * A DocumentField that has an integer value.
  */
 export interface DocumentIntegerField extends DocumentValueField<number> {
+  /** Field kind: "integer". */
   kind: "integer";
 }
 
@@ -116,6 +124,7 @@ export interface DocumentIntegerField extends DocumentValueField<number> {
  * represented as a string.
  */
 export interface DocumentSelectionMarkField extends DocumentFieldCommon {
+  /** Field kind: "selectionMark". */
   kind: "selectionMark";
   /**
    * The state of the selection mark. One of:
@@ -132,6 +141,7 @@ export interface DocumentSelectionMarkField extends DocumentFieldCommon {
  * A DocumentField that has a value indicating a country or region, represented as a string.
  */
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
+  /** Field kind: "countryRegion". */
   kind: "countryRegion";
   /**
    * The 3-letter country/region code (ISO 3166-1 alpha-3) of the extracted country or region.
@@ -143,6 +153,7 @@ export interface DocumentCountryRegionField extends DocumentFieldCommon {
  * A DocumentField that indicates the state of a signature, represented as a string.
  */
 export interface DocumentSignatureField extends DocumentFieldCommon {
+  /** Field kind: "signature". */
   kind: "signature";
   /**
    * The state of the signature field. One of:
@@ -152,13 +163,16 @@ export interface DocumentSignatureField extends DocumentFieldCommon {
    *
    * This value may be undefined, and other variants may be introduced in the future.
    */
+  value: "signed" | "unsigned";
 }
 
 /**
  * A DocumentField that consists of an array of nested fields. All fields in the array will have the same type.
  */
 export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
+  /** Field kind: "array". */
   kind: "array";
+
   /**
    * The extracted members of the array field.
    */
@@ -166,11 +180,26 @@ export interface DocumentArrayField<T = DocumentField> extends DocumentFieldComm
 }
 
 /**
+ * A DocumentField that describes an amount of a certain currency.
+ */
+export interface DocumentCurrencyField extends DocumentFieldCommon {
+  /** Field kind: "currency". */
+  kind: "currency";
+
+  /**
+   * The properties of the extracted currency.
+   */
+  value?: CurrencyValue;
+}
+
+/**
  * A DocumentField that consists of several named properties that have their own DocumentField values.
  */
 export interface DocumentObjectField<Properties = { [k: string]: DocumentField | undefined }>
   extends DocumentFieldCommon {
+  /** Field kind: "object". */
   kind: "object";
+
   /**
    * The extracted object properties. Each property of this object is, itself, a nested DocumentField.
    */
@@ -211,6 +240,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
       case "selectionMark":
       case "countryRegion":
       case "signature":
+      case "currency":
         return {
           value:
             field[
@@ -224,6 +254,11 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
         return { values: field.valueArray?.map((v) => toDocumentField(v) ?? []) };
       case "object":
         return { properties: toAnalyzedDocumentFieldsFromGenerated(field.valueObject ?? {}) };
+      default:
+        // Exhaustiveness check
+        // eslint-disable-next-line no-case-declarations
+        const __exhaust: never = kind;
+        throw new Error(`Unrecognized DocumentField type: ${__exhaust}`);
     }
   })();
 
