@@ -119,9 +119,12 @@ class HttpPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
+  private _cache: WeakMap<HttpClient, SendRequest>;
+
   private constructor(policies: PipelineDescriptor[] = []) {
     this._policies = policies;
     this._orderedPolicies = undefined;
+    this._cache = new WeakMap();
   }
 
   public addPolicy(policy: PipelinePolicy, options: AddPolicyOptions = {}): void {
@@ -138,7 +141,7 @@ class HttpPipeline implements Pipeline {
       policy,
       options,
     });
-    this._orderedPolicies = undefined;
+    this.damage();
   }
 
   public removePolicy(options: { name?: string; phase?: string }): PipelinePolicy[] {
@@ -155,12 +158,15 @@ class HttpPipeline implements Pipeline {
         return true;
       }
     });
-    this._orderedPolicies = undefined;
+    this.damage();
 
     return removedPolicies;
   }
 
   public sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse> {
+    //const _cached = this._cache.get(httpClient);
+    //if (_cached) return _cached(request);
+
     const policies = this.getOrderedPolicies();
 
     const pipeline = policies.reduceRight<SendRequest>(
@@ -171,6 +177,8 @@ class HttpPipeline implements Pipeline {
       },
       (req: PipelineRequest) => httpClient.sendRequest(req)
     );
+
+    this._cache.set(httpClient, pipeline);
 
     return pipeline(request);
   }
@@ -377,6 +385,16 @@ class HttpPipeline implements Pipeline {
     }
 
     return result;
+  }
+
+  /**
+   * Destroys stateful properties of the pipeline. This method should be called
+   * when policies are added or removed to the pipeline.
+   */
+  private damage() {
+    // Delete any cached pipeline functions.
+    this._cache = new WeakMap();
+    this._orderedPolicies = undefined;
   }
 }
 
