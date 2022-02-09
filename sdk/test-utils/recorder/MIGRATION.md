@@ -52,6 +52,8 @@ The approach taken to initialize the recorder depends on whether the SDK being t
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
+import { Recorder } from "@azure-tools/test-recorder";
+
 let recorder: Recorder;
 
 /*
