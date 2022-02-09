@@ -273,6 +273,10 @@ const {
 // plugins - to be removed
       "karma-json-to-file-reporter",
       "karma-json-preprocessor",
+      //  Also remove the devDependencies from package.json
+      //      - "karma-json-preprocessor": "^0.3.3" 
+      //      - "karma-json-to-file-reporter": "^1.0.1",
+      
 
 // files section - snippet to remove
      .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
