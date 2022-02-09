@@ -164,8 +164,8 @@ class HttpPipeline implements Pipeline {
   }
 
   public sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse> {
-    //const _cached = this._cache.get(httpClient);
-    //if (_cached) return _cached(request);
+    const _cached = this._cache.get(httpClient);
+    if (_cached) return _cached(request);
 
     const policies = this.getOrderedPolicies();
 
