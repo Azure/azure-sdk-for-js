@@ -10,7 +10,6 @@ import {
   RecorderStartOptions,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import { RemoteRenderingClient } from "../../src";
 
