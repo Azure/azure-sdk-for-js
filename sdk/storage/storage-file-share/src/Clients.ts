@@ -2763,9 +2763,9 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Renames a directory.
-   * This API does not support renaming a directory from one share to another, or between storage accounts.
+   * This API only supports renaming a directory in the same share.
    *
-   * @param destinationPath - Specifies the destination path to rename to.
+   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination. 
    * @param options - Options for the renaming operation.
    * @returns Response data for the file renaming operation.
    *
@@ -5319,9 +5319,9 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Renames a file.
-   * This API does not support renaming a file from one share to another, or between storage accounts.
+   * This API only supports renaming a file in the same share.
    *
-   * @param destinationPath - Specifies the destination path to rename to.
+   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.  
    * @param options - Options for the renaming operation.
    * @returns Response data for the file renaming operation.
    *
@@ -5330,7 +5330,7 @@ export class ShareFileClient extends StorageClient {
    * ```js
    *
    * // Rename the file
-   * await fileClient.create(destinationPath);
+   * await fileClient.rename(destinationPath);
    * console.log("Renamed file successfully!");
    * ```
    */
