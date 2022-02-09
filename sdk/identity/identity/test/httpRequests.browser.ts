@@ -67,7 +67,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
      * Browser specific code.
      * Sets up a fake fetch implementation that will be used to answer any outgoing request.
      */
-    this.fetch = this.sandbox.stub(window, "fetch");
+    this.fetch = this.sandbox.stub(self, "fetch");
     this.requests = [];
     this.responses = [];
 
