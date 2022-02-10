@@ -63,7 +63,6 @@
   },
   "dependencies": {
     "@azure-tools/js-sdk-release-tools": "^1.0.4",
-    "@azure/dev-tool": "file:common/tools/dev-tool",
     "eng-package-utils": "file:eng/tools/eng-package-utils",
     "versioning": "file:eng/tools/versioning"
   }
