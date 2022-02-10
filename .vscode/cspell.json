@@ -100,6 +100,7 @@
     "uksouth",
     "ukwest",
     "undelete",
+    "Unencrypted",
     "unpartitioned",
     "unref",
     "usdodcentral",
@@ -108,8 +109,7 @@
     "usgovtexas",
     "usgovvirginia",
     "Vertica",
-    "westus",
-    "Unencrypted"
+    "westus"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -117,22 +117,22 @@
       "filename": "eng/pipelines",
       "words": [
         "azuresdkartifacts",
-        "policheck",
-        "gdnbaselines"
+        "gdnbaselines",
+        "policheck"
       ]
     },
     {
       "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
       "words": [
-        "Onvif",
-        "onvif",
-        "Grpc",
-        "Abgr",
         "abgr",
-        "Argb",
+        "Abgr",
         "argb",
+        "Argb",
+        "bgra",
         "Bgra",
-        "bgra"
+        "Grpc",
+        "onvif",
+        "Onvif"
       ]
     },
     {
@@ -151,26 +151,26 @@
     {
       "filename": "sdk/search/search-documents/review/**/*.md",
       "words": [
-        "odatatype",
-        "Decompounder",
-        "Createor",
-        "Unprocessable",
         "Adls",
         "adlsgen",
-        "Piqd",
-        "kstem",
-        "Sorani",
-        "sorani",
-        "kstem",
         "bangla",
         "Bokmaal",
-        "nysiis",
-        "koelner",
-        "Phonetik",
+        "Createor",
+        "Decompounder",
         "haase",
-        "reranker",
+        "koelner",
+        "kstem",
+        "kstem",
         "lovins",
-        "Rslp"
+        "nysiis",
+        "odatatype",
+        "Phonetik",
+        "Piqd",
+        "reranker",
+        "Rslp",
+        "sorani",
+        "Sorani",
+        "Unprocessable"
       ]
     },
     {
@@ -184,17 +184,17 @@
       "words": [
         "ECHSM",
         "RSAHSM",
-        "Rsnull",
-        "RSNULL"
+        "RSNULL",
+        "Rsnull"
       ]
     },
     {
       "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
       "words": [
-        "upns",
         "ECHSM",
+        "ekus",
         "RSAHSM",
-        "ekus"
+        "upns"
       ]
     }
   ]
