@@ -12578,7 +12578,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-zaumQOP+cumVDcrUVnS08zoGUJ+k+1Y9m1NTM7pgyTWOEcCWILJomw/4RnPVVb0JEm0L+pUgTtUuQLHkk+/dzA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-oZDdYdSoVSS2yJpAUgYO/VXraUzDbQyrp+curzNMMAoXaQbiVSEaYzSG1E08daCx89RKfbCU2rmgwoSfMUhsGw==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -13556,7 +13556,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-FT89IjhpMiUOiBzt/uZDeqVKcfDfx+JuVYGy2BUvPpCXb4wY+3XGd5rm503sdUsSo3A4CbpygNhQYiaG/NN+Zg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-/O1zcTjD8j6vCMskO0SBDyrSuac9/LADzo0e6IWxFD4wmNv/DdasrmDFTbLFzEpSKeuG6nm/AAFlFmALo8B8EA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -15214,7 +15214,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-qwAKjd1LG91KHMU3KDLYYcn4kaXGAAt9bOPSmQhdw+SfogUEnorWSRDpC8wiaJIkFGNaqLnLLxxTjGRIsnKv6g==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-Z16hjklcfBBkYbwEMmEEC4QtxSnbIFdVyiD1OFdjnPeFt+ZbHxhs4BOtkc6vCQEZb5vgPEqJ5PULYbtKpJHuWg==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
