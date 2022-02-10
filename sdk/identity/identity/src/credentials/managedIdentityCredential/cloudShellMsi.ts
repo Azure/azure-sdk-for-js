@@ -77,7 +77,7 @@ export const cloudShellMsi: MSI = {
 
     if (clientId) {
       logger.warning(
-        `${msiName}: does not support user-assigned identities in the Cloud Shell environment. Argument clientId is not needed and not used.`
+        `${msiName}: does not support user-assigned identities in the Cloud Shell environment. Argument clientId will be ignored.`
       );
     }
     logger.info(
