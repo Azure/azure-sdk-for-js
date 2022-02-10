@@ -9,7 +9,6 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { ShareClient } from "../src";
 import { Context } from "mocha";
 
-
 describe("Aborter", () => {
   let shareName: string;
   let shareClient: ShareClient;

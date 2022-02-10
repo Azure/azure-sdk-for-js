@@ -925,13 +925,10 @@ describe("FileClient", () => {
     await sourceFileClient.create(1024);
 
     const destFileName = recorder.getUniqueName("destfile");
-    await shareClient
-      .getDirectoryClient("")
-      .getFileClient(destFileName)
-      .create(2048);
+    await shareClient.getDirectoryClient("").getFileClient(destFileName).create(2048);
 
     const result = await sourceFileClient.rename(destFileName, {
-      replaceIfExists: true
+      replaceIfExists: true,
     });
 
     assert.ok(
@@ -982,12 +979,12 @@ describe("FileClient", () => {
     const destFileName = recorder.getUniqueName("destfile");
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
     await targetFileClient.create(2048, {
-      fileAttributes: FileSystemAttributes.parse("ReadOnly")
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
     });
 
     const result = await sourceFileClient.rename(destFileName, {
       ignoreReadOnly: true,
-      replaceIfExists: true
+      replaceIfExists: true,
     });
 
     // Validate destination existence.
@@ -1009,13 +1006,13 @@ describe("FileClient", () => {
     const destFileName = recorder.getUniqueName("destfile");
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
     await targetFileClient.create(2048, {
-      fileAttributes: FileSystemAttributes.parse("ReadOnly")
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
     });
 
     try {
       await sourceFileClient.rename(destFileName, {
         ignoreReadOnly: false,
-        replaceIfExists: true
+        replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err) {
@@ -1046,8 +1043,8 @@ describe("FileClient", () => {
     const result = await sourceFileClient.rename(destFileName, {
       replaceIfExists: true,
       destinationLeaseAccessConditions: {
-        leaseId: leaseResult.leaseId
-      }
+        leaseId: leaseResult.leaseId,
+      },
     });
 
     // Validate destination existence.
@@ -1076,7 +1073,7 @@ describe("FileClient", () => {
 
     try {
       await sourceFileClient.rename(destFileName, {
-        replaceIfExists: true
+        replaceIfExists: true,
       });
 
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
@@ -1104,8 +1101,8 @@ describe("FileClient", () => {
 
     const result = await sourceFileClient.rename(destFileName, {
       sourceLeaseAccessConditions: {
-        leaseId: leaseResult.leaseId
-      }
+        leaseId: leaseResult.leaseId,
+      },
     });
 
     // Validate destination existence.
@@ -1180,7 +1177,7 @@ describe("FileClient", () => {
     await sourceFileClient.create(2048);
 
     const result = await sourceFileClient.rename(destFileName, {
-      filePermission: filePermission
+      filePermission: filePermission,
     });
 
     assert.ok(
@@ -1215,7 +1212,7 @@ describe("FileClient", () => {
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
       fileCreationTime: truncatedISO8061Date(creationDate),
-      fileLastWriteTime: truncatedISO8061Date(lastwriteTime)
+      fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
     };
 
     const sourceFileName = recorder.getUniqueName("sourcefile");
@@ -1224,7 +1221,7 @@ describe("FileClient", () => {
 
     const result = await sourceFileClient.rename(destFileName, {
       filePermissionKey: permissionResponse.filePermissionKey,
-      copyFileSmbInfo: copyFileSMBInfo
+      copyFileSmbInfo: copyFileSMBInfo,
     });
 
     assert.ok(

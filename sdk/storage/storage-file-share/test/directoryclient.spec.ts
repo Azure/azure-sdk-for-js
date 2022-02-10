@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+
 import { getBSU, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
@@ -969,12 +970,9 @@ describe("DirectoryClient", () => {
 
   it("rename - replaceIfExists = true ", async () => {
     const destDirName = recorder.getUniqueName("destdir");
-    await shareClient
-      .getDirectoryClient("")
-      .getFileClient(destDirName)
-      .create(1024);
+    await shareClient.getDirectoryClient("").getFileClient(destDirName).create(1024);
     const result = await dirClient.rename(destDirName, {
-      replaceIfExists: true
+      replaceIfExists: true,
     });
 
     assert.ok(
@@ -1016,12 +1014,12 @@ describe("DirectoryClient", () => {
     const destDirName = recorder.getUniqueName("destdir");
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024, {
-      fileAttributes: FileSystemAttributes.parse("ReadOnly")
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
     });
 
     const result = await dirClient.rename(destDirName, {
       ignoreReadOnly: true,
-      replaceIfExists: true
+      replaceIfExists: true,
     });
 
     // Validate destination existence.
@@ -1039,13 +1037,13 @@ describe("DirectoryClient", () => {
     const destDirName = recorder.getUniqueName("destdir");
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024, {
-      fileAttributes: FileSystemAttributes.parse("ReadOnly")
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
     });
 
     try {
       await dirClient.rename(destDirName, {
         ignoreReadOnly: false,
-        replaceIfExists: true
+        replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
     } catch (err) {
@@ -1072,8 +1070,8 @@ describe("DirectoryClient", () => {
     const result = await dirClient.rename(destDirName, {
       replaceIfExists: true,
       destinationLeaseAccessConditions: {
-        leaseId: leaseResult.leaseId
-      }
+        leaseId: leaseResult.leaseId,
+      },
     });
 
     // Validate destination existence.
@@ -1098,7 +1096,7 @@ describe("DirectoryClient", () => {
 
     try {
       await dirClient.rename(destDirName, {
-        replaceIfExists: true
+        replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite a leased file");
     } catch (err) {
@@ -1143,7 +1141,7 @@ describe("DirectoryClient", () => {
     await sourceDirClient.create();
 
     const result = await sourceDirClient.rename(destDirName, {
-      filePermission: filePermission
+      filePermission: filePermission,
     });
 
     assert.ok(
@@ -1178,7 +1176,7 @@ describe("DirectoryClient", () => {
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
       fileCreationTime: truncatedISO8061Date(creationDate),
-      fileLastWriteTime: truncatedISO8061Date(lastwriteTime)
+      fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
     };
 
     const sourceDirName = recorder.getUniqueName("sourcedir");
@@ -1187,7 +1185,7 @@ describe("DirectoryClient", () => {
 
     const result = await sourceDirClient.rename(destDirName, {
       filePermissionKey: permissionResponse.filePermissionKey,
-      copyFileSmbInfo: copyFileSMBInfo
+      copyFileSmbInfo: copyFileSMBInfo,
     });
 
     assert.ok(
