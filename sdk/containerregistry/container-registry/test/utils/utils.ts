@@ -3,7 +3,7 @@
 
 import { AzureAuthorityHosts } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
@@ -97,9 +97,15 @@ export function createRegistryClient(
     return new ContainerRegistryClient(endpoint, recorder.configureClientOptions(clientOptions));
   }
 
+  const credential = createTestCredential(tokenCredentialOptions, {
+    tenantId: env.CONTAINERREGISTRY_TENANT_ID,
+    clientId: env.CONTAINERREGISTRY_TENANT_ID,
+    clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
+  });
+
   return new ContainerRegistryClient(
     endpoint,
-    createTestCredential(tokenCredentialOptions),
+    credential,
     recorder.configureClientOptions(clientOptions)
   );
 }
