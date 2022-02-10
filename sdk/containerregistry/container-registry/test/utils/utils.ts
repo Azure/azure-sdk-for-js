@@ -44,6 +44,11 @@ export const recorderStartOptions: RecorderStartOptions = {
         value: `refresh_token=sanitized.${expiryReplacement}.sanitized$2`,
       },
     ],
+    bodyKeySanitizers: [
+      {
+        jsonPath: "access_token",
+      },
+    ],
   },
 };
 

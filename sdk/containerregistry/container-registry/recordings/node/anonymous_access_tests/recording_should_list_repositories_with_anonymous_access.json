@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "06603617-fd7a-43a7-8393-4dfce864a3e1"
+        "x-ms-client-request-id": "573281db-7777-4b9f-87a8-3405f97cddbc"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -22,7 +22,7 @@
         "Connection": "keep-alive",
         "Content-Length": "196",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:02:32 GMT",
+        "Date": "Thu, 10 Feb 2022 00:26:59 GMT",
         "Docker-Distribution-Api-Version": "registry/2.0",
         "Server": "openresty",
         "Strict-Transport-Security": [
@@ -31,7 +31,7 @@
         ],
         "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022myregistry.azurecr.io\u0022,scope=\u0022registry:catalog:*\u0022",
         "X-Content-Type-Options": "nosniff",
-        "X-Ms-Correlation-Request-Id": "7cf117df-1c10-42b5-bb81-96b4dee749b9"
+        "X-Ms-Correlation-Request-Id": "e071b6a7-8f42-40d4-a21a-b469837e823e"
       },
       "ResponseBody": {
         "errors": [
@@ -59,21 +59,21 @@
         "Content-Length": "93",
         "Content-Type": "application/x-www-form-urlencoded",
         "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "f7780157-f095-4dfe-9c22-29433b7ba80d"
+        "x-ms-client-request-id": "469b93e3-19f2-407c-b4c1-3c55c5620523"
       },
       "RequestBody": "service=myregistry.azurecr.io\u0026scope=registry%3Acatalog%3A*\u0026refresh_token=\u0026grant_type=password",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:02:32 GMT",
+        "Date": "Thu, 10 Feb 2022 00:26:59 GMT",
         "Server": "openresty",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "X-Ms-Correlation-Request-Id": "6c9c78fe-3dd2-45d2-a39f-5ea97ed78b7b"
+        "X-Ms-Correlation-Request-Id": "d5a2c442-4138-4c4a-963d-d50fc4de5c5c"
       },
       "ResponseBody": {
-        "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlVWVzc6T1JDQjozVkNIOjY2UEI6R1kyWjpOU01KOldIVVE6Qjc3WDpLWTdaOlRaU1A6UkZZWDpIVTdRIn0.eyJqdGkiOiIwMTI3NTMzMi1iMzMxLTQ4ZDUtOTg4Ny1kNDJjZDk4ZTkxMmYiLCJzdWIiOiJhY3JfYW5vbl9wdWxsIiwibmJmIjoxNjQ0NDUwNDUyLCJleHAiOjE2NDQ0NTE2NTIsImlhdCI6MTY0NDQ1MDQ1MiwiaXNzIjoiQXp1cmUgQ29udGFpbmVyIFJlZ2lzdHJ5IiwiYXVkIjoidGltb3ZhY3IuYXp1cmVjci5pbyIsInZlcnNpb24iOiIxLjAiLCJyaWQiOiIzYjVhZGI3OGJhZDE0NTQ2ODlhNWUxYWUwMTQwZGJlYyIsImFjY2VzcyI6W3siVHlwZSI6InJlZ2lzdHJ5IiwiTmFtZSI6ImNhdGFsb2ciLCJBY3Rpb25zIjpbIioiXX1dLCJyb2xlcyI6W10sImdyYW50X3R5cGUiOiJhY2Nlc3NfdG9rZW4ifQ.GbV-N8XR908p_I0Ksdh-iD-svECWcNlA6sxzzGWYpDagz-26CQECdFi63w0h7mw_6VG6j28WOryWw3Rr0X1yUQs3FSKoBcHpmS3D743qp3s93efwUxkoA7qP-Xh2bQ4O3AFXmJxZbQbCFMKT9xZZvVMkubWm81ThXwFBUHvwaXuP41VOXzgminyESO3q_qefKfKmL59UfrK5jNnTPOJqsEW70gIuub-hegH6QGjXBtcMCMo4GShigJkyBxnjwVkVUXC4enn5vMyS6CRa8kU6Jj7L9uBFhEulr4B1WtGB7Dky1lNRsgV7CmK-yWClRJynoODfWh79PmdjZvUJAg19zg"
+        "access_token": "Sanitized"
       }
     },
     {
@@ -85,7 +85,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "06603617-fd7a-43a7-8393-4dfce864a3e1"
+        "x-ms-client-request-id": "573281db-7777-4b9f-87a8-3405f97cddbc"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -99,7 +99,7 @@
         "Connection": "keep-alive",
         "Content-Length": "59",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:02:33 GMT",
+        "Date": "Thu, 10 Feb 2022 00:26:59 GMT",
         "Docker-Distribution-Api-Version": "registry/2.0",
         "Server": "openresty",
         "Strict-Transport-Security": [
@@ -107,7 +107,7 @@
           "max-age=31536000; includeSubDomains"
         ],
         "X-Content-Type-Options": "nosniff",
-        "X-Ms-Correlation-Request-Id": "ff09fde7-d415-4b70-aabf-cfe9f7c1eeaa"
+        "X-Ms-Correlation-Request-Id": "cc334c92-84b7-4f56-a12e-ba54d37f9d0c"
       },
       "ResponseBody": {
         "repositories": [
