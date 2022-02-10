@@ -45,7 +45,6 @@
     "sdk/communication/communication-common/review/**/*.md",
     "sdk/containerregistry/container-registry/review/**/*.md",
     "sdk/core/core-amqp/review/**/*.md",
-    "sdk/cosmosdb/cosmos/review/**/*.md",
     "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
@@ -201,6 +200,22 @@
       "words": [
         "dtdl",
         "dependecies"
+      ]
+    },
+    {
+      "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
+      "words": [
+        "colls",
+        "Funtion",
+        "Parition",
+        "pkranges",
+        "sproc",
+        "sprocs",
+        "udfs",
+        "xmax",
+        "xmin",
+        "ymax"
+        "ymin",
       ]
     }
   ]
