@@ -48,7 +48,6 @@
     "sdk/cosmosdb/cosmos/review/**/*.md",
     "sdk/digitaltwins/digital-twins-core/review/**/*.md",
     "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-    "sdk/identity/identity/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
   "words": [
@@ -109,7 +108,8 @@
     "usgovtexas",
     "usgovvirginia",
     "Vertica",
-    "westus"
+    "westus",
+    "Unencrypted"
   ],
   "allowCompoundWords": true,
   "overrides": [
