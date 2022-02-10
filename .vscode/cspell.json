@@ -46,7 +46,6 @@
     "sdk/containerregistry/container-registry/review/**/*.md",
     "sdk/core/core-amqp/review/**/*.md",
     "sdk/cosmosdb/cosmos/review/**/*.md",
-    "sdk/digitaltwins/digital-twins-core/review/**/*.md",
     "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
@@ -195,6 +194,13 @@
         "ekus",
         "RSAHSM",
         "upns"
+      ]
+    },
+    {
+      "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
+      "words": [
+        "dtdl",
+        "dependecies"
       ]
     }
   ]
