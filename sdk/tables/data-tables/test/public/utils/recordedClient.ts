@@ -5,6 +5,7 @@ import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
 import { TableClient, TableServiceClient } from "../../../src";
 
+import { ServiceClientOptions } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const mockAccountName = "fakeaccountname";
@@ -51,9 +52,13 @@ export async function createTableClient(
   mode: CreateClientMode = "SASConnectionString",
   recorder?: Recorder
 ): Promise<TableClient> {
+  let options: ServiceClientOptions | undefined;
+  
   if (recorder) {
     await recorder.start(recorderOptions);
+    options = recorder.configureClientOptions({allowInsecureConnection: true});
   }
+  
   let client: TableClient;
   switch (mode) {
     case "SASConnectionString":
@@ -63,7 +68,7 @@ export async function createTableClient(
         );
       }
 
-      client = TableClient.fromConnectionString(env.SAS_CONNECTION_STRING, tableName);
+      client = TableClient.fromConnectionString(env.SAS_CONNECTION_STRING, tableName, options);
       break;
 
     case "SASToken":
@@ -77,7 +82,7 @@ export async function createTableClient(
         env.TABLES_URL,
         tableName,
         new AzureSASCredential(env.SAS_TOKEN ?? ""),
-        { httpClient }
+        options
       );
       break;
 
@@ -92,7 +97,7 @@ export async function createTableClient(
         env.TABLES_URL,
         tableName,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY),
-        { httpClient }
+        options
       );
       break;
 
@@ -104,7 +109,7 @@ export async function createTableClient(
       }
 
       const credential = createTestCredential();
-      client = new TableClient(env.TABLES_URL ?? "", tableName, credential);
+      client = new TableClient(env.TABLES_URL ?? "", tableName, credential, options);
       break;
     }
 
@@ -114,16 +119,11 @@ export async function createTableClient(
           "AccountConnectionString is not defined, make sure that ACCOUNT_CONNECTION_STRING is defined in the environment"
         );
       }
-
-      client = TableClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, tableName);
+      client = TableClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, tableName, options);
       break;
 
     default:
       throw new Error(`Unknown authentication mode ${mode}`);
-  }
-
-  if (recorder) {
-    recorder.configureClient(client);
   }
 
   return client;
@@ -133,8 +133,11 @@ export async function createTableServiceClient(
   mode: CreateClientMode = "SASConnectionString",
   recorder?: Recorder
 ): Promise<TableServiceClient> {
+  let options: ServiceClientOptions | undefined;
+  
   if (recorder) {
     await recorder.start(recorderOptions);
+    options = recorder.configureClientOptions({allowInsecureConnection: true});
   }
 
   let client: TableServiceClient;
@@ -147,7 +150,7 @@ export async function createTableServiceClient(
         );
       }
 
-      client = TableServiceClient.fromConnectionString(env.SAS_CONNECTION_STRING);
+      client = TableServiceClient.fromConnectionString(env.SAS_CONNECTION_STRING, options);
       break;
 
     case "SASToken":
@@ -157,7 +160,7 @@ export async function createTableServiceClient(
         );
       }
 
-      client = new TableServiceClient(`${env.TABLES_URL}${env.SAS_TOKEN}`);
+      client = new TableServiceClient(`${env.TABLES_URL}${env.SAS_TOKEN}`, options);
       break;
 
     case "AccountKey":
@@ -170,7 +173,7 @@ export async function createTableServiceClient(
       client = new TableServiceClient(
         env.TABLES_URL,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY),
-        { httpClient }
+        options
       );
       break;
 
@@ -182,7 +185,7 @@ export async function createTableServiceClient(
       }
 
       const credential = createTestCredential();
-      client = new TableServiceClient(env.TABLES_URL ?? "", credential);
+      client = new TableServiceClient(env.TABLES_URL ?? "", credential, options);
       break;
     }
 
@@ -193,15 +196,11 @@ export async function createTableServiceClient(
         );
       }
 
-      client = TableServiceClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING);
+      client = TableServiceClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, options);
       break;
 
     default:
       throw new Error(`Unknown authentication mode ${mode}`);
-  }
-
-  if (recorder) {
-    recorder.configureClient(client);
   }
 
   return client;
