@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { RestError, TableClient, TableServiceClient } from "../../src";
-import {
-  createTableClient,
-  createTableServiceClient,
-} from "./utils/recordedClient";
+import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
 
 import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
 import { assert } from "chai";

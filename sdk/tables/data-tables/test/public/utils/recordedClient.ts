@@ -53,12 +53,12 @@ export async function createTableClient(
   recorder?: Recorder
 ): Promise<TableClient> {
   let options: ServiceClientOptions | undefined;
-  
+
   if (recorder) {
     await recorder.start(recorderOptions);
-    options = recorder.configureClientOptions({allowInsecureConnection: true});
+    options = recorder.configureClientOptions({ allowInsecureConnection: true });
   }
-  
+
   let client: TableClient;
   switch (mode) {
     case "SASConnectionString":
@@ -134,10 +134,10 @@ export async function createTableServiceClient(
   recorder?: Recorder
 ): Promise<TableServiceClient> {
   let options: ServiceClientOptions | undefined;
-  
+
   if (recorder) {
     await recorder.start(recorderOptions);
-    options = recorder.configureClientOptions({allowInsecureConnection: true});
+    options = recorder.configureClientOptions({ allowInsecureConnection: true });
   }
 
   let client: TableServiceClient;
