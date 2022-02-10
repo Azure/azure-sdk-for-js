@@ -302,19 +302,6 @@ Remove the following "devDependencies" from `package.json`
    "karma-json-to-file-reporter": "^1.0.1",
 ```
 
-## Changes to `ci.yml`
-
-You must set the `TestProxy` parameter to `true` to enable the test proxy server in your SDK's `ci.yml` file.
-
-```yaml
-# irrelevant sections of ci.yml omitted
-
-extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
-  parameters:
-    TestProxy: true # Add me!
-```
-
 ## Migrating your recordings
 
 Once you have made the necessary code changes, it is time to re-record your tests using the Unified Recorder to complete the migration. To do this, first **delete** the directory containing the old recordings (the `recordings` folder). Then, run your tests with the `TEST_MODE` environment variable to `record`.

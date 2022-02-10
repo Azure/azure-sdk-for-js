@@ -24,7 +24,6 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: eventgrid
-    TestProxy: true 
     Artifacts:
       - name: azure-eventgrid
         safeName: azureeventgrid
