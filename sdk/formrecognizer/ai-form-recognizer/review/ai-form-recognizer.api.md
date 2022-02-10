@@ -1143,6 +1143,7 @@ export const PrebuiltModels: {
 export interface ReadResult extends AnalyzeResultCommon {
     languages: DocumentLanguage[];
     pages: DocumentPage[];
+    styles: DocumentStyle[];
 }
 
 // @public

@@ -4,17 +4,20 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { AzureKeyCredential, PrebuiltModels, DocumentAnalysisClient } from "../../../src";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient, testEnv, testPollingOptions } from "../../utils/recordedClients";
+import { PrebuiltModels, DocumentAnalysisClient } from "../../../src";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients";
 
 describe("analysis (browser)", () => {
   let client: DocumentAnalysisClient;
   let recorder: Recorder;
-  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
-  beforeEach(function (this: Context) {
-    ({ recorder, client } = createRecordedClient(this, DocumentAnalysisClient, apiKey));
+  beforeEach(async function (this: Context) {
+    ({ recorder, client } = await createRecordedClient(
+      this.currentTest,
+      DocumentAnalysisClient,
+      true
+    ));
   });
 
   afterEach(async function () {
@@ -24,7 +27,9 @@ describe("analysis (browser)", () => {
   });
 
   it("recognizes content from a url", async () => {
-    const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
+    const testingContainerUrl: string = assertEnvironmentVariable(
+      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+    );
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
@@ -35,7 +40,9 @@ describe("analysis (browser)", () => {
   });
 
   it("recognizes receipt from a url", async () => {
-    const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
+    const testingContainerUrl: string = assertEnvironmentVariable(
+      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+    );
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 

@@ -46,7 +46,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response/abcdef`,
             body: "abcdef",
-            method: "GET",
+            method: "POST",
           },
           { val: "I am the answer!" }
         );
@@ -69,7 +69,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response/abcdef`,
             body: "abcdef",
-            method: "GET",
+            method: "POST",
           },
           { val: "I am the answer!" }
         );

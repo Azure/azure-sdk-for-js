@@ -26,7 +26,7 @@ async function main() {
 
   // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
   // document, such as page text elements and information about the language of the text.
-  const { content, pages, languages } = await poller.pollUntilDone();
+  const { content, pages, languages, styles } = await poller.pollUntilDone();
 
   if (pages.length <= 0) {
     console.log("No pages were extracted from the document.");
@@ -64,6 +64,21 @@ async function main() {
       for (const text of getTextOfSpans(content, languageEntry.spans)) {
         const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
         console.log(`  - "${escapedText}"`);
+      }
+    }
+  }
+
+  if (styles.length <= 0) {
+    console.log("No text styles were extracted from the document.");
+  } else {
+    console.log("Styles:");
+    for (const style of styles) {
+      console.log(
+        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`
+      );
+
+      for (const word of getTextOfSpans(content, style.spans)) {
+        console.log(`  - "${word}"`);
       }
     }
   }

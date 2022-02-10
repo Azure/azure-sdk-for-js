@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 import { Container, ContainerDefinition } from "../../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import snapshot from "snap-shot-it";
 import assert from "assert";
+import groupBySnapshot from "./groupBy.snapshot";
+import { Context } from "mocha";
 
 const options = {
   maxItemCount: 100,
@@ -535,6 +536,18 @@ describe("Cross partition GROUP BY", () => {
   const containerOptions = { offerThroughput: 25100 };
 
   let container: Container;
+
+  let currentTestTitle: string;
+  let snapshotNumber: number;
+
+  const snapshot = (actual: unknown): void => {
+    assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
+  };
+
+  beforeEach(function (this: Context) {
+    currentTestTitle = this.currentTest.fullTitle();
+    snapshotNumber = 1;
+  });
 
   before(async () => {
     await removeAllDatabases();

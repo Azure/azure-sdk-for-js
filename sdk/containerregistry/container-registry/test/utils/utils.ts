@@ -6,8 +6,11 @@ import {
   env,
   RecorderEnvironmentSetup,
   pluginForClientSecretCredentialTests,
+  isLiveMode,
 } from "@azure-tools/test-recorder";
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
+import { isNode } from "./isNode";
+import { createXhrHttpClient } from "@azure/test-utils";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -92,9 +95,11 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const clientOptions = {
     audience,
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
+    httpClient,
   };
 
   if (options.anonymous) {
@@ -110,7 +115,7 @@ export function createRegistryClient(
     env.CONTAINERREGISTRY_TENANT_ID,
     env.CONTAINERREGISTRY_CLIENT_ID,
     env.CONTAINERREGISTRY_CLIENT_SECRET,
-    tokenCredentialOptions
+    { ...tokenCredentialOptions, httpClient }
   );
 
   return new ContainerRegistryClient(endpoint, credential, clientOptions);
