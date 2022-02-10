@@ -147,10 +147,7 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
  * @returns an absolute path to the root of the monorepo
  */
 export async function resolveRoot(start?: string): Promise<string> {
-  if (start == null) {
-    start = process.cwd();
-  }
-  // start ??= process.cwd();
+  start ??= process.cwd();
   if (await fs.pathExists(path.join(start, "rush.json"))) {
     return start;
   } else {

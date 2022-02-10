@@ -91,10 +91,7 @@ export async function processSources(
 
           // Process azsdk tags. This function returns the summary tag if it was found and also inserts @azsdk-<name>
           // tags into the azSdkTags object.
-          if (summary == null) {
-            summary = extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
-          }
-          // summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
+          summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
 
           return ts.visitEachChild(node, visitor, context);
         };
