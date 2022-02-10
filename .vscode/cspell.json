@@ -42,7 +42,6 @@
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
     "sdk/communication/communication-common/review/**/*.md",
-    "sdk/containerregistry/container-registry/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
   "words": [
@@ -234,6 +233,15 @@
         "EHOSTDOWN",
         "ENONET",
         "sastoken"
+      ]
+    },
+    {
+      "filename": "sdk/containerregistry/container-registry/review/**/*.md",
+      "words": [
+        "illumos",
+        "Illumos",
+        "mipsle",
+        "riscv"
       ]
     }
   ]
