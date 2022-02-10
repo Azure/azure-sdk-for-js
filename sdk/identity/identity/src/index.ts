@@ -33,6 +33,8 @@ export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export {
   DefaultAzureCredential,
   DefaultAzureCredentialOptions,
+  DefaultAzureCredentialClientIdOptions,
+  DefaultAzureCredentialResourceIdOptions,
 } from "./credentials/defaultAzureCredential";
 export {
   EnvironmentCredential,
@@ -57,6 +59,9 @@ export {
 export {
   ManagedIdentityCredential,
   ManagedIdentityCredentialOptions,
+  ManagedIdentityCredentialClientIdOptions,
+  ManagedIdentityCredentialResourceIdOptions,
+  ManagedIdentityCredentialOptionsBase,
 } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export {

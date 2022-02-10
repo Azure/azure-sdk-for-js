@@ -85,7 +85,13 @@ export function tokenExchangeMsi(): MSI {
   }
 
   return {
-    async isAvailable({ clientId }): Promise<boolean> {
+    async isAvailable({ clientId, resourceId }): Promise<boolean> {
+      if (resourceId) {
+        logger.info(
+          `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported by the Azure Arc Managed Identity Endpoint.`
+        );
+        return false;
+      }
       const env = process.env;
       const result = Boolean(
         (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && azureFederatedTokenFilePath

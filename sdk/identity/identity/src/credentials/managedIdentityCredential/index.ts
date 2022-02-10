@@ -19,14 +19,26 @@ import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
+export interface ManagedIdentityCredentialOptionsBase extends TokenCredentialOptions {}
+
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
  */
-export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
+export interface ManagedIdentityCredentialClientIdOptions
+  extends ManagedIdentityCredentialOptionsBase {
   /**
    * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
    */
   clientId?: string;
+}
+
+/**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `resourceId` and not `clientId`, since only one of both is supported.
+ */
+export interface ManagedIdentityCredentialResourceIdOptions
+  extends ManagedIdentityCredentialOptionsBase {
   /**
    * Allows specifying a custom resource Id.
    * In scenarios such as when user assigned identities are created using an ARM template,
@@ -36,6 +48,13 @@ export interface ManagedIdentityCredentialOptions extends TokenCredentialOptions
    */
   resourceId?: string;
 }
+
+/**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ */
+export type ManagedIdentityCredentialOptions =
+  | ManagedIdentityCredentialClientIdOptions
+  | ManagedIdentityCredentialResourceIdOptions;
 
 /**
  * Attempts authentication using a managed identity available at the deployment environment.
@@ -58,7 +77,7 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(clientId: string, options?: ManagedIdentityCredentialOptions);
+  constructor(clientId: string, options?: ManagedIdentityCredentialOptionsBase);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
@@ -71,18 +90,26 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(
     clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
-    options?: ManagedIdentityCredentialOptions
+    options?: ManagedIdentityCredentialOptionsBase
   ) {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.resourceId = options?.resourceId;
+      this.resourceId = (options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
       this.identityClient = new IdentityClient(options);
     } else {
       // options only constructor
-      this.clientId = clientIdOrOptions?.clientId;
-      this.resourceId = clientIdOrOptions?.resourceId;
+      this.clientId = (clientIdOrOptions as ManagedIdentityCredentialClientIdOptions)?.clientId;
+      this.resourceId = (
+        clientIdOrOptions as ManagedIdentityCredentialResourceIdOptions
+      )?.resourceId;
       this.identityClient = new IdentityClient(clientIdOrOptions);
+    }
+    // For JavaScript users.
+    if (this.clientId && this.resourceId) {
+      throw new Error(
+        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`
+      );
     }
   }
 

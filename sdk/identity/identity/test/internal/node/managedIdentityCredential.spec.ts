@@ -251,7 +251,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
+      credential: new ManagedIdentityCredential({
         resourceId: "resource-id",
       }),
       insecureResponses: [
@@ -266,7 +266,7 @@ describe("ManagedIdentityCredential", function () {
     const imdsPingRequest = authDetails.requests[0];
     assert.equal(
       imdsPingRequest.url,
-      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client&mi_res_id=resource-id"
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&mi_res_id=resource-id"
     );
   });
 
@@ -370,7 +370,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
+      credential: new ManagedIdentityCredential({
         resourceId: "resource-id",
       }),
       secureResponses: [
@@ -405,7 +405,7 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
+      credential: new ManagedIdentityCredential({
         resourceId: "resource-id",
       }),
       secureResponses: [createResponse(200, { access_token: "token" })],
@@ -493,7 +493,49 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", {
+      credential: new ManagedIdentityCredential("client"),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1,
+        }),
+      ],
+    });
+
+    // Authorization request, which comes after validating again, for now at least.
+    const authRequest = authDetails.requests[0];
+
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+
+    assert.equal(authRequest.headers.secret, process.env.IDENTITY_HEADER);
+
+    if (authDetails.result!.token) {
+      // We use Date.now underneath.
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly in an Azure Fabric environment (with resourceId)", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "secret";
+
+    // We're not verifying the certificate yet, but we still check for it:
+    process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({
         resourceId: "resource-id",
       }),
       secureResponses: [
@@ -510,7 +552,6 @@ describe("ManagedIdentityCredential", function () {
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
-    assert.equal(query.get("client_id"), "client");
     assert.equal(query.get("mi_res_id"), "resource-id");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
@@ -551,9 +592,7 @@ describe("ManagedIdentityCredential", function () {
 
       const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
-        credential: new ManagedIdentityCredential(parameterClientId, {
-          resourceId: "resource-id",
-        }),
+        credential: new ManagedIdentityCredential(parameterClientId),
         secureResponses: [
           createResponse(200, {
             access_token: "token",
@@ -573,7 +612,6 @@ describe("ManagedIdentityCredential", function () {
       assert.strictEqual(authRequest.method, "POST");
       assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
       assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
-      assert.strictEqual(decodeURIComponent(body.get("mi_res_id")!), "resource-id");
       assert.strictEqual(
         decodeURIComponent(body.get("client_assertion_type")!),
         "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"

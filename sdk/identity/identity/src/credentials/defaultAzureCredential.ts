@@ -18,8 +18,9 @@ import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
+ * This variation supports `managedIdentityClientId` and not `managedIdentityResourceId`, since only one of both is supported.
  */
-export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialClientIdOptions extends TokenCredentialOptions {
   /**
    * Optionally pass in a Tenant ID to be used as part of the credential.
    * By default it may use a generic tenant ID depending on the underlying credential.
@@ -30,6 +31,18 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
    * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
    */
   managedIdentityClientId?: string;
+}
+
+/**
+ * Provides options to configure the {@link DefaultAzureCredential} class.
+ * This variation supports `managedIdentityResourceId` and not `managedIdentityClientId`, since only one of both is supported.
+ */
+export interface DefaultAzureCredentialResourceIdOptions extends TokenCredentialOptions {
+  /**
+   * Optionally pass in a Tenant ID to be used as part of the credential.
+   * By default it may use a generic tenant ID depending on the underlying credential.
+   */
+  tenantId?: string;
   /**
    * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
    * In scenarios such as when user assigned identities are created using an ARM template,
@@ -39,6 +52,13 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
    */
   managedIdentityResourceId?: string;
 }
+
+/**
+ * Provides options to configure the {@link DefaultAzureCredential} class.
+ */
+export type DefaultAzureCredentialOptions =
+  | DefaultAzureCredentialClientIdOptions
+  | DefaultAzureCredentialResourceIdOptions;
 
 /**
  * The type of a class that implements TokenCredential and accepts
@@ -56,18 +76,26 @@ interface DefaultCredentialConstructor {
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
-    const managedResourceId = options?.managedIdentityResourceId;
+    const managedIdentityClientId =
+      (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
+      process.env.AZURE_CLIENT_ID;
+    const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
+      ?.managedIdentityResourceId;
+
+    // For JavaScript users.
+    if (managedIdentityClientId && managedResourceId) {
+      throw new Error(
+        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`
+      );
+    }
+
     const managedIdentityOptions: ManagedIdentityCredentialOptions = {
       resourceId: managedResourceId,
+      clientId: managedIdentityClientId,
       ...options,
     };
 
-    const managedIdentityClientId = options?.managedIdentityClientId ?? process.env.AZURE_CLIENT_ID;
-    if (managedIdentityClientId !== undefined) {
-      super(managedIdentityClientId, managedIdentityOptions);
-    } else {
-      super(managedIdentityOptions);
-    }
+    super(managedIdentityOptions);
   }
 }
 
