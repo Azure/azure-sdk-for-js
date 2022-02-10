@@ -56,8 +56,7 @@
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.2.0",
-    "@azure/logger": "^1.0.0",
-    "cloudevents": "^4.0.0"
+    "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

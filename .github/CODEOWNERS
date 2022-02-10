@@ -114,7 +114,7 @@
 /sdk/schemaregistry/ @deyaaeldeen @nguerrera
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @witemple-msft @jeremymeng
+/sdk/formrecognizer/ @witemple-msft @HarshaNalluru @jeremymeng
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
@@ -360,6 +360,7 @@
 
 # PRLabel: %Mgmt
 /sdk/keyvault/arm-keyvault @qiaozha @dw511214992 @MaryGao
+/sdk/keyvault/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/keyvault/arm-keyvault-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
@@ -1279,6 +1280,7 @@ sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 /rush.json @mikeharder @praveenkuttappan
 /tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
 /**/tsconfig.json @witemple-msft @deyaaeldeen
+/**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
 
 # Add owners for notifications for specific pipelines

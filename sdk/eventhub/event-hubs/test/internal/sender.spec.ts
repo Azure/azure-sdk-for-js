@@ -26,6 +26,7 @@ import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
 import debugModule from "debug";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { EventDataBatchImpl } from "../../src/eventDataBatch";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -381,7 +382,7 @@ testWithServiceTypes((serviceVersion) => {
 
         should.equal(eventDataBatch.count, 2, "Unexpected number of events in batch.");
         should.equal(
-          eventDataBatch["_messageSpanContexts"].length,
+          (eventDataBatch as EventDataBatchImpl)._messageSpanContexts.length,
           0,
           "Unexpected number of span contexts in batch."
         );
@@ -1017,7 +1018,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "partitionId and partitionKey cannot both be set when creating a batch"
+              "The partitionId (0) and partitionKey (boo) cannot both be specified."
             );
           }
         });
@@ -1032,7 +1033,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "partitionId and partitionKey cannot both be set when creating a batch"
+              "The partitionId (0) and partitionKey (boo) cannot both be specified."
             );
           }
         });
@@ -1047,7 +1048,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "partitionId and partitionKey cannot both be set when creating a batch"
+              "The partitionId (1) and partitionKey (0) cannot both be specified."
             );
           }
         });

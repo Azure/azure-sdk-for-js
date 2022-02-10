@@ -187,18 +187,14 @@ export class AttestationClient {
   ) {
     let credentialScopes: string[] | undefined = undefined;
     let credential: TokenCredential | undefined = undefined;
-    let options: AttestationClientOptions = {};
+    let options: AttestationClientOptions;
 
-    // If arg2 is defined, it's either a tokenCredential or it's a client options.
-    if (credentialsOrOptions !== undefined) {
-      if (isTokenCredential(credentialsOrOptions)) {
-        credential = credentialsOrOptions;
-        credentialScopes = ["https://attest.azure.net/.default"];
-      } else {
-        options = credentialsOrOptions;
-      }
-    } else if (clientOptions !== undefined) {
+    if (credentialsOrOptions && isTokenCredential(credentialsOrOptions)) {
+      credential = credentialsOrOptions;
+      credentialScopes = ["https://attest.azure.net/.default"];
       options = clientOptions;
+    } else {
+      options = credentialsOrOptions || {};
     }
 
     const internalPipelineOptions: GeneratedClientOptionalParams = {

@@ -60,12 +60,13 @@ beforeEach(function (this: Context) {
 });
 ```
 
-To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled. Note that for this method to work, the `pipeline` object must be exposed as a property on the client.
+To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClientOptions` method. This method will add the necessary policies to the client options' `additionalPolicies` array for the recording to be enabled. Note that for this method to work, the `additionalPolicies` options has to be part of the client options.
 
 ```ts
-const client = /* ... initialize your client as normal ... */;
-// recorderHttpPolicy is provided as an export from the test-recorder-new package.
-recorder.configureClient(client);
+const client = new MyServiceClient(
+  /* ... insert options here ... */,
+  recorder.configureClientOptions({ /* any additional options to pass through */ }),
+);
 ```
 
 ### For Core v1 SDKs
@@ -236,7 +237,7 @@ Since AAD traffic is not recorded by the new recorder, there is no longer a need
 When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
 
 ```ts
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
@@ -258,36 +259,47 @@ module.exports = function (config) {
 };
 ```
 
-The following configuration options in `karma.config.js` should be **removed**:
+The following configuration options in `karma.config.js` are unnecessary and should be **removed**:
 
 ```ts
-// files section
-.concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+// imports - to be deleted
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode,
+} = require("@azure-tools/test-recorder");
 
+// plugins - to be removed
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor",
+
+// files section - snippet to remove
+     .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+
+// preprocessors - to be removed
+      "recordings/browsers/**/*.json": ["json"],
+
+// reporters - to be removed
+      "json-to-file"
+      
 /* ... */
-
+// log options - to be removed
 browserConsoleLogOptions: {
   terminal: !isRecordMode(),
 }
 
 /* ... */
-
+// jsonToFileReporter - to be removed
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
 }
 ```
 
-## Changes to `ci.yml`
-
-You must set the `TestProxy` parameter to `true` to enable the test proxy server in your SDK's `ci.yml` file.
-
-```yaml
-# irrelevant sections of ci.yml omitted
-
-extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
-  parameters:
-    TestProxy: true # Add me!
+Remove the following "devDependencies" from `package.json`
+```js
+   "karma-json-preprocessor": "^0.3.3",
+   "karma-json-to-file-reporter": "^1.0.1",
 ```
 
 ## Migrating your recordings
