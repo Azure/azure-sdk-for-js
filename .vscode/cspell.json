@@ -55,8 +55,7 @@
     "sdk/monitor/monitor-query/review/**/*.md",
     "sdk/search/search-documents/review/**/*.md",
     "sdk/storage/storage-blob/review/**/*.md",
-    "sdk/storage/storage-file-share/review/**/*.md",
-    "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md"
+    "sdk/storage/storage-file-share/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -126,6 +125,20 @@
         "azuresdkartifacts",
         "policheck",
         "gdnbaselines"
+      ]
+    },
+    {
+      "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
+      "words": [
+        "Onvif",
+        "onvif",
+        "Grpc",
+        "Abgr",
+        "abgr",
+        "Argb",
+        "argb",
+        "Bgra",
+        "bgra"
       ]
     }
   ]
