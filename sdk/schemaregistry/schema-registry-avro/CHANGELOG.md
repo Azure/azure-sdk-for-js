@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (2022-02-09)
+## 1.0.0-beta.6 (2022-02-10)
 
 ### Features Added
 
@@ -11,8 +11,6 @@
 - The `SchemaRegistryAvroSerializer` class has been renamed to `SchemaRegistryAvroEncoder`
 - The `serialize` method has been renamed to `encodeMessageData` and it now returns a message
 - The `deserialize` method has been renamed to `decodeMessageData` and it now takes a message as input
-
-### Bugs Fixed
 
 ### Other Changes
 - The internal cache has been updated to be an LRU one with a max entries count of 128
