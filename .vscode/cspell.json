@@ -70,6 +70,7 @@
     "lcov",
     "lcovonly",
     "Lucene",
+    "Mibps",
     "mkdir",
     "mkdirp",
     "mongodb",
@@ -99,6 +100,7 @@
     "undelete",
     "Unencrypted",
     "unpartitioned",
+    "Unprocessable",
     "unref",
     "usdodcentral",
     "usdodeast",
@@ -133,12 +135,6 @@
       ]
     },
     {
-      "filename": "sdk/storage/storage-file-share/review/**/*.md",
-      "words": [
-        "Mibps"
-      ]
-    },
-    {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
       "words": [
         "RAGRS",
@@ -166,8 +162,7 @@
         "reranker",
         "Rslp",
         "sorani",
-        "Sorani",
-        "Unprocessable"
+        "Sorani"
       ]
     },
     {
