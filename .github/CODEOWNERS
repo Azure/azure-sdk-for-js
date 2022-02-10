@@ -36,7 +36,7 @@
 # PRLabel: %Communication
 /sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
 /sdk/communication/communication-chat/ @LuChen-Microsoft
-/sdk/communication/communication-phone-numbers/ @whisper6284 @miguhern @lucasrsant @RoyHerrod @danielav7
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
 /sdk/communication/communication-network-traversal/ @AriZavala2
 /sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
 /sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
