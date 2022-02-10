@@ -284,7 +284,6 @@ export interface RetryForeverArgs<T> {
 
 /**
  * Calculates delay between retries, in milliseconds.
- * @internal
  */
 function calculateDelay(
   attemptCount: number,

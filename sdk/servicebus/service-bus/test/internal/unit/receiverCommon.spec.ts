@@ -296,13 +296,14 @@ describe("shared receiver code", () => {
 
     it("respects retry options", async () => {
       const errorMessages: string[] = [];
+      const errorCount = 3;
       let numRetryCalls = 0;
 
       const fakeRetry = async <T>(): Promise<T> => {
         ++numRetryCalls;
 
-        if (numRetryCalls < 4) {
-          // force retry<> to get called three times (3x because
+        if (numRetryCalls < errorCount + 1) {
+          // force retry<> to get called ${errorCount} times (because
           // we "failed" and threw exceptions and 1 more time where
           // we succeed.
           throw new Error(`Attempt ${numRetryCalls}: Force another call of retry<>`);
@@ -323,7 +324,6 @@ describe("shared receiver code", () => {
               // not the first attempt
               const currentTime = Date.now();
               if (currentTime - previousAttemptTime < retryDelayInMs) {
-                // wait at least 100ms between attempts
                 errorMessages.push(
                   `Unexpected, Should've waited at least ${retryDelayInMs} between attempts`
                 );
@@ -353,7 +353,7 @@ describe("shared receiver code", () => {
         "Attempt 3: Force another call of retry<>",
       ]);
 
-      assert.equal(numRetryCalls, 3 + 1);
+      assert.equal(numRetryCalls, errorCount + 1);
     });
   });
 });
