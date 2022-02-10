@@ -91,7 +91,10 @@ export async function processSources(
 
           // Process azsdk tags. This function returns the summary tag if it was found and also inserts @azsdk-<name>
           // tags into the azSdkTags object.
-          summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
+          if (summary == null) {
+            summary = extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
+          }
+          // summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
 
           return ts.visitEachChild(node, visitor, context);
         };
@@ -329,16 +332,16 @@ function processExportDefault(
       // If there is no name, the declaration is anonymous, and we will bind it as an expression in module.exports
       const initializer = ts.isClassDeclaration(decl)
         ? factory.createClassExpression(
-            decl.decorators,
-            updatedModifiers,
-            undefined,
-            decl.typeParameters,
-            decl.heritageClauses,
-            decl.members
-          )
+          decl.decorators,
+          updatedModifiers,
+          undefined,
+          decl.typeParameters,
+          decl.heritageClauses,
+          decl.members
+        )
         : decl.body === undefined // This is a strange case that I assume has to do with overload declarations.
-        ? undefined
-        : factory.createFunctionExpression(
+          ? undefined
+          : factory.createFunctionExpression(
             updatedModifiers,
             decl.asteriskToken,
             undefined,
@@ -359,24 +362,24 @@ function processExportDefault(
 
     return ts.isClassDeclaration(decl)
       ? factory.updateClassDeclaration(
-          decl,
-          decl.decorators,
-          updatedModifiers,
-          decl.name,
-          decl.typeParameters,
-          decl.heritageClauses,
-          decl.members
-        )
+        decl,
+        decl.decorators,
+        updatedModifiers,
+        decl.name,
+        decl.typeParameters,
+        decl.heritageClauses,
+        decl.members
+      )
       : factory.updateFunctionDeclaration(
-          decl,
-          decl.decorators,
-          updatedModifiers,
-          decl.asteriskToken,
-          decl.name,
-          decl.typeParameters,
-          decl.parameters,
-          decl.type,
-          decl.body
-        );
+        decl,
+        decl.decorators,
+        updatedModifiers,
+        decl.asteriskToken,
+        decl.name,
+        decl.typeParameters,
+        decl.parameters,
+        decl.type,
+        decl.body
+      );
   });
 }
