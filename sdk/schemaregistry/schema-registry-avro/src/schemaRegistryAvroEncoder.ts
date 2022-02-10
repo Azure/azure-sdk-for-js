@@ -32,7 +32,7 @@ const cacheOptions: LRUCacheOptions<string, any> = {
  * Avro encoder that obtains schemas from a schema registry and does not
  * pack schemas into its payloads.
  */
-export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
+export class AvroEncoder<MessageT = MessageWithMetadata> {
   /**
    * Creates a new encoder.
    *
