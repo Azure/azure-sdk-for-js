@@ -15,9 +15,12 @@ import {
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
 import {
+  Constants,
   ErrorNameConditionMapper,
+  delay,
   retry,
   RetryConfig,
+  RetryMode,
   RetryOperationType,
   RetryOptions,
 } from "@azure/core-amqp";
@@ -280,6 +283,28 @@ export interface RetryForeverArgs<T> {
 }
 
 /**
+ * Calculates delay between retries, in milliseconds.
+ * @internal
+ */
+function calculateDelay(
+  attemptCount: number,
+  retryDelayInMs: number,
+  maxRetryDelayInMs: number,
+  mode: RetryMode
+): number {
+  if (mode === RetryMode.Exponential) {
+    const boundedRandDelta =
+      retryDelayInMs * 0.8 +
+      Math.floor(Math.random() * (retryDelayInMs * 1.2 - retryDelayInMs * 0.8));
+
+    const incrementDelta = boundedRandDelta * (Math.pow(2, attemptCount) - 1);
+    return Math.min(incrementDelta, maxRetryDelayInMs);
+  }
+
+  return retryDelayInMs;
+}
+
+/**
  * Retry infinitely until success, reporting in between retry attempts.
  *
  * This function will only stop retrying if:
@@ -293,6 +318,22 @@ export async function retryForever<T>(
   retryFn: typeof retry = retry
 ): Promise<T> {
   let numRetryCycles = 0;
+  const config = args.retryConfig;
+  if (!config.retryOptions) {
+    config.retryOptions = {};
+  }
+  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
+    config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
+  }
+  if (
+    config.retryOptions.maxRetryDelayInMs == undefined ||
+    config.retryOptions.maxRetryDelayInMs < 0
+  ) {
+    config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
+  }
+  if (config.retryOptions.mode == undefined) {
+    config.retryOptions.mode = RetryMode.Fixed;
+  }
 
   // The retries are broken up into cycles, giving the user some control over how often
   // we actually attempt to retry.
@@ -324,6 +365,20 @@ export async function retryForever<T>(
         `${args.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
         args.retryConfig
       );
+
+      const delayInMs = calculateDelay(
+        numRetryCycles,
+        config.retryOptions.retryDelayInMs,
+        config.retryOptions.maxRetryDelayInMs,
+        config.retryOptions.mode
+      );
+      logger.verbose(
+        "[%s] Sleeping for %d milliseconds for '%s'.",
+        config.connectionId,
+        delayInMs,
+        config.operationType
+      );
+      await delay<void>(delayInMs, config.abortSignal, "Retry cycle has been cancelled by the user.");
 
       continue;
     }
