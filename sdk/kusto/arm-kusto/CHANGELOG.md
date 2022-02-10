@@ -2,13 +2,7 @@
 
 ## 7.0.1 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+Only minior change and fix the sample generation issues.
 
 ## 7.0.0 (2022-01-24)
 
