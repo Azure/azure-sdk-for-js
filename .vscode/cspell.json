@@ -44,7 +44,6 @@
     "sdk/communication/communication-common/review/**/*.md",
     "sdk/containerregistry/container-registry/review/**/*.md",
     "sdk/core/core-amqp/review/**/*.md",
-    "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
   "words": [
@@ -97,6 +96,7 @@
     "uaecentral",
     "uksouth",
     "ukwest",
+    "Uncapitalize",
     "undelete",
     "Unencrypted",
     "unpartitioned",
@@ -221,6 +221,12 @@
         "tcbinfocertshash",
         "tcbinfocrlhash",
         "tcbinfohash"
+      ]
+    },
+    {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
+      "words": [
+        "WDLABCD"
       ]
     }
   ]
