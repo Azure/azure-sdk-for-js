@@ -43,7 +43,6 @@
     "sdk/synapse/synapse-spark/review/*.md",
     "sdk/communication/communication-common/review/**/*.md",
     "sdk/containerregistry/container-registry/review/**/*.md",
-    "sdk/core/core-amqp/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
   "words": [
@@ -227,6 +226,14 @@
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
         "WDLABCD"
+      ]
+    },
+    {
+      "filename": "sdk/core/core-amqp/review/**/*.md",
+      "words": [
+        "EHOSTDOWN",
+        "ENONET",
+        "sastoken"
       ]
     }
   ]
