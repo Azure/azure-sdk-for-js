@@ -51,8 +51,7 @@
     "sdk/identity/identity/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md",
     "sdk/keyvault/keyvault-certificates/review/**/*.md",
-    "sdk/keyvault/keyvault-keys/review/**/*.md",
-    "sdk/monitor/monitor-query/review/**/*.md"
+    "sdk/keyvault/keyvault-keys/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -174,6 +173,12 @@
         "reranker",
         "lovins",
         "Rslp"
+      ]
+    },
+    {
+      "filename": "sdk/monitor/monitor-query/review/**/*.md",
+      "words": [
+        "fourty"
       ]
     }
   ]
