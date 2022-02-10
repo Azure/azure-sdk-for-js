@@ -153,7 +153,7 @@ function calculateDelay(
     return Math.min(incrementDelta, maxRetryDelayInMs);
   }
 
-  return retryDelayInMs;
+  return Math.min(retryDelayInMs, maxRetryDelayInMs);
 }
 
 /**

@@ -301,7 +301,7 @@ function calculateDelay(
     return Math.min(incrementDelta, maxRetryDelayInMs);
   }
 
-  return retryDelayInMs;
+  return Math.min(retryDelayInMs, maxRetryDelayInMs);
 }
 
 /**
@@ -322,16 +322,13 @@ export async function retryForever<T>(
   if (!config.retryOptions) {
     config.retryOptions = {};
   }
-  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
+  if (!config.retryOptions.retryDelayInMs || config.retryOptions.retryDelayInMs < 0) {
     config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
-  if (
-    config.retryOptions.maxRetryDelayInMs == undefined ||
-    config.retryOptions.maxRetryDelayInMs < 0
-  ) {
+  if (!config.retryOptions.maxRetryDelayInMs || config.retryOptions.maxRetryDelayInMs < 0) {
     config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
-  if (config.retryOptions.mode == undefined) {
+  if (!config.retryOptions.mode) {
     config.retryOptions.mode = RetryMode.Fixed;
   }
 
@@ -378,7 +375,11 @@ export async function retryForever<T>(
         delayInMs,
         config.operationType
       );
-      await delay<void>(delayInMs, config.abortSignal, "Retry cycle has been cancelled by the user.");
+      await delay<void>(
+        delayInMs,
+        config.abortSignal,
+        "Retry cycle has been cancelled by the user."
+      );
 
       continue;
     }
