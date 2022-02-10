@@ -360,6 +360,7 @@
 
 # PRLabel: %Mgmt
 /sdk/keyvault/arm-keyvault @qiaozha @dw511214992 @MaryGao
+/sdk/keyvault/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/keyvault/arm-keyvault-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao

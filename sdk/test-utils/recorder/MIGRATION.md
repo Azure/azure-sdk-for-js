@@ -296,6 +296,12 @@ jsonToFileReporter: {
 }
 ```
 
+Remove the following "devDependencies" from `package.json`
+```js
+   "karma-json-preprocessor": "^0.3.3",
+   "karma-json-to-file-reporter": "^1.0.1",
+```
+
 ## Changes to `ci.yml`
 
 You must set the `TestProxy` parameter to `true` to enable the test proxy server in your SDK's `ci.yml` file.
