@@ -9,7 +9,7 @@ import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 chaiUse(chaiPromises);
 
-describe("SchemaRegistryAvroEncoder", function () {
+describe("AvroEncoder", function () {
   it("rejects invalid format", async () => {
     const encoder = await createTestEncoder();
     await assert.isRejected(

@@ -8,9 +8,16 @@ import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export class AvroEncoder<MessageT = MessageWithMetadata> {
-    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions<MessageT>);
+    constructor(client: SchemaRegistry, options?: AvroEncoderOptions<MessageT>);
     decodeMessageData(message: MessageT, options?: DecodeMessageDataOptions): Promise<unknown>;
     encodeMessageData(value: unknown, schema: string): Promise<MessageT>;
+}
+
+// @public
+export interface AvroEncoderOptions<MessageT> {
+    autoRegisterSchemas?: boolean;
+    groupName?: string;
+    messageAdapter?: MessageAdapter<MessageT>;
 }
 
 // @public
@@ -28,13 +35,6 @@ export interface MessageAdapter<MessageT> {
 export interface MessageWithMetadata {
     body: Uint8Array;
     contentType: string;
-}
-
-// @public
-export interface SchemaRegistryAvroEncoderOptions<MessageT> {
-    autoRegisterSchemas?: boolean;
-    groupName?: string;
-    messageAdapter?: MessageAdapter<MessageT>;
 }
 
 // (No @packageDocumentation comment for this package)

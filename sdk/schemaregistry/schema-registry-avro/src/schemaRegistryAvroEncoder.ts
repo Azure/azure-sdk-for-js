@@ -8,7 +8,7 @@ import {
   DecodeMessageDataOptions,
   MessageAdapter,
   MessageWithMetadata,
-  SchemaRegistryAvroEncoderOptions,
+  AvroEncoderOptions,
 } from "./models";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageWithMetadata } from "./utility";
@@ -39,7 +39,7 @@ export class AvroEncoder<MessageT = MessageWithMetadata> {
    * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    */
-  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions<MessageT>) {
+  constructor(client: SchemaRegistry, options?: AvroEncoderOptions<MessageT>) {
     this.registry = client;
     this.schemaGroup = options?.groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
