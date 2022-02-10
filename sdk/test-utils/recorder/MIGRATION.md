@@ -15,6 +15,7 @@ The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. U
   // ...
   "devDependencies": {
     // ...
+    "@azure-tools/test-credential" : "^1.0.0", // If you're using `@azure/identity` in your tests 
     "@azure-tools/test-recorder": "^2.0.0"
   }
 }
@@ -40,6 +41,8 @@ Note the difference between the dev-tool `node-ts-input` and `node-js-input` com
 - `node-ts-input` runs the tests using `ts-node`, without code coverage.
 - `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
 
+Compare with the older test runs to make sure you're running all the tests/files as before.
+
 ## Initializing the recorder
 
 The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
@@ -49,6 +52,8 @@ The approach taken to initialize the recorder depends on whether the SDK being t
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
+import { Recorder } from "@azure-tools/test-recorder";
+
 let recorder: Recorder;
 
 /*
@@ -213,13 +218,9 @@ Other sanitizers for more complex use cases are also available.
 
 ## AAD and the new `NoOpCredential`
 
-The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package, installed as follows:
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package.
 
-```bash
-$ rush add --dev --caret -p @azure-tools/test-credential
-```
-
-This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
+This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between `NoOpCredential` in playback and `ClientSecretCredential` when recording for you:
 
 ```ts
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -284,15 +285,15 @@ const {
       "json-to-file"
       
 /* ... */
-// log options - to be removed
-browserConsoleLogOptions: {
-  terminal: !isRecordMode(),
-}
-
-/* ... */
 // jsonToFileReporter - to be removed
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
+}
+
+/* ... */
+// log options - to be removed
+browserConsoleLogOptions: {
+  terminal: !isRecordMode(),
 }
 ```
 
