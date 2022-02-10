@@ -50,8 +50,7 @@
     "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
     "sdk/identity/identity/review/**/*.md",
     "sdk/iot/iot-modelsrepository/review/**/*.md",
-    "sdk/keyvault/keyvault-certificates/review/**/*.md",
-    "sdk/keyvault/keyvault-keys/review/**/*.md"
+    "sdk/keyvault/keyvault-certificates/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -179,6 +178,15 @@
       "filename": "sdk/monitor/monitor-query/review/**/*.md",
       "words": [
         "fourty"
+      ]
+    },
+    {
+      "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
+      "words": [
+        "ECHSM",
+        "RSAHSM",
+        "Rsnull",
+        "RSNULL"
       ]
     }
   ]
