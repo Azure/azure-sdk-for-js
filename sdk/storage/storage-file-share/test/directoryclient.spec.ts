@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+
 import { getBSU, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
@@ -885,6 +886,335 @@ describe("DirectoryClient", () => {
       0,
       "The closeFailureCount is not set to 0 as default."
     );
+  });
+
+  // STG81
+  it("rename", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const result = await dirClient.rename(destDirName);
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename with metadata", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const metadata = {
+      key1: "vala",
+      key2: "valb",
+    };
+
+    const result = await dirClient.rename(destDirName, {
+      metadata: metadata,
+    });
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    const propertiesResult = await result.destinationDirectoryClient.getProperties();
+    assert.deepStrictEqual(propertiesResult.metadata, metadata, "Metadata should be expected.");
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename to under a different directory", async () => {
+    const sourceParentDirName = recorder.getUniqueName("sourceParentdir");
+    const sourceParentDir = shareClient.getDirectoryClient(sourceParentDirName);
+    await sourceParentDir.create();
+
+    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDir = sourceParentDir.getDirectoryClient(sourceDirName);
+    await sourceDir.create();
+
+    const destParentDirName = recorder.getUniqueName("destParentdir");
+    const destParentDir = shareClient.getDirectoryClient(destParentDirName);
+    await destParentDir.create();
+
+    const destDirName = recorder.getUniqueName("destdir");
+    const destDirPath = destParentDirName + "/" + destDirName;
+
+    const result = await sourceDir.rename(destDirPath);
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await sourceDir.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - replaceIfExists = true ", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    await shareClient.getDirectoryClient("").getFileClient(destDirName).create(1024);
+    const result = await dirClient.rename(destDirName, {
+      replaceIfExists: true,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - replaceIfExists = false", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
+    await targetFileClient.create(1024);
+    try {
+      await dirClient.rename(destDirName);
+      assert.fail("Should got conflict error when trying to overwrite an exiting file");
+    } catch (err) {
+      assert.ok(
+        (err.statusCode as number) === 409,
+        "Should got conflict error when trying to overwrite an exiting file"
+      );
+    }
+
+    await dirClient.getProperties();
+    const properties = await targetFileClient.getProperties();
+    assert.ok(properties.contentLength === 1024, "The origin file should still exist");
+  });
+
+  it("rename - ignoreReadOnly = true", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
+    await targetFileClient.create(1024, {
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
+    });
+
+    const result = await dirClient.rename(destDirName, {
+      ignoreReadOnly: true,
+      replaceIfExists: true,
+    });
+
+    // Validate destination existence.
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - ignoreReadOnly = false", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
+    await targetFileClient.create(1024, {
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
+    });
+
+    try {
+      await dirClient.rename(destDirName, {
+        ignoreReadOnly: false,
+        replaceIfExists: true,
+      });
+      assert.fail("Should got conflict error when trying to overwrite an exiting file");
+    } catch (err) {
+      assert.ok(
+        (err.statusCode as number) === 409,
+        "Should got conflict error when trying to overwrite an exiting file"
+      );
+    }
+
+    await dirClient.getProperties();
+    const properties = await targetFileClient.getProperties();
+    assert.ok(properties.contentLength === 1024, "The origin file should still exist");
+  });
+
+  it("rename - destination leased", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
+    await targetFileClient.create(1024);
+
+    const guid = "e9890485-bf47-4d9a-b3d0-aceb18506124";
+    const leaseClient = targetFileClient.getShareLeaseClient(guid);
+    const leaseResult = await leaseClient.acquireLease(-1);
+
+    const result = await dirClient.rename(destDirName, {
+      replaceIfExists: true,
+      destinationLeaseAccessConditions: {
+        leaseId: leaseResult.leaseId,
+      },
+    });
+
+    // Validate destination existence.
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await dirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - destination leased - no lease condition", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
+    await targetFileClient.create(1024);
+
+    const guid = "e9890485-bf47-4d9a-b3d0-aceb18506124";
+    const leaseClient = targetFileClient.getShareLeaseClient(guid);
+    await leaseClient.acquireLease(-1);
+
+    try {
+      await dirClient.rename(destDirName, {
+        replaceIfExists: true,
+      });
+      assert.fail("Should got conflict error when trying to overwrite a leased file");
+    } catch (err) {
+      assert.ok("Should got conflict error when trying to overwrite a leased file");
+    }
+
+    await dirClient.getProperties();
+    const properties = await targetFileClient.getProperties();
+    assert.ok(properties.contentLength === 1024, "The origin file should still exist");
+  });
+
+  it("rename - Non-ASCII source and destination", async () => {
+    const destDirName = recorder.getUniqueName("汉字. dest ~!@#$%^&()_+`1234567890-={}[];','");
+
+    const sourceDirName = recorder.getUniqueName("汉字. source ~!@#$%^&()_+`1234567890-={}[];','");
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const result = await sourceDirClient.rename(destDirName);
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    await result.destinationDirectoryClient.getProperties();
+
+    try {
+      await sourceDirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - with file permission", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const filePermission =
+      "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
+
+    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const result = await sourceDirClient.rename(destDirName, {
+      filePermission: filePermission,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    const properties = await result.destinationDirectoryClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+
+    try {
+      await sourceDirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - SMB properties", async () => {
+    const destDirName = recorder.getUniqueName("destdir");
+    const filePermission =
+      "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
+    const permissionResponse = await shareClient.createPermission(filePermission);
+
+    const fileAttributesInstance = new FileSystemAttributes();
+    fileAttributesInstance.directory = true;
+    fileAttributesInstance.readonly = true;
+
+    const creationDate = new Date("05 October 2019 14:48 UTC");
+    const lastwriteTime = new Date("15 October 2019 14:48 UTC");
+
+    const copyFileSMBInfo = {
+      fileAttributes: fileAttributesInstance.toString(),
+      fileCreationTime: truncatedISO8061Date(creationDate),
+      fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
+    };
+
+    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const result = await sourceDirClient.rename(destDirName, {
+      filePermissionKey: permissionResponse.filePermissionKey,
+      copyFileSmbInfo: copyFileSMBInfo,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected"
+    );
+
+    const properties = await result.destinationDirectoryClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+    assert.ok(
+      truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
+      "Creation time should be expected"
+    );
+    assert.ok(
+      truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
+      "Last write time should be expected"
+    );
+    const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
+    assert.ok(
+      fileSystemAttributes.readonly && fileSystemAttributes.directory,
+      "File attributes should be expected"
+    );
+
+    try {
+      await sourceDirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
   });
 });
 
