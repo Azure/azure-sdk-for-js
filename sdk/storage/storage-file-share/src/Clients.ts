@@ -2765,7 +2765,7 @@ export class ShareDirectoryClient extends StorageClient {
    * Renames a directory.
    * This API only supports renaming a directory in the same share.
    *
-   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination. 
+   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.
    * @param options - Options for the renaming operation.
    * @returns Response data for the file renaming operation.
    *
@@ -5321,7 +5321,7 @@ export class ShareFileClient extends StorageClient {
    * Renames a file.
    * This API only supports renaming a file in the same share.
    *
-   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.  
+   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.
    * @param options - Options for the renaming operation.
    * @returns Response data for the file renaming operation.
    *

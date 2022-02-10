@@ -8,7 +8,6 @@ import {
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getSoftDeleteBSU,
-  getGenericBSU,
   recorderEnvSetup,
 } from "./utils";
 import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
