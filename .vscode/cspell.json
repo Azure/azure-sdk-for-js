@@ -49,8 +49,7 @@
     "sdk/digitaltwins/digital-twins-core/review/**/*.md",
     "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
     "sdk/identity/identity/review/**/*.md",
-    "sdk/iot/iot-modelsrepository/review/**/*.md",
-    "sdk/keyvault/keyvault-certificates/review/**/*.md"
+    "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -187,6 +186,15 @@
         "RSAHSM",
         "Rsnull",
         "RSNULL"
+      ]
+    },
+    {
+      "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
+      "words": [
+        "upns",
+        "ECHSM",
+        "RSAHSM",
+        "ekus"
       ]
     }
   ]
