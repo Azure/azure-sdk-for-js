@@ -41,8 +41,6 @@
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
-    "sdk/communication/communication-common/review/**/*.md",
-    "sdk/iot/iot-modelsrepository/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -242,6 +240,19 @@
         "Illumos",
         "mipsle",
         "riscv"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-common/review/**/*.md",
+      "words": [
+        "gcch"
+      ]
+    },
+    {
+      "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
+      "words": [
+        "Dtmi",
+        "dtmis"
       ]
     }
   ]
