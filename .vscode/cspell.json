@@ -53,8 +53,7 @@
     "sdk/keyvault/keyvault-certificates/review/**/*.md",
     "sdk/keyvault/keyvault-keys/review/**/*.md",
     "sdk/monitor/monitor-query/review/**/*.md",
-    "sdk/search/search-documents/review/**/*.md",
-    "sdk/storage/storage-blob/review/**/*.md"
+    "sdk/search/search-documents/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -144,6 +143,13 @@
       "filename": "sdk/storage/storage-file-share/review/**/*.md",
       "words": [
         "Mibps"
+      ]
+    },
+    {
+      "filename": "sdk/storage/storage-blob/review/**/*.md",
+      "words": [
+        "RAGRS",
+        "Uncommited"
       ]
     }
   ]
