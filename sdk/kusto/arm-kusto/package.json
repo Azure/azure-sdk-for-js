@@ -101,7 +101,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/KustoManagementClient.ts",
+        "path": "src/kustoManagementClient.ts",
         "prefix": "packageDetails"
       }
     ]

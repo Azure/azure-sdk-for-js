@@ -2,7 +2,7 @@
 
 ## 7.0.1 (Unreleased)
 
-Only minior change and fix the sample generation issues.
+Add generated samples from swagger examples.
 
 ## 7.0.0 (2022-01-24)
 
