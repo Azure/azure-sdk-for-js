@@ -3,10 +3,12 @@
 
 import "./env";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { RecorderEnvironmentSetup, env } from "@azure-tools/test-recorder";
+import { RecorderEnvironmentSetup, env, isLiveMode } from "@azure-tools/test-recorder";
 import { TableClient, TableServiceClient } from "../../../src";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 import { ClientSecretCredential } from "@azure/identity";
 
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 const mockAccountName = "fakeaccount";
 const mockAccountKey = "fakeKey";
 const fakeSas =
@@ -73,7 +75,7 @@ export function createTableClient(
         );
       }
 
-      return TableClient.fromConnectionString(env.SAS_CONNECTION_STRING, tableName);
+      return TableClient.fromConnectionString(env.SAS_CONNECTION_STRING, tableName, { httpClient });
 
     case "SASToken":
       if (!env.SAS_TOKEN || !env.TABLES_URL) {
@@ -85,7 +87,8 @@ export function createTableClient(
       return new TableClient(
         env.TABLES_URL,
         tableName,
-        new AzureSASCredential(env.SAS_TOKEN ?? "")
+        new AzureSASCredential(env.SAS_TOKEN ?? ""),
+        { httpClient }
       );
 
     case "AccountKey":
@@ -98,7 +101,8 @@ export function createTableClient(
       return new TableClient(
         env.TABLES_URL,
         tableName,
-        new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY)
+        new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY),
+        { httpClient }
       );
 
     case "TokenCredential": {
@@ -111,10 +115,11 @@ export function createTableClient(
       const credential = new ClientSecretCredential(
         env.AZURE_TENANT_ID,
         env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
+        env.AZURE_CLIENT_SECRET,
+        { httpClient }
       );
 
-      return new TableClient(env.TABLES_URL, tableName, credential);
+      return new TableClient(env.TABLES_URL, tableName, credential, { httpClient });
     }
 
     case "AccountConnectionString":
@@ -124,7 +129,9 @@ export function createTableClient(
         );
       }
 
-      return TableClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, tableName);
+      return TableClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, tableName, {
+        httpClient,
+      });
 
     default:
       throw new Error(`Unknown authentication mode ${mode}`);
@@ -142,7 +149,7 @@ export function createTableServiceClient(
         );
       }
 
-      return TableServiceClient.fromConnectionString(env.SAS_CONNECTION_STRING);
+      return TableServiceClient.fromConnectionString(env.SAS_CONNECTION_STRING, { httpClient });
 
     case "SASToken":
       if (!env.SAS_TOKEN || !env.TABLES_URL) {
@@ -151,7 +158,7 @@ export function createTableServiceClient(
         );
       }
 
-      return new TableServiceClient(`${env.TABLES_URL}${env.SAS_TOKEN}`);
+      return new TableServiceClient(`${env.TABLES_URL}${env.SAS_TOKEN}`, { httpClient });
 
     case "AccountKey":
       if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {
@@ -162,7 +169,8 @@ export function createTableServiceClient(
 
       return new TableServiceClient(
         env.TABLES_URL,
-        new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY)
+        new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY),
+        { httpClient }
       );
 
     case "TokenCredential": {
@@ -175,10 +183,11 @@ export function createTableServiceClient(
       const credential = new ClientSecretCredential(
         env.AZURE_TENANT_ID,
         env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
+        env.AZURE_CLIENT_SECRET,
+        { httpClient }
       );
 
-      return new TableServiceClient(env.TABLES_URL, credential);
+      return new TableServiceClient(env.TABLES_URL, credential, { httpClient });
     }
 
     case "AccountConnectionString":
@@ -188,7 +197,7 @@ export function createTableServiceClient(
         );
       }
 
-      return TableServiceClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING);
+      return TableServiceClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, { httpClient });
 
     default:
       throw new Error(`Unknown authentication mode ${mode}`);
