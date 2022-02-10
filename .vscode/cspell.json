@@ -52,8 +52,7 @@
     "sdk/iot/iot-modelsrepository/review/**/*.md",
     "sdk/keyvault/keyvault-certificates/review/**/*.md",
     "sdk/keyvault/keyvault-keys/review/**/*.md",
-    "sdk/monitor/monitor-query/review/**/*.md",
-    "sdk/search/search-documents/review/**/*.md"
+    "sdk/monitor/monitor-query/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -150,6 +149,31 @@
       "words": [
         "RAGRS",
         "Uncommited"
+      ]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/**/*.md",
+      "words": [
+        "odatatype",
+        "Decompounder",
+        "Createor",
+        "Unprocessable",
+        "Adls",
+        "adlsgen",
+        "Piqd",
+        "kstem",
+        "Sorani",
+        "sorani",
+        "kstem",
+        "bangla",
+        "Bokmaal",
+        "nysiis",
+        "koelner",
+        "Phonetik",
+        "haase",
+        "reranker",
+        "lovins",
+        "Rslp"
       ]
     }
   ]
