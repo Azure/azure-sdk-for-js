@@ -3,17 +3,11 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
 import { versionsToTest } from "@azure/test-utils";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
-import { isNode } from "../utils/isNode";
 import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils";
-
-if (isNode) {
-  dotenv.config();
-}
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2021-07-01" }).describe("Repository and artifact tests", function () {
