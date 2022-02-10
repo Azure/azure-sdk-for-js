@@ -14,11 +14,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const modelId = process.env.FORM_RECOGNIZER_CUSTOM_MODEL_ID ?? "<custom model ID>";
+  const modelId = process.env.FORM_RECOGNIZER_CUSTOM_MODEL_ID || "<custom model ID>";
 
   const poller = await client.beginAnalyzeDocument(
     modelId,
@@ -36,7 +36,7 @@ async function main() {
   console.log(
     "Extracted document:",
     document.docType,
-    `(confidence: ${document.confidence ?? "<undefined>"})`
+    `(confidence: ${document.confidence || "<undefined>"})`
   );
   console.log("Fields:", document.fields);
 }

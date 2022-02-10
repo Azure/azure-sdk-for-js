@@ -26,8 +26,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
@@ -49,7 +49,7 @@ async function main() {
     console.log("Merchant:", (receipt["MerchantName"] as DocumentStringField).value);
 
     console.log("Items:");
-    for (const { properties: item } of ((receipt["Items"] as DocumentArrayField).values ??
+    for (const { properties: item } of ((receipt["Items"] as DocumentArrayField).values ||
       []) as DocumentObjectField[]) {
       console.log("- Description:", (item["Description"] as DocumentStringField).value);
       console.log("  Total Price:", (item["TotalPrice"] as DocumentStringField).value);
