@@ -54,8 +54,7 @@
     "sdk/keyvault/keyvault-keys/review/**/*.md",
     "sdk/monitor/monitor-query/review/**/*.md",
     "sdk/search/search-documents/review/**/*.md",
-    "sdk/storage/storage-blob/review/**/*.md",
-    "sdk/storage/storage-file-share/review/**/*.md"
+    "sdk/storage/storage-blob/review/**/*.md"
   ],
   "words": [
     "adfs",
@@ -139,6 +138,12 @@
         "argb",
         "Bgra",
         "bgra"
+      ]
+    },
+    {
+      "filename": "sdk/storage/storage-file-share/review/**/*.md",
+      "words": [
+        "Mibps"
       ]
     }
   ]
