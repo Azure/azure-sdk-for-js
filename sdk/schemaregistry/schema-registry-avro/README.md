@@ -31,7 +31,7 @@ npm install @azure/schema-registry-avro
 
 ## Key concepts
 
-### SchemaRegistryAvroEncoder
+### AvroEncoder
 
 Provides API to encode to and decode from Avro Binary Encoding wrapped in a message
 with a content type field containing the schema ID. Uses
@@ -76,13 +76,13 @@ This backward compatibility is temporary and will be removed in v1.0.0.
 const { DefaultAzureCredential } = require("@azure/identity");
 import { createEventDataAdapter } from "@azure/event-hubs";
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { SchemaRegistryAvroEncoder } = require("@azure/schema-registry-avro");
+const { AvroEncoder } = require("@azure/schema-registry-avro");
 
 const client = new SchemaRegistryClient(
   "<fully qualified namespace>",
   new DefaultAzureCredential()
 );
-const encoder = new SchemaRegistryAvroEncoder(client, {
+const encoder = new AvroEncoder(client, {
   groupName: "<group>",
   messageAdapter: createEventDataAdapter(),
 });
