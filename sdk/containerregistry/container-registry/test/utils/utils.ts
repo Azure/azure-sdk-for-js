@@ -99,7 +99,7 @@ export function createRegistryClient(
 
   const credential = createTestCredential(tokenCredentialOptions, {
     tenantId: env.CONTAINERREGISTRY_TENANT_ID,
-    clientId: env.CONTAINERREGISTRY_TENANT_ID,
+    clientId: env.CONTAINERREGISTRY_CLIENT_ID,
     clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
   });
 
