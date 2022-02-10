@@ -30,9 +30,9 @@ npm install @azure/ai-form-recognizer@4.0.0-beta.3
 
 ```javascript
 const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import * as fs from "fs";
+const fs = require("fs");
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -125,7 +125,7 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 
 ```js
 const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 
 const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredential());
 ```
@@ -582,7 +582,7 @@ For information about the error messages and codes produced by the Form Recogniz
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```
