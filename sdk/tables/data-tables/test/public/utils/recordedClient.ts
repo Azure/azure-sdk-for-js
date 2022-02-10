@@ -27,7 +27,7 @@ const replaceableVariables: { [k: string]: string } = {
 };
 
 const sanitizerOptions: SanitizerOptions = {
-  removeHeaderSanitizer: {headersForRemoval: ["Connection", "Accept-Charset"]},
+  removeHeaderSanitizer: { headersForRemoval: ["Connection", "Accept-Charset"] },
   connectionStringSanitizers: [
     {
       actualConnString: env.SAS_CONNECTION_STRING,
@@ -39,7 +39,6 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions,
-  
 };
 
 export type CreateClientMode =
