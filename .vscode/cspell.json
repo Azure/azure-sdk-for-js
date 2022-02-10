@@ -114,8 +114,8 @@
       "filename": "eng/pipelines",
       "words": [
         "azuresdkartifacts",
-        "gdnbaselines",
-        "policheck"
+        "policheck",
+        "gdnbaselines"
       ]
     },
     {
