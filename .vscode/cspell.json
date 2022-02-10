@@ -41,7 +41,6 @@
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
-    "sdk/attestation/attestation/review/**/*.md",
     "sdk/communication/communication-common/review/**/*.md",
     "sdk/containerregistry/container-registry/review/**/*.md",
     "sdk/core/core-amqp/review/**/*.md",
@@ -216,6 +215,17 @@
         "xmin",
         "ymax",
         "ymin"
+      ]
+    },
+    {
+      "filename": "sdk/attestation/attestation/review/**/*.md",
+      "words": [
+        "qeidcertshash",
+        "qeidcrlhash",
+        "qeidhash",
+        "tcbinfocertshash",
+        "tcbinfocrlhash",
+        "tcbinfohash"
       ]
     }
   ]
