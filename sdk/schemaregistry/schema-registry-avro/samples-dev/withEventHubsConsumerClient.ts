@@ -7,7 +7,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { SchemaRegistryAvroEncoder } from "@azure/schema-registry-avro";
+import { AvroEncoder } from "@azure/schema-registry-avro";
 import {
   EventHubConsumerClient,
   earliestEventPosition,
@@ -74,7 +74,7 @@ export async function main() {
   await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new encoder backed by the client
-  const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
+  const encoder = new AvroEncoder(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });

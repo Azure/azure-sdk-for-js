@@ -1,34 +1,44 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/api/events",
-   "query": {
-    "api-version": "2018-01-01"
-   },
-   "requestBody": "[{\"id\":\"multiEventId1161541018236105809\",\"subject\":\"Multiple 1\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2021-03-10T21:03:02.361Z\",\"dataVersion\":\"1.0\"},{\"id\":\"multiEventId2161541018236103878\",\"subject\":\"Multiple 2\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2021-03-10T21:03:02.361Z\",\"dataVersion\":\"1.0\"}]",
-   "status": 200,
-   "response": "",
-   "responseHeaders": {
-    "api-supported-versions": "2018-01-01",
-    "content-length": "0",
-    "date": "Wed, 10 Mar 2021 21:03:01 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "3a0de845-efc5-4d80-b459-63adb877809b"
-   }
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/events?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "343",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "852703f5-f475-4959-aa2e-53e16345ad35",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022id\u0022:\u0022multiEventId1100922\u0022,\u0022subject\u0022:\u0022Multiple 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:46:41.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022},{\u0022id\u0022:\u0022multiEventId2100610\u0022,\u0022subject\u0022:\u0022Multiple 2\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:46:41.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2018-01-01",
+        "Content-Length": "0",
+        "Date": "Wed, 09 Feb 2022 01:46:41 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "ecb96f25-0174-4de0-b70f-f07f26dfd2bd"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "multiEventDate1": "Wed Feb 09 2022 01:46:41 GMT\u002B0000 (Coordinated Universal Time)",
+    "multiEventDate2": "Wed Feb 09 2022 01:46:41 GMT\u002B0000 (Coordinated Universal Time)",
+    "multiEventId1": "multiEventId1100922",
+    "multiEventId2": "multiEventId2100610"
   }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {
-   "multiEventId1": "multiEventId1161541018236105809",
-   "multiEventId2": "multiEventId2161541018236103878"
-  },
-  "newDate": {
-   "multiEventDate1": "2021-03-10T21:03:02.361Z",
-   "multiEventDate2": "2021-03-10T21:03:02.361Z"
-  }
- },
- "hash": "c04db6ea396d4df31b04f2467db96d8f"
 }

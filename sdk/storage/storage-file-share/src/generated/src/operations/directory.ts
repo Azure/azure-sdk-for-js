@@ -26,7 +26,9 @@ import {
   DirectoryListHandlesOptionalParams,
   DirectoryListHandlesResponse,
   DirectoryForceCloseHandlesOptionalParams,
-  DirectoryForceCloseHandlesResponse
+  DirectoryForceCloseHandlesResponse,
+  DirectoryRenameOptionalParams,
+  DirectoryRenameResponse
 } from "../models";
 
 /** Class representing a Directory. */
@@ -195,6 +197,25 @@ export class Directory {
       operationArguments,
       forceCloseHandlesOperationSpec
     ) as Promise<DirectoryForceCloseHandlesResponse>;
+  }
+
+  /**
+   * Renames a directory
+   * @param renameSource Required. Specifies the URI-style path of the source file, up to 2 KB in length.
+   * @param options The options parameters.
+   */
+  rename(
+    renameSource: string,
+    options?: DirectoryRenameOptionalParams
+  ): Promise<DirectoryRenameResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      renameSource,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      renameOperationSpec
+    ) as Promise<DirectoryRenameResponse>;
   }
 }
 // Operation Specifications
@@ -409,6 +430,42 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.recursive,
     Parameters.handleId
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const renameOperationSpec: coreHttp.OperationSpec = {
+  path: "/{shareName}/{directory}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      headersMapper: Mappers.DirectoryRenameHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryRenameExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.restype2,
+    Parameters.comp11
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.metadata,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.renameSource,
+    Parameters.replaceIfExists,
+    Parameters.ignoreReadOnly,
+    Parameters.sourceLeaseId,
+    Parameters.destinationLeaseId,
+    Parameters.fileAttributes1,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime
   ],
   isXML: true,
   serializer: xmlSerializer

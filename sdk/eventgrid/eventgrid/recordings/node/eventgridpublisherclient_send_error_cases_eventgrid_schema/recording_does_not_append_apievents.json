@@ -1,0 +1,43 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "170",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "cc711ab8-f80b-4f1a-ab9a-00aa44607747"
+      },
+      "RequestBody": "[{\u0022id\u0022:\u0022singleEventId100742\u0022,\u0022subject\u0022:\u0022Single 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:44:23.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "699",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 01:44:23 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "a313d3c2-240f-47f7-9503-1c12aedf0f49"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "No HTTP resource was found that matches the request URI \u0027https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01\u0027. Report \u0027a313d3c2-240f-47f7-9503-1c12aedf0f49:2/9/2022 1:44:23 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
+          "details": [
+            {
+              "code": "ResourceNotFound",
+              "message": "No HTTP resource was found that matches the request URI \u0027https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01\u0027. Report \u0027a313d3c2-240f-47f7-9503-1c12aedf0f49:2/9/2022 1:44:23 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "singleEventDate": "Wed Feb 09 2022 01:44:23 GMT\u002B0000 (Coordinated Universal Time)",
+    "singleEventId": "singleEventId100742"
+  }
+}

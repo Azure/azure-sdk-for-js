@@ -81,8 +81,9 @@ async function generateTableSasSample() {
   };
 
   // Create the table SAS token
+  const anHourFromNow = Date.now() + 60 * 60 * 1000;
   const tableSas = generateTableSas(tableName, cred, {
-    expiresOn: new Date("2021-12-12"),
+    expiresOn: new Date(anHourFromNow),
     permissions: tablePermissions,
   });
 

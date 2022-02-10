@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for KustoManagementClient.",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -98,5 +98,21 @@
     "docs": "echo skipped"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/kustoManagementClient.ts",
+        "prefix": "packageDetails"
+      }
+    ]
+  },
+  "autoPublish": true,
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview"
+  }
 }

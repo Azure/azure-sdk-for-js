@@ -45,7 +45,9 @@ import {
   FileListHandlesOptionalParams,
   FileListHandlesResponse,
   FileForceCloseHandlesOptionalParams,
-  FileForceCloseHandlesResponse
+  FileForceCloseHandlesResponse,
+  FileRenameOptionalParams,
+  FileRenameResponse
 } from "../models";
 
 /** Class representing a File. */
@@ -413,6 +415,25 @@ export class File {
       forceCloseHandlesOperationSpec
     ) as Promise<FileForceCloseHandlesResponse>;
   }
+
+  /**
+   * Renames a file
+   * @param renameSource Required. Specifies the URI-style path of the source file, up to 2 KB in length.
+   * @param options The options parameters.
+   */
+  rename(
+    renameSource: string,
+    options?: FileRenameOptionalParams
+  ): Promise<FileRenameResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      renameSource,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      renameOperationSpec
+    ) as Promise<FileRenameResponse>;
+  }
 }
 // Operation Specifications
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
@@ -700,7 +721,7 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp11],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -728,7 +749,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.FileUploadRangeFromURLExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp11],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -763,7 +784,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp12,
+    Parameters.comp13,
     Parameters.prevsharesnapshot
   ],
   urlParameters: [Parameters.url],
@@ -797,12 +818,12 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
-    Parameters.copySource,
-    Parameters.filePermissionCopyMode,
-    Parameters.ignoreReadOnly,
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
+    Parameters.copySource,
+    Parameters.filePermissionCopyMode,
+    Parameters.ignoreReadOnly1,
     Parameters.setArchiveAttribute
   ],
   isXML: true,
@@ -822,7 +843,7 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp13,
+    Parameters.comp14,
     Parameters.copyId
   ],
   urlParameters: [Parameters.url],
@@ -883,6 +904,38 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.handleId
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const renameOperationSpec: coreHttp.OperationSpec = {
+  path: "/{shareName}/{directory}/{fileName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      headersMapper: Mappers.FileRenameHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileRenameExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp11],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.metadata,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.renameSource,
+    Parameters.replaceIfExists,
+    Parameters.ignoreReadOnly,
+    Parameters.sourceLeaseId,
+    Parameters.destinationLeaseId,
+    Parameters.fileAttributes1,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime
   ],
   isXML: true,
   serializer: xmlSerializer
