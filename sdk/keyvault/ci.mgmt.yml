@@ -8,8 +8,6 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/keyvault/
-    exclude:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault/
 pr:
@@ -23,20 +21,12 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/keyvault/
-    exclude:
       - sdk/keyvault/ci.mgmt.yml
-      - sdk/keyvault/arm-keyvault
+      - sdk/keyvault/arm-keyvault/
 extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: keyvault
     Artifacts:
-      - name: azure-keyvault-certificates
-        safeName: azurekeyvaultcertificates
-      - name: azure-keyvault-keys
-        safeName: azurekeyvaultkeys
-      - name: azure-keyvault-secrets
-        safeName: azurekeyvaultsecrets
-      - name: azure-keyvault-admin
-        safeName: azurekeyvaultadmin
+      - name: azure-arm-keyvault
+        safeName: azurearmkeyvault
