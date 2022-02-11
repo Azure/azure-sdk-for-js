@@ -8,9 +8,9 @@ import {
   PipelineResponse,
   TransferProgressEvent,
   HttpHeaders,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
+  RestError,
+  createHttpHeaders,
+} from "@azure/core-rest-pipeline";
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
