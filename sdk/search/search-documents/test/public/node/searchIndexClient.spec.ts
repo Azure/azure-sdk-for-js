@@ -28,10 +28,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
-
+      TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
         serviceVersion,
-        recorder
+        recorder,
+        TEST_INDEX_NAME
       ));
 
       await createSynonymMaps(indexClient);

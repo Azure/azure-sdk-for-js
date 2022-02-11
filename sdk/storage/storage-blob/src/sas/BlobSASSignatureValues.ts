@@ -1043,6 +1043,14 @@ function SASSignatureValuesSanityCheckAndAutofill(
   }
 
   if (
+    version < "2021-04-10" &&
+    blobSASSignatureValues.permissions &&
+    (blobSASSignatureValues.permissions as ContainerSASPermissions).filterByTags
+  ) {
+    throw RangeError("'version' must be >= '2021-04-10' when providing the 'f' permission.");
+  }
+
+  if (
     version < "2020-02-10" &&
     (blobSASSignatureValues.preauthorizedAgentObjectId || blobSASSignatureValues.correlationId)
   ) {

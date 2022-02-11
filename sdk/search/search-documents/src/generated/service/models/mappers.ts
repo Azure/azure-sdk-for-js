@@ -3507,6 +3507,61 @@ export const WebApiSkill: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureMachineLearningSkill: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Skills.Custom.AmlSkill",
+  type: {
+    name: "Composite",
+    className: "AzureMachineLearningSkill",
+    uberParent: "SearchIndexerSkill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SearchIndexerSkill.type.modelProperties,
+      scoringUri: {
+        serializedName: "uri",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      authenticationKey: {
+        serializedName: "key",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeout: {
+        serializedName: "timeout",
+        nullable: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      region: {
+        serializedName: "region",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      degreeOfParallelism: {
+        serializedName: "degreeOfParallelism",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const DefaultCognitiveServicesAccount: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.DefaultCognitiveServices",
   type: {
@@ -5449,6 +5504,7 @@ export let discriminators = {
   "SearchIndexerSkill.#Microsoft.Skills.Text.TranslationSkill": TextTranslationSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentExtractionSkill": DocumentExtractionSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Custom.AmlSkill": AzureMachineLearningSkill,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices": DefaultCognitiveServicesAccount,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey": CognitiveServicesAccountKey,
   "ScoringFunction.distance": DistanceScoringFunction,

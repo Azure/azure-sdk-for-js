@@ -150,6 +150,12 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
+At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`.
+Currently, version `2.x.y` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
+Eventually, all the tests will be migrated to depend on the `2.x.y` version of the recorder that depends on the language-agnostic [test proxy server].
+
+To record and playback the tests that depend on version `2.x.y` of `@azure-tools/test-recorder`, [docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+
 #### Live tests
 
 To use the `rushx test` command to run the tests against live resources, you must:
@@ -315,3 +321,5 @@ The daily dev packages are considered volatile and taking dependencies on a dev 
 
 [buildtools]: https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019
 [python39windows]: https://www.microsoft.com/p/python-39/9p7qfqmjrfp7
+[test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
+[docker]: https://docker.com/

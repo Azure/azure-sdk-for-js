@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  createCommunicationAuthPolicy,
-  parseClientArguments,
-  isKeyCredential,
   CommunicationUserIdentifier,
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  InternalPipelineOptions,
   createPipelineFromOptions,
+  InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";

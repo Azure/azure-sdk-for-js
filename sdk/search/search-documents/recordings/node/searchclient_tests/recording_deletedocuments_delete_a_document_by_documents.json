@@ -8,13 +8,13 @@
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "Content-Length": "3353",
+        "Content-Length": "3356",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "284465ea-c6b2-4f08-8fcd-7b154a46917b"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d549d2f4-7be8-4ce2-b7eb-5b77b237d520"
       },
       "RequestBody": {
-        "name": "hotel-live-test72713",
+        "name": "hotel-live-test-1032671",
         "fields": [
           {
             "name": "hotelId",
@@ -262,23 +262,23 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "6724",
+        "Content-Length": "6727",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 28 Jan 2022 21:22:28 GMT",
-        "elapsed-time": "729",
-        "ETag": "W/\u00220x8D9E2A44A06E6DD\u0022",
+        "Date": "Thu, 03 Feb 2022 19:58:58 GMT",
+        "elapsed-time": "608",
+        "ETag": "W/\u00220x8D9E74F9DD3F708\u0022",
         "Expires": "-1",
-        "Location": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)?api-version=2021-04-30-Preview",
+        "Location": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)?api-version=2021-04-30-Preview",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "284465ea-c6b2-4f08-8fcd-7b154a46917b",
+        "request-id": "d549d2f4-7be8-4ce2-b7eb-5b77b237d520",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": {
         "@odata.context": "https://endpoint/$metadata#indexes/$entity",
-        "@odata.etag": "\u00220x8D9E2A44A06E6DD\u0022",
-        "name": "hotel-live-test72713",
+        "@odata.etag": "\u00220x8D9E74F9DD3F708\u0022",
+        "name": "hotel-live-test-1032671",
         "defaultScoringProfile": null,
         "fields": [
           {
@@ -707,7 +707,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)/docs/search.index?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)/docs/search.index?api-version=2021-04-30-Preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
@@ -716,8 +716,8 @@
         "Connection": "keep-alive",
         "Content-Length": "6379",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "e7966764-1026-47cf-b2cf-b45eded56d4d"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "43e66284-3694-4bc9-9719-061833f2fd29"
       },
       "RequestBody": {
         "value": [
@@ -1022,13 +1022,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "642",
         "Content-Type": "application/json; odata.metadata=none",
-        "Date": "Fri, 28 Jan 2022 21:22:33 GMT",
-        "elapsed-time": "212",
+        "Date": "Thu, 03 Feb 2022 19:59:02 GMT",
+        "elapsed-time": "135",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "e7966764-1026-47cf-b2cf-b45eded56d4d",
+        "request-id": "43e66284-3694-4bc9-9719-061833f2fd29",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -1098,15 +1098,15 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)/docs/$count?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "f8efbb10-93d6-4f9b-97df-2528237a19cc"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "1564e166-89b4-4ed2-9bca-5ad6bbdbb305"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1115,28 +1115,28 @@
         "Content-Encoding": "gzip",
         "Content-Length": "4",
         "Content-Type": "text/plain",
-        "Date": "Fri, 28 Jan 2022 21:22:33 GMT",
-        "elapsed-time": "10",
+        "Date": "Thu, 03 Feb 2022 19:59:02 GMT",
+        "elapsed-time": "6",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "f8efbb10-93d6-4f9b-97df-2528237a19cc",
+        "request-id": "1564e166-89b4-4ed2-9bca-5ad6bbdbb305",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
       "ResponseBody": "\uFEFF0"
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)/docs/$count?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "07a28ff4-0186-4133-82c2-8abd138cdf6e"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "3779c6e2-035e-429c-8125-76beb583329d"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1145,28 +1145,28 @@
         "Content-Encoding": "gzip",
         "Content-Length": "5",
         "Content-Type": "text/plain",
-        "Date": "Fri, 28 Jan 2022 21:22:37 GMT",
-        "elapsed-time": "6",
+        "Date": "Thu, 03 Feb 2022 19:59:06 GMT",
+        "elapsed-time": "5",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "07a28ff4-0186-4133-82c2-8abd138cdf6e",
+        "request-id": "3779c6e2-035e-429c-8125-76beb583329d",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
       "ResponseBody": "\uFEFF10"
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)/docs(\u00278\u0027)?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)/docs(\u00278\u0027)?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "efe9d329-c819-427e-95e2-0fd405d794ca"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "464d8721-66c9-4246-bd16-6c5a0dc5d06e"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1175,13 +1175,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "459",
         "Content-Type": "application/json; odata.metadata=none",
-        "Date": "Fri, 28 Jan 2022 21:22:41 GMT",
-        "elapsed-time": "19",
+        "Date": "Thu, 03 Feb 2022 19:59:10 GMT",
+        "elapsed-time": "13",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "efe9d329-c819-427e-95e2-0fd405d794ca",
+        "request-id": "464d8721-66c9-4246-bd16-6c5a0dc5d06e",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -1202,7 +1202,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)/docs/search.index?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)/docs/search.index?api-version=2021-04-30-Preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
@@ -1211,8 +1211,8 @@
         "Connection": "keep-alive",
         "Content-Length": "481",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "870f6b57-90a7-4ac3-b9bb-bb9f9bd558bd"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "0df3314e-a073-4d37-aba9-475971486a35"
       },
       "RequestBody": {
         "value": [
@@ -1240,13 +1240,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "74",
         "Content-Type": "application/json; odata.metadata=none",
-        "Date": "Fri, 28 Jan 2022 21:22:41 GMT",
-        "elapsed-time": "29",
+        "Date": "Thu, 03 Feb 2022 19:59:10 GMT",
+        "elapsed-time": "27",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "870f6b57-90a7-4ac3-b9bb-bb9f9bd558bd",
+        "request-id": "0df3314e-a073-4d37-aba9-475971486a35",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -1262,15 +1262,15 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)/docs/$count?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "a7f6d86c-f0a7-4ab3-996e-882745fc5e0c"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "42651fdf-2c78-4a1d-a926-ab7902e04898"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1279,44 +1279,44 @@
         "Content-Encoding": "gzip",
         "Content-Length": "4",
         "Content-Type": "text/plain",
-        "Date": "Fri, 28 Jan 2022 21:22:45 GMT",
-        "elapsed-time": "6",
+        "Date": "Thu, 03 Feb 2022 19:59:14 GMT",
+        "elapsed-time": "5",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "a7f6d86c-f0a7-4ab3-996e-882745fc5e0c",
+        "request-id": "42651fdf-2c78-4a1d-a926-ab7902e04898",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
       "ResponseBody": "\uFEFF9"
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test72713\u0027)?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1032671\u0027)?api-version=2021-04-30-Preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=minimal",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.5 azsdk-js-search-documents/11.3.0-beta.5 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "ff2da300-a27f-4406-b8d7-2a04246e82c9"
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "ce06faeb-ce8d-4687-bfc7-9169196e6449"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Fri, 28 Jan 2022 21:22:45 GMT",
-        "elapsed-time": "213",
+        "Date": "Thu, 03 Feb 2022 19:59:14 GMT",
+        "elapsed-time": "246",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "ff2da300-a27f-4406-b8d7-2a04246e82c9",
+        "request-id": "ce06faeb-ce8d-4687-bfc7-9169196e6449",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "TEST_INDEX_NAME": "hotel-live-test72713"
+    "TEST_INDEX_NAME": "hotel-live-test-1032671"
   }
 }

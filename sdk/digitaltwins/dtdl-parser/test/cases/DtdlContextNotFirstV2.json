@@ -1,0 +1,44 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@context": [
+            "dtmi:iotcentral:context;2",
+            "dtmi:dtdl:context;2"
+          ],
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": [
+            "Telemetry",
+            "AccelerationVector"
+          ],
+          "name": "currentAcceleration",
+          "schema": "vector"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentAcceleration",
+          "schema": "dtmi:iotcentral:schema:vector;2",
+          "definedIn": "dtmi:test:anInterface;1"
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:AccelerationVector;2"
+        ],
+        "supplementalProperties": {
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        {
+          "@context": "http://this.is/totally/invalid"
+        }
+      ],
+      "@id": "dtmi:test:doubleArray;1",
+      "@type": "Array",
+      "elementSchema": "double",
+      "displayName": {
+        "en": "Value array",
+        "es": "Matriz de valores"
+      },
+      "description": {
+        "en": "array of values",
+        "es": "matriz de valores"
+      },
+      "comment": "Each value is a double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedLocalContext",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

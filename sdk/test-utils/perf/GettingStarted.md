@@ -280,12 +280,11 @@ To be able to leverage the powers of playing back the requests using the test pr
       this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, this.configureClientOptionsCoreV1({}));
 
       /// Core V2 SDKs - For services depending on core-rest-pipeline
-      /// this.configureClient call to modify your client
-      this.client = this.configureClient(TableClient.fromConnectionString(connectionString, tableName));
+      /// this.configureClientOptions call to modify your client
+      this.client = TableClient.fromConnectionString(connectionString, tableName, this.configureClientOptions({}));
 
       // Not all core-v1 SDKs allow passing httpClient option.
-      // Not all core-v2 SDKs allow adding policies via pipeline option.
-      // Please reach out if your service doesn't support.
+      // Please reach out if your service/SDK doesn't support or if you face difficulties in this area.
       ```
 
 ### Running the proxy server

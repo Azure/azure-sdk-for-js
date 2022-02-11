@@ -1,0 +1,30 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        "dtmi:iotcentral:context;2"
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "AccelerationVector"
+      ],
+      "name": "currentAcceleration",
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badValue",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": "dtmi:dtdl:instance:Schema:double;2",
+        "Property": "schema",
+        "Value": "vector"
+      }
+    ]
+  }
+}

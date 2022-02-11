@@ -3,9 +3,6 @@
 
 import { Context } from "mocha";
 import { KeyClient, CryptographyClient, SignatureAlgorithm, KeyVaultKey } from "../../src";
-import * as chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
 import { isNode } from "@azure/core-http";
 import { createHash } from "crypto";
 import { authenticate } from "./utils/testAuthentication";
@@ -14,7 +11,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "./utils/common";
-const { assert } = chai;
+import { assert } from "@azure/test-utils";
 
 describe("Local cryptography public tests", () => {
   const keyPrefix = `localCrypto${env.KEY_NAME || "KeyName"}`;

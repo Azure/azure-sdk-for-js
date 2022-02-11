@@ -11,7 +11,6 @@ import {
   SearchIndexerClient,
   SearchIndexClient,
 } from "../../../src";
-import { createRandomIndexName } from "./setup";
 
 const isNode =
   typeof process !== "undefined" &&
@@ -48,26 +47,36 @@ const recorderOptions: RecorderStartOptions = {
 
 export async function createClients<IndexModel>(
   serviceVersion: string,
-  recorder: Recorder
+  recorder: Recorder,
+  indexName: string
 ): Promise<Clients<IndexModel>> {
   await recorder.start(recorderOptions);
 
-  const indexName = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
+  indexName = recorder.variable("TEST_INDEX_NAME", indexName);
   const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {
-    serviceVersion,
-  });
-  const indexClient = new SearchIndexClient(endPoint, credential, {
-    serviceVersion,
-  });
-  const indexerClient = new SearchIndexerClient(endPoint, credential, {
-    serviceVersion,
-  });
-
-  recorder.configureClient(searchClient["client"]);
-  recorder.configureClient(indexClient["client"]);
-  recorder.configureClient(indexerClient["client"]);
+  const searchClient = new SearchClient<IndexModel>(
+    endPoint,
+    indexName,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+    })
+  );
+  const indexClient = new SearchIndexClient(
+    endPoint,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+    })
+  );
+  const indexerClient = new SearchIndexerClient(
+    endPoint,
+    credential,
+    recorder.configureClientOptions({
+      serviceVersion,
+    })
+  );
 
   return {
     searchClient,

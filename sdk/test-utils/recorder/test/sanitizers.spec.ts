@@ -20,8 +20,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      client = new ServiceClient({ baseUri: getTestServerUrl() });
-      recorder.configureClient(client);
+      client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
     });
 
     afterEach(async () => {
@@ -47,7 +46,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response/abcdef`,
             body: "abcdef",
-            method: "GET",
+            method: "POST",
           },
           { val: "I am the answer!" }
         );
@@ -70,7 +69,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response/abcdef`,
             body: "abcdef",
-            method: "GET",
+            method: "POST",
           },
           { val: "I am the answer!" }
         );
