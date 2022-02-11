@@ -2,7 +2,7 @@ import { ServiceClient } from "@azure/core-client";
 import { KeepAliveOptions } from "./policies/keepAliveOptions";
 import { createKeepAlivePolicy } from "./policies/keepAlivePolicy";
 import { RedirectPolicyOptions } from "./policies/redirectPolicyOptions";
-import { redirectPolicy } from "@azure/core-rest-pipeline";
+import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import { ServiceClientOptions } from "@azure/core-client";
 
 export interface ShimClientOptions extends ServiceClientOptions {
@@ -18,15 +18,10 @@ export class ShimClient extends ServiceClient {
       this.pipeline.addPolicy(createKeepAlivePolicy());
     }
 
-    if (options.redirectOptions?.handleRedirects === true) {
-      const maxRetries = options.redirectOptions.maxRetries
-        ? options.redirectOptions.maxRetries
-        : 20;
-      this.pipeline.addPolicy(
-        redirectPolicy({
-          maxRetries,
-        })
-      );
+    if (options.redirectOptions?.handleRedirects === false) {
+      this.pipeline.removePolicy({
+        name: redirectPolicyName,
+      });
     }
   }
 }
