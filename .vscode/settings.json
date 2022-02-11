@@ -21,7 +21,11 @@
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.preferences.quoteStyle": "double",
   "git.ignoreLimitWarning": true,
-  "cSpell.words": [
-    "datalake"
-  ]
+  "cSpell.words": ["datalake"],
+  "markdownlint.config": {
+    "MD028": false,
+    "MD025": {
+      "front_matter_title": ""
+    }
+  }
 }

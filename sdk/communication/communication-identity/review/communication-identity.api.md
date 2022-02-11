@@ -39,7 +39,7 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 }
 
 // @public
-export type TokenScope = "chat" | "voip";
+export type TokenScope = "chat" | "voip" | "email";
 
 // (No @packageDocumentation comment for this package)
 

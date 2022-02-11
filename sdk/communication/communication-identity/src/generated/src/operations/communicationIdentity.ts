@@ -14,7 +14,7 @@ import {
   CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
   TeamsUserAccessTokenRequest,
-  CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
+  CommunicationIdentityGetTeamsUserAccessTokenResponse,
   CommunicationIdentityAccessTokenRequest,
   CommunicationIdentityIssueAccessTokenResponse
 } from "../models";
@@ -88,20 +88,20 @@ export class CommunicationIdentity {
   /**
    * Exchange an AAD access token of a Teams user for a new Communication Identity access token with a
    * matching expiration time.
-   * @param body AAD access token of a Teams user
+   * @param body AAD access token of a Teams user.
    * @param options The options parameters.
    */
-  exchangeTeamsUserAccessToken(
+  getTeamsUserAccessToken(
     body: TeamsUserAccessTokenRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse> {
+  ): Promise<CommunicationIdentityGetTeamsUserAccessTokenResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { body, options: operationOptions },
-      exchangeTeamsUserAccessTokenOperationSpec
-    ) as Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
+      getTeamsUserAccessTokenOperationSpec
+    ) as Promise<CommunicationIdentityGetTeamsUserAccessTokenResponse>;
   }
 
   /**
@@ -172,8 +172,8 @@ const revokeAccessTokensOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.id],
   serializer
 };
-const exchangeTeamsUserAccessTokenOperationSpec: coreHttp.OperationSpec = {
-  path: "/teamsUser/:exchangeAccessToken",
+const getTeamsUserAccessTokenOperationSpec: coreHttp.OperationSpec = {
+  path: "/teamsUser/:getToken",
   httpMethod: "POST",
   responses: {
     200: {

@@ -7,7 +7,7 @@ import { CommunicationUserIdentifier } from "@azure/communication-common";
 /**
  * Represents the scope of the token.
  */
-export type TokenScope = "chat" | "voip";
+export type TokenScope = "chat" | "voip" | "email";
 
 /**
  * Client options used to configure the CommunicationIdentity API requests.

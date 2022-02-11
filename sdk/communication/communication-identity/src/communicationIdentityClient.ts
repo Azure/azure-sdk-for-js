@@ -266,7 +266,7 @@ export class CommunicationIdentityClient {
       options
     );
     try {
-      const { _response, ...result } = await this.client.exchangeTeamsUserAccessToken(
+      const { _response, ...result } = await this.client.getTeamsUserAccessToken(
         { token: teamsUserAadToken },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

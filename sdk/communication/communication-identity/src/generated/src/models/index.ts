@@ -106,7 +106,7 @@ export interface CommunicationIdentityAccessTokenRequest {
 /**
  * Defines values for CommunicationIdentityTokenScope.
  */
-export type CommunicationIdentityTokenScope = "chat" | "voip";
+export type CommunicationIdentityTokenScope = "chat" | "voip" | "email";
 
 /**
  * Optional parameters.
@@ -140,9 +140,9 @@ export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTok
 };
 
 /**
- * Contains response data for the exchangeTeamsUserAccessToken operation.
+ * Contains response data for the getTeamsUserAccessToken operation.
  */
-export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken & {
+export type CommunicationIdentityGetTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken & {
   /**
    * The underlying HTTP response.
    */
