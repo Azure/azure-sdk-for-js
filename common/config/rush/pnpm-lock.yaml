@@ -166,8 +166,6 @@ specifiers:
   '@rush-temp/core-auth': file:./projects/core-auth.tgz
   '@rush-temp/core-client': file:./projects/core-client.tgz
   '@rush-temp/core-client-1': file:./projects/core-client-1.tgz
-  '@rush-temp/core-client-lro': file:./projects/core-client-lro.tgz
-  '@rush-temp/core-client-paging': file:./projects/core-client-paging.tgz
   '@rush-temp/core-crypto': file:./projects/core-crypto.tgz
   '@rush-temp/core-http': file:./projects/core-http.tgz
   '@rush-temp/core-lro': file:./projects/core-lro.tgz
@@ -224,7 +222,6 @@ specifiers:
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
   '@rush-temp/perf-template': file:./projects/perf-template.tgz
-  '@rush-temp/purview-account': file:./projects/purview-account.tgz
   '@rush-temp/purview-administration': file:./projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
@@ -421,8 +418,6 @@ dependencies:
   '@rush-temp/core-auth': file:projects/core-auth.tgz
   '@rush-temp/core-client': file:projects/core-client.tgz
   '@rush-temp/core-client-1': file:projects/core-client-1.tgz
-  '@rush-temp/core-client-lro': file:projects/core-client-lro.tgz
-  '@rush-temp/core-client-paging': file:projects/core-client-paging.tgz
   '@rush-temp/core-crypto': file:projects/core-crypto.tgz
   '@rush-temp/core-http': file:projects/core-http.tgz
   '@rush-temp/core-lro': file:projects/core-lro.tgz
@@ -479,7 +474,6 @@ dependencies:
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
   '@rush-temp/perf-template': file:projects/perf-template.tgz
-  '@rush-temp/purview-account': file:projects/purview-account.tgz
   '@rush-temp/purview-administration': file:projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
@@ -517,29 +511,6 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.2
-    dev: false
-
-  /@azure-rest/core-client-paging/1.0.0-beta.1:
-    resolution: {integrity: sha512-khy3o4inJJL0Hz21TGrpcL0Zxiw8BI62+uIVkeiAo0hAaJ6JEl7AM5KOrebSmQDqx7CErVbdVSvQQNeuToSlcw==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.6
-      '@azure/core-paging': 1.2.1
-      '@azure/core-rest-pipeline': 1.5.0
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@azure-rest/core-client/1.0.0-beta.6:
-    resolution: {integrity: sha512-JIHVi9ZlLN8truNMUBsCYzwbPNdlHCHvpihhiHYJM3fsTR8OV7Pg3/HpnshQ5G3XVg3F8ez0L+u+0XOTs/ZBPw==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.5.0
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@azure-rest/core-client/1.0.0-beta.7:
@@ -967,7 +938,7 @@ packages:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.3
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.3
@@ -2128,7 +2099,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/chai-as-promised/7.1.4:
@@ -2154,14 +2125,14 @@ packages:
   /@types/concurrently/6.4.0:
     resolution: {integrity: sha512-CYU1eyFHsIa2IZIsb8gfUOdiewfnZcyM2Hg1Zaq95xnmB0Ix/bTRM8SttqZ2Cjy6JGPZLttHjZewVsDg1yvnJg==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
       chalk: 4.1.2
     dev: false
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2196,7 +2167,7 @@ packages:
   /@types/express-serve-static-core/4.17.28:
     resolution: {integrity: sha512-P1BJAEAW3E2DJUlkgq4tOL3RyMunoWXqbSCygWo5ZIWTjUgN1YnaXWW4VWl/oc8vs/XoYibEGBKP0uZyF4AHig==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2213,26 +2184,26 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/json-schema/7.0.9:
@@ -2246,13 +2217,13 @@ packages:
   /@types/jsonwebtoken/8.5.8:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/jws/3.2.4:
     resolution: {integrity: sha512-aqtH4dPw1wUjFZaeMD1ak/pf8iXlu/odFe+trJrvw0g1sTh93i+SCykg0Ek8C6B7rVK3oBORbfZAsKO7P10etg==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/long/4.0.1:
@@ -2266,7 +2237,7 @@ packages:
   /@types/md5/2.3.1:
     resolution: {integrity: sha512-OK3oe+ALIoPSo262lnhAYwpqFNXbiwH2a+0+Z5YBnkQEwWD8fk5+PIeRhYA48PzvX9I4SGNpWy+9bLj8qz92RQ==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/mime/1.3.2:
@@ -2292,13 +2263,13 @@ packages:
   /@types/mock-fs/4.13.1:
     resolution: {integrity: sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/mock-require/2.0.1:
     resolution: {integrity: sha512-O7U5DVGboY/Crueb5/huUCIRjKtRVRaLmRDbZJBlDQgJn966z3aiFDN+6AtYviu2ExwMkl34LjT/IiC0OPtKuQ==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/ms/0.7.31:
@@ -2312,7 +2283,7 @@ packages:
   /@types/node-fetch/2.5.12:
     resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
       form-data: 3.0.1
     dev: false
 
@@ -2351,7 +2322,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -2362,7 +2333,7 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/sinon/10.0.10:
@@ -2384,7 +2355,7 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/tough-cookie/4.0.1:
@@ -2394,13 +2365,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2414,26 +2385,26 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/ws/8.2.2:
     resolution: {integrity: sha512-NOn5eIcgWLOo6qW8AcuLZ7G8PycXu0xTxxkS6Q18VWFxgPUSOwV0pBj2a/4viNZVu25i7RIB7GttdkAIUUXOOg==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/xml2js/0.4.9:
     resolution: {integrity: sha512-CHiCKIihl1pychwR2RNX5mAYmJDACgFVCMT5OArMaO3erzwXVcBqPcusr+Vl8yeeXukxZqtF8mZioqX+mpjjdw==}
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
     dev: false
     optional: true
 
@@ -3422,7 +3393,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -3643,7 +3614,7 @@ packages:
     dependencies:
       semver: 7.3.5
       shelljs: 0.8.5
-      typescript: 4.2.4
+      typescript: 4.5.5
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -3696,7 +3667,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 12.20.43
+      '@types/node': 17.0.15
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -4531,7 +4502,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.0.5
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -8342,7 +8313,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: false
 
   /word-wrap/1.2.3:
@@ -8799,7 +8770,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-P8TSFPYonsRq17g0lGwIkF+WP0G4EPS39m0rrFGbRB49fIQ2ZOTiACPH4pWPQWDa6q5CbXMKOvJZfDwkvArpHQ==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-ownHpGufsptjT7As1HseE8LnhkNj/td/UB99hRgXU0EcSo2f2FvKFmxvkhd2s9SGdoxt22yty5r1BzbkBIvrSw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -8840,7 +8811,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -12608,7 +12578,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-hAsX/useFCAtpCEUcF5W9QJhMk4bKlvJxPZCcQun8gU0CfnNlEAWIIBIimCO0vaEqLBkWT533C/i39l7IvrdjA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-oZDdYdSoVSS2yJpAUgYO/VXraUzDbQyrp+curzNMMAoXaQbiVSEaYzSG1E08daCx89RKfbCU2rmgwoSfMUhsGw==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -12951,7 +12921,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-HNeIndkzUiVhjrAuyjKpWvZq7LFFUbqNbWUXTmG/ZCtnhIUbDErE7j/HtFIMIk9wadwbidVgCZv9fqBpfx1Giw==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-CfY0ocy8x0pNfd6YHV0qDb2Sx+QpvfossY2kKFlq2QO5MC6iXr7pGiJ9WFo/75YDjSfG3BosKwO4e5eKOGkadw==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -13177,86 +13147,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - bufferutil
-      - debug
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/core-client-lro.tgz:
-    resolution: {integrity: sha512-dA0KuMuSKw8szrqdSZJkGnZcpJp623JRTJafqRkGkdhNWGYxIeWwZgU8TsyfhIkHitYty4xKRIAu+MHOzh+ZBA==, tarball: file:projects/core-client-lro.tgz}
-    name: '@rush-temp/core-client-lro'
-    version: 0.0.0
-    dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.7
-      '@microsoft/api-extractor': 7.19.4
-      '@types/chai': 4.3.0
-      '@types/mocha': 7.0.2
-      '@types/node': 12.20.43
-      chai: 4.3.6
-      cross-env: 7.0.3
-      eslint: 7.32.0
-      inherits: 2.0.4
-      karma: 6.3.15
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.1.1
-      karma-edge-launcher: 0.4.2_karma@6.3.15
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.15
-      karma-junit-reporter: 2.0.1_karma@6.3.15
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.15
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.5.1
-      rimraf: 3.0.2
-      sinon: 9.2.4
-      tslib: 2.3.1
-      typescript: 4.2.4
-      util: 0.12.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/core-client-paging.tgz:
-    resolution: {integrity: sha512-KPsf8E8N4I5aFVNJSfqxO1+++QuGA9J7349v/c6IuMpQk3um5maRI4lKLsLRuTGWvhH6qo5m+/WU3NiewQ2SWQ==, tarball: file:projects/core-client-paging.tgz}
-    name: '@rush-temp/core-client-paging'
-    version: 0.0.0
-    dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.7
-      '@microsoft/api-extractor': 7.19.4
-      '@types/chai': 4.3.0
-      '@types/mocha': 7.0.2
-      '@types/node': 12.20.43
-      chai: 4.3.6
-      cross-env: 7.0.3
-      eslint: 7.32.0
-      inherits: 2.0.4
-      karma: 6.3.15
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.1.1
-      karma-edge-launcher: 0.4.2_karma@6.3.15
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.15
-      karma-junit-reporter: 2.0.1_karma@6.3.15
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.15
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.5.1
-      rimraf: 3.0.2
-      sinon: 9.2.4
-      tslib: 2.3.1
-      typescript: 4.2.4
-      util: 0.12.4
-    transitivePeerDependencies:
       - bufferutil
       - debug
       - supports-color
@@ -13666,7 +13556,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-FT89IjhpMiUOiBzt/uZDeqVKcfDfx+JuVYGy2BUvPpCXb4wY+3XGd5rm503sdUsSo3A4CbpygNhQYiaG/NN+Zg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-/O1zcTjD8j6vCMskO0SBDyrSuac9/LADzo0e6IWxFD4wmNv/DdasrmDFTbLFzEpSKeuG6nm/AAFlFmALo8B8EA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -14022,7 +13912,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-9BGMqsBlp2lJdjX4ZlpoQuRKM/sLcpaIHFI7xaztqIaCq17bheVkFsBqw6izuZ59sn4DkAmcsovdtlA4S+jO5w==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-5cMNL6d3puoJz7tLWxl1yyAwtd3EI7uAMvn+q3AAyZHJFG7WdS3l7IfCL8i8LD2qvRdpRJxm88jqVsLU3oA+Eg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -14070,13 +13960,12 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-mGcs2vWqVqLXm7vXEIvHN5fB82d0MGEuCUFxZkmnwISHGLgj0Eg/yGM4WsDouYtUFdboeTrNSg1gaORB+WrC5A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-Zjderk9z4yJ2X0VCX+Bg2mv4sRQQVGvPYhz4bqwQe8ekduCFek0KT0230RKdGANBSmWtYN/zbxmPbjexRtOv8A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -14330,7 +14219,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-XwF1/EW7RR/mN5meDZOLMADblUIf6RywLM7pIbHeDfDxcfkihfXEMTvl7aLF26rA04TPxRah4r+OKrCbi8Sv7g==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-rsm9IpQrX4PDeRoGSnfHltpD9jmpulpHFNu/lxAyTKHQPAk2Ji9ag1panuQZwQp+2ASA3AoA6DzbB2Q2Mx29cQ==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -14657,7 +14546,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-ireSIDtkXJsNgz4Dnt7//b7i/ZXBBYSFHlZJuIP5kyPCQwi9L6cYK/BNVaMbqr3aY04nXJB06N1xa4/72Yw1ig==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-kUKj3HVSS+3ub+3HC4dRdr494TlT33kdcHOLGsMkGcBu56vQ69qj65oJU++VayyRpQn4+B0KMLeVAWL4EpNvAw==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -15216,7 +15105,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-pKuhxHEjhyGAKk5t/XaVzB6JHLSGzv/PE9Q5zgt+fEkcKrw19H7qsWJsBqPU2TIHjX1ddRgv+GW0c79shGEWbg==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-I9NPyEoKnxP89clzbNdSHyCWIYH86+mEBa8PR9tZLv7waQHsjFtuQj6tBhkqEqODTLjmKpJgr5ikmc7ZufEKBQ==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -15234,7 +15123,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -15325,55 +15213,8 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/purview-account.tgz:
-    resolution: {integrity: sha512-JB2sJQZWmmoFemh9XYQ19qWt3N/8f5VclG4KG/QhPVKcJAzlslY68xX7Q6zmITztfKj7uFRIzyTXyC3E85nM6g==, tarball: file:projects/purview-account.tgz}
-    name: '@rush-temp/purview-account'
-    version: 0.0.0
-    dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.7
-      '@azure-rest/core-client-paging': 1.0.0-beta.1
-      '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.4
-      '@types/chai': 4.3.0
-      '@types/mocha': 7.0.2
-      '@types/node': 12.20.43
-      chai: 4.3.6
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      eslint: 7.32.0
-      karma: 6.3.15
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.1.1
-      karma-edge-launcher: 0.4.2_karma@6.3.15
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.15
-      karma-json-preprocessor: 0.3.3_karma@6.3.15
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.15
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.15
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 2.5.1
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      tslib: 2.3.1
-      typescript: 4.2.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-qwAKjd1LG91KHMU3KDLYYcn4kaXGAAt9bOPSmQhdw+SfogUEnorWSRDpC8wiaJIkFGNaqLnLLxxTjGRIsnKv6g==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-Z16hjklcfBBkYbwEMmEEC4QtxSnbIFdVyiD1OFdjnPeFt+ZbHxhs4BOtkc6vCQEZb5vgPEqJ5PULYbtKpJHuWg==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -15419,7 +15260,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-aI0F2b35+d39Ofj5Ll6m2HN1lBlXoZW0jHp7H+5/b31YL+Ggtd5/Fes9+3Fy+WzMbVu00/oLxUsEj74ZhcRxRQ==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-cQaHJb4jVWl+mTuCSJZ1anD4t1eVre5FR//AEZeIdneTG2v+K/dBs5hNIa9IvHGoMl0yE0JNcb7cbMod+kAW3g==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -15465,7 +15306,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-pVwr6HLjqikx6FznSmPj44guD9UcjaUINtlJdjQ4Md5V5zus/v5OjhgGiJmL2LEvD774hJ/H8OvAf669HMycMw==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-WnLaSRZ6CxnvKrbs6jpe/E/bwaNuNKvHFrC2xf1hNtmbCQffNmeVdCa0GHmsZ/GUruKGIIfeqKTw+cYOBeW0/Q==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -15560,7 +15401,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-oLhIB2Nqhk9vYYmhFaVfP0XdBJigpfdN37dHtNKbCjaUp9Vg5g9XyRCkqTdNrsDT6aNDpvQAW8g9Vm2V/roZgQ==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-RzaQoBIbNzOWnTtlJWWGMSWRWwqeu2hPKKCXc32ZOnpj5F/VJHN+TXdCxB2luIMRam7ufqbhPSM218df4+nulA==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -16156,7 +15997,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-r+K5go02ZzvB1eNv2HgJluelwAinqtfhWqRX4/yV5lfL7RMk3gizbot6n8Ne8aBVxiXRWPNRDKnEz9l8bTju7Q==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-8OFSsIvvqKFB4r7z6QtpS+ElPHWoYwnnd8q25qy7+sD5Y6Fke1y/IQ16i0Se/DEnUbO7qOMaLgs1vF0PT/VJkg==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -16506,7 +16347,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-AFgkL3dgLAohwVqFbcheVU/1ilNuMd0EKWTXQa3icxO3aqg6o1lvZRCCfPAtUNfApHLJHOZ59atB5j11Z22PXg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-6YltGfIt/N0fCMBst9a1WUIdPHEd1P07BVbpdSywL40SvBUrIl5KPmupCINQAYHCf6BvExke3q712AwIb3BGcA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -16522,6 +16363,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       chai-exclude: 2.1.0_chai@4.3.6
+      cross-env: 7.0.3
       eslint: 7.32.0
       karma: 6.3.15
       karma-chrome-launcher: 3.1.0

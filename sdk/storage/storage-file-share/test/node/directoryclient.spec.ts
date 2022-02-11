@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import { getBSU, recorderEnvSetup } from "../utils";
 import {
-  ShareDirectoryClient,
   newPipeline,
+  ShareDirectoryClient,
   StorageSharedKeyCredential,
   ShareClient,
 } from "../../src";

@@ -3,14 +3,19 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
-
-import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import * as dotenv from "dotenv";
+
+import { Context } from "mocha";
+import { Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+
+if (isNode) {
+  dotenv.config();
+}
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -18,6 +23,20 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
 };
+
+export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
+  const credential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET,
+    { httpClient }
+  );
+  return PurviewCatalog(env.ENDPOINT, credential, {
+    ...options,
+    httpClient,
+  });
+}
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -35,15 +54,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   ],
   queryParametersToSkip: [],
 };
-
-export function createClient(options?: ClientOptions): PurviewCatalogRestClient {
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
-  return PurviewCatalog(env.ENDPOINT, credential, options);
-}
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.

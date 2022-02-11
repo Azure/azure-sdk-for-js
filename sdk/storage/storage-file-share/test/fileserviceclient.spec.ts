@@ -5,10 +5,10 @@ import { assert } from "chai";
 
 import {
   getBSU,
-  getSASConnectionStringFromEnvironment,
-  recorderEnvSetup,
-  getSoftDeleteBSU,
   getGenericBSU,
+  getSASConnectionStringFromEnvironment,
+  getSoftDeleteBSU,
+  recorderEnvSetup,
 } from "./utils";
 import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";

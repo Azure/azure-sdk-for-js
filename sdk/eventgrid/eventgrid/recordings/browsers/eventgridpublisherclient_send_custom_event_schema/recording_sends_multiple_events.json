@@ -1,28 +1,39 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/api/events",
-   "query": {
-    "api-version": "2018-01-01"
-   },
-   "requestBody": "[{\"ver\":\"1.0\",\"typ\":\"Azure.Sdk.TestEvent1\",\"sub\":\"Multiple 1\",\"payload\":{\"hello\":\"world\"}},{\"ver\":\"1.0\",\"typ\":\"Azure.Sdk.TestEvent1\",\"sub\":\"Multiple 2\",\"payload\":{\"hello\":\"world\"}}]",
-   "status": 200,
-   "response": "",
-   "responseHeaders": {
-    "api-supported-versions": "2018-01-01",
-    "content-length": "0",
-    "date": "Wed, 10 Mar 2021 21:03:01 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "45e11c8c-5b9a-48f3-b536-fb8d53f40f00"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "9f211164061f86365dc353fccb76b459"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/events?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "181",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "dc007351-a9b4-4f4d-825a-b92dc6369110",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Multiple 1\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}},{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Multiple 2\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}}]",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2018-01-01",
+        "Content-Length": "0",
+        "Date": "Wed, 09 Feb 2022 01:46:42 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "6a77321d-df28-418b-9f98-c14343a856d7"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
 }
