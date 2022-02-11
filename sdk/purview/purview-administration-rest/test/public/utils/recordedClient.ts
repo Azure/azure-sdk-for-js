@@ -5,7 +5,13 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {
+  env,
+  isLiveMode,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+} from "@azure-tools/test-recorder";
 import {
   PurviewAccount,
   PurviewAccountClient,
@@ -13,9 +19,12 @@ import {
   PurviewMetadataPoliciesClient,
 } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
+import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
+
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -47,9 +56,10 @@ export function createAccountClient(
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    { httpClient }
   );
-  return PurviewAccountClient(env.ENDPOINT, credential, options);
+  return PurviewAccountClient(env.ENDPOINT, credential, { httpClient, ...options });
 }
 
 export function createMetadataClient(
@@ -58,9 +68,10 @@ export function createMetadataClient(
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    { httpClient }
   );
-  return PurviewMetadataPoliciesClient(env.ENDPOINT, credential, options);
+  return PurviewMetadataPoliciesClient(env.ENDPOINT, credential, { httpClient, ...options });
 }
 
 /**

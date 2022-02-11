@@ -4,6 +4,7 @@
 
 ```ts
 
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -43,6 +44,7 @@ export type ClientOptions = PipelineOptions & {
     apiVersion?: string;
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
+    httpClient?: HttpClient;
 };
 
 // @public

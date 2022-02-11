@@ -14,8 +14,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
@@ -34,7 +34,7 @@ async function main() {
     console.log("Key-Value Pairs:");
     for (const { key, value, confidence } of keyValuePairs) {
       console.log("- Key  :", `"${key.content}"`);
-      console.log("  Value:", `"${value?.content ?? "<undefined>"}" (${confidence})`);
+      console.log("  Value:", `"${(value && value.content) || "<undefined>"}" (${confidence})`);
     }
   }
 
@@ -44,7 +44,7 @@ async function main() {
     console.log("Entities:");
     for (const entity of entities) {
       console.log(
-        `- "${entity.content}" ${entity.category} - ${entity.subCategory ?? "<none>"} (${
+        `- "${entity.content}" ${entity.category} - ${entity.subCategory || "<none>"} (${
           entity.confidence
         })`
       );

@@ -12,17 +12,16 @@
  * @summary extract data from a United States W2 tax document
  */
 
-import {
+const {
   AzureKeyCredential,
   DocumentAnalysisClient,
   PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+} = require("@azure/ai-form-recognizer");
 
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
