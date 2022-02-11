@@ -5,19 +5,38 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
+import { BlobItem } from '@azure/storage-blob';
+import { BlobSetMetadataOptions } from '@azure/storage-blob';
+import { BlockBlobUploadOptions } from '@azure/storage-blob';
+import { BlockBlobUploadResponse } from '@azure/storage-blob';
 import { Checkpoint } from '@azure/event-hubs';
 import { CheckpointStore } from '@azure/event-hubs';
-import { ContainerClient } from '@azure/storage-blob';
+import { ContainerListBlobFlatSegmentResponse } from '@azure/storage-blob';
+import { ContainerListBlobsOptions } from '@azure/storage-blob';
+import { ContainerSetMetadataResponse } from '@azure/storage-blob';
+import { HttpRequestBody } from '@azure/storage-blob';
+import { Metadata } from '@azure/storage-blob';
 import { OperationOptions } from '@azure/event-hubs';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PartitionOwnership } from '@azure/event-hubs';
 
 // @public
 export class BlobCheckpointStore implements CheckpointStore {
-    constructor(containerClient: ContainerClient);
+    constructor(containerClient: ContainerClientLike);
     claimOwnership(partitionOwnership: PartitionOwnership[], options?: OperationOptions): Promise<PartitionOwnership[]>;
     listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<Checkpoint[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
+}
+
+// @public
+export interface ContainerClientLike {
+    // Warning: (ae-forgotten-export) The symbol "BlobClientLike" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getBlobClient(blobName: string): BlobClientLike;
+    // (undocumented)
+    listBlobsFlat(options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>;
 }
 
 // @public
