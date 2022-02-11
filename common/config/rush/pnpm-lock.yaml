@@ -168,6 +168,7 @@ specifiers:
   '@rush-temp/core-client-1': file:./projects/core-client-1.tgz
   '@rush-temp/core-crypto': file:./projects/core-crypto.tgz
   '@rush-temp/core-http': file:./projects/core-http.tgz
+  '@rush-temp/core-http-compat': file:./projects/core-http-compat.tgz
   '@rush-temp/core-lro': file:./projects/core-lro.tgz
   '@rush-temp/core-paging': file:./projects/core-paging.tgz
   '@rush-temp/core-rest-pipeline': file:./projects/core-rest-pipeline.tgz
@@ -420,6 +421,7 @@ dependencies:
   '@rush-temp/core-client-1': file:projects/core-client-1.tgz
   '@rush-temp/core-crypto': file:projects/core-crypto.tgz
   '@rush-temp/core-http': file:projects/core-http.tgz
+  '@rush-temp/core-http-compat': file:projects/core-http-compat.tgz
   '@rush-temp/core-lro': file:projects/core-lro.tgz
   '@rush-temp/core-paging': file:projects/core-paging.tgz
   '@rush-temp/core-rest-pipeline': file:projects/core-rest-pipeline.tgz
@@ -12966,7 +12968,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-DBJrNjfBDQPpuhuC1CK2Tf09gwxZR8AFbUUmjOkxzU4Ra4+k8WNYyADJUQPWDxUnCg+/wckXoRZL/jkX39lpSg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-EFTZnQnEhHbqmL1CZJWw7bgI7vYq4WRTRkjsjf8ixNAarMw/NVp3eLd+skni99Hs4F+x4ZhIihyjSIExV5yLJA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -13007,7 +13009,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13234,6 +13235,29 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/core-http-compat.tgz:
+    resolution: {integrity: sha512-6oPpeZKwOCCHdcxk1HtbfvYtOvzGyhwmT0alxJ+umgv50U6iUvlpfmu3Xi35Gr8Km7sZj3N4xfJOWjIsbBGgGw==, tarball: file:projects/core-http-compat.tgz}
+    name: '@rush-temp/core-http-compat'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.4
+      '@types/node': 12.20.43
+      cross-env: 7.0.3
+      downlevel-dts: 0.8.0
+      eslint: 7.32.0
+      inherits: 2.0.4
+      prettier: 2.5.1
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      ts-node: 10.5.0_1aa569e4b68ef65c520f700d6703bce0
+      typescript: 4.2.4
+      util: 0.12.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/core-http.tgz:
@@ -13601,7 +13625,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-DaRzGWNUMNnkx5XtovGZ1VfqT6XHzNoh6ivGkD3kWQEGRtv11tnZ75Aguv/eG/3SromlH20PiCA+RQWcLm3FLQ==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-TEbNW856SR3kFwVpkaq6xq+/lScXvhz1tDQwNF6qBlgQOSMwk5VnR+R82rTsPT0G9gSoTWrnox0ZpAja5SolDA==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -13646,7 +13670,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -15786,7 +15809,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Wxf71HaHGk3OUsxKZVuBej88ap8Pft5N//7ZiLUVN3If1B+1fCanIE/T52XQhsyBXWsgvQFKFTehFLaryX4eIQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-2ZH8fLmpPVmWUGAVGdmZ8P0MjIFOKfaaovnt9M901HdH6hzf7cA0zDJWrYWUdyBdWlJWr9/lcc7hNJgNHvRADw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:

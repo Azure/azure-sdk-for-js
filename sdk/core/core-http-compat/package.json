@@ -1,0 +1,76 @@
+{
+  "name": "@azure/core-http-compat",
+  "version": "1.0.0",
+  "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
+  "sdk-type": "client",
+  "main": "dist/index.js",
+  "module": "dist-esm/index.js",
+  "types": "types/latest/core-http-compat.d.ts",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo Obsolete",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:types": "downlevel-dts types/latest/ types/1.0/",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "execute:samples": "echo skipped",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "echo skipped",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "test": "npm run clean && npm run build && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "echo skipped"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest/core-http-compat.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-compat/",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure/core-rest-pipeline": "^1.4.0",
+    "@azure/core-client": "^1.4.0"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.18.11",
+    "@types/node": "^12.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "downlevel-dts": "^0.8.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.15.0",
+    "inherits": "^2.0.3",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.0",    
+    "sinon": "^9.0.2",
+    "ts-node": "^10.0.0",
+    "typescript": "~4.2.0",
+    "util": "^0.12.1"
+  }
+}

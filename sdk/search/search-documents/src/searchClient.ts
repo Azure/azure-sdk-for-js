@@ -3,11 +3,8 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  CommonClientOptions,
-  InternalClientPipelineOptions,
-  OperationOptions,
-} from "@azure/core-client";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { ShimCommonClientOptions } from "@azure/core-http-compat";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -51,7 +48,7 @@ import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface SearchClientOptions extends CommonClientOptions {
+export interface SearchClientOptions extends ShimCommonClientOptions {
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
