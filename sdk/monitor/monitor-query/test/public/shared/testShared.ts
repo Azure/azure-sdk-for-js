@@ -37,18 +37,10 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
-// export function createRecorderAndMetricsClient(context: Context): RecorderAndMetricsClient {
-//   const recorder = record(context, environmentSetup);
-//   return {
-//     client: new MetricsQueryClient(createTestClientSecretCredential()),
-//     recorder,
-//   };
-// }
 
 export async function createRecorderAndMetricsClient(
   recorder: Recorder
 ): Promise<RecorderAndMetricsClient> {
-  //const recorder = record(context, environmentSetup);
   await recorder.start(recorderOptions);
 
   const client = new MetricsQueryClient(createTestCredential());
@@ -118,7 +110,7 @@ function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: st
     throw new Error(`Missing ${variableName} env var`);
   }
 
-  return envVar || "";
+  return envVar ?? "";
 }
 
 export function printLogQueryTables(tables: LogsTable[]): void {
