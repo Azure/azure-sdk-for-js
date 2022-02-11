@@ -1,10 +1,11 @@
 # Release History
 
-## 12.9.0-beta.3 (Unreleased)
+## 12.9.0-beta.3 (2022-02-11)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2021-04-10.
+- Added support for finding blobs by tags in a container.
 
 ### Bugs Fixed
 
