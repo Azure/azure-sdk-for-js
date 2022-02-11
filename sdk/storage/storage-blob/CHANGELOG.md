@@ -11,8 +11,6 @@
 
 - Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
 
-### Other Changes
-
 ## 12.9.0-beta.2 (2021-12-03)
 
 ### Features Added
