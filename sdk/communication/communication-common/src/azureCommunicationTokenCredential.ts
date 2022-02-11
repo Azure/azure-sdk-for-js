@@ -1,4 +1,4 @@
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
 import { parseToken } from "./tokenParser";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import {
