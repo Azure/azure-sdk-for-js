@@ -389,7 +389,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(msiGetTokenSpy.called, true);
     assert.equal(loggerSpy.calledOnce, true);
     assert.deepEqual(loggerSpy.args[0], [
-      "ManagedIdentityCredential - CloudShellMSI: does not support user-assigned identities in the Cloud Shell environment. Argument clientId is not needed and not used.",
+      "ManagedIdentityCredential - CloudShellMSI: does not support user-assigned identities in the Cloud Shell environment. Argument clientId will be ignored.",
     ]);
   });
 
