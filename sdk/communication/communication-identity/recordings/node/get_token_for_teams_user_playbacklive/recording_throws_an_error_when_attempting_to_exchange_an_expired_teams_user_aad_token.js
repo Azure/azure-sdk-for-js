@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "65c32ed61371c7d9b98a6921173cf0fd";
+module.exports.hash = "89176238df03483b3c933fed336aade5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/teamsUser/:exchangeAccessToken', {"token":"sanitized"})
+  .post('/teamsUser/:getToken', {"token":"sanitized"})
   .query(true)
   .reply(401, {"error":{"code":"InvalidAccessToken","message":"Provided access token is not valid."}}, [
   'Transfer-Encoding',
@@ -15,17 +15,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '6Y78qoVe+UmqyBHZsTCo4A.0',
+  'zq/oNVjGLEOI1JOIlXeZXQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   '00000000-0000-0000-0000-000000000000',
   'X-Processing-Time',
-  '28ms',
+  '35ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0iIt4YQAAAABRVqd1kOPHQ55BahalPjTTUFJHMDFFREdFMDYxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
+  '0SkYGYgAAAAAPx/7VZIRBQKtKRFkLHxjdUFJHMDFFREdFMDkwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Tue, 26 Oct 2021 23:13:13 GMT'
+  'Fri, 11 Feb 2022 11:19:38 GMT'
 ]);

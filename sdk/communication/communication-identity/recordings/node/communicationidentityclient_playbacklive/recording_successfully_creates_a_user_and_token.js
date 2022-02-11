@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "d7eadbc8a968a289583d50074b0f71d2";
+module.exports.hash = "63bcccdf80ee361af3ac1d54e40a2b37";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities', {"createTokenWithScopes":["voip"]})
   .query(true)
-  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-10-16T18:36:09.6070839+00:00"}}, [
+  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2022-02-12T11:19:27.6080207+00:00"}}, [
   'Content-Length',
   '920',
   'Content-Type',
@@ -15,19 +15,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'szES1dMgxUmv0PN4enUCig.0',
+  'KP30jn2Pf0+oQuq6WNkXBQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01',
   'X-Processing-Time',
-  '182ms',
+  '47ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0GcppYQAAAACwOiPRFaD3SYwB3J0GByJxUFJHMDFFREdFMDcxOQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
+  '0PkYGYgAAAAB6GlaYxqpGSIS+Q48LrBgGUFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Fri, 15 Oct 2021 18:36:09 GMT'
+  'Fri, 11 Feb 2022 11:19:26 GMT'
 ]);
