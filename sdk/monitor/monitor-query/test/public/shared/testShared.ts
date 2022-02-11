@@ -37,15 +37,16 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
-
 export async function createRecorderAndMetricsClient(
   recorder: Recorder
 ): Promise<RecorderAndMetricsClient> {
   await recorder.start(recorderOptions);
 
-  const client = new MetricsQueryClient(createTestCredential());
+  const client = new MetricsQueryClient(
+    createTestCredential(),
+    recorder.configureClientOptions({})
+  );
 
-  recorder.configureClient(client["_metricsClient"]);
   return {
     client: client,
     recorder: recorder,
@@ -58,11 +59,10 @@ export async function createRecorderAndLogsClient(
 ): Promise<RecorderAndLogsClient> {
   await recorder.start(recorderOptions);
 
-  const client = new LogsQueryClient(createTestCredential(), {
-    retryOptions,
-  });
-
-  recorder.configureClient(client["_logAnalytics"]);
+  const client = new LogsQueryClient(
+    createTestCredential(),
+    recorder.configureClientOptions({ retryOptions })
+  );
 
   return {
     client,
