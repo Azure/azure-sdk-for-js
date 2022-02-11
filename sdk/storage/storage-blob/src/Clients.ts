@@ -1276,19 +1276,13 @@ export class BlobClient extends StorageClient {
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking blob existence",
-        });
+        // Expected exception when checking blob existence
         return false;
       } else if (
         e.statusCode === 409 &&
         e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg
       ) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking blob existence",
-        });
+        // Expected exception when checking blob existence
         return true;
       }
 
