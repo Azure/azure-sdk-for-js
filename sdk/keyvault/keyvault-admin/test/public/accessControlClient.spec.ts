@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import { assert } from "@azure/test-utils";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 
@@ -13,9 +11,9 @@ import {
   KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
 } from "../../src";
-import { authenticate } from "../utils/authentication";
-import { supportsTracing } from "../utils/supportsTracing";
-import { getServiceVersion } from "../utils/common";
+import { authenticate } from "./utils/authentication";
+import { supportsTracing } from "./utils/supportsTracing";
+import { getServiceVersion } from "./utils/common";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;

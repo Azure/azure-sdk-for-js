@@ -228,6 +228,7 @@ export {
   SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   SentimentSkillLanguage,
   KnownSentimentSkillLanguage,
   SplitSkillLanguage,

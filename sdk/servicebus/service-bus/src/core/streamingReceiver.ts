@@ -203,6 +203,12 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
         );
+        this._messageHandlers().processError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host,
+        });
       }
     };
 
@@ -214,6 +220,12 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'session_error' event occurred. The associated error is`
         );
+        this._messageHandlers().processError({
+          error: sbError,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host,
+        });
       }
     };
 
@@ -430,6 +442,7 @@ export class StreamingReceiver extends MessageReceiver {
     });
 
     try {
+      this._receiverHelper.resume();
       return await this._subscribeImpl("subscribe");
     } catch (err) {
       // callers aren't going to be in a good position to forward this error properly
@@ -524,10 +537,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   private async _subscribeImpl(caller: "detach" | "subscribe"): Promise<void> {
     try {
-      // this allows external callers (ie: ServiceBusReceiver) to prevent concurrent `subscribe` calls
-      // by not starting new receiving options while this one has started.
-      this._receiverHelper.resume();
-
       // we don't expect to ever get an error from retryForever but bugs
       // do happen.
       return await this._retryForeverFn({

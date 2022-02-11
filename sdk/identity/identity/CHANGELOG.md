@@ -1,12 +1,20 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.0.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.2 (2022-02-03)
 
 ### Features Added
 
 - Improved the error message when `InteractiveBrowserCredential` is used with an unavailable port (such as when no `redirectUri` is provided, and the port `80` is busy) and when no browser is available.
-
-### Breaking Changes
 
 ### Bugs Fixed
 

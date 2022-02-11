@@ -7,7 +7,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { SchemaRegistryAvroEncoder } from "@azure/schema-registry-avro";
+import { AvroEncoder } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -66,7 +66,7 @@ export async function main() {
   await client.registerSchema(schemaDescription);
 
   // Create a new encoder backed by the client
-  const encoder = new SchemaRegistryAvroEncoder(client, { groupName });
+  const encoder = new AvroEncoder(client, { groupName });
 
   // encode an object that matches the schema and put it in a message
   const value: User = { firstName: "Jane", lastName: "Doe" };

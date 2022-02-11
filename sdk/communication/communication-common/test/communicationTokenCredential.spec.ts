@@ -101,13 +101,29 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.notCalled(tokenRefresher);
   });
 
-  it("with proactive refresh, passing an expired token triggers immediate refresh", async () => {
-    const tokenRefresher = sinon.stub().resolves(generateToken(-1));
+  it("with proactive refresh, passing an expired token to constructor triggers immediate refresh", async () => {
+    const tokenRefresher = sinon.stub().resolves(generateToken(30));
     new AzureCommunicationTokenCredential({
       tokenRefresher,
       refreshProactively: true,
+      token: generateToken(-1),
     });
     clock.tick(5 * 60 * 1000);
+
+    sinon.assert.calledOnce(tokenRefresher);
+  });
+
+  it("throws if tokenRefresher returns an expired token", async () => {
+    const tokenRefresher = sinon.stub().resolves(generateToken(-1));
+    const credential = new AzureCommunicationTokenCredential({
+      tokenRefresher: tokenRefresher,
+    });
+    clock.tick(5 * 60 * 1000);
+    await assert.isRejected(
+      credential.getToken(),
+      Error,
+      "The token returned from the tokenRefresher is expired."
+    );
     sinon.assert.calledOnce(tokenRefresher);
   });
 
@@ -139,7 +155,7 @@ describe("CommunicationTokenCredential", () => {
     await assert.isRejected(withLambda.getToken());
   });
 
-  it("doesn't swallow error from tokenrefresher", async () => {
+  it("doesn't swallow error from tokenRefresher", async () => {
     const tokenRefresher = sinon.stub().throws(new Error("No token for you!"));
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
@@ -157,7 +173,7 @@ describe("CommunicationTokenCredential", () => {
     assert.strictEqual(tokenResult.token, token);
 
     tokenRefresher.resolves(newToken);
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     const secondTokenResult = await tokenCredential.getToken();
 
@@ -181,7 +197,7 @@ describe("CommunicationTokenCredential", () => {
       token: token(),
     });
 
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     sinon.assert.calledOnce(tokenRefresher);
   });
@@ -196,7 +212,7 @@ describe("CommunicationTokenCredential", () => {
     });
 
     const internalTimeout = exposeInternalTimeout(tokenCredential);
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
 
     await exposeInternalUpdatePromise(tokenCredential);
@@ -217,7 +233,7 @@ describe("CommunicationTokenCredential", () => {
     });
 
     tokenCredential.dispose();
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     sinon.assert.notCalled(tokenRefresher);
   });
@@ -240,9 +256,48 @@ describe("CommunicationTokenCredential", () => {
       refreshProactively: true,
     });
 
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     await tokenCredential.getToken();
     sinon.assert.calledOnce(tokenRefresher);
+  });
+
+  it("applies fractional backoff when the token is about to expire", async () => {
+    const defaultRefreshAfterLifetimePercentage = 0.5;
+    const tokenExpirationMinutes = 20;
+    const expectedPreBackOffCallCount = 1;
+    const expectedTotalCallCount = Math.floor(
+      Math.log(tokenExpirationMinutes * 60) / Math.log(1 / defaultRefreshAfterLifetimePercentage)
+    );
+    const staticToken = generateToken(tokenExpirationMinutes);
+    const tokenRefresher = sinon.stub().resolves(((): string => staticToken)()); // keep returning the same token for the duration of the test
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      refreshProactively: true,
+      token: staticToken,
+    });
+
+    const newToken = await tokenCredential.getToken();
+
+    // go into the soon-to-expire window
+    for (let i = 0; i < 10 * 60; i++) {
+      // perform token refreshing & scheduling
+      await exposeInternalUpdatePromise(tokenCredential);
+      clock.tick(1000);
+    }
+
+    // expect the token to be refreshed only once within the first 10 minutes
+    sinon.assert.callCount(tokenRefresher, expectedPreBackOffCallCount);
+
+    // iterate until the penultimate second of the token expiration
+    // to prevent an exception being thrown due to the token being expired
+    while (Math.floor((newToken.expiresOnTimestamp - Date.now()) / 1000) > 1) {
+      // perform token refreshing & scheduling
+      await exposeInternalUpdatePromise(tokenCredential);
+      clock.tick(1000);
+    }
+
+    // expect the token to be refreshed with an increasing frequency in the remaining 10 minutes
+    sinon.assert.callCount(tokenRefresher, expectedTotalCallCount);
   });
 });

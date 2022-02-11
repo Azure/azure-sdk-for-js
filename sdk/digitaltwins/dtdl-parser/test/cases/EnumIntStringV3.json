@@ -1,0 +1,42 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:mismatchedEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "near",
+          "enumValue": 1
+        },
+        {
+          "name": "far",
+          "enumValue": "east"
+        }
+      ],
+      "displayName": {
+        "en": "Distance",
+        "es": "Distancia"
+      },
+      "description": {
+        "en": "how close",
+        "es": "lo cerca que"
+      },
+      "comment": "How close is it?"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:nonConformantDatatype",
+        "PrimaryID": "dtmi:test:mismatchedEnum:_enumValues:__far;1",
+        "SecondaryID": "dtmi:test:mismatchedEnum;1",
+        "Property": "enumValue",
+        "Value": "east"
+      }
+    ]
+  }
+}

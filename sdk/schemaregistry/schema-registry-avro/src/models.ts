@@ -33,7 +33,7 @@ export interface MessageAdapter<MessageT> {
 /**
  * Options for Schema
  */
-export interface SchemaRegistryAvroEncoderOptions<MessageT> {
+export interface AvroEncoderOptions<MessageT> {
   /**
    * When true, register new schemas passed to encodeMessageData. Otherwise, and by
    * default, fail if schema has not already been registered.

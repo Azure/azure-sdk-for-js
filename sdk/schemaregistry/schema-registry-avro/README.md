@@ -31,7 +31,7 @@ npm install @azure/schema-registry-avro
 
 ## Key concepts
 
-### SchemaRegistryAvroEncoder
+### AvroEncoder
 
 Provides API to encode to and decode from Avro Binary Encoding wrapped in a message
 with a content type field containing the schema ID. Uses
@@ -58,6 +58,16 @@ by setting the `messageAdapter` option in the constructor with a corresponding
 message producer and consumer. Azure messaging client libraries export default
 adapters for their message types.
 
+### Backward Compatibility
+
+The encoder v1.0.0-beta.5 and under encodes data into binary arrays. Starting from
+v1.0.0-beta.6, the encoder returns messages instead that contain the encoded payload.
+For a smooth transition to using the newer versions, the encoder also supports
+decoding messages with payloads that follow the old format where the schema ID
+is part of the payload.
+
+This backward compatibility is temporary and will be removed in v1.0.0.
+
 ## Examples
 
 ### Encode and decode an `@azure/event-hubs`'s `EventData`
@@ -66,13 +76,13 @@ adapters for their message types.
 const { DefaultAzureCredential } = require("@azure/identity");
 import { createEventDataAdapter } from "@azure/event-hubs";
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { SchemaRegistryAvroEncoder } = require("@azure/schema-registry-avro");
+const { AvroEncoder } = require("@azure/schema-registry-avro");
 
 const client = new SchemaRegistryClient(
   "<fully qualified namespace>",
   new DefaultAzureCredential()
 );
-const encoder = new SchemaRegistryAvroEncoder(client, {
+const encoder = new AvroEncoder(client, {
   groupName: "<group>",
   messageAdapter: createEventDataAdapter(),
 });

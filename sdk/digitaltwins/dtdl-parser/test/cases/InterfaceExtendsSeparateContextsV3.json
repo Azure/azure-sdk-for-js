@@ -1,0 +1,70 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    [
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:interface0;1",
+        "@type": "Interface",
+        "contents": {
+          "@type": "Property",
+          "name": "prop0",
+          "schema": "double"
+        }
+      },
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:interface1;1",
+        "@type": "Interface",
+        "contents": {
+          "@type": "Property",
+          "name": "prop1",
+          "schema": "double"
+        },
+        "extends": "dtmi:test:interface0;1"
+      },
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:interface2;1",
+        "@type": "Interface",
+        "contents": {
+          "@type": "Property",
+          "name": "prop2",
+          "schema": "double"
+        },
+        "extends": "dtmi:test:interface1;1"
+      },
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:interface3;1",
+        "@type": "Interface",
+        "contents": {
+          "@type": "Property",
+          "name": "prop3",
+          "schema": "double"
+        },
+        "extends": "dtmi:test:interface2;1"
+      }
+    ]
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:interface3;1",
+        "type": "Interface",
+        "properties": {
+          "extends": [
+            "dtmi:test:interface2;1"
+          ],
+          "contents": {
+            "prop0": "dtmi:test:interface0:_contents:__prop0;1",
+            "prop1": "dtmi:test:interface1:_contents:__prop1;1",
+            "prop2": "dtmi:test:interface2:_contents:__prop2;1",
+            "prop3": "dtmi:test:interface3:_contents:__prop3;1"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,58 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { TokenCredential, ClientSecretCredential } from "@azure/identity";
-
-import { ArtifactsClient, ArtifactsClientOptionalParams } from "../../../src";
 import "./env";
 
-const replaceableVariables: { [k: string]: string } = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  ENDPOINT: "https://testaccount.dev.azuresynapse.net"
-};
+import { ArtifactsClient, ArtifactsClientOptionalParams } from "../../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
-    // the endpoint string used with nock, which will be expanded to
-    // https://<endpoint>:443/ and therefore will not match, so we have to do
-    // this instead.
-    (recording: string): string => {
-      const replaced = recording.replace(
-        "testaccount.dev.azuresynapse.net:443",
-        "testaccount.dev.azuresynapse.net"
-      );
-      return replaced;
-    }
-  ],
-  queryParametersToSkip: []
-};
+import { createTestCredential } from "@azure-tools/test-credential";
 
-export function createClient(options?: ArtifactsClientOptionalParams): ArtifactsClient {
-  let credential: TokenCredential;
+export async function createClient(
+  recorder: Recorder,
+  options?: ArtifactsClientOptionalParams
+): Promise<ArtifactsClient> {
+  const credential = createTestCredential();
 
-  credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
+  await recorder.start({
+    envSetupForPlayback: {
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+      ENDPOINT: "https://testaccount.dev.azuresynapse.net",
+    },
+  });
 
-  return new ArtifactsClient(credential, env.ENDPOINT, options);
-}
-
-/**
- * creates the recorder and reads the environment variables from the `.env` file.
- * Should be called first in the test suite to make sure environment variables are
- * read before they are being used.
- */
-export function createRecorder(context: Context): Recorder {
-  return record(context, environmentSetup);
+  const client = new ArtifactsClient(credential, env.ENDPOINT ?? "", recorder.configureClientOptions({
+    ...options,
+    allowInsecureConnection: true,
+  }));
+  return client;
 }

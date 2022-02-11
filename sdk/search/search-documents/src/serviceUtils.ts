@@ -46,6 +46,7 @@ import {
   SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   LuceneStandardAnalyzer,
   StopAnalyzer,
   PatternAnalyzer as GeneratedPatternAnalyzer,
@@ -147,6 +148,9 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Util.DocumentExtractionSkill":
         result.push(skill as DocumentExtractionSkill);
+        break;
+      case "#Microsoft.Skills.Custom.AmlSkill":
+        result.push(skill as AzureMachineLearningSkill);
         break;
     }
   }

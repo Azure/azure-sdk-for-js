@@ -3,6 +3,7 @@
 
 import {
   OperationTracingOptions,
+  Resolved,
   TracingClient,
   TracingClientOptions,
   TracingContext,
@@ -64,14 +65,14 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     operationOptions: Options,
     callback: Callback,
     spanOptions?: TracingSpanOptions
-  ): Promise<ReturnType<Callback>> {
+  ): Promise<Resolved<ReturnType<Callback>>> {
     const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
       const result = await withContext(updatedOptions.tracingOptions!.tracingContext!, () =>
         Promise.resolve(callback(updatedOptions, span))
       );
       span.setStatus({ status: "success" });
-      return result;
+      return result as ReturnType<typeof withSpan>;
     } catch (err) {
       span.setStatus({ status: "error", error: err });
       throw err;

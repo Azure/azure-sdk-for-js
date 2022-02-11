@@ -34,12 +34,7 @@ export class ComputeNodeExtension {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeExtensionGetResponse>
    */
-  get(
-    poolId: string,
-    nodeId: string,
-    extensionName: string,
-    options?: Models.ComputeNodeExtensionGetOptionalParams
-  ): Promise<Models.ComputeNodeExtensionGetResponse>;
+  get(poolId: string, nodeId: string, extensionName: string, options?: Models.ComputeNodeExtensionGetOptionalParams): Promise<Models.ComputeNodeExtensionGetResponse>;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that contains the extensions.
@@ -47,12 +42,7 @@ export class ComputeNodeExtension {
    * information about.
    * @param callback The callback
    */
-  get(
-    poolId: string,
-    nodeId: string,
-    extensionName: string,
-    callback: msRest.ServiceCallback<Models.NodeVMExtension>
-  ): void;
+  get(poolId: string, nodeId: string, extensionName: string, callback: msRest.ServiceCallback<Models.NodeVMExtension>): void;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that contains the extensions.
@@ -61,22 +51,8 @@ export class ComputeNodeExtension {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    poolId: string,
-    nodeId: string,
-    extensionName: string,
-    options: Models.ComputeNodeExtensionGetOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeVMExtension>
-  ): void;
-  get(
-    poolId: string,
-    nodeId: string,
-    extensionName: string,
-    options?:
-      | Models.ComputeNodeExtensionGetOptionalParams
-      | msRest.ServiceCallback<Models.NodeVMExtension>,
-    callback?: msRest.ServiceCallback<Models.NodeVMExtension>
-  ): Promise<Models.ComputeNodeExtensionGetResponse> {
+  get(poolId: string, nodeId: string, extensionName: string, options: Models.ComputeNodeExtensionGetOptionalParams, callback: msRest.ServiceCallback<Models.NodeVMExtension>): void;
+  get(poolId: string, nodeId: string, extensionName: string, options?: Models.ComputeNodeExtensionGetOptionalParams | msRest.ServiceCallback<Models.NodeVMExtension>, callback?: msRest.ServiceCallback<Models.NodeVMExtension>): Promise<Models.ComputeNodeExtensionGetResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -85,8 +61,7 @@ export class ComputeNodeExtension {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.ComputeNodeExtensionGetResponse>;
+      callback) as Promise<Models.ComputeNodeExtensionGetResponse>;
   }
 
   /**
@@ -96,41 +71,21 @@ export class ComputeNodeExtension {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeExtensionListResponse>
    */
-  list(
-    poolId: string,
-    nodeId: string,
-    options?: Models.ComputeNodeExtensionListOptionalParams
-  ): Promise<Models.ComputeNodeExtensionListResponse>;
+  list(poolId: string, nodeId: string, options?: Models.ComputeNodeExtensionListOptionalParams): Promise<Models.ComputeNodeExtensionListResponse>;
   /**
    * @param poolId The ID of the Pool that contains Compute Node.
    * @param nodeId The ID of the Compute Node that you want to list extensions.
    * @param callback The callback
    */
-  list(
-    poolId: string,
-    nodeId: string,
-    callback: msRest.ServiceCallback<Models.NodeVMExtensionList>
-  ): void;
+  list(poolId: string, nodeId: string, callback: msRest.ServiceCallback<Models.NodeVMExtensionList>): void;
   /**
    * @param poolId The ID of the Pool that contains Compute Node.
    * @param nodeId The ID of the Compute Node that you want to list extensions.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    poolId: string,
-    nodeId: string,
-    options: Models.ComputeNodeExtensionListOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeVMExtensionList>
-  ): void;
-  list(
-    poolId: string,
-    nodeId: string,
-    options?:
-      | Models.ComputeNodeExtensionListOptionalParams
-      | msRest.ServiceCallback<Models.NodeVMExtensionList>,
-    callback?: msRest.ServiceCallback<Models.NodeVMExtensionList>
-  ): Promise<Models.ComputeNodeExtensionListResponse> {
+  list(poolId: string, nodeId: string, options: Models.ComputeNodeExtensionListOptionalParams, callback: msRest.ServiceCallback<Models.NodeVMExtensionList>): void;
+  list(poolId: string, nodeId: string, options?: Models.ComputeNodeExtensionListOptionalParams | msRest.ServiceCallback<Models.NodeVMExtensionList>, callback?: msRest.ServiceCallback<Models.NodeVMExtensionList>): Promise<Models.ComputeNodeExtensionListResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -138,8 +93,7 @@ export class ComputeNodeExtension {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.ComputeNodeExtensionListResponse>;
+      callback) as Promise<Models.ComputeNodeExtensionListResponse>;
   }
 
   /**
@@ -148,43 +102,26 @@ export class ComputeNodeExtension {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeExtensionListResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.ComputeNodeExtensionListNextOptionalParams
-  ): Promise<Models.ComputeNodeExtensionListResponse>;
+  listNext(nextPageLink: string, options?: Models.ComputeNodeExtensionListNextOptionalParams): Promise<Models.ComputeNodeExtensionListResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.NodeVMExtensionList>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NodeVMExtensionList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.ComputeNodeExtensionListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeVMExtensionList>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.ComputeNodeExtensionListNextOptionalParams
-      | msRest.ServiceCallback<Models.NodeVMExtensionList>,
-    callback?: msRest.ServiceCallback<Models.NodeVMExtensionList>
-  ): Promise<Models.ComputeNodeExtensionListResponse> {
+  listNext(nextPageLink: string, options: Models.ComputeNodeExtensionListNextOptionalParams, callback: msRest.ServiceCallback<Models.NodeVMExtensionList>): void;
+  listNext(nextPageLink: string, options?: Models.ComputeNodeExtensionListNextOptionalParams | msRest.ServiceCallback<Models.NodeVMExtensionList>, callback?: msRest.ServiceCallback<Models.NodeVMExtensionList>): Promise<Models.ComputeNodeExtensionListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.ComputeNodeExtensionListResponse>;
+      callback) as Promise<Models.ComputeNodeExtensionListResponse>;
   }
 }
 
@@ -199,7 +136,11 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.nodeId,
     Parameters.extensionName
   ],
-  queryParameters: [Parameters.apiVersion, Parameters.select15, Parameters.timeout76],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.select15,
+    Parameters.timeout76
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId90,
@@ -222,7 +163,11 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/extensions",
-  urlParameters: [Parameters.batchUrl, Parameters.poolId, Parameters.nodeId],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select16,
@@ -252,8 +197,12 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId92,

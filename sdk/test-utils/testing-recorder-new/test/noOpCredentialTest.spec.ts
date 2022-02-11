@@ -16,9 +16,9 @@ const getRecorderStartOptions = (): RecorderStartOptions => {
       AZURE_TENANT_ID: "azuretenantid",
     },
     sanitizerOptions: {
-      bodyRegexSanitizers: [
+      bodySanitizers: [
         {
-          regex: env.TABLES_URL ? encodeURIComponent(env.TABLES_URL) : undefined,
+          target: encodeURIComponent(env.TABLES_URL ?? ""),
           value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`),
         },
       ],
@@ -45,8 +45,11 @@ describe(`NoOp credential with Tables`, () => {
       "table-name",
       `table${Math.ceil(Math.random() * 1000 + 1000)}`
     );
-    const client = new TableServiceClient(assertEnvironmentVariable("TABLES_URL"), credential);
-    recorder.configureClient(client);
+    const client = new TableServiceClient(
+      assertEnvironmentVariable("TABLES_URL"),
+      credential,
+      recorder.configureClientOptions({})
+    );
     await client.createTable(tableName);
     await client.deleteTable(tableName);
   });

@@ -3,10 +3,7 @@
 
 import {
   createDefaultHttpClient,
-  createPipelineRequest,
   HttpClient,
-  HttpMethods,
-  Pipeline,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -27,7 +24,7 @@ import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
-import { Sanitizer } from "./sanitizer";
+import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { Matcher, setMatcher } from "./matcher";
 import {
@@ -38,6 +35,8 @@ import {
   WebResourceLike,
 } from "@azure/core-http";
 import { addTransform, Transform } from "./transform";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -56,7 +55,6 @@ export class Recorder {
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
   private sessionFile?: string;
-  private sanitizer?: Sanitizer;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
@@ -69,7 +67,6 @@ export class Recorder {
           "Unable to determine the recording file path, testContext provided is not defined."
         );
       }
-      this.sanitizer = new Sanitizer(this.url, this.httpClient);
     }
     this.variables = {};
   }
@@ -114,8 +111,12 @@ export class Recorder {
    */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
     // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
-    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer")) {
-      return this.sanitizer.addSanitizers(options);
+    if (
+      isRecordMode() &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
+      return addSanitizers(this.httpClient, this.url, this.recordingId, options);
     }
   }
 
@@ -146,7 +147,7 @@ export class Recorder {
       const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.start
       }`;
-      const req = this._createRecordingRequest(startUri);
+      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         const rsp = await this.httpClient.sendRequest({
@@ -164,12 +165,14 @@ export class Recorder {
         if (isPlaybackMode()) {
           this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
         }
-        if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer")) {
-          // Setting the recordingId in the sanitizer,
-          // the sanitizers added will take the recording id and only be part of the current test
-          this.sanitizer.setRecordingId(this.recordingId);
-          await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
-        }
+
+        await handleEnvSetup(
+          this.httpClient,
+          this.url,
+          this.recordingId,
+          options.envSetupForPlayback
+        );
+
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {
           // Makes a call to the proxy-tool to add the sanitizers for the current recording id
@@ -188,7 +191,7 @@ export class Recorder {
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop}`;
-      const req = this._createRecordingRequest(stopUri);
+      const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
       if (isRecordMode()) {
@@ -222,30 +225,36 @@ export class Recorder {
     }
   }
 
-  /**
-   * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
-   * These are required to appropriately save the recordings in the record mode and picking them up in playback.
-   */
-  private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
-    const req = createPipelineRequest({ url, method });
-    if (ensureExistence(this.sessionFile, "sessionFile")) {
-      req.body = JSON.stringify({ "x-recording-file": this.sessionFile });
+  async transformsInfo(): Promise<string | null | undefined> {
+    if (isLiveMode()) {
+      throw new RecorderError("Cannot call transformsInfo in live mode");
     }
-    if (this.recordingId !== undefined) {
-      req.headers.set("x-recording-id", this.recordingId);
+
+    if (ensureExistence(this.httpClient, "this.httpClient")) {
+      return await transformsInfo(this.httpClient, this.url, this.recordingId!);
     }
-    return req;
+
+    throw new RecorderError("Expected httpClient to be defined");
   }
 
   /**
    * For core-v2 - libraries depending on core-rest-pipeline.
-   * This method adds the recording policy to the input client's pipeline.
+   * This method adds the recording policy to the additionalPolicies in the client options.
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   *
+   * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClient(client: { pipeline: Pipeline }): void {
-    if (isLiveMode()) return;
-    client.pipeline.addPolicy(this.recorderHttpPolicy());
+  public configureClientOptions<T>(
+    options: T & { additionalPolicies?: AdditionalPolicyConfig[] }
+  ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
+    if (isLiveMode()) return options;
+    if (!options.additionalPolicies) options.additionalPolicies = [];
+    options.additionalPolicies.push({
+      policy: this.recorderHttpPolicy(),
+      position: "perRetry",
+    });
+    return options;
   }
 
   /**
@@ -254,11 +263,13 @@ export class Recorder {
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    */
-  public configureClientOptionsCoreV1<
-    T extends {
+  public configureClientOptionsCoreV1<T>(
+    options: T & {
       httpClient?: HttpClientCoreV1;
     }
-  >(options: T): T {
+  ): T & {
+    httpClient?: HttpClientCoreV1;
+  } {
     if (isLiveMode()) return options;
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
   }

@@ -1,0 +1,68 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:deepObject;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "myField",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "myField",
+                "schema": {
+                  "@type": "Object",
+                  "fields": [
+                    {
+                      "name": "myField",
+                      "schema": {
+                        "@type": "Object",
+                        "fields": [
+                          {
+                            "name": "myField",
+                            "schema": {
+                              "@type": "Object",
+                              "fields": [
+                                {
+                                  "name": "myField",
+                                  "schema": {
+                                    "@type": "Object",
+                                    "fields": [
+                                      {
+                                        "name": "myField",
+                                        "schema": "double"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:excessiveDepth",
+        "PrimaryID": "dtmi:test:deepObject;1",
+        "SecondaryID": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1",
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

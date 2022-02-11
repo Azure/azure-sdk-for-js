@@ -282,10 +282,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     return retry<void>(config);
   }
 
-  protected async createRheaLink(options: AwaitableSenderOptions): Promise<AwaitableSender> {
-    const sender = await this._context.connection.createAwaitableSender(options);
-    sender.setMaxListeners(1000);
-    return sender;
+  protected createRheaLink(options: AwaitableSenderOptions): Promise<AwaitableSender> {
+    return this._context.connection.createAwaitableSender(options);
   }
 
   /**

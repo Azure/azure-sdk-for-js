@@ -1,0 +1,20 @@
+{
+  "valid": true,
+  "options": [],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:topLevelElement;1",
+      "@type": "Interface"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:topLevelElement;1",
+        "type": "Interface",
+        "properties": {}
+      }
+    ]
+  }
+}
