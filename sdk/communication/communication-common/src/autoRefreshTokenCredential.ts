@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { parseToken } from "./tokenParser";
 import { TokenCredential, CommunicationGetTokenOptions } from "./communicationTokenCredential";
 
