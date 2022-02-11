@@ -10,19 +10,6 @@ process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
-    /* ... */
-
-    envPreprocessor: [
-      ,
-      /* ... */ "RECORDINGS_RELATIVE_PATH", // Add this!
-    ],
-
-    /* ... */
-  });
-};
-
-module.exports = function (config) {
-  config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
 
@@ -69,6 +56,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
+      "RECORDINGS_RELATIVE_PATH"
     ],
 
     // test results reporter to use
