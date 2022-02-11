@@ -4,7 +4,7 @@
 import sinon from "sinon";
 import chaiAsPromised from "chai-as-promised";
 import { assert, use } from "chai";
-import { isNode } from "@azure/core-util";
+import { isNode } from "../src/credential/isNode";
 import { AbortSignal } from "@azure/abort-controller";
 import { AzureCommunicationTokenCredential } from "../src/azureCommunicationTokenCredential";
 

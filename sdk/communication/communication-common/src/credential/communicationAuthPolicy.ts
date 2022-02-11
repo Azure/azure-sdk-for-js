@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy, RequestPolicyFactory } from "@azure/core-http";
+import {
+  bearerTokenAuthenticationPolicy,
+  BearerTokenAuthenticationPolicyOptions,
+  PipelinePolicy,
+} from "@azure/core-rest-pipeline";
 import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy";
 /**
  * Creates a pipeline policy to authenticate request based
@@ -13,9 +17,13 @@ import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAcc
  */
 export const createCommunicationAuthPolicy = (
   credential: KeyCredential | TokenCredential
-): RequestPolicyFactory => {
+): PipelinePolicy => {
   if (isTokenCredential(credential)) {
-    return bearerTokenAuthenticationPolicy(credential, "https://communication.azure.com//.default");
+    const policyOptions: BearerTokenAuthenticationPolicyOptions = {
+      credential: credential,
+      scopes: ["https://communication.azure.com//.default"],
+    };
+    return bearerTokenAuthenticationPolicy(policyOptions);
   } else {
     return createCommunicationAccessKeyCredentialPolicy(credential);
   }
