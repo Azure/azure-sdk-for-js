@@ -26,14 +26,14 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       // `afterEach` hook.
       recorder = new Recorder(this.currentTest);
 
+      await recorder.start(recorderStartOptions);
+
       registryClient = createRegistryClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         serviceVersion,
         recorder
       );
       repository = registryClient.getRepository(repositoryName);
-
-      await recorder.start(recorderStartOptions);
     });
 
     // After each test, we need to stop the recording.

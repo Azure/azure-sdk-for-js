@@ -27,6 +27,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       // `afterEach` hook.
       recorder = new Recorder(this.currentTest);
 
+      await recorder.start(recorderStartOptions);
+
       // We'll be able to refer to the instantiated `client` in tests, since we
       // initialize it before each test
       client = createRegistryClient(
@@ -34,8 +36,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         serviceVersion,
         recorder
       );
-
-      await recorder.start(recorderStartOptions);
     });
 
     // After each test, we need to stop the recording.
