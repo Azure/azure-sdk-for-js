@@ -1,51 +1,115 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Feb 2022 22:21:41 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12381.24 - SCUS ProdSlices",
-    "x-ms-request-id": "7b562b53-9ec2-4c6c-bbff-062f895fca00"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/formrecognizer/documentModels/modelName164375409330602367",
-   "query": {
-    "api-version": "2022-01-30-preview"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\n  \"docTypes\": {\n    \"modelName164375409330602367\": {\n      \"fieldSchema\": {\n        \"Merchant\": {\n          \"type\": \"string\"\n        },\n        \"PhoneNumber\": {\n          \"type\": \"string\"\n        },\n        \"Website\": {\n          \"type\": \"string\"\n        },\n        \"Email\": {\n          \"type\": \"string\"\n        },\n        \"PurchaseOrderNumber\": {\n          \"type\": \"string\"\n        },\n        \"DatedAs\": {\n          \"type\": \"string\"\n        },\n        \"VendorName\": {\n          \"type\": \"string\"\n        },\n        \"CompanyName\": {\n          \"type\": \"string\"\n        },\n        \"CompanyAddress\": {\n          \"type\": \"string\"\n        },\n        \"CompanyPhoneNumber\": {\n          \"type\": \"string\"\n        },\n        \"Subtotal\": {\n          \"type\": \"string\"\n        },\n        \"Tax\": {\n          \"type\": \"string\"\n        },\n        \"Total\": {\n          \"type\": \"string\"\n        },\n        \"Signature\": {\n          \"type\": \"string\"\n        },\n        \"Quantity\": {\n          \"type\": \"number\"\n        },\n        \"FullSignature\": {\n          \"type\": \"signature\"\n        }\n      },\n      \"buildMode\": \"template\",\n      \"fieldConfidence\": {\n        \"CompanyAddress\": 0.8,\n        \"CompanyName\": 0.95,\n        \"CompanyPhoneNumber\": 0.95,\n        \"DatedAs\": 0.95,\n        \"Email\": 0.8,\n        \"FullSignature\": 0.6,\n        \"Merchant\": 0.95,\n        \"PhoneNumber\": 0.95,\n        \"PurchaseOrderNumber\": 0.95,\n        \"Quantity\": 0.95,\n        \"Signature\": 0.95,\n        \"Subtotal\": 0.95,\n        \"Tax\": 0.95,\n        \"Total\": 0.95,\n        \"VendorName\": 0.95,\n        \"Website\": 0.95\n      }\n    }\n  },\n  \"modelId\": \"modelName164375409330602367\",\n  \"createdDateTime\": \"2022-02-01T22:21:39Z\",\n  \"apiVersion\": \"2022-01-30-preview\"\n}",
-   "responseHeaders": {
-    "apim-request-id": "052f3e1a-1245-46a0-9867-d780468320d3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Feb 2022 22:21:41 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "178"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "5f20d3a7e410df2616784be017e6f534"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10419?api-version=2022-01-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "8f7f8de1-14d9-40d2-b0f7-090c43a57fa0",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5d2bac93-7b6f-49c8-8a73-ae13326d5c8f",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Feb 2022 21:59:55 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "49"
+      },
+      "ResponseBody": {
+        "docTypes": {
+          "modelName10419": {
+            "fieldSchema": {
+              "Merchant": {
+                "type": "string"
+              },
+              "PhoneNumber": {
+                "type": "string"
+              },
+              "Website": {
+                "type": "string"
+              },
+              "Email": {
+                "type": "string"
+              },
+              "PurchaseOrderNumber": {
+                "type": "string"
+              },
+              "DatedAs": {
+                "type": "string"
+              },
+              "VendorName": {
+                "type": "string"
+              },
+              "CompanyName": {
+                "type": "string"
+              },
+              "CompanyAddress": {
+                "type": "string"
+              },
+              "CompanyPhoneNumber": {
+                "type": "string"
+              },
+              "Subtotal": {
+                "type": "string"
+              },
+              "Tax": {
+                "type": "string"
+              },
+              "Total": {
+                "type": "string"
+              },
+              "Signature": {
+                "type": "string"
+              },
+              "Quantity": {
+                "type": "number"
+              },
+              "FullSignature": {
+                "type": "signature"
+              }
+            },
+            "buildMode": "template",
+            "fieldConfidence": {
+              "CompanyAddress": 0.8,
+              "CompanyName": 0.95,
+              "CompanyPhoneNumber": 0.95,
+              "DatedAs": 0.95,
+              "Email": 0.8,
+              "FullSignature": 0.6,
+              "Merchant": 0.95,
+              "PhoneNumber": 0.95,
+              "PurchaseOrderNumber": 0.95,
+              "Quantity": 0.95,
+              "Signature": 0.95,
+              "Subtotal": 0.95,
+              "Tax": 0.95,
+              "Total": 0.95,
+              "VendorName": 0.95,
+              "Website": 0.95
+            }
+          }
+        },
+        "modelId": "modelName10419",
+        "createdDateTime": "2022-02-08T21:59:51Z",
+        "apiVersion": "2022-01-30-preview"
+      }
+    }
+  ],
+  "Variables": {}
 }

@@ -1,28 +1,50 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/",
-   "query": {
-    "api-version": "2018-01-01"
-   },
-   "requestBody": "[{\"ver\":\"1.0\",\"typ\":\"Azure.Sdk.TestEvent1\",\"sub\":\"Single\",\"payload\":{\"hello\":\"world\"}}]",
-   "status": 404,
-   "response": "{\r\n    \"error\": {\r\n        \"code\": \"NotFound\",\r\n        \"message\": \"No HTTP resource was found that matches the request URI 'https://endpoint/?api-version=2018-01-01'. Report '28a4e47a-c398-49b6-aa51-9f76d790a7ab:3/10/2021 9:03:01 PM (UTC)' to our forums for assistance or raise a support ticket.\",\r\n        \"details\": [{\r\n            \"code\": \"ResourceNotFound\",\r\n            \"message\": \"No HTTP resource was found that matches the request URI 'https://endpoint/?api-version=2018-01-01'. Report '28a4e47a-c398-49b6-aa51-9f76d790a7ab:3/10/2021 9:03:01 PM (UTC)' to our forums for assistance or raise a support ticket.\"\r\n    }]\r\n  }\r\n}",
-   "responseHeaders": {
-    "content-length": "721",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 10 Mar 2021 21:03:01 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "28a4e47a-c398-49b6-aa51-9f76d790a7ab"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "220a79acd0a51aa9e0ca04494dcf9109"
+  "Entries": [
+    {
+      "RequestUri": "https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "3cca87e0-2c33-45ff-b5ce-5c162806720b",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Single\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}}]",
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "699",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Feb 2022 01:46:42 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "82f5e7f8-277f-498e-b7b1-01757f9ec0fb"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "No HTTP resource was found that matches the request URI \u0027https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01\u0027. Report \u002782f5e7f8-277f-498e-b7b1-01757f9ec0fb:2/9/2022 1:46:43 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
+          "details": [
+            {
+              "code": "ResourceNotFound",
+              "message": "No HTTP resource was found that matches the request URI \u0027https://sanallur-cus.eastus2-1.eventgrid.azure.net/?api-version=2018-01-01\u0027. Report \u002782f5e7f8-277f-498e-b7b1-01757f9ec0fb:2/9/2022 1:46:43 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

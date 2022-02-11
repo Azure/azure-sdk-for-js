@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import fs from "fs";
@@ -16,14 +16,21 @@ import {
   PrebuiltModels,
 } from "../../../src";
 import { DocumentDateField, DocumentSelectionMarkField } from "../../../src/models/fields";
+import {
+  createRecorder,
+  getRandomNumber,
+  makeCredential,
+  testPollingOptions,
+} from "../../utils/recordedClients";
 import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions";
 import { createValidator } from "../../utils/fieldValidator";
-import { createRecorder, makeCredential, testPollingOptions } from "../../utils/recordedClients";
 
-const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
+const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 
 function makeTestUrl(urlPath: string): string {
-  const testingContainerUrl = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
+  const testingContainerUrl = assertEnvironmentVariable(
+    "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+  );
   const parts = testingContainerUrl.split("?");
   return `${parts[0]}${urlPath}?${parts[1]}`;
 }
@@ -38,9 +45,14 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
 
-    beforeEach(function (this: Context) {
-      recorder = createRecorder(this);
-      client = new DocumentAnalysisClient(endpoint(), makeCredential(useAad));
+    beforeEach(async function (this: Context) {
+      recorder = await createRecorder(this.currentTest);
+      await recorder.setMatcher("BodilessMatcher");
+      client = new DocumentAnalysisClient(
+        endpoint(),
+        makeCredential(useAad),
+        recorder.configureClientOptions({})
+      );
     });
 
     afterEach(async function () {
@@ -227,12 +239,16 @@ matrix([[true, false]] as const, async (useAad) => {
         if (!_model) {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
-            makeCredential(useAad)
+            makeCredential(useAad),
+            recorder.configureClientOptions({})
           );
-          modelName = recorder.getUniqueName("customFormModelName");
+          modelName = recorder.variable(
+            "customFormModelName",
+            `customFormModelName${getRandomNumber()}`
+          );
           const poller = await trainingClient.beginBuildModel(
             modelName,
-            env.FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL,
+            assertEnvironmentVariable("FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"),
             DocumentModelBuildMode.Template,
             testPollingOptions
           );

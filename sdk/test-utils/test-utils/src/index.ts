@@ -20,3 +20,5 @@ export * from "./tracing/mockTracingSpan";
 export * from "./tracing/testTracer";
 export * from "./tracing/testTracerProvider";
 export * from "./tracing/spanGraphModel";
+
+export { createXhrHttpClient } from "./xhrHttpClient";
