@@ -15,7 +15,7 @@ import { isNode } from "../src/credential/isNode";
 
 describe("CommunicationAccessKeyCredentialPolicy", () => {
   it("signs the request", async () => {
-    const credential = new MockKeyCredential("asdf"); //"YXNkZg==");
+    const credential = new MockKeyCredential("pw==");
     const communicationAccessKeyCredentialPolicy =
       createCommunicationAccessKeyCredentialPolicy(credential);
 
