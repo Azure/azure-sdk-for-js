@@ -79,7 +79,7 @@ async function main() {
   const credential = new DeviceCodeCredential({
     tokenCachePersistenceOptions: {
       enabled: true,
-    },
+    }
   });
 }
 ```
