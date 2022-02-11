@@ -31,7 +31,7 @@ describe("MetricsClient live tests", function () {
     await recorder.stop();
   });
 
-  it.only("getMetricDefinitions -> queryMetrics", async () => {
+  it("getMetricDefinitions -> queryMetrics", async () => {
     const iter = metricsQueryClient.listMetricDefinitions(resourceId);
 
     let result = await iter.next();

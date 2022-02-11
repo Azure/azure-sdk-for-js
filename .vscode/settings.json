@@ -23,5 +23,6 @@
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
     "datalake"
-  ]
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
