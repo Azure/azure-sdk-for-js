@@ -78,7 +78,7 @@ useIdentityPlugin(cachePersistencePlugin);
 async function main() {
   const credential = new DeviceCodeCredential({
     tokenCachePersistenceOptions: {
-      enabled: true,
+      enabled: true
     }
   });
 }
