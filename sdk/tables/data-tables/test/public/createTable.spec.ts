@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { RestError, TableClient, TableServiceClient } from "../../src";
-import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
 
 import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
 import { assert } from "chai";
@@ -11,7 +10,7 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 describe("TableClient CreationHandling", () => {
   let unrecordedClient: TableClient;
   beforeEach(async function () {
-    unrecordedClient = await createTableClient("testTable", "SASConnectionString");
+    unrecordedClient = new TableClient("https://foo.table.core.windows.net", "testTable");
   });
 
   it("should not thorw if table already exists", async function () {
@@ -73,7 +72,7 @@ describe("TableServiceClient CreationHandling", () => {
   let unrecordedClient: TableServiceClient;
 
   beforeEach(async function () {
-    unrecordedClient = await createTableServiceClient("SASConnectionString");
+    unrecordedClient = new TableServiceClient("https://foo.table.core.windows.net");
   });
 
   it("should not thorw if table already exists", async function () {
