@@ -23,6 +23,7 @@
 ### Bugs Fixed
 
 ### Other Changes
+
 ## 2.0.2 (2022-02-03)
 
 ### Features Added
