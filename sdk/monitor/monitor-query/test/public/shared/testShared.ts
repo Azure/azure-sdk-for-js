@@ -114,7 +114,8 @@ function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: st
       `TODO: live tests skipped until test-resources + data population is set up (missing ${variableName} env var).`
     );
     mochaContext.skip();
-    // NOTE: This function should be throwing
+
+    throw new Error(`Missing ${variableName} env var`);
   }
 
   return envVar || "";
