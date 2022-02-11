@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "54",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "dde1ef97-9527-4ac4-a54f-b7b3bc80d30d"
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9d86d015-d4f3-47f8-b57f-368ef64e03ed"
       },
       "RequestBody": {
         "query": "completely invalid syntax",
@@ -24,17 +24,17 @@
         "Connection": "keep-alive",
         "Content-Length": "369",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Feb 2022 18:54:56 GMT",
+        "Date": "Fri, 11 Feb 2022 23:17:16 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-5565f6c877-bhbt2",
+        "Via": "1.1 draft-oms-5565f6c877-pvzc4",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "error": {
           "message": "The request had some invalid properties",
           "code": "BadArgumentError",
-          "correlationId": "a4016d26-2c78-4700-9705-2488ddad97da",
+          "correlationId": "247684f2-e2e4-45ce-9054-be5c4efbab90",
           "innererror": {
             "code": "SyntaxError",
             "message": "A recognition error occurred in the query.",
