@@ -435,14 +435,11 @@ export class MapsSearchClient {
     beginReverseSearchAddressBatch(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<ReverseSearchAddressResult>>, BatchResult<ReverseSearchAddressResult>>>;
     beginSearchAddressBatch(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<SearchAddressResult>>, BatchResult<SearchAddressResult>>>;
     fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult>;
-    fuzzySearchBatchSync(queries: FuzzySearchQuery[], options?: FuzzySearchBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     getGeometries(geometryIds: string[], options?: GetGeometriesOptions): Promise<EntityGeometry[]>;
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions): Promise<ReverseSearchAddressResult>;
-    reverseSearchAddressBatchSync(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<BatchResult<ReverseSearchAddressResult>>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
     searchAddress(query: string, options?: SearchAddressOptions): Promise<SearchAddressResult>;
-    searchAddressBatchSync(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     searchAlongRoute(query: string, maxDetourTime: number, route: GeoJsonLineString, options?: SearchAlongRouteOptions): Promise<SearchAddressResult>;
     searchInsideGeometry(query: string, geometry: SearchGeometry, options?: SearchInsideGeometryOptions): Promise<SearchAddressResult>;
     searchNearbyPointOfInterest(coordinates: LatLon, options?: SearchNearbyPointOfInterestOptions): Promise<SearchAddressResult>;

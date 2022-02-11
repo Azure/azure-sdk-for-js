@@ -309,8 +309,6 @@ async function main() {
     { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
     { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } }
   ];
-  console.log(" --- Search address batch:");
-  console.log(await client.searchAddressBatchSync(searchAddressRequests));
 
   console.log(" --- Search address batch (long-running):");
   const searchPoller = await client.beginSearchAddressBatch(searchAddressRequests);
@@ -338,9 +336,6 @@ async function main() {
     },
     { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
   ];
-
-  console.log(" --- Search address reverse batch:");
-  console.log(await client.reverseSearchAddressBatchSync(reverseSearchAddressRequests));
 
   console.log(" --- Search address reverse batch (long-running):");
   const reverseSearchPoller = await client.beginReverseSearchAddressBatch(
@@ -379,9 +374,6 @@ async function main() {
       options: { radiusInMeters: 5000 }
     }
   ];
-
-  console.log(" --- Search fuzzy batch:");
-  console.log(await client.fuzzySearchBatchSync(fuzzySearchRequests));
 
   console.log(" --- Search fuzzy batch (long-running):");
   const fuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);
