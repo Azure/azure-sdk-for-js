@@ -15,8 +15,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
@@ -25,8 +25,8 @@ async function main() {
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
 
-  // Generic Document extraction produces all data from the Layout operation as well as the additional key-value pairs
-  // (associations between elements, such as labeled elements), and document entities.
+  // Layout extraction only produces basic elements such as pages, words, lines, etc. as well as information about the
+  // appearance (styles) of textual elements.
   const { pages, tables } = await poller.pollUntilDone();
 
   if (pages.length <= 0) {
@@ -37,6 +37,20 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(`  ${page.lines.length} lines, ${page.words.length} words`);
+
+      if (page.lines.length > 0) {
+        console.log("  Lines:");
+
+        for (const line of page.lines) {
+          console.log(`  - "${line.content}"`);
+
+          // The words of the line can also be iterated independently. The words are computed based on their
+          // corresponding spans.
+          for (const word of line.words()) {
+            console.log(`    - "${word.content}"`);
+          }
+        }
+      }
     }
   }
 

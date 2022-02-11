@@ -7,10 +7,10 @@
  * @summary use the prebuilt "read" model to extract information about the text content of a document
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+const { AzureKeyCredential, DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
 
-import * as dotenv from "dotenv";
-import { getTextOfSpans } from "./utils";
+const dotenv = require("dotenv");
+const { getTextOfSpans } = require("./utils");
 dotenv.config();
 
 async function main() {
