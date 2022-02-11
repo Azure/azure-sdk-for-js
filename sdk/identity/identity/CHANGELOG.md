@@ -12,6 +12,17 @@
 
 ### Other Changes
 
+## 2.0.3 (Unreleased)
+
+### Features Added
+
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 ## 2.0.2 (2022-02-03)
 
 ### Features Added
