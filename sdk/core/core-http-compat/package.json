@@ -21,7 +21,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "echo skipped",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint": "eslint package.json api-extractor.json src --ext .ts",
     "pack": "npm pack 2>&1",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
