@@ -6,7 +6,7 @@ import chaiAsPromised from "chai-as-promised";
 import { assert, use } from "chai";
 import { isNode } from "@azure/core-http";
 import { AbortSignal } from "@azure/abort-controller";
-import { AzureCommunicationTokenCredential } from "../src/communicationTokenCredential";
+import { AzureCommunicationTokenCredential } from "../src/azureCommunicationTokenCredential";
 
 use(chaiAsPromised);
 

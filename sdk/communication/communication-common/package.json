@@ -7,7 +7,8 @@
   "module": "dist-esm/src/index.js",
   "types": "types/communication-common.d.ts",
   "browser": {
-    "./dist-esm/src/credential/cryptoUtils.js": "./dist-esm/src/credential/cryptoUtils.browser.js"
+    "./dist-esm/src/credential/cryptoUtils.js": "./dist-esm/src/credential/cryptoUtils.browser.js",
+    "./dist-esm/src/credential/url.js": "./dist-esm/src/credential/url.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
