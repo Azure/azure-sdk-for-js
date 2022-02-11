@@ -5,19 +5,10 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "b4648bd6-c319-4f7a-b371-7ee94cc64aaa",
-        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6298be8a-7d97-45e4-b728-0e81c836f79f"
       },
       "RequestBody": null,
       "StatusCode": 401,
@@ -28,19 +19,19 @@
           "Link",
           "X-Ms-Correlation-Request-Id"
         ],
-        "Connection": "close",
+        "Connection": "keep-alive",
         "Content-Length": "196",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:34:10 GMT",
+        "Date": "Thu, 10 Feb 2022 00:27:02 GMT",
         "Docker-Distribution-Api-Version": "registry/2.0",
         "Server": "openresty",
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains",
           "max-age=31536000; includeSubDomains"
         ],
-        "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022timovacr.azurecr.io\u0022,scope=\u0022registry:catalog:*\u0022",
+        "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022myregistry.azurecr.io\u0022,scope=\u0022registry:catalog:*\u0022",
         "X-Content-Type-Options": "nosniff",
-        "X-Ms-Correlation-Request-Id": "aef0901c-f31b-498a-8efe-c7de267006ac"
+        "X-Ms-Correlation-Request-Id": "e9f0d9f5-a2c0-4b97-88cc-bcc86c1d685c"
       },
       "ResponseBody": {
         "errors": [
@@ -63,32 +54,23 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "82",
+        "Content-Length": "84",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "427e56d3-84db-4195-8930-6f6f8d6945b8",
-        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "04a9359b-56ac-4c38-a15c-2d4942e15a38"
       },
-      "RequestBody": "grant_type=access_token\u0026service=timovacr.azurecr.io\u0026access_token=SecretPlaceholder",
+      "RequestBody": "grant_type=access_token\u0026service=myregistry.azurecr.io\u0026access_token=SecretPlaceholder",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:34:11 GMT",
+        "Date": "Thu, 10 Feb 2022 00:27:03 GMT",
         "Server": "openresty",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "X-Ms-Correlation-Request-Id": "37a1e7a9-01c3-48ca-b1f1-87503ef19e78"
+        "X-Ms-Correlation-Request-Id": "2feb0303-6b3a-4614-b29b-bd18cb7444cc"
       },
       "ResponseBody": {
         "refresh_token": "sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized"
@@ -99,32 +81,23 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "144",
+        "Content-Length": "146",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "2dd578b2-481f-4ef9-88ef-d98c217eec8f",
-        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2c821e24-e3a6-4224-8aff-cc3c4ce2b250"
       },
-      "RequestBody": "service=timovacr.azurecr.io\u0026scope=registry%3Acatalog%3A*\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
+      "RequestBody": "service=myregistry.azurecr.io\u0026scope=registry%3Acatalog%3A*\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:34:11 GMT",
+        "Date": "Thu, 10 Feb 2022 00:27:03 GMT",
         "Server": "openresty",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "X-Ms-Correlation-Request-Id": "27e598c7-6fe5-4bea-81ba-6daa54403c4c"
+        "X-Ms-Correlation-Request-Id": "98df5c21-5ad0-48b3-860a-a46067efa493"
       },
       "ResponseBody": {
         "access_token": "Sanitized"
@@ -135,20 +108,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "b4648bd6-c319-4f7a-b371-7ee94cc64aaa",
-        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6298be8a-7d97-45e4-b728-0e81c836f79f"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -162,7 +126,7 @@
         "Connection": "keep-alive",
         "Content-Length": "37",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 10 Feb 2022 00:34:11 GMT",
+        "Date": "Thu, 10 Feb 2022 00:27:03 GMT",
         "Docker-Distribution-Api-Version": "registry/2.0",
         "Link": "\u003C/acr/v1/_catalog?last=library%2Fbusybox\u0026n=1\u0026orderby=\u003E; rel=\u0022next\u0022",
         "Server": "openresty",
@@ -171,7 +135,7 @@
           "max-age=31536000; includeSubDomains"
         ],
         "X-Content-Type-Options": "nosniff",
-        "X-Ms-Correlation-Request-Id": "96d223a2-35d4-4bb0-8ac4-2d91df00152a"
+        "X-Ms-Correlation-Request-Id": "42c84aa3-7c43-4466-b75c-9e98cf5a2a3e"
       },
       "ResponseBody": {
         "repositories": [
