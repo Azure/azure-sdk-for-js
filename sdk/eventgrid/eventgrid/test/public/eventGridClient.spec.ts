@@ -145,6 +145,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "CloudEvent",
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY"
       ));
+      await recorder.setMatcher("HeaderlessMatcher");
     });
 
     afterEach(async function () {
