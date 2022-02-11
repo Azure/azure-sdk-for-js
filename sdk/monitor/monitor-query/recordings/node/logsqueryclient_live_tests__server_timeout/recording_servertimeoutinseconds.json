@@ -1,0 +1,53 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "73",
+        "Content-Type": "application/json",
+        "Prefer": "wait=1",
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b7e9d00d-a3a5-48bb-84bf-c9987eb2ba70"
+      },
+      "RequestBody": {
+        "query": "range x from 1 to 10000000000 step 1 | count",
+        "timespan": "P1D"
+      },
+      "StatusCode": 504,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+        "Connection": "keep-alive",
+        "Content-Length": "245",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 11 Feb 2022 18:58:38 GMT",
+        "Preference-Applied": "wait=1",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "Via": "1.1 draft-oms-5565f6c877-h4vjt",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "error": {
+          "message": "Gateway timeout",
+          "code": "GatewayTimeout",
+          "correlationId": "ebf79211-bbda-43b8-bbb4-dfc0a0a11c31",
+          "innererror": {
+            "code": "GatewayTimeout",
+            "message": "Connection error",
+            "statusDetails": {
+              "code": "ESOCKETTIMEDOUT",
+              "connect": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
