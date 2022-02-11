@@ -18,6 +18,10 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
 export class BlobCheckpointStore implements CheckpointStore {
   private _containerClient: ContainerClientLike;
 
+  /**
+   * Constructs a new instance of {@link BlobCheckpointStore}
+   * @param containerClient - An instance of a storage blob ContainerClient.
+   */
   constructor(containerClient: ContainerClientLike) {
     this._containerClient = containerClient;
   }

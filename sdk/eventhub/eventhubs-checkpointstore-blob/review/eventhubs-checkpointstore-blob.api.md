@@ -30,12 +30,19 @@ export class BlobCheckpointStore implements CheckpointStore {
 }
 
 // @public
+export interface BlobClientLike {
+    getBlockBlobClient(): BlockBlobClientLike;
+}
+
+// @public
+export interface BlockBlobClientLike {
+    setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<ContainerSetMetadataResponse>;
+    upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
+}
+
+// @public
 export interface ContainerClientLike {
-    // Warning: (ae-forgotten-export) The symbol "BlobClientLike" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     getBlobClient(blobName: string): BlobClientLike;
-    // (undocumented)
     listBlobsFlat(options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>;
 }
 
