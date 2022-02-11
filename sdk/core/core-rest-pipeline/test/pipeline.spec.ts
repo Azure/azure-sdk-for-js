@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import {
   createEmptyPipeline,
-  PipelinePolicy,
-  HttpClient,
-  createPipelineRequest,
   createHttpHeaders,
   createPipelineFromOptions,
+  createPipelineRequest,
+  HttpClient,
+  PipelinePolicy,
 } from "../src";
 
 describe("HttpsPipeline", function () {

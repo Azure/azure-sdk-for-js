@@ -5,10 +5,10 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
-  PipelineResponse,
   createHttpHeaders,
+  createPipelineRequest,
+  PipelineResponse,
+  SendRequest,
   throttlingRetryPolicy,
 } from "../src";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../src/policies/throttlingRetryPolicy";

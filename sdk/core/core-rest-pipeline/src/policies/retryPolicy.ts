@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { delay } from "../util/helpers";
-import { createClientLogger } from "@azure/logger";
-import { RetryStrategy } from "../retryStrategies/retryStrategy";
-import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
-import { AzureLogger } from "@azure/logger";
+import { AzureLogger, createClientLogger } from "@azure/logger";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
+import { RestError } from "../restError";
+import { RetryStrategy } from "../retryStrategies/retryStrategy";
+import { delay } from "../util/helpers";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 const DEFAULT_MAX_RETRIES = 10;

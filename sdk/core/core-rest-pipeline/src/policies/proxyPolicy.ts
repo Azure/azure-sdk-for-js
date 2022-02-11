@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import * as http from "http";
+import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import * as https from "https";
 import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
-  ProxySettings,
   HttpHeaders,
+  PipelineRequest,
+  PipelineResponse,
+  ProxySettings,
+  SendRequest,
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";

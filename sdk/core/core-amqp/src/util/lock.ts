@@ -3,8 +3,8 @@
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { OperationTimeoutError } from "rhea-promise";
-import { StandardAbortMessage } from "./constants";
 import { logger } from "../log";
+import { StandardAbortMessage } from "./constants";
 
 /**
  * Describes the properties that must be provided while acquiring a lock.

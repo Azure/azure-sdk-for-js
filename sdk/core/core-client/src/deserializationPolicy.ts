@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 
 import {
-  FullOperationResponse,
-  OperationRequest,
-  OperationResponseMap,
-  OperationSpec,
-  RequiredSerializerOptions,
-  SerializerOptions,
-  XML_CHARKEY,
-  XmlOptions,
-} from "./interfaces";
-import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { MapperTypeNames } from "./serializer";
+import {
+  FullOperationResponse,
+  OperationRequest,
+  OperationResponseMap,
+  OperationSpec,
+  RequiredSerializerOptions,
+  SerializerOptions,
+  XmlOptions,
+  XML_CHARKEY,
+} from "./interfaces";
 import { getOperationRequestInfo } from "./operationHelpers";
+import { MapperTypeNames } from "./serializer";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
 const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];

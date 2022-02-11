@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Errors from "../src/errors";
-import * as chai from "chai";
 import { AbortError } from "@azure/abort-controller";
+import * as chai from "chai";
+import * as Errors from "../src/errors";
 
 const should = chai.should();
 

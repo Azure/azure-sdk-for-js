@@ -3,13 +3,13 @@
 
 import {
   AccessToken,
-  NamedKeyCredential,
-  SASCredential,
   isNamedKeyCredential,
   isSASCredential,
+  NamedKeyCredential,
+  SASCredential,
 } from "@azure/core-auth";
-import { isObjectWithProperties } from "../util/typeGuards";
 import jssha from "jssha";
+import { isObjectWithProperties } from "../util/typeGuards";
 
 /**
  * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.

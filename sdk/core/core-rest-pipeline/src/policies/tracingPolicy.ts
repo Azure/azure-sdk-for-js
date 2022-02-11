@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  getTraceParentHeader,
   createSpanFunction,
-  SpanStatusCode,
+  getTraceParentHeader,
   isSpanContextValid,
   Span,
+  SpanKind,
   SpanOptions,
+  SpanStatusCode,
 } from "@azure/core-tracing";
-import { SpanKind } from "@azure/core-tracing";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import { logger } from "../log";
 import { PipelinePolicy } from "../pipeline";
 import { getUserAgentValue } from "../util/userAgent";
-import { logger } from "../log";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",

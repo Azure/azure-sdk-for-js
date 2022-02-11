@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
-import * as zlib from "zlib";
-import { Transform } from "stream";
 import { AbortController, AbortError } from "@azure/abort-controller";
+import * as http from "http";
+import { IncomingMessage } from "http";
+import * as https from "https";
+import { Transform } from "stream";
+import * as zlib from "zlib";
+import { createHttpHeaders } from "./httpHeaders";
 import {
   HttpClient,
+  HttpHeaders,
   PipelineRequest,
   PipelineResponse,
-  TransferProgressEvent,
-  HttpHeaders,
   RequestBodyType,
+  TransferProgressEvent,
 } from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
+import { logger } from "./log";
 import { RestError } from "./restError";
 import { URL } from "./util/url";
-import { IncomingMessage } from "http";
-import { logger } from "./log";
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";

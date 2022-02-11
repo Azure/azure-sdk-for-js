@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
+import { createHttpHeaders } from "./httpHeaders";
 import {
   HttpClient,
+  HttpHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-  HttpHeaders,
 } from "./interfaces";
 import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";

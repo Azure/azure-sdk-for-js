@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
+import { Message as RheaMessage } from "rhea-promise";
 import { AmqpMessageHeader } from "./messageHeader";
 import { AmqpMessageProperties } from "./messageProperties";
-import { Message as RheaMessage } from "rhea-promise";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CONNREFUSED, TIMEOUT, resolve as dnsResolve } from "dns";
+import { CONNREFUSED, resolve as dnsResolve, TIMEOUT } from "dns";
 import { logger } from "../log";
 
 /**

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { Debugger } from "@azure/logger";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { logger as coreLogger } from "../log";
+import { PipelinePolicy } from "../pipeline";
 import { Sanitizer } from "../util/sanitizer";
 
 /**

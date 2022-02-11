@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
+import { assert } from "chai";
+import EventEmitter from "events";
+import { Connection, EventContext, generate_uuid, Message as RheaMessage } from "rhea-promise";
+import { fake, SinonSpy, stub } from "sinon";
 import {
   Constants,
   ErrorNameConditionMapper,
   RequestResponseLink,
+  retry,
   RetryConfig,
   RetryOperationType,
   StandardAbortMessage,
-  retry,
 } from "../src";
 import {
   DeferredPromiseWithCallback,
   getCodeDescriptionAndError,
   onMessageReceived,
 } from "../src/requestResponseLink";
-import { SinonSpy, fake, stub } from "sinon";
-import EventEmitter from "events";
-import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub";
 
 interface Window {}

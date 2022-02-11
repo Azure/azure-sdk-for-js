@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-auth";
+import {
+  createPipelineRequest,
+  HttpClient,
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
+import { getCachedDefaultHttpClient } from "./httpClientCache";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import {
   CommonClientOptions,
   OperationArguments,
   OperationRequest,
   OperationSpec,
 } from "./interfaces";
-import {
-  HttpClient,
-  Pipeline,
-  PipelineRequest,
-  PipelineResponse,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { createClientPipeline } from "./pipeline";
-import { flattenResponse } from "./utils";
-import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
+import { createClientPipeline } from "./pipeline";
 import { getRequestUrl } from "./urlHelpers";
-import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
+import { flattenResponse } from "./utils";
 
 /**
  * Options to be provided while creating the client.

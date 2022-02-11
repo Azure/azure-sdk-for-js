@@ -1,3 +1,4 @@
+import { makeBrowserTestConfig, makeConfig } from "@azure/dev-tool/shared-config/rollup";
 import cjs from "@rollup/plugin-commonjs";
 import inject from "@rollup/plugin-inject";
 import json from "@rollup/plugin-json";
@@ -6,7 +7,6 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
-import { makeConfig, makeBrowserTestConfig } from "@azure/dev-tool/shared-config/rollup";
 
 const inputs = makeConfig(require("./package.json"));
 

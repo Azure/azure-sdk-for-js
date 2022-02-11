@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureLogger } from "@azure/logger";
 import { AbortController } from "@azure/abort-controller";
+import { AzureLogger } from "@azure/logger";
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
-  PipelineResponse,
   createHttpHeaders,
+  createPipelineRequest,
+  PipelineResponse,
   RestError,
   retryPolicy,
+  SendRequest,
 } from "../src";
 
 describe("retryPolicy", function () {

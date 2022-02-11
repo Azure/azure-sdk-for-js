@@ -6609,6 +6609,16 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: false
 
+  /prettier-plugin-organize-imports/2.3.4_prettier@2.5.1+typescript@4.2.4:
+    resolution: {integrity: sha512-R8o23sf5iVL/U71h9SFUdhdOEPsi3nm42FD/oDYIZ2PQa4TNWWuWecxln6jlIQzpZTDMUeO1NicJP6lLn2TtRw==}
+    peerDependencies:
+      prettier: '>=2.0'
+      typescript: '>=2.9'
+    dependencies:
+      prettier: 2.5.1
+      typescript: 4.2.4
+    dev: false
+
   /prettier/1.19.1:
     resolution: {integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==}
     engines: {node: '>=4'}
@@ -12578,7 +12588,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-hAsX/useFCAtpCEUcF5W9QJhMk4bKlvJxPZCcQun8gU0CfnNlEAWIIBIimCO0vaEqLBkWT533C/i39l7IvrdjA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-oZDdYdSoVSS2yJpAUgYO/VXraUzDbQyrp+curzNMMAoXaQbiVSEaYzSG1E08daCx89RKfbCU2rmgwoSfMUhsGw==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -13013,7 +13023,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-H7Giq+KwadQ/GLHwDwcgPqz4+gBMIJqREufL2TQpRbxyoa+FKxdCqKoUFGN7/jHqCVNJb2rXxVADAi0ZBHSlvA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-tVnOlnjJ/Od313uZ7uRTke0A01dwdDUzcraLJRuZANEsjuKNCZ4V1rKlgWtUdkMghdfaDLvyg1/HRnjEVU8+kQ==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -13045,6 +13055,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
       prettier: 2.5.1
+      prettier-plugin-organize-imports: 2.3.4_prettier@2.5.1+typescript@4.2.4
       process: 0.11.10
       puppeteer: 10.4.0
       rhea: 2.0.8
@@ -13109,7 +13120,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-36Z3KNLPXfY5EZKDK1mY7EvHsv5/IbUHOhdqlHS2E+oz0Vle+EH9lp8d/QUozpaW/yq7IUdI3pKzgY9yhQ3phg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-ZrvjB8kBvCygnNBxYiCD+e0/19DtEZORBMNyFFro/qzM9WH/tiMywd7hnY4yupCbnN0BJ82rQ6nNTxtAZTcTGg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -13138,6 +13149,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
+      prettier-plugin-organize-imports: 2.3.4_prettier@2.5.1+typescript@4.2.4
       rimraf: 3.0.2
       sinon: 9.2.4
       ts-node: 10.5.0_1aa569e4b68ef65c520f700d6703bce0
@@ -13383,7 +13395,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-yMZDpj7f7Wqn+tJ6Q6AUsd9ywFlTCn2lsuehnBCVFDXyV1LkgzK83XXX7W5tat7vLQIKGMHxmdIXKWBxME5ovw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-0y4hCMVBZxKimUfcmcP1Ri66zEXvVkaAC99WotaV//+tE4h1dga3vXh6SoJg9JuQOT9prTfUWEYZke5yhaxvdQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -13417,6 +13429,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
+      prettier-plugin-organize-imports: 2.3.4_prettier@2.5.1+typescript@4.2.4
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -13556,7 +13569,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-FT89IjhpMiUOiBzt/uZDeqVKcfDfx+JuVYGy2BUvPpCXb4wY+3XGd5rm503sdUsSo3A4CbpygNhQYiaG/NN+Zg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-/O1zcTjD8j6vCMskO0SBDyrSuac9/LADzo0e6IWxFD4wmNv/DdasrmDFTbLFzEpSKeuG6nm/AAFlFmALo8B8EA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -13912,7 +13925,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-cRipNDlfS0co7HptArkxqp6lbNAffyBqpvSVSDhMe/ZR5cBJs6ywzCsV/QxHhxBpp6Z7p5To9h98IYOOIhMp+A==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-5cMNL6d3puoJz7tLWxl1yyAwtd3EI7uAMvn+q3AAyZHJFG7WdS3l7IfCL8i8LD2qvRdpRJxm88jqVsLU3oA+Eg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -13960,7 +13973,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false

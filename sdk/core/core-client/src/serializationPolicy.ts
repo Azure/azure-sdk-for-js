@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PipelinePolicy, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import { getPathStringFromParameter } from "./interfaceHelpers";
 import {
   DictionaryMapper,
   OperationArguments,
@@ -8,17 +10,15 @@ import {
   OperationSpec,
   RequiredSerializerOptions,
   SerializerOptions,
+  XmlOptions,
   XML_ATTRKEY,
   XML_CHARKEY,
-  XmlOptions,
 } from "./interfaces";
-import { PipelinePolicy, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
 } from "./operationHelpers";
 import { MapperTypeNames } from "./serializer";
-import { getPathStringFromParameter } from "./interfaceHelpers";
 
 /**
  * The programmatic identifier of the serializationPolicy.

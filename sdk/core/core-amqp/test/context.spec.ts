@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-const should = chai.should();
-import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
 import { Connection } from "rhea-promise";
+import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
+const should = chai.should();
 
 describe("ConnectionContextBase", function () {
   it("should be created with required parameters", function (done) {

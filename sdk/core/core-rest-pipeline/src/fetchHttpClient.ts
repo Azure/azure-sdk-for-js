@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
+import { createHttpHeaders } from "./httpHeaders";
 import {
   HttpClient,
   HttpHeaders as PipelineHeaders,
@@ -10,7 +11,6 @@ import {
   TransferProgressEvent,
 } from "./interfaces";
 import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
 
 /**
  * Checks if the body is a NodeReadable stream which is not supported in Browsers

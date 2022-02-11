@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { MessagingError, translate } from "./errors";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Constants } from "./util/constants";
-import { checkNetworkConnection } from "./util/checkNetworkConnection";
-import { delay } from "./util/utils";
+import { MessagingError, translate } from "./errors";
 import { logger } from "./log";
+import { checkNetworkConnection } from "./util/checkNetworkConnection";
+import { Constants } from "./util/constants";
+import { delay } from "./util/utils";
 
 /**
  * Determines whether the object is a Delivery object.

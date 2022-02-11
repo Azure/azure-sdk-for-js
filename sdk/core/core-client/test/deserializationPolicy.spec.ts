@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineResponse,
+  RawHttpHeaders,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
+import { parseXML } from "@azure/core-xml";
+import { assert } from "chai";
 import * as sinon from "sinon";
 import {
   CompositeMapper,
+  createSerializer,
+  deserializationPolicy,
   FullOperationResponse,
   OperationRequest,
   OperationSpec,
   SerializerOptions,
-  createSerializer,
-  deserializationPolicy,
 } from "../src";
-import {
-  PipelineResponse,
-  RawHttpHeaders,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 import { getOperationRequestInfo } from "../src/operationHelpers";
-import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function () {
   it(`should not modify a request that has no request body mapper`, async function () {

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController } from "@azure/abort-controller";
 import * as chai from "chai";
+import debugModule from "debug";
 import {
   Constants,
+  delay,
   MessagingError,
+  retry,
   RetryConfig,
   RetryMode,
   RetryOperationType,
-  delay,
-  retry,
   translate,
 } from "../src";
-import { AbortController } from "@azure/abort-controller";
-import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");
 const should = chai.should();

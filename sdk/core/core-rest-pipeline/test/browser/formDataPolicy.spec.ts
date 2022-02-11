@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
-  PipelineResponse,
   createHttpHeaders,
+  createPipelineRequest,
   formDataPolicy,
+  PipelineResponse,
+  SendRequest,
 } from "../../src";
 
 describe("formDataPolicy", function () {

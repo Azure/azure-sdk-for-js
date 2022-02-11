@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
 import { AbortController, AbortError } from "@azure/abort-controller";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
+import * as chai from "chai";
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { settleAllTasks } from "./utils/utils";
 
 const should = chai.should();

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { createFetchHttpClient } from "../../src/fetchHttpClient";
-import { createPipelineRequest } from "../../src/pipelineRequest";
-import { png } from "./mocks/encodedPng";
-import sinon from "sinon";
-import { createHttpHeaders } from "../../src/httpHeaders";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { assert } from "chai";
+import sinon from "sinon";
+import { createFetchHttpClient } from "../../src/fetchHttpClient";
+import { createHttpHeaders } from "../../src/httpHeaders";
+import { createPipelineRequest } from "../../src/pipelineRequest";
 import { delay } from "../../src/util/helpers";
+import { png } from "./mocks/encodedPng";
 
 const streamBody = new ReadableStream({
   async start(controller) {

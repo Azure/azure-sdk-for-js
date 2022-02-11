@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
-import { StandardAbortMessage } from "./constants";
 import { WebSocketImpl } from "rhea-promise";
+import { StandardAbortMessage } from "./constants";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 import { isDefined } from "./typeGuards";
 
 /**

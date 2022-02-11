@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-const should = chai.should();
-import { ConnectionConfig, ConnectionContextBase } from "../../src";
 import ws from "ws";
+import { ConnectionConfig, ConnectionContextBase } from "../../src";
+const should = chai.should();
 
 describe("ConnectionContextBase (node.js)", function () {
   it("should accept a websocket constructor", async () => {

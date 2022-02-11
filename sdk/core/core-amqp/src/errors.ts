@@ -3,8 +3,8 @@
 /* eslint-disable eqeqeq */
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
-import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { isNode, isNumber, isString } from "../src/util/utils";
+import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.

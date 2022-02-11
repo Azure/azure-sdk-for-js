@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { AbortController } from "@azure/abort-controller";
-import { createXhrHttpClient } from "../../src/xhrHttpClient";
 import { createPipelineRequest } from "../../src/pipelineRequest";
+import { createXhrHttpClient } from "../../src/xhrHttpClient";
 
 describe("XhrHttpClient", function () {
   let xhrMock: sinon.SinonFakeXMLHttpRequestStatic;

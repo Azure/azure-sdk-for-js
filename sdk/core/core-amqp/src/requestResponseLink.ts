@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { ConditionStatusMapper, translate } from "./errors";
 import {
   Connection,
   EventContext,
+  generate_uuid,
+  Message as RheaMessage,
   Receiver,
   ReceiverEvents,
   ReceiverOptions,
   ReqResLink,
-  Message as RheaMessage,
   Sender,
   SenderOptions,
   Session,
-  generate_uuid,
 } from "rhea-promise";
-import { Constants, StandardAbortMessage } from "./util/constants";
+import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
+import { Constants, StandardAbortMessage } from "./util/constants";
 import { isDefined } from "./util/typeGuards";
 
 /**

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { PipelineResponse, RestError, createHttpHeaders, createPipelineRequest } from "../../src";
 import { inspect } from "util";
+import { createHttpHeaders, createPipelineRequest, PipelineResponse, RestError } from "../../src";
 
 describe("RestError", function () {
   it("serializes properly in node", function () {

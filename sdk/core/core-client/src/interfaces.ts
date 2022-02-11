@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   HttpClient,
   HttpMethods,
@@ -10,7 +11,6 @@ import {
   PipelineResponse,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**

@@ -3,40 +3,38 @@
 
 /// <reference lib="es2015" />
 
-export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
-export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry";
+export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { TokenType } from "./auth/token";
-
-export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
-
 export { CbsClient, CbsResponse } from "./cbs";
-export { Constants, StandardAbortMessage } from "./util/constants";
-export { AmqpMessageHeader } from "./messageHeader";
-export { AmqpMessageProperties } from "./messageProperties";
+export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
 export {
   ConnectionContextBase,
   ConnectionProperties,
   CreateConnectionContextBaseParameters,
 } from "./ConnectionContextBase";
 export {
-  MessagingError,
-  isMessagingError,
-  ErrorNameConditionMapper,
   ConditionErrorNameMapper,
-  translate,
-  retryableErrors,
+  ErrorNameConditionMapper,
+  isMessagingError,
   isSystemError,
-  SystemErrorConditionMapper,
+  MessagingError,
   NetworkSystemError,
+  retryableErrors,
+  SystemErrorConditionMapper,
+  translate,
 } from "./errors";
+export * from "./internals";
+export { logger } from "./log";
+export { AmqpMessageHeader } from "./messageHeader";
+export { AmqpMessageProperties } from "./messageProperties";
+export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
+export { retry, RetryConfig, RetryMode, RetryOperationType, RetryOptions } from "./retry";
+export { Constants, StandardAbortMessage } from "./util/constants";
+export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock";
 export {
+  defaultCancellableLock,
   delay,
   parseConnectionString,
-  defaultCancellableLock,
   ParsedOutput,
   WebSocketOptions,
 } from "./util/utils";
-export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
-export { logger } from "./log";
-export * from "./internals";
-export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock";
