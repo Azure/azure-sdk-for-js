@@ -28,7 +28,7 @@ This troubleshooting guide covers failure investigation techniques, common error
 
 Errors arising from authentication issues can be thrown on any service client method that makes a request to the service. This is because the token is requested from the credential on the first call to the service and on any subsequent call that need to refresh the token.
 
-To distinguish these failures from failures in the service client, Azure Identity classes raise the `AuthenticationRequiredError` with details describing the source of the error in the exception message and possibly the error message. Depending on the application, these errors may or may not be recoverable.
+To distinguish these failures from failures in the service client, Azure Identity classes raise the `AuthenticationRequiredError` with details describing the source of the error in the error message and possibly the error message. Depending on the application, these errors may or may not be recoverable.
 
 ```ts
 import * from @azure/identity
@@ -116,7 +116,7 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 ## Troubleshoot environment credential authentication issues
 
-### Credential unavailable error
+### CredentialUnavailableError
 
 | Error Message |Description| Mitigation |
 |---|---|---|
@@ -210,7 +210,7 @@ The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts 
 |The requested identity hasn’t been assigned to this resource.|The IMDS endpoint responded with a status code of 400, indicating the requested identity isn’t assigned to the VM.|If using a user assigned identity, ensure the specified `clientId` is correct.<p/><p/>If using a system assigned identity, make sure it has been enabled properly. Instructions to enable the system assigned identity on an Azure VM can be found [here](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm#enable-system-assigned-managed-identity-on-an-existing-vm).|
 |The request failed due to a gateway error.|The request to the IMDS endpoint failed due to a gateway error, 502 or 504 status code.|Calls via proxy or gateway aren’t supported by IMDS. Disable proxies or gateways running on the VM for calls to the IMDS endpoint `http://169.254.169.254/`|
 |No response received from the managed identity endpoint.|No response was received for the request to IMDS or the request timed out.|<ul><li>Ensure managed identity has been properly configured on the VM. Instructions for configuring the manged identity can be found [here](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm).</li><li>Verify the IMDS endpoint is reachable on the VM, see [below](#verifying-imds-is-available-on-the-vm) for instructions.</li></ul>|
-|Multiple attempts failed to obtain a token from the managed identity endpoint.|Retries to retrieve a token from the IMDS endpoint have been exhausted.|<ul><li>Refer to inner exception messages for more details on specific failures. If the data has been truncated, more detail can be obtained by [collecting logs](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/identity/Azure.Identity#logging).</li><li>Ensure managed identity has been properly configured on the VM. Instructions for configuring the manged identity can be found [here](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm).</li><li>Verify the IMDS endpoint is reachable on the VM, see [below](#verifying-imds-is-available-on-the-vm) for instructions.</li></ul>|
+|Multiple attempts failed to obtain a token from the managed identity endpoint.|Retries to retrieve a token from the IMDS endpoint have been exhausted.|<ul><li>Refer to inner error messages for more details on specific failures. If the data has been truncated, more detail can be obtained by [collecting logs](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/identity/Azure.Identity#logging).</li><li>Ensure managed identity has been properly configured on the VM. Instructions for configuring the manged identity can be found [here](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm).</li><li>Verify the IMDS endpoint is reachable on the VM, see [below](#verifying-imds-is-available-on-the-vm) for instructions.</li></ul>|
 
 #### __Verifying IMDS is available on the VM__
 
@@ -221,7 +221,8 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 ```
 > Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 ### Azure App Service and Azure Functions Managed Identity
-`CredentialUnavailableException`
+
+#### CredentialUnavailableError
 | Error Message |Description| Mitigation |
 |---|---|---|
 |ManagedIdentityCredential authentication unavailable.|The environment variables configured by the App Services host weren’t present.|<ul><li>Ensure the managed identity has been properly configured on the App Service. Instructions for configuring the managed identity can be found [here](https://docs.microsoft.com/azure/app-service/overview-managed-identity?tabs=dotnet).</li><li>Verify the App Service environment is properly configured and the managed identity endpoint is available. See [below](#verifying-the-app-service-managed-identity-endpoint-is-available) for instructions.</li></ul>|
@@ -235,7 +236,7 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 
 ## Troubleshoot Visual Studio Code authentication issues
 
-### Credential unavailable error
+### CredentialUnavailableError
 
 | Error Message |Description| Mitigation |
 |---|---|---|
@@ -266,7 +267,7 @@ The supported clouds are:
 
 ## Troubleshoot Azure CLI authentication issues
 
-### Credential unavailable error
+### CredentialUnavailableError
 
 | Error Message |Description| Mitigation |
 |---|---|---|
@@ -287,7 +288,7 @@ az account get-access-token --output json --resource https://management.core.win
 >Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 
 ## Troubleshoot Azure PowerShell authentication issues
-### Credential unavailable error
+### CredentialUnavailableError
 | Error Message |Description| Mitigation |
 |---|---|---|
 |PowerShell isn’t installed.|No local installation of PowerShell was found.|Ensure that PowerShell is properly installed on the machine. Instructions for installing PowerShell can be found [here](https://docs.microsoft.com/powershell/scripting/install/installing-powershell).|
