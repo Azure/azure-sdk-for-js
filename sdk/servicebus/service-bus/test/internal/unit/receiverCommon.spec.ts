@@ -279,7 +279,7 @@ describe("shared receiver code", () => {
             connectionId: "id",
             operationType: RetryOperationType.connection,
             retryOptions: {
-              maxRetryDelayInMs: 2000,
+              retryDelayInMs: 2000,
             },
           },
         },
