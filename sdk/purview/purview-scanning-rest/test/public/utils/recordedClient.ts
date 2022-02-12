@@ -4,11 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import PurviewScanning, { PurviewScanningRestClient } from "../../../src";
-import {
-  Recorder,
-  RecorderStartOptions,
-  env,
-} from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 
 import { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -24,9 +20,15 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
 };
 
-
-export async function createClient(recorder: Recorder, options?: ClientOptions): Promise<PurviewScanningRestClient> {
+export async function createClient(
+  recorder: Recorder,
+  options?: ClientOptions
+): Promise<PurviewScanningRestClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
-  return PurviewScanning(env.ENDPOINT ?? "", credential, recorder.configureClientOptions({...options}) );
+  return PurviewScanning(
+    env.ENDPOINT ?? "",
+    credential,
+    recorder.configureClientOptions({ ...options })
+  );
 }

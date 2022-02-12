@@ -23,7 +23,7 @@ describe("List data sources", () => {
 
   it("should list all available data sources", async () => {
     const result = await client.path("/datasources").get();
-    console.log(result.status)
+    console.log(result.status);
     const iter = paginate(client, result);
 
     const items: DataSource[] = [];
