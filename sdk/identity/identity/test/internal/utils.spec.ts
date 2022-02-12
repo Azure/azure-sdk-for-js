@@ -50,6 +50,7 @@ describe("Identity utilities", function () {
       );
     });
   });
+
   describe("getAuthority", () => {
     it("should add the tenant Id when the authority host ends with a slash", async function () {
       assert.equal(
@@ -67,6 +68,12 @@ describe("Identity utilities", function () {
       assert.equal(
         getAuthority("tenant-id", "https://login.microsoftonline.com/tenant-id"),
         "https://login.microsoftonline.com/tenant-id"
+      );
+    });
+    it("should not add the tenant twice even when it ends in a slash", async function () {
+      assert.equal(
+        getAuthority("tenant-id", "https://login.microsoftonline.com/tenant-id/"),
+        "https://login.microsoftonline.com/tenant-id/"
       );
     });
   });
