@@ -4,7 +4,7 @@ import { PurviewScanningRestClient, paginate, DataSource } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
@@ -12,9 +12,9 @@ describe("List data sources", () => {
   let recorder: Recorder;
   let client: PurviewScanningRestClient;
 
-  beforeEach(function (this: Context) {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {
