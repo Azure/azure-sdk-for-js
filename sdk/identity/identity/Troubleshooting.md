@@ -186,7 +186,7 @@ The tenant ID is the Global Unique Identifier (GUID) that identifies your organi
 |AADSTS700016|The specified application wasn’t found in the specified tenant.| Ensure the specified `clientId` and `tenantId` are correct for your application registration. For multi-tenant apps, ensure the application has been added to the desired tenant by a tenant admin. To add a new application in the desired tenant, follow the instructions [here](https://docs.microsoft.com/azure/developer/javascript/how-to/with-sdk/set-up-development-environment?tabs=azure-sdk-for-javascript#1-create-a-service-principal).|
 #### Client certificate argument
 
-These errors will be thrown by the JS SDK and thus will have no error codes from the service.
+These errors will be thrown by the JS Identity SDK and thus will have no error codes from the service.
 
 | Error Code | Description | Mitigation |
 |---|---|---|
