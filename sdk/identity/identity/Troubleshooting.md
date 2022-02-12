@@ -36,7 +36,8 @@ import * from @azure/keyvault-secrets
 
 // Create a key client using the DefaultAzureCredential
 const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
-const client = new KeyClient(keyVaultUrl, new DefaultAzureCredential());
+const credential = new DefaultAzureCredential();
+const client = new KeyClient(keyVaultUrl, credential);
 
 try {
 // Retrieving the properties of the existing keys in that specific Key Vault.
