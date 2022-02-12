@@ -5,31 +5,22 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "ff890e8d-1f7d-4659-8f50-7d21f4a4dabf",
-        "x-ms-useragent": "core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "5839ff58-6a07-4b3f-80f6-a6f0c7275e66"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 12 Feb 2022 23:29:11 GMT",
+        "Date": "Sat, 12 Feb 2022 23:24:57 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-ms-account-status": "Succeeded",
-        "x-ms-correlation-request-id": "5fab08fe-2618-4be8-a169-896cfe5ed261"
+        "x-ms-correlation-request-id": "b0ad9f5a-fdab-46ff-9abf-0a101d6725c7"
       },
       "ResponseBody": {
         "sku": {
