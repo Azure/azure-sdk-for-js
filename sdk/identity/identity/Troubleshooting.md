@@ -197,9 +197,9 @@ The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts 
 |---|---|---|
 |Azure Virtual Machines and Scale Sets|[Configuration](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm)|[Troubleshooting](#azure-virtual-machine-managed-identity)|
 |Azure App Service and Azure Functions|[Configuration](https://docs.microsoft.com/azure/app-service/overview-managed-identity)|[Troubleshooting](#azure-app-service-and-azure-functions-managed-identity)|
-|Azure Kubernetes Service|[Configuration](https://docs.microsoft.com/azure/aks/use-managed-identity)|[Troubleshooting]()|
-|Azure Arc|[Configuration](https://docs.microsoft.com/azure/azure-arc/servers/security-overview#using-a-managed-identity-with-azure-arc-enabled-servers)|[Troubleshooting]()|
-|Azure Service Fabric|[Configuration](https://docs.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)|[Troubleshooting]()|
+|Azure Kubernetes Service|[Configuration](https://docs.microsoft.com/azure/aks/use-managed-identity)|[Troubleshooting]|
+|Azure Arc|[Configuration](https://docs.microsoft.com/azure/azure-arc/servers/security-overview#using-a-managed-identity-with-azure-arc-enabled-servers)|[Troubleshooting]|
+|Azure Service Fabric|[Configuration](https://docs.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)|[Troubleshooting]|
 
 ### Azure Virtual Machine Managed Identity
 
