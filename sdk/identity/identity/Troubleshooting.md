@@ -31,19 +31,19 @@ Errors arising from authentication issues can be thrown on any service client me
 To distinguish these failures from failures in the service client, Azure Identity classes raise the `AuthenticationRequiredError` with details describing the source of the error in the exception message and possibly the error message. Depending on the application, these errors may or may not be recoverable.
 
 ```ts
-import @azure/identity
-import @azure/keyvault-secrets
+import * from @azure/identity
+import * from @azure/keyvault-secrets
 
 // Create a key client using the DefaultAzureCredential
- const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
- const client = new KeyClient(keyVaultUrl, new DefaultAzureCredential());
+const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+const client = new KeyClient(keyVaultUrl, new DefaultAzureCredential());
 
- try {
+try {
 // Retrieving the properties of the existing keys in that specific Key Vault.
-    console.log(await client.listPropertiesOfKeys().next());
- } catch (error) {
-    console.log("Authentication Failed", error.message);
- }
+  console.log(await client.listPropertiesOfKeys().next());
+} catch (error) {
+  console.log("Authentication Failed", error.message);
+}
 ```
 
 ### CredentialUnavailableError
@@ -111,8 +111,8 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 | Error |Description| Mitigation |
 |---|---|---|
-|`CredentialUnavailableError` thrown with message. "DefaultAzureCredential failed to retrieve a token from the included credentials."|All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves|<ul><li>[Enable logging](#enabling-and-configuring-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[VisualStudioCodeCredential](#troubleshoot-visual-studio-code-authentication-issues)</li><li>[VisualStudioCredential](#troubleshoot-visualstudio-credential-authentication-issues)</li><li>[AzureCLICredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowershellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul>|
-|`RestError` raised from the client with a status code of 401 or 403|Authentication succeeded but the authorizing Azure service responded with a 401 (Authenticate), or 403 (Forbidden) status code. This can often be caused by the `DefaultAzureCredential` authenticating an account other than the intended or that the required role assignment is not configured.|<ul><li>[Enable logging](#enabling-and-configuring-logging) to determine which credential in the chain returned the authenticating token.</li><li>In the case a credential other than the expected is returning a token, bypass this by either signing out of the corresponding development tool, or excluding the credential with the ExcludeXXXCredential property in the `DefaultAzureCredentialOptions`</li><li>Confirm that the correct RBAC role is assigned to the identity being used to authenticate. For example, the resource specific role rather than just the inherited "Owner" role.</li></ul>|
+|`CredentialUnavailableError` thrown with message. `DefaultAzureCredential failed to retrieve a token from the included credentials.`|All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves|<ul><li>[Enable logging](#enabling-and-configuring-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[VisualStudioCodeCredential](#troubleshoot-visual-studio-code-authentication-issues)</li><li>[VisualStudioCredential](#troubleshoot-visualstudio-credential-authentication-issues)</li><li>[AzureCLICredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowershellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul>|
+|`RestError` raised from the client with a status code of 401 or 403.|Authentication succeeded but the authorizing Azure service responded with a 401 (Authenticate), or 403 (Forbidden) status code. This can often be caused by the `DefaultAzureCredential` authenticating an account other than the intended or that the required role assignment is not configured.|<ul><li>[Enable logging](#enabling-and-configuring-logging) to determine which credential in the chain returned the authenticating token.</li><li>In the case a credential other than the expected is returning a token, bypass this by either signing out of the corresponding development tool, or excluding the credential with the ExcludeXXXCredential property in the `DefaultAzureCredentialOptions`</li><li>Confirm that the correct RBAC role is assigned to the identity being used to authenticate. For example, the resource specific role rather than just the inherited "Owner" role.</li></ul>|
 
 ## Troubleshoot environment credential authentication issues
 
@@ -134,7 +134,7 @@ Follow the troubleshooting guidelines below for the respective authentication ty
 
 ## Troubleshoot username and password authentication issues
 
-`AuthenticationFailedException`
+### AuthenticationRequiredError
 | Error Code | Issue | Mitigation |
 |---|---|---|
 |AADSTS50126|The provided username or password is invalid|Ensure the `username` and `password` provided when constructing the credential are valid.|
@@ -168,7 +168,7 @@ The tenant ID is the Global Unique Identifier (GUID) that identifies your organi
 
 ### Client secret credential issues
 
-#### `AuthenticationRequiredError`
+#### AuthenticationRequiredError
 
 | Error Code | Description | Mitigation |
 |---|---|---|
@@ -178,7 +178,7 @@ The tenant ID is the Global Unique Identifier (GUID) that identifies your organi
 
 ### Client certificate credential issues
 
-#### `AuthenticationRequiredError`
+#### AuthenticationRequiredError
 
 | Error Code | Description | Mitigation |
 |---|---|---|
@@ -187,8 +187,8 @@ The tenant ID is the Global Unique Identifier (GUID) that identifies your organi
 
 | Error Code | Description | Mitigation |
 |---|---|---|
-|undefined| ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.| The `ClientCertificateCredential` accepts PEM certificates and the path for the certificate needs to be provided(`pfx` certificates aren't supported by the JavaScript SDK for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-1-upload-a-certificate).|
-|undefined| The file at the specified path does not contain a PEM-encoded certificate.| Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript SDK for now.|
+|No error code| ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.| The `ClientCertificateCredential` accepts PEM certificates and the path for the certificate needs to be provided(`pfx` certificates aren't supported by the JavaScript SDK for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-1-upload-a-certificate).|
+|No error code| The file at the specified path does not contain a PEM-encoded certificate.| Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript SDK for now.|
 ## Troubleshoot Managed Identity authentication issues
 
 The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts that provide managed identity. Configuring the managed identity and troubleshooting failures varies from hosts. The below table lists the Azure hosts that can be assigned a [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview), and are supported by the `ManagedIdentityCredential`. Ensure you're running your app on one of these resources and have enabled the Managed Identity on them by following the instructions at their configuration links below.
@@ -314,4 +314,5 @@ If the preceding command isn't working properly, follow the instructions to reso
 
 >Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 
+------------------------------------------------------------------------------------------------------------------------------------
 If this guide doesn't help you diagnose the errors you're experiencing, [open an issue](https://github.com/Azure/azure-sdk-for-js/issues). To contribute to the SDK, read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).
