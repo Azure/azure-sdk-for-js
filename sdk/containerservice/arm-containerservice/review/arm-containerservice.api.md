@@ -18,6 +18,7 @@ export type AgentPool = SubResource & {
     osDiskType?: OSDiskType;
     kubeletDiskType?: KubeletDiskType;
     workloadRuntime?: WorkloadRuntime;
+    messageOfTheDay?: string;
     vnetSubnetID?: string;
     podSubnetID?: string;
     maxPods?: number;
@@ -55,6 +56,8 @@ export type AgentPool = SubResource & {
     enableFips?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
     creationData?: CreationData;
+    capacityReservationGroupID?: string;
+    hostGroupID?: string;
 };
 
 // @public
@@ -344,6 +347,9 @@ export interface ExtendedLocation {
 
 // @public
 export type ExtendedLocationTypes = string;
+
+// @public
+export type Format = string;
 
 // @public
 export type GPUInstanceProfile = string;
@@ -768,6 +774,12 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownFormat {
+    Azure = "azure",
+    Exec = "exec"
+}
+
+// @public
 export enum KnownGPUInstanceProfile {
     // (undocumented)
     MIG1G = "MIG1g",
@@ -840,7 +852,8 @@ export enum KnownNetworkMode {
 // @public
 export enum KnownNetworkPlugin {
     Azure = "azure",
-    Kubenet = "kubenet"
+    Kubenet = "kubenet",
+    None = "none"
 }
 
 // @public
@@ -1047,6 +1060,7 @@ export type ManagedCluster = Resource & {
     readonly powerState?: PowerState;
     readonly maxAgentPools?: number;
     kubernetesVersion?: string;
+    readonly currentKubernetesVersion?: string;
     dnsPrefix?: string;
     fqdnSubdomain?: string;
     readonly fqdn?: string;
@@ -1060,9 +1074,11 @@ export type ManagedCluster = Resource & {
         [propertyName: string]: ManagedClusterAddonProfile;
     };
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
+    oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     nodeResourceGroup?: string;
     enableRbac?: boolean;
     enablePodSecurityPolicy?: boolean;
+    enableNamespaceResources?: boolean;
     networkProfile?: ContainerServiceNetworkProfile;
     aadProfile?: ManagedClusterAADProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
@@ -1115,6 +1131,7 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
     enableAutoScaling?: boolean;
@@ -1123,11 +1140,13 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
+    hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
     linuxOSConfig?: LinuxOSConfig;
     maxCount?: number;
     maxPods?: number;
+    messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
     readonly nodeImageVersion?: string;
@@ -1234,6 +1253,12 @@ export interface ManagedClusterNATGatewayProfile {
     effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+}
+
+// @public
+export interface ManagedClusterOidcIssuerProfile {
+    enabled?: boolean;
+    readonly issuerURL?: string;
 }
 
 // @public
@@ -1448,6 +1473,7 @@ export type ManagedClustersListByResourceGroupResponse = ManagedClusterListResul
 
 // @public
 export interface ManagedClustersListClusterAdminCredentialsOptionalParams extends coreClient.OperationOptions {
+    format?: Format;
     serverFqdn?: string;
 }
 

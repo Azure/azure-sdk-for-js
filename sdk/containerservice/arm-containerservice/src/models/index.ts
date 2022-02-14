@@ -178,6 +178,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   kubeletDiskType?: KubeletDiskType;
   /** Determines the type of workload a node can run. */
   workloadRuntime?: WorkloadRuntime;
+  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
   /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
@@ -250,6 +252,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
+  capacityReservationGroupID?: string;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
+  hostGroupID?: string;
 }
 
 /** Settings for upgrading an agentpool */
@@ -499,6 +505,17 @@ export interface ManagedClusterPodIdentityException {
   namespace: string;
   /** The pod labels to match. */
   podLabels: { [propertyName: string]: string };
+}
+
+/** The OIDC issuer profile of the Managed Cluster. */
+export interface ManagedClusterOidcIssuerProfile {
+  /**
+   * The OIDC issuer url of the Managed Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issuerURL?: string;
+  /** Whether the OIDC issuer is enabled. */
+  enabled?: boolean;
 }
 
 /** Profile of network configuration. */
@@ -1172,6 +1189,11 @@ export type ManagedCluster = Resource & {
   readonly maxAgentPools?: number;
   /** When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
   kubernetesVersion?: string;
+  /**
+   * The version of Kubernetes the Managed Cluster is running.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentKubernetesVersion?: string;
   /** This cannot be updated once the Managed Cluster has been created. */
   dnsPrefix?: string;
   /** This cannot be updated once the Managed Cluster has been created. */
@@ -1203,12 +1225,16 @@ export type ManagedCluster = Resource & {
   addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
   /** See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
   podIdentityProfile?: ManagedClusterPodIdentityProfile;
+  /** The OIDC issuer profile of the Managed Cluster. */
+  oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
   /** The name of the resource group containing agent pool nodes. */
   nodeResourceGroup?: string;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
   /** (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy. */
   enablePodSecurityPolicy?: boolean;
+  /** The default value is false. It can be enabled/disabled on creation and updation of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
+  enableNamespaceResources?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -1311,6 +1337,8 @@ export type AgentPool = SubResource & {
   kubeletDiskType?: KubeletDiskType;
   /** Determines the type of workload a node can run. */
   workloadRuntime?: WorkloadRuntime;
+  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
   /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
@@ -1383,6 +1411,10 @@ export type AgentPool = SubResource & {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
+  capacityReservationGroupID?: string;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
+  hostGroupID?: string;
 };
 
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
@@ -1698,7 +1730,9 @@ export enum KnownNetworkPlugin {
   /** Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https://docs.microsoft.com/azure/aks/concepts-network#azure-cni-advanced-networking) for more information. */
   Azure = "azure",
   /** Use the Kubenet network plugin. See [Kubenet (basic) networking](https://docs.microsoft.com/azure/aks/concepts-network#kubenet-basic-networking) for more information. */
-  Kubenet = "kubenet"
+  Kubenet = "kubenet",
+  /** Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality. */
+  None = "none"
 }
 
 /**
@@ -1707,7 +1741,8 @@ export enum KnownNetworkPlugin {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **azure**: Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#azure-cni-advanced-networking) for more information. \
- * **kubenet**: Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information.
+ * **kubenet**: Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information. \
+ * **none**: Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality.
  */
 export type NetworkPlugin = string;
 
@@ -1871,6 +1906,24 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link Format} that the service accepts. */
+export enum KnownFormat {
+  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
+  Azure = "azure",
+  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
+  Exec = "exec"
+}
+
+/**
+ * Defines values for Format. \
+ * {@link KnownFormat} can be used interchangeably with Format,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
+ * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
+ */
+export type Format = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -2403,6 +2456,8 @@ export interface ManagedClustersListClusterAdminCredentialsOptionalParams
   extends coreClient.OperationOptions {
   /** server fqdn type for credentials to be returned */
   serverFqdn?: string;
+  /** Only apply to AAD clusters, specifies the format of returned kubeconfig. Format 'azure' will return azure auth-provider kubeconfig; format 'exec' will return exec format kubeconfig, which requires kubelogin binary in the path. */
+  format?: Format;
 }
 
 /** Contains response data for the listClusterAdminCredentials operation. */
