@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "e52ac172-9b07-43f5-a18e-6f5f63aede1b"
+        "x-ms-client-request-id": "65147379-a9f1-4067-8d86-c17df79f967b"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -21,7 +21,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 14 Feb 2022 19:03:41 GMT",
+        "Date": "Mon, 14 Feb 2022 20:37:40 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "AzurePurview",
@@ -32,8 +32,8 @@
           "nosniff"
         ],
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "09489fc6-2d61-4c16-85d7-fecf20302e56",
-        "x-ms-request-id": "e52ac172-9b07-43f5-a18e-6f5f63aede1b",
+        "x-ms-correlation-request-id": "3a3f9a4e-7efa-49a0-bdfa-91e88cd2dc14",
+        "x-ms-request-id": "65147379-a9f1-4067-8d86-c17df79f967b",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
