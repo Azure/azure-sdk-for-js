@@ -198,7 +198,6 @@
 
 # PRLabel: %Mgmt
 /sdk/automation/arm-automation @qiaozha @dw511214992 @MaryGao
-/sdk/automation/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/avs/arm-avs @qiaozha @dw511214992 @MaryGao
@@ -218,7 +217,6 @@
 
 # PRLabel: %Mgmt
 /sdk/batchai/arm-batchai @qiaozha @dw511214992 @MaryGao
-/sdk/batchai/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/billing/arm-billing @qiaozha @dw511214992 @MaryGao
