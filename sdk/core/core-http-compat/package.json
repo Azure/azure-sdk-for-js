@@ -12,7 +12,7 @@
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:types": "downlevel-dts types/latest/ types/1.0/",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
