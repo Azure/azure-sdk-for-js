@@ -13,6 +13,7 @@ import {
   RoadUseType,
   SearchAddressResultType
 } from "../generated/models";
+import { GeoJsonFeatureCollection } from "./geojsons";
 
 /** This object is returned from a successful Search calls. */
 export interface SearchAddressResult {
@@ -204,4 +205,14 @@ export interface BatchItem<TResult> {
   readonly statusCode?: number;
   /** The result of the query. SearchResultType if the query completed successfully, ErrorResponse otherwise. */
   readonly response?: TResult & ErrorResponse;
+}
+
+/**
+ * Entity Geometry
+ */
+export interface EntityGeometry {
+  /**  ID of the returned entity */
+  readonly providerID?: string;
+  /** Geometry data in GeoJSON FeatureCollection format. */
+  geometryData?: GeoJsonFeatureCollection;
 }

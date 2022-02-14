@@ -30,7 +30,7 @@ import {
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams
 } from "./generated/models";
-import { EntityGeometry, LatLon, SearchGeometry, StructuredAddress } from "./models/models";
+import { LatLon, SearchGeometry, StructuredAddress } from "./models/models";
 import { GeoJsonFeatureCollection, GeoJsonLineString } from "./models/geojsons";
 import {
   FuzzySearchQuery,
@@ -43,6 +43,7 @@ import {
   createSearchAddressBatchRequest
 } from "./models/mappers";
 import {
+  EntityGeometry,
   BatchResult,
   ReverseSearchAddressResult,
   ReverseSearchCrossStreetAddressResult,
