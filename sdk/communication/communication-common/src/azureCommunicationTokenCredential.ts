@@ -7,8 +7,8 @@ import {
 } from "./autoRefreshTokenCredential";
 import { CommunicationGetTokenOptions, CommunicationTokenCredential, TokenCredential } from "./communicationTokenCredential";
 import { AccessToken } from "@azure/core-auth";
-import { parseToken } from "./tokenParser";
 import { StaticTokenCredential } from "./staticTokenCredential";
+import { parseToken } from "./tokenParser";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.

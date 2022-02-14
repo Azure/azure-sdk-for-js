@@ -8,10 +8,10 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
+import { KeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { createCommunicationKeyCredentialPolicy } from "../src/credential/auth-policy-v2/communicationKeyCredentialPolicy";
 import { isNode } from "../src/credential/isNode";
-import { KeyCredential } from "@azure/core-auth";
 
 describe("CommunicationKeyCredentialPolicy", () => {
   it("signs the request", async () => {

@@ -4,9 +4,9 @@
 import {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
+  SerializedCommunicationIdentifier,
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
-  SerializedCommunicationIdentifier,
 } from "../src";
 import { assert } from "chai";
 
