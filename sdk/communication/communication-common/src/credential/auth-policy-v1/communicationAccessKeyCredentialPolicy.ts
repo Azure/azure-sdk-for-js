@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
 import {
+  BaseRequestPolicy,
+  HttpOperationResponse,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptionsLike,
   URLBuilder,
   WebResource,
-  isNode,
-  RequestPolicy,
-  RequestPolicyOptionsLike,
-  RequestPolicyFactory,
   WebResourceLike,
-  HttpOperationResponse,
-  BaseRequestPolicy,
+  isNode,
 } from "@azure/core-http";
-import { shaHash, shaHMAC } from "../cryptoUtils";
+import { shaHMAC, shaHash } from "../cryptoUtils";
+import { KeyCredential } from "@azure/core-auth";
 
 /**
  * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.

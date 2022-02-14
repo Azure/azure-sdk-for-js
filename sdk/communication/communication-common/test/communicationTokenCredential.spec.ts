@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import sinon from "sinon";
-import chaiAsPromised from "chai-as-promised";
 import { assert, use } from "chai";
-import { isNode } from "../src/credential/isNode";
 import { AbortSignal } from "@azure/abort-controller";
 import { AzureCommunicationTokenCredential } from "../src/azureCommunicationTokenCredential";
+import chaiAsPromised from "chai-as-promised";
+import { isNode } from "../src/credential/isNode";
+import sinon from "sinon";
 
 use(chaiAsPromised);
 

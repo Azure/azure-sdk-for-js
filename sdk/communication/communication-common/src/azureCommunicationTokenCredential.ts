@@ -1,11 +1,14 @@
-import { AccessToken } from "@azure/core-auth";
-import { parseToken } from "./tokenParser";
-import { StaticTokenCredential } from "./staticTokenCredential";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   AutoRefreshTokenCredential,
   CommunicationTokenRefreshOptions
 } from "./autoRefreshTokenCredential";
-import { CommunicationTokenCredential, TokenCredential, CommunicationGetTokenOptions } from "./communicationTokenCredential";
+import { CommunicationGetTokenOptions, CommunicationTokenCredential, TokenCredential } from "./communicationTokenCredential";
+import { AccessToken } from "@azure/core-auth";
+import { parseToken } from "./tokenParser";
+import { StaticTokenCredential } from "./staticTokenCredential";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.

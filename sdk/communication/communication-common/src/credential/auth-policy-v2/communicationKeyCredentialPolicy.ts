@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
   PipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import { shaHash, shaHMAC } from "../cryptoUtils";
+import { shaHMAC, shaHash } from "../cryptoUtils";
+import { KeyCredential } from "@azure/core-auth";
 import { URL } from "../url";
 import { isNode } from "../isNode";
 

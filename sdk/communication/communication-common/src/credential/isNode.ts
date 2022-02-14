@@ -4,5 +4,5 @@
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.
  */
- export const isNode =
- typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
+export const isNode =
+  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);

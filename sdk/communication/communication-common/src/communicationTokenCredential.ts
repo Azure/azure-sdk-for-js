@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { AccessToken } from "@azure/core-auth";
 
 export type TokenCredential = Pick<CommunicationTokenCredential, "getToken" | "dispose">;
 

@@ -3,7 +3,7 @@
 
 /// <reference lib="dom" />
 
-import { encodeUTF8, encodeBase64, encodeUTF8fromBase64 } from "./encodeUtils.browser";
+import { encodeBase64, encodeUTF8, encodeUTF8fromBase64 } from "./encodeUtils.browser";
 
 const subtle = (globalThis as any)?.crypto?.subtle as SubtleCrypto;
 

@@ -4,4 +4,4 @@
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.
  */
- export const isNode = false;
+export const isNode = false;
