@@ -15,9 +15,9 @@ import { createCommunicationKeyCredentialPolicy } from "./communicationKeyCreden
  *
  * @param credential - The KeyCredential or TokenCredential.
  */
-export const createCommunicationAuthenticationPolicy = (
+export function createCommunicationAuthenticationPolicy(
   credential: KeyCredential | TokenCredential
-): PipelinePolicy => {
+): PipelinePolicy {
   if (isTokenCredential(credential)) {
     const policyOptions: BearerTokenAuthenticationPolicyOptions = {
       credential: credential,
@@ -27,4 +27,4 @@ export const createCommunicationAuthenticationPolicy = (
   } else {
     return createCommunicationKeyCredentialPolicy(credential);
   }
-};
+}
