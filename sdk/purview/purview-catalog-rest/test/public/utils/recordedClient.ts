@@ -6,9 +6,8 @@
 import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
-import { env, Recorder, RecorderStartOptions, isLiveMode } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -25,7 +24,6 @@ export async function createClient(
   recorder: Recorder,
   options?: ClientOptions
 ): Promise<PurviewCatalogRestClient> {
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = createTestCredential();
 
   await recorder.start(recorderOptions);
@@ -34,8 +32,7 @@ export async function createClient(
     env.ENDPOINT ?? "",
     credential,
     recorder.configureClientOptions({
-      ...options,
-      httpClient,
+      options,
     })
   );
 }
