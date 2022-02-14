@@ -1,112 +1,98 @@
-## Azure PostgreSQLFlexibleManagementClient SDK for JavaScript
+# Azure PostgreSQLManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for PostgreSQLFlexibleManagementClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure PostgreSQLManagement client.
+
+The Microsoft Azure management API provides create, read, update, and delete functionality for Azure PostgreSQL resources including servers, databases, firewall rules, VNET rules, security alert policies, log files and configurations with new business model.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-postgresql-flexible) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/).
+- An [Azure subscription][azure_sub].
 
-### How to install
+### Install the `@azure/arm-postgresql-flexible` package
 
-To use this SDK in your project, you will need to install two packages.
-- `@azure/arm-postgresql-flexible` that contains the client.
-- `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
+Install the Azure PostgreSQLManagement client library for JavaScript with `npm`:
 
-Install both packages using the below command:
 ```bash
-npm install --save @azure/arm-postgresql-flexible @azure/identity
+npm install @azure/arm-postgresql-flexible
 ```
-> **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
-If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
-### How to use
+### Create and authenticate a `PostgreSQLManagementClient`
 
-- If you are writing a client side browser application,
-  - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
-  - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
-- If you are writing a server side application,
-  - [Select a credential from `@azure/identity` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
-  - Complete the set up steps required by the credential if any.
-  - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
+To create a client object to access the Azure PostgreSQLManagement API, you will need the `endpoint` of your Azure PostgreSQLManagement resource and a `credential`. The Azure PostgreSQLManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure PostgreSQLManagement resource in the [Azure Portal][azure_portal].
 
-In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
-Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
-#### nodejs - Authentication, client creation, and get databases as an example written in JavaScript.
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-##### Sample code
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
+
+```bash
+npm install @azure/identity
+```
+
+You will also need to **register a new AAD application and grant access to Azure PostgreSQLManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
+const { PostgreSQLManagementClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { PostgreSQLFlexibleManagementClient } = require("@azure/arm-postgresql-flexible");
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
-// Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
-// Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
-const creds = new DefaultAzureCredential();
-const client = new PostgreSQLFlexibleManagementClient(creds, subscriptionId);
-const resourceGroupName = "testresourceGroupName";
-const serverName = "testserverName";
-const databaseName = "testdatabaseName";
-client.databases.get(resourceGroupName, serverName, databaseName).then((result) => {
-  console.log("The result is:");
-  console.log(result);
-}).catch((err) => {
-  console.log("An error occurred:");
-  console.error(err);
-});
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new PostgreSQLManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
-#### browser - Authentication, client creation, and get databases as an example written in JavaScript.
 
-In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
-  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
-  - Note down the client Id from the previous step and use it in the browser sample below.
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-##### Sample code
+## Key concepts
 
-- index.html
+### PostgreSQLManagementClient
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/arm-postgresql-flexible sample</title>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/identity/dist/index.js"></script>
-    <script src="node_modules/@azure/arm-postgresql-flexible/dist/arm-postgresql-flexible.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      // Create credentials using the `@azure/identity` package.
-      // Please note that you can also use credentials from the `@azure/ms-rest-browserauth` package instead.
-      const credential = new InteractiveBrowserCredential(
-      {
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      const client = new Azure.ArmPostgresql.PostgreSQLFlexibleManagementClient(creds, subscriptionId);
-      const resourceGroupName = "testresourceGroupName";
-      const serverName = "testserverName";
-      const databaseName = "testdatabaseName";
-      client.databases.get(resourceGroupName, serverName, databaseName).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log("An error occurred:");
-        console.error(err);
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
+`PostgreSQLManagementClient` is the primary interface for developers using the Azure PostgreSQLManagement client library. Explore the methods on this client object to understand the different features of the Azure PostgreSQLManagement service that you can access.
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpostgresql%2Farm-postgresql-flexible%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

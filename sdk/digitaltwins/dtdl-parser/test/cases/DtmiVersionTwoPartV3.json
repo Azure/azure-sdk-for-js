@@ -1,0 +1,25 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:foo:bar;3.14",
+      "@type": "Property",
+      "name": "foo",
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:foo:bar;3.14",
+        "type": "Property",
+        "properties": {
+          "name": "foo",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        }
+      }
+    ]
+  }
+}

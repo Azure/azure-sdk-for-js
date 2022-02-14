@@ -6,1264 +6,782 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+export type DigitalTwinsEndpointResourcePropertiesUnion =
+  | DigitalTwinsEndpointResourceProperties
+  | ServiceBus
+  | EventHub
+  | EventGrid;
 
-/**
- * The properties of a DigitalTwinsInstance.
- */
-export interface DigitalTwinsPatchProperties {
-  /**
-   * Public network access for the DigitalTwinsInstance. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-}
-
-/**
- * The properties of a private endpoint connection.
- */
-export interface ConnectionProperties {
-  /**
-   * The provisioning state. Possible values include: 'Pending', 'Approved', 'Rejected',
-   * 'Disconnected'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ConnectionPropertiesProvisioningState;
-  privateEndpoint?: ConnectionPropertiesPrivateEndpoint;
-  /**
-   * The list of group ids for the private endpoint connection.
-   */
-  groupIds?: string[];
-  privateLinkServiceConnectionState?: ConnectionPropertiesPrivateLinkServiceConnectionState;
-}
-
-/**
- * An interface representing PrivateEndpointConnectionProperties.
- */
-export interface PrivateEndpointConnectionProperties extends ConnectionProperties {
-}
-
-/**
- * The private endpoint connection of a Digital Twin.
- */
-export interface PrivateEndpointConnection extends BaseResource {
+/** The private endpoint connection of a Digital Twin. */
+export interface PrivateEndpointConnection {
   /**
    * The resource identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   properties: PrivateEndpointConnectionProperties;
 }
 
-/**
- * The common properties of a DigitalTwinsInstance.
- */
-export interface DigitalTwinsResource extends BaseResource {
+/** The properties of a private endpoint connection. */
+export interface ConnectionProperties {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ConnectionPropertiesProvisioningState;
+  privateEndpoint?: ConnectionPropertiesPrivateEndpoint;
+  /** The list of group ids for the private endpoint connection. */
+  groupIds?: string[];
+  privateLinkServiceConnectionState?: ConnectionPropertiesPrivateLinkServiceConnectionState;
+}
+
+/** The private endpoint property of a private endpoint connection. */
+export interface PrivateEndpoint {
   /**
    * The resource identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** The current state of a private endpoint connection. */
+export interface ConnectionState {
+  /** The status of a private endpoint connection. */
+  status: PrivateLinkServiceConnectionStatus;
+  /** The description for the current state of a private endpoint connection. */
+  description: string;
+  /** Actions required for a private endpoint connection. */
+  actionsRequired?: string;
+}
+
+/** The common properties of a DigitalTwinsInstance. */
+export interface DigitalTwinsResource {
+  /**
+   * The resource identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * The resource location.
-   */
+  /** The resource location. */
   location: string;
-  /**
-   * The resource tags.
-   */
+  /** The resource tags. */
   tags?: { [propertyName: string]: string };
-  /**
-   * The managed identity for the DigitalTwinsInstance.
-   */
+  /** The managed identity for the DigitalTwinsInstance. */
   identity?: DigitalTwinsIdentity;
 }
 
-/**
- * The description of the DigitalTwins service.
- */
-export interface DigitalTwinsDescription extends DigitalTwinsResource {
-  /**
-   * Time when DigitalTwinsInstance was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Time when DigitalTwinsInstance was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastUpdatedTime?: Date;
-  /**
-   * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Updating',
-   * 'Succeeded', 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Api endpoint to work with DigitalTwinsInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hostName?: string;
-  privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Public network access for the DigitalTwinsInstance. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-}
-
-/**
- * The managed identity for the DigitalTwinsInstance.
- */
+/** The managed identity for the DigitalTwinsInstance. */
 export interface DigitalTwinsIdentity {
-  /**
-   * The type of Managed Identity used by the DigitalTwinsInstance. Only SystemAssigned is
-   * supported. Possible values include: 'None', 'SystemAssigned'
-   */
+  /** The type of Managed Identity used by the DigitalTwinsInstance. Only SystemAssigned is supported. */
   type?: DigitalTwinsIdentityType;
   /**
-   * The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the
-   * x-ms-identity-principal-id header in the PUT request if the resource has a
-   * systemAssigned(implicit) identity
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the
-   * x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit)
-   * identity
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
 }
 
-/**
- * The description of the DigitalTwins service.
- */
-export interface DigitalTwinsPatchDescription {
-  /**
-   * Instance patch properties
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The managed identity for the DigitalTwinsInstance.
-   */
-  identity?: DigitalTwinsIdentity;
-  /**
-   * Properties for the DigitalTwinsInstance.
-   */
-  properties?: DigitalTwinsPatchProperties;
+/** Error response. */
+export interface ErrorResponse {
+  /** Error description */
+  error?: ErrorDefinition;
 }
 
-/**
- * Error definition.
- */
+/** Error definition. */
 export interface ErrorDefinition {
   /**
    * Service specific error code which serves as the substatus for the HTTP error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * Description of the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * Internal error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorDefinition[];
 }
 
-/**
- * Error response.
- */
-export interface ErrorResponse {
-  /**
-   * Error description
-   */
-  error?: ErrorDefinition;
+/** The description of the DigitalTwins service. */
+export interface DigitalTwinsPatchDescription {
+  /** Instance patch properties */
+  tags?: { [propertyName: string]: string };
+  /** The managed identity for the DigitalTwinsInstance. */
+  identity?: DigitalTwinsIdentity;
+  /** Properties for the DigitalTwinsInstance. */
+  properties?: DigitalTwinsPatchProperties;
 }
 
-/**
- * The object that represents the operation.
- */
-export interface OperationDisplay {
-  /**
-   * Service provider: Microsoft DigitalTwins
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * Resource Type: DigitalTwinsInstances
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * Name of the operation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * Friendly description for the operation,
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
+/** The properties of a DigitalTwinsInstance. */
+export interface DigitalTwinsPatchProperties {
+  /** Public network access for the DigitalTwinsInstance. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/**
- * DigitalTwins service REST API operation
- */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{read | write | action | delete}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Operation properties display
-   */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly origin?: string;
-  /**
-   * If the operation is a data action (for data plane rbac).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isDataAction?: boolean;
+/** A list of DigitalTwinsInstance Endpoints with a next link. */
+export interface DigitalTwinsEndpointResourceListResult {
+  /** The link used to get the next page of DigitalTwinsInstance Endpoints. */
+  nextLink?: string;
+  /** A list of DigitalTwinsInstance Endpoints. */
+  value?: DigitalTwinsEndpointResource[];
 }
 
-/**
- * The result returned from a database check name availability request.
- */
-export interface CheckNameRequest {
+/** Properties related to Digital Twins Endpoint */
+export interface DigitalTwinsEndpointResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "ServiceBus" | "EventHub" | "EventGrid";
   /**
-   * Resource name.
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  name: string;
+  readonly provisioningState?: EndpointProvisioningState;
+  /**
+   * Time when the Endpoint was added to DigitalTwinsInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /** Specifies the authentication type being used for connecting to the endpoint. */
+  authenticationType?: AuthenticationType;
+  /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
+  deadLetterSecret?: string;
+  /** Dead letter storage URL for identity-based authentication. */
+  deadLetterUri?: string;
 }
 
-/**
- * The result returned from a check name availability request.
- */
-export interface CheckNameResult {
-  /**
-   * Specifies a Boolean value that indicates if the name is available.
-   */
-  nameAvailable?: boolean;
-  /**
-   * Message indicating an unavailable name due to a conflict, or a description of the naming rules
-   * that are violated.
-   */
-  message?: string;
-  /**
-   * Message providing the reason why the given name is invalid. Possible values include:
-   * 'Invalid', 'AlreadyExists'
-   */
-  reason?: Reason;
-}
-
-/**
- * Definition of a resource.
- */
-export interface ExternalResource extends BaseResource {
+/** Definition of a resource. */
+export interface ExternalResource {
   /**
    * The resource identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * Extension resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * Contains the possible cases for DigitalTwinsEndpointResourceProperties.
- */
-export type DigitalTwinsEndpointResourcePropertiesUnion = DigitalTwinsEndpointResourceProperties | ServiceBus | EventHub | EventGrid;
-
-/**
- * Properties related to Digital Twins Endpoint
- */
-export interface DigitalTwinsEndpointResourceProperties {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "DigitalTwinsEndpointResourceProperties";
-  /**
-   * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EndpointProvisioningState;
-  /**
-   * Time when the Endpoint was added to DigitalTwinsInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Specifies the authentication type being used for connecting to the endpoint. Possible values
-   * include: 'KeyBased', 'IdentityBased'
-   */
-  authenticationType?: AuthenticationType;
-  /**
-   * Dead letter storage secret for key-based authentication. Will be obfuscated during read.
-   */
-  deadLetterSecret?: string;
-  /**
-   * Dead letter storage URL for identity-based authentication.
-   */
-  deadLetterUri?: string;
+/** A list of DigitalTwins description objects with a next link. */
+export interface DigitalTwinsDescriptionListResult {
+  /** The link used to get the next page of DigitalTwins description objects. */
+  nextLink?: string;
+  /** A list of DigitalTwins description objects. */
+  value?: DigitalTwinsDescription[];
 }
 
-/**
- * DigitalTwinsInstance endpoint resource.
- */
-export interface DigitalTwinsEndpointResource extends ExternalResource {
+/** A list of DigitalTwins service operations. It contains a list of operations and a URL link to get the next set of results. */
+export interface OperationListResult {
+  /** The link used to get the next page of DigitalTwins description objects. */
+  nextLink?: string;
   /**
-   * DigitalTwinsInstance endpoint resource properties.
+   * A list of DigitalTwins operations supported by the Microsoft.DigitalTwins resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  properties: DigitalTwinsEndpointResourcePropertiesUnion;
+  readonly value?: Operation[];
 }
 
-/**
- * Properties related to ServiceBus.
- */
-export interface ServiceBus {
+/** DigitalTwins service REST API operation */
+export interface Operation {
   /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "ServiceBus";
-  /**
-   * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EndpointProvisioningState;
-  /**
-   * Time when the Endpoint was added to DigitalTwinsInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Specifies the authentication type being used for connecting to the endpoint. Possible values
-   * include: 'KeyBased', 'IdentityBased'
-   */
-  authenticationType?: AuthenticationType;
-  /**
-   * Dead letter storage secret for key-based authentication. Will be obfuscated during read.
-   */
-  deadLetterSecret?: string;
-  /**
-   * Dead letter storage URL for identity-based authentication.
-   */
-  deadLetterUri?: string;
-  /**
-   * PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated
-   * during read.
-   */
-  primaryConnectionString?: string;
-  /**
-   * SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated
-   * during read.
-   */
-  secondaryConnectionString?: string;
-  /**
-   * The URL of the ServiceBus namespace for identity-based authentication. It must include the
-   * protocol sb://
-   */
-  endpointUri?: string;
-  /**
-   * The ServiceBus Topic name for identity-based authentication
-   */
-  entityPath?: string;
-}
-
-/**
- * Properties related to EventHub.
- */
-export interface EventHub {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "EventHub";
-  /**
-   * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EndpointProvisioningState;
-  /**
-   * Time when the Endpoint was added to DigitalTwinsInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Specifies the authentication type being used for connecting to the endpoint. Possible values
-   * include: 'KeyBased', 'IdentityBased'
-   */
-  authenticationType?: AuthenticationType;
-  /**
-   * Dead letter storage secret for key-based authentication. Will be obfuscated during read.
-   */
-  deadLetterSecret?: string;
-  /**
-   * Dead letter storage URL for identity-based authentication.
-   */
-  deadLetterUri?: string;
-  /**
-   * PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated
-   * during read.
-   */
-  connectionStringPrimaryKey?: string;
-  /**
-   * SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated
-   * during read.
-   */
-  connectionStringSecondaryKey?: string;
-  /**
-   * The URL of the EventHub namespace for identity-based authentication. It must include the
-   * protocol sb://
-   */
-  endpointUri?: string;
-  /**
-   * The EventHub name in the EventHub namespace for identity-based authentication.
-   */
-  entityPath?: string;
-}
-
-/**
- * Properties related to EventGrid.
- */
-export interface EventGrid {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "EventGrid";
-  /**
-   * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EndpointProvisioningState;
-  /**
-   * Time when the Endpoint was added to DigitalTwinsInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Specifies the authentication type being used for connecting to the endpoint. Possible values
-   * include: 'KeyBased', 'IdentityBased'
-   */
-  authenticationType?: AuthenticationType;
-  /**
-   * Dead letter storage secret for key-based authentication. Will be obfuscated during read.
-   */
-  deadLetterSecret?: string;
-  /**
-   * Dead letter storage URL for identity-based authentication.
-   */
-  deadLetterUri?: string;
-  /**
-   * EventGrid Topic Endpoint
-   */
-  topicEndpoint: string;
-  /**
-   * EventGrid secondary accesskey. Will be obfuscated during read.
-   */
-  accessKey1: string;
-  /**
-   * EventGrid secondary accesskey. Will be obfuscated during read.
-   */
-  accessKey2?: string;
-}
-
-/**
- * The properties for a group information object.
- */
-export interface GroupIdInformationProperties {
-  /**
-   * The group id
-   */
-  groupId?: string;
-  /**
-   * The required members for a specific group id.
-   */
-  requiredMembers?: string[];
-  /**
-   * The required DNS zones for a specific group id.
-   */
-  requiredZoneNames?: string[];
-}
-
-/**
- * An interface representing GroupIdInformationPropertiesModel.
- */
-export interface GroupIdInformationPropertiesModel extends GroupIdInformationProperties {
-}
-
-/**
- * The group information for creating a private endpoint on Digital Twin.
- */
-export interface GroupIdInformation {
-  properties: GroupIdInformationPropertiesModel;
-  /**
-   * The resource identifier.
-   */
-  id?: string;
-  /**
-   * The resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Operation name: {provider}/{resource}/{read | write | action | delete}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /** Operation properties display */
+  display?: OperationDisplay;
   /**
-   * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The intended executor of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly origin?: string;
+  /**
+   * If the operation is a data action (for data plane rbac).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
 }
 
-/**
- * The available private link connections for a Digital Twin.
- */
-export interface PrivateEndpointConnectionsResponse {
+/** The object that represents the operation. */
+export interface OperationDisplay {
   /**
-   * The list of available private link connections for a Digital Twin.
+   * Service provider: Microsoft DigitalTwins
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  value?: PrivateEndpointConnection[];
+  readonly provider?: string;
+  /**
+   * Resource Type: DigitalTwinsInstances
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * Name of the operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * Friendly description for the operation,
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
-/**
- * The available private link resources for a Digital Twin.
- */
+/** The result returned from a database check name availability request. */
+export interface CheckNameRequest {
+  /** Resource name. */
+  name: string;
+  /** The type of resource, for instance Microsoft.DigitalTwins/digitalTwinsInstances. */
+  type: "Microsoft.DigitalTwins/digitalTwinsInstances";
+}
+
+/** The result returned from a check name availability request. */
+export interface CheckNameResult {
+  /** Specifies a Boolean value that indicates if the name is available. */
+  nameAvailable?: boolean;
+  /** Message indicating an unavailable name due to a conflict, or a description of the naming rules that are violated. */
+  message?: string;
+  /** Message providing the reason why the given name is invalid. */
+  reason?: Reason;
+}
+
+/** The available private link resources for a Digital Twin. */
 export interface GroupIdInformationResponse {
-  /**
-   * The list of available private link resources for a Digital Twin.
-   */
+  /** The list of available private link resources for a Digital Twin. */
   value?: GroupIdInformation[];
 }
 
-/**
- * The current state of a private endpoint connection.
- */
-export interface ConnectionState {
+/** The group information for creating a private endpoint on Digital Twin. */
+export interface GroupIdInformation {
+  properties: GroupIdInformationProperties;
+  /** The resource identifier. */
+  id?: string;
   /**
-   * The status of a private endpoint connection. Possible values include: 'Pending', 'Approved',
-   * 'Rejected', 'Disconnected'
+   * The resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  status: PrivateLinkServiceConnectionStatus;
+  readonly name?: string;
   /**
-   * The description for the current state of a private endpoint connection.
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  description: string;
+  readonly type?: string;
+}
+
+/** The properties for a group information object. */
+export interface GroupIdInformationPropertiesAutoGenerated {
+  /** The group id */
+  groupId?: string;
+  /** The required members for a specific group id. */
+  requiredMembers?: string[];
+  /** The required DNS zones for a specific group id. */
+  requiredZoneNames?: string[];
+}
+
+/** The available private link connections for a Digital Twin. */
+export interface PrivateEndpointConnectionsResponse {
+  /** The list of available private link connections for a Digital Twin. */
+  value?: PrivateEndpointConnection[];
+}
+
+export type PrivateEndpointConnectionProperties = ConnectionProperties & {};
+
+export type ConnectionPropertiesPrivateEndpoint = PrivateEndpoint & {};
+
+export type ConnectionPropertiesPrivateLinkServiceConnectionState = ConnectionState & {};
+
+/** The description of the DigitalTwins service. */
+export type DigitalTwinsDescription = DigitalTwinsResource & {
   /**
-   * Actions required for a private endpoint connection.
+   * Time when DigitalTwinsInstance was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  actionsRequired?: string;
+  readonly createdTime?: Date;
+  /**
+   * Time when DigitalTwinsInstance was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTime?: Date;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Api endpoint to work with DigitalTwinsInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Public network access for the DigitalTwinsInstance. */
+  publicNetworkAccess?: PublicNetworkAccess;
+};
+
+/** Properties related to ServiceBus. */
+export type ServiceBus = DigitalTwinsEndpointResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "ServiceBus";
+  /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  primaryConnectionString?: string;
+  /** SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  secondaryConnectionString?: string;
+  /** The URL of the ServiceBus namespace for identity-based authentication. It must include the protocol sb:// */
+  endpointUri?: string;
+  /** The ServiceBus Topic name for identity-based authentication */
+  entityPath?: string;
+};
+
+/** Properties related to EventHub. */
+export type EventHub = DigitalTwinsEndpointResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "EventHub";
+  /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  connectionStringPrimaryKey?: string;
+  /** SecondaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
+  connectionStringSecondaryKey?: string;
+  /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol sb:// */
+  endpointUri?: string;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  entityPath?: string;
+};
+
+/** Properties related to EventGrid. */
+export type EventGrid = DigitalTwinsEndpointResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "EventGrid";
+  /** EventGrid Topic Endpoint */
+  topicEndpoint: string;
+  /** EventGrid secondary accesskey. Will be obfuscated during read. */
+  accessKey1: string | null;
+  /** EventGrid secondary accesskey. Will be obfuscated during read. */
+  accessKey2?: string;
+};
+
+/** DigitalTwinsInstance endpoint resource. */
+export type DigitalTwinsEndpointResource = ExternalResource & {
+  /** DigitalTwinsInstance endpoint resource properties. */
+  properties: DigitalTwinsEndpointResourcePropertiesUnion;
+};
+
+export type GroupIdInformationProperties = GroupIdInformationPropertiesAutoGenerated & {};
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Provisioning = "Provisioning",
+  Deleting = "Deleting",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Deleted = "Deleted",
+  Warning = "Warning",
+  Suspending = "Suspending",
+  Restoring = "Restoring",
+  Moving = "Moving"
 }
 
 /**
- * The private endpoint property of a private endpoint connection.
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioning** \
+ * **Deleting** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleted** \
+ * **Warning** \
+ * **Suspending** \
+ * **Restoring** \
+ * **Moving**
  */
-export interface PrivateEndpoint {
-  /**
-   * The resource identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
+export type ProvisioningState = string;
+
+/** Known values of {@link ConnectionPropertiesProvisioningState} that the service accepts. */
+export enum KnownConnectionPropertiesProvisioningState {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Disconnected = "Disconnected"
 }
 
 /**
- * An interface representing ConnectionPropertiesPrivateEndpoint.
+ * Defines values for ConnectionPropertiesProvisioningState. \
+ * {@link KnownConnectionPropertiesProvisioningState} can be used interchangeably with ConnectionPropertiesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected** \
+ * **Disconnected**
  */
-export interface ConnectionPropertiesPrivateEndpoint extends PrivateEndpoint {
+export type ConnectionPropertiesProvisioningState = string;
+
+/** Known values of {@link PrivateLinkServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateLinkServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Disconnected = "Disconnected"
 }
 
 /**
- * An interface representing ConnectionPropertiesPrivateLinkServiceConnectionState.
+ * Defines values for PrivateLinkServiceConnectionStatus. \
+ * {@link KnownPrivateLinkServiceConnectionStatus} can be used interchangeably with PrivateLinkServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected** \
+ * **Disconnected**
  */
-export interface ConnectionPropertiesPrivateLinkServiceConnectionState extends ConnectionState {
+export type PrivateLinkServiceConnectionStatus = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
 }
 
 /**
- * An interface representing AzureDigitalTwinsManagementClientOptions.
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export interface AzureDigitalTwinsManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link DigitalTwinsIdentityType} that the service accepts. */
+export enum KnownDigitalTwinsIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned"
 }
 
 /**
- * @interface
- * A list of DigitalTwins description objects with a next link.
- * @extends Array<DigitalTwinsDescription>
+ * Defines values for DigitalTwinsIdentityType. \
+ * {@link KnownDigitalTwinsIdentityType} can be used interchangeably with DigitalTwinsIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned**
  */
-export interface DigitalTwinsDescriptionListResult extends Array<DigitalTwinsDescription> {
-  /**
-   * The link used to get the next page of DigitalTwins description objects.
-   */
-  nextLink?: string;
+export type DigitalTwinsIdentityType = string;
+
+/** Known values of {@link EndpointType} that the service accepts. */
+export enum KnownEndpointType {
+  EventHub = "EventHub",
+  EventGrid = "EventGrid",
+  ServiceBus = "ServiceBus"
 }
 
 /**
- * @interface
- * A list of DigitalTwinsInstance Endpoints with a next link.
- * @extends Array<DigitalTwinsEndpointResource>
+ * Defines values for EndpointType. \
+ * {@link KnownEndpointType} can be used interchangeably with EndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EventHub** \
+ * **EventGrid** \
+ * **ServiceBus**
  */
-export interface DigitalTwinsEndpointResourceListResult extends Array<DigitalTwinsEndpointResource> {
-  /**
-   * The link used to get the next page of DigitalTwinsInstance Endpoints.
-   */
-  nextLink?: string;
+export type EndpointType = string;
+
+/** Known values of {@link EndpointProvisioningState} that the service accepts. */
+export enum KnownEndpointProvisioningState {
+  Provisioning = "Provisioning",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Deleted = "Deleted",
+  Warning = "Warning",
+  Suspending = "Suspending",
+  Restoring = "Restoring",
+  Moving = "Moving",
+  Disabled = "Disabled"
 }
 
 /**
- * @interface
- * A list of DigitalTwins service operations. It contains a list of operations and a URL link to
- * get the next set of results.
- * @extends Array<Operation>
+ * Defines values for EndpointProvisioningState. \
+ * {@link KnownEndpointProvisioningState} can be used interchangeably with EndpointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioning** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleted** \
+ * **Warning** \
+ * **Suspending** \
+ * **Restoring** \
+ * **Moving** \
+ * **Disabled**
  */
-export interface OperationListResult extends Array<Operation> {
-  /**
-   * The link used to get the next page of DigitalTwins description objects.
-   */
-  nextLink?: string;
+export type EndpointProvisioningState = string;
+
+/** Known values of {@link AuthenticationType} that the service accepts. */
+export enum KnownAuthenticationType {
+  KeyBased = "KeyBased",
+  IdentityBased = "IdentityBased"
 }
 
 /**
- * Defines values for PublicNetworkAccess.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
+ * Defines values for AuthenticationType. \
+ * {@link KnownAuthenticationType} can be used interchangeably with AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KeyBased** \
+ * **IdentityBased**
  */
-export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+export type AuthenticationType = string;
+
+/** Known values of {@link Reason} that the service accepts. */
+export enum KnownReason {
+  Invalid = "Invalid",
+  AlreadyExists = "AlreadyExists"
+}
 
 /**
- * Defines values for ProvisioningState.
- * Possible values include: 'Provisioning', 'Deleting', 'Updating', 'Succeeded', 'Failed',
- * 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving'
- * @readonly
- * @enum {string}
+ * Defines values for Reason. \
+ * {@link KnownReason} can be used interchangeably with Reason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
  */
-export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Updating' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'Warning' | 'Suspending' | 'Restoring' | 'Moving';
+export type Reason = string;
 
-/**
- * Defines values for DigitalTwinsIdentityType.
- * Possible values include: 'None', 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type DigitalTwinsIdentityType = 'None' | 'SystemAssigned';
+/** Optional parameters. */
+export interface DigitalTwinsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Defines values for Reason.
- * Possible values include: 'Invalid', 'AlreadyExists'
- * @readonly
- * @enum {string}
- */
-export type Reason = 'Invalid' | 'AlreadyExists';
+/** Contains response data for the get operation. */
+export type DigitalTwinsGetResponse = DigitalTwinsDescription;
 
-/**
- * Defines values for EndpointProvisioningState.
- * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed', 'Canceled',
- * 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type EndpointProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'Warning' | 'Suspending' | 'Restoring' | 'Moving' | 'Disabled';
+/** Optional parameters. */
+export interface DigitalTwinsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Defines values for AuthenticationType.
- * Possible values include: 'KeyBased', 'IdentityBased'
- * @readonly
- * @enum {string}
- */
-export type AuthenticationType = 'KeyBased' | 'IdentityBased';
+/** Contains response data for the createOrUpdate operation. */
+export type DigitalTwinsCreateOrUpdateResponse = DigitalTwinsDescription;
 
-/**
- * Defines values for PrivateLinkServiceConnectionStatus.
- * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
- * @readonly
- * @enum {string}
- */
-export type PrivateLinkServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+/** Optional parameters. */
+export interface DigitalTwinsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Defines values for ConnectionPropertiesProvisioningState.
- * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
- * @readonly
- * @enum {string}
- */
-export type ConnectionPropertiesProvisioningState = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+/** Contains response data for the update operation. */
+export type DigitalTwinsUpdateResponse = DigitalTwinsDescription;
 
-/**
- * Contains response data for the get operation.
- */
-export type DigitalTwinsGetResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the delete operation. */
+export type DigitalTwinsDeleteResponse = DigitalTwinsDescription;
 
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DigitalTwinsCreateOrUpdateResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the list operation. */
+export type DigitalTwinsListResponse = DigitalTwinsDescriptionListResult;
 
-/**
- * Contains response data for the update operation.
- */
-export type DigitalTwinsUpdateResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the listByResourceGroup operation. */
+export type DigitalTwinsListByResourceGroupResponse = DigitalTwinsDescriptionListResult;
 
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type DigitalTwinsDeleteMethodResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the checkNameAvailability operation. */
+export type DigitalTwinsCheckNameAvailabilityResponse = CheckNameResult;
 
-/**
- * Contains response data for the list operation.
- */
-export type DigitalTwinsListResponse = DigitalTwinsDescriptionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
-};
+/** Contains response data for the listNext operation. */
+export type DigitalTwinsListNextResponse = DigitalTwinsDescriptionListResult;
 
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type DigitalTwinsListByResourceGroupResponse = DigitalTwinsDescriptionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
-};
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DigitalTwinsListByResourceGroupNextResponse = DigitalTwinsDescriptionListResult;
 
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type DigitalTwinsCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsEndpointListOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
-};
+/** Contains response data for the list operation. */
+export type DigitalTwinsEndpointListResponse = DigitalTwinsEndpointResourceListResult;
 
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DigitalTwinsBeginCreateOrUpdateResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsEndpointGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the get operation. */
+export type DigitalTwinsEndpointGetResponse = DigitalTwinsEndpointResource;
 
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DigitalTwinsBeginUpdateResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsEndpointCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the createOrUpdate operation. */
+export type DigitalTwinsEndpointCreateOrUpdateResponse = DigitalTwinsEndpointResource;
 
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type DigitalTwinsBeginDeleteMethodResponse = DigitalTwinsDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsEndpointDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
-};
+/** Contains response data for the delete operation. */
+export type DigitalTwinsEndpointDeleteResponse = DigitalTwinsEndpointResource;
 
-/**
- * Contains response data for the listNext operation.
- */
-export type DigitalTwinsListNextResponse = DigitalTwinsDescriptionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DigitalTwinsEndpointListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
-};
+/** Contains response data for the listNext operation. */
+export type DigitalTwinsEndpointListNextResponse = DigitalTwinsEndpointResourceListResult;
 
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type DigitalTwinsListByResourceGroupNextResponse = DigitalTwinsDescriptionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
-};
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
-/**
- * Contains response data for the list operation.
- */
-export type DigitalTwinsEndpointListResponse = DigitalTwinsEndpointResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResourceListResult;
-    };
-};
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
-/**
- * Contains response data for the get operation.
- */
-export type DigitalTwinsEndpointGetResponse = DigitalTwinsEndpointResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
-};
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = GroupIdInformationResponse;
 
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DigitalTwinsEndpointCreateOrUpdateResponse = DigitalTwinsEndpointResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
-};
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = GroupIdInformation;
 
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type DigitalTwinsEndpointDeleteMethodResponse = DigitalTwinsEndpointResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
-};
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionsResponse;
 
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DigitalTwinsEndpointBeginCreateOrUpdateResponse = DigitalTwinsEndpointResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
-};
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type DigitalTwinsEndpointBeginDeleteMethodResponse = DigitalTwinsEndpointResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
-};
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type DigitalTwinsEndpointListNextResponse = DigitalTwinsEndpointResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateLinkResourcesListResponse = GroupIdInformationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupIdInformationResponse;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = GroupIdInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupIdInformation;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionsResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionsResponse;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
+/** Optional parameters. */
+export interface AzureDigitalTwinsManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

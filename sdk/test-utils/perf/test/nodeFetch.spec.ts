@@ -12,7 +12,7 @@ interface NodeFetchOptions {
 
 export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
   private static fetchOptions = {
-    agent: new http.Agent({ keepAlive: true })
+    agent: new http.Agent({ keepAlive: true }),
   };
 
   private url = "";
@@ -24,8 +24,8 @@ export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
       shortName: "u",
       longName: "url",
       defaultValue: "http://www.example.org",
-      value: "http://www.example.org"
-    }
+      value: "http://www.example.org",
+    },
   };
 
   public setup(): void {

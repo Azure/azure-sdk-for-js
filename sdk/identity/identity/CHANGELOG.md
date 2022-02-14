@@ -1,12 +1,34 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.1.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.3 (Unreleased)
+
+### Features Added
+
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.2 (2022-02-03)
 
 ### Features Added
 
 - Improved the error message when `InteractiveBrowserCredential` is used with an unavailable port (such as when no `redirectUri` is provided, and the port `80` is busy) and when no browser is available.
-
-### Breaking Changes
 
 ### Bugs Fixed
 
@@ -14,6 +36,8 @@
 - The `ManagedIdentityCredential` now properly parses expiration dates from token exchange requests.
 
 ### Other Changes
+
+- Moved the `@types/stoppable` dependency to the `devDependencies`.
 
 ## 2.0.1 (2021-10-28)
 

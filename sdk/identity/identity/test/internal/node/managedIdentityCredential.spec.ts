@@ -7,6 +7,7 @@ import { tmpdir } from "os";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
+import Sinon from "sinon";
 import {
   imdsHost,
   imdsApiVersion,
@@ -16,17 +17,15 @@ import {
   imdsMsi,
   imdsMsiRetryConfig,
 } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests,
-} from "../../httpRequestsCommon";
-import { prepareIdentityTests } from "../../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContext } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
+import { setLogLevel } from "@azure/logger";
+import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
+import { Context } from "mocha";
 
 describe("ManagedIdentityCredential", function () {
-  let testContext: IdentityTestContext;
-  let sendCredentialRequests: SendCredentialRequests;
+  let testContext: IdentityTestContextInterface;
   let envCopy: string = "";
 
   beforeEach(async function () {
@@ -43,8 +42,7 @@ describe("ManagedIdentityCredential", function () {
     delete process.env.AZURE_AUTHORITY_HOST;
     delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
     delete process.env.AZURE_FEDERATED_TOKEN_FILE;
-    testContext = await prepareIdentityTests({});
-    sendCredentialRequests = testContext.sendCredentialRequests;
+    testContext = new IdentityTestContext({});
   });
 
   afterEach(async function () {
@@ -57,7 +55,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("sends an authorization request with a modified resource name", async function () {
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       insecureResponses: [
@@ -91,7 +89,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("sends an authorization request with an unmodified resource name", async () => {
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["someResource"],
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
@@ -116,7 +114,7 @@ describe("ManagedIdentityCredential", function () {
   it("returns error when no MSI is available", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
@@ -135,7 +133,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.AZURE_CLIENT_ID = "errclient";
     const errorMessage = "ManagedIdentityCredential authentication failed.";
 
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
@@ -154,7 +152,7 @@ describe("ManagedIdentityCredential", function () {
       statusCode: 408,
     });
 
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
@@ -173,7 +171,7 @@ describe("ManagedIdentityCredential", function () {
       statusCode: 408,
     });
 
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID),
       insecureResponses: [
@@ -185,7 +183,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries and succeeds on 404", async function () {
-    const { result } = await sendCredentialRequests({
+    const { result } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -202,7 +200,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries up to a limit on 404", async function () {
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -222,7 +220,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries also retries on 503s", async function () {
-    const { result } = await sendCredentialRequests({
+    const { result } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
@@ -251,7 +249,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://10.0.0.1/";
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       insecureResponses: [
@@ -273,7 +271,7 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST doesn't end with a slash", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "http://10.0.0.1";
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       insecureResponses: [
@@ -296,7 +294,7 @@ describe("ManagedIdentityCredential", function () {
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const credential = new ManagedIdentityCredential("errclient");
     const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential,
       insecureResponses: [
@@ -313,7 +311,7 @@ describe("ManagedIdentityCredential", function () {
 
     await testContext.restore();
 
-    const authDetails2 = await sendCredentialRequests({
+    const authDetails2 = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential,
       insecureResponses: [
@@ -330,7 +328,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.MSI_ENDPOINT = "https://endpoint";
     process.env.MSI_SECRET = "secret";
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
@@ -366,16 +364,33 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request correctly in an Cloud Shell environment", async () => {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential(),
+      secureResponses: [createResponse(200, { access_token: "token" })],
+    });
+    const authRequest = authDetails.requests[0];
+    assert.equal(authRequest.method, "POST");
+    assert.equal(authDetails.result!.token, "token");
+  });
 
-    const authDetails = await sendCredentialRequests({
+  it("authorization request fails with client id passed in an Cloud Shell environment", async function (this: Context) {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+    const msiGetTokenSpy = Sinon.spy(ManagedIdentityCredential.prototype, "getToken");
+    const loggerSpy = Sinon.spy(logger, "warning");
+    setLogLevel("warning");
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
-
-    const authRequest = authDetails.requests[0];
-    assert.equal(authRequest.method, "POST");
     assert.equal(authDetails.result!.token, "token");
+    assert.equal(msiGetTokenSpy.called, true);
+    assert.equal(loggerSpy.calledOnce, true);
+    assert.deepEqual(loggerSpy.args[0], [
+      "ManagedIdentityCredential - CloudShellMSI: does not support user-assigned identities in the Cloud Shell environment. Argument clientId will be ignored.",
+    ]);
   });
 
   it("sends an authorization request correctly in an Azure Arc environment", async function (this: Mocha.Context) {
@@ -392,7 +407,7 @@ describe("ManagedIdentityCredential", function () {
     writeFileSync(tempFile, key, { encoding: "utf8" });
 
     try {
-      const authDetails = await sendCredentialRequests({
+      const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential(),
         insecureResponses: [
@@ -455,7 +470,7 @@ describe("ManagedIdentityCredential", function () {
     // We're not verifying the certificate yet, but we still check for it:
     process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
@@ -510,7 +525,7 @@ describe("ManagedIdentityCredential", function () {
 
       const parameterClientId = "client";
 
-      const authDetails = await sendCredentialRequests({
+      const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential(parameterClientId),
         secureResponses: [
@@ -561,7 +576,7 @@ describe("ManagedIdentityCredential", function () {
 
       const credential = new ManagedIdentityCredential();
 
-      let authDetails = await sendCredentialRequests({
+      let authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default", "https://service2/.default"],
         credential,
         secureResponses: [
@@ -597,7 +612,7 @@ describe("ManagedIdentityCredential", function () {
 
       // A new credential means we read the file again
       testContext.sandbox.restore();
-      authDetails = await sendCredentialRequests({
+      authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default", "https://service2/.default"],
         credential: new ManagedIdentityCredential("client"),
         secureResponses: [
@@ -616,7 +631,7 @@ describe("ManagedIdentityCredential", function () {
       // Less than 5 minutes means we don't read the file again.
       testContext.sandbox.restore();
       testContext.sandbox.useFakeTimers();
-      authDetails = await sendCredentialRequests({
+      authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default", "https://service2/.default"],
         credential,
         secureResponses: [
@@ -634,7 +649,7 @@ describe("ManagedIdentityCredential", function () {
       testContext.sandbox.restore();
       testContext.sandbox.useFakeTimers();
       testContext.sandbox.clock.tick(1000 * 60 * 5);
-      authDetails = await sendCredentialRequests({
+      authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default", "https://service2/.default"],
         credential,
         secureResponses: [
@@ -663,7 +678,7 @@ describe("ManagedIdentityCredential", function () {
 
       const parameterClientId = "client";
 
-      const authDetails = await sendCredentialRequests({
+      const authDetails = await testContext.sendCredentialRequests({
         scopes: ["https://service/.default"],
         credential: new ManagedIdentityCredential(parameterClientId),
         secureResponses: [

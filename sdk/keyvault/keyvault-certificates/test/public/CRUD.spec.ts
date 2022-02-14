@@ -5,7 +5,7 @@ import os from "os";
 import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 import { env, Recorder } from "@azure-tools/test-recorder";
@@ -15,10 +15,11 @@ import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { assertThrowsAbortError } from "./utils/common";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -36,7 +37,7 @@ describe("Certificates client - create, read, update and delete", () => {
   };
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -410,11 +411,12 @@ describe("Certificates client - create, read, update and delete", () => {
   describe("can get a deleted certificate", () => {
     it("using beginDeleteCertificate's poller", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
+      const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
+      await certificatePoller.pollUntilDone();
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
@@ -430,11 +432,12 @@ describe("Certificates client - create, read, update and delete", () => {
 
     it("using getDeletedCertificate", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
+      const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
+      await certificatePoller.pollUntilDone();
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,

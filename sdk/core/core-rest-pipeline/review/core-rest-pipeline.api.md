@@ -190,7 +190,7 @@ export interface PipelineOptions {
 }
 
 // @public
-export type PipelinePhase = "Deserialize" | "Serialize" | "Retry";
+export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 
 // @public
 export interface PipelinePolicy {
@@ -205,6 +205,7 @@ export interface PipelineRequest {
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
+    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
@@ -225,6 +226,7 @@ export interface PipelineRequestOptions {
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
+    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
@@ -243,6 +245,7 @@ export interface PipelineRequestOptions {
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
+    browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
@@ -292,7 +295,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export class RestError extends Error {

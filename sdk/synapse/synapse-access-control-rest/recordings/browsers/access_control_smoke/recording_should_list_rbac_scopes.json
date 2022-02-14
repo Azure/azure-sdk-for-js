@@ -1,51 +1,43 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 21 Oct 2021 22:55:13 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12158.6 - SCUS ProdSlices",
-    "x-ms-request-id": "7b9fc483-8aa5-48bf-a41f-7c69525f4a01"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/rbacScopes",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "[\"workspaces/{workspaceName}\",\"workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}\",\"workspaces/{workspaceName}/scopePools/{scopePoolName}\",\"workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}\",\"workspaces/{workspaceName}/credentials/{credentialName}\",\"workspaces/{workspaceName}/linkedServices/{linkedServiceName}\"]",
-   "responseHeaders": {
-    "content-length": "342",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 21 Oct 2021 22:55:13 GMT",
-    "server": "Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "6699bd9e-f65f-4c35-9050-0f7f287e7874, 6699bd9e-f65f-4c35-9050-0f7f287e7874"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "701f5508abcc982a2a10e45c5b56c7ad"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/rbacScopes?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "c8958c25-6ea9-4fed-805b-a21e074e1e9d",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "342",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:41:10 GMT",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": [
+          "d04b336e-ec7f-4749-92d0-232633b45d16",
+          "d04b336e-ec7f-4749-92d0-232633b45d16"
+        ]
+      },
+      "ResponseBody": "[\u0022workspaces/{workspaceName}\u0022,\u0022workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}\u0022,\u0022workspaces/{workspaceName}/scopePools/{scopePoolName}\u0022,\u0022workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}\u0022,\u0022workspaces/{workspaceName}/credentials/{credentialName}\u0022,\u0022workspaces/{workspaceName}/linkedServices/{linkedServiceName}\u0022]"
+    }
+  ],
+  "Variables": {}
 }

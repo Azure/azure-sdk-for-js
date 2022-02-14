@@ -67,6 +67,8 @@
     "deps",
     "deserialization",
     "devdeps",
+    "DTDL",
+    "dtmi",
     "eastus",
     "ECONNRESET",
     "Eloqua",

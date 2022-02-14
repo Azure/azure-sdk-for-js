@@ -130,7 +130,10 @@ export const ImageInformation: msRest.CompositeMapper = {
         serializedName: "osType",
         type: {
           name: "Enum",
-          allowedValues: ["linux", "windows"]
+          allowedValues: [
+            "linux",
+            "windows"
+          ]
         }
       },
       capabilities: {
@@ -155,7 +158,10 @@ export const ImageInformation: msRest.CompositeMapper = {
         serializedName: "verificationType",
         type: {
           name: "Enum",
-          allowedValues: ["verified", "unverified"]
+          allowedValues: [
+            "verified",
+            "unverified"
+          ]
         }
       }
     }
@@ -175,7 +181,9 @@ export const AuthenticationTokenSettings: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["job"]
+              allowedValues: [
+                "job"
+              ]
             }
           }
         }
@@ -553,7 +561,11 @@ export const Certificate: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["active", "deleting", "deletefailed"]
+          allowedValues: [
+            "active",
+            "deleting",
+            "deletefailed"
+          ]
         }
       },
       stateTransitionTime: {
@@ -566,7 +578,11 @@ export const Certificate: msRest.CompositeMapper = {
         serializedName: "previousState",
         type: {
           name: "Enum",
-          allowedValues: ["active", "deleting", "deletefailed"]
+          allowedValues: [
+            "active",
+            "deleting",
+            "deletefailed"
+          ]
         }
       },
       previousStateTransitionTime: {
@@ -682,7 +698,10 @@ export const CertificateAddParameter: msRest.CompositeMapper = {
         serializedName: "certificateFormat",
         type: {
           name: "Enum",
-          allowedValues: ["pfx", "cer"]
+          allowedValues: [
+            "pfx",
+            "cer"
+          ]
         }
       },
       password: {
@@ -926,7 +945,10 @@ export const TaskContainerSettings: msRest.CompositeMapper = {
         serializedName: "workingDirectory",
         type: {
           name: "Enum",
-          allowedValues: ["taskWorkingDirectory", "containerImageDefault"]
+          allowedValues: [
+            "taskWorkingDirectory",
+            "containerImageDefault"
+          ]
         }
       }
     }
@@ -1009,6 +1031,29 @@ export const EnvironmentSetting: msRest.CompositeMapper = {
   }
 };
 
+export const HttpHeader: msRest.CompositeMapper = {
+  serializedName: "HttpHeader",
+  type: {
+    name: "Composite",
+    className: "HttpHeader",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ExitOptions: msRest.CompositeMapper = {
   serializedName: "ExitOptions",
   type: {
@@ -1019,14 +1064,21 @@ export const ExitOptions: msRest.CompositeMapper = {
         serializedName: "jobAction",
         type: {
           name: "Enum",
-          allowedValues: ["none", "disable", "terminate"]
+          allowedValues: [
+            "none",
+            "disable",
+            "terminate"
+          ]
         }
       },
       dependencyAction: {
         serializedName: "dependencyAction",
         type: {
           name: "Enum",
-          allowedValues: ["satisfy", "block"]
+          allowedValues: [
+            "satisfy",
+            "block"
+          ]
         }
       }
     }
@@ -1155,14 +1207,20 @@ export const AutoUserSpecification: msRest.CompositeMapper = {
         serializedName: "scope",
         type: {
           name: "Enum",
-          allowedValues: ["task", "pool"]
+          allowedValues: [
+            "task",
+            "pool"
+          ]
         }
       },
       elevationLevel: {
         serializedName: "elevationLevel",
         type: {
           name: "Enum",
-          allowedValues: ["nonadmin", "admin"]
+          allowedValues: [
+            "nonadmin",
+            "admin"
+          ]
         }
       }
     }
@@ -1230,7 +1288,10 @@ export const WindowsUserConfiguration: msRest.CompositeMapper = {
         serializedName: "loginMode",
         type: {
           name: "Enum",
-          allowedValues: ["batch", "interactive"]
+          allowedValues: [
+            "batch",
+            "interactive"
+          ]
         }
       }
     }
@@ -1261,7 +1322,10 @@ export const UserAccount: msRest.CompositeMapper = {
         serializedName: "elevationLevel",
         type: {
           name: "Enum",
-          allowedValues: ["nonadmin", "admin"]
+          allowedValues: [
+            "nonadmin",
+            "admin"
+          ]
         }
       },
       linuxUserConfiguration: {
@@ -1335,6 +1399,18 @@ export const OutputFileBlobContainerDestination: msRest.CompositeMapper = {
           name: "Composite",
           className: "ComputeNodeIdentityReference"
         }
+      },
+      uploadHeaders: {
+        serializedName: "uploadHeaders",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HttpHeader"
+            }
+          }
+        }
       }
     }
   }
@@ -1368,7 +1444,11 @@ export const OutputFileUploadOptions: msRest.CompositeMapper = {
         serializedName: "uploadCondition",
         type: {
           name: "Enum",
-          allowedValues: ["tasksuccess", "taskfailure", "taskcompletion"]
+          allowedValues: [
+            "tasksuccess",
+            "taskfailure",
+            "taskcompletion"
+          ]
         }
       }
     }
@@ -1702,7 +1782,10 @@ export const TaskSchedulingPolicy: msRest.CompositeMapper = {
         serializedName: "nodeFillType",
         type: {
           name: "Enum",
-          allowedValues: ["spread", "pack"]
+          allowedValues: [
+            "spread",
+            "pack"
+          ]
         }
       }
     }
@@ -1800,7 +1883,10 @@ export const CertificateReference: msRest.CompositeMapper = {
         serializedName: "storeLocation",
         type: {
           name: "Enum",
-          allowedValues: ["currentuser", "localmachine"]
+          allowedValues: [
+            "currentuser",
+            "localmachine"
+          ]
         }
       },
       storeName: {
@@ -1816,7 +1902,11 @@ export const CertificateReference: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["starttask", "task", "remoteuser"]
+              allowedValues: [
+                "starttask",
+                "task",
+                "remoteuser"
+              ]
             }
           }
         }
@@ -1905,7 +1995,11 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: ["none", "readonly", "readwrite"]
+          allowedValues: [
+            "none",
+            "readonly",
+            "readwrite"
+          ]
         }
       },
       diskSizeGB: {
@@ -1919,7 +2013,10 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "storageAccountType",
         type: {
           name: "Enum",
-          allowedValues: ["standard_lrs", "premium_lrs"]
+          allowedValues: [
+            "standard_lrs",
+            "premium_lrs"
+          ]
         }
       }
     }
@@ -1936,7 +2033,7 @@ export const ContainerConfiguration: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: "dockerCompatible",
+        defaultValue: 'dockerCompatible',
         type: {
           name: "String"
         }
@@ -1981,7 +2078,10 @@ export const DiskEncryptionConfiguration: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["osdisk", "temporarydisk"]
+              allowedValues: [
+                "osdisk",
+                "temporarydisk"
+              ]
             }
           }
         }
@@ -2000,7 +2100,10 @@ export const NodePlacementConfiguration: msRest.CompositeMapper = {
         serializedName: "policy",
         type: {
           name: "Enum",
-          allowedValues: ["regional", "zonal"]
+          allowedValues: [
+            "regional",
+            "zonal"
+          ]
         }
       }
     }
@@ -2083,7 +2186,9 @@ export const DiffDiskSettings: msRest.CompositeMapper = {
         serializedName: "placement",
         type: {
           name: "Enum",
-          allowedValues: ["CacheDisk"]
+          allowedValues: [
+            "CacheDisk"
+          ]
         }
       }
     }
@@ -2215,7 +2320,10 @@ export const NetworkSecurityGroupRule: msRest.CompositeMapper = {
         serializedName: "access",
         type: {
           name: "Enum",
-          allowedValues: ["allow", "deny"]
+          allowedValues: [
+            "allow",
+            "deny"
+          ]
         }
       },
       sourceAddressPrefix: {
@@ -2258,7 +2366,10 @@ export const InboundNATPool: msRest.CompositeMapper = {
         serializedName: "protocol",
         type: {
           name: "Enum",
-          allowedValues: ["tcp", "udp"]
+          allowedValues: [
+            "tcp",
+            "udp"
+          ]
         }
       },
       backendPort: {
@@ -2331,7 +2442,11 @@ export const PublicIPAddressConfiguration: msRest.CompositeMapper = {
         serializedName: "provision",
         type: {
           name: "Enum",
-          allowedValues: ["batchmanaged", "usermanaged", "nopublicipaddresses"]
+          allowedValues: [
+            "batchmanaged",
+            "usermanaged",
+            "nopublicipaddresses"
+          ]
         }
       },
       ipAddressIds: {
@@ -2365,7 +2480,10 @@ export const NetworkConfiguration: msRest.CompositeMapper = {
         serializedName: "dynamicVNetAssignmentScope",
         type: {
           name: "Enum",
-          allowedValues: ["none", "job"]
+          allowedValues: [
+            "none",
+            "job"
+          ]
         }
       },
       endpointConfiguration: {
@@ -2792,7 +2910,10 @@ export const AutoPoolSpecification: msRest.CompositeMapper = {
         serializedName: "poolLifetimeOption",
         type: {
           name: "Enum",
-          allowedValues: ["jobschedule", "job"]
+          allowedValues: [
+            "jobschedule",
+            "job"
+          ]
         }
       },
       keepAlive: {
@@ -2847,6 +2968,12 @@ export const JobSpecification: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      allowTaskPreemption: {
+        serializedName: "allowTaskPreemption",
+        type: {
+          name: "Boolean"
+        }
+      },
       maxParallelTasks: {
         serializedName: "maxParallelTasks",
         defaultValue: -1,
@@ -2870,14 +2997,20 @@ export const JobSpecification: msRest.CompositeMapper = {
         serializedName: "onAllTasksComplete",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "terminatejob"]
+          allowedValues: [
+            "noaction",
+            "terminatejob"
+          ]
         }
       },
       onTaskFailure: {
         serializedName: "onTaskFailure",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "performexitoptionsjobaction"]
+          allowedValues: [
+            "noaction",
+            "performexitoptionsjobaction"
+          ]
         }
       },
       networkConfiguration: {
@@ -3157,7 +3290,13 @@ export const CloudJobSchedule: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["active", "completed", "disabled", "terminating", "deleting"]
+          allowedValues: [
+            "active",
+            "completed",
+            "disabled",
+            "terminating",
+            "deleting"
+          ]
         }
       },
       stateTransitionTime: {
@@ -3170,7 +3309,13 @@ export const CloudJobSchedule: msRest.CompositeMapper = {
         serializedName: "previousState",
         type: {
           name: "Enum",
-          allowedValues: ["active", "completed", "disabled", "terminating", "deleting"]
+          allowedValues: [
+            "active",
+            "completed",
+            "disabled",
+            "terminating",
+            "deleting"
+          ]
         }
       },
       previousStateTransitionTime: {
@@ -3286,7 +3431,10 @@ export const JobSchedulingError: msRest.CompositeMapper = {
         serializedName: "category",
         type: {
           name: "Enum",
-          allowedValues: ["usererror", "servererror"]
+          allowedValues: [
+            "usererror",
+            "servererror"
+          ]
         }
       },
       code: {
@@ -3455,6 +3603,12 @@ export const CloudJob: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      allowTaskPreemption: {
+        serializedName: "allowTaskPreemption",
+        type: {
+          name: "Boolean"
+        }
+      },
       maxParallelTasks: {
         serializedName: "maxParallelTasks",
         defaultValue: -1,
@@ -3513,14 +3667,20 @@ export const CloudJob: msRest.CompositeMapper = {
         serializedName: "onAllTasksComplete",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "terminatejob"]
+          allowedValues: [
+            "noaction",
+            "terminatejob"
+          ]
         }
       },
       onTaskFailure: {
         serializedName: "onTaskFailure",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "performexitoptionsjobaction"]
+          allowedValues: [
+            "noaction",
+            "performexitoptionsjobaction"
+          ]
         }
       },
       networkConfiguration: {
@@ -3592,6 +3752,12 @@ export const JobAddParameter: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      allowTaskPreemption: {
+        serializedName: "allowTaskPreemption",
+        type: {
+          name: "Boolean"
+        }
+      },
       constraints: {
         serializedName: "constraints",
         type: {
@@ -3645,14 +3811,20 @@ export const JobAddParameter: msRest.CompositeMapper = {
         serializedName: "onAllTasksComplete",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "terminatejob"]
+          allowedValues: [
+            "noaction",
+            "terminatejob"
+          ]
         }
       },
       onTaskFailure: {
         serializedName: "onTaskFailure",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "performexitoptionsjobaction"]
+          allowedValues: [
+            "noaction",
+            "performexitoptionsjobaction"
+          ]
         }
       },
       metadata: {
@@ -3723,7 +3895,10 @@ export const TaskFailureInformation: msRest.CompositeMapper = {
         serializedName: "category",
         type: {
           name: "Enum",
-          allowedValues: ["usererror", "servererror"]
+          allowedValues: [
+            "usererror",
+            "servererror"
+          ]
         }
       },
       code: {
@@ -3778,7 +3953,10 @@ export const JobPreparationTaskExecutionInformation: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["running", "completed"]
+          allowedValues: [
+            "running",
+            "completed"
+          ]
         }
       },
       taskRootDirectory: {
@@ -3830,7 +4008,10 @@ export const JobPreparationTaskExecutionInformation: msRest.CompositeMapper = {
         serializedName: "result",
         type: {
           name: "Enum",
-          allowedValues: ["success", "failure"]
+          allowedValues: [
+            "success",
+            "failure"
+          ]
         }
       }
     }
@@ -3861,7 +4042,10 @@ export const JobReleaseTaskExecutionInformation: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["running", "completed"]
+          allowedValues: [
+            "running",
+            "completed"
+          ]
         }
       },
       taskRootDirectory: {
@@ -3900,7 +4084,10 @@ export const JobReleaseTaskExecutionInformation: msRest.CompositeMapper = {
         serializedName: "result",
         type: {
           name: "Enum",
-          allowedValues: ["success", "failure"]
+          allowedValues: [
+            "success",
+            "failure"
+          ]
         }
       }
     }
@@ -4185,7 +4372,11 @@ export const InstanceViewStatus: msRest.CompositeMapper = {
         serializedName: "level",
         type: {
           name: "Enum",
-          allowedValues: ["Error", "Info", "Warning"]
+          allowedValues: [
+            "Error",
+            "Info",
+            "Warning"
+          ]
         }
       },
       message: {
@@ -4316,7 +4507,10 @@ export const BatchPoolIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["UserAssigned", "None"]
+          allowedValues: [
+            "UserAssigned",
+            "None"
+          ]
         }
       },
       userAssignedIdentities: {
@@ -4381,7 +4575,10 @@ export const CloudPool: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["active", "deleting"]
+          allowedValues: [
+            "active",
+            "deleting"
+          ]
         }
       },
       stateTransitionTime: {
@@ -4394,7 +4591,11 @@ export const CloudPool: msRest.CompositeMapper = {
         serializedName: "allocationState",
         type: {
           name: "Enum",
-          allowedValues: ["steady", "resizing", "stopping"]
+          allowedValues: [
+            "steady",
+            "resizing",
+            "stopping"
+          ]
         }
       },
       allocationStateTransitionTime: {
@@ -4881,7 +5082,10 @@ export const TaskExecutionInformation: msRest.CompositeMapper = {
         serializedName: "result",
         type: {
           name: "Enum",
-          allowedValues: ["success", "failure"]
+          allowedValues: [
+            "success",
+            "failure"
+          ]
         }
       }
     }
@@ -5190,7 +5394,12 @@ export const CloudTask: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["active", "preparing", "running", "completed"]
+          allowedValues: [
+            "active",
+            "preparing",
+            "running",
+            "completed"
+          ]
         }
       },
       stateTransitionTime: {
@@ -5203,7 +5412,12 @@ export const CloudTask: msRest.CompositeMapper = {
         serializedName: "previousState",
         type: {
           name: "Enum",
-          allowedValues: ["active", "preparing", "running", "completed"]
+          allowedValues: [
+            "active",
+            "preparing",
+            "running",
+            "completed"
+          ]
         }
       },
       previousStateTransitionTime: {
@@ -5602,7 +5816,11 @@ export const TaskAddResult: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: ["success", "clienterror", "servererror"]
+          allowedValues: [
+            "success",
+            "clienterror",
+            "servererror"
+          ]
         }
       },
       taskId: {
@@ -5718,7 +5936,11 @@ export const SubtaskInformation: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["preparing", "running", "completed"]
+          allowedValues: [
+            "preparing",
+            "running",
+            "completed"
+          ]
         }
       },
       stateTransitionTime: {
@@ -5731,7 +5953,11 @@ export const SubtaskInformation: msRest.CompositeMapper = {
         serializedName: "previousState",
         type: {
           name: "Enum",
-          allowedValues: ["preparing", "running", "completed"]
+          allowedValues: [
+            "preparing",
+            "running",
+            "completed"
+          ]
         }
       },
       previousStateTransitionTime: {
@@ -5744,7 +5970,10 @@ export const SubtaskInformation: msRest.CompositeMapper = {
         serializedName: "result",
         type: {
           name: "Enum",
-          allowedValues: ["success", "failure"]
+          allowedValues: [
+            "success",
+            "failure"
+          ]
         }
       }
     }
@@ -5808,7 +6037,12 @@ export const TaskInformation: msRest.CompositeMapper = {
         serializedName: "taskState",
         type: {
           name: "Enum",
-          allowedValues: ["active", "preparing", "running", "completed"]
+          allowedValues: [
+            "active",
+            "preparing",
+            "running",
+            "completed"
+          ]
         }
       },
       executionInfo: {
@@ -5833,7 +6067,10 @@ export const StartTaskInformation: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: ["running", "completed"]
+          allowedValues: [
+            "running",
+            "completed"
+          ]
         }
       },
       startTime: {
@@ -5886,7 +6123,10 @@ export const StartTaskInformation: msRest.CompositeMapper = {
         serializedName: "result",
         type: {
           name: "Enum",
-          allowedValues: ["success", "failure"]
+          allowedValues: [
+            "success",
+            "failure"
+          ]
         }
       }
     }
@@ -5945,7 +6185,10 @@ export const InboundEndpoint: msRest.CompositeMapper = {
         serializedName: "protocol",
         type: {
           name: "Enum",
-          allowedValues: ["tcp", "udp"]
+          allowedValues: [
+            "tcp",
+            "udp"
+          ]
         }
       },
       publicIPAddress: {
@@ -6063,7 +6306,10 @@ export const ComputeNode: msRest.CompositeMapper = {
         serializedName: "schedulingState",
         type: {
           name: "Enum",
-          allowedValues: ["enabled", "disabled"]
+          allowedValues: [
+            "enabled",
+            "disabled"
+          ]
         }
       },
       stateTransitionTime: {
@@ -6358,7 +6604,11 @@ export const JobDisableParameter: msRest.CompositeMapper = {
         serializedName: "disableTasks",
         type: {
           name: "Enum",
-          allowedValues: ["requeue", "terminate", "wait"]
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "wait"
+          ]
         }
       }
     }
@@ -6399,11 +6649,20 @@ export const JobPatchParameter: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      allowTaskPreemption: {
+        serializedName: "allowTaskPreemption",
+        type: {
+          name: "Boolean"
+        }
+      },
       onAllTasksComplete: {
         serializedName: "onAllTasksComplete",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "terminatejob"]
+          allowedValues: [
+            "noaction",
+            "terminatejob"
+          ]
         }
       },
       constraints: {
@@ -6448,6 +6707,19 @@ export const JobUpdateParameter: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      maxParallelTasks: {
+        serializedName: "maxParallelTasks",
+        defaultValue: -1,
+        type: {
+          name: "Number"
+        }
+      },
+      allowTaskPreemption: {
+        serializedName: "allowTaskPreemption",
+        type: {
+          name: "Boolean"
+        }
+      },
       constraints: {
         serializedName: "constraints",
         type: {
@@ -6480,7 +6752,10 @@ export const JobUpdateParameter: msRest.CompositeMapper = {
         serializedName: "onAllTasksComplete",
         type: {
           name: "Enum",
-          allowedValues: ["noaction", "terminatejob"]
+          allowedValues: [
+            "noaction",
+            "terminatejob"
+          ]
         }
       }
     }
@@ -6554,7 +6829,12 @@ export const PoolResizeParameter: msRest.CompositeMapper = {
         serializedName: "nodeDeallocationOption",
         type: {
           name: "Enum",
-          allowedValues: ["requeue", "terminate", "taskcompletion", "retaineddata"]
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "taskcompletion",
+            "retaineddata"
+          ]
         }
       }
     }
@@ -6725,7 +7005,12 @@ export const NodeRebootParameter: msRest.CompositeMapper = {
         serializedName: "nodeRebootOption",
         type: {
           name: "Enum",
-          allowedValues: ["requeue", "terminate", "taskcompletion", "retaineddata"]
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "taskcompletion",
+            "retaineddata"
+          ]
         }
       }
     }
@@ -6742,7 +7027,12 @@ export const NodeReimageParameter: msRest.CompositeMapper = {
         serializedName: "nodeReimageOption",
         type: {
           name: "Enum",
-          allowedValues: ["requeue", "terminate", "taskcompletion", "retaineddata"]
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "taskcompletion",
+            "retaineddata"
+          ]
         }
       }
     }
@@ -6759,7 +7049,11 @@ export const NodeDisableSchedulingParameter: msRest.CompositeMapper = {
         serializedName: "nodeDisableSchedulingOption",
         type: {
           name: "Enum",
-          allowedValues: ["requeue", "terminate", "taskcompletion"]
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "taskcompletion"
+          ]
         }
       }
     }
@@ -6797,7 +7091,12 @@ export const NodeRemoveParameter: msRest.CompositeMapper = {
         serializedName: "nodeDeallocationOption",
         type: {
           name: "Enum",
-          allowedValues: ["requeue", "terminate", "taskcompletion", "retaineddata"]
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "taskcompletion",
+            "retaineddata"
+          ]
         }
       }
     }

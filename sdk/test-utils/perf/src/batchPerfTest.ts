@@ -5,19 +5,19 @@ import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import {
   TestProxyHttpClient,
   TestProxyHttpClientV1,
-  testProxyHttpPolicy
+  testProxyHttpPolicy,
 } from "./testProxyHttpClient";
 import { HttpClient } from "@azure/core-http";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { PerfTestBase } from "./perfTestBase";
 import { PerfParallel } from "./parallel";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**
  * Enables writing perf tests where the number of operations are dynamic for the method/call being tested.
  */
-export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends PerfTestBase<
-  TOptions
-> {
+export abstract class BatchPerfTest<
+  TOptions = Record<string, unknown>
+> extends PerfTestBase<TOptions> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;
@@ -53,28 +53,32 @@ export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends 
   }
 
   /**
-   * configureClient
+   * configureClientOptions
    *
    * For core-v2 - libraries depending on core-rest-pipeline
-   * Apply this method on the client to get the proxy tool support.
+   * Apply this method on the client options to get the proxy tool support.
    *
-   * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
+   * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClient<T>(client: T & { pipeline: Pipeline }): T {
+  public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] }>(
+    options: T
+  ): T {
     if (this.testProxy) {
       this.testProxyHttpClient = new TestProxyHttpClient(
         this.testProxy,
         this.parsedOptions["insecure"].value ?? false
       );
-      client.pipeline.addPolicy(
-        testProxyHttpPolicy(
+      if (!options.additionalPolicies) options.additionalPolicies = [];
+      options.additionalPolicies.push({
+        policy: testProxyHttpPolicy(
           this.testProxyHttpClient,
           this.testProxy.startsWith("https"),
           this.parsedOptions["insecure"].value ?? false
-        )
-      );
+        ),
+        position: "perRetry",
+      });
     }
-    return client;
+    return options;
   }
 
   /**

@@ -9,22 +9,13 @@ import {
   TransactionAction,
   UpdateMode,
   UpdateTableEntityOptions,
-  TableServiceClientOptions,
 } from "./models";
-import {
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import {
   OperationOptions,
   ServiceClient,
   serializationPolicy,
   serializationPolicyName,
-  ServiceClientOptions,
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -44,16 +35,14 @@ import {
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
+
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { createSpan } from "./utils/tracing";
-import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
-import { signURLWithSAS } from "./tablesSASTokenPolicy";
-import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -131,10 +120,9 @@ export class InternalTableTransaction {
     bodyParts: string[];
     partitionKey: string;
   };
-  private clientOptions: TableServiceClientOptions;
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
+  private client: ServiceClient;
 
   /**
    * @param url - Tables account url
@@ -146,13 +134,12 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    clientOptions: TableServiceClientOptions,
+    client: ServiceClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false
   ) {
-    this.clientOptions = clientOptions;
-    this.credential = credential;
+    this.client = client;
     this.url = url;
     this.interceptClient = interceptClient;
     this.allowInsecureConnection = allowInsecureConnection;
@@ -279,15 +266,6 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = this.clientOptions;
-
-    if (isTokenCredential(this.credential)) {
-      options.credentialScopes = STORAGE_SCOPE;
-      options.credential = this.credential;
-    }
-
-    const client = new ServiceClient(options);
-
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
@@ -303,15 +281,8 @@ export class InternalTableTransaction {
       allowInsecureConnection: this.allowInsecureConnection,
     });
 
-    if (isNamedKeyCredential(this.credential)) {
-      const authHeader = getAuthorizationHeader(request, this.credential);
-      request.headers.set("Authorization", authHeader);
-    } else if (isSASCredential(this.credential)) {
-      signURLWithSAS(request, this.credential);
-    }
-
     try {
-      const rawTransactionResponse = await client.sendRequest(request);
+      const rawTransactionResponse = await this.client.sendRequest(request);
       return parseTransactionResponse(rawTransactionResponse);
     } catch (error) {
       span.setStatus({

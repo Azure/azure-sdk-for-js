@@ -5,20 +5,14 @@ import * as path from "path";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 import { OnBehalfOfCredential } from "../../../src";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests,
-} from "../../httpRequestsCommon";
-import { prepareIdentityTests, prepareMSALResponses } from "../../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContext, prepareMSALResponses } from "../../httpRequests";
 
 describe("OnBehalfOfCredential", function () {
-  let testContext: IdentityTestContext;
-  let sendCredentialRequests: SendCredentialRequests;
+  let testContext: IdentityTestContextInterface;
 
   beforeEach(async function () {
-    testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
-    sendCredentialRequests = testContext.sendCredentialRequests;
+    testContext = await new IdentityTestContext({ replaceLogger: true, logLevel: "verbose" });
   });
   afterEach(async function () {
     if (isNode) {
@@ -40,7 +34,7 @@ describe("OnBehalfOfCredential", function () {
         message.match("Initialized MSAL's On-Behalf-Of flow")
       ).length;
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
       credential,
       secureResponses: [
@@ -73,7 +67,7 @@ describe("OnBehalfOfCredential", function () {
         message.match("Initialized MSAL's On-Behalf-Of flow")
       ).length;
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
       credential,
       secureResponses: [

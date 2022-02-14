@@ -1,0 +1,28 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aRelationship;1",
+      "@type": "Relationship",
+      "name": "proximity",
+      "maxMultiplicity": {
+        "@value": 5
+      }
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aRelationship;1",
+        "type": "Relationship",
+        "properties": {
+          "name": "proximity",
+          "maxMultiplicity": 5,
+          "definedIn": null
+        }
+      }
+    ]
+  }
+}

@@ -28,7 +28,7 @@ async function main() {
     const repository = client.getRepository(repositoryName);
     // Obtain the images ordered from newest to oldest
     const imageManifests = repository.listManifestProperties({
-      orderBy: "LastUpdatedOnDescending",
+      order: "LastUpdatedOnDescending",
     });
     const imagesToKeep = 3;
     let imageCount = 0;

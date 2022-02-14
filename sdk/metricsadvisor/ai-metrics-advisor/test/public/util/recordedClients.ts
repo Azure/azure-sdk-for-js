@@ -3,7 +3,13 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { TokenCredential } from "@azure/core-auth";
 import {
@@ -12,11 +18,21 @@ import {
   MetricsAdvisorAdministrationClient,
 } from "../../../src";
 import * as dotenv from "dotenv";
-import { isNode } from "@azure/core-http";
+import { createXhrHttpClient } from "@azure/test-utils";
+
+/**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 if (isNode) {
   dotenv.config();
 }
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
@@ -36,7 +52,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   METRICS_ADVISOR_SUBSCRIPTION_KEY: "sub_key",
   METRICS_ADVISOR_API_KEY: "api_key",
-  METRICS_ADVISOR_ENDPOINT: "https://endpoint/",
+  METRICS_ADVISOR_ENDPOINT: "https://endpoint",
   METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING: blobConnectionString,
   METRICS_ADVISOR_AZURE_BLOB_TEMPLATE: blobTemplate,
   METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID: "appInsights_application",
@@ -86,7 +102,9 @@ export function createRecordedAdminClient(
 ): RecordedAdminClient {
   const recorder = record(context, environmentSetup);
   return {
-    client: new MetricsAdvisorAdministrationClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
+    client: new MetricsAdvisorAdministrationClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey, {
+      httpClient,
+    }),
     recorder,
   };
 }
@@ -97,7 +115,7 @@ export function createRecordedAdvisorClient(
 ): RecordedAdvisorClient {
   const recorder = record(context, environmentSetup);
   return {
-    client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
+    client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey, { httpClient }),
     recorder,
   };
 }
@@ -110,7 +128,10 @@ export function makeCredential(useAad: boolean): TokenCredential | MetricsAdviso
     ? new ClientSecretCredential(
         testEnv.AZURE_TENANT_ID,
         testEnv.AZURE_CLIENT_ID,
-        testEnv.AZURE_CLIENT_SECRET
+        testEnv.AZURE_CLIENT_SECRET,
+        {
+          httpClient,
+        }
       )
     : new MetricsAdvisorKeyCredential(
         testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,

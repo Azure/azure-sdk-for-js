@@ -46,6 +46,7 @@ import {
   SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   LuceneStandardAnalyzer,
   StopAnalyzer,
   PatternAnalyzer as GeneratedPatternAnalyzer,
@@ -147,6 +148,9 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Util.DocumentExtractionSkill":
         result.push(skill as DocumentExtractionSkill);
+        break;
+      case "#Microsoft.Skills.Custom.AmlSkill":
+        result.push(skill as AzureMachineLearningSkill);
         break;
     }
   }
@@ -705,3 +709,7 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
 export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
+
+export const serviceVersions = ["2020-06-30", "2021-04-30-Preview"];
+
+export const defaultServiceVersion = "2021-04-30-Preview";

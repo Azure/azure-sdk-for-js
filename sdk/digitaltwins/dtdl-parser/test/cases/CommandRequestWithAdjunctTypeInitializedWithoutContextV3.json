@@ -1,0 +1,42 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aCommand;1",
+          "@type": "Command",
+          "name": "setDistance",
+          "request": {
+            "@type": [ "CommandRequest", "Initialized" ],
+            "name": "desiredDistance",
+            "schema": "double",
+            "initialValue": 3.14
+          },
+          "response": {
+            "name": "reportedDistance",
+            "schema": "double"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aCommand:_request;1",
+        "type": "CommandRequest",
+        "properties": {
+          "name": "desiredDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        },
+        "supplementalTypes": [],
+        "supplementalProperties": {}
+      }
+    ]
+  }
+}

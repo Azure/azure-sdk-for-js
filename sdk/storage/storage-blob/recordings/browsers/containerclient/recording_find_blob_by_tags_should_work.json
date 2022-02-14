@@ -1,0 +1,224 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8D9C9DEC9E3EBF8\"",
+    "last-modified": "Tue, 28 Dec 2021 08:48:15 GMT",
+    "x-ms-client-request-id": "681081b4-7537-4acc-a67c-c37769dbd191",
+    "x-ms-request-id": "7507300e-601e-0002-39c7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366/blobname1164068129555105929",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8D9C9DECA35D6A6\"",
+    "last-modified": "Tue, 28 Dec 2021 08:48:16 GMT",
+    "x-ms-client-request-id": "917ead95-d520-4e9f-9b4d-0bb36fcba001",
+    "x-ms-request-id": "75073018-601e-0002-40c7-fbe805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366/blobname2164068129611505403",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8D9C9DECA881692\"",
+    "last-modified": "Tue, 28 Dec 2021 08:48:16 GMT",
+    "x-ms-client-request-id": "bb2bc4c5-69ed-4298-8ecb-b48edbee29c9",
+    "x-ms-request-id": "7507301a-601e-0002-42c7-fbe805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366/blobname3164068129660102794",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "etag": "\"0x8D9C9DECAD17C63\"",
+    "last-modified": "Tue, 28 Dec 2021 08:48:17 GMT",
+    "x-ms-client-request-id": "53ecb0bd-d49a-40f0-b212-fe5317a80c23",
+    "x-ms-request-id": "7507301f-601e-0002-45c7-fbe805000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "comp": "blobs",
+    "where": "key164068129555109829='val1164068129555408813'",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Where>key164068129555109829=&apos;val1164068129555408813&apos;</Where><Blobs><Blob><Name>blobname1164068129555105929</Name><ContainerName>container164068129373302366</ContainerName><Tags><TagSet><Tag><Key>key164068129555109829</Key><Value>val1164068129555408813</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker/></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Tue, 28 Dec 2021 08:48:19 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "ab556419-7f2f-4e84-a351-6f4a197ccafb",
+    "x-ms-request-id": "75073021-601e-0002-47c7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "comp": "blobs",
+    "where": "key164068129555109829='val2164068129611706981'",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Where>key164068129555109829=&apos;val2164068129611706981&apos;</Where><Blobs><Blob><Name>blobname2164068129611505403</Name><ContainerName>container164068129373302366</ContainerName><Tags><TagSet><Tag><Key>key164068129555109829</Key><Value>val2164068129611706981</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker/></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Tue, 28 Dec 2021 08:48:19 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "d9bd2c91-1f13-4b63-961b-2b503f0707ba",
+    "x-ms-request-id": "75073023-601e-0002-49c7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "maxresults": "1",
+    "comp": "blobs",
+    "where": "key2164068129555107253='default'",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Where>key2164068129555107253=&apos;default&apos;</Where><MaxResults>1</MaxResults><Blobs><Blob><Name>blobname1164068129555105929</Name><ContainerName>container164068129373302366</ContainerName><Tags><TagSet><Tag><Key>key2164068129555107253</Key><Value>default</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker>2!308!MDAwMDQ0IWNvbnRhaW5lcjE2NDA2ODEyOTM3MzMwMjM2NgEwMUQ3RkJDN0E3NkRBRjAyITAwMDAyNyFibG9ibmFtZTIxNjQwNjgxMjk2MTE1MDU0MDMhMDAwMDE1IQgAAAAHAAAAZGVmYXVsdCEwMDAwMDEhMCEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiEwMDAwMzYhZmEzNWEwODQtNmY0NS00MGVmLTg4MDktMmEyODNkNWNkNjNiITAwMDAyMiFrZXkyMTY0MDY4MTI5NTU1MTA3MjUzIQ--</NextMarker></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Tue, 28 Dec 2021 08:48:20 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "d617039a-f4bb-4c86-9db7-18802d0ef71c",
+    "x-ms-request-id": "75073025-601e-0002-4bc7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "marker": "2!308!MDAwMDQ0IWNvbnRhaW5lcjE2NDA2ODEyOTM3MzMwMjM2NgEwMUQ3RkJDN0E3NkRBRjAyITAwMDAyNyFibG9ibmFtZTIxNjQwNjgxMjk2MTE1MDU0MDMhMDAwMDE1IQgAAAAHAAAAZGVmYXVsdCEwMDAwMDEhMCEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiEwMDAwMzYhZmEzNWEwODQtNmY0NS00MGVmLTg4MDktMmEyODNkNWNkNjNiITAwMDAyMiFrZXkyMTY0MDY4MTI5NTU1MTA3MjUzIQ--",
+    "maxresults": "1",
+    "comp": "blobs",
+    "where": "key2164068129555107253='default'",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Marker>2!308!MDAwMDQ0IWNvbnRhaW5lcjE2NDA2ODEyOTM3MzMwMjM2NgEwMUQ3RkJDN0E3NkRBRjAyITAwMDAyNyFibG9ibmFtZTIxNjQwNjgxMjk2MTE1MDU0MDMhMDAwMDE1IQgAAAAHAAAAZGVmYXVsdCEwMDAwMDEhMCEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiEwMDAwMzYhZmEzNWEwODQtNmY0NS00MGVmLTg4MDktMmEyODNkNWNkNjNiITAwMDAyMiFrZXkyMTY0MDY4MTI5NTU1MTA3MjUzIQ--</Marker><Where>key2164068129555107253=&apos;default&apos;</Where><MaxResults>1</MaxResults><Blobs><Blob><Name>blobname2164068129611505403</Name><ContainerName>container164068129373302366</ContainerName><Tags><TagSet><Tag><Key>key2164068129555107253</Key><Value>default</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker>2!308!MDAwMDQ0IWNvbnRhaW5lcjE2NDA2ODEyOTM3MzMwMjM2NgEwMUQ3RkJDN0E3NkRBRjAyITAwMDAyNyFibG9ibmFtZTMxNjQwNjgxMjk2NjAxMDI3OTQhMDAwMDE1IQgAAAAHAAAAZGVmYXVsdCEwMDAwMDEhMCEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiEwMDAwMzYhZjcxNGE4NDUtNTFjOC00YjU1LTg5MTUtZGRlMmNiODA5YmYyITAwMDAyMiFrZXkyMTY0MDY4MTI5NTU1MTA3MjUzIQ--</NextMarker></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Tue, 28 Dec 2021 08:48:20 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "7d4c0fdc-9c1b-4843-97d4-e54b7ae9a89d",
+    "x-ms-request-id": "75073027-601e-0002-4dc7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "marker": "2!308!MDAwMDQ0IWNvbnRhaW5lcjE2NDA2ODEyOTM3MzMwMjM2NgEwMUQ3RkJDN0E3NkRBRjAyITAwMDAyNyFibG9ibmFtZTMxNjQwNjgxMjk2NjAxMDI3OTQhMDAwMDE1IQgAAAAHAAAAZGVmYXVsdCEwMDAwMDEhMCEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiEwMDAwMzYhZjcxNGE4NDUtNTFjOC00YjU1LTg5MTUtZGRlMmNiODA5YmYyITAwMDAyMiFrZXkyMTY0MDY4MTI5NTU1MTA3MjUzIQ--",
+    "maxresults": "1",
+    "comp": "blobs",
+    "where": "key2164068129555107253='default'",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Marker>2!308!MDAwMDQ0IWNvbnRhaW5lcjE2NDA2ODEyOTM3MzMwMjM2NgEwMUQ3RkJDN0E3NkRBRjAyITAwMDAyNyFibG9ibmFtZTMxNjQwNjgxMjk2NjAxMDI3OTQhMDAwMDE1IQgAAAAHAAAAZGVmYXVsdCEwMDAwMDEhMCEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiEwMDAwMzYhZjcxNGE4NDUtNTFjOC00YjU1LTg5MTUtZGRlMmNiODA5YmYyITAwMDAyMiFrZXkyMTY0MDY4MTI5NTU1MTA3MjUzIQ--</Marker><Where>key2164068129555107253=&apos;default&apos;</Where><MaxResults>1</MaxResults><Blobs><Blob><Name>blobname3164068129660102794</Name><ContainerName>container164068129373302366</ContainerName><Tags><TagSet><Tag><Key>key2164068129555107253</Key><Value>default</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker/></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Tue, 28 Dec 2021 08:48:20 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "0397dc3c-4318-42e2-8247-3fa1f81df1bc",
+    "x-ms-request-id": "75073029-601e-0002-4fc7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "comp": "blobs",
+    "where": "key164068129555109829='val1164068129555408813' AND key2164068129555107253='default'",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Where>key164068129555109829=&apos;val1164068129555408813&apos; AND key2164068129555107253=&apos;default&apos;</Where><Blobs><Blob><Name>blobname1164068129555105929</Name><ContainerName>container164068129373302366</ContainerName><Tags><TagSet><Tag><Key>key164068129555109829</Key><Value>val1164068129555408813</Value></Tag><Tag><Key>key2164068129555107253</Key><Value>default</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker/></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Tue, 28 Dec 2021 08:48:21 GMT",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "96d943e8-9a96-47a9-b53e-e6b3bc56106b",
+    "x-ms-request-id": "7507302b-601e-0002-51c7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container164068129373302366",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-client-request-id": "3aa36e9b-d25b-4db1-82ab-f03c4aead444",
+    "x-ms-request-id": "7507302d-601e-0002-53c7-fbe805000000",
+    "x-ms-version": "2021-04-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container164068129373302366",
+   "key": "key164068129555109829",
+   "key2": "key2164068129555107253",
+   "blobname1": "blobname1164068129555105929",
+   "val1": "val1164068129555408813",
+   "blobname2": "blobname2164068129611505403",
+   "val2": "val2164068129611706981",
+   "blobname3": "blobname3164068129660102794",
+   "val3": "val3164068129660107157"
+  },
+  "newDate": {}
+ },
+ "hash": "8a3f7cd2cee238446858b49d03590117"
+}

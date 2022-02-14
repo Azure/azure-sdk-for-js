@@ -2,19 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroSerializer to serialize and deserialize using schema from Schema Registry.
+ * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { SchemaRegistryAvroSerializer } from "@azure/schema-registry-avro";
+import { AvroEncoder } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// Set these environment variables or edit the following values
-const endpoint = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+// The fully qualified namespace for schema registry
+const schemaRegistryFullyQualifiedNamespace =
+  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+
+// The schema group to use for schema registeration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names
@@ -52,26 +55,29 @@ const schemaDescription: SchemaDescription = {
 
 export async function main() {
   // Create a new client
-  const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new SchemaRegistryClient(
+    schemaRegistryFullyQualifiedNamespace,
+    new DefaultAzureCredential()
+  );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let serialize automatically register schemas
-  // using autoRegisterSchemas=true, but that is NOT recommended in production.
+  // You can also skip this step and let `encodeMessageData` automatically register
+  // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await client.registerSchema(schemaDescription);
 
-  // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroSerializer(client, { groupName });
+  // Create a new encoder backed by the client
+  const encoder = new AvroEncoder(client, { groupName });
 
-  // serialize an object that matches the schema
+  // encode an object that matches the schema and put it in a message
   const value: User = { firstName: "Jane", lastName: "Doe" };
-  const buffer = await serializer.serialize(value, schema);
-  console.log("Serialized:");
-  console.log(buffer);
+  const message = await encoder.encodeMessageData(value, schema);
+  console.log("Created message:");
+  console.log(JSON.stringify(message));
 
-  // deserialize the result back to an object
-  const deserializedValue = (await serializer.deserialize(buffer)) as User;
-  console.log("Deserialized:");
-  console.log(`${deserializedValue.firstName} ${deserializedValue.lastName}`);
+  // decode the message back to an object
+  const decodedObject = await encoder.decodeMessageData(message);
+  console.log("Decoded object:");
+  console.log(JSON.stringify(decodedObject as User));
 }
 
 main().catch((err) => {

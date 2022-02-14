@@ -7,7 +7,7 @@ parameters:
     default: false
   - name: TestProxy
     type: boolean
-    default: false
+    default: true
   - name: ServiceDirectory
     type: string
     default: not-specified

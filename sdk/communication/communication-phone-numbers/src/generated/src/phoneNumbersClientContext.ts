@@ -11,7 +11,7 @@ import { PhoneNumbersClientOptionalParams } from "./models";
 import { lroPolicy } from "./lro";
 
 const packageName = "azure-communication-phone-numbers";
-const packageVersion = "1.0.1";
+const packageVersion = "1.2.0-beta.1";
 
 export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -78,6 +78,6 @@ export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-03-07";
+    this.apiVersion = options.apiVersion || "2022-01-11-preview2";
   }
 }

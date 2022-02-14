@@ -1,0 +1,135 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aCommand;1",
+      "@type": "Command",
+      "name": "setDistance",
+      "request": {
+        "name": "desiredDistance",
+        "schema": "double",
+        "displayName": "Distance",
+        "description": [
+          {
+            "@language": "en",
+            "@value": "desired distance"
+          },
+          {
+            "@language": "es",
+            "@value": "distancia deseada"
+          }
+        ],
+        "comment": "Desired distance"
+      },
+      "response": {
+        "name": "reportedDistance",
+        "schema": "double",
+        "displayName": "Distance",
+        "description": [
+          {
+            "@language": "en",
+            "@value": "reported distance"
+          },
+          {
+            "@language": "es",
+            "@value": "distancia reportada"
+          }
+        ],
+        "comment": "Reported distance"
+      },
+      "commandType": "asynchronous",
+      "displayName": {
+        "en": "Distance",
+        "es": "Distancia"
+      },
+      "description": [
+        {
+          "@language": "en",
+          "@value": "how close"
+        },
+        {
+          "@language": "es",
+          "@value": "lo cerca que"
+        }
+      ],
+      "comment": "How close should it be?"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aCommand;1",
+        "type": "Command",
+        "properties": {
+          "name": "setDistance",
+          "request": "dtmi:test:aCommand:_request;1",
+          "response": "dtmi:test:aCommand:_response;1",
+          "commandType": "dtmi:dtdl:instance:CommandType:asynchronous;3",
+          "displayName": {
+            "en": "Distance",
+            "es": "Distancia"
+          },
+          "description": {
+            "en": "how close",
+            "es": "lo cerca que"
+          },
+          "comment": "How close should it be?",
+          "definedIn": null
+        }
+      },
+      {
+        "id": "dtmi:test:aCommand:_request;1",
+        "type": "CommandRequest",
+        "properties": {
+          "name": "desiredDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;3",
+          "displayName": {
+            "en": "Distance"
+          },
+          "description": {
+            "en": "desired distance",
+            "es": "distancia deseada"
+          },
+          "comment": "Desired distance",
+          "definedIn": "dtmi:test:aCommand;1"
+        }
+      },
+      {
+        "id": "dtmi:test:aCommand:_response;1",
+        "type": "CommandResponse",
+        "properties": {
+          "name": "reportedDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;3",
+          "displayName": {
+            "en": "Distance"
+          },
+          "description": {
+            "en": "reported distance",
+            "es": "distancia reportada"
+          },
+          "comment": "Reported distance",
+          "definedIn": "dtmi:test:aCommand;1"
+        }
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:aCommand;1",
+      "throws": true,
+      "submit": "22"
+    },
+    {
+      "subject": "dtmi:test:aCommand:_request;1",
+      "throws": true,
+      "submit": "22"
+    },
+    {
+      "subject": "dtmi:test:aCommand:_response;1",
+      "throws": true,
+      "submit": "22"
+    }
+  ]
+}

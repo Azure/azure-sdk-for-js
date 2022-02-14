@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - LRO - create", () => {
   const certificatePrefix = `lroCreate${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -19,7 +20,7 @@ describe("Certificates client - LRO - create", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

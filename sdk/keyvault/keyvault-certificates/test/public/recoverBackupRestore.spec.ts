@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { assertThrowsAbortError } from "./utils/common";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -25,7 +26,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   };
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

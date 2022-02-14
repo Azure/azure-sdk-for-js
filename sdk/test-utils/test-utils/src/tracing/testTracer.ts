@@ -9,35 +9,10 @@ import {
   TraceFlags,
   Context as OTContext,
   context as otContext,
-  getSpanContext,
-  Tracer
-} from "@azure/core-tracing";
-
-/**
- * Simple representation of a Span that only has name and child relationships.
- * Children should be arranged in the order they were created.
- */
-export interface SpanGraphNode {
-  /**
-   * The Span name
-   */
-  name: string;
-  /**
-   * All child Spans of this Span
-   */
-  children: SpanGraphNode[];
-}
-
-/**
- * Contains all the spans for a particular TraceID
- * starting at unparented roots
- */
-export interface SpanGraph {
-  /**
-   * All Spans without a parentSpanId
-   */
-  roots: SpanGraphNode[];
-}
+  Tracer,
+  trace as otTrace,
+} from "@opentelemetry/api";
+import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 
 /**
  * A mock tracer useful for testing
@@ -99,7 +74,7 @@ export class TestTracer implements Tracer {
       const spanId = span.spanContext().spanId;
       const node: SpanGraphNode = {
         name: span.name,
-        children: []
+        children: [],
       };
       nodeMap.set(spanId, node);
       if (span.parentSpanId) {
@@ -116,7 +91,7 @@ export class TestTracer implements Tracer {
     }
 
     return {
-      roots
+      roots,
     };
   }
 
@@ -141,7 +116,7 @@ export class TestTracer implements Tracer {
     const spanContext: SpanContext = {
       traceId,
       spanId: this.getNextSpanId(),
-      traceFlags: TraceFlags.NONE
+      traceFlags: TraceFlags.NONE,
     };
     const span = new TestSpan(
       this,
@@ -166,4 +141,40 @@ export class TestTracer implements Tracer {
   startActiveSpan(): never {
     throw new Error("Method not implemented.");
   }
+}
+
+/**
+ * Get the span context of the span if it exists.
+ *
+ * @param context - context to get values from
+ */
+export function getSpanContext(context: Context): SpanContext | undefined {
+  return otTrace.getSpanContext(context);
+}
+
+/**
+ * OpenTelemetry compatible interface for Context
+ */
+export interface Context {
+  /**
+   * Get a value from the context.
+   *
+   * @param key - key which identifies a context value
+   */
+  getValue(key: symbol): unknown;
+  /**
+   * Create a new context which inherits from this context and has
+   * the given key set to the given value.
+   *
+   * @param key - context key for which to set the value
+   * @param value - value to set for the given key
+   */
+  setValue(key: symbol, value: unknown): Context;
+  /**
+   * Return a new context which inherits from this context but does
+   * not contain a value for the given key.
+   *
+   * @param key - context key for which to clear a value
+   */
+  deleteValue(key: symbol): Context;
 }

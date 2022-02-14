@@ -19,11 +19,11 @@ import { bytesToString } from "./utils/utf8";
 
 import {
   AttestationResponse,
+  AttestationSigner,
   AttestationTokenValidationOptions,
   AttestationType,
-  PolicyResult,
-  AttestationSigner,
   PolicyCertificatesModificationResult,
+  PolicyResult,
 } from "./models";
 import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
 
