@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ServiceClient } from "@azure/core-client";
 import { KeepAliveOptions } from "./policies/keepAliveOptions";
 import { createKeepAlivePolicy } from "./policies/keepAlivePolicy";
