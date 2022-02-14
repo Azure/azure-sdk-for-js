@@ -5,20 +5,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "23cf208d-a303-48a5-97dd-4f6df07d9552",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics-definitions/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics-definitions/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "7fe07089-74b2-40fb-9bf7-fd05d73a6569"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -26,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 11 Feb 2022 23:24:42 GMT",
+        "Date": "Fri, 11 Feb 2022 23:21:01 GMT",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -36,10 +27,10 @@
         ],
         "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e0820bcf-8f1f-4cd5-98eb-bfe389f530fb",
+        "x-ms-correlation-request-id": "aff886e7-4c68-4608-a1de-0807a0279c65",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "399",
-        "x-ms-request-id": "{e0820bcf-8f1f-4cd5-98eb-bfe389f530fb}",
-        "x-ms-routing-request-id": "WESTUS2:20220211T232443Z:e0820bcf-8f1f-4cd5-98eb-bfe389f530fb",
+        "x-ms-request-id": "{aff886e7-4c68-4608-a1de-0807a0279c65}",
+        "x-ms-routing-request-id": "WESTUS2:20220211T232101Z:aff886e7-4c68-4608-a1de-0807a0279c65",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
@@ -237,20 +228,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "80b57a58-427f-4060-8ea1-e54fdd47cbbb",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9925fcc9-e6b1-4e85-be4f-838811d35816"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -258,7 +240,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 11 Feb 2022 23:24:43 GMT",
+        "Date": "Fri, 11 Feb 2022 23:21:01 GMT",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -268,15 +250,15 @@
         ],
         "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2b203b81-9517-44c1-8a07-f49379b39487",
+        "x-ms-correlation-request-id": "f87a2b17-eb19-478d-9a82-e5ad17965c43",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "{2b203b81-9517-44c1-8a07-f49379b39487}",
-        "x-ms-routing-request-id": "WESTUS2:20220211T232443Z:2b203b81-9517-44c1-8a07-f49379b39487",
+        "x-ms-request-id": "{f87a2b17-eb19-478d-9a82-e5ad17965c43}",
+        "x-ms-routing-request-id": "WESTUS2:20220211T232102Z:f87a2b17-eb19-478d-9a82-e5ad17965c43",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
         "cost": 59,
-        "timespan": "2022-02-11T22:24:43Z/2022-02-11T23:24:43Z",
+        "timespan": "2022-02-11T22:21:01Z/2022-02-11T23:21:01Z",
         "interval": "PT1M",
         "value": [
           {
@@ -292,6 +274,18 @@
               {
                 "metadatavalues": [],
                 "data": [
+                  {
+                    "timeStamp": "2022-02-11T22:21:00Z",
+                    "count": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-11T22:22:00Z",
+                    "count": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-11T22:23:00Z",
+                    "count": 0.0
+                  },
                   {
                     "timeStamp": "2022-02-11T22:24:00Z",
                     "count": 0.0
@@ -518,18 +512,6 @@
                   },
                   {
                     "timeStamp": "2022-02-11T23:20:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:21:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:22:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:23:00Z",
                     "count": 0.0
                   }
                 ]
@@ -547,20 +529,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "470248f6-99ae-406b-9380-1fa7db347847",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "9dee4e05-7842-417e-a647-182b92b6e724"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -568,7 +541,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 11 Feb 2022 23:24:43 GMT",
+        "Date": "Fri, 11 Feb 2022 23:21:01 GMT",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -578,15 +551,15 @@
         ],
         "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7bc2ab0c-d4e6-401a-a2b4-d674150bdde6",
+        "x-ms-correlation-request-id": "78479e3c-eb97-45fb-86ac-ee8b640d009a",
         "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "{7bc2ab0c-d4e6-401a-a2b4-d674150bdde6}",
-        "x-ms-routing-request-id": "WESTUS2:20220211T232444Z:7bc2ab0c-d4e6-401a-a2b4-d674150bdde6",
+        "x-ms-request-id": "{78479e3c-eb97-45fb-86ac-ee8b640d009a}",
+        "x-ms-routing-request-id": "WESTUS2:20220211T232102Z:78479e3c-eb97-45fb-86ac-ee8b640d009a",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
         "cost": 59,
-        "timespan": "2022-02-11T22:24:44Z/2022-02-11T23:24:44Z",
+        "timespan": "2022-02-11T22:21:02Z/2022-02-11T23:21:02Z",
         "interval": "PT1M",
         "value": [
           {
@@ -602,6 +575,18 @@
               {
                 "metadatavalues": [],
                 "data": [
+                  {
+                    "timeStamp": "2022-02-11T22:21:00Z",
+                    "average": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-11T22:22:00Z",
+                    "average": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-11T22:23:00Z",
+                    "average": 0.0
+                  },
                   {
                     "timeStamp": "2022-02-11T22:24:00Z",
                     "average": 0.0
@@ -828,18 +813,6 @@
                   },
                   {
                     "timeStamp": "2022-02-11T23:20:00Z",
-                    "average": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:21:00Z",
-                    "average": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:22:00Z",
-                    "average": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:23:00Z",
                     "average": 0.0
                   }
                 ]
@@ -857,20 +830,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "fc8824d3-afb1-4dc8-b90d-9d206e7546b0",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "18bcea5b-2cce-4dc9-b080-58adabfcaba8"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -878,7 +842,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 11 Feb 2022 23:24:43 GMT",
+        "Date": "Fri, 11 Feb 2022 23:21:02 GMT",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -888,15 +852,15 @@
         ],
         "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a6077e15-a163-4617-bdde-340de4eb282d",
+        "x-ms-correlation-request-id": "6ee33398-f4a1-4cfb-815d-a3d3d92d7a6a",
         "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "{a6077e15-a163-4617-bdde-340de4eb282d}",
-        "x-ms-routing-request-id": "WESTUS2:20220211T232444Z:a6077e15-a163-4617-bdde-340de4eb282d",
+        "x-ms-request-id": "{6ee33398-f4a1-4cfb-815d-a3d3d92d7a6a}",
+        "x-ms-routing-request-id": "WESTUS2:20220211T232102Z:6ee33398-f4a1-4cfb-815d-a3d3d92d7a6a",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
         "cost": 59,
-        "timespan": "2022-02-11T22:24:44Z/2022-02-11T23:24:44Z",
+        "timespan": "2022-02-11T22:21:02Z/2022-02-11T23:21:02Z",
         "interval": "PT1M",
         "value": [
           {
@@ -912,6 +876,18 @@
               {
                 "metadatavalues": [],
                 "data": [
+                  {
+                    "timeStamp": "2022-02-11T22:21:00Z",
+                    "count": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-11T22:22:00Z",
+                    "count": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-11T22:23:00Z",
+                    "count": 0.0
+                  },
                   {
                     "timeStamp": "2022-02-11T22:24:00Z",
                     "count": 0.0
@@ -1139,18 +1115,6 @@
                   {
                     "timeStamp": "2022-02-11T23:20:00Z",
                     "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:21:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:22:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:23:00Z",
-                    "count": 0.0
                   }
                 ]
               }
@@ -1167,20 +1131,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "c5825e86-15dd-47fb-859a-e3a9707ad0cc",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e1438717-7dfb-4387-9e39-aa58760eeebb"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1188,7 +1143,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Fri, 11 Feb 2022 23:24:43 GMT",
+        "Date": "Fri, 11 Feb 2022 23:21:02 GMT",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1198,15 +1153,15 @@
         ],
         "X-AspNet-Version": "4.0.30319",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ad87a333-ad70-46be-a138-101a915fc551",
+        "x-ms-correlation-request-id": "e8558f9f-35d8-4b80-b9cf-7c8e2006ada1",
         "x-ms-ratelimit-remaining-subscription-reads": "11996",
-        "x-ms-request-id": "{ad87a333-ad70-46be-a138-101a915fc551}",
-        "x-ms-routing-request-id": "WESTUS2:20220211T232444Z:ad87a333-ad70-46be-a138-101a915fc551",
+        "x-ms-request-id": "{e8558f9f-35d8-4b80-b9cf-7c8e2006ada1}",
+        "x-ms-routing-request-id": "WESTUS2:20220211T232102Z:e8558f9f-35d8-4b80-b9cf-7c8e2006ada1",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
         "cost": 1439,
-        "timespan": "2022-02-10T23:23:44Z/2022-02-11T23:23:44Z",
+        "timespan": "2022-02-10T23:20:02Z/2022-02-11T23:20:02Z",
         "interval": "PT1M",
         "value": [
           {
@@ -1222,6 +1177,18 @@
               {
                 "metadatavalues": [],
                 "data": [
+                  {
+                    "timeStamp": "2022-02-10T23:20:00Z",
+                    "count": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-10T23:21:00Z",
+                    "count": 0.0
+                  },
+                  {
+                    "timeStamp": "2022-02-10T23:22:00Z",
+                    "count": 0.0
+                  },
                   {
                     "timeStamp": "2022-02-10T23:23:00Z",
                     "count": 0.0
@@ -6968,18 +6935,6 @@
                   },
                   {
                     "timeStamp": "2022-02-11T23:19:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:20:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:21:00Z",
-                    "count": 0.0
-                  },
-                  {
-                    "timeStamp": "2022-02-11T23:22:00Z",
                     "count": 0.0
                   }
                 ]
