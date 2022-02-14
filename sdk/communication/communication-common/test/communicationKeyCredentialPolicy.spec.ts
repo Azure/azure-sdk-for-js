@@ -16,8 +16,7 @@ import { isNode } from "../src/credential/isNode";
 describe("CommunicationKeyCredentialPolicy", () => {
   it("signs the request", async () => {
     const credential = new MockKeyCredential("pw==");
-    const communicationKeyCredentialPolicy =
-      createCommunicationKeyCredentialPolicy(credential);
+    const communicationKeyCredentialPolicy = createCommunicationKeyCredentialPolicy(credential);
 
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
 

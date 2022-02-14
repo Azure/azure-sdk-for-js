@@ -3,9 +3,13 @@
 
 import {
   AutoRefreshTokenCredential,
-  CommunicationTokenRefreshOptions
+  CommunicationTokenRefreshOptions,
 } from "./autoRefreshTokenCredential";
-import { CommunicationGetTokenOptions, CommunicationTokenCredential, TokenCredential } from "./communicationTokenCredential";
+import {
+  CommunicationGetTokenOptions,
+  CommunicationTokenCredential,
+  TokenCredential,
+} from "./communicationTokenCredential";
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";

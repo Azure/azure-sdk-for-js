@@ -24,9 +24,7 @@ const communicationKeyCredentialPolicy = "CommunicationKeyCredentialPolicy";
  *
  * @param credential - The key credential.
  */
-export function createCommunicationKeyCredentialPolicy(
-  credential: KeyCredential
-): PipelinePolicy {
+export function createCommunicationKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
     name: communicationKeyCredentialPolicy,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {

@@ -6,8 +6,8 @@ import { URL } from "./url";
 import { parseConnectionString } from "./connectionString";
 
 const isValidEndpoint = (host: string): boolean => {
-  const url = new URL(host); 
-  
+  const url = new URL(host);
+
   return (
     !!url.protocol?.match(/^http[s]?/) &&
     url.host !== undefined &&
