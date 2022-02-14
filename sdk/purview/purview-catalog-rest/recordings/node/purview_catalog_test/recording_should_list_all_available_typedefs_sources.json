@@ -5,20 +5,11 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "7adf925f-e25f-4edf-a148-9a3cd81e749f",
-        "x-ms-useragent": "core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "65147379-a9f1-4067-8d86-c17df79f967b"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -30,7 +21,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 14 Feb 2022 20:37:49 GMT",
+        "Date": "Mon, 14 Feb 2022 20:37:40 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "AzurePurview",
@@ -41,8 +32,8 @@
           "nosniff"
         ],
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "a8da3631-5b9e-41a4-88d8-89763d73da95",
-        "x-ms-request-id": "7adf925f-e25f-4edf-a148-9a3cd81e749f",
+        "x-ms-correlation-request-id": "3a3f9a4e-7efa-49a0-bdfa-91e88cd2dc14",
+        "x-ms-request-id": "65147379-a9f1-4067-8d86-c17df79f967b",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
