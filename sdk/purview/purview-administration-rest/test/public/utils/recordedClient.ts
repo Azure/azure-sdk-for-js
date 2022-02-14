@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { env, Recorder, RecorderStartOptions, isLiveMode } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import {
   PurviewAccount,
   PurviewAccountClient,
@@ -11,11 +11,8 @@ import {
   PurviewMetadataPoliciesClient,
 } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import { ClientOptions } from "@azure-rest/core-client";
-
-const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
@@ -38,7 +35,7 @@ export async function createAccountClient(
   return PurviewAccountClient(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ httpClient, ...options })
+    recorder.configureClientOptions({ options })
   );
 }
 
@@ -52,6 +49,6 @@ export async function createMetadataClient(
   return PurviewMetadataPoliciesClient(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ httpClient, ...options })
+    recorder.configureClientOptions({ options })
   );
 }
