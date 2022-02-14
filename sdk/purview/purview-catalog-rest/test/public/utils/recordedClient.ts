@@ -7,13 +7,8 @@ import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
-import * as dotenv from "dotenv";
 
 import { env, Recorder, RecorderStartOptions, isLiveMode } from "@azure-tools/test-recorder";
-
-if (isNode) {
-  dotenv.config();
-}
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",
