@@ -8,15 +8,15 @@ import {
   SendRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { shaHash, shaHMAC } from "./cryptoUtils";
-import { URL } from "./url";
-import { isNode } from "./isNode";
+import { shaHash, shaHMAC } from "../cryptoUtils";
+import { URL } from "../url";
+import { isNode } from "../isNode";
 
 /**
- * CommunicationAccessKeyCredentialPolicy provides a means of signing requests made through
+ * CommunicationKeyCredentialPolicy provides a means of signing requests made through
  * the SmsClient.
  */
-const communicationAccessKeyCredentialPolicy = "CommunicationAccessKeyCredentialPolicy";
+const communicationKeyCredentialPolicy = "CommunicationKeyCredentialPolicy";
 
 /**
  * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
@@ -24,11 +24,11 @@ const communicationAccessKeyCredentialPolicy = "CommunicationAccessKeyCredential
  *
  * @param credential - The key credential.
  */
-export function createCommunicationAccessKeyCredentialPolicy(
+export function createCommunicationKeyCredentialPolicy(
   credential: KeyCredential
 ): PipelinePolicy {
   return {
-    name: communicationAccessKeyCredentialPolicy,
+    name: communicationKeyCredentialPolicy,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const verb = request.method.toUpperCase();
       const utcNow = new Date().toUTCString();

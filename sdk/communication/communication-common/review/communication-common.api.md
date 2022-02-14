@@ -4,9 +4,10 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/core-http';
-import { AccessToken } from '@azure/core-http';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -16,7 +17,7 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
-    }
+}
 
 // @public
 export interface CommunicationGetTokenOptions {
@@ -52,11 +53,17 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
     kind: "communicationUser";
 }
 
-// @public
+// @public @deprecated
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
+export const createCommunicationAuthenticationPolicy: (credential: KeyCredential | TokenCredential) => PipelinePolicy;
+
+// @public @deprecated
 export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
+
+// @public
+export function createCommunicationKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy;
 
 // @public
 export const deserializeCommunicationIdentifier: (serializedIdentifier: SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
@@ -161,7 +168,6 @@ export type UrlWithCredential = {
     url: string;
     credential: TokenCredential | KeyCredential;
 };
-
 
 // (No @packageDocumentation comment for this package)
 

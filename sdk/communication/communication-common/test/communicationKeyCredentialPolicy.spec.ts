@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createCommunicationAccessKeyCredentialPolicy } from "../src/credential/communicationAccessKeyCredentialPolicy";
+import { createCommunicationKeyCredentialPolicy } from "../src/credential/auth-policy-v2/communicationKeyCredentialPolicy";
 import {
   createPipelineRequest,
   HttpClient,
@@ -13,11 +13,11 @@ import {
 import { KeyCredential } from "@azure/core-auth";
 import { isNode } from "../src/credential/isNode";
 
-describe("CommunicationAccessKeyCredentialPolicy", () => {
+describe("CommunicationKeyCredentialPolicy", () => {
   it("signs the request", async () => {
     const credential = new MockKeyCredential("pw==");
-    const communicationAccessKeyCredentialPolicy =
-      createCommunicationAccessKeyCredentialPolicy(credential);
+    const communicationKeyCredentialPolicy =
+      createCommunicationKeyCredentialPolicy(credential);
 
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
 
@@ -41,7 +41,7 @@ describe("CommunicationAccessKeyCredentialPolicy", () => {
     };
 
     const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(communicationAccessKeyCredentialPolicy);
+    pipeline.addPolicy(communicationKeyCredentialPolicy);
     const pipelineResponse = await pipeline.sendRequest(testHttpsClient, pipelineRequest);
 
     const authHeader = pipelineResponse.request.headers.get("Authorization");
