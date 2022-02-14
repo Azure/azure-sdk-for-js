@@ -17,19 +17,19 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "ff890e8d-1f7d-4659-8f50-7d21f4a4dabf",
+        "x-ms-client-request-id": "4d6d46cb-096b-4fe2-809d-bad9fcfcae84",
         "x-ms-useragent": "core-rest-pipeline/1.5.1 OS/Win32"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 12 Feb 2022 23:29:11 GMT",
+        "Date": "Mon, 14 Feb 2022 19:22:13 GMT",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "x-ms-account-status": "Succeeded",
-        "x-ms-correlation-request-id": "5fab08fe-2618-4be8-a169-896cfe5ed261"
+        "x-ms-correlation-request-id": "1da10fdb-0cf8-407d-8621-27a92bd303ad"
       },
       "ResponseBody": {
         "sku": {
@@ -66,7 +66,7 @@
         "identity": {
           "type": "SystemAssigned",
           "principalId": "cb046a1b-cf5b-4a43-b188-322568afb9d4",
-          "tenantId": "98123456-7614-3456-5678-789980112547"
+          "tenantId": "88888888-8888-8888-8888-888888888888"
         },
         "tags": {},
         "systemData": {
