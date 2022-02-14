@@ -120,12 +120,11 @@ describe("Certificates client - create, read, update and delete", () => {
   it("can update the tags of a certificate", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-    const certificatePoller = await client.beginCreateCertificate(
+    await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties
     );
-    await certificatePoller.pollUntilDone();
     await client.updateCertificateProperties(certificateName, "", {
       tags: {
         customTag: "value",
@@ -351,14 +350,12 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can delete a certificate", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const certificatePoller = await client.beginCreateCertificate(
+    await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties
     );
-    await certificatePoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    await poller.pollUntilDone();
     const result = poller.getResult()!;
 
     assert.equal(typeof result.recoveryId, "string");
