@@ -124,7 +124,7 @@ It is important that `recorder.stop()` is called, or otherwise the next test wil
 
 ## XHRHttpClient
 
-The legacy recorder didn't support recording browser calls made through the Fetch API. As a result, when fetch API was introduced in `core-rest-pipeline` a work around was applied to the libraries not yet migrated to the new recorder, this workaround needs to be removed as part of the migration. Make the following changes, tipically located in `utils/recordedClient.ts`
+The legacy recorder didn't support recording browser calls made through the Fetch API. As a result, when fetch API was introduced in `core-rest-pipeline` a workaround was applied to the libraries not yet migrated to the new recorder, this workaround needs to be removed as part of the migration. Make the following changes, typically located in `utils/recordedClient.ts`
 
 ```diff
 - const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
