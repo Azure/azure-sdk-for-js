@@ -710,7 +710,7 @@ export const FactoryUpdateParameters: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
-        serializedName: "publicNetworkAccess",
+        serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
         }
@@ -6702,6 +6702,106 @@ export const PowerQuerySinkMapping: coreClient.CompositeMapper = {
               className: "PowerQuerySink"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ScriptActivityScriptBlock: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScriptActivityScriptBlock",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScriptActivityParameter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ScriptActivityParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScriptActivityParameter",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ScriptActivityTypePropertiesLogSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScriptActivityTypePropertiesLogSettings",
+    modelProperties: {
+      logDestination: {
+        serializedName: "logDestination",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      logLocationSettings: {
+        serializedName: "logLocationSettings",
+        type: {
+          name: "Composite",
+          className: "LogLocationSettings"
         }
       }
     }
@@ -25115,6 +25215,39 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
   }
 };
 
+export const ScriptActivity: coreClient.CompositeMapper = {
+  serializedName: "Script",
+  type: {
+    name: "Composite",
+    className: "ScriptActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      scripts: {
+        serializedName: "typeProperties.scripts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScriptActivityScriptBlock"
+            }
+          }
+        }
+      },
+      logSettings: {
+        serializedName: "typeProperties.logSettings",
+        type: {
+          name: "Composite",
+          className: "ScriptActivityTypePropertiesLogSettings"
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleTrigger: coreClient.CompositeMapper = {
   serializedName: "ScheduleTrigger",
   type: {
@@ -27398,6 +27531,7 @@ export let discriminators = {
   "Activity.DatabricksSparkPython": DatabricksSparkPythonActivity,
   "Activity.AzureFunctionActivity": AzureFunctionActivity,
   "Activity.ExecuteDataFlow": ExecuteDataFlowActivity,
+  "Activity.Script": ScriptActivity,
   "Trigger.ScheduleTrigger": ScheduleTrigger,
   "Trigger.BlobTrigger": BlobTrigger,
   "Trigger.BlobEventsTrigger": BlobEventsTrigger,

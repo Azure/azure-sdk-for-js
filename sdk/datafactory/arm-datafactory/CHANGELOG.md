@@ -1,15 +1,23 @@
 # Release History
+    
+## 10.2.0 (2022-02-14)
+    
+**Features**
 
-## 10.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ScriptActivityParameter
+  - Added Interface ScriptActivityScriptBlock
+  - Added Interface ScriptActivityTypePropertiesLogSettings
+  - Added Type Alias ScriptActivity
+  - Added Type Alias ScriptActivityLogDestination
+  - Added Type Alias ScriptActivityParameterDirection
+  - Added Type Alias ScriptActivityParameterType
+  - Added Type Alias ScriptType
+  - Added Enum KnownScriptActivityLogDestination
+  - Added Enum KnownScriptActivityParameterDirection
+  - Added Enum KnownScriptActivityParameterType
+  - Added Enum KnownScriptType
+    
+    
 ## 10.1.0 (2022-01-10)
     
 **Features**

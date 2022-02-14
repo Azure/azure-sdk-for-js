@@ -9821,22 +9821,22 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-ysazeGstEeIGdOFX6acPvAcZn5A8j6AQCAtos+depAtZQ0z04/l+2Y+OWyuh8+uKIhY+/iz/VMqRawFRm1EY0g==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-UH32IrZ05BYFMqfakt70EmTQsW+QVGgMw9gtJnETJPpfoFnPYlW51xBFXxTRjHU22gqHAFjxyVHhqfF3NucErQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -12966,7 +12966,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-DBJrNjfBDQPpuhuC1CK2Tf09gwxZR8AFbUUmjOkxzU4Ra4+k8WNYyADJUQPWDxUnCg+/wckXoRZL/jkX39lpSg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-EFTZnQnEhHbqmL1CZJWw7bgI7vYq4WRTRkjsjf8ixNAarMw/NVp3eLd+skni99Hs4F+x4ZhIihyjSIExV5yLJA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -13007,7 +13007,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13601,7 +13600,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-DaRzGWNUMNnkx5XtovGZ1VfqT6XHzNoh6ivGkD3kWQEGRtv11tnZ75Aguv/eG/3SromlH20PiCA+RQWcLm3FLQ==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-TEbNW856SR3kFwVpkaq6xq+/lScXvhz1tDQwNF6qBlgQOSMwk5VnR+R82rTsPT0G9gSoTWrnox0ZpAja5SolDA==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -13646,7 +13645,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13965,7 +13963,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-Zjderk9z4yJ2X0VCX+Bg2mv4sRQQVGvPYhz4bqwQe8ekduCFek0KT0230RKdGANBSmWtYN/zbxmPbjexRtOv8A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-/D9UB0TNxhGrAggxo5vIN6OmKdenUTYw+XbUlwEbi7efhTrXpxmBXPBZ9fDjYvWWurgmrcB5BmDbs79tY6R8Ow==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -15306,7 +15304,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-WnLaSRZ6CxnvKrbs6jpe/E/bwaNuNKvHFrC2xf1hNtmbCQffNmeVdCa0GHmsZ/GUruKGIIfeqKTw+cYOBeW0/Q==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-CEnv0KgIVbcMcXzCebG7kDGpFwuBDO560s0N+wFTuY+PnKvNUy7frjaJUCOppWcB6hKIR0knN/idwA1GvH02DA==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -15346,7 +15344,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -15786,7 +15783,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Wxf71HaHGk3OUsxKZVuBej88ap8Pft5N//7ZiLUVN3If1B+1fCanIE/T52XQhsyBXWsgvQFKFTehFLaryX4eIQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-2ZH8fLmpPVmWUGAVGdmZ8P0MjIFOKfaaovnt9M901HdH6hzf7cA0zDJWrYWUdyBdWlJWr9/lcc7hNJgNHvRADw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:

@@ -460,7 +460,8 @@ export type ExecutionActivityUnion =
   | DatabricksSparkJarActivity
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
-  | ExecuteDataFlowActivity;
+  | ExecuteDataFlowActivity
+  | ScriptActivity;
 export type MultiplePipelineTriggerUnion =
   | MultiplePipelineTrigger
   | ScheduleTrigger
@@ -1545,7 +1546,8 @@ export interface Activity {
     | "AzureFunctionActivity"
     | "WebHook"
     | "ExecuteDataFlow"
-    | "ExecuteWranglingDataflow";
+    | "ExecuteWranglingDataflow"
+    | "Script";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Activity name. */
@@ -3500,6 +3502,38 @@ export interface PowerQuerySinkMapping {
   queryName?: string;
   /** List of sinks mapped to Power Query mashup query. */
   dataflowSinks?: PowerQuerySink[];
+}
+
+/** Script block of scripts. */
+export interface ScriptActivityScriptBlock {
+  /** The query text. Type: string (or Expression with resultType string). */
+  text: Record<string, unknown>;
+  /** The type of the query. Type: string. */
+  type: ScriptType;
+  /** Array of script parameters. Type: array. */
+  parameters?: ScriptActivityParameter[];
+}
+
+/** Parameters of a script block. */
+export interface ScriptActivityParameter {
+  /** The name of the parameter. Type: string (or Expression with resultType string). */
+  name?: Record<string, unknown>;
+  /** The type of the parameter. */
+  type?: ScriptActivityParameterType;
+  /** The value of the parameter. */
+  value?: Record<string, unknown>;
+  /** The direction of the parameter. */
+  direction?: ScriptActivityParameterDirection;
+  /** The size of the output direction parameter. */
+  size?: number;
+}
+
+/** Log settings of script activity. */
+export interface ScriptActivityTypePropertiesLogSettings {
+  /** The destination of logs. Type: string. */
+  logDestination: ScriptActivityLogDestination;
+  /** Log location settings customer needs to provide when enabling log. */
+  logLocationSettings?: LogLocationSettings;
 }
 
 /** The workflow trigger recurrence. */
@@ -7045,7 +7079,8 @@ export type ExecutionActivity = Activity & {
     | "DatabricksSparkJar"
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
-    | "ExecuteDataFlow";
+    | "ExecuteDataFlow"
+    | "Script";
   /** Linked service reference. */
   linkedServiceName?: LinkedServiceReference;
   /** Activity policy. */
@@ -9630,6 +9665,16 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   runConcurrently?: Record<string, unknown>;
 };
 
+/** Script activity type. */
+export type ScriptActivity = ExecutionActivity & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Script";
+  /** Array of script blocks. Type: array. */
+  scripts?: ScriptActivityScriptBlock[];
+  /** Log settings of script activity. */
+  logSettings?: ScriptActivityTypePropertiesLogSettings;
+};
+
 /** Trigger that creates pipeline runs periodically, on schedule. */
 export type ScheduleTrigger = MultiplePipelineTrigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -11615,6 +11660,92 @@ export enum KnownWebHookActivityMethod {
  * **POST**
  */
 export type WebHookActivityMethod = string;
+
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  Query = "Query",
+  NonQuery = "NonQuery"
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
+/** Known values of {@link ScriptActivityParameterType} that the service accepts. */
+export enum KnownScriptActivityParameterType {
+  Boolean = "Boolean",
+  DateTime = "DateTime",
+  DateTimeOffset = "DateTimeOffset",
+  Decimal = "Decimal",
+  Double = "Double",
+  Guid = "Guid",
+  Int16 = "Int16",
+  Int32 = "Int32",
+  Int64 = "Int64",
+  Single = "Single",
+  String = "String",
+  Timespan = "Timespan"
+}
+
+/**
+ * Defines values for ScriptActivityParameterType. \
+ * {@link KnownScriptActivityParameterType} can be used interchangeably with ScriptActivityParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Boolean** \
+ * **DateTime** \
+ * **DateTimeOffset** \
+ * **Decimal** \
+ * **Double** \
+ * **Guid** \
+ * **Int16** \
+ * **Int32** \
+ * **Int64** \
+ * **Single** \
+ * **String** \
+ * **Timespan**
+ */
+export type ScriptActivityParameterType = string;
+
+/** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
+export enum KnownScriptActivityParameterDirection {
+  Input = "Input",
+  Output = "Output",
+  InputOutput = "InputOutput"
+}
+
+/**
+ * Defines values for ScriptActivityParameterDirection. \
+ * {@link KnownScriptActivityParameterDirection} can be used interchangeably with ScriptActivityParameterDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Input** \
+ * **Output** \
+ * **InputOutput**
+ */
+export type ScriptActivityParameterDirection = string;
+
+/** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
+export enum KnownScriptActivityLogDestination {
+  ActivityOutput = "ActivityOutput",
+  ExternalStore = "ExternalStore"
+}
+
+/**
+ * Defines values for ScriptActivityLogDestination. \
+ * {@link KnownScriptActivityLogDestination} can be used interchangeably with ScriptActivityLogDestination,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActivityOutput** \
+ * **ExternalStore**
+ */
+export type ScriptActivityLogDestination = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {

@@ -23,7 +23,7 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow";
+    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script";
     userProperties?: UserProperty[];
 }
 
@@ -2462,13 +2462,13 @@ export type ExecuteWranglingDataflowActivity = Activity & {
 
 // @public
 export type ExecutionActivity = Activity & {
-    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow";
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script";
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
 };
 
 // @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity;
+export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity;
 
 // @public
 export interface ExportSettings {
@@ -4670,6 +4670,60 @@ export enum KnownSapTablePartitionOption {
 }
 
 // @public
+export enum KnownScriptActivityLogDestination {
+    // (undocumented)
+    ActivityOutput = "ActivityOutput",
+    // (undocumented)
+    ExternalStore = "ExternalStore"
+}
+
+// @public
+export enum KnownScriptActivityParameterDirection {
+    // (undocumented)
+    Input = "Input",
+    // (undocumented)
+    InputOutput = "InputOutput",
+    // (undocumented)
+    Output = "Output"
+}
+
+// @public
+export enum KnownScriptActivityParameterType {
+    // (undocumented)
+    Boolean = "Boolean",
+    // (undocumented)
+    DateTime = "DateTime",
+    // (undocumented)
+    DateTimeOffset = "DateTimeOffset",
+    // (undocumented)
+    Decimal = "Decimal",
+    // (undocumented)
+    Double = "Double",
+    // (undocumented)
+    Guid = "Guid",
+    // (undocumented)
+    Int16 = "Int16",
+    // (undocumented)
+    Int32 = "Int32",
+    // (undocumented)
+    Int64 = "Int64",
+    // (undocumented)
+    Single = "Single",
+    // (undocumented)
+    String = "String",
+    // (undocumented)
+    Timespan = "Timespan"
+}
+
+// @public
+export enum KnownScriptType {
+    // (undocumented)
+    NonQuery = "NonQuery",
+    // (undocumented)
+    Query = "Query"
+}
+
+// @public
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
     // (undocumented)
     InitializeFailed = "InitializeFailed",
@@ -6847,6 +6901,47 @@ export interface ScriptAction {
     roles: Record<string, unknown>;
     uri: string;
 }
+
+// @public
+export type ScriptActivity = ExecutionActivity & {
+    type: "Script";
+    scripts?: ScriptActivityScriptBlock[];
+    logSettings?: ScriptActivityTypePropertiesLogSettings;
+};
+
+// @public
+export type ScriptActivityLogDestination = string;
+
+// @public
+export interface ScriptActivityParameter {
+    direction?: ScriptActivityParameterDirection;
+    name?: Record<string, unknown>;
+    size?: number;
+    type?: ScriptActivityParameterType;
+    value?: Record<string, unknown>;
+}
+
+// @public
+export type ScriptActivityParameterDirection = string;
+
+// @public
+export type ScriptActivityParameterType = string;
+
+// @public
+export interface ScriptActivityScriptBlock {
+    parameters?: ScriptActivityParameter[];
+    text: Record<string, unknown>;
+    type: ScriptType;
+}
+
+// @public
+export interface ScriptActivityTypePropertiesLogSettings {
+    logDestination: ScriptActivityLogDestination;
+    logLocationSettings?: LogLocationSettings;
+}
+
+// @public
+export type ScriptType = string;
 
 // @public
 export interface SecretBase {
