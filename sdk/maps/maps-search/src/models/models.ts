@@ -89,16 +89,6 @@ export interface StructuredAddress {
 }
 
 /**
- * Entity Geometry
- */
-export interface EntityGeometry {
-  /**  ID of the returned entity */
-  readonly providerID?: string;
-  /** Geometry data in GeoJSON FeatureCollection format. */
-  geometryData?: GeoJsonFeatureCollection;
-}
-
-/**
  * GeoJSON Geomtry Collection containing only polygons
  */
 export interface GeoJsonPolygonCollection extends GeoJsonGeometryCollection {
