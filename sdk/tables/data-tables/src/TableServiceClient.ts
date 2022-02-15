@@ -26,11 +26,11 @@ import {
   isTokenCredential,
 } from "@azure/core-auth";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { Service, Table } from "./generated";
 import {
-  getClientParamsFromConnectionString,
-  getSecondaryUrlFromPrimarystri,
-} from "./utils/connectionString";
+  SecondaryLocationHeaderName,
+  tablesSecondaryEndpointPolicy,
+} from "./secondaryEndpointPolicy";
+import { Service, Table } from "./generated";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import { GeneratedClient } from "./generated/generatedClient";
@@ -39,6 +39,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableItemResultPage } from "./models";
 import { createSpan } from "./utils/tracing";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCredential } from "./utils/isCredential";
 import { logger } from "./logger";
@@ -61,7 +62,6 @@ export class TableServiceClient {
   public pipeline: Pipeline;
   private table: Table;
   private service: Service;
-  private secondaryServiceOperations: Service;
 
   /**
    * Creates a new instance of the TableServiceClient class.
@@ -179,6 +179,8 @@ export class TableServiceClient {
       ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
+    client.pipeline.addPolicy(tablesSecondaryEndpointPolicy);
+
     if (isNamedKeyCredential(credential)) {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
@@ -188,12 +190,6 @@ export class TableServiceClient {
     this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
-
-    const secondaryUrl = getSecondaryUrlFromPrimarystri(this.url);
-    this.secondaryServiceOperations = new GeneratedClient(secondaryUrl, {
-      ...internalPipelineOptions,
-      endpoint: secondaryUrl,
-    }).service;
   }
 
   /**
@@ -204,9 +200,9 @@ export class TableServiceClient {
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
-      return await this.secondaryServiceOperations.getStatistics({
+      return await this.service.getStatistics({
         ...updatedOptions,
-        requestOptions: {},
+        requestOptions: { customHeaders: { [SecondaryLocationHeaderName]: "true" } },
       });
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });

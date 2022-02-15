@@ -10,8 +10,6 @@ import { URL } from "./url";
 const DevelopmentConnectionString =
   "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1";
 
-const SecondaryLocationAccountSuffix = "-secondary";
-
 /**
  * This function parses a connection string into a set of
  * parameters to pass to be passed to TableClientService,
@@ -165,18 +163,4 @@ function getAccountNameFromUrl(url: string): string {
   }
 
   return accountName;
-}
-
-/**
- * Utility function that calculates the secondary URL for a table instance given the primary URL.
- */
-export function getSecondaryUrlFromPrimarystri(primaryUrl: string): string {
-  const parsedPrimaryUrl = new URL(primaryUrl);
-  const host = parsedPrimaryUrl.hostname.split(".");
-  if (host.length > 1) {
-    host[0] = `${host[0]}${SecondaryLocationAccountSuffix}`;
-  }
-  parsedPrimaryUrl.hostname = host.join(".");
-
-  return parsedPrimaryUrl.toString();
 }

@@ -2,27 +2,14 @@
 // Licensed under the MIT license.
 
 import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer";
-import {
-  extractConnectionStringParts,
-  getSecondaryUrlFromPrimarystri,
-} from "../../src/utils/connectionString";
 
 import { ConnectionString } from "../../src/utils/internalModels";
 import { Context } from "mocha";
 import { assert } from "chai";
+import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { isNode } from "@azure/test-utils";
 
 describe("Utility Helpers", () => {
-  describe("SecondaryUrl", () => {
-    it("should build secondary URL", () => {
-      const primaryURL = "https://testaccount.table.core.windows.net/";
-      const expectedSecondary = "https://testaccount-secondary.table.core.windows.net/";
-
-      const result = getSecondaryUrlFromPrimarystri(primaryURL);
-      assert.equal(result, expectedSecondary);
-    });
-  });
-
   describe("extractConnectionStringParts", () => {
     describe("Account Connection String", () => {
       beforeEach(function (this: Context) {
