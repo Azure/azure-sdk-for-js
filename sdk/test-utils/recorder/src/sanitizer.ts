@@ -259,7 +259,7 @@ async function addSanitizer(
   const uri = `${url}${paths.admin}${
     options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
   }`;
-  const req = createRecordingRequest(uri, recordingId);
+  const req = createRecordingRequest(uri, undefined, recordingId);
   if (options.sanitizer !== "Reset") {
     req.headers.set("x-abstraction-identifier", options.sanitizer);
   }
