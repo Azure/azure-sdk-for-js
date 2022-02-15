@@ -78,7 +78,7 @@ export const Constants = {
   connectionReconnectDelay: 300,
   defaultMaxRetries: 3,
   defaultMaxRetriesForConnection: 150,
-  defaultDelayBetweenOperationRetriesInMs: 30000,
+  defaultDelayBetweenOperationRetriesInMs: 500,
   defaultMaxDelayForExponentialRetryInMs: 90000,
   receiverSettleMode: "receiver-settle-mode",
   dispositionStatus: "disposition-status",
