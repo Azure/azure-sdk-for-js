@@ -13,6 +13,9 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
   describe(`proxy tool - sanitizers`, () => {
     let recorder: Recorder;
     let client: ServiceClient;
+    const fakeSecretValue = "fake_secret_info";
+    const secretValue = "abcdef";
+    let currentValue: string;
 
     before(() => {
       setTestMode(mode);
@@ -21,6 +24,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
+      currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
     });
 
     afterEach(async () => {
@@ -36,7 +40,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
               {
                 regex: true,
                 target: "abc+def",
-                value: "fake_secret_info",
+                value: fakeSecretValue,
               },
             ],
           },
@@ -44,8 +48,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await makeRequestAndVerifyResponse(
           client,
           {
-            path: `/sample_response/abcdef`,
-            body: "abcdef",
+            path: `/sample_response/${currentValue}`,
+            body: currentValue,
             method: "POST",
           },
           { val: "I am the answer!" }
@@ -58,8 +62,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           sanitizerOptions: {
             generalSanitizers: [
               {
-                target: "abcdef",
-                value: "fake_secret_info",
+                target: currentValue,
+                value: fakeSecretValue,
               },
             ],
           },
@@ -67,8 +71,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await makeRequestAndVerifyResponse(
           client,
           {
-            path: `/sample_response/abcdef`,
-            body: "abcdef",
+            path: `/sample_response/${currentValue}`,
+            body: currentValue,
             method: "POST",
           },
           { val: "I am the answer!" }
@@ -93,7 +97,6 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
       it("BodyKeySanitizer", async () => {
         const secretValue = "ab12cd34ef";
-        const fakeSecretValue = "fake_secret_info";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -128,7 +131,6 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
       it("BodyRegexSanitizer", async () => {
         const secretValue = "ab12cd34ef";
-        const fakeSecretValue = "fake_secret_info";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -290,7 +292,6 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
       it.skip("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
         const secretValue = "ab12cd34ef";
-        const fakeSecretValue = "fake_secret_info";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
