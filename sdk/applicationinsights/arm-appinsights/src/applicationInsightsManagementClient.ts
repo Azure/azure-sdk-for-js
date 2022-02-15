@@ -27,7 +27,6 @@ import {
   WorkbooksImpl,
   ComponentsImpl,
   ComponentLinkedStorageAccountsOperationsImpl,
-  OperationsImpl,
   LiveTokenImpl
 } from "./operations";
 import {
@@ -49,7 +48,6 @@ import {
   Workbooks,
   Components,
   ComponentLinkedStorageAccountsOperations,
-  Operations,
   LiveToken
 } from "./operationsInterfaces";
 import { ApplicationInsightsManagementClientOptionalParams } from "./models";
@@ -85,7 +83,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,7 +132,6 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     this.componentLinkedStorageAccountsOperations = new ComponentLinkedStorageAccountsOperationsImpl(
       this
     );
-    this.operations = new OperationsImpl(this);
     this.liveToken = new LiveTokenImpl(this);
   }
 
@@ -156,6 +153,5 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
   workbooks: Workbooks;
   components: Components;
   componentLinkedStorageAccountsOperations: ComponentLinkedStorageAccountsOperations;
-  operations: Operations;
   liveToken: LiveToken;
 }

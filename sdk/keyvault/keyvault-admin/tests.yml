@@ -6,8 +6,8 @@ stages:
       PackageName: "@azure/keyvault-admin"
       ServiceDirectory: keyvault
       # KV HSM limitation prevents us from running live tests
-      # against multiple platforms in parallel (we're limited to a single
-      # instance per region per subscription) so we're only running
+      # against multiple platforms in parallel (we're limited to five
+      # instances per region per subscription) so we're only running
       # live tests against a single instance.
       Location: eastus2
       MatrixConfigs:

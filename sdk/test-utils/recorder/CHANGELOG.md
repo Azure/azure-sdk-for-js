@@ -2,6 +2,46 @@
 
 ## 2.0.0 (Unreleased)
 
+## 2022-02-04
+
+- [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.
+  By leveraging the new option, `configureClientOptions` method is added to the `Recorder`.
+
+  [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
+
+  - With the support from the new `Recorder#configureClientOptions` method, we no longer need the `Recorder#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies.
+  - [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175) removes the `Recorder#configureClient` along with the new addition.
+
+## 2022-01-27
+
+Add support for the new string sanitizers, including **breaking changes**:
+
+- Removed the `Sanitizer` class, instead making the `addSanitizers` function in `sanitizer.ts` take in a `HttpClient` and recording ID as parameter.
+- Refactored the `addSanitizers` function to call smaller functions for each sanitizer (some of which are a bit FP-style) instead of using if statements + special cases. Hopefully this will make things a bit easier to maintain.
+- Some other minor refactors (e.g. extracting duplicated `createRecordingRequest` function into a utility).
+- Add support for the string sanitizers in what I think is the most logical way, but there is a **breaking change**:
+  - When calling `addSanitizers`, instead of specifying `generalRegexSanitizers: [...]` etc., you now specify `generalSanitizers: [...]`. Both regex sanitizers and string sanitizers can be used in this way, for example:
+
+```ts
+recorder.addSanitizers({
+  generalSanitizers: [
+    {
+      regex: true, // Regex matching is enabled by setting the 'regex' option to true.
+      target: ".*regex",
+      value: "sanitized",
+    },
+    {
+      // Note that `regex` defaults to false and doesn't need to be specified when working with bare strings.
+      // In my experience, this is the most common scenario anyway.
+      target: "Not a regex",
+      value: "sanitized",
+    },
+  ],
+});
+```
+
+[#19954](https://github.com/Azure/azure-sdk-for-js/pull/19954)
+
 ## 2022-01-06
 
 - Renaming the package `@azure-tools/test-recorder-new@1.0.0` as `@azure-tools/test-recorder@2.0.0`.

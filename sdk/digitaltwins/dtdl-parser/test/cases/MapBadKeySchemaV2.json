@@ -1,0 +1,57 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:distanceMap;1",
+      "@type": "Map",
+      "mapKey": {
+        "name": "myMapKey",
+        "schema": "integer",
+        "displayName": {
+          "en": "Place",
+          "es": "Lugar"
+        },
+        "description": {
+          "en": "start",
+          "es": "empezar"
+        },
+        "comment": "Starting location"
+      },
+      "mapValue": {
+        "name": "myMapValue",
+        "schema": "double",
+        "displayName": {
+          "en": "Distance",
+          "es": "Distancia"
+        },
+        "description": {
+          "en": "distance to start",
+          "es": "distancia para comenzar"
+        },
+        "comment": "Starting distance"
+      },
+      "displayName": {
+        "en": "Distance to start",
+        "es": "Distancia para comenzar"
+      },
+      "description": {
+        "en": "how close",
+        "es": "lo cerca que"
+      },
+      "comment": "How close is each place?"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badType",
+        "PrimaryID": "dtmi:test:distanceMap:_mapKey;1",
+        "SecondaryID": "dtmi:dtdl:instance:Schema:integer;2",
+        "Property": "schema",
+        "Value": "Integer"
+      }
+    ]
+  }
+}

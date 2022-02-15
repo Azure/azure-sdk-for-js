@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
-import { authenticate } from "../utils/authentication";
-import { testPollerProperties } from "../utils/recorder";
-import { getSasToken } from "../utils/common";
+import { authenticate } from "./utils/authentication";
+import { testPollerProperties } from "./utils/recorder";
+import { getSasToken, getServiceVersion } from "./utils/common";
 import { delay } from "@azure/core-util";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { KeyClient } from "@azure/keyvault-keys";
 
 describe("KeyVaultBackupClient", () => {
@@ -23,7 +20,7 @@ describe("KeyVaultBackupClient", () => {
   let blobSasToken: string;
 
   beforeEach(async function () {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     client = authentication.backupClient;
     keyClient = authentication.keyClient;
     recorder = authentication.recorder;

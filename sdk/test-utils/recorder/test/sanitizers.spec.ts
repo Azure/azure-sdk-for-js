@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { expect } from "chai";
-import { env, isPlaybackMode, Recorder } from "../src";
-import { isRecordMode, RecorderError, TestMode } from "../src/utils/utils";
+import { isPlaybackMode, Recorder } from "../src";
+import { TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 
 // These tests require the following to be running in parallel
@@ -21,8 +20,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      client = new ServiceClient({ baseUri: getTestServerUrl() });
-      recorder.configureClient(client);
+      client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
     });
 
     afterEach(async () => {
@@ -31,18 +29,47 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     describe("Sanitizers - functionalities", () => {
       it("GeneralRegexSanitizer", async () => {
-        env.SECRET_INFO = "abcdef";
-        const fakeSecretInfo = "fake_secret_info";
         await recorder.start({
-          envSetupForPlayback: {
-            SECRET_INFO: fakeSecretInfo,
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            generalSanitizers: [
+              {
+                regex: true,
+                target: "abc+def",
+                value: "fake_secret_info",
+              },
+            ],
           },
-        }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
+        });
         await makeRequestAndVerifyResponse(
           client,
           {
-            path: `/sample_response/${env.SECRET_INFO}`,
-            method: "GET",
+            path: `/sample_response/abcdef`,
+            body: "abcdef",
+            method: "POST",
+          },
+          { val: "I am the answer!" }
+        );
+      });
+
+      it("GeneralStringSanitizer", async () => {
+        await recorder.start({
+          envSetupForPlayback: {},
+          sanitizerOptions: {
+            generalSanitizers: [
+              {
+                target: "abcdef",
+                value: "fake_secret_info",
+              },
+            ],
+          },
+        });
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/abcdef`,
+            body: "abcdef",
+            method: "POST",
           },
           { val: "I am the answer!" }
         );
@@ -105,9 +132,10 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
-            bodyRegexSanitizers: [
+            bodySanitizers: [
               {
-                regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+                regex: true,
+                target: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
                 value: fakeSecretValue,
                 groupForReplace: "secret_content",
               },
@@ -129,15 +157,15 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         );
       });
 
-      it("UriRegexSanitizer", async () => {
+      it("UriSanitizer", async () => {
         const secretEndpoint = "host.docker.internal";
         const fakeEndpoint = "fake_endpoint";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
-            uriRegexSanitizers: [
+            uriSanitizers: [
               {
-                regex: secretEndpoint,
+                target: secretEndpoint,
                 value: fakeEndpoint,
               },
             ],
@@ -224,7 +252,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
-            headerRegexSanitizers: [
+            headerSanitizers: [
               {
                 key: "your_uuid",
                 value: sanitizedValue,
@@ -266,9 +294,10 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
-            bodyRegexSanitizers: [
+            bodySanitizers: [
               {
-                regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+                regex: true,
+                target: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
                 value: fakeSecretValue,
                 groupForReplace: "secret_content",
               },
@@ -305,65 +334,6 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           },
           { bodyProvided: reqBodyAfterReset }
         );
-      });
-    });
-
-    describe("Sanitizers - handling undefined", () => {
-      beforeEach(async () => {
-        await recorder.start({ envSetupForPlayback: {} });
-      });
-
-      const cases = [
-        {
-          options: {
-            connectionStringSanitizers: [
-              { actualConnString: undefined, fakeConnString: "a=b;c=d" },
-            ],
-            generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }],
-          },
-          title: "all sanitizers are undefined",
-          type: "negative",
-        },
-        {
-          options: {
-            connectionStringSanitizers: [
-              { actualConnString: undefined, fakeConnString: "a=b;c=d" },
-              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" },
-            ],
-            generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }],
-          },
-          title: "partial sanitizers are undefined",
-          type: "negative",
-        },
-        {
-          options: {
-            connectionStringSanitizers: [
-              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" },
-            ],
-            generalRegexSanitizers: [{ regex: "value", value: "fake-value" }],
-          },
-          title: "all sanitizers are defined",
-          type: "positive",
-        },
-      ];
-
-      cases.forEach((testCase) => {
-        it(`case - ${testCase.title}`, async () => {
-          try {
-            await recorder.addSanitizers(testCase.options);
-            throw new Error("error was not thrown from addSanitizers call");
-          } catch (error) {
-            if (isRecordMode() && testCase.type === "negative") {
-              expect((error as RecorderError).message).includes(
-                `Attempted to add an invalid sanitizer`
-              );
-            } else {
-              expect((error as RecorderError).message).includes(
-                `error was not thrown from addSanitizers call`
-              );
-            }
-          }
-        });
       });
     });
   });

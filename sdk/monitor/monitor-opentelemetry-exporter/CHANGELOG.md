@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.6 (2022-02-08)
+
+### Other Changes
+
+- Updated OpenTelemtry dependencies to their latest available versions.
 
 ## 1.0.0-beta.5 (2021-10-05)
 

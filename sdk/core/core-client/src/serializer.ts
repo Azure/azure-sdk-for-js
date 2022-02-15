@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isDuration, isValidUuid } from "./utils";
 import * as base64 from "./base64";
 import {
-  Serializer,
+  BaseMapper,
+  CompositeMapper,
+  DictionaryMapper,
+  EnumMapper,
   Mapper,
   MapperConstraints,
-  DictionaryMapper,
-  SequenceMapper,
-  CompositeMapper,
   PolymorphicDiscriminator,
-  EnumMapper,
-  BaseMapper,
-  SerializerOptions,
-  XML_CHARKEY,
-  XML_ATTRKEY,
   RequiredSerializerOptions,
+  SequenceMapper,
+  Serializer,
+  SerializerOptions,
+  XML_ATTRKEY,
+  XML_CHARKEY,
 } from "./interfaces";
+import { isDuration, isValidUuid } from "./utils";
 
 class SerializerImpl implements Serializer {
   constructor(

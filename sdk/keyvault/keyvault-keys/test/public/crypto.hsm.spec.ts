@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
-import TestClient from "../utils/testClient";
-import { getServiceVersion, onVersions } from "../utils/utils.common";
+import { authenticate } from "./utils/testAuthentication";
+import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import TestClient from "./utils/testClient";
+import { getServiceVersion, onVersions } from "./utils/common";
 import { isNode } from "@azure/core-http";
 
 onVersions({ minVer: "7.2" }).describe(

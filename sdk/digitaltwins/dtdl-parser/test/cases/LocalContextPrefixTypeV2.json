@@ -1,0 +1,30 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        {
+          "myType": "dtmi:standard:class:"
+        }
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [ "Telemetry", "myType:Length;2" ],
+      "name": "height",
+      "schema": "double",
+      "unit": "kilometre"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedLocalContext",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

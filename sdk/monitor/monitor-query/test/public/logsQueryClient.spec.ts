@@ -12,6 +12,7 @@ import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from ".
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
 import { RestError } from "@azure/core-rest-pipeline";
+import { setLogLevel } from "@azure/logger";
 
 describe("LogsQueryClient live tests", function () {
   let monitorWorkspaceId: string;
@@ -20,12 +21,12 @@ describe("LogsQueryClient live tests", function () {
 
   let testRunId: string;
 
-  beforeEach(function (this: Context) {
+  beforeEach(async function (this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this);
+    recorder = new Recorder(this.currentTest);
+    const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
     monitorWorkspaceId = getMonitorWorkspaceId(this);
     logsClient = recordedClient.client;
-    recorder = recordedClient.recorder;
   });
   afterEach(async function () {
     if (recorder) {
@@ -228,7 +229,6 @@ describe("LogsQueryClient live tests", function () {
     }
     if (result[0].status === LogsQueryResultStatus.Success) {
       const table = result[0].tables[0];
-      console.log(JSON.stringify(result[0].tables));
 
       // check the column types all match what we expect.
       assert.deepEqual(
@@ -459,9 +459,11 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
+  beforeEach(async function (this: Context) {
+    setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
-    const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
+    recorder = new Recorder(this.currentTest);
+    const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder, {
       maxRetries: 0,
       retryDelayInMs: 0,
       maxRetryDelayInMs: 0,
@@ -471,10 +473,8 @@ describe("LogsQueryClient live tests - server timeout", function () {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
   });
   afterEach(async function () {
-    if (recorder) {
-      loggerForTest.verbose("Recorder: stopping");
-      await recorder.stop();
-    }
+    loggerForTest.verbose("Recorder: stopping");
+    await recorder.stop();
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.

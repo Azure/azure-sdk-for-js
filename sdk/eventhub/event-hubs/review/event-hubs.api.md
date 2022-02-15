@@ -62,6 +62,9 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export function createEventDataAdapter(params?: EventDataAdapterParameters): MessageAdapter<EventData>;
+
+// @public
 export const earliestEventPosition: EventPosition;
 
 // @public
@@ -80,13 +83,18 @@ export interface EventData {
 }
 
 // @public
+export interface EventDataAdapterParameters {
+    correlationId?: string | number | Buffer;
+    messageId?: string | number | Buffer;
+    properties?: {
+        [key: string]: any;
+    };
+}
+
+// @public
 export interface EventDataBatch {
     readonly count: number;
-    // @internal
-    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
-    // @internal
-    readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
     // @internal
@@ -113,6 +121,7 @@ export class EventHubBufferedProducerClient {
 
 // @public
 export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
+    enableIdempotentPartitions?: boolean;
     maxEventBufferLengthPerPartition?: number;
     maxWaitTimeInMs?: number;
     onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
@@ -224,6 +233,18 @@ export interface LoadBalancingOptions {
 
 // @public
 export const logger: AzureLogger;
+
+// @public
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
+}
 
 export { MessagingError }
 

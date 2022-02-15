@@ -1,119 +1,124 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:46 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.4 - EUS ProdSlices",
-    "x-ms-request-id": "2ed42856-8dc7-48cb-a5f4-5f60e9bb1700"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName.jar",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/libraries/testLibraryName.jar\",\"recordId\":0,\"state\":\"Deleting\",\"created\":\"0001-01-01T00:00:00\",\"changed\":\"0001-01-01T00:00:00\",\"type\":\"LibraryArtifact\",\"name\":\"testLibraryName.jar\",\"operationId\":\"d4185926-bdff-43c4-884e-0f5018388a38\"}",
-   "responseHeaders": {
-    "access-control-allow-headers": "Location",
-    "access-control-expose-headers": "Location",
-    "content-length": "370",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:46 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/d4185926-bdff-43c4-884e-0f5018388a38?api-version=2020-12-01",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "39710da2-b5bc-46f6-8db7-07d51ab48008"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/d4185926-bdff-43c4-884e-0f5018388a38",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"status\":\"InProgress\"}",
-   "responseHeaders": {
-    "access-control-allow-headers": "Location, Retry-After",
-    "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "23",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:46 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/d4185926-bdff-43c4-884e-0f5018388a38?api-version=2020-12-01",
-    "retry-after": "10",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "5e16ed5e-5326-4953-88fa-3ae641cf28bb"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/d4185926-bdff-43c4-884e-0f5018388a38",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"status\":\"InProgress\"}",
-   "responseHeaders": {
-    "access-control-allow-headers": "Location, Retry-After",
-    "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "23",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:49 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/d4185926-bdff-43c4-884e-0f5018388a38?api-version=2020-12-01",
-    "retry-after": "10",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "c48c26b4-50ec-4e5d-b28a-ed3e0314000e"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/d4185926-bdff-43c4-884e-0f5018388a38",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "",
-   "responseHeaders": {
-    "content-length": "0",
-    "date": "Fri, 11 Jun 2021 18:41:50 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "6ee44f55-f0cb-41af-8451-7a8da31109fe"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "8305f99fa16e0395a8eda17e79570dd2"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName.jar?api-version=2020-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "262cbab7-a81a-43fd-aea2-94f019b51e0d",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "Location",
+        "Access-Control-Expose-Headers": "Location",
+        "Content-Length": "373",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 23:00:57 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/a6a484a2-b663-447c-b389-30eb24816a89?api-version=2020-12-01",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "489aba34-d583-434f-ba15-6b06b40b5d95"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/libraries/testLibraryName.jar",
+        "recordId": 0,
+        "state": "Deleting",
+        "created": "0001-01-01T00:00:00",
+        "changed": "0001-01-01T00:00:00",
+        "type": "LibraryArtifact",
+        "name": "testLibraryName.jar",
+        "operationId": "a6a484a2-b663-447c-b389-30eb24816a89"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/a6a484a2-b663-447c-b389-30eb24816a89?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "3eaccc91-d1c0-43bd-95a6-7274c1087a73",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Access-Control-Expose-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Content-Length": "23",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 23:00:57 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/a6a484a2-b663-447c-b389-30eb24816a89?api-version=2020-12-01",
+        "Retry-After": "10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "3a422ce1-34b3-4f10-900a-bb1d97bca2ee"
+      },
+      "ResponseBody": {
+        "status": "InProgress"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/a6a484a2-b663-447c-b389-30eb24816a89?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "a46b36c4-d198-4d6d-8a66-2a0c80ba31b0",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 31 Jan 2022 23:01:08 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "4c71ca16-7fb8-41f4-a02f-46438953d9af"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
 }

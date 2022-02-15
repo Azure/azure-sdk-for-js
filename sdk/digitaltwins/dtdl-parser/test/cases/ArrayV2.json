@@ -1,0 +1,119 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:doubleArray;1",
+      "@type": "Array",
+      "elementSchema": "double",
+      "displayName": {
+        "en": "Value array",
+        "es": "Matriz de valores"
+      },
+      "description": {
+        "en": "array of values",
+        "es": "matriz de valores"
+      },
+      "comment": "Each value is a double"
+    }
+  ],
+  "expect": {
+    "elementCount": 2,
+    "elements": [
+      {
+        "id": "dtmi:test:doubleArray;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:dtdl:instance:Schema:double;2",
+          "displayName": {
+            "en": "Value array",
+            "es": "Matriz de valores"
+          },
+          "description": {
+            "en": "array of values",
+            "es": "matriz de valores"
+          },
+          "comment": "Each value is a double"
+        }
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": true,
+      "submit": "[ 2, 3.14, 555 ]"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": true,
+      "submit": "[ 3.14 ]"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": true,
+      "submit": "[ ]"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "[ 2, \"hi\", 555 ]"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "[ 2, true, 555 ]"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "\"[ 2, 3.14, 555 ]\""
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "{ \"value\": [ 2, 3.14, 555 ] }"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:test:doubleArray;1",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

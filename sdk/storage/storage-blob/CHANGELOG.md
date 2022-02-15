@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.3 (Unreleased)
+## 12.9.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0-beta.3 (2022-02-11)
+
+### Features Added
+
+- Added support for service version 2021-04-10.
+- Added support for finding blobs by tags in a container.
+
+### Bugs Fixed
+
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
 
 ## 12.9.0-beta.2 (2021-12-03)
 
@@ -266,20 +277,20 @@
     Before this change the option is specified as
     ```js
     blobServiceClient.listContainers({
-      include: "metadata"
+      include: "metadata",
     });
     ```
     After this change:
     ```js
     blobServiceClient.listContainers({
-      includeMetadata: true
+      includeMetadata: true,
     });
     ```
   - For listing blobs
     Before this change the option is specified as
     ```js
     containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"]
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
     });
     ```
     After this change:
@@ -289,7 +300,7 @@
       includeDeleted: true,
       includeMetadata: true,
       includeSnapshots: true,
-      includeUncommitedBlobs: true
+      includeUncommitedBlobs: true,
     });
     ```
 - [Breaking] `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
