@@ -4,17 +4,24 @@
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 /**
- * The programmatic identifier of the tablesNamedKeyCredentialPolicy.
+ * The programmatic identifier of the tablesSecondaryEndpointPolicy.
  */
 export const tablesSecondaryEndpointPolicyName = "tablesSecondaryEndpointPolicy";
 export const SecondaryLocationHeaderName = "tables-secondary-endpoint";
 const SecondaryLocationAccountSuffix = "-secondary";
 
+/**
+ * Policy that would replace the Primary Endpoint with the secondary endpoint
+ * when the `tables-secondary-endpoint` is set in the request
+ */
 export const tablesSecondaryEndpointPolicy: PipelinePolicy = {
   name: tablesSecondaryEndpointPolicyName,
   sendRequest: async (req, next) => {
+    // Only replace the URL if the SecondaryLocationHeader is set
     if (req.headers.get(SecondaryLocationHeaderName)) {
+      // Since the header is for internal use only, clean it up.
       req.headers.delete(SecondaryLocationHeaderName);
+      // Calculate and update the secondary url
       req.url = getSecondaryUrlFromPrimary(req.url);
     }
 
