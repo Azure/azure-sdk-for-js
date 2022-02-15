@@ -69,6 +69,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS",
+      "INCLUDE_UPDATE_CAPABILITIES_LIVE_TESTS",
       "AZURE_TEST_AGENT",
       ...getPhoneNumberPoolEnvVars()
     ],
