@@ -1,4 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
 trigger:
   branches:
     include:
@@ -8,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/subscription/
-
 pr:
   branches:
     include:
@@ -18,7 +18,6 @@ pr:
   paths:
     include:
       - sdk/subscription/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -26,4 +25,5 @@ extends:
     Artifacts:
       - name: azure-arm-subscriptions
         safeName: azurearmsubscriptions
-        
+      - name: azure-arm-subscriptions-profile-2020-09-01-hybrid
+        safeName: azurearmsubscriptionsprofile20200901hybrid
