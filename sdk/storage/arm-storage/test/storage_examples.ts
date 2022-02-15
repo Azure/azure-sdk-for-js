@@ -14,7 +14,6 @@ import {
   delay,
   isPlaybackMode
 } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { ClientSecretCredential } from "@azure/identity";
 import { StorageManagementClient } from "../src/storageManagementClient";
 
