@@ -83,8 +83,9 @@ export function createRecordedClientWithToken(
 ): RecordedClient<ShortCodesClient> | undefined {
   const recorder = record(context, environmentSetup);
   let credential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
-    .endpoint;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+  ).endpoint;
   if (isPlaybackMode()) {
     credential = createMockToken();
 
@@ -123,7 +124,7 @@ export const testPollerOptions = {
 function createTestHttpClient(): HttpClient {
   const customHttpClient = createDefaultHttpClient();
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(
+  customHttpClient.sendRequest = async function (
     httpRequest: PipelineRequest
   ): Promise<PipelineResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);

@@ -23,7 +23,7 @@ import {
 } from "./models";
 import {
   createCommunicationAccessKeyCredentialPolicy,
-  createCommunicationAuthPolicy
+  createCommunicationAuthPolicy,
 } from "./utils/communicationAccessKeyCredentialPolicy";
 
 /**

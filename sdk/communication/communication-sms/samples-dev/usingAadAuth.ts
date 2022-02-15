@@ -38,10 +38,10 @@ export async function main() {
   const credential: TokenCredential = isNode
     ? new DefaultAzureCredential()
     : new ClientSecretCredential(
-      process.env.AZURE_TENANT_ID,
-      process.env.AZURE_CLIENT_ID,
-      process.env.AZURE_CLIENT_SECRET
-    );
+        process.env.AZURE_TENANT_ID,
+        process.env.AZURE_CLIENT_ID,
+        process.env.AZURE_CLIENT_SECRET
+      );
 
   // create new client with endpoint and credentials
   const client = new SmsClient(endpoint, credential);
@@ -58,13 +58,8 @@ export async function main() {
 
   const sendRequest: SmsSendRequest = {
     from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
-    to: (process.env.TO_PHONE_NUMBERS &&
-      process.env.TO_PHONE_NUMBERS.split &&
-      process.env.TO_PHONE_NUMBERS.split(",")) || [process.env.AZURE_PHONE_NUMBER!] || [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>"
-      ],
-    message: "Hello World via SMS!"
+    to: phoneNumbers,
+    message: "Hello World via SMS!",
   };
 
   // send sms with request

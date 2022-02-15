@@ -5,7 +5,7 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import {
   PipelinePolicy,
   PipelineRequest,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { URL } from "./url";
 import { shaHash, shaHMAC } from "./cryptoUtils";
@@ -24,7 +24,7 @@ export const createCommunicationAccessKeyCredentialPolicy = (
     sendRequest: async (req, next) => {
       const signedRequest = await signRequest(credential, req);
       return next(signedRequest);
-    }
+    },
   };
 };
 
