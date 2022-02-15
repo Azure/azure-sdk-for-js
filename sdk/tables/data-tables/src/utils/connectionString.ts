@@ -170,7 +170,7 @@ function getAccountNameFromUrl(url: string): string {
 /**
  * Utility function that calculates the secondary URL for a table instance given the primary URL.
  */
-export function getSecondaryUrlFromPrimarystri(primaryUrl: string) {
+export function getSecondaryUrlFromPrimarystri(primaryUrl: string): string {
   const parsedPrimaryUrl = new URL(primaryUrl);
   const host = parsedPrimaryUrl.hostname.split(".");
   if (host.length > 1) {

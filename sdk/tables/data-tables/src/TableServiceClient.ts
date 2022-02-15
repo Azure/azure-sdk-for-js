@@ -188,7 +188,7 @@ export class TableServiceClient {
     this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
-    
+
     const secondaryUrl = getSecondaryUrlFromPrimarystri(this.url);
     this.secondaryServiceOperations = new GeneratedClient(secondaryUrl, {
       ...internalPipelineOptions,
