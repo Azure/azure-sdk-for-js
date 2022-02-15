@@ -6,4 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./communicationIdentityOperations";
+export * from "./models";
+export { IdentityRestClient } from "./identityRestClient";
+export { IdentityRestClientContext } from "./identityRestClientContext";
+export * from "./operationsInterfaces";

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { UsernamePasswordCredential } from "@azure/identity";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "../utils/recordedClient";
 import { Context } from "mocha";
+import { UsernamePasswordCredential } from "@azure/identity";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`Get Token For Teams User [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {

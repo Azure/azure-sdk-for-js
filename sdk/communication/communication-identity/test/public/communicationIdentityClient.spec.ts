@@ -5,15 +5,15 @@ import {
   CommunicationUserIdentifier,
   isCommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { CommunicationIdentityClient } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
+import { CommunicationIdentityClient } from "../../src";
 import { Context } from "mocha";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
