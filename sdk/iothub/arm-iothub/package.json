@@ -101,7 +101,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/IotHubClient.ts",
+        "path": "src/iotHubClient.ts",
         "prefix": "packageDetails"
       }
     ]
