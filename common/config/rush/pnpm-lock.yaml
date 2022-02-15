@@ -9286,7 +9286,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-cCZInqWjIuLM16ICCuZ10N2pvjmAZ3tZ6C3P2/hdy60foq5z+71ZWwj5seur9J3+GkUFHJ04uKNJ3ZwnOXctWg==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-7PpYryTn7vnXQWD+dMfgHaMNeNdREMeqRY1/tlrr6OOgDb1O6MWg2tsoMuTzcRmmjOAIFl3QSvHS68cq0Wawrw==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -9512,22 +9512,22 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-hmINbh19nn8k1jqs1nWFUU2duhpE4z8dFI3PpCUI1LKxEWlzJhpu2vMzeR0KDn6wfXakBgXe4Bd51pim+3t58Q==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-gN6VdLPNFLxYG9Q/S//Ru95Im4dd2dhhBU9HrtSa3nLDVk0UPJKzE81RmUaTXyj2O5oZh524mAlC+lJWR2boTg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -10137,7 +10137,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-iOQRJZG8IjcBHCVwEpCOeB73h4e2H6mBWHc+n3NB/yNp96kHSz3pVJNQ6Q+MbqQ57z8qNDwHO9VNwrQxsg83rw==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-sW2h3heuRNq8XmwlPIv5KhIaasqs7H5J38SYe91IzGkZNSw2Vvk5cCH/KHrxiE7I7XGtgdw8HP8+FzXPI5bpJw==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -10963,7 +10963,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-Z+R8NDuaegxJEnhATAYeqXTyUUWP20WZQ/wdaiORF3fjazbRrF53/Z8V6tFVQHyLtw/pV9EMo6D5ycxQt0Scpg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-fGEPUwHrAFIOY7+1ZoH/b4M+AgudqMrq42bQJTcvBtZXpPz5CaTn3DQmJpPQEUultLOwocA/k9NOsXEk+BxrHQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -14707,7 +14707,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-vooDpQ9bSQgJCKjMaW8rhrsZVAu5H8OfPagXSDRQB2hPz0fEL6rUgvHoajxoLHaJXqsXkRg2QdpLWP8ESJ00Iw==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-yFr89E5+B2YApiYUYVtA0quOfFKPKBfpxJPWiJq5betC6Zz/1lzKOCf7Kd1WCyqYriJ5AKAgoG+fkfFXo63xZA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -15230,7 +15230,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-Z16hjklcfBBkYbwEMmEEC4QtxSnbIFdVyiD1OFdjnPeFt+ZbHxhs4BOtkc6vCQEZb5vgPEqJ5PULYbtKpJHuWg==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-I/aBL09l+iLLQZa1vjIFArGmsfU5aWEy11NYlMMUReaIRPDpjkJ74DsmWvqUBj24HwciOYNzf+8dd2QdZ6mKAg==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -15270,13 +15270,12 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-cQaHJb4jVWl+mTuCSJZ1anD4t1eVre5FR//AEZeIdneTG2v+K/dBs5hNIa9IvHGoMl0yE0JNcb7cbMod+kAW3g==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-5wMpq1xaYGMhJcpyFyHMrujIaEpRxmo/BL0EPtjM5uN7zAzoFLEAvYP2/hMq5giM99goN7LN6Ih20REBbLZ/mw==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -15316,7 +15315,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
