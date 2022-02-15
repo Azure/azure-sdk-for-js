@@ -22,5 +22,7 @@ const getRushPackages = () => {
     packageFolders.push(path.basename(path.dirname(filePath)));
     packageNames.push(proj.packageName);
   }
+  // Explicitly avoid packaging any packages in event-processor-host
+  packageFolders.push("event-processor-host");
   return { packageList: packageNames, folderList: packageFolders };
 };
