@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments.
 
 ### Bugs Fixed
 
