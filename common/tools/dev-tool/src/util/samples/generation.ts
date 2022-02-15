@@ -87,7 +87,7 @@ export async function makeSampleGenerationInfo(
   onError: () => void
 ): Promise<SampleGenerationInfo> {
   const sampleSources = await collect(
-    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts"))
+    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts"))
   );
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
@@ -103,7 +103,19 @@ export async function makeSampleGenerationInfo(
     return undefined as never;
   }
 
-  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail);
+  const requireInScope = (moduleSpecifier: string) => {
+    try {
+      return require(path.join(
+        projectInfo.path,
+        "node_modules",
+        moduleSpecifier.split("/").join(path.sep)
+      ));
+    } catch {
+      return require(moduleSpecifier);
+    }
+  };
+
+  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail, requireInScope);
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"
