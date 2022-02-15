@@ -133,8 +133,7 @@
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
       "words": [
-        "RAGRS",
-        "Uncommited"
+        "RAGRS"
       ]
     },
     {
@@ -144,7 +143,6 @@
         "adlsgen",
         "bangla",
         "Bokmaal",
-        "Createor",
         "Decompounder",
         "haase",
         "koelner",
@@ -159,12 +157,6 @@
         "Rslp",
         "sorani",
         "Sorani"
-      ]
-    },
-    {
-      "filename": "sdk/monitor/monitor-query/review/**/*.md",
-      "words": [
-        "fourty"
       ]
     },
     {
@@ -188,15 +180,13 @@
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
       "words": [
-        "dtdl",
-        "dependecies"
+        "dtdl"
       ]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
       "words": [
         "colls",
-        "Funtion",
         "Parition",
         "pkranges",
         "sproc",
@@ -253,6 +243,36 @@
       "words": [
         "Dtmi",
         "dtmis"
+      ]
+    },
+    {
+      "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
+      "words": [
+        "Uncommited"
+      ]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/search-documents.api.md",
+      "words": [
+        "Createor"
+      ]
+    },
+    {
+      "filename": "sdk/monitor/monitor-query/reviewmonitor-query.api.md",
+      "words": [
+        "fourty"
+      ]
+    },
+    {
+      "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
+      "words": [
+        "dependecies"
+      ]
+    },
+    {
+      "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
+      "words": [
+        "Funtion"
       ]
     }
   ]
