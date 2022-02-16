@@ -1569,6 +1569,11 @@
       "packageName": "@azure/arm-kusto",
       "projectFolder": "sdk/kusto/arm-kusto",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dnsresolver",
+      "projectFolder": "sdk/dnsresolver/arm-dnsresolver",
+      "versionPolicyName": "management"
     }
   ]
 }
