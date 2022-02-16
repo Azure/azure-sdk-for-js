@@ -111,6 +111,9 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
     if (packageJson?.name?.startsWith("@azure-tests/") || packageJson?.name?.startsWith("@azure/arm-")) {
       return false;
     }
+    if (packageJson?.private) {
+      return false;
+    }
     result = !contains(packagesToIgnore, packageJson.name!);
   }
   return result;
