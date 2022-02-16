@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttpCompat from "@azure/core-http-compat";
+import * as coreClient from "@azure/core-client";
 import {
   ApiVersion20210430Preview,
   SearchServiceClientOptionalParams
 } from "./models";
 
 /** @internal */
-export class SearchServiceClientContext extends coreHttpCompat.ExtendedServiceClient {
+export class SearchServiceClientContext extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: ApiVersion20210430Preview;
 
