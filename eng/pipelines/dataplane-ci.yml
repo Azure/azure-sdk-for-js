@@ -4,8 +4,6 @@ trigger:
       - main
   paths:
     include:
-    - .scripts/generateDataplaneList.ts
-    - .scripts/gulp.ts
     - eng/pipelines/mgmt-pr.yml    
     - sdk/applicationinsights/applicationinsights-query
     - sdk/batch/batch
