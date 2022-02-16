@@ -199,10 +199,6 @@ export class TableServiceClient {
    */
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
-    if (updatedOptions.requestOptions?.customHeaders) {
-      updatedOptions.requestOptions?.customHeaders;
-    }
-
     try {
       return await this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions));
     } catch (e) {
