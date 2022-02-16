@@ -1569,6 +1569,11 @@
       "packageName": "@azure/arm-kusto",
       "projectFolder": "sdk/kusto/arm-kusto",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/resources/arm-resources-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
