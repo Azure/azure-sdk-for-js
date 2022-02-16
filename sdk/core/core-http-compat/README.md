@@ -1,6 +1,6 @@
 # Azure Core HTTP Compatibility library for JavaScript
 
-This library provides classes and interfaces to be used by packages that want to move from using [@azure/[core-http](https://www.npmjs.com/package/@azure/core-http)) to [@azure/core-client](https://www.npmjs.com/package/@azure/core-client) & [@azure/core-rest-pipeline](https://www.npmjs.com/package/@azure/core-rest-pipeline)) without causing breaking changes in their public API surface.
+This library provides classes and interfaces to be used by Azure client libraries that want to move from using [@azure/core-http](https://www.npmjs.com/package/@azure/core-http) to [@azure/core-client](https://www.npmjs.com/package/@azure/core-client) & [@azure/core-rest-pipeline](https://www.npmjs.com/package/@azure/core-rest-pipeline) without causing breaking changes in their public API surface.
 
 ## Usage
 
