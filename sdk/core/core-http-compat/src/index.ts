@@ -6,7 +6,12 @@
  *
  * @packageDocumentation
  */
-export { ShimClient, ShimClientOptions, ShimCommonClientOptions, ShimOptions } from "./shimClient";
+export {
+  ExtendedServiceClient,
+  ExtendedServiceClientOptions,
+  ExtendedCommonClientOptions,
+  ExtendedOptions,
+} from "./extendedClient";
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
 export { RedirectOptions } from "./policies/redirectOptions";
 export { disbaleKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";

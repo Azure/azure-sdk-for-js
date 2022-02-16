@@ -3,17 +3,17 @@
 
 import { assert } from "@azure/test-utils";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
-import { ShimClient, disbaleKeepAlivePolicyName } from "../src/index";
+import { ExtendedServiceClient, disbaleKeepAlivePolicyName } from "../src/index";
 
-describe("Shim Client", () => {
+describe("Extended Client", () => {
   it("should add the disable keep alive policy", () => {
-    const shimClient: ShimClient = new ShimClient({
+    const extendedClient: ExtendedServiceClient = new ExtendedServiceClient({
       keepAliveOptions: {
         enable: false,
       },
     });
 
-    const pipelinePolicies: PipelinePolicy[] = shimClient.pipeline.getOrderedPolicies();
+    const pipelinePolicies: PipelinePolicy[] = extendedClient.pipeline.getOrderedPolicies();
     let disableKeepAlivePolicyFound: boolean = false;
 
     for (const pipelinePolicy of pipelinePolicies) {
@@ -26,13 +26,13 @@ describe("Shim Client", () => {
   });
 
   it("should remove the redirect policy", () => {
-    const shimClient: ShimClient = new ShimClient({
+    const extendedClient: ExtendedServiceClient = new ExtendedServiceClient({
       redirectOptions: {
         handleRedirects: false,
       },
     });
 
-    const pipelinePolicies: PipelinePolicy[] = shimClient.pipeline.getOrderedPolicies();
+    const pipelinePolicies: PipelinePolicy[] = extendedClient.pipeline.getOrderedPolicies();
     let redirectPolicyFound: boolean = false;
 
     for (const pipelinePolicy of pipelinePolicies) {

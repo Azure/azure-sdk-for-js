@@ -12,7 +12,7 @@ import { CommonClientOptions } from "@azure/core-client";
 /**
  * Options specific to Shim Clients.
  */
-export interface ShimOptions {
+export interface ExtendedOptions {
   /**
    * Options to disable keep alive.
    */
@@ -26,18 +26,18 @@ export interface ShimOptions {
 /**
  * Options that shim clients are expected to expose.
  */
-export type ShimClientOptions = ServiceClientOptions & ShimOptions;
+export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedOptions;
 
 /**
  * The common set of options that custom shim clients are expected to expose.
  */
-export type ShimCommonClientOptions = CommonClientOptions & ShimOptions;
+export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedOptions;
 
 /**
  * Client to provide compatability between core V1 & V2.
  */
-export class ShimClient extends ServiceClient {
-  constructor(options: ShimClientOptions) {
+export class ExtendedServiceClient extends ServiceClient {
+  constructor(options: ExtendedServiceClientOptions) {
     super(options);
 
     if (options.keepAliveOptions?.enable === false) {

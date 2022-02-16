@@ -13,7 +13,7 @@ import {
 } from "./models";
 
 /** @internal */
-export class SearchClientContext extends coreHttpCompat.ShimClient {
+export class SearchClientContext extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   indexName: string;
   apiVersion: ApiVersion20210430Preview;

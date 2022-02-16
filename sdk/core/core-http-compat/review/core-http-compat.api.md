@@ -12,6 +12,23 @@ import { ServiceClientOptions } from '@azure/core-client';
 export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
 
 // @public
+export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedOptions;
+
+// @public
+export interface ExtendedOptions {
+    keepAliveOptions?: KeepAliveOptions;
+    redirectOptions?: RedirectOptions;
+}
+
+// @public
+export class ExtendedServiceClient extends ServiceClient {
+    constructor(options: ExtendedServiceClientOptions);
+}
+
+// @public
+export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedOptions;
+
+// @public
 export interface KeepAliveOptions {
     enable?: boolean;
 }
@@ -20,23 +37,6 @@ export interface KeepAliveOptions {
 export interface RedirectOptions {
     handleRedirects?: boolean;
     maxRetries?: number;
-}
-
-// @public
-export class ShimClient extends ServiceClient {
-    constructor(options: ShimClientOptions);
-}
-
-// @public
-export type ShimClientOptions = ServiceClientOptions & ShimOptions;
-
-// @public
-export type ShimCommonClientOptions = CommonClientOptions & ShimOptions;
-
-// @public
-export interface ShimOptions {
-    keepAliveOptions?: KeepAliveOptions;
-    redirectOptions?: RedirectOptions;
 }
 
 ```
