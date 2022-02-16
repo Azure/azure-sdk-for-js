@@ -2,6 +2,12 @@
 
 ## 2.0.0 (Unreleased)
 
+## 2022-02-15
+
+- Bug Fix - Fixed the bug where the `recordingId` was being ignored in the add-sanitizer requests which led the test level sanitizers to be treated as session level sanitizers.
+  [#20393](https://github.com/Azure/azure-sdk-for-js/pull/20393)
+- `CustomDefaultMatcher`- exposes the default matcher in a customizable way. Currently, this includes enabling/disabling body match, adding additional excluded headers and ignored headers, and enable/disable matching for the order of query params in the requests.
+
 ## 2022-02-04
 
 - [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.

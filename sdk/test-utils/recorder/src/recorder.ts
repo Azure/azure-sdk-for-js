@@ -26,7 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
-import { Matcher, setMatcher } from "./matcher";
+import { CustomMatcherBody, Matcher, setMatcher } from "./matcher";
 import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
@@ -204,13 +204,13 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher): Promise<void> {
+  async setMatcher(matcher: Matcher, matcherBody?: CustomMatcherBody): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId, matcherBody);
     }
   }
 
