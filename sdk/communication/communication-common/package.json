@@ -8,7 +8,6 @@
   "types": "types/communication-common.d.ts",
   "browser": {
     "./dist-esm/src/credential/cryptoUtils.js": "./dist-esm/src/credential/cryptoUtils.browser.js",
-    "./dist-esm/src/credential/url.js": "./dist-esm/src/credential/url.browser.js",
     "./dist-esm/src/credential/isNode.js": "./dist-esm/src/credential/isNode.browser.js"
   },
   "scripts": {

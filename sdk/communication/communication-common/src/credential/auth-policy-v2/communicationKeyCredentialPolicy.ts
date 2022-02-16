@@ -9,7 +9,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { shaHMAC, shaHash } from "../cryptoUtils";
 import { KeyCredential } from "@azure/core-auth";
-import { URL } from "../url";
 import { isNode } from "../isNode";
 
 /**
