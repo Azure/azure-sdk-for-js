@@ -10,7 +10,6 @@ trigger:
     include:
       - sdk/advisor/ci.mgmt.yml
       - sdk/advisor/arm-advisor/
-
 pr:
   branches:
     include:
