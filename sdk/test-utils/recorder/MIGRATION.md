@@ -15,7 +15,7 @@ The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. U
   // ...
   "devDependencies": {
     // ...
-    "@azure-tools/test-credential" : "^1.0.0", // If you're using `@azure/identity` in your tests 
+    "@azure-tools/test-credential": "^1.0.0", // If you're using `@azure/identity` in your tests
     "@azure-tools/test-recorder": "^2.0.0"
   }
 }
@@ -121,6 +121,19 @@ await recorder.stop();
 ```
 
 It is important that `recorder.stop()` is called, or otherwise the next test will throw an error when trying to start the already started recorder. Additionally, it is important that both the `start` and `stop` calls are awaited, for similar reasons.
+
+## XHRHttpClient
+
+The legacy recorder didn't support recording browser calls made through the Fetch API. As a result, when fetch API was introduced in `core-rest-pipeline` a workaround was applied to the libraries not yet migrated to the new recorder, this workaround needs to be removed as part of the migration. Make the following changes, typically located in `utils/recordedClient.ts`
+
+```diff
+- const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
+```
+
+```diff
+- recorder.configureClientOptions({ httpClient, ...options })
++ recorder.configureClientOptions(options)
+```
 
 ## Environment variables
 
@@ -283,7 +296,7 @@ const {
 
 // reporters - to be removed
       "json-to-file"
-      
+
 /* ... */
 // jsonToFileReporter - to be removed
 jsonToFileReporter: {
@@ -298,6 +311,7 @@ browserConsoleLogOptions: {
 ```
 
 Remove the following "devDependencies" from `package.json`
+
 ```js
    "karma-json-preprocessor": "^0.3.3",
    "karma-json-to-file-reporter": "^1.0.1",

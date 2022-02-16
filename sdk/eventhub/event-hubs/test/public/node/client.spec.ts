@@ -4,16 +4,15 @@
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
-import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
+import { chai, assert, should as shouldFn } from "@azure/test-utils";
 import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
 import { testWithServiceTypes } from "../utils/testWithServiceTypes";
+import Sinon from "sinon";
+import { tracingClient } from "../../../src/diagnostics/tracing";
 
-const should = chai.should();
-chai.use(chaiAsPromised);
 chai.use(chaiString);
+const should = shouldFn();
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -24,14 +23,21 @@ testWithServiceTypes((serviceVersion) => {
       return service.start();
     });
 
-    after("Stopping mock service", () => {
-      return service?.stop();
+    after("Stopping mock service", async () => {
+      await service?.stop();
     });
   }
 
   describe("Create clients using Azure Identity", function (): void {
     let endpoint: string;
     let credential: TokenCredential;
+    let client: EventHubConsumerClient | EventHubProducerClient;
+
+    afterEach(async () => {
+      // The client must always be closed, or MockHub will hang on shutdown.
+      await client?.close();
+    });
+
     before("validate environment", function () {
       should.exist(
         env[EnvVarKeys.AZURE_CLIENT_ID],
@@ -64,18 +70,16 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     it("creates an EventHubProducerClient from an Azure.Identity credential", async function (): Promise<void> {
-      const client = new EventHubProducerClient(endpoint, env.EVENTHUB_NAME, credential);
+      client = new EventHubProducerClient(endpoint, env.EVENTHUB_NAME, credential);
       should.equal(client.fullyQualifiedNamespace, endpoint);
 
       // Extra check involving actual call to the service to ensure this works
       const hubInfo = await client.getEventHubProperties();
       should.equal(hubInfo.name, client.eventHubName);
-
-      await client.close();
     });
 
     it("creates an EventHubConsumerClient from an Azure.Identity credential", async function (): Promise<void> {
-      const client = new EventHubConsumerClient(
+      client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         endpoint,
         env.EVENTHUB_NAME,
@@ -86,22 +90,11 @@ testWithServiceTypes((serviceVersion) => {
       // Extra check involving actual call to the service to ensure this works
       const hubInfo = await client.getEventHubProperties();
       should.equal(hubInfo.name, client.eventHubName);
-
-      await client.close();
     });
 
     describe("tracing", () => {
-      let tracer: TestTracer;
-      before(() => {
-        tracer = setTracer();
-      });
-
-      after(() => {
-        resetTracer();
-      });
-
       it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {
-        const client = new EventHubConsumerClient(
+        client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           endpoint,
           env.EVENTHUB_NAME,
@@ -109,22 +102,30 @@ testWithServiceTypes((serviceVersion) => {
         );
         should.equal(client.fullyQualifiedNamespace, endpoint);
 
-        // Extra check involving actual call to the service to ensure this works
-        const hubInfo = await client.getEventHubProperties();
-        should.equal(hubInfo.name, client.eventHubName);
+        const withSpanStub = Sinon.spy(tracingClient, "withSpan");
 
-        await client.close();
+        // Ensure tracing is implemented correctly
+        await assert.supportsTracing(
+          (options) => client.getEventHubProperties(options),
+          ["ManagementClient.getEventHubProperties"]
+        );
 
-        const spans = tracer
-          .getKnownSpans()
-          .filter((s) => s.name === "Azure.EventHubs.getEventHubProperties");
+        // Additional validation that we created the correct initial span options
+        const expectedSpanOptions = {
+          spanAttributes: {
+            "peer.address": client.fullyQualifiedNamespace,
+            "message_bus.destination": client.eventHubName,
+          },
+        };
 
-        spans.length.should.equal(1);
-        spans[0].attributes.should.deep.equal({
-          "az.namespace": "Microsoft.EventHub",
-          "message_bus.destination": client.eventHubName,
-          "peer.address": client.fullyQualifiedNamespace,
-        });
+        assert.isTrue(
+          withSpanStub.calledWith(
+            Sinon.match.any,
+            Sinon.match.any,
+            Sinon.match.any,
+            expectedSpanOptions
+          )
+        );
       });
     });
   });
