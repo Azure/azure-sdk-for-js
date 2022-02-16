@@ -58,7 +58,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
 const randomDate = new Date();
 
-const serviceApiVersions = ["2021-05", "2017-04"];
+const serviceApiVersions = ["2021-05"];
 let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
 // TEST_MODE must be set to "live" to run both the versions

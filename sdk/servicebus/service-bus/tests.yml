@@ -7,7 +7,7 @@ stages:
       ServiceDirectory: servicebus
       TimeoutInMinutes: 90
       MatrixFilters:
-        - Pool=.*Pipelines
+        - Pool=.*ubuntu.*
       Clouds: 'Public,Canary'
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
