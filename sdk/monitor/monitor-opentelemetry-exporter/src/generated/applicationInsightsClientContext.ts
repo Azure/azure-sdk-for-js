@@ -37,7 +37,7 @@ export class ApplicationInsightsClientContext extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "{Host}/v2"
+      baseUri: options.endpoint || "{Host}/v2.1"
     };
     super(optionsWithDefaults);
 

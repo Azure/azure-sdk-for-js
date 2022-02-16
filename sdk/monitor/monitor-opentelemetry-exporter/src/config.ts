@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import { TokenCredential } from "@azure/core-http";
 import {
   DEFAULT_BREEZE_API_VERSION,
   DEFAULT_BREEZE_ENDPOINT,
@@ -23,13 +23,17 @@ export interface AzureExporterConfig {
    * Azure service API version.
    */
   apiVersion?: ServiceApiVersion;
+  /**
+   * Azure Active Directory Credential
+   */
+  aadTokenCredential?: TokenCredential;
 }
 
 /**
  * Internal Azure exporter configuration
  * @internal
  */
-export interface AzureExporterInternalConfig {
+export interface AzureExporterInternalConfig extends AzureExporterConfig {
   instrumentationKey: string;
   batchSendRetryIntervalMs: number;
   maxConsecutiveFailuresBeforeWarning: number;
