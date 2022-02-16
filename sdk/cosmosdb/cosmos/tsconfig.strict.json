@@ -172,7 +172,6 @@
     "test/public/integration/encoding.spec.ts",
     "test/public/integration/extractPartitionKey.spec.ts",
     "test/public/integration/failover.spec.ts",
-    "test/public/integration/multiregion.spec.ts",
     "test/public/integration/proxy.spec.ts",
     "test/public/integration/query.spec.ts",
     "test/public/integration/queryMetrics.spec.ts",
