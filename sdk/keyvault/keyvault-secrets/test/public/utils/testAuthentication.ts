@@ -8,6 +8,7 @@ import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 import { getServiceVersion } from "./common";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 export async function authenticate(
   that: Context,
@@ -31,12 +32,14 @@ export async function authenticate(
     queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
+  const identityHttpClient = isNode ? undefined : createXhrHttpClient();
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
     {
       authorityHost: env.AZURE_AUTHORITY_HOST,
+      httpClient: identityHttpClient,
     }
   );
 
