@@ -112,6 +112,10 @@ describe("ServiceBusClient live tests", () => {
     });
 
     const testError = (err: Error | ServiceBusError): void => {
+      if (errorWasThrown) {
+        return; // verification done in previous error handler invocation
+      }
+      console.log("#############", "Testing error");
       if (!isServiceBusError(err)) {
         should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
