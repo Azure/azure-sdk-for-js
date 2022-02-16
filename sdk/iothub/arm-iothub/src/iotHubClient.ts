@@ -60,7 +60,7 @@ export class IotHubClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-iothub/6.0.0`;
+    const packageDetails = `azsdk-js-arm-iothub/6.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -83,7 +83,7 @@ export class IotHubClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-07-01";
+    this.apiVersion = options.apiVersion || "2021-07-02";
     this.operations = new OperationsImpl(this);
     this.iotHubResource = new IotHubResourceImpl(this);
     this.resourceProviderCommon = new ResourceProviderCommonImpl(this);

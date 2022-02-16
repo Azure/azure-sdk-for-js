@@ -12,7 +12,7 @@
  * This sample demonstrates how to Triggers export of jobs specified by filters and returns an OperationID to track.
  *
  * @summary Triggers export of jobs specified by filters and returns an OperationID to track.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/Common/TriggerExportJobs.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/Common/TriggerExportJobs.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

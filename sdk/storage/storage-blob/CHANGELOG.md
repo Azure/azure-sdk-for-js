@@ -1,5 +1,15 @@
 # Release History
 
+## 12.9.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 12.9.0-beta.3 (2022-02-11)
 
 ### Features Added
@@ -10,8 +20,6 @@
 ### Bugs Fixed
 
 - Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
-
-### Other Changes
 
 ## 12.9.0-beta.2 (2021-12-03)
 

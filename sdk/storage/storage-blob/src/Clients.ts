@@ -98,6 +98,7 @@ import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
+  BlobUsesCustomerSpecifiedEncryptionMsg,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
@@ -1275,12 +1276,16 @@ export class BlobClient extends StorageClient {
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking blob existence",
-        });
+        // Expected exception when checking blob existence
         return false;
+      } else if (
+        e.statusCode === 409 &&
+        e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg
+      ) {
+        // Expected exception when checking blob existence
+        return true;
       }
+
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
