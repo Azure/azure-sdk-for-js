@@ -26,12 +26,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocuments(
+  const poller = await client.beginAnalyzeDocument(
     "prebuilt-receipt",
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
@@ -45,13 +45,13 @@ async function main() {
   if (result) {
     const receipt = result.fields;
     console.log("=== Receipt Information ===");
-    console.log("Type:", (receipt["ReceiptType"] as DocumentStringField).value);
+    console.log("Type:", result.docType);
     console.log("Merchant:", (receipt["MerchantName"] as DocumentStringField).value);
+
     console.log("Items:");
-    for (const { properties: item } of ((receipt["Items"] as DocumentArrayField).values ??
+    for (const { properties: item } of ((receipt["Items"] as DocumentArrayField).values ||
       []) as DocumentObjectField[]) {
-      console.log("-", (item["Name"] as DocumentStringField).value ?? "<undefined>");
-      //console.log("  Price:", item?.price);
+      console.log("- Description:", (item["Description"] as DocumentStringField).value);
       console.log("  Total Price:", (item["TotalPrice"] as DocumentStringField).value);
     }
   } else {

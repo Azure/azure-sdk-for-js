@@ -12,7 +12,7 @@
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/Common/ListJobsWithAllSupportedFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/Common/ListJobsWithAllSupportedFilters.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

@@ -18,7 +18,7 @@ import {
   AccountSASServices,
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { TokenCredential } from "@azure/core-http";
+import { AccessToken, TokenCredential } from "@azure/core-http";
 import { env } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -132,6 +132,11 @@ export function getTokenBSUWithDefaultCredential(
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
+export async function getStorageAccessTokenWithDefaultCredential(): Promise<AccessToken | null> {
+  const credential = new DefaultAzureCredential();
+  return credential.getToken(["https://storage.azure.com/.default"]);
 }
 
 export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {

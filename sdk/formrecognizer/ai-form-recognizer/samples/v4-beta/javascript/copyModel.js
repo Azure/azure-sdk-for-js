@@ -10,26 +10,28 @@
 
 const {
   AzureKeyCredential,
-  DocumentModelAdministrationClient
+  DocumentModelAdministrationClient,
 } = require("@azure/ai-form-recognizer");
 
+require("dotenv").config();
+
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const random = Date.now().toString();
   const destinationModelId =
-    (process.env.CUSTOM_MODEL_ID ?? "<model id>") + random.substring(random.length - 6);
+    (process.env.CUSTOM_MODEL_ID || "<model id>") + random.substring(random.length - 6);
 
   // The authorization must be created by the destination resource.
   const destinationClient = new DocumentModelAdministrationClient(endpoint, credential);
   const authorization = await destinationClient.getCopyAuthorization(destinationModelId);
 
-  const sourceEndpoint = process.env.FORM_RECOGNIZER_SOURCE_ENDPOINT ?? "<source endpoint>";
+  const sourceEndpoint = process.env.FORM_RECOGNIZER_SOURCE_ENDPOINT || "<source endpoint>";
   const sourceCredential = new AzureKeyCredential(
-    process.env.FORM_RECOGNIZER_SOURCE_API_KEY ?? "<source api key>"
+    process.env.FORM_RECOGNIZER_SOURCE_API_KEY || "<source api key>"
   );
-  const sourceModelId = process.env.COPY_SOURCE_MODEL_ID ?? "<source model id>";
+  const sourceModelId = process.env.COPY_SOURCE_MODEL_ID || "<source model id>";
 
   // Then, the source resource can initiate the copy operation.
   const sourceClient = new DocumentModelAdministrationClient(sourceEndpoint, sourceCredential);

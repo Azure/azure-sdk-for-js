@@ -15,6 +15,7 @@ The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. U
   // ...
   "devDependencies": {
     // ...
+    "@azure-tools/test-credential": "^1.0.0", // If you're using `@azure/identity` in your tests
     "@azure-tools/test-recorder": "^2.0.0"
   }
 }
@@ -40,6 +41,8 @@ Note the difference between the dev-tool `node-ts-input` and `node-js-input` com
 - `node-ts-input` runs the tests using `ts-node`, without code coverage.
 - `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
 
+Compare with the older test runs to make sure you're running all the tests/files as before.
+
 ## Initializing the recorder
 
 The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
@@ -49,6 +52,8 @@ The approach taken to initialize the recorder depends on whether the SDK being t
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
+import { Recorder } from "@azure-tools/test-recorder";
+
 let recorder: Recorder;
 
 /*
@@ -60,12 +65,13 @@ beforeEach(function (this: Context) {
 });
 ```
 
-To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled. Note that for this method to work, the `pipeline` object must be exposed as a property on the client.
+To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClientOptions` method. This method will add the necessary policies to the client options' `additionalPolicies` array for the recording to be enabled. Note that for this method to work, the `additionalPolicies` options has to be part of the client options.
 
 ```ts
-const client = /* ... initialize your client as normal ... */;
-// recorderHttpPolicy is provided as an export from the test-recorder-new package.
-recorder.configureClient(client);
+const client = new MyServiceClient(
+  /* ... insert options here ... */,
+  recorder.configureClientOptions({ /* any additional options to pass through */ }),
+);
 ```
 
 ### For Core v1 SDKs
@@ -115,6 +121,19 @@ await recorder.stop();
 ```
 
 It is important that `recorder.stop()` is called, or otherwise the next test will throw an error when trying to start the already started recorder. Additionally, it is important that both the `start` and `stop` calls are awaited, for similar reasons.
+
+## XHRHttpClient
+
+The legacy recorder didn't support recording browser calls made through the Fetch API. As a result, when fetch API was introduced in `core-rest-pipeline` a workaround was applied to the libraries not yet migrated to the new recorder, this workaround needs to be removed as part of the migration. Make the following changes, typically located in `utils/recordedClient.ts`
+
+```diff
+- const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
+```
+
+```diff
+- recorder.configureClientOptions({ httpClient, ...options })
++ recorder.configureClientOptions(options)
+```
 
 ## Environment variables
 
@@ -212,13 +231,9 @@ Other sanitizers for more complex use cases are also available.
 
 ## AAD and the new `NoOpCredential`
 
-The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package, installed as follows:
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package.
 
-```bash
-$ rush add --dev --caret -p @azure-tools/test-credential
-```
-
-This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
+This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between `NoOpCredential` in playback and `ClientSecretCredential` when recording for you:
 
 ```ts
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -236,7 +251,7 @@ Since AAD traffic is not recorded by the new recorder, there is no longer a need
 When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
 
 ```ts
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
@@ -258,36 +273,48 @@ module.exports = function (config) {
 };
 ```
 
-The following configuration options in `karma.config.js` should be **removed**:
+The following configuration options in `karma.config.js` are unnecessary and should be **removed**:
 
 ```ts
-// files section
-.concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+// imports - to be deleted
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode,
+} = require("@azure-tools/test-recorder");
+
+// plugins - to be removed
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor",
+
+// files section - snippet to remove
+     .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
+
+// preprocessors - to be removed
+      "recordings/browsers/**/*.json": ["json"],
+
+// reporters - to be removed
+      "json-to-file"
 
 /* ... */
-
-browserConsoleLogOptions: {
-  terminal: !isRecordMode(),
-}
-
-/* ... */
-
+// jsonToFileReporter - to be removed
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
 }
+
+/* ... */
+// log options - to be removed
+browserConsoleLogOptions: {
+  terminal: !isRecordMode(),
+}
 ```
 
-## Changes to `ci.yml`
+Remove the following "devDependencies" from `package.json`
 
-You must set the `TestProxy` parameter to `true` to enable the test proxy server in your SDK's `ci.yml` file.
-
-```yaml
-# irrelevant sections of ci.yml omitted
-
-extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
-  parameters:
-    TestProxy: true # Add me!
+```js
+   "karma-json-preprocessor": "^0.3.3",
+   "karma-json-to-file-reporter": "^1.0.1",
 ```
 
 ## Migrating your recordings

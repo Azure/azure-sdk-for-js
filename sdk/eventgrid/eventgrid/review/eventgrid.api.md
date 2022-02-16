@@ -553,7 +553,7 @@ export type EventGridPublisherClientOptions = CommonClientOptions;
 export interface EventHubCaptureFileCreatedEventData {
     eventCount: number;
     fileType: string;
-    fileurl: string;
+    fileUrl: string;
     firstEnqueueTime: string;
     firstSequenceNumber: number;
     lastEnqueueTime: string;
@@ -1410,7 +1410,7 @@ export interface StorageDirectoryDeletedEventData {
     api: string;
     clientRequestId: string;
     identity: string;
-    recursive: boolean;
+    recursive: string;
     requestId: string;
     sequencer: string;
     storageDiagnostics: any;
