@@ -47,6 +47,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/sample_response/abcdef`,
             body: "abcdef",
             method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { val: "I am the answer!" }
         );
