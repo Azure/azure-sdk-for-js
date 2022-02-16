@@ -8,6 +8,7 @@ import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorde
 import { getServiceVersion } from "./common";
 import TestClient from "./testClient";
 import { Context } from "mocha";
+import { createXhrHttpClient } from "@azure/test-utils";
 
 export async function authenticate(
   that: Context,
@@ -41,6 +42,7 @@ export async function authenticate(
     env.AZURE_CLIENT_SECRET,
     {
       authorityHost: env.AZURE_AUTHORITY_HOST,
+      httpClient: createXhrHttpClient(),
     }
   );
 
