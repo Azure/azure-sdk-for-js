@@ -31,7 +31,7 @@ export const tablesSecondaryEndpointPolicy: PipelinePolicy = {
 };
 
 /**
- * Utilility function that injects the SecondaryEndpointHeader into an operation options
+ * Utility function that injects the SecondaryEndpointHeader into an operation options
  */
 export function injectSecondaryEndpointHeader(options: OperationOptions): OperationOptions {
   const headerToInject = { [SecondaryLocationHeaderName]: "true" };
