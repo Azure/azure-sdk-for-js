@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=Avro",
-        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "314d410b-e563-4a95-b603-df3a50711a1c"
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "bf02942a-985b-426f-9b46-3785e2b2ada7"
       },
       "RequestBody": {
         "type": "record",
@@ -31,12 +31,18 @@
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 05 Jan 2022 18:00:57 GMT",
+        "Date": "Mon, 14 Feb 2022 23:07:58 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
-        "Transfer-Encoding": "chunked"
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "ItemNotFound"
       },
-      "ResponseBody": "{\u0022Code\u0022:404,\u0022Detail\u0022:\u0022Schema group-1\\/never-registered does not exist. TrackingId:f42abd07-f7f7-4a9c-8915-a74da5edca93_G29, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\\/group-1\\/schemas\\/never-registered:get-id, Timestamp:2022-01-05T18:00:57\u0022}"
+      "ResponseBody": {
+        "error": {
+          "code": "ItemNotFound",
+          "message": "Schema group-1/never-registered does not exist. TrackingId:ff59bd0f-18a2-4f72-9fe5-45ebb0a90b90_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/never-registered:get-id, Timestamp:2022-02-14T23:07:59"
+        }
+      }
     }
   ],
   "Variables": {}
