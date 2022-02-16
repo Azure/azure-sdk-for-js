@@ -224,12 +224,9 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
-        // createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(200),
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
+        createResponse(503),
+        // After the ping, we try to get a token from the IMDS endpoint.
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
@@ -238,6 +235,68 @@ describe("ManagedIdentityCredential", function () {
     });
 
     assert.equal(result?.token, "token");
+  });
+
+  it("IMDS MSI retries also retries on 500s", async function () {
+    const { result } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
+        createResponse(500, {}),
+        // After the ping, we try to get a token from the IMDS endpoint.
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(200, { access_token: "token" }),
+      ],
+    });
+
+    assert.equal(result?.token, "token");
+  });
+
+  it("IMDS MSI stops after 3 retries if the ping always gets 503s", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
+        createResponse(503, {}, { "Retry-After": "2" }),
+        // After the ping, we try to get a token from the IMDS endpoint.
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+      ],
+    });
+
+    assert.ok(error?.message);
+    assert.equal(
+      error?.message.split("\n")[0],
+      "ManagedIdentityCredential authentication failed. Status code: 503"
+    );
+  });
+
+  it("IMDS MSI stops after 3 retries if the ping always gets 500s", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
+        createResponse(500, {}),
+        // After the ping, we try to get a token from the IMDS endpoint.
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+      ],
+    });
+
+    assert.ok(error?.message);
+    assert.equal(
+      error?.message.split("\n")[0],
+      "ManagedIdentityCredential authentication failed. Status code: 500"
+    );
   });
 
   it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
@@ -293,7 +352,7 @@ describe("ManagedIdentityCredential", function () {
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const credential = new ManagedIdentityCredential("errclient");
-    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
+    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential,

@@ -22,6 +22,9 @@
 
 ### Bugs Fixed
 
+- `ManagedIdentityCredential` now won't retry when it tries to ping the IMDS endpoint.
+- Now we are specifying the maximum number of retries to 3 to ensure that maximum retries won't change without notice.
+
 ### Other Changes
 
 ## 2.0.2 (2022-02-03)
