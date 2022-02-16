@@ -294,7 +294,7 @@ describe("shared receiver code", () => {
       assert.equal(numRetryCalls, 2 + 1);
     });
 
-    it.skip("respects retry options", async () => {
+    it("respects retry options", async () => {
       const errorMessages: string[] = [];
       const errorCount = 3;
       let numRetryCalls = 0;
