@@ -93,6 +93,7 @@
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "mocha-junit-reporter": "^2.0.0",
-    "typescript": "~4.2.0"
+    "typescript": "~4.2.0",
+    "eslint-plugin-markdown": "~2.2.1"
   }
 }

@@ -11,7 +11,7 @@ export default {
     sourceType: "module",
     extraFileExtensions: [".json"],
   },
-  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc", "import"],
+  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc", "import", "markdown"],
   extends: [
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
@@ -20,6 +20,7 @@ export default {
     "prettier",
     "prettier/@typescript-eslint",
     "plugin:@azure/azure-sdk/recommended",
+    "plugin:markdown/recommended"
   ],
   env: {
     mocha: true,
@@ -124,4 +125,18 @@ export default {
     "@azure/azure-sdk/ts-doc-internal": "off",
     "tsdoc/syntax": "error",
   },
+  "overrides": [
+    {
+      files: ["**/*.md"],
+      processor: "markdown/markdown"
+    },
+    {
+      files: ["**/*.md/*.js"],
+      rules: {
+        "no-restricted-imports": [
+          "error", { "patterns": ["**/**", "@azure/logger"] }
+        ],
+      }
+    }
+  ]
 };
