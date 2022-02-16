@@ -5,19 +5,19 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import {
-  env,
   Recorder,
-  record,
   RecorderEnvironmentSetup,
+  env,
   isPlaybackMode,
+  record,
 } from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,
   HttpClient,
   HttpOperationResponse,
-  isNode,
   TokenCredential,
   WebResourceLike,
+  isNode,
 } from "@azure/core-http";
 import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";

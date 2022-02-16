@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 const DEFAULT_PHONE_NUMBER = "+14155550100";

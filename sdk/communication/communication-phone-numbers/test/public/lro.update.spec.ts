@@ -5,7 +5,7 @@ import { matrix } from "@azure/test-utils";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
+import { PhoneNumberCapabilitiesRequest, PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 import { getPhoneNumber } from "./utils/testPhoneNumber";
 

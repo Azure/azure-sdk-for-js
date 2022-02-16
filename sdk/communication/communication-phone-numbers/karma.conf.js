@@ -11,7 +11,7 @@ const {
 // Get all variables containing the available phone numbers per test agent.
 // E.g. -> AZURE_PHONE_NUMBER_windows_2019_node12
 const getPhoneNumberPoolEnvVars = () => {
-  return Object.keys(process.env).filter(key => key.startsWith("AZURE_PHONE_NUMBER_"));
+  return Object.keys(process.env).filter((key) => key.startsWith("AZURE_PHONE_NUMBER_"));
 };
 
 module.exports = function (config) {
@@ -71,7 +71,7 @@ module.exports = function (config) {
       "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS",
       "INCLUDE_UPDATE_CAPABILITIES_LIVE_TESTS",
       "AZURE_TEST_AGENT",
-      ...getPhoneNumberPoolEnvVars()
+      ...getPhoneNumberPoolEnvVars(),
     ],
 
     // test results reporter to use
