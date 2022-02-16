@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in node.js and in browsers) for SqlManagementClient.
 
-> Please note, a newer package [@azure/arm-sql](https://www.npmjs.com/package/@azure/arm-sql) is available as of March 2022 While this package will continue to receive critical bug fixes and we strongly encourage you to upgrade.
+> ⚠️ This package @azure/arm-sql with versions lower than 2.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 2.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
 
 ### Currently supported environments
 
