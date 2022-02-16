@@ -224,12 +224,9 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
-        // createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(200),
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
+        createResponse(503),
+        // After the ping, we try to get a token from the IMDS endpoint.
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
@@ -245,12 +242,9 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(500, {}),
-        createResponse(500, {}),
-        createResponse(500, {}),
-        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
-        // createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(200),
+        // After the ping, we try to get a token from the IMDS endpoint.
         createResponse(500, {}),
         createResponse(500, {}),
         createResponse(500, {}),
@@ -266,12 +260,9 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        // Ping failed. We consider any response a valid ping, so we continue afterwards.
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        // Non-ping failed
+        // After the ping, we try to get a token from the IMDS endpoint.
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
         createResponse(503, {}, { "Retry-After": "2" }),
@@ -291,12 +282,9 @@ describe("ManagedIdentityCredential", function () {
       scopes: ["scopes"],
       credential: new ManagedIdentityCredential("errclient"),
       insecureResponses: [
-        // Ping failed. We consider any response a valid ping, so we continue afterwards.
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
         createResponse(500, {}),
-        createResponse(500, {}),
-        createResponse(500, {}),
-        createResponse(500, {}),
-        // Non-ping failed
+        // After the ping, we try to get a token from the IMDS endpoint.
         createResponse(500, {}),
         createResponse(500, {}),
         createResponse(500, {}),

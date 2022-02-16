@@ -22,9 +22,9 @@
 
 ### Bugs Fixed
 
+- `ManagedIdentityCredential` no won't retry when it tries to ping the IMDS endpoint.
 - Now we are specifying the maximum number of retries to 3 to ensure that maximum retries won't change without notice.
-  - While at some point in the past the default retries on our core pipeliens were 3, today the `@azure/core-rest-pipeline` retry strategies attempt up to 10 requests before giving up. This is causing some of the Identity requests to take minutes before resolving.
-  - We have also added tests to ensure that our retries do not go above 3 in the future.
+
 ### Other Changes
 
 ## 2.0.2 (2022-02-03)

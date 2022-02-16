@@ -31,6 +31,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
+  private isAvailableIdentityClient: IdentityClient;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -54,14 +55,22 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientIdOrOptions: string | TokenCredentialOptions | undefined,
     options?: TokenCredentialOptions
   ) {
+    let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options);
+      _options = options;
     } else {
       // options only constructor
-      this.identityClient = new IdentityClient(clientIdOrOptions);
+      _options = options;
     }
+    this.identityClient = new IdentityClient(_options);
+    this.isAvailableIdentityClient = new IdentityClient({
+      ..._options,
+      retryOptions: {
+        maxRetries: 0,
+      },
+    });
   }
 
   private cachedMSI: MSI | undefined;
@@ -78,7 +87,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     const MSIs = [fabricMsi, appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
 
     for (const msi of MSIs) {
-      if (await msi.isAvailable(scopes, this.identityClient, clientId, getTokenOptions)) {
+      if (
+        await msi.isAvailable(scopes, this.isAvailableIdentityClient, clientId, getTokenOptions)
+      ) {
         this.cachedMSI = msi;
         return msi;
       }
