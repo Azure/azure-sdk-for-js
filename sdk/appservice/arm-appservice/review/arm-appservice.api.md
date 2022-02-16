@@ -3468,12 +3468,11 @@ export interface GitHubActionWebAppStackSettings {
 }
 
 // @public
-interface Global_2 {
+export interface Global {
     getDeletedWebApp(deletedSiteId: string, options?: GlobalGetDeletedWebAppOptionalParams): Promise<GlobalGetDeletedWebAppResponse>;
     getDeletedWebAppSnapshots(deletedSiteId: string, options?: GlobalGetDeletedWebAppSnapshotsOptionalParams): Promise<GlobalGetDeletedWebAppSnapshotsResponse>;
     getSubscriptionOperationWithAsyncResponse(location: string, operationId: string, options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams): Promise<void>;
 }
-export { Global_2 as Global }
 
 // @public
 export interface GlobalCsmSkuDescription {
@@ -10988,7 +10987,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     getSourceControl(sourceControlType: string, options?: GetSourceControlOptionalParams): Promise<GetSourceControlResponse>;
     getSubscriptionDeploymentLocations(options?: GetSubscriptionDeploymentLocationsOptionalParams): Promise<GetSubscriptionDeploymentLocationsResponse>;
     // (undocumented)
-    global: Global_2;
+    global: Global;
     // (undocumented)
     kubeEnvironments: KubeEnvironments;
     listBillingMeters(options?: ListBillingMetersOptionalParams): PagedAsyncIterableIterator<BillingMeter>;
