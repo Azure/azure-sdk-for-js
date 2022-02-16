@@ -15,7 +15,7 @@ export const exponentialRetryPolicyName = "exponentialRetryPolicy";
  */
 export interface ExponentialRetryPolicyOptions {
   /**
-   * The maximum number of retry attempts. Defaults to 10.
+   * The maximum number of retry attempts. Defaults to 3.
    */
   maxRetries?: number;
 
@@ -48,7 +48,7 @@ export function exponentialRetryPolicy(
       }),
     ],
     {
-      maxRetries: options.maxRetries ?? 10,
+      maxRetries: options.maxRetries ?? 3,
     }
   );
 }

@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Changed the default number of retries from 10 to 3.
+
 ## 1.5.0 (2022-02-03)
 
 ### Features Added

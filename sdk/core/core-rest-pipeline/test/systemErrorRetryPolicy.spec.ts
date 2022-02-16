@@ -69,7 +69,7 @@ describe("systemErrorRetryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, 4);
     assert.isTrue(catchCalled);
   });
 });

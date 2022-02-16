@@ -15,7 +15,7 @@ export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
  */
 export interface SystemErrorRetryPolicyOptions {
   /**
-   * The maximum number of retry attempts. Defaults to 10.
+   * The maximum number of retry attempts. Defaults to 3.
    */
   maxRetries?: number;
 
@@ -52,7 +52,7 @@ export function systemErrorRetryPolicy(
         }),
       ],
       {
-        maxRetries: options.maxRetries ?? 10,
+        maxRetries: options.maxRetries ?? 3,
       }
     ).sendRequest,
   };

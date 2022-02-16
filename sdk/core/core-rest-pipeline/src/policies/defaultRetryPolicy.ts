@@ -7,7 +7,7 @@ import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStr
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
 
-const DEFAULT_RETRY_POLICY_COUNT = 10;
+const DEFAULT_RETRY_POLICY_COUNT = 3;
 
 /**
  * Name of the {@link defaultRetryPolicy}

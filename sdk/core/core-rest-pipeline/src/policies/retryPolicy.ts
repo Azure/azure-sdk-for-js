@@ -11,7 +11,7 @@ import { AbortError } from "@azure/abort-controller";
 import { AzureLogger } from "@azure/logger";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
-const DEFAULT_MAX_RETRIES = 10;
+const DEFAULT_MAX_RETRIES = 3;
 
 /**
  * The programmatic identifier of the retryPolicy.
@@ -23,7 +23,7 @@ const retryPolicyName = "retryPolicy";
  */
 export interface RetryPolicyOptions {
   /**
-   * Maximum number of retries. If not specified, it will limit to 10 retries.
+   * Maximum number of retries. If not specified, it will limit to 3 retries.
    */
   maxRetries?: number;
   /**
