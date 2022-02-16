@@ -87,3 +87,16 @@ directive:
     transform: >
       $.required = true
 ```
+
+### Take stream as manifest body
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.parameters.ManifestBody
+  transform: >
+    $.schema = {
+        "type": "string",
+        "format": "binary"
+      }
+```

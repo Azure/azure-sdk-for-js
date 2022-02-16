@@ -264,7 +264,7 @@ const getBlobOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept3],
   serializer
 };
 const checkBlobExistsOperationSpec: coreClient.OperationSpec = {
@@ -299,7 +299,7 @@ const deleteBlobOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept3],
   serializer
 };
 const mountBlobOperationSpec: coreClient.OperationSpec = {
@@ -346,7 +346,7 @@ const uploadChunkOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.value3,
   urlParameters: [Parameters.url, Parameters.location],
-  headerParameters: [Parameters.contentType2, Parameters.accept3],
+  headerParameters: [Parameters.accept2, Parameters.contentType2],
   mediaType: "binary",
   serializer
 };
@@ -364,7 +364,7 @@ const completeUploadOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.value4,
   queryParameters: [Parameters.digest2],
   urlParameters: [Parameters.url, Parameters.location],
-  headerParameters: [Parameters.contentType2, Parameters.accept3],
+  headerParameters: [Parameters.accept2, Parameters.contentType2],
   mediaType: "binary",
   serializer
 };
@@ -410,7 +410,7 @@ const getChunkOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept2, Parameters.range],
+  headerParameters: [Parameters.accept3, Parameters.range],
   serializer
 };
 const checkChunkExistsOperationSpec: coreClient.OperationSpec = {

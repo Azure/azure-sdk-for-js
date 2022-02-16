@@ -8,6 +8,7 @@
 
 import { ContainerRegistry } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
@@ -15,7 +16,6 @@ import {
   ContainerRegistryCheckDockerV2SupportOptionalParams,
   ContainerRegistryGetManifestOptionalParams,
   ContainerRegistryGetManifestResponse,
-  Manifest,
   ContainerRegistryCreateManifestOptionalParams,
   ContainerRegistryCreateManifestResponse,
   ContainerRegistryDeleteManifestOptionalParams,
@@ -99,7 +99,7 @@ export class ContainerRegistryImpl implements ContainerRegistry {
   createManifest(
     name: string,
     reference: string,
-    payload: Manifest,
+    payload: coreRestPipeline.RequestBodyType,
     options?: ContainerRegistryCreateManifestOptionalParams
   ): Promise<ContainerRegistryCreateManifestResponse> {
     return this.client.sendOperationRequest(
@@ -393,8 +393,8 @@ const createManifestOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.payload,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.contentType, Parameters.accept2],
+  mediaType: "binary",
   serializer
 };
 const deleteManifestOperationSpec: coreClient.OperationSpec = {

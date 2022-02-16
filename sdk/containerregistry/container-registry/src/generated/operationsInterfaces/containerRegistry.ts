@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   ContainerRegistryCheckDockerV2SupportOptionalParams,
   ContainerRegistryGetManifestOptionalParams,
   ContainerRegistryGetManifestResponse,
-  Manifest,
   ContainerRegistryCreateManifestOptionalParams,
   ContainerRegistryCreateManifestResponse,
   ContainerRegistryDeleteManifestOptionalParams,
@@ -72,7 +72,7 @@ export interface ContainerRegistry {
   createManifest(
     name: string,
     reference: string,
-    payload: Manifest,
+    payload: coreRestPipeline.RequestBodyType,
     options?: ContainerRegistryCreateManifestOptionalParams
   ): Promise<ContainerRegistryCreateManifestResponse>;
   /**

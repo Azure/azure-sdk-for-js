@@ -12,7 +12,6 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  Manifest as ManifestMapper,
   RepositoryWriteableProperties as RepositoryWriteablePropertiesMapper,
   TagWriteableProperties as TagWriteablePropertiesMapper,
   ManifestWriteableProperties as ManifestWriteablePropertiesMapper
@@ -88,7 +87,25 @@ export const contentType: OperationParameter = {
 
 export const payload: OperationParameter = {
   parameterPath: "payload",
-  mapper: ManifestMapper
+  mapper: {
+    serializedName: "payload",
+    required: true,
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const last: OperationQueryParameter = {
@@ -192,7 +209,7 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const accept2: OperationParameter = {
+export const accept3: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/octet-stream",
@@ -257,18 +274,6 @@ export const value3: OperationParameter = {
     required: true,
     type: {
       name: "Stream"
-    }
-  }
-};
-
-export const accept3: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
     }
   }
 };

@@ -57,21 +57,6 @@ export const AcrErrorInfo: coreClient.CompositeMapper = {
   }
 };
 
-export const Manifest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Manifest",
-    modelProperties: {
-      schemaVersion: {
-        serializedName: "schemaVersion",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const ManifestListAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -401,6 +386,21 @@ export const JWKHeader: coreClient.CompositeMapper = {
         serializedName: "y",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Manifest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Manifest",
+    modelProperties: {
+      schemaVersion: {
+        serializedName: "schemaVersion",
+        type: {
+          name: "Number"
         }
       }
     }

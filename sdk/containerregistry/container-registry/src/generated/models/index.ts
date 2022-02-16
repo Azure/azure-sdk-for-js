@@ -25,12 +25,6 @@ export interface AcrErrorInfo {
   detail?: Record<string, unknown>;
 }
 
-/** Returns the requested manifest file */
-export interface Manifest {
-  /** Schema version */
-  schemaVersion?: number;
-}
-
 export interface ManifestListAttributes {
   /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
   mediaType?: string;
@@ -144,6 +138,12 @@ export interface JWKHeader {
   x?: string;
   /** y value */
   y?: string;
+}
+
+/** Returns the requested manifest file */
+export interface Manifest {
+  /** Schema version */
+  schemaVersion?: number;
 }
 
 /** List of repositories */
