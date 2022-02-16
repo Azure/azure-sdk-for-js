@@ -240,6 +240,77 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(result?.token, "token");
   });
 
+  it("IMDS MSI retries also retries on 500s", async function () {
+    const { result } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        // The ThrottlingRetryPolicy of core-http will retry up to 3 times, an extra retry would make this fail (meaning a 503 response would be considered the result)
+        // createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(200),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(200, { access_token: "token" }),
+      ],
+    });
+
+    assert.equal(result?.token, "token");
+  });
+
+  it("IMDS MSI stops after 3 retries if the ping always gets 503s", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        // Ping failed. We consider any response a valid ping, so we continue afterwards.
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        // Non-ping failed
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+      ],
+    });
+
+    assert.ok(error?.message);
+    assert.equal(
+      error?.message.split("\n")[0],
+      "ManagedIdentityCredential authentication failed. Status code: 503"
+    );
+  });
+
+  it("IMDS MSI stops after 3 retries if the ping always gets 500s", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        // Ping failed. We consider any response a valid ping, so we continue afterwards.
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        // Non-ping failed
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+        createResponse(500, {}),
+      ],
+    });
+
+    assert.ok(error?.message);
+    assert.equal(
+      error?.message.split("\n")[0],
+      "ManagedIdentityCredential authentication failed. Status code: 500"
+    );
+  });
+
   it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
@@ -293,7 +364,7 @@ describe("ManagedIdentityCredential", function () {
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const credential = new ManagedIdentityCredential("errclient");
-    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
+    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential,

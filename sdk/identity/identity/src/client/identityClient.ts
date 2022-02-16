@@ -94,6 +94,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       userAgentOptions: {
         userAgentPrefix,
       },
+      retryOptions: {
+        maxRetries: 3,
+      },
       baseUri,
     });
 
