@@ -34,24 +34,17 @@ export const tablesSecondaryEndpointPolicy: PipelinePolicy = {
  * Utilility function that injects the SecondaryEndpointHeader into an operation options
  */
 export function injectSecondaryEndpointHeader(options: OperationOptions): OperationOptions {
-  const requestOptions = options.requestOptions;
   const headerToInject = { [SecondaryLocationHeaderName]: "true" };
-  if (!requestOptions) {
-    return {
-      ...options,
-      requestOptions: { customHeaders: headerToInject },
-    };
-  }
-
-  if (!requestOptions.customHeaders) {
-    return {
-      ...options,
-      requestOptions: { ...requestOptions, customHeaders: headerToInject },
-    };
-  } else {
-    requestOptions.customHeaders = { ...requestOptions.customHeaders, ...headerToInject };
-    return { ...options, requestOptions };
-  }
+  return {
+    ...options,
+    requestOptions: {
+      ...options.requestOptions,
+      customHeaders: {
+        ...options.requestOptions?.customHeaders,
+        ...headerToInject,
+      },
+    },
+  };
 }
 
 /**
