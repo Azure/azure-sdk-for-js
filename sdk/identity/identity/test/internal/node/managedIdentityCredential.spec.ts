@@ -293,7 +293,7 @@ describe("ManagedIdentityCredential", function () {
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function () {
     const credential = new ManagedIdentityCredential("errclient");
-    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
+    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential,
