@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { ShimClient, ShimClientOptions } from "./shimClient";
-export { ShimCommonClientOptions } from "./shimCommonClientOptions";
+/**
+ * A Shim Library that provides compatibility between Core V1 & V2 Packages.
+ *
+ * @packageDocumentation
+ */
+export { ShimClient, ShimClientOptions, ShimCommonClientOptions, ShimOptions } from "./shimClient";
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
-export { RedirectPolicyOptions } from "./policies/redirectPolicyOptions";
+export { RedirectOptions } from "./policies/redirectOptions";
+export { disbaleKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";

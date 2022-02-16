@@ -8,11 +8,11 @@ import {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 
-export const keepAlivePolicyName = "KeepAlivePolicy";
+export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
 
-export function createKeepAlivePolicy(): PipelinePolicy {
+export function createDisableKeepAlivePolicy(): PipelinePolicy {
   return {
-    name: keepAlivePolicyName,
+    name: disbaleKeepAlivePolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.disableKeepAlive = true;
       return next(request);

@@ -13238,7 +13238,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-6oPpeZKwOCCHdcxk1HtbfvYtOvzGyhwmT0alxJ+umgv50U6iUvlpfmu3Xi35Gr8Km7sZj3N4xfJOWjIsbBGgGw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-oRYiWyqhAamtLlSZxYaWCGSKyl6A7P3grILLMa2G+GtRmqomlrnMwWJb1yz9TqWakYO7VubXGr3xO0K/LR50zA==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -13248,6 +13248,8 @@ packages:
       downlevel-dts: 0.8.0
       eslint: 7.32.0
       inherits: 2.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -13255,8 +13257,6 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -15525,7 +15525,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-QeAh37wZ7x+si7DtdLlPkhtPSKALaFyEbsrVY6wM8OtZPgfJPW2/qBsO/ugOv8ru4EWbCG8ktahimx9Nghsa2w==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:

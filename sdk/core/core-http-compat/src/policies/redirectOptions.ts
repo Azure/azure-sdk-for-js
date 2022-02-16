@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface RedirectPolicyOptions {
+/**
+ * Options for how redirect responses are handled.
+ */
+export interface RedirectOptions {
+  /**
+   * When true, redirect responses are followed.  Defaults to true.
+   */
   handleRedirects?: boolean;
 
   /**

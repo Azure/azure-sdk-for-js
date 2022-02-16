@@ -9,36 +9,34 @@ import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
 
 // @public (undocumented)
+export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
+
+// @public
 export interface KeepAliveOptions {
     enable?: boolean;
 }
 
-// @public (undocumented)
-export interface RedirectPolicyOptions {
-    // (undocumented)
+// @public
+export interface RedirectOptions {
     handleRedirects?: boolean;
     maxRetries?: number;
 }
 
-// @public (undocumented)
+// @public
 export class ShimClient extends ServiceClient {
     constructor(options: ShimClientOptions);
 }
 
-// @public (undocumented)
-export interface ShimClientOptions extends ServiceClientOptions {
-    // (undocumented)
-    keepAliveOptions?: KeepAliveOptions;
-    // (undocumented)
-    redirectOptions?: RedirectPolicyOptions;
-}
+// @public
+export type ShimClientOptions = ServiceClientOptions & ShimOptions;
 
-// @public (undocumented)
-export interface ShimCommonClientOptions extends CommonClientOptions {
-    keepAliveOptions?: KeepAliveOptions;
-    redirectOptions?: RedirectPolicyOptions;
-}
+// @public
+export type ShimCommonClientOptions = CommonClientOptions & ShimOptions;
 
-// (No @packageDocumentation comment for this package)
+// @public
+export interface ShimOptions {
+    keepAliveOptions?: KeepAliveOptions;
+    redirectOptions?: RedirectOptions;
+}
 
 ```
