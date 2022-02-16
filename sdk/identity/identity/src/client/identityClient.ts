@@ -90,12 +90,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     super({
       requestContentType: "application/json; charset=utf-8",
+      retryOptions: {
+        maxRetries: 3,
+      },
       ...options,
       userAgentOptions: {
         userAgentPrefix,
-      },
-      retryOptions: {
-        maxRetries: 3,
       },
       baseUri,
     });
