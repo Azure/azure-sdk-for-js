@@ -146,7 +146,7 @@ describe("ServiceBusClient live tests", () => {
       reduceRetries(receiver);
 
       try {
-        receiver.subscribe({
+        const subscription = receiver.subscribe({
           async processMessage() {
             throw "processMessage should not have been called when receive call is made from a non existing namespace";
           },
@@ -164,11 +164,12 @@ describe("ServiceBusClient live tests", () => {
             } as Omit<ProcessErrorArgs, "error">);
 
             testError(args.error);
+            subscription.close();
           },
         });
 
         should.equal(
-          await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+          await checkWithTimeout(() => errorWasThrown === true, 100, 3000),
           true,
           "Error thrown flag must be true"
         );
