@@ -26,11 +26,11 @@ import {
   isTokenCredential,
 } from "@azure/core-auth";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { Service, Table } from "./generated";
 import {
-  SecondaryLocationHeaderName,
+  injectSecondaryEndpointHeader,
   tablesSecondaryEndpointPolicy,
 } from "./secondaryEndpointPolicy";
-import { Service, Table } from "./generated";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import { GeneratedClient } from "./generated/generatedClient";
@@ -199,11 +199,12 @@ export class TableServiceClient {
    */
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
+    if (updatedOptions.requestOptions?.customHeaders) {
+      updatedOptions.requestOptions?.customHeaders;
+    }
+
     try {
-      return await this.service.getStatistics({
-        ...updatedOptions,
-        requestOptions: { customHeaders: { [SecondaryLocationHeaderName]: "true" } },
-      });
+      return await this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions));
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

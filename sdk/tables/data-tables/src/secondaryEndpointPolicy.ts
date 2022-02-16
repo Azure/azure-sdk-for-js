@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions } from "@azure/core-client";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 /**
@@ -28,6 +29,30 @@ export const tablesSecondaryEndpointPolicy: PipelinePolicy = {
     return next(req);
   },
 };
+
+/**
+ * Utilility function that injects the SecondaryEndpointHeader into an operation options
+ */
+export function injectSecondaryEndpointHeader(options: OperationOptions): OperationOptions {
+  const requestOptions = options.requestOptions;
+  const headerToInject = { [SecondaryLocationHeaderName]: "true" };
+  if (!requestOptions) {
+    return {
+      ...options,
+      requestOptions: { customHeaders: headerToInject },
+    };
+  }
+
+  if (!requestOptions.customHeaders) {
+    return {
+      ...options,
+      requestOptions: { ...requestOptions, customHeaders: headerToInject },
+    };
+  } else {
+    requestOptions.customHeaders = { ...requestOptions.customHeaders, ...headerToInject };
+    return { ...options, requestOptions };
+  }
+}
 
 /**
  * Utility function that calculates the secondary URL for a table instance given the primary URL.
