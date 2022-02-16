@@ -7,7 +7,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -1831,7 +1831,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 }
 
 // @public
-export interface SearchClientOptions extends ExtendedCommonClientOptions {
+export interface SearchClientOptions extends CommonClientOptions {
     // @deprecated
     apiVersion?: string;
     serviceVersion?: string;
@@ -1909,7 +1909,7 @@ export class SearchIndexClient {
 }
 
 // @public
-export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
+export interface SearchIndexClientOptions extends CommonClientOptions {
     // @deprecated
     apiVersion?: string;
     serviceVersion?: string;
@@ -1971,7 +1971,7 @@ export class SearchIndexerClient {
 }
 
 // @public
-export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
+export interface SearchIndexerClientOptions extends CommonClientOptions {
     // @deprecated
     apiVersion?: string;
     serviceVersion?: string;
