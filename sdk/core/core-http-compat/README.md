@@ -6,7 +6,7 @@ This library provides classes and interfaces to be used by packages that want to
 
 ### ExtendedServiceClientOptions
 
-With Core V1 library, the `options` parameter to the generated client will look like:
+With `@azure/core-http` library, the `options` parameter to the generated client will look like:
 
 ```
 export interface SearchClientOptionalParams extends coreHttp.ServiceClientOptions {
@@ -15,7 +15,7 @@ export interface SearchClientOptionalParams extends coreHttp.ServiceClientOption
 }
 ```
 
-With the Core V2 libraries, the `options` parameter to the generated client will look like:
+With the `@azure/core-client` & `@azure/core-rest-pipeline` libraries, the `options` parameter to the generated client will look like:
 
 ```
 export interface SearchClientOptionalParams extends coreClient.ServiceClientOptions {
@@ -35,7 +35,7 @@ export interface SearchClientOptionalParams extends coreHttpCompat.ExtendedServi
 
 ### ExtendedCommonClientOptions
 
-With Core V1 library, the `options` parameter to the custom client will look like:
+With `@azure/core-http` library, the `options` parameter to the custom client will look like:
 
 ```
 export interface SearchClientOptions extends PipelineOptions {
@@ -43,7 +43,7 @@ export interface SearchClientOptions extends PipelineOptions {
 }
 ```
 
-With Core V2 library, the `options` parameter to the custom client will look like:
+With the `@azure/core-client` & `@azure/core-rest-pipeline` libraries, the `options` parameter to the custom client will look like:
 
 ```
 export interface SearchClientOptions extends CommonClientOptions {
