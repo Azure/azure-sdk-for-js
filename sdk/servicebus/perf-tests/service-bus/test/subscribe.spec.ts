@@ -71,10 +71,10 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       {
         processMessage: async (_message: ServiceBusReceivedMessage) => {
           // { event: _message }
-          await this.eventRaised();
+          this.eventRaised();
         },
         processError: async (args: ProcessErrorArgs) => {
-          await this.errorRaised(args.error);
+          this.errorRaised(args.error);
         },
       },
       { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value }

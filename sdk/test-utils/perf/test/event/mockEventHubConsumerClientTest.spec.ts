@@ -39,10 +39,10 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
     this.subscriber = this.client.subscribe(
       {
         processEvents: async (_events: Event[], _context: { partitionId: number }) => {
-          for (const _event of _events) await this.eventRaised();
+          for (const _event of _events) this.eventRaised();
         },
         processError: async (error: Error) => {
-          await this.errorRaised(error);
+          this.errorRaised(error);
         },
       },
       {
