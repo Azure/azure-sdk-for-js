@@ -278,7 +278,7 @@ The supported clouds are:
 |Please run 'az login' to set up account|No account is currently logged into the Azure CLI, or the login has expired.|<ul><li>Log into the Azure CLI using the `az login` command. More information on authentication in the Azure CLI can be found [here](https://docs.microsoft.com/cli/azure/authenticate-azure-cli).</li><li>Validate that the Azure CLI can obtain tokens. See [below](#verifying-the-azure-cli-can-obtain-tokens) for instructions.</li></ul>|
 #### __Verifying the Azure CLI can obtain tokens__
 
-You can manually verify that the Azure CLI is properly authenticated, and can obtain tokens. First use the `account` command to verify the account which is currently logged in to the Azure CLI. 
+You can manually verify that the Azure CLI is properly authenticated and can obtain tokens. First, use the `account` command to verify the account which is currently logged into the Azure CLI. 
 
 ```bash
 az account show
