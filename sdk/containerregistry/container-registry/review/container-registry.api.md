@@ -7,9 +7,9 @@
 /// <reference types="node" />
 /// <reference lib="esnext.asynciterable" />
 
+import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -69,7 +69,7 @@ export class ContainerRegistryClient {
 }
 
 // @public
-export interface ContainerRegistryClientOptions extends PipelineOptions {
+export interface ContainerRegistryClientOptions extends CommonClientOptions {
     audience?: string;
     serviceVersion?: "2021-07-01";
 }

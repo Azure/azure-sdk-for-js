@@ -8,9 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Cookie": "",
-        "User-Agent": "azsdk-js-template-template/1.0.11-beta.1 core-http/2.2.4 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2d164b86-014c-4013-9c8c-56aa7883e56e"
+        "User-Agent": "azsdk-js-template/1.0.11-beta.1 core-rest-pipeline/1.5.0 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e7740279-3284-41b7-81a3-3386016904cb"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -20,25 +19,25 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "keep-alive",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
-        "Date": "Fri, 28 Jan 2022 18:12:22 GMT",
-        "ETag": "\u0022jHnSsNSkboEWJFD7nnfzHgnZjRA\u0022",
-        "Last-Modified": "Wed, 01 Dec 2021 02:23:41 GMT",
+        "Date": "Wed, 02 Feb 2022 22:51:58 GMT",
+        "ETag": "\u0022KC2UKROQSRsp6tOOd3Aqw1tVZRX\u0022",
+        "Last-Modified": "Wed, 26 Jan 2022 22:33:23 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NDoxOSM1ODg2Mjk4;sn=5886298",
+        "Sync-Token": "zAJw6V16=NDoxOSMxMTAzMTE1MA==;sn=11031150",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "9e6dc18d-5d7f-4b20-a31d-bff95437a0ea",
-        "x-ms-request-id": "9e6dc18d-5d7f-4b20-a31d-bff95437a0ea"
+        "x-ms-correlation-request-id": "ce1b5ddd-2d10-40ed-bec7-13070c83ad43",
+        "x-ms-request-id": "ce1b5ddd-2d10-40ed-bec7-13070c83ad43"
       },
       "ResponseBody": {
-        "etag": "jHnSsNSkboEWJFD7nnfzHgnZjRA",
+        "etag": "KC2UKROQSRsp6tOOd3Aqw1tVZRX",
         "key": "test-key",
         "label": null,
-        "content_type": null,
+        "content_type": "",
         "value": "test-value",
         "tags": {},
         "locked": false,
-        "last_modified": "2021-12-01T02:23:41\u002B00:00"
+        "last_modified": "2022-01-26T22:33:23\u002B00:00"
       }
     }
   ],

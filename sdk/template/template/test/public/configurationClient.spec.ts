@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import { chaiAzure } from "@azure/test-utils";
-chai.use(chaiAzure);
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
@@ -30,15 +28,16 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
   // This function returns the special NoOpCredential in playback mode, which
   // is a special TokenCredential implementation that does not make any requests
   // to AAD.
-
-  // recorder.configureClientOptionsCoreV1 mixes in the necessary options that
-  // need to be passed to the corev1 ConfigurationClient for the recorder to
-  // capture requests.
-  return new ConfigurationClient(
+  const client = new ConfigurationClient(
     endpoint,
     createTestCredential(),
-    recorder.configureClientOptionsCoreV1({})
+    // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
+    // redirect the requests to reach the proxy tool in record/playback modes instead of
+    // hitting the live service.
+    recorder.configureClientOptions({})
   );
+
+  return client;
 }
 
 // You want to give the test suite a descriptive name. Here, I add [AAD] to
@@ -90,6 +89,12 @@ describe("[AAD] ConfigurationClient functional tests", function () {
     // the `getConfigurationSetting` method is being traced correctly, that the
     // tracing span is properly parented and closed.
     it("supports tracing", async () => {
+      // Playback fails in the browser without the "HeaderlessMatcher"
+      //
+      // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers
+      // Proxy tool doesn't treat these headers differently, tries to match them with the headers in the recording, and fails.
+      // More details here - https://github.com/Azure/azure-sdk-tools/issues/2674
+      await recorder.setMatcher("HeaderlessMatcher");
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
       await assert.supportsTracing(
         (options) => client.getConfigurationSetting(key, options),

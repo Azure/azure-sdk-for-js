@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix issue with `getStatistics()` operation consistently failing and added test. [#20398](https://github.com/Azure/azure-sdk-for-js/pull/20398)
+
 ### Other Changes
 
 ## 13.0.1 (2022-01-12)

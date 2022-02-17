@@ -464,6 +464,12 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
           className: "Identity"
         }
       },
+      allowedCopyScope: {
+        serializedName: "properties.allowedCopyScope",
+        type: {
+          name: "String"
+        }
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -521,6 +527,18 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
       },
       enableHttpsTrafficOnly: {
         serializedName: "properties.supportsHttpsTrafficOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isSftpEnabled: {
+        serializedName: "properties.isSftpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isLocalUserEnabled: {
+        serializedName: "properties.isLocalUserEnabled",
         type: {
           name: "Boolean"
         }
@@ -920,6 +938,12 @@ export const EncryptionIdentity: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      encryptionFederatedIdentityClientId: {
+        serializedName: "federatedIdentityClientId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1133,6 +1157,18 @@ export const ActiveDirectoryProperties: coreClient.CompositeMapper = {
       azureStorageSid: {
         serializedName: "azureStorageSid",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      samAccountName: {
+        serializedName: "samAccountName",
+        type: {
+          name: "String"
+        }
+      },
+      accountType: {
+        serializedName: "accountType",
         type: {
           name: "String"
         }
@@ -1667,6 +1703,18 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      isSftpEnabled: {
+        serializedName: "properties.isSftpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isLocalUserEnabled: {
+        serializedName: "properties.isLocalUserEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       networkRuleSet: {
         serializedName: "properties.networkAcls",
         type: {
@@ -1728,6 +1776,12 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImmutableStorageAccount"
+        }
+      },
+      allowedCopyScope: {
+        serializedName: "properties.allowedCopyScope",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2904,6 +2958,122 @@ export const ObjectReplicationPolicyFilter: coreClient.CompositeMapper = {
   }
 };
 
+export const LocalUsers: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocalUsers",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocalUser"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PermissionScope: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PermissionScope",
+    modelProperties: {
+      permissions: {
+        serializedName: "permissions",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      service: {
+        serializedName: "service",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        serializedName: "resourceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SshPublicKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SshPublicKey",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LocalUserKeys: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocalUserKeys",
+    modelProperties: {
+      sshAuthorizedKeys: {
+        serializedName: "sshAuthorizedKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SshPublicKey"
+            }
+          }
+        }
+      },
+      sharedKey: {
+        serializedName: "sharedKey",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LocalUserRegeneratePasswordResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocalUserRegeneratePasswordResult",
+    modelProperties: {
+      sshPassword: {
+        serializedName: "sshPassword",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EncryptionScopeKeyVaultProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3721,61 +3891,6 @@ export const Multichannel: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudErrorAutoGenerated: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorAutoGenerated",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBodyAutoGenerated"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorBodyAutoGenerated: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorBodyAutoGenerated",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBodyAutoGenerated"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const FileShareItems: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4248,6 +4363,78 @@ export const ObjectReplicationPolicy: coreClient.CompositeMapper = {
   }
 };
 
+export const LocalUser: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocalUser",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      permissionScopes: {
+        serializedName: "properties.permissionScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PermissionScope"
+            }
+          }
+        }
+      },
+      homeDirectory: {
+        serializedName: "properties.homeDirectory",
+        type: {
+          name: "String"
+        }
+      },
+      sshAuthorizedKeys: {
+        serializedName: "properties.sshAuthorizedKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SshPublicKey"
+            }
+          }
+        }
+      },
+      sid: {
+        serializedName: "properties.sid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      hasSharedKey: {
+        serializedName: "properties.hasSharedKey",
+        type: {
+          name: "Boolean"
+        }
+      },
+      hasSshKey: {
+        serializedName: "properties.hasSshKey",
+        type: {
+          name: "Boolean"
+        }
+      },
+      hasSshPassword: {
+        serializedName: "properties.hasSshPassword",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const EncryptionScope: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4684,6 +4871,18 @@ export const StorageAccount: coreClient.CompositeMapper = {
           className: "NetworkRuleSet"
         }
       },
+      isSftpEnabled: {
+        serializedName: "properties.isSftpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isLocalUserEnabled: {
+        serializedName: "properties.isLocalUserEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       isHnsEnabled: {
         serializedName: "properties.isHnsEnabled",
         type: {
@@ -4784,6 +4983,12 @@ export const StorageAccount: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImmutableStorageAccount"
+        }
+      },
+      allowedCopyScope: {
+        serializedName: "properties.allowedCopyScope",
+        type: {
+          name: "String"
         }
       }
     }

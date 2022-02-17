@@ -62,6 +62,7 @@ import {
   DocumentExtractionSkill,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   DefaultCognitiveServicesAccount,
   CognitiveServicesAccountKey,
   HighWaterMarkChangeDetectionPolicy,
@@ -513,7 +514,8 @@ export type SearchIndexerSkill =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
-  | WebApiSkill;
+  | WebApiSkill
+  | AzureMachineLearningSkill;
 
 /**
  * Contains the possible cases for CognitiveServicesAccount.

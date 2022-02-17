@@ -16,6 +16,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
 async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
@@ -36,7 +37,7 @@ export async function main(): Promise<void> {
    * Create a buffered client that batches the enqueued events and sends it either
    * after 750ms or after batching 1000 events, whichever occurs first.
    */
-  const client = new EventHubBufferedProducerClient(connectionString, {
+  const client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
     /** An error handler must be provided */
     onSendEventsErrorHandler: handleError,
 

@@ -15,8 +15,6 @@ import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -94,11 +92,7 @@ export interface EventDataAdapterParameters {
 // @public
 export interface EventDataBatch {
     readonly count: number;
-    // @internal
-    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
-    // @internal
-    readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
     // @internal
@@ -125,6 +119,7 @@ export class EventHubBufferedProducerClient {
 
 // @public
 export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
+    enableIdempotentPartitions?: boolean;
     maxEventBufferLengthPerPartition?: number;
     maxWaitTimeInMs?: number;
     onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
@@ -377,8 +372,6 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
-    // @deprecated (undocumented)
-    parentSpan?: Span | SpanContext;
     tracingOptions?: OperationTracingOptions;
 }
 

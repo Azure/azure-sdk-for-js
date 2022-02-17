@@ -197,15 +197,15 @@ describe("[AAD] Attestation Client", function () {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const client = createRecordedClient(recorder, endpointType);
 
-    {
-      // You can't specify both runtimeData and runtimeJson.
-      await expect(
-        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData,
-        })
-      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
-    }
+    // You can't specify both runtimeData and runtimeJson.
+    await assert.isRejected(
+      client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+        runTimeData: binaryRuntimeData,
+        runTimeJson: binaryRuntimeData,
+      }),
+      "Cannot provide both runTimeData and runTimeJson.",
+      "Expected to throw since you can't specify both runtimeData and runtimeJson"
+    );
 
     {
       const attestationResult = await client.attestOpenEnclave(
@@ -251,15 +251,14 @@ describe("[AAD] Attestation Client", function () {
 
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
-    {
-      // You can't specify both runtimeData and runtimeJson.
-      await expect(
-        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-          runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData,
-        })
-      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
-    }
+    await assert.isRejected(
+      client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+        runTimeData: binaryRuntimeData,
+        runTimeJson: binaryRuntimeData,
+      }),
+      "Cannot provide both runTimeData and runTimeJson.",
+      "Expected to throw since you can't specify both runtimeData and runtimeJson"
+    );
 
     {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.

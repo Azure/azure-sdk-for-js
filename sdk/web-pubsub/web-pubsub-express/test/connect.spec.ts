@@ -16,7 +16,7 @@ function buildRequest(
   states?: string
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
-  req.headers["Content-Type"] = "application/json; charset=utf-8";
+  req.headers["content-type"] = "application/json; charset=utf-8";
   req.headers["ce-awpsversion"] = "1.0";
   req.headers["ce-specversion"] = "1.0";
   req.headers["ce-type"] = "azure.webpubsub.sys.connect";
@@ -29,7 +29,7 @@ function buildRequest(
   req.headers["ce-connectionId"] = connectionId;
   req.headers["ce-hub"] = hub;
   req.headers["ce-event"] = "connect";
-  req.headers["ce-connectionState"] = states;
+  req.headers["ce-connectionstate"] = states;
 }
 
 function mockBody(req: IncomingMessage, body: string): void {

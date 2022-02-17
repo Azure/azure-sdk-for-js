@@ -25,39 +25,44 @@ export async function supportsTracing<
   thisArg?: ThisParameterType<Callback>
 ) {
   useInstrumenter(instrumenter);
+  instrumenter.enable();
   instrumenter.reset();
-  const startSpanOptions = {
-    packageName: "test",
-    ...options,
-  };
-  const { span: rootSpan, tracingContext } = instrumenter.startSpan("root", startSpanOptions);
+  try {
+    const startSpanOptions = {
+      packageName: "test",
+      ...options,
+    };
+    const { span: rootSpan, tracingContext } = instrumenter.startSpan("root", startSpanOptions);
 
-  const newOptions = {
-    ...options,
-    tracingOptions: {
-      tracingContext: tracingContext,
-    },
-  } as Options;
-  await callback.call(thisArg, newOptions);
-  rootSpan.end();
-  const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).traceId, instrumenter);
-  assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
-  assert.equal(spanGraph.roots[0].name, "root");
-  assert.strictEqual(
-    rootSpan,
-    instrumenter.startedSpans[0],
-    "The root span should match what was passed in."
-  );
+    const newOptions = {
+      ...options,
+      tracingOptions: {
+        tracingContext: tracingContext,
+      },
+    } as Options;
+    await callback.call(thisArg, newOptions);
+    rootSpan.end();
+    const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).traceId, instrumenter);
+    assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
+    assert.equal(spanGraph.roots[0].name, "root");
+    assert.strictEqual(
+      rootSpan,
+      instrumenter.startedSpans[0],
+      "The root span should match what was passed in."
+    );
 
-  const directChildren = spanGraph.roots[0].children.map((child) => child.name);
-  assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
-  rootSpan.end();
-  const openSpans = instrumenter.startedSpans.filter((s) => !s.endCalled);
-  assert.equal(
-    openSpans.length,
-    0,
-    `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`
-  );
+    const directChildren = spanGraph.roots[0].children.map((child) => child.name);
+    assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
+    rootSpan.end();
+    const openSpans = instrumenter.startedSpans.filter((s) => !s.endCalled);
+    assert.equal(
+      openSpans.length,
+      0,
+      `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`
+    );
+  } finally {
+    instrumenter.disable();
+  }
 }
 
 /**

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { newPipeline } from "../../src/Pipeline";
+import { ShareServiceClient } from "../../src/ShareServiceClient";
 
 export * from "./testutils.common";
 

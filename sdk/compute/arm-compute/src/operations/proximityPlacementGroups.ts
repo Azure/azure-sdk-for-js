@@ -285,6 +285,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.ProximityPlacementGroup
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters2,
@@ -306,6 +309,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroup
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters3,
@@ -324,7 +330,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
   httpMethod: "DELETE",
-  responses: { 200: {} },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -332,6 +343,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.proximityPlacementGroupName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -341,6 +353,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroup
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeColocationStatus],
@@ -360,6 +375,9 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -374,6 +392,9 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -391,6 +412,9 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -408,6 +432,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],

@@ -5,7 +5,7 @@ import os from "os";
 import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 import { env, Recorder } from "@azure-tools/test-recorder";
@@ -432,11 +432,12 @@ describe("Certificates client - create, read, update and delete", () => {
 
     it("using getDeletedCertificate", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
+      const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
+      await certificatePoller.pollUntilDone();
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
