@@ -87,7 +87,7 @@ export async function makeSampleGenerationInfo(
   onError: () => void
 ): Promise<SampleGenerationInfo> {
   const sampleSources = await collect(
-    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts"))
+    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts"))
   );
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
@@ -103,7 +103,19 @@ export async function makeSampleGenerationInfo(
     return undefined as never;
   }
 
-  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail);
+  const requireInScope = (moduleSpecifier: string) => {
+    try {
+      return require(path.join(
+        projectInfo.path,
+        "node_modules",
+        moduleSpecifier.split("/").join(path.sep)
+      ));
+    } catch {
+      return require(moduleSpecifier);
+    }
+  };
+
+  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail, requireInScope);
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"
@@ -279,13 +291,17 @@ export async function makeSamplesFactory(
 
   log.debug("Computed full generation path:", versionFolder);
 
-  const info = await makeSampleGenerationInfo(
-    projectInfo,
-    sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE),
-    versionFolder,
-    onError
-  );
+  const finalSourcePath = sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE);
+
+  const info = await makeSampleGenerationInfo(projectInfo, finalSourcePath, versionFolder, onError);
   info.isBeta = isBeta;
+
+  // Ambient declarations ().d.ts files) are excluded from the compile graph in the transpiler. We will still copy them
+  // into typescript/src so that they will be availabled for transpilation.
+  const dtsFiles: Array<[string, string]> = [];
+  for await (const name of findMatchingFiles(finalSourcePath, (name) => name.endsWith(".d.ts"))) {
+    dtsFiles.push([path.relative(finalSourcePath, name), name]);
+  }
 
   if (hadError) {
     throw new Error("Instantiation of sample metadata information failed with errors.");
@@ -335,12 +351,14 @@ export async function makeSamplesFactory(
               file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
               // We copy the samples sources in to the `src` folder on the typescript side
-              dir(
-                "src",
-                info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
+              dir("src", [
+                ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
                   file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
-                )
-              ),
+                ),
+                ...dtsFiles.map(([relative, absolute]) =>
+                  file(relative, fs.readFileSync(absolute))
+                ),
+              ]),
             ]),
             dir("javascript", [
               file("README.md", () =>
