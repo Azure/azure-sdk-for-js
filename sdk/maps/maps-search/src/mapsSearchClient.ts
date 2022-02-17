@@ -635,10 +635,13 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      return new SearchBatchPoller<BatchResult<SearchAddressResult>, SearchAddressBatchResult>(
+      const poller = new SearchBatchPoller<BatchResult<SearchAddressResult>, SearchAddressBatchResult>(
         internalPoller,
         mapSearchAddressBatchResult
       );
+
+      await poller.poll();
+      return poller;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -677,10 +680,13 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      return new SearchBatchPoller<BatchResult<SearchAddressResult>, SearchAddressBatchResult>(
+      const poller = new SearchBatchPoller<BatchResult<SearchAddressResult>, SearchAddressBatchResult>(
         internalPoller,
         mapSearchAddressBatchResult
       );
+
+      await poller.poll();
+      return poller;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -719,10 +725,14 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      return new SearchBatchPoller<
+
+      const poller = new SearchBatchPoller<
         BatchResult<ReverseSearchAddressResult>,
         ReverseSearchAddressBatchResult
       >(internalPoller, mapReverseSearchAddressBatchResult);
+
+      await poller.poll();
+      return poller;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
