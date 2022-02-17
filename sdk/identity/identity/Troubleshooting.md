@@ -283,7 +283,8 @@ You can manually verify that the Azure CLI is properly authenticated, and can ob
 ```bash
 az account show
 ```
-Once you've verified the Azure CLI is using correct account, you can validate that it’s able to obtain tokens for this account.
+
+Once you've verified the Azure CLI is using the correct account, you can validate it's able to obtain tokens for this account.
 
 ```bash
 az account get-access-token --output json --resource https://management.core.windows.net
