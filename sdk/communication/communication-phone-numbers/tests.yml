@@ -18,7 +18,7 @@ stages:
           MatrixFilters:
             - TestType=^(?!(browser|sample)).*
           MatrixReplace:
-            - INCLUDE_UPDATE_CAPABILITIES_LIVE_TESTS=true/false
+            - SKIP_UPDATE_CAPABILITIES_LIVE_TESTS=false/true
       Clouds: Public,Int
       MatrixConfigs:
         - Name: PhoneNumbers_js_livetest_matrix

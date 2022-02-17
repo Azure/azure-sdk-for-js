@@ -4,7 +4,6 @@
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 const DEFAULT_PHONE_NUMBER = "+14155550100";
-const testAgent = () => env.AZURE_TEST_AGENT;
 const testAgentPhoneNumber = () => env[`AZURE_PHONE_NUMBER_${env.AZURE_TEST_AGENT}`];
 const defaultTestPhoneNumber = () => env.AZURE_PHONE_NUMBER;
 
@@ -13,5 +12,11 @@ export function getPhoneNumber(): string {
 }
 
 function getPhoneNumberFromEnvironment(): string {
-  return testAgent() ? testAgentPhoneNumber() : defaultTestPhoneNumber();
+  if (env.SKIP_UPDATE_CAPABILITIES_LIVE_TESTS === "true") {
+    return defaultTestPhoneNumber();
+  }
+
+  // If either the AZURE_TEST_AGENT or the AZURE_PHONE_NUMBER_<AZURE_TEST_AGENT> are missing,
+  // this will return `undefined` and, in turn, tests will fail because of this.
+  return testAgentPhoneNumber();
 }

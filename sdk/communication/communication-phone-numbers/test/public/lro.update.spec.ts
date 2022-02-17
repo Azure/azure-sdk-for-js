@@ -18,10 +18,10 @@ matrix([[true, false]], async function (useAad) {
 
     before(function (this: Context) {
       const skipPhoneNumbersTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
-      const includeUpdateCapabilitiesLiveTests =
-        isPlaybackMode() || env.INCLUDE_UPDATE_CAPABILITIES_LIVE_TESTS === "true";
+      const skipUpdateCapabilitiesLiveTests =
+        isPlaybackMode() || env.SKIP_UPDATE_CAPABILITIES_LIVE_TESTS === "true";
 
-      if (skipPhoneNumbersTests || !includeUpdateCapabilitiesLiveTests) {
+      if (skipPhoneNumbersTests || skipUpdateCapabilitiesLiveTests) {
         this.skip();
       }
     });
