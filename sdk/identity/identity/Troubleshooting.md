@@ -301,7 +301,8 @@ Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
 ```|
 |Please run 'Connect-AzAccount' to set up account.|No account is currently logged into Azure PowerShell.|<ul><li>Login to Azure PowerShell using the `Connect-AzAccount` command. More instructions for authenticating Azure PowerShell can be found [here](https://docs.microsoft.com/powershell/azure/authenticate-azureps)</li><li>Validate that Azure PowerShell can obtain tokens. See [below](#verify-azure-powershell-can-obtain-tokens) for instructions.</li></ul>|
 
-#### __Verifying Azure PowerShell can obtain tokens__
+#### __Verify Azure PowerShell can obtain tokens__
+
 You can manually verify that Azure PowerShell is properly authenticated, and can obtain tokens. First use the `Get-AzContext` command to verify the account which is currently logged in to the Azure CLI. 
 
 ```
