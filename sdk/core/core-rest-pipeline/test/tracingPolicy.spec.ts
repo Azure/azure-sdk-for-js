@@ -16,159 +16,6 @@ import {
 import { tracingClient } from "../src/policies/tracingPolicy";
 import { SpanStatus, TracingContext, TracingSpan, TracingSpanOptions } from "@azure/core-tracing";
 
-// export class MockSpan implements Span {
-//   private _endCalled = false;
-//   private _status: SpanStatus = {
-//     code: SpanStatusCode.UNSET,
-//   };
-//   private _attributes: SpanAttributes = {};
-
-//   constructor(
-//     private name: string,
-//     private traceId: string,
-//     private spanId: string,
-//     private flags: TraceFlags,
-//     private state: string,
-//     options?: SpanOptions
-//   ) {
-//     this._attributes = options?.attributes || {};
-//   }
-
-//   addEvent(): this {
-//     throw new Error("Method not implemented.");
-//   }
-
-//   isRecording(): boolean {
-//     return true;
-//   }
-
-//   recordException(): void {
-//     throw new Error("Method not implemented.");
-//   }
-
-//   updateName(): this {
-//     throw new Error("Method not implemented.");
-//   }
-
-//   didEnd(): boolean {
-//     return this._endCalled;
-//   }
-
-//   end(): void {
-//     this._endCalled = true;
-//   }
-
-//   getStatus(): SpanStatus {
-//     return this._status;
-//   }
-
-//   setStatus(status: SpanStatus): this {
-//     this._status = status;
-//     return this;
-//   }
-
-//   setAttributes(attributes: SpanAttributes): this {
-//     for (const key in attributes) {
-//       this.setAttribute(key, attributes[key]!);
-//     }
-//     return this;
-//   }
-
-//   setAttribute(key: string, value: SpanAttributeValue): this {
-//     this._attributes[key] = value;
-//     return this;
-//   }
-
-//   getName(): string {
-//     return this.name;
-//   }
-
-//   getAttribute(key: string): SpanAttributeValue | undefined {
-//     return this._attributes[key];
-//   }
-
-//   spanContext(): SpanContext {
-//     const state = this.state;
-
-//     const traceState = {
-//       set(): TraceState {
-//         /* empty */
-//         return traceState;
-//       },
-//       unset(): TraceState {
-//         /* empty */
-//         return traceState;
-//       },
-//       get(): string | undefined {
-//         return;
-//       },
-//       serialize() {
-//         return state;
-//       },
-//     };
-
-//     return {
-//       traceId: this.traceId,
-//       spanId: this.spanId,
-//       traceFlags: this.flags,
-//       traceState,
-//     };
-//   }
-// }
-
-// export class MockTracer implements Tracer {
-//   private spans: MockSpan[] = [];
-//   private _startSpanCalled = false;
-
-//   constructor(
-//     private traceId = "",
-//     private spanId = "",
-//     private flags = TraceFlags.NONE,
-//     private state = ""
-//   ) {}
-
-//   startActiveSpan(): never {
-//     throw new Error("Method not implemented.");
-//   }
-
-//   getStartedSpans(): MockSpan[] {
-//     return this.spans;
-//   }
-
-//   startSpanCalled(): boolean {
-//     return this._startSpanCalled;
-//   }
-
-//   startSpan(name: string, options?: SpanOptions): MockSpan {
-//     this._startSpanCalled = true;
-//     const span = new MockSpan(name, this.traceId, this.spanId, this.flags, this.state, options);
-//     this.spans.push(span);
-//     return span;
-//   }
-// }
-
-// export class MockTracerProvider implements TracerProvider {
-//   private mockTracer: Tracer = new MockTracer();
-
-//   setTracer(tracer: Tracer): void {
-//     this.mockTracer = tracer;
-//   }
-
-//   getTracer(): Tracer {
-//     return this.mockTracer;
-//   }
-
-//   register(): void {
-//     trace.setGlobalTracerProvider(this);
-//   }
-
-//   disable(): void {
-//     trace.disable();
-//   }
-// }
-
-// const ROOT_SPAN = new MockSpan("name", "root", "root", TraceFlags.SAMPLED, "");
-
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};
   endCalled: boolean = false;
@@ -182,7 +29,9 @@ class MockSpan implements TracingSpan {
   isRecording() {
     return true;
   }
-  recordException() {}
+  recordException() {
+    // no-op for now
+  }
   setAttribute(name: string, value: unknown) {
     this.spanAttributes[name] = value;
   }
@@ -213,7 +62,7 @@ function createTracingContext(initialValues: Map<symbol, unknown> = new Map()): 
   };
 }
 
-describe.only("tracingPolicy", function () {
+describe("tracingPolicy", function () {
   afterEach(() => {
     sinon.restore();
   });
