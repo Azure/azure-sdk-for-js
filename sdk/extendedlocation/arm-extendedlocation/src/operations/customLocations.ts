@@ -11,7 +11,7 @@ import { CustomLocations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CustomLocationsManagementClientContext } from "../customLocationsManagementClientContext";
+import { CustomLocationsManagementClient } from "../customLocationsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -46,13 +46,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomLocations operations. */
 export class CustomLocationsImpl implements CustomLocations {
-  private readonly client: CustomLocationsManagementClientContext;
+  private readonly client: CustomLocationsManagementClient;
 
   /**
    * Initialize a new instance of the class CustomLocations class.
    * @param client Reference to the service client
    */
-  constructor(client: CustomLocationsManagementClientContext) {
+  constructor(client: CustomLocationsManagementClient) {
     this.client = client;
   }
 

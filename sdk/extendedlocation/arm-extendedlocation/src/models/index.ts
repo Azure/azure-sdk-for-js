@@ -118,25 +118,6 @@ export interface CustomLocationListResult {
   readonly value?: CustomLocation[];
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Identity for the resource. */
 export interface Identity {
   /**
@@ -175,6 +156,25 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** The Custom Locations patchable resource definition. */

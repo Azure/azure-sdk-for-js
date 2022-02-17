@@ -148,19 +148,14 @@ export interface CustomLocationsListOperationsOptionalParams extends coreClient.
 export type CustomLocationsListOperationsResponse = CustomLocationOperationsList;
 
 // @public (undocumented)
-export class CustomLocationsManagementClient extends CustomLocationsManagementClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CustomLocationsManagementClientOptionalParams);
-    // (undocumented)
-    customLocations: CustomLocations;
-}
-
-// @public (undocumented)
-export class CustomLocationsManagementClientContext extends coreClient.ServiceClient {
+export class CustomLocationsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CustomLocationsManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    customLocations: CustomLocations;
     // (undocumented)
     subscriptionId: string;
 }
@@ -312,7 +307,6 @@ export type TrackedResource = Resource & {
     };
     location: string;
 };
-
 
 // (No @packageDocumentation comment for this package)
 
