@@ -43,7 +43,9 @@ export class FileSystemPersist implements PersistentStorage {
 
     if (!FileAccessControl.OS_PROVIDES_FILE_PROTECTION) {
       this._enabled = false;
-      diag.error("Sufficient file protection capabilities were not detected. Files will not be persisted");
+      diag.error(
+        "Sufficient file protection capabilities were not detected. Files will not be persisted"
+      );
     }
 
     if (!this._options.instrumentationKey) {
@@ -74,7 +76,7 @@ export class FileSystemPersist implements PersistentStorage {
     }
     return new Promise((resolve) => {
       resolve(false);
-    })
+    });
   }
 
   async shift(): Promise<unknown> {
@@ -92,7 +94,7 @@ export class FileSystemPersist implements PersistentStorage {
     }
     return new Promise((resolve) => {
       resolve(null);
-    })
+    });
   }
 
   /**
