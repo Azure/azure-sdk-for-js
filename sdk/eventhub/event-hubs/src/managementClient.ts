@@ -29,8 +29,7 @@ import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { OperationOptions } from "./util/operationOptions";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createEventHubSpan } from "./diagnostics/tracing";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { v4 as uuid } from "uuid";
 
@@ -159,52 +158,51 @@ export class ManagementClient extends LinkEntity {
     options: OperationOptions & { retryOptions?: RetryOptions } = {}
   ): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const { span: clientSpan } = createEventHubSpan(
-      "getEventHubProperties",
+    return tracingClient.withSpan(
+      "ManagementClient.getEventHubProperties",
       options,
-      this._context.config
+      async (updatedOptions) => {
+        try {
+          const securityToken = await this.getSecurityToken();
+
+          const request: Message = {
+            body: Buffer.from(JSON.stringify([])),
+            message_id: uuid(),
+            reply_to: this.replyTo,
+            application_properties: {
+              operation: Constants.readOperation,
+              name: this.entityPath as string,
+              type: `${Constants.vendorString}:${Constants.eventHub}`,
+              security_token: securityToken?.token,
+            },
+          };
+
+          const info: any = await this._makeManagementRequest(request, {
+            ...updatedOptions,
+            requestName: "getHubRuntimeInformation",
+          });
+          const runtimeInfo: EventHubProperties = {
+            name: info.name,
+            createdOn: new Date(info.created_at),
+            partitionIds: info.partition_ids,
+          };
+          logger.verbose(
+            "[%s] The hub runtime info is: %O",
+            this._context.connectionId,
+            runtimeInfo
+          );
+
+          return runtimeInfo;
+        } catch (error) {
+          logger.warning(
+            `An error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
+          );
+          logErrorStackTrace(error);
+          throw error;
+        }
+      },
+      toSpanOptions(this._context.config)
     );
-
-    try {
-      const securityToken = await this.getSecurityToken();
-      const request: Message = {
-        body: Buffer.from(JSON.stringify([])),
-        message_id: uuid(),
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.readOperation,
-          name: this.entityPath as string,
-          type: `${Constants.vendorString}:${Constants.eventHub}`,
-          security_token: securityToken?.token,
-        },
-      };
-
-      const info: any = await this._makeManagementRequest(request, {
-        ...options,
-        requestName: "getHubRuntimeInformation",
-      });
-      const runtimeInfo: EventHubProperties = {
-        name: info.name,
-        createdOn: new Date(info.created_at),
-        partitionIds: info.partition_ids,
-      };
-      logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
-
-      clientSpan.setStatus({ code: SpanStatusCode.OK });
-      return runtimeInfo;
-    } catch (error) {
-      clientSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      logger.warning(
-        `An error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
-      );
-      logErrorStackTrace(error);
-      throw error;
-    } finally {
-      clientSpan.end();
-    }
   }
 
   /**
@@ -224,59 +222,55 @@ export class ManagementClient extends LinkEntity {
     );
     partitionId = String(partitionId);
 
-    const { span: clientSpan } = createEventHubSpan(
-      "getPartitionProperties",
+    return tracingClient.withSpan(
+      "ManagementClient.getPartitionProperties",
       options,
-      this._context.config
+      async (updatedOptions) => {
+        try {
+          const securityToken = await this.getSecurityToken();
+          const request: Message = {
+            body: Buffer.from(JSON.stringify([])),
+            message_id: uuid(),
+            reply_to: this.replyTo,
+            application_properties: {
+              operation: Constants.readOperation,
+              name: this.entityPath as string,
+              type: `${Constants.vendorString}:${Constants.partition}`,
+              partition: `${partitionId}`,
+              security_token: securityToken?.token,
+            },
+          };
+
+          const info: any = await this._makeManagementRequest(request, {
+            ...updatedOptions,
+            requestName: "getPartitionInformation",
+          });
+
+          const partitionInfo: PartitionProperties = {
+            beginningSequenceNumber: info.begin_sequence_number,
+            eventHubName: info.name,
+            lastEnqueuedOffset: info.last_enqueued_offset,
+            lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
+            lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
+            partitionId: info.partition,
+            isEmpty: info.is_partition_empty,
+          };
+          logger.verbose(
+            "[%s] The partition info is: %O.",
+            this._context.connectionId,
+            partitionInfo
+          );
+          return partitionInfo;
+        } catch (error) {
+          logger.warning(
+            `An error occurred while getting the partition information: ${error?.name}: ${error?.message}`
+          );
+          logErrorStackTrace(error);
+          throw error;
+        }
+      },
+      toSpanOptions(this._context.config)
     );
-
-    try {
-      const securityToken = await this.getSecurityToken();
-      const request: Message = {
-        body: Buffer.from(JSON.stringify([])),
-        message_id: uuid(),
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.readOperation,
-          name: this.entityPath as string,
-          type: `${Constants.vendorString}:${Constants.partition}`,
-          partition: `${partitionId}`,
-          security_token: securityToken?.token,
-        },
-      };
-
-      const info: any = await this._makeManagementRequest(request, {
-        ...options,
-        requestName: "getPartitionInformation",
-      });
-
-      const partitionInfo: PartitionProperties = {
-        beginningSequenceNumber: info.begin_sequence_number,
-        eventHubName: info.name,
-        lastEnqueuedOffset: info.last_enqueued_offset,
-        lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
-        lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
-        partitionId: info.partition,
-        isEmpty: info.is_partition_empty,
-      };
-      logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
-
-      clientSpan.setStatus({ code: SpanStatusCode.OK });
-
-      return partitionInfo;
-    } catch (error) {
-      clientSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      logger.warning(
-        `An error occurred while getting the partition information: ${error?.name}: ${error?.message}`
-      );
-      logErrorStackTrace(error);
-      throw error;
-    } finally {
-      clientSpan.end();
-    }
   }
 
   /**

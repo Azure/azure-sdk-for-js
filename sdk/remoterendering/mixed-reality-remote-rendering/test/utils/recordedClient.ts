@@ -39,7 +39,7 @@ export const recorderStartOptions: RecorderStartOptions = {
   },
 };
 
-export function createClient(): RemoteRenderingClient {
+export function createClient(recorder: Recorder): RemoteRenderingClient {
   const serviceEndpoint = assertEnvironmentVariable("REMOTERENDERING_ARR_SERVICE_ENDPOINT");
   const accountDomain = assertEnvironmentVariable("REMOTERENDERING_ARR_ACCOUNT_DOMAIN");
   const accountId = assertEnvironmentVariable("REMOTERENDERING_ARR_ACCOUNT_ID");
@@ -50,10 +50,21 @@ export function createClient(): RemoteRenderingClient {
     // the AccessToken auth path.
     const maxTimestampMs = 8640000000000000;
     const credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
-    return new RemoteRenderingClient(serviceEndpoint, accountId, credential);
+    return new RemoteRenderingClient(
+      serviceEndpoint,
+      accountId,
+      credential,
+      recorder.configureClientOptions({})
+    );
   } else {
     const credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
-    return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+    return new RemoteRenderingClient(
+      serviceEndpoint,
+      accountId,
+      accountDomain,
+      credential,
+      recorder.configureClientOptions({})
+    );
   }
 }
 

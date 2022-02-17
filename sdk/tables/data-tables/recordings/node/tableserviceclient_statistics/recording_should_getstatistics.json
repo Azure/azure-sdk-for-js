@@ -1,0 +1,31 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname-secondary.table.core.windows.net/?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval\u0026restype=service\u0026comp=stats",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Accept-Encoding": "gzip,deflate",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.1 Node/v12.22.9 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "a9f80d16-4d59-4dbc-80b5-76bb0456af08",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/xml",
+        "Date": "Tue, 15 Feb 2022 21:46:40 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "x-ms-client-request-id": "a9f80d16-4d59-4dbc-80b5-76bb0456af08",
+        "x-ms-request-id": "b12d2e24-6002-00b7-50b5-228db8000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CStorageServiceStats\u003E\u003CGeoReplication\u003E\u003CStatus\u003Elive\u003C/Status\u003E\u003CLastSyncTime\u003ETue, 15 Feb 2022 21:43:21 GMT\u003C/LastSyncTime\u003E\u003C/GeoReplication\u003E\u003C/StorageServiceStats\u003E"
+    }
+  ],
+  "Variables": {}
+}

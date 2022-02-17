@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.7 (Unreleased)
+
+### Features Added
+
+- Added file access control in Windows for retriable telemetry.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.6 (2022-02-08)
 
 ### Other Changes

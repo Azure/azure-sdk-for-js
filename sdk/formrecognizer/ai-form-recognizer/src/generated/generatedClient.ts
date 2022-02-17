@@ -14,48 +14,48 @@ import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
   OperationInfo,
-  GeneratedClientGetOperationsNextOptionalParams,
-  GeneratedClientGetOperationsOptionalParams,
+  GetOperationsNextOptionalParams,
+  GetOperationsOptionalParams,
   ModelSummary,
-  GeneratedClientGetModelsNextOptionalParams,
-  GeneratedClientGetModelsOptionalParams,
+  GetModelsNextOptionalParams,
+  GetModelsOptionalParams,
   ContentType,
-  GeneratedClientAnalyzeDocument$binaryOptionalParams,
-  GeneratedClientAnalyzeDocument$jsonOptionalParams,
-  GeneratedClientAnalyzeDocumentResponse,
-  GeneratedClientGetAnalyzeDocumentResultOptionalParams,
-  GeneratedClientGetAnalyzeDocumentResultResponse,
+  AnalyzeDocument$binaryOptionalParams,
+  AnalyzeDocument$jsonOptionalParams,
+  AnalyzeDocumentResponse,
+  GetAnalyzeDocumentResultOptionalParams,
+  GetAnalyzeDocumentResultResponse,
   BuildDocumentModelRequest,
-  GeneratedClientBuildDocumentModelOptionalParams,
-  GeneratedClientBuildDocumentModelResponse,
+  BuildDocumentModelOptionalParams,
+  BuildDocumentModelResponse,
   ComposeDocumentModelRequest,
-  GeneratedClientComposeDocumentModelOptionalParams,
-  GeneratedClientComposeDocumentModelResponse,
+  ComposeDocumentModelOptionalParams,
+  ComposeDocumentModelResponse,
   AuthorizeCopyRequest,
-  GeneratedClientAuthorizeCopyDocumentModelOptionalParams,
-  GeneratedClientAuthorizeCopyDocumentModelResponse,
+  AuthorizeCopyDocumentModelOptionalParams,
+  AuthorizeCopyDocumentModelResponse,
   CopyAuthorization,
-  GeneratedClientCopyDocumentModelToOptionalParams,
-  GeneratedClientCopyDocumentModelToResponse,
-  GeneratedClientGetOperationsResponse,
-  GeneratedClientGetOperationOptionalParams,
-  GeneratedClientGetOperationResponse,
-  GeneratedClientGetModelsResponse,
-  GeneratedClientGetModelOptionalParams,
-  GeneratedClientGetModelResponse,
-  GeneratedClientDeleteModelOptionalParams,
-  GeneratedClientGetInfoOptionalParams,
-  GeneratedClientGetInfoResponse,
-  GeneratedClientGetOperationsNextResponse,
-  GeneratedClientGetModelsNextResponse
+  CopyDocumentModelToOptionalParams,
+  CopyDocumentModelToResponse,
+  GetOperationsOperationResponse,
+  GetOperationOptionalParams,
+  GetOperationOperationResponse,
+  GetModelsOperationResponse,
+  GetModelOptionalParams,
+  GetModelResponse,
+  DeleteModelOptionalParams,
+  GetInfoOptionalParams,
+  GetInfoOperationResponse,
+  GetOperationsNextResponse,
+  GetModelsNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
-   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
-   *                 https://westus2.api.cognitive.microsoft.com).
+   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for
+   *                 example: https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
@@ -67,7 +67,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: GeneratedClientGetOperationsOptionalParams
+    options?: GetOperationsOptionalParams
   ): PagedAsyncIterableIterator<OperationInfo> {
     const iter = this.getOperationsPagingAll(options);
     return {
@@ -84,7 +84,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   private async *getOperationsPagingPage(
-    options?: GeneratedClientGetOperationsOptionalParams
+    options?: GetOperationsOptionalParams
   ): AsyncIterableIterator<OperationInfo[]> {
     let result = await this._getOperations(options);
     yield result.value || [];
@@ -97,7 +97,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   private async *getOperationsPagingAll(
-    options?: GeneratedClientGetOperationsOptionalParams
+    options?: GetOperationsOptionalParams
   ): AsyncIterableIterator<OperationInfo> {
     for await (const page of this.getOperationsPagingPage(options)) {
       yield* page;
@@ -109,7 +109,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   public listModels(
-    options?: GeneratedClientGetModelsOptionalParams
+    options?: GetModelsOptionalParams
   ): PagedAsyncIterableIterator<ModelSummary> {
     const iter = this.getModelsPagingAll(options);
     return {
@@ -126,7 +126,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   private async *getModelsPagingPage(
-    options?: GeneratedClientGetModelsOptionalParams
+    options?: GetModelsOptionalParams
   ): AsyncIterableIterator<ModelSummary[]> {
     let result = await this._getModels(options);
     yield result.value || [];
@@ -139,7 +139,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   private async *getModelsPagingAll(
-    options?: GeneratedClientGetModelsOptionalParams
+    options?: GetModelsOptionalParams
   ): AsyncIterableIterator<ModelSummary> {
     for await (const page of this.getModelsPagingPage(options)) {
       yield* page;
@@ -155,8 +155,8 @@ export class GeneratedClient extends GeneratedClientContext {
   analyzeDocument(
     modelId: string,
     contentType: ContentType,
-    options?: GeneratedClientAnalyzeDocument$binaryOptionalParams
-  ): Promise<GeneratedClientAnalyzeDocumentResponse>;
+    options?: AnalyzeDocument$binaryOptionalParams
+  ): Promise<AnalyzeDocumentResponse>;
   /**
    * Analyzes document with model.
    * @param modelId Unique model name.
@@ -166,25 +166,17 @@ export class GeneratedClient extends GeneratedClientContext {
   analyzeDocument(
     modelId: string,
     contentType: "application/json",
-    options?: GeneratedClientAnalyzeDocument$jsonOptionalParams
-  ): Promise<GeneratedClientAnalyzeDocumentResponse>;
+    options?: AnalyzeDocument$jsonOptionalParams
+  ): Promise<AnalyzeDocumentResponse>;
   /**
    * Analyzes document with model.
    * @param args Includes all the parameters for this operation.
    */
   analyzeDocument(
     ...args:
-      | [
-          string,
-          ContentType,
-          GeneratedClientAnalyzeDocument$binaryOptionalParams?
-        ]
-      | [
-          string,
-          "application/json",
-          GeneratedClientAnalyzeDocument$jsonOptionalParams?
-        ]
-  ): Promise<GeneratedClientAnalyzeDocumentResponse> {
+      | [string, ContentType, AnalyzeDocument$binaryOptionalParams?]
+      | [string, "application/json", AnalyzeDocument$jsonOptionalParams?]
+  ): Promise<AnalyzeDocumentResponse> {
     let operationSpec: coreClient.OperationSpec;
     let operationArguments: coreClient.OperationArguments;
     let options;
@@ -229,8 +221,8 @@ export class GeneratedClient extends GeneratedClientContext {
   getAnalyzeDocumentResult(
     modelId: string,
     resultId: string,
-    options?: GeneratedClientGetAnalyzeDocumentResultOptionalParams
-  ): Promise<GeneratedClientGetAnalyzeDocumentResultResponse> {
+    options?: GetAnalyzeDocumentResultOptionalParams
+  ): Promise<GetAnalyzeDocumentResultResponse> {
     return this.sendOperationRequest(
       { modelId, resultId, options },
       getAnalyzeDocumentResultOperationSpec
@@ -244,8 +236,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   buildDocumentModel(
     buildRequest: BuildDocumentModelRequest,
-    options?: GeneratedClientBuildDocumentModelOptionalParams
-  ): Promise<GeneratedClientBuildDocumentModelResponse> {
+    options?: BuildDocumentModelOptionalParams
+  ): Promise<BuildDocumentModelResponse> {
     return this.sendOperationRequest(
       { buildRequest, options },
       buildDocumentModelOperationSpec
@@ -259,8 +251,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   composeDocumentModel(
     composeRequest: ComposeDocumentModelRequest,
-    options?: GeneratedClientComposeDocumentModelOptionalParams
-  ): Promise<GeneratedClientComposeDocumentModelResponse> {
+    options?: ComposeDocumentModelOptionalParams
+  ): Promise<ComposeDocumentModelResponse> {
     return this.sendOperationRequest(
       { composeRequest, options },
       composeDocumentModelOperationSpec
@@ -275,8 +267,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   authorizeCopyDocumentModel(
     authorizeCopyRequest: AuthorizeCopyRequest,
-    options?: GeneratedClientAuthorizeCopyDocumentModelOptionalParams
-  ): Promise<GeneratedClientAuthorizeCopyDocumentModelResponse> {
+    options?: AuthorizeCopyDocumentModelOptionalParams
+  ): Promise<AuthorizeCopyDocumentModelResponse> {
     return this.sendOperationRequest(
       { authorizeCopyRequest, options },
       authorizeCopyDocumentModelOperationSpec
@@ -292,8 +284,8 @@ export class GeneratedClient extends GeneratedClientContext {
   copyDocumentModelTo(
     modelId: string,
     copyToRequest: CopyAuthorization,
-    options?: GeneratedClientCopyDocumentModelToOptionalParams
-  ): Promise<GeneratedClientCopyDocumentModelToResponse> {
+    options?: CopyDocumentModelToOptionalParams
+  ): Promise<CopyDocumentModelToResponse> {
     return this.sendOperationRequest(
       { modelId, copyToRequest, options },
       copyDocumentModelToOperationSpec
@@ -305,8 +297,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   private _getOperations(
-    options?: GeneratedClientGetOperationsOptionalParams
-  ): Promise<GeneratedClientGetOperationsResponse> {
+    options?: GetOperationsOptionalParams
+  ): Promise<GetOperationsOperationResponse> {
     return this.sendOperationRequest({ options }, getOperationsOperationSpec);
   }
 
@@ -317,8 +309,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getOperation(
     operationId: string,
-    options?: GeneratedClientGetOperationOptionalParams
-  ): Promise<GeneratedClientGetOperationResponse> {
+    options?: GetOperationOptionalParams
+  ): Promise<GetOperationOperationResponse> {
     return this.sendOperationRequest(
       { operationId, options },
       getOperationOperationSpec
@@ -330,8 +322,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   private _getModels(
-    options?: GeneratedClientGetModelsOptionalParams
-  ): Promise<GeneratedClientGetModelsResponse> {
+    options?: GetModelsOptionalParams
+  ): Promise<GetModelsOperationResponse> {
     return this.sendOperationRequest({ options }, getModelsOperationSpec);
   }
 
@@ -342,8 +334,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getModel(
     modelId: string,
-    options?: GeneratedClientGetModelOptionalParams
-  ): Promise<GeneratedClientGetModelResponse> {
+    options?: GetModelOptionalParams
+  ): Promise<GetModelResponse> {
     return this.sendOperationRequest(
       { modelId, options },
       getModelOperationSpec
@@ -357,7 +349,7 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   deleteModel(
     modelId: string,
-    options?: GeneratedClientDeleteModelOptionalParams
+    options?: DeleteModelOptionalParams
   ): Promise<void> {
     return this.sendOperationRequest(
       { modelId, options },
@@ -369,9 +361,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * Return basic info about the current resource.
    * @param options The options parameters.
    */
-  getInfo(
-    options?: GeneratedClientGetInfoOptionalParams
-  ): Promise<GeneratedClientGetInfoResponse> {
+  getInfo(options?: GetInfoOptionalParams): Promise<GetInfoOperationResponse> {
     return this.sendOperationRequest({ options }, getInfoOperationSpec);
   }
 
@@ -382,8 +372,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   private _getOperationsNext(
     nextLink: string,
-    options?: GeneratedClientGetOperationsNextOptionalParams
-  ): Promise<GeneratedClientGetOperationsNextResponse> {
+    options?: GetOperationsNextOptionalParams
+  ): Promise<GetOperationsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       getOperationsNextOperationSpec
@@ -397,8 +387,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   private _getModelsNext(
     nextLink: string,
-    options?: GeneratedClientGetModelsNextOptionalParams
-  ): Promise<GeneratedClientGetModelsNextResponse> {
+    options?: GetModelsNextOptionalParams
+  ): Promise<GetModelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       getModelsNextOperationSpec

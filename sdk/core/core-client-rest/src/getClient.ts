@@ -3,7 +3,7 @@
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isCertificateCredential } from "./certificateCredential";
-import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
+import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
 import { Client, ClientOptions, HttpResponse, RequestParameters } from "./common";
 import { sendRequest } from "./sendRequest";
@@ -52,7 +52,7 @@ export function getClient(
     }
   }
 
-  const { allowInsecureConnection } = clientOptions;
+  const { allowInsecureConnection, httpClient } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
     return {
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -62,7 +62,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       post: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -72,7 +73,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       put: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -82,7 +84,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       patch: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -92,7 +95,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       delete: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -102,7 +106,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       head: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -112,7 +117,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       options: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -122,7 +128,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
       trace: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -132,7 +139,8 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args
+          args,
+          httpClient
         );
       },
     };
@@ -151,11 +159,12 @@ function buildSendRequest(
   path: string,
   pipeline: Pipeline,
   requestOptions: RequestParameters = {},
-  args: string[] = []
+  args: string[] = [],
+  httpClient?: HttpClient
 ): Promise<HttpResponse> {
   // If the client has an api-version and the request doesn't specify one, inject the one in the client options
   const url = buildRequestUrl(baseUrl, path, args, requestOptions);
-  return sendRequest(method, url, pipeline, requestOptions);
+  return sendRequest(method, url, pipeline, requestOptions, httpClient);
 }
 
 function isCredential(

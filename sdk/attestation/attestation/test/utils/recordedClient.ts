@@ -92,17 +92,18 @@ export function createRecordedClient(
       },
     };
   }
-  if (authenticatedClient !== undefined && authenticatedClient) {
+  if (authenticatedClient) {
     const attClient = new AttestationClient(
       getAttestationUri(endpointType),
       createTestCredential(),
-      options
+      recorder.configureClientOptions(options)
     );
-    recorder.configureClient(attClient["_client"]);
     return attClient;
   }
-  const attClient = new AttestationClient(getAttestationUri(endpointType), options);
-  recorder.configureClient(attClient["_client"]);
+  const attClient = new AttestationClient(
+    getAttestationUri(endpointType),
+    recorder.configureClientOptions(options)
+  );
   return attClient;
 }
 
@@ -128,8 +129,7 @@ export function createRecordedAdminClient(
   const adminClient = new AttestationAdministrationClient(
     getAttestationUri(endpointType),
     createTestCredential(),
-    options
+    recorder.configureClientOptions(options)
   );
-  recorder.configureClient(adminClient["_client"]);
   return adminClient;
 }
