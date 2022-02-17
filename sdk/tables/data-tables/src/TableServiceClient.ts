@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import "@azure/core-paging";
+
 import {
   GetPropertiesResponse,
   GetStatisticsResponse,
@@ -26,7 +27,12 @@ import {
 } from "@azure/core-auth";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { Service, Table } from "./generated";
+import {
+  injectSecondaryEndpointHeader,
+  tablesSecondaryEndpointPolicy,
+} from "./secondaryEndpointPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+
 import { GeneratedClient } from "./generated/generatedClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -173,6 +179,8 @@ export class TableServiceClient {
       ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
+    client.pipeline.addPolicy(tablesSecondaryEndpointPolicy);
+
     if (isNamedKeyCredential(credential)) {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
@@ -192,7 +200,7 @@ export class TableServiceClient {
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
-      return await this.service.getStatistics(updatedOptions);
+      return await this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions));
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
