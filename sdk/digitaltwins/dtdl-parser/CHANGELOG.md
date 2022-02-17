@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.2 (2022-02-17)
+
+### Bugs Fixed
+
+- Fix integration issues with @azure/iot-modelsrepository.
+
 ## 1.0.0-beta.1 (2022-02-01)
 
 ### Features Added
