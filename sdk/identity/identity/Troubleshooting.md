@@ -22,7 +22,7 @@ This troubleshooting guide covers failure investigation techniques, common error
 - [Troubleshoot Azure CLI authentication issues](#troubleshoot-azure-cli-authentication-issues)
 - [Troubleshoot Azure PowerShell authentication issues](#troubleshoot-azure-powershell-authentication-issues)
 
-## Handling Azure Identity Errors
+## Handle Azure Identity errors
 
 ### AuthenticationRequiredError
 
