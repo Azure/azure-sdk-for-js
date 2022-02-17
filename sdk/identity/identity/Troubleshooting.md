@@ -4,7 +4,7 @@ This troubleshooting guide covers failure investigation techniques, common error
 
 ## Table of contents
 
-- [Handling Azure Identity Errors](#handling-azure-identity-errors)
+- [Handle Azure Identity errors](#handle-azure-identity-errors)
   - [AuthenticationRequiredError](#authenticationrequirederror)
   - [CredentialUnavailableError](#credentialunavailableerror)
   - [AuthenticationError](#authenticationerror)
