@@ -181,6 +181,7 @@ export class ContainerRegistryBlobClient {
     await this.client.containerRegistry.deleteManifest(this.repositoryName, digest, options);
   }
 
+  // TODO: ReadableStream support for browser?
   async uploadBlob(blob: Buffer): Promise<void> {
     const startUploadResult = await this.client.containerRegistryBlob.startUpload(
       this.repositoryName

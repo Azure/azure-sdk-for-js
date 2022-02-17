@@ -5,6 +5,7 @@
 // as part of our template project.
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { assert } from "chai";
+import { calculateDigest } from "../../src/utils/digest";
 
 describe("ContainerRegistryClient functional test", async function () {
   ["", null, undefined].forEach((value) => {
@@ -107,5 +108,14 @@ describe("RegistryArtifact functional test", async function () {
         assert.equal((e as Error).message, "invalid tag");
       }
     });
+  });
+});
+
+describe("digest calculation helper", () => {
+  it("should calculate the digest correctly", () => {
+    const buf = Buffer.from("Hello world!", "utf8");
+    const expectedChecksum = "c0535e4be2b79ffd93291305436bf889314e4a3faec05ecffcbb7df31ad9e51a";
+
+    assert.equal(calculateDigest(buf), `sha256:${expectedChecksum}`);
   });
 });
