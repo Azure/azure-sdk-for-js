@@ -1,23 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  getTraceParentHeader,
-  createSpanFunction,
-  SpanStatusCode,
-  isSpanContextValid,
-  Span,
-  SpanOptions,
-} from "@azure/core-tracing";
-import { SpanKind } from "@azure/core-tracing";
+import { createTracingClient, TracingSpan, TracingSpanOptions } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
+import { SDK_VERSION } from "../constants";
 
-const createSpan = createSpanFunction({
-  packagePrefix: "",
+export const tracingClient = createTracingClient({
   namespace: "",
+  packageName: "@azure/core-rest-pipeline",
+  packageVersion: SDK_VERSION,
 });
 
 /**
@@ -53,14 +47,28 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         return next(request);
       }
 
-      const span = tryCreateSpan(request, userAgent);
+      const tryCreateSpanResult = tryCreateSpan(request, userAgent);
 
-      if (!span) {
+      if (!tryCreateSpanResult) {
         return next(request);
       }
 
+      const { span, updatedOptions } = tryCreateSpanResult;
+
       try {
-        const response = await next(request);
+        let response: PipelineResponse;
+        if (
+          updatedOptions.tracingOptions &&
+          updatedOptions.tracingOptions.tracingContext &&
+          typeof tracingClient.withContext === "function"
+        ) {
+          response = await tracingClient.withContext(
+            updatedOptions.tracingOptions.tracingContext,
+            () => next(request)
+          );
+        } else {
+          response = await next(request);
+        }
         tryProcessResponse(span, response);
         return response;
       } catch (err) {
@@ -71,19 +79,28 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   };
 }
 
-function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
+function tryCreateSpan(
+  request: PipelineRequest,
+  userAgent?: string
+): ReturnType<typeof tracingClient.startSpan> | undefined {
   try {
-    const createSpanOptions: SpanOptions = {
-      ...(request.tracingOptions as any)?.spanOptions,
-      kind: SpanKind.CLIENT,
+    const createSpanOptions: TracingSpanOptions = {
+      spanKind: "client",
+      spanAttributes: {
+        "http.method": request.method,
+        "http.url": request.url,
+        requestId: request.requestId,
+      },
     };
 
-    // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
-    // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
     // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
-    const { span } = createSpan(`HTTP ${request.method}`, {
-      tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions },
-    });
+    const { span, updatedOptions } = tracingClient.startSpan(
+      `HTTP ${request.method}`,
+      {
+        tracingOptions: { ...request.tracingOptions },
+      },
+      createSpanOptions
+    );
 
     // If the span is not recording, don't do any more work.
     if (!span.isRecording()) {
@@ -91,7 +108,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
       return undefined;
     }
 
-    const namespaceFromContext = request.tracingOptions?.tracingContext?.getValue(
+    const namespaceFromContext = updatedOptions.tracingOptions.tracingContext?.getValue(
       Symbol.for("az.namespace")
     );
 
@@ -99,40 +116,28 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
       span.setAttribute("az.namespace", namespaceFromContext);
     }
 
-    span.setAttributes({
-      "http.method": request.method,
-      "http.url": request.url,
-      requestId: request.requestId,
-    });
-
     if (userAgent) {
       span.setAttribute("http.user_agent", userAgent);
     }
 
     // set headers
-    const spanContext = span.spanContext();
-    const traceParentHeader = getTraceParentHeader(spanContext);
-    if (traceParentHeader && isSpanContextValid(spanContext)) {
-      request.headers.set("traceparent", traceParentHeader);
-      const traceState = spanContext.traceState && spanContext.traceState.serialize();
-      // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
-      if (traceState) {
-        request.headers.set("tracestate", traceState);
-      }
+    const headers = tracingClient.createRequestHeaders(
+      updatedOptions.tracingOptions.tracingContext
+    );
+    for (const headerName in headers) {
+      request.headers.set(headerName, headers[headerName]);
     }
-    return span;
+
+    return { span, updatedOptions };
   } catch (error) {
     logger.warning(`Skipping creating a tracing span due to an error: ${error.message}`);
     return undefined;
   }
 }
 
-function tryProcessError(span: Span, err: any): void {
+function tryProcessError(span: TracingSpan, err: any): void {
   try {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: err.message,
-    });
+    span.setStatus({ status: "error", error: err });
     if (err.statusCode) {
       span.setAttribute("http.status_code", err.statusCode);
     }
@@ -142,7 +147,7 @@ function tryProcessError(span: Span, err: any): void {
   }
 }
 
-function tryProcessResponse(span: Span, response: PipelineResponse): void {
+function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void {
   try {
     span.setAttribute("http.status_code", response.status);
     const serviceRequestId = response.headers.get("x-ms-request-id");
@@ -150,7 +155,7 @@ function tryProcessResponse(span: Span, response: PipelineResponse): void {
       span.setAttribute("serviceRequestId", serviceRequestId);
     }
     span.setStatus({
-      code: SpanStatusCode.OK,
+      status: "success",
     });
     span.end();
   } catch (error) {

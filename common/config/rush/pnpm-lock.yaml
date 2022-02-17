@@ -13256,7 +13256,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-oRYiWyqhAamtLlSZxYaWCGSKyl6A7P3grILLMa2G+GtRmqomlrnMwWJb1yz9TqWakYO7VubXGr3xO0K/LR50zA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-kb8AlUxGYulbQUvdsIwBApht7u8v9SiLXM/KVUgTMrZG+ik2rxLpb6O66Krfn+qgOpsrgYLz7dMfMTNjf4tC2g==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -13425,11 +13425,11 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-yMZDpj7f7Wqn+tJ6Q6AUsd9ywFlTCn2lsuehnBCVFDXyV1LkgzK83XXX7W5tat7vLQIKGMHxmdIXKWBxME5ovw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-vDYrJMMqnI8Ul4lQA/gyqJp2aWMJ1eF7IW+P83mDAm8MGKMBLJkKDRnl6rw6lE6um1LE8y8XFHXnjGnxlqNmuA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
@@ -15540,7 +15540,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-QeAh37wZ7x+si7DtdLlPkhtPSKALaFyEbsrVY6wM8OtZPgfJPW2/qBsO/ugOv8ru4EWbCG8ktahimx9Nghsa2w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
