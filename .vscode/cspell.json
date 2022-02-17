@@ -40,7 +40,7 @@
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
-    "sdk/synapse/synapse-spark/review/*.md",
+    "sdk/synapse/synapse-spark/review/*.md"
   ],
   "words": [
     "adfs",
@@ -53,6 +53,7 @@
     "devdeps",
     "DTDL",
     "dtmi",
+    "dtmis",
     "eastus",
     "ECONNRESET",
     "Eloqua",
