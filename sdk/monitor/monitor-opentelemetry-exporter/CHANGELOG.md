@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added authentication support using @azure/identity TokenCredential.
+
 ### Breaking Changes
 
 ### Bugs Fixed
