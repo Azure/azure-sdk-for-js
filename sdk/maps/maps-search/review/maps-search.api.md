@@ -44,11 +44,18 @@ export interface AddressRanges {
     to?: LatLon;
 }
 
+export { AzureKeyCredential }
+
 // @public
 export interface BatchItem<TResult> {
     // Warning: (ae-forgotten-export) The symbol "ErrorResponse" needs to be exported by the entry point index.d.ts
     readonly response?: TResult & ErrorResponse;
     readonly statusCode?: number;
+}
+
+// @public
+export interface BatchPoller<TSearchBatchResult> extends PollerLike<PollOperationState<TSearchBatchResult>, TSearchBatchResult> {
+    getBatchId(): string | undefined;
 }
 
 // @public
@@ -431,9 +438,9 @@ export type LocalizedMapView = string;
 export class MapsSearchClient {
     constructor(credential: AzureKeyCredential, options?: MapsSearchClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsSearchClientOptions);
-    beginFuzzySearchBatch(queries: FuzzySearchQuery[], options?: FuzzySearchBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<SearchAddressResult>>, BatchResult<SearchAddressResult>>>;
-    beginReverseSearchAddressBatch(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<ReverseSearchAddressResult>>, BatchResult<ReverseSearchAddressResult>>>;
-    beginSearchAddressBatch(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<SearchAddressResult>>, BatchResult<SearchAddressResult>>>;
+    beginFuzzySearchBatch(queries: FuzzySearchQuery[], options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginReverseSearchAddressBatch(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
+    beginSearchAddressBatch(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult>;
     getGeometries(geometryIds: string[], options?: GetGeometriesOptions): Promise<EntityGeometry[]>;
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
