@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/batch/ci.mgmt.yml
       - sdk/batch/arm-batch/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: batch
     Artifacts:
       - name: azure-arm-batch
-        safeName: azurearmbatch
-        
+        safeName: azurearmbatch        

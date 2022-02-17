@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/migrate/ci.mgmt.yml
       - sdk/migrate/arm-migrate/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

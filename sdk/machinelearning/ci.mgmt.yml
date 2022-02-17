@@ -27,6 +27,7 @@ pr:
       - sdk/machinelearning/arm-workspaces/
       - sdk/machinelearning/arm-webservices/
       - sdk/machinelearning/arm-commitmentplans/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -37,5 +38,4 @@ extends:
       - name: azure-arm-webservices
         safeName: azurearmwebservices
       - name: azure-arm-commitmentplans
-        safeName: azurearmcommitmentplans 
-        
+        safeName: azurearmcommitmentplans        

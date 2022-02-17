@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/applicationinsights/ci.mgmt.yml
       - sdk/applicationinsights/arm-appinsights/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,4 +31,3 @@ extends:
     Artifacts:
       - name: azure-arm-appinsights
         safeName: azurearmappinsights
-        

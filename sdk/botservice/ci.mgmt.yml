@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/botservice/ci.mgmt.yml
       - sdk/botservice/arm-botservice/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: botservice
     Artifacts:
       - name: azure-arm-botservice
-        safeName: azurearmbotservice
-        
+        safeName: azurearmbotservice       

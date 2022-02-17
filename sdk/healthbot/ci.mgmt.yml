@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/healthbot/ci.mgmt.yml
       - sdk/healthbot/arm-healthbot/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: healthbot
     Artifacts:
       - name: azure-arm-healthbot
-        safeName: azurearmhealthbot
-        
+        safeName: azurearmhealthbot       

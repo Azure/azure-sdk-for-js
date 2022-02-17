@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/sqlvirtualmachine/ci.mgmt.yml
       - sdk/sqlvirtualmachine/arm-sqlvirtualmachine/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

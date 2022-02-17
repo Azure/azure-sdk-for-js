@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/loadtestservice/ci.mgmt.yml
       - sdk/loadtestservice/arm-loadtestservice/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: loadtestservice
     Artifacts:
       - name: azure-arm-loadtestservice
-        safeName: azurearmloadtestservice
-        
+        safeName: azurearmloadtestservice        

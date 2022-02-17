@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/containerinstance/ci.mgmt.yml
       - sdk/containerinstance/arm-containerinstance/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: containerinstance
     Artifacts:
       - name: azure-arm-containerinstance
-        safeName: azurearmcontainerinstance
-        
+        safeName: azurearmcontainerinstance      

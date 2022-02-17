@@ -26,6 +26,7 @@ pr:
     exclude:
       - sdk/containerregistry/ci.mgmt.yml
       - sdk/containerregistry/arm-containerregistry/
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

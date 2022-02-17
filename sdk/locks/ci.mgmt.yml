@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/locks/ci.mgmt.yml
       - sdk/locks/arm-locks/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: locks
     Artifacts:
       - name: azure-arm-locks
-        safeName: azurearmlocks
-        
+        safeName: azurearmlocks        

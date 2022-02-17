@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/operationsmanagement/ci.mgmt.yml
       - sdk/operationsmanagement/arm-operations/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

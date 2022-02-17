@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/kusto/ci.mgmt.yml
       - sdk/kusto/arm-kusto/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: kusto
     Artifacts:
       - name: azure-arm-kusto
-        safeName: azurearmkusto
-        
+        safeName: azurearmkusto       

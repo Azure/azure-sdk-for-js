@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/deploymentmanager/ci.mgmt.yml
       - sdk/deploymentmanager/arm-deploymentmanager/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: deploymentmanager
     Artifacts:
       - name: azure-arm-deploymentmanager
-        safeName: azurearmdeploymentmanager
-        
+        safeName: azurearmdeploymentmanager        

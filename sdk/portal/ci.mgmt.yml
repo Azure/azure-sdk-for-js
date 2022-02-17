@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/portal/ci.mgmt.yml
       - sdk/portal/arm-portal/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

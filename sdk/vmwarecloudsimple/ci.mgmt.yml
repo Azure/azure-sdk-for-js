@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/vmwarecloudsimple/ci.mgmt.yml
       - sdk/vmwarecloudsimple/arm-vmwarecloudsimple/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

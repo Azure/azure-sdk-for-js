@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/compute/ci.mgmt.yml
       - sdk/compute/arm-compute/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,4 +31,3 @@ extends:
     Artifacts:
       - name: azure-arm-compute
         safeName: azurearmcompute
-        

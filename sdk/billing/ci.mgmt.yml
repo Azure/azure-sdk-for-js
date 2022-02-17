@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/billing/ci.mgmt.yml
       - sdk/billing/arm-billing/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: billing
     Artifacts:
       - name: azure-arm-billing
-        safeName: azurearmbilling
-        
+        safeName: azurearmbilling      

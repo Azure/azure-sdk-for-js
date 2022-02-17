@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/oep/ci.mgmt.yml
       - sdk/oep/arm-oep/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

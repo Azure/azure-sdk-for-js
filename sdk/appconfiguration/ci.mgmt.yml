@@ -24,6 +24,7 @@ pr:
     include:
       - sdk/appconfiguration/ci.mgmt.yml
       - sdk/appconfiguration/arm-appconfiguration/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -31,4 +32,3 @@ extends:
     Artifacts:
       - name: azure-arm-appconfiguration
         safeName: azurearmappconfiguration
-        

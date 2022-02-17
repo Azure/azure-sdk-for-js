@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/iotcentral/ci.mgmt.yml
       - sdk/iotcentral/arm-iotcentral/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,4 +31,3 @@ extends:
     Artifacts:
       - name: azure-arm-iotcentral
         safeName: azurearmiotcentral
-        

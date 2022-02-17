@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/privatedns/ci.mgmt.yml
       - sdk/privatedns/arm-privatedns/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

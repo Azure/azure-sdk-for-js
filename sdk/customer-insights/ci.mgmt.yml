@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/customer-insights/ci.mgmt.yml
       - sdk/customer-insights/arm-customerinsights/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: customer-insights
     Artifacts:
       - name: azure-arm-customerinsights
-        safeName: azurearmcustomerinsights
-        
+        safeName: azurearmcustomerinsights      

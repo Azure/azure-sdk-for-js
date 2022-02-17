@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/managementpartner/ci.mgmt.yml
       - sdk/managementpartner/arm-managementpartner/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: managementpartner
     Artifacts:
       - name: azure-arm-managementpartner
-        safeName: azurearmmanagementpartner
-        
+        safeName: azurearmmanagementpartner        

@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/network/ci.mgmt.yml
       - sdk/network/arm-network/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

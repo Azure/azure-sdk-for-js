@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/notificationhubs/ci.mgmt.yml
       - sdk/notificationhubs/arm-notificationhubs/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

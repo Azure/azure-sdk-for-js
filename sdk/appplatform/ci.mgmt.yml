@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/appplatform/ci.mgmt.yml
       - sdk/appplatform/arm-appplatform/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,4 +31,3 @@ extends:
     Artifacts:
       - name: azure-arm-appplatform
         safeName: azurearmappplatform
-        

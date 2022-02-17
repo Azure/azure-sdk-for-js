@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/maps/ci.mgmt.yml
       - sdk/maps/arm-maps/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: maps
     Artifacts:
       - name: azure-arm-maps
-        safeName: azurearmmaps
-        
+        safeName: azurearmmaps        

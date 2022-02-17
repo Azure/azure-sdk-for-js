@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/servicefabric/ci.mgmt.yml
       - sdk/servicefabric/arm-servicefabric/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

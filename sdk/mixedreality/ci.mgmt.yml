@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/mixedreality/ci.mgmt.yml
       - sdk/mixedreality/arm-mixedreality/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/visualstudio/ci.mgmt.yml
       - sdk/visualstudio/arm-visualstudio/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

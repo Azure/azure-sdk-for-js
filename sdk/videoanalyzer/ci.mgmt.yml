@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/videoanalyzer/ci.mgmt.yml
       - sdk/videoanalyzer/arm-videoanalyzer/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

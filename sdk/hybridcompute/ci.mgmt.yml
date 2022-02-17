@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/hybridcompute/ci.mgmt.yml
       - sdk/hybridcompute/arm-hybridcompute/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: hybridcompute
     Artifacts:
       - name: azure-arm-hybridcompute
-        safeName: azurearmhybridcompute
-        
+        safeName: azurearmhybridcompute       

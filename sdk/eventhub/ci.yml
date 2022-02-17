@@ -26,6 +26,7 @@ pr:
     exclude:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub/
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

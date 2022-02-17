@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/signalr/ci.mgmt.yml
       - sdk/signalr/arm-signalr/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

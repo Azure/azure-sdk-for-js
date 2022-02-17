@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/commerce/ci.mgmt.yml
       - sdk/commerce/arm-commerce/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: commerce
     Artifacts:
       - name: azure-arm-commerce
-        safeName: azurearmcommerce
-        
+        safeName: azurearmcommerce       

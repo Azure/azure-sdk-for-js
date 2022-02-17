@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/policyinsights/ci.mgmt.yml
       - sdk/policyinsights/arm-policyinsights/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

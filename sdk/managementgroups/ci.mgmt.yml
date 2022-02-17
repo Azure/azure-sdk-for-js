@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/managementgroups/ci.mgmt.yml
       - sdk/managementgroups/arm-managementgroups/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: managementgroups
     Artifacts:
       - name: azure-arm-managementgroups
-        safeName: azurearmmanagementgroups
-        
+        safeName: azurearmmanagementgroups        

@@ -24,11 +24,11 @@ pr:
     include:
       - sdk/apimanagement/ci.mgmt.yml
       - sdk/apimanagement/arm-apimanagement/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: apimanagement
     Artifacts:
       - name: azure-arm-apimanagement
-        safeName: azurearmapimanagement
-        
+        safeName: azurearmapimanagement        

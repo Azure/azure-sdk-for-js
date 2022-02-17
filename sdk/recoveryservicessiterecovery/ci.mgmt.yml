@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/recoveryservicessiterecovery/ci.mgmt.yml
       - sdk/recoveryservicessiterecovery/arm-recoveryservicessiterecovery/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,4 +31,3 @@ extends:
     Artifacts:
       - name: azure-arm-recoveryservices-siterecovery
         safeName: azurearmrecoveryservicessiterecovery
-        

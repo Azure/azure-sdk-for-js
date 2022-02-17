@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/azurestack/ci.mgmt.yml
       - sdk/azurestack/arm-azurestack/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: azurestack
     Artifacts:
       - name: azure-arm-azurestack
-        safeName: azurearmazurestack
-        
+        safeName: azurearmazurestack       

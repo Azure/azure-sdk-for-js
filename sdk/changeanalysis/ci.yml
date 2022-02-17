@@ -23,11 +23,11 @@ pr:
     exclude:
       - sdk/changeanalysis/ci.mgmt.yml
       - sdk/changeanalysis/arm-changeanalysis
+      
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: changeanalysis
     Artifacts:
       - name: azure-arm-changeanalysis
-        safeName: azurearmchangeanalysis
-        
+        safeName: azurearmchangeanalysis    

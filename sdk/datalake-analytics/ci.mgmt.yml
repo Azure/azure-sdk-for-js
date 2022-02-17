@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/datalake-analytics/ci.mgmt.yml
       - sdk/datalake-analytics/arm-datalake-analytics/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: datalake-analytics
     Artifacts:
       - name: azure-arm-datalake-analytics
-        safeName: azurearmdatalakeanalytics
-        
+        safeName: azurearmdatalakeanalytics    

@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/consumption/ci.mgmt.yml
       - sdk/consumption/arm-consumption/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: consumption
     Artifacts:
       - name: azure-arm-consumption
-        safeName: azurearmconsumption
-        
+        safeName: azurearmconsumption      

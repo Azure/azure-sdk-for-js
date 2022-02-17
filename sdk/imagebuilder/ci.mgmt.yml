@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/imagebuilder/ci.mgmt.yml
       - sdk/imagebuilder/arm-imagebuilder/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: imagebuilder
     Artifacts:
       - name: azure-arm-imagebuilder
-        safeName: azurearmimagebuilder
-        
+        safeName: azurearmimagebuilder       

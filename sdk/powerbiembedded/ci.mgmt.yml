@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/powerbiembedded/ci.mgmt.yml
       - sdk/powerbiembedded/arm-powerbiembedded/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

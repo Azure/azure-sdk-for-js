@@ -26,6 +26,7 @@ pr:
     exclude:
       - sdk/attestation/ci.mgmt.yml
       - sdk/attestation/arm-attestation
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

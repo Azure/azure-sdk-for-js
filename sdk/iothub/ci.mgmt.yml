@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/iothub/ci.mgmt.yml
       - sdk/iothub/arm-iothub/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: iothub
     Artifacts:
       - name: azure-arm-iothub
-        safeName: azurearmiothub
-        
+        safeName: azurearmiothub      

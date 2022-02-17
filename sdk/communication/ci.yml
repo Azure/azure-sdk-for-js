@@ -25,6 +25,7 @@ pr:
     exclude:
       - sdk/communication/ci.mgmt.yml
       - sdk/communication/arm-communication
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

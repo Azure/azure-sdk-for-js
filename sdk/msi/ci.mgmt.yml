@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/msi/ci.mgmt.yml
       - sdk/msi/arm-msi/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

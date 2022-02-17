@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,5 +31,4 @@ extends:
     RunUnitTests: true
     Artifacts:
       - name: azure-arm-eventhub
-        safeName: azurearmeventhub
-        
+        safeName: azurearmeventhub       

@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/avs/ci.mgmt.yml
       - sdk/avs/arm-avs/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: avs
     Artifacts:
       - name: azure-arm-avs
-        safeName: azurearmavs
-        
+        safeName: azurearmavs       

@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/deviceupdate/ci.mgmt.yml
       - sdk/deviceupdate/iot-device-update-rest/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,5 +31,4 @@ extends:
     IncludeRelease: true
     Artifacts:
       - name: azure-rest-iot-device-update
-        safeName: azurerestiotdeviceupdate
-        
+        safeName: azurerestiotdeviceupdate       

@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/trafficmanager/ci.mgmt.yml
       - sdk/trafficmanager/arm-trafficmanager/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

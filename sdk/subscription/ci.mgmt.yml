@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/subscription/ci.mgmt.yml
       - sdk/subscription/arm-subscription/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

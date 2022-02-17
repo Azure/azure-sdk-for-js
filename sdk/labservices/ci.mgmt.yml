@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/labservices/ci.mgmt.yml
       - sdk/labservices/arm-labservices/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: labservices
     Artifacts:
       - name: azure-arm-labservices
-        safeName: azurearmlabservices
-        
+        safeName: azurearmlabservices      

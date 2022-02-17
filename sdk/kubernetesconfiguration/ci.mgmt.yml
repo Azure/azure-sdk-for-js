@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/kubernetesconfiguration/ci.mgmt.yml
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: kubernetesconfiguration
     Artifacts:
       - name: azure-arm-kubernetesconfiguration
-        safeName: azurearmkubernetesconfiguration
-        
+        safeName: azurearmkubernetesconfiguration        

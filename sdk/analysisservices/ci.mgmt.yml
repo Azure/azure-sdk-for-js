@@ -24,6 +24,7 @@ pr:
     include:
       - sdk/analysisservices/ci.mgmt.yml
       - sdk/analysisservices/arm-analysisservices/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -31,4 +32,3 @@ extends:
     Artifacts:
       - name: azure-arm-analysisservices
         safeName: azurearmanalysisservices
-        

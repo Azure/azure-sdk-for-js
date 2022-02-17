@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/hybridkubernetes/ci.mgmt.yml
       - sdk/hybridkubernetes/arm-hybridkubernetes/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: hybridkubernetes
     Artifacts:
       - name: azure-arm-hybridkubernetes
-        safeName: azurearmhybridkubernetes
-        
+        safeName: azurearmhybridkubernetes       

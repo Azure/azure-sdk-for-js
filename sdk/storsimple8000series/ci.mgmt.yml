@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/storsimple8000series/ci.mgmt.yml
       - sdk/storsimple8000series/arm-storsimple8000series/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

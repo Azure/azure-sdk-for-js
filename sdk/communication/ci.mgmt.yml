@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/communication/ci.mgmt.yml
       - sdk/communication/arm-communication/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: communication
     Artifacts:
       - name: azure-arm-communication
-        safeName: azurearmcommunication
-        
+        safeName: azurearmcommunication      

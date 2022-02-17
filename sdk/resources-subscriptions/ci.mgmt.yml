@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/resources-subscriptions/ci.mgmt.yml
       - sdk/resources-subscriptions/arm-resources-subscriptions/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: resources-subscriptions
     Artifacts:
       - name: azure-arm-resources-subscriptions
-        safeName: azurearmresourcessubscriptions
-        
+        safeName: azurearmresourcessubscriptions       

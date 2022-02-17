@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/datadog/ci.mgmt.yml
       - sdk/datadog/arm-datadog/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: datadog
     Artifacts:
       - name: azure-arm-datadog
-        safeName: azurearmdatadog
-        
+        safeName: azurearmdatadog       

@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/resourcegraph/ci.mgmt.yml
       - sdk/resourcegraph/arm-resourcegraph/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: resourcegraph
     Artifacts:
       - name: azure-arm-resourcegraph
-        safeName: azurearmresourcegraph
-        
+        safeName: azurearmresourcegraph        

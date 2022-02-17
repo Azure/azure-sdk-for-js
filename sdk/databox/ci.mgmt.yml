@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/databox/ci.mgmt.yml
       - sdk/databox/arm-databox/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: databox
     Artifacts:
       - name: azure-arm-databox
-        safeName: azurearmdatabox
-        
+        safeName: azurearmdatabox  

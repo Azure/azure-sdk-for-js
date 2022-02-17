@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

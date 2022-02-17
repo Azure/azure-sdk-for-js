@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/mysql/ci.mgmt.yml
       - sdk/mysql/arm-mysql/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

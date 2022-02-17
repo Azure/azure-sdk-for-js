@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/cognitiveservices/ci.mgmt.yml
       - sdk/cognitiveservices/arm-cognitiveservices/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: cognitiveservices
     Artifacts:
       - name: azure-arm-cognitiveservices
-        safeName: azurearmcognitiveservices
-        
+        safeName: azurearmcognitiveservices     

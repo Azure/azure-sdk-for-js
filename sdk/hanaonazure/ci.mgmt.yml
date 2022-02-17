@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/hanaonazure/ci.mgmt.yml
       - sdk/hanaonazure/arm-hanaonazure/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: hanaonazure
     Artifacts:
       - name: azure-arm-hanaonazure
-        safeName: azurearmhanaonazure
-        
+        safeName: azurearmhanaonazure       

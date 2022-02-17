@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/netapp/ci.mgmt.yml
       - sdk/netapp/arm-netapp/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

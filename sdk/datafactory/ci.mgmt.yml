@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/datafactory/ci.mgmt.yml
       - sdk/datafactory/arm-datafactory/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: datafactory
     Artifacts:
       - name: azure-arm-datafactory
-        safeName: azurearmdatafactory
-        
+        safeName: azurearmdatafactory      

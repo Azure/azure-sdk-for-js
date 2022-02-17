@@ -26,6 +26,7 @@ pr:
     exclude:
       - sdk/eventgrid/ci.mgmt.yml
       - sdk/eventgrid/arm-eventgrid/
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/domainservices/ci.mgmt.yml
       - sdk/domainservices/arm-domainservices/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: domainservices
     Artifacts:
       - name: azure-arm-domainservices
-        safeName: azurearmdomainservices
-        
+        safeName: azurearmdomainservices       

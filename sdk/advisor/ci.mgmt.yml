@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/advisor/ci.mgmt.yml
       - sdk/advisor/arm-advisor/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,4 +31,3 @@ extends:
     Artifacts:
       - name: azure-arm-advisor
         safeName: azurearmadvisor
-        

@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/desktopvirtualization/ci.mgmt.yml
       - sdk/desktopvirtualization/arm-desktopvirtualization/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: desktopvirtualization
     Artifacts:
       - name: azure-arm-desktopvirtualization
-        safeName: azurearmdesktopvirtualization
-        
+        safeName: azurearmdesktopvirtualization        

@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/logic/ci.mgmt.yml
       - sdk/logic/arm-logic/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: logic
     Artifacts:
       - name: azure-arm-logic
-        safeName: azurearmlogic
-        
+        safeName: azurearmlogic       

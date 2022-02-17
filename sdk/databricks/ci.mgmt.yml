@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/databricks/ci.mgmt.yml
       - sdk/databricks/arm-databricks/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: databricks
     Artifacts:
       - name: azure-arm-databricks
-        safeName: azurearmdatabricks
-        
+        safeName: azurearmdatabricks       

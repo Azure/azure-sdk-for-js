@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/databoxedge/ci.mgmt.yml
       - sdk/databoxedge/arm-databoxedge/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: databoxedge
     Artifacts:
       - name: azure-arm-databoxedge
-        safeName: azurearmdataboxedge
-        
+        safeName: azurearmdataboxedge       

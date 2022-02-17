@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/documenttranslator/ci.mgmt.yml
       - sdk/documenttranslator/ai-document-translator-rest/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: documenttranslator
     Artifacts:
       - name: azure-rest-ai-document-translator
-        safeName: azurerestaidocumenttranslator
-        
+        safeName: azurerestaidocumenttranslator      

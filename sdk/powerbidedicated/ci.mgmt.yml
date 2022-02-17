@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/powerbidedicated/ci.mgmt.yml
       - sdk/powerbidedicated/arm-powerbidedicated/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

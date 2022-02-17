@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/containerregistry/ci.mgmt.yml
       - sdk/containerregistry/arm-containerregistry/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: containerregistry
     Artifacts:
       - name: azure-arm-containerregistry
-        safeName: azurearmcontainerregistry
-        
+        safeName: azurearmcontainerregistry       

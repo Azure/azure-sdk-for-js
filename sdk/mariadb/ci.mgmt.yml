@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/mariadb/ci.mgmt.yml
       - sdk/mariadb/arm-mariadb/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: mariadb
     Artifacts:
       - name: azure-arm-mariadb
-        safeName: azurearmmariadb
-        
+        safeName: azurearmmariadb       

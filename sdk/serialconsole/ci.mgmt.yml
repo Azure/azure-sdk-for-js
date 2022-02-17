@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/serialconsole/ci.mgmt.yml
       - sdk/serialconsole/arm-serialconsole/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: serialconsole
     Artifacts:
       - name: azure-arm-serialconsole
-        safeName: azurearmserialconsole
-        
+        safeName: azurearmserialconsole        

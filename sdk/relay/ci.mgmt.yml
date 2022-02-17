@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/relay/ci.mgmt.yml
       - sdk/relay/arm-relay/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: relay
     Artifacts:
       - name: azure-arm-relay
-        safeName: azurearmrelay
-        
+        safeName: azurearmrelay        

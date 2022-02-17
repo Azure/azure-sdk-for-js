@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/machinelearningexperimentation/ci.mgmt.yml
       - sdk/machinelearningexperimentation/arm-machinelearningexperimentation/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: machinelearningexperimentation
     Artifacts:
       - name: azure-arm-machinelearningexperimentation
-        safeName: azurearmmachinelearningexperimentation
-        
+        safeName: azurearmmachinelearningexperimentation       

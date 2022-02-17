@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/azurestackhci/ci.mgmt.yml
       - sdk/azurestackhci/arm-azurestackhci/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: azurestackhci
     Artifacts:
       - name: azure-arm-azurestackhci
-        safeName: azurearmazurestackhci
-        
+        safeName: azurearmazurestackhci        

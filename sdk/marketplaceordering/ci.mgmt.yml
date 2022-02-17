@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/marketplaceordering/ci.mgmt.yml
       - sdk/marketplaceordering/arm-marketplaceordering/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: marketplaceordering
     Artifacts:
       - name: azure-arm-marketplaceordering
-        safeName: azurearmmarketplaceordering
-        
+        safeName: azurearmmarketplaceordering       

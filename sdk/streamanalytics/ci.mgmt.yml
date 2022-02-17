@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/streamanalytics/ci.mgmt.yml
       - sdk/streamanalytics/arm-streamanalytics/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

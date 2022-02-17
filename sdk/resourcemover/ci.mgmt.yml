@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/resourcemover/ci.mgmt.yml
       - sdk/resourcemover/arm-resourcemover/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: resourcemover
     Artifacts:
       - name: azure-arm-resourcemover
-        safeName: azurearmresourcemover
-        
+        safeName: azurearmresourcemover        

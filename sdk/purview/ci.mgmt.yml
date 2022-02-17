@@ -23,6 +23,7 @@ pr:
     include:
       - sdk/purview/ci.mgmt.yml
       - sdk/purview/arm-purview/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

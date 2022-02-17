@@ -23,11 +23,11 @@ pr:
     include:
       - sdk/security/ci.mgmt.yml
       - sdk/security/arm-security/
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: security
     Artifacts:
       - name: azure-arm-security
-        safeName: azurearmsecurity
-        
+        safeName: azurearmsecurity        
