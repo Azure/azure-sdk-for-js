@@ -55,7 +55,7 @@ The `CredentialUnavailableError` is used to indicate that the credential can’t
 
 The `AuthenticationError` is used to indicate about a failure to authenticate with Azure Active Directory. The `errorResponse` field contains more details about the specific failure.
 
-## Finding Relevant Information in Error Messages
+## Find relevant information in error messages
 
 `AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the AAD STS and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message.
 
