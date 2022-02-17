@@ -223,6 +223,7 @@ If you have access to the VM, you can verify the manged identity endpoint is ava
 curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://management.core.windows.net&api-version=2018-02-01' -H "Metadata: true"
 ```
 > Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
+
 ### Azure App Service and Azure Functions Managed Identity
 
 #### CredentialUnavailableError
