@@ -4,11 +4,18 @@
 import { CancelOnProgress, PollOperationState, PollerLike } from "@azure/core-lro";
 import { AbortSignalLike } from "@azure/abort-controller";
 
+/** Batch operation poller interface */
+export interface BatchPoller<TSearchBatchResult>
+  extends PollerLike<PollOperationState<TSearchBatchResult>, TSearchBatchResult> {
+  /** Get the batch id for the long-running operation */
+  getBatchId(): string | undefined;
+}
+
 /**
  * @internal
  */
-export class SearchBatchPoller<TSearchBatchResult, TInternalBatchResult>
-  implements PollerLike<PollOperationState<TSearchBatchResult>, TSearchBatchResult> {
+export class BatchPollerImpl<TSearchBatchResult, TInternalBatchResult>
+  implements BatchPoller<TSearchBatchResult> {
   constructor(
     private internalPoller: PollerLike<
       PollOperationState<TInternalBatchResult>,
@@ -16,17 +23,32 @@ export class SearchBatchPoller<TSearchBatchResult, TInternalBatchResult>
     >,
     private mapper: (res: TInternalBatchResult) => TSearchBatchResult
   ) {}
-  public poll(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    return this.internalPoller.poll(options);
+
+  private batchId: string | undefined;
+
+  public async poll(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    await this.internalPoller.poll(options);
+
+    // Retrieve and save batchId
+    const { state } = JSON.parse(this.internalPoller.toString());
+    const pollingUrl: string = state.pollingURL;
+    if (typeof state.pollingURL === "string") {
+      const batchIds = pollingUrl.match(/{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?/g);
+      if (batchIds) {
+        this.batchId = batchIds[0];
+      }
+    }
   }
-  public cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    return this.internalPoller.cancelOperation(options);
+
+  public async cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    await this.internalPoller.cancelOperation(options);
   }
 
   public async pollUntilDone(): Promise<TSearchBatchResult> {
     const result = await this.internalPoller.pollUntilDone();
     return this.mapper(result);
   }
+
   public onProgress(
     callback: (state: PollOperationState<TSearchBatchResult>) => void
   ): CancelOnProgress {
@@ -51,15 +73,19 @@ export class SearchBatchPoller<TSearchBatchResult, TInternalBatchResult>
     };
     return this.internalPoller.onProgress(internalCallback);
   }
+
   public isDone(): boolean {
     return this.internalPoller.isDone();
   }
+
   public stopPolling(): void {
     this.internalPoller.stopPolling();
   }
+
   public isStopped(): boolean {
     return this.internalPoller.isStopped();
   }
+
   public getOperationState(): PollOperationState<TSearchBatchResult> {
     const internalState = this.internalPoller.getOperationState();
     const state: PollOperationState<TSearchBatchResult> = {};
@@ -80,6 +106,7 @@ export class SearchBatchPoller<TSearchBatchResult, TInternalBatchResult>
     }
     return state;
   }
+
   public getResult(): TSearchBatchResult | undefined {
     const result = this.internalPoller.getResult();
     if (result) {
@@ -87,6 +114,11 @@ export class SearchBatchPoller<TSearchBatchResult, TInternalBatchResult>
     }
     return undefined;
   }
+
+  public getBatchId(): string | undefined {
+    return this.batchId;
+  }
+
   public toString(): string {
     return this.internalPoller.toString();
   }

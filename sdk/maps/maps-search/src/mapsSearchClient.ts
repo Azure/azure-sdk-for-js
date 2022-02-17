@@ -16,7 +16,6 @@ import {
   mapSearchAddressResult,
   mapSearchPointOfInterestOptions
 } from "./models/mappers";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
   SearchGetPointOfInterestCategoryTreeOptionalParams as GetPointOfInterestCategoryTreeOptionalParams,
   SearchListPolygonsOptionalParams as ListPolygonsOptionalParams,
@@ -70,7 +69,7 @@ import {
   FuzzySearchBaseOptions,
   SearchPointOfInterestBaseOptions
 } from "./models/options";
-import { SearchBatchPoller } from "./models/pollers";
+import { BatchPoller, BatchPollerImpl } from "./models/pollers";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
 import { mapsAzureKeyCredentialPolicy } from "./credential/mapsAzureKeyCredentialPolicy";
 import { logger } from "./utils/logger";
@@ -620,12 +619,7 @@ export class MapsSearchClient {
   public async beginFuzzySearchBatch(
     queries: FuzzySearchQuery[],
     options: FuzzySearchBatchOptions = {}
-  ): Promise<
-    PollerLike<
-      PollOperationState<BatchResult<SearchAddressResult>>,
-      BatchResult<SearchAddressResult>
-    >
-  > {
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     // TODO: Check requests number
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(queries);
@@ -635,10 +629,10 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      const poller = new SearchBatchPoller<BatchResult<SearchAddressResult>, SearchAddressBatchResult>(
-        internalPoller,
-        mapSearchAddressBatchResult
-      );
+      const poller = new BatchPollerImpl<
+        BatchResult<SearchAddressResult>,
+        SearchAddressBatchResult
+      >(internalPoller, mapSearchAddressBatchResult);
 
       await poller.poll();
       return poller;
@@ -662,12 +656,7 @@ export class MapsSearchClient {
   public async beginSearchAddressBatch(
     queries: SearchAddressQuery[],
     options: SearchAddressBatchOptions = {}
-  ): Promise<
-    PollerLike<
-      PollOperationState<BatchResult<SearchAddressResult>>,
-      BatchResult<SearchAddressResult>
-    >
-  > {
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     // TODO: Check requests number
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
@@ -680,10 +669,10 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      const poller = new SearchBatchPoller<BatchResult<SearchAddressResult>, SearchAddressBatchResult>(
-        internalPoller,
-        mapSearchAddressBatchResult
-      );
+      const poller = new BatchPollerImpl<
+        BatchResult<SearchAddressResult>,
+        SearchAddressBatchResult
+      >(internalPoller, mapSearchAddressBatchResult);
 
       await poller.poll();
       return poller;
@@ -707,12 +696,7 @@ export class MapsSearchClient {
   public async beginReverseSearchAddressBatch(
     queries: ReverseSearchAddressQuery[],
     options: ReverseSearchAddressBatchOptions = {}
-  ): Promise<
-    PollerLike<
-      PollOperationState<BatchResult<ReverseSearchAddressResult>>,
-      BatchResult<ReverseSearchAddressResult>
-    >
-  > {
+  ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
     // TODO: Check requests number
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
@@ -726,7 +710,7 @@ export class MapsSearchClient {
         updatedOptions
       );
 
-      const poller = new SearchBatchPoller<
+      const poller = new BatchPollerImpl<
         BatchResult<ReverseSearchAddressResult>,
         ReverseSearchAddressBatchResult
       >(internalPoller, mapReverseSearchAddressBatchResult);
