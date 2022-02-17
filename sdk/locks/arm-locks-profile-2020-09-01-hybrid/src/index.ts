@@ -6,5 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./authorizationOperations";
-export * from "./managementLocks";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ManagementLockClient } from "./managementLockClient";
+export * from "./operationsInterfaces";
