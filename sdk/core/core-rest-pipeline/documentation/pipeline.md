@@ -4,6 +4,8 @@ A pipeline policy manipulates a request as it travels through the pipeline. It i
 
 It is important to note that policies have a bubbling nature, this means that the **first** policy to touch the request will be the **last** policy to work on the response.
 
+More information about the Middleware pattern can be found [here](https://docs.microsoft.com/aspnet/core/fundamentals/middleware/?tabs=aspnetcore2x&view=aspnetcore-6.0)
+
 ```typescript
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
@@ -110,11 +112,13 @@ export interface InternalPipelineOptions extends PipelineOptions {
 declare function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;
 ```
 
+**Note:** `InternalPipelineOptions` is used internally to configure the SDK pipeline but it is not exposed to consumers. Consumers can configure the default pipeline through the `PipelineOptions` when instantiating a new client
+
 ### Policies included in a default pipeline
 
-- proxyPolicy **(NODE Only)**
+- proxyPolicy <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS Only" title="NodeJS Only" width="60"/>
   - A policy that allows one to apply proxy settings to all requests. If not passed static settings, they will be retrieved from the HTTPS_PROXY or HTTP_PROXY environment variables.
-- decompressResponsePolicy **(NODE Only)**
+- decompressResponsePolicy <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS Only" title="NodeJS Only" width="60"/>
   - A policy to enable response decompression according to Accept-Encoding header
 - formDataPolicy
   - A policy that encodes FormData on the request into the body.
@@ -157,6 +161,8 @@ When configuring additional policies the following execution positions can be sp
 - `perRetry` - When a policy is assigned a `perRetry` position, the policy will be executed before sending each request re-try.
 
 ```typescript
+type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+
 const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
 
 const policy1: PipelinePolicy = {
