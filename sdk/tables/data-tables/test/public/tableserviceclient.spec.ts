@@ -140,4 +140,11 @@ describe(`TableServiceClient`, () => {
       assert.deepEqual(result, lastPage);
     });
   });
+
+  describe("Statistics", () => {
+    it("should getStatistics", async () => {
+      const result = await client.getStatistics();
+      assert.deepEqual(result.geoReplication?.status, "live");
+    });
+  });
 });
