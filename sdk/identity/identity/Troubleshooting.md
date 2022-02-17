@@ -303,7 +303,7 @@ Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
 
 #### __Verify Azure PowerShell can obtain tokens__
 
-You can manually verify that Azure PowerShell is properly authenticated, and can obtain tokens. First use the `Get-AzContext` command to verify the account which is currently logged in to the Azure CLI. 
+You can manually verify that Azure PowerShell is properly authenticated, and can obtain tokens. First, use the `Get-AzContext` command to verify the account which is currently logged into the Azure CLI. 
 
 ```
 PS C:\> Get-AzContext
