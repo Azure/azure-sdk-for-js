@@ -238,6 +238,7 @@ If you have access to SSH into the App Service, you can verify managed identity 
 ```bash
 curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://management.core.windows.net&api-version=2018-02-01' -H "Metadata: true"
 ```
+
 > Note that the output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 
 ## Troubleshoot Visual Studio Code authentication issues
