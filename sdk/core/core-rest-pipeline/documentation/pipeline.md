@@ -2,6 +2,8 @@
 
 A pipeline policy manipulates a request as it travels through the pipeline. It is conceptually a middleware that is allowed to modify the request before it is made as well as the response when it is received.
 
+It is important to note that policies have a bubbling nature, this means that the **first** policy to touch the request will be the **last** policy to work on the response.
+
 ```typescript
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
@@ -11,11 +13,9 @@ export interface PipelinePolicy {
 }
 ```
 
-It is given a string name so that consumers can express dependencies relative to existing policies. The `sendRequest` method uses a middleware pattern, which is familiar to JS developers.
-
 # Pipelines
 
-A `Pipeline` composes several policies and provides the ability to make a request that will flow through the policies in a specific order determined by their requirements. Which allows manipulating each request before and after it is made to the server.
+A `Pipeline` composes several policies and provides the ability to make a request that will flow through the policies in a specific order determined by their requirements. Which allows manipulating each request before it is sent to the server and to work on the response after receiving it.
 
 ```typescript
 export interface AddPipelineOptions {
@@ -34,7 +34,7 @@ export interface Pipeline {
 }
 ```
 
-Dependencies expressed when calling `addPolicy` are not sensitive to order. The following code snippets have identical effects:
+It is important to never rely on policy insert ordering and always express policy execution constraints using `AddPipelineOptions` when policies have interactions. For example, the following code snippets have identical effects:
 
 ```typescript
 pipeline.addPolicy(barPolicy);
@@ -52,6 +52,14 @@ Phases are predefined buckets of activity that pre-defined policies inside core 
 ```typescript
 export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 ```
+
+The execution order is:
+
+1. **Serialize Phase** - Policies that assamble the request to be sent through HTTP, i.e. transforming the body object to its JSON string representation.
+2. **Policies not in a phase** - Any policies added to the pipeline without an specified phase
+3. **Deserialize Phase** - Policies that transform the raw HTTP response to a friendlier shapes to the clients. For example transforming the body JSON string to a JavaScript object
+4. **Retry Phase** - Policies that inspect the raw response, typically the response code and errors returned from the service to decide whether or not to re-try the request.
+5. **Sign Phase** - Policies that sign the request for security purposes, for example adding a bearer token
 
 # Default Pipeline
 
@@ -128,16 +136,25 @@ declare function createPipelineFromOptions(options: InternalPipelineOptions): Pi
 
 There are other policies commonly added to the default pipeline:
 
-- bearerTokenAuthenticationPolicy
-  - A policy that can request a token from a TokenCredential implementation and then apply it to the Authorization header of a request as a Bearer token.
 - serializationPolicy
   - This policy handles assembling the request body and headers using an OperationSpec and OperationArguments on the request.
 - deserializationPolicy
   - This policy handles parsing out responses according to OperationSpecs on the request.
 
+# Authentication and Signing
+
+Pipeline policies are used to authenticate requests in Azure SDKs. An authentication policy would sign the request before sending it with the required authentication information, these policies run in the `Sign` phase.
+
+For example, the `bearerTokenAuthenticationPolicy` would sign the request by adding the bearer token in the request headers before the request is sent.
+
 # Configuring client pipeline
 
 When instantiating a new client a pipeline can be configured by adding additional policies to the default pipeline, passing a static array of policies.
+
+When configuring additional policies the following execution positions can be specified
+
+- `perCall` - When a policy is assigned a `perCall` position, it will be run once before sending the request. If the request needs to be retried the policy won't run again for each retry it will just be un once `perCall`.
+- `perRetry` - When a policy is assigned a `perRetry` position, the policy will be executed before sending each request re-try.
 
 ```typescript
 const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
@@ -167,6 +184,14 @@ const client = new ServiceClient({
   ],
 });
 ```
+
+# HttpClient
+
+The `HttpClient` is the last logical piece of the pipeline. The `HttpClient` will send the request over the wire after all policies have run and will hand off the response back to the pipeline once the server responds. There are 2 default implementations for the `HttpClient`, the platform where the SDK is executed will define which implementation is provided.
+
+For browsers an `HttpClient` implementation based on `Fetch API` will be used. When running in Node an `HttpClient` based on Node's native `https` will be used.
+
+A custom `HttpClient` implementation can be provided when constructing the `Pipeline`
 
 # Examples
 
@@ -209,7 +234,7 @@ pipeline.removePolicy({ phase: "Retry" });
 
 ## List policies
 
-Consumers can list all the policies in a pipeline calling `getOrderedPolicies()`, which returns the current set of policies in the pipeline in the order in which they will be applied to the request. Later in the list is closer to when the request is performed.
+For debugging purposes, consumers can list all the policies in a pipeline calling `getOrderedPolicies()`, which returns the current set of policies in the pipeline in the order in which they will be applied to the request, remember that policies have a bubbling nature, this means that the **first** policy to touch the request will be the **last** policy to work on the response.
 
 ```typescript
 const policies = pipeline.getOrderedPolicies();
