@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureNamedKeyCredential, generateTableSas } from "../../../src";
+
 import { assert } from "chai";
 
 // This file is empty as sas generation is not supported in browsers

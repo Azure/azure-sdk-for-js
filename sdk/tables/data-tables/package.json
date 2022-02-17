@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "13.0.2",
+  "version": "13.1.0",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -81,7 +81,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-tracing": "1.0.0-preview.14",
     "tslib": "^2.2.0",
     "uuid": "^8.3.0"
   },
@@ -144,6 +144,10 @@
       {
         "path": "swagger/README.md",
         "prefix": "package-version"
+      },
+      {
+        "path": "src/utils/tracing.ts",
+        "prefix": "packageVersion"
       }
     ]
   }

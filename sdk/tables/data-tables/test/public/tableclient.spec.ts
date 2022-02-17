@@ -7,7 +7,7 @@ import { isNode, isNode8 } from "@azure/test-utils";
 
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { createTableClient } from "./utils/recordedClient";
 
 describe("special characters", () => {
@@ -617,6 +617,37 @@ describe(`TableClient`, () => {
         value: "true",
         type: "Boolean",
       });
+    });
+  });
+
+  describe("tracing", () => {
+    it("should trace through the various operations", async () => {
+      await assert.supportsTracing(
+        async (options) => {
+          await client.createTable(options);
+          const entity = {
+            partitionKey: "A'aaa_bbbb2\"",
+            rowKey: `"A'aaa_bbbb2`,
+          };
+          await client.createEntity(entity, options);
+          await client.upsertEntity(entity, "Replace", options);
+          await client.getEntity(entity.partitionKey, entity.rowKey, options);
+          await client.updateEntity(entity, "Replace", options);
+          await client.listEntities(options).byPage().next();
+          await client.deleteEntity(entity.partitionKey, entity.rowKey, options);
+          await client.deleteTable(options);
+        },
+        [
+          "TableClient.createTable",
+          "TableClient.createEntity",
+          "TableClient.upsertEntity",
+          "TableClient.getEntity",
+          "TableClient.updateEntity",
+          "TableClient.listEntitiesPage",
+          "TableClient.deleteEntity",
+          "TableClient.deleteTable",
+        ]
+      );
     });
   });
 });
