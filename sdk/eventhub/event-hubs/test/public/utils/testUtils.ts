@@ -99,7 +99,6 @@ export async function getStartingPositionsForTests(
   for (const partitionId of eventHubProperties.partitionIds) {
     startingPositions[partitionId] = {
       sequenceNumber: (await client.getPartitionProperties(partitionId)).lastEnqueuedSequenceNumber,
-      isInclusive: true,
     };
   }
 

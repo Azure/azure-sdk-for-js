@@ -644,7 +644,7 @@ export class EventHubReceiver extends LinkEntity {
     }
 
     const eventPosition = options.eventPosition || this.eventPosition;
-    if (eventPosition !== undefined) {
+    if (eventPosition) {
       // Set filter on the receiver if event position is specified.
       const filterClause = getEventPositionFilter(eventPosition);
       if (filterClause) {
