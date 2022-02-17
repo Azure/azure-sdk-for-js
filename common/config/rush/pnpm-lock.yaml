@@ -38,6 +38,7 @@ specifiers:
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
+  '@rush-temp/arm-dashboard': file:./projects/arm-dashboard.tgz
   '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
@@ -291,6 +292,7 @@ dependencies:
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
+  '@rush-temp/arm-dashboard': file:projects/arm-dashboard.tgz
   '@rush-temp/arm-databox': file:projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
@@ -9713,6 +9715,31 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-dashboard.tgz:
+    resolution: {integrity: sha512-5YHH/20buxO/Qtbc9zUgIyIDTpMPkPn60y/NZbk0l5VSbHeAMmwH+7SFJrjAr0JL/lCrLNvOQov5lhlgrursoA==, tarball: file:projects/arm-dashboard.tgz}
+    name: '@rush-temp/arm-dashboard'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-databox.tgz:
     resolution: {integrity: sha512-cmMTMEKWaaWwnOVZXW0N2+/8hBdEXC1DN2AUJGWiUJxyXPFdLGdC7EuQMmNM/P3EjU7FjcSwE9gI0JqgPoy/hw==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
@@ -13256,7 +13283,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-oRYiWyqhAamtLlSZxYaWCGSKyl6A7P3grILLMa2G+GtRmqomlrnMwWJb1yz9TqWakYO7VubXGr3xO0K/LR50zA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-kb8AlUxGYulbQUvdsIwBApht7u8v9SiLXM/KVUgTMrZG+ik2rxLpb6O66Krfn+qgOpsrgYLz7dMfMTNjf4tC2g==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -15540,7 +15567,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-QeAh37wZ7x+si7DtdLlPkhtPSKALaFyEbsrVY6wM8OtZPgfJPW2/qBsO/ugOv8ru4EWbCG8ktahimx9Nghsa2w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
