@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Upgraded to `@azure/msal-nodeextensions` version `1.0.0-alpha.15` which fixes the build of this package on Node.js v17, on MacOS Big Sur.
+
 ### Other Changes
 
 - Updated `@azure/msal-node` to version `^1.4.0` and `@azure/msal-node-extensions` to version `1.0.0-alpha.13`.
