@@ -71,7 +71,7 @@ This error contains several pieces of information:
 
 - **Correlation ID and Timestamp**: The correlation ID and call Timestamp used to identify the request in server-side logs. This information can be useful to support engineers when diagnosing unexpected STS failures.
 
-### Enabling and Configuring Logging
+### Enable and configure logging
 
 The Azure Identity library has the same [logging capabilities](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/Diagnostics.md#logging) as the rest of the Azure SDK.
 
