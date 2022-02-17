@@ -31,7 +31,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/identity/src",
+    "dist-esm/identity-common/src",
     "dist-esm/identity-vscode/src",
     "types/identity-vscode.d.ts",
     "README.md",

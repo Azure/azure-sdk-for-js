@@ -31,7 +31,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/identity/src",
+    "dist-esm/identity-common/src",
     "dist-esm/identity-cache-persistence/src",
     "types/identity-cache-persistence.d.ts",
     "README.md",

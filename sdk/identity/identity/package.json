@@ -67,6 +67,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
+    "dist-esm/identity-common/src/",
     "types/identity.d.ts",
     "README.md",
     "LICENSE"
