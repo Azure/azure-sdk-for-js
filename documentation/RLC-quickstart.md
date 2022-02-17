@@ -10,9 +10,9 @@ You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main
 Before we start, we probably should get to know the project folder and name convention for RLC libraries.
 
 1. Project Folder structure.  
-   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/purview/purview-account-rest` folder for purview account modules. That folder will be your **${PROJECT_ROOT} folder**.  
+   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.  
 1. Package Name Convention.  
-   The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Purview Account module is `@azure-rest/purview-account`.
+   The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Farmbeats module is `@azure-rest/agrifood-farming`.
 
 # How to generate RLC
 
@@ -24,24 +24,24 @@ We are working on to automatically generate everything right now, but currently 
 
     ~~~
     
-    # Azure Purview Catalog TypeScript Protocol Layer
+    # Azure  Farmbeats TypeScript Protocol Layer
     
     > see https://aka.ms/autorest
     ## Configuration
     
     ```yaml
-    package-name: "@azure-rest/purview-account"
-    title: PurviewAccount
-    description: Purview Account Client
+    package-name: "@azure-rest/agrifood-farming"
+    title: Farmbeats
+    description: Farmbeats Client
     generate-metadata: true
     license-header: MICROSOFT_MIT_NO_VERSION
     output-folder: ../
     source-code-folder-path: ./src
-    input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/purview/data-plane/Azure.Analytics.Purview.Account/preview/2019-11-01-preview/account.json
-    package-version: 1.0.0-beta.1
+    input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/683e3f4849ee1d84629d0d0fa17789e80a9cee08/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
+    package-version: 1.0.0-beta.2
     rest-level-client: true
     add-credentials: true
-    credential-scopes: "https://purview.azure.net/.default"
+    credential-scopes: https://farmbeats.azure.net/.default
     use-extension:
       "@autorest/typescript": "6.0.0-beta.14"
     ```
@@ -63,8 +63,8 @@ We are working on to automatically generate everything right now, but currently 
 
     ```
         {
-          "packageName": "@azure-rest/purview-account",
-          "projectFolder": "sdk/purview/purview-account-rest",
+          "packageName": "@azure-rest/agrifood-farming",
+          "projectFolder": "sdk/agrifood/agrifood-farming-rest",
           "versionPolicyName": "client"
         },
     ```
@@ -386,11 +386,11 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 1. **add test utils.**  
 
-    create a `${PROJECT_ROOT}/test/public` folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/test/public/utils) into public folder
+    create a `${PROJECT_ROOT}/test/public` folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming-rest/test/public/utils) into public folder
 
     there are some manual changes in the copied recordedClient.ts that need to be done. 
     ```typescript
-    import PurviewAccount, { PurviewAccountRestClient } from "../../../src";
+    import Farmbeats, { FarmbeatsRestClient } from "../../../src";
     ```
     Needs to change to the value that was used in the swagger/readme.md in title. For example if title is "Foo"
     ```typescript
@@ -404,7 +404,7 @@ In order to release it, we need to add some tests for it to make sure we are del
         env.AZURE_CLIENT_ID,
         env.AZURE_CLIENT_SECRET
       );
-      return PurviewAccount(env.ENDPOINT, credential, options);
+      return Farmbeats(env.ENDPOINT, credential, options);
     }
     ``` 
     Needs to change to
@@ -543,8 +543,8 @@ extends:
   parameters:
     ServiceDirectory: purview
     Artifacts:
-      - name: azure-rest-purview-account
-        safeName: azurerestpurviewaccount
+      - name: azure-rest-agrifood-farming
+        safeName: azurerestagrifoodfarming
 ```
 
 Please change the paths.include value as your own project path, and change the Artifacts name and safeName into yours.  

@@ -23,8 +23,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
@@ -43,26 +43,37 @@ async function main() {
     // The identity document model has multiple document types, so we need to know which document type was actually
     // extracted.
     if (result.docType === "idDocument.driverLicense") {
-      const driverLicense = result.fields;
+      const { firstName, lastName, documentNumber, dateOfBirth, dateOfExpiration } = result.fields;
 
       // For the sake of the example, we'll only show a few of the fields that are produced.
       console.log("Extracted a Driver License:");
-      console.log("  Name:", driverLicense.firstName?.value, driverLicense.lastName?.value);
-      console.log("  License No.:", driverLicense.documentNumber?.value);
-      console.log("  Date of Birth:", driverLicense.dateOfBirth?.value);
-      console.log("  Expiration:", driverLicense.documentNumber?.value);
+      console.log("  Name:", firstName && firstName.value, lastName && lastName.value);
+      console.log("  License No.:", documentNumber && documentNumber.value);
+      console.log("  Date of Birth:", dateOfBirth && dateOfBirth.value);
+      console.log("  Expiration:", dateOfExpiration && dateOfExpiration.value);
     } else if (result.docType === "idDocument.passport") {
-      const passport = result.fields;
-
       // The passport document type extracts and parses the Passport's machine-readable zone
-      const fields = passport.machineReadableZone?.properties;
+      if (!result.fields.machineReadableZone) {
+        throw new Error("No Machine Readable Zone extracted from passport.");
+      }
+
+      const {
+        firstName,
+        lastName,
+        dateOfBirth,
+        nationality,
+        documentNumber,
+        countryRegion,
+        dateOfExpiration,
+      } = result.fields.machineReadableZone.properties;
+
       console.log("Extracted a Passport:");
-      console.log("  Name:", fields?.firstName?.value, fields?.lastName?.value);
-      console.log("  Date of Birth:", fields?.dateOfBirth?.value);
-      console.log("  Nationality:", fields?.nationality?.value);
-      console.log("  Passport No.:", fields?.documentNumber?.value);
-      console.log("  Issuer:", fields?.countryRegion?.value);
-      console.log("  Expiration Date:", fields?.dateOfExpiration?.value);
+      console.log("  Name:", firstName && firstName.value, lastName && lastName.value);
+      console.log("  Date of Birth:", dateOfBirth && dateOfBirth.value);
+      console.log("  Nationality:", nationality && nationality.value);
+      console.log("  Passport No.:", documentNumber && documentNumber.value);
+      console.log("  Issuer:", countryRegion && countryRegion.value);
+      console.log("  Expiration Date:", dateOfExpiration && dateOfExpiration.value);
     } else {
       // The only reason this would happen is if the client library's schema for the prebuilt identity document model is
       // out of date, and a new document type has been introduced.

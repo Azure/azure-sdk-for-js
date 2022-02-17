@@ -7,17 +7,22 @@ import {
   Checkpoint,
   OperationOptions,
 } from "@azure/event-hubs";
-import { ContainerClient, Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
+import { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
 import { logger, logErrorStackTrace } from "./log";
+import { ContainerClientLike } from "./storageBlobInterfaces";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * An implementation of CheckpointStore that uses Azure Blob Storage to persist checkpoint data.
  */
 export class BlobCheckpointStore implements CheckpointStore {
-  private _containerClient: ContainerClient;
+  private _containerClient: ContainerClientLike;
 
-  constructor(containerClient: ContainerClient) {
+  /**
+   * Constructs a new instance of {@link BlobCheckpointStore}
+   * @param containerClient - An instance of a storage blob ContainerClient.
+   */
+  constructor(containerClient: ContainerClientLike) {
     this._containerClient = containerClient;
   }
   /**

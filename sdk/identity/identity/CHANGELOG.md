@@ -1,14 +1,16 @@
 # Release History
 
-## 2.0.3 (Unreleased)
+## 2.0.3 (2022-02-16)
 
 ### Features Added
 
-### Breaking Changes
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments.
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed bug that duplicated the tenant Id on the URI of outgoing requests when passing an `authorityHost` ending with a tenant Id.
+- `ManagedIdentityCredential` now won't retry when it tries to ping the IMDS endpoint.
+- Now we are specifying the maximum number of retries to 3 to ensure that maximum retries won't change without notice.
 
 ## 2.0.2 (2022-02-03)
 

@@ -75,7 +75,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response`,
             body,
-            method: "GET",
+            method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { val: "abc" }
@@ -96,7 +96,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response`,
             body: "body",
-            method: "GET",
+            method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
           },
           { val: "abc" }

@@ -30,6 +30,7 @@ import {
   FullOperationResponse,
   InternalClientPipelineOptions,
   OperationOptions,
+  ServiceClient,
 } from "@azure/core-client";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import {
@@ -85,6 +86,7 @@ export class TableClient {
    */
   public pipeline: Pipeline;
   private table: Table;
+  private generatedClient: ServiceClient;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private transactionClient?: InternalTableTransaction;
   private clientOptions: TableClientOptions;
@@ -259,6 +261,7 @@ export class TableClient {
       generatedClient.pipeline.addPolicy(cosmosPatchPolicy());
     }
 
+    this.generatedClient = generatedClient;
     this.table = generatedClient.table;
     this.pipeline = generatedClient.pipeline;
   }
@@ -890,7 +893,7 @@ export class TableClient {
         partitionKey,
         transactionId,
         changesetId,
-        this.clientOptions,
+        this.generatedClient,
         new TableClient(this.url, this.tableName),
         this.credential,
         this.allowInsecureConnection

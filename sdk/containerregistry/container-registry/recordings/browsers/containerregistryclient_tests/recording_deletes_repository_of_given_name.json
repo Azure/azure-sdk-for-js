@@ -1,186 +1,340 @@
 {
- "recordings": [
-  {
-   "method": "DELETE",
-   "url": "https://myregistry.azurecr.io/acr/v1/library%2Fbusybox",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": null,
-   "status": 401,
-   "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"repository\",\"Name\":\"library/busybox\",\"Action\":\"delete\"}]}]}\n",
-   "responseHeaders": {
-    "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
-    "connection": "keep-alive",
-    "content-length": "211",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:27 GMT",
-    "docker-distribution-api-version": "registry/2.0",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
-    "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/busybox:delete\"",
-    "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "05f3b850-8863-4afc-9e81-3e80de704e47"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1351",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:27 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - EUS ProdSlices",
-    "x-ms-request-id": "970270a0-39e5-4a40-a68d-349af926da00"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://myregistry.azurecr.io/oauth2/exchange",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": "grant_type=access_token&service=myregistry.azurecr.io&access_token=access_token",
-   "status": 200,
-   "response": "{\"refresh_token\":\"sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\"}",
-   "responseHeaders": {
-    "connection": "keep-alive",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:28 GMT",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "c879b25e-7407-492d-9eee-3583856e5241",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.533333"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://myregistry.azurecr.io/oauth2/token",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": "service=myregistry.azurecr.io&scope=repository%3Alibrary%2Fbusybox%3Adelete&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&grant_type=refresh_token",
-   "status": 200,
-   "response": "{\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "connection": "keep-alive",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:28 GMT",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "9c5291aa-7f51-467d-bb0f-a2dc1c298217",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.516667"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://myregistry.azurecr.io/acr/v1/library%2Fbusybox",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"manifestsDeleted\":[\"sha256:06b206c1f1a38094697c7e8bf868f9d326e56a256bc516dbb8ff0ee9c1178999\",\"sha256:15e927f78df2cc772b70713543d6b651e3cd8370abf86b2ea4644a9fba21107f\",\"sha256:399e1e4a0d587717dc9e3a85150cec8498cb6dc73dcb7eddb94959fedb331104\",\"sha256:4ecc3dc2e06a24df931cb719c3784611d15721c3cb64ab069141071b73f6598b\",\"sha256:53c212bcc0501f011c232df0fb6c837651d0b2f3257b6478a50c0e006b0dabc5\",\"sha256:6066ca124f8c2686b7ae71aa1d6583b28c6dc3df3bdc386f2c89b92162c597d9\",\"sha256:77df281071dd7e01972ec2c4a33c1a6c00d13b24238375fd6622fce97f622fa2\",\"sha256:86824a27910bd2a8c6a8478fe99206e6cf4bcada7cb8435c0060cbe885559e53\",\"sha256:b70f0f45692830c2990b42f770aa29488c20ac41f1c3dcaa242920b73cb1399b\",\"sha256:c71cb4f7e8ececaffb34037c2637dc86820e4185100e18b4d02d613a9bd772af\",\"sha256:ce53e9b0310447d0e851ff0d2c9b90f358dbffe719a723147e84b93a4799396c\"],\"tagsDeleted\":[\"latest\"]}\n",
-   "responseHeaders": {
-    "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
-    "connection": "keep-alive",
-    "content-length": "862",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:29 GMT",
-    "docker-distribution-api-version": "registry/2.0",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "c24859c1-5307-4fa3-93d5-93f1c4b88e1b",
-    "x-ms-correlation-request-id": "2b56b65e-ef2a-4ae6-8bce-f5148c581165",
-    "x-ms-ratelimit-remaining-calls-per-second": "8.000000",
-    "x-ms-request-id": "a8901f4a-8447-4a7e-bc2e-9a8785b44f97"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://myregistry.azurecr.io/acr/v1/_catalog",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": null,
-   "status": 401,
-   "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"registry\",\"Name\":\"catalog\",\"Action\":\"*\"}]}]}\n",
-   "responseHeaders": {
-    "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
-    "connection": "keep-alive",
-    "content-length": "196",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:29 GMT",
-    "docker-distribution-api-version": "registry/2.0",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
-    "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"registry:catalog:*\"",
-    "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "25a315f8-79df-45c1-afe6-3c753f6a8b2a"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://myregistry.azurecr.io/oauth2/token",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": "service=myregistry.azurecr.io&scope=registry%3Acatalog%3A*&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&grant_type=refresh_token",
-   "status": 200,
-   "response": "{\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "connection": "keep-alive",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:29 GMT",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "6f6470d3-e5dc-4cf4-9933-545edd9b2ebc",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.5"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://myregistry.azurecr.io/acr/v1/_catalog",
-   "query": {
-    "api-version": "2021-07-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"repositories\":[\"busybox\",\"hello-world\",\"library/hello-world\"]}\n",
-   "responseHeaders": {
-    "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
-    "connection": "keep-alive",
-    "content-length": "65",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 20:12:29 GMT",
-    "docker-distribution-api-version": "registry/2.0",
-    "server": "openresty",
-    "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "5ea08842-7768-450f-a9d8-892b4e873fe3"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "60be3f3388fbcdf9836939a931bac74b"
+  "Entries": [
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/library%2Fbusybox?api-version=2021-07-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "2b336890-ce13-47c5-971f-9667a6491829",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "211",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:11 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022timovacr.azurecr.io\u0022,scope=\u0022repository:library/busybox:delete\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "ae2d878c-f802-4a6c-996d-9e923c585399"
+      },
+      "ResponseBody": {
+        "errors": [
+          {
+            "code": "UNAUTHORIZED",
+            "message": "authentication required, visit https://aka.ms/acr/authorization for more information.",
+            "detail": [
+              {
+                "Type": "repository",
+                "Name": "library/busybox",
+                "Action": "delete"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/oauth2/exchange?api-version=2021-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "82",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "daffb00a-6560-40b6-949b-d75b0258e4f2",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "grant_type=access_token\u0026service=timovacr.azurecr.io\u0026access_token=SecretPlaceholder",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:12 GMT",
+        "Server": "openresty",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Ms-Correlation-Request-Id": "9151a9bb-6eb7-4d36-aeab-e67cb0296e29"
+      },
+      "ResponseBody": {
+        "refresh_token": "sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized"
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/oauth2/token?api-version=2021-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "161",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "731ffc1b-1ead-4094-9074-0c7e717268bb",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "service=timovacr.azurecr.io\u0026scope=repository%3Alibrary%2Fbusybox%3Adelete\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:12 GMT",
+        "Server": "openresty",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Ms-Correlation-Request-Id": "497161e8-cc00-4c4c-a88e-7ea949eef8fa"
+      },
+      "ResponseBody": {
+        "access_token": "Sanitized"
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/library%2Fbusybox?api-version=2021-07-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "2b336890-ce13-47c5-971f-9667a6491829",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "862",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:13 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Client-Request-Id": "2b336890-ce13-47c5-971f-9667a6491829",
+        "X-Ms-Correlation-Request-Id": "4192aab7-5d32-496f-95f2-035d4a33b2c3",
+        "X-Ms-Request-Id": "8b89f255-e930-4126-ad13-4572e14cbfd4"
+      },
+      "ResponseBody": {
+        "manifestsDeleted": [
+          "sha256:02cdeb6ebe57001c73da6adf199eb94a94b6d8c5ef7a92432928d1b3861ff53c",
+          "sha256:2a64d8b2861154867e526a189eddfc7afaf12c13c9b67a56b7adcd56895818ae",
+          "sha256:2d06e13d26ccd313d3029e44f48d69ad4c98d0bf934692befb288dc6404a3ad9",
+          "sha256:3f6c90002d9d31b871ee132953db48422b3dea4815d662d9e54ca389d2366800",
+          "sha256:4bcaeca137ff437584eb96c41b425b4010167a0156f0a9f7bbc26f9a36d536df",
+          "sha256:5ca5e3117f6f9bdb803ea67af89203b7e62a28c7456c098809f712a7294ceaaa",
+          "sha256:5ff091cdd7eadbe140ac122d166a8f20f346a72d7eea9ababbd0546e0ca73049",
+          "sha256:afcc7f1ac1b49db317a7196c902e61c6c3c4607d63599ee1a82d702d249a0ccb",
+          "sha256:b69959407d21e8a062e0416bf13405bb2b71ed7a84dde4158ebafacfa06f5578",
+          "sha256:bb2a26ee650f0f3f49a2676bc50bcc4f44d9f1f6c7c12b7b4acc17beda338af4",
+          "sha256:ce06da2e3e24e4ac99f6da067bcab57e3dcc2ea4582da16e5d97003c32a6fa8c"
+        ],
+        "tagsDeleted": [
+          "latest"
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/_catalog?api-version=2021-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "45337353-b5bf-4f89-b661-6bb5ad6cdc3a",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "196",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:13 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022timovacr.azurecr.io\u0022,scope=\u0022registry:catalog:*\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "6c9ec8fa-baae-4f32-ad63-c3957ac48a02"
+      },
+      "ResponseBody": {
+        "errors": [
+          {
+            "code": "UNAUTHORIZED",
+            "message": "authentication required, visit https://aka.ms/acr/authorization for more information.",
+            "detail": [
+              {
+                "Type": "registry",
+                "Name": "catalog",
+                "Action": "*"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/oauth2/token?api-version=2021-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "144",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "436a1168-d68c-4591-b0dd-25553399f4f7",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "service=timovacr.azurecr.io\u0026scope=registry%3Acatalog%3A*\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:13 GMT",
+        "Server": "openresty",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Ms-Correlation-Request-Id": "ba29aaf0-2406-4add-a845-27f2c8b8af96"
+      },
+      "ResponseBody": {
+        "access_token": "Sanitized"
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/_catalog?api-version=2021-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "45337353-b5bf-4f89-b661-6bb5ad6cdc3a",
+        "x-ms-useragent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "41",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:34:13 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "ffe820c4-7e42-4ac8-bd1f-ee637aee9230"
+      },
+      "ResponseBody": {
+        "repositories": [
+          "library/hello-world"
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }
