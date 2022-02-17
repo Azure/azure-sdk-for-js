@@ -92,14 +92,31 @@ export class MapsSearchClient {
   private readonly client: GeneratedClient;
   private readonly defaultFormat: string = "json";
   /**
-   * Creates an instance of MapsSearchClient.
+   * Creates an instance of MapsSearchClient from a subscription key.
+   *
+   * @example
+   * ```ts
+   * import { MapsSearchClient, AzureKeyCredential } from "@azure/maps-search";
+   * const credential = new AzureKeyCredential("<subscription-key>");
+   *
+   * const client = new MapsSearchClient(credential);
+   *```
    *
    * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
    * @param options - Options used to configure the Search Client
    */
   constructor(credential: AzureKeyCredential, options?: MapsSearchClientOptions);
   /**
-   * Creates an instance of MapsSearchClient.
+   * Creates an instance of MapsSearchClient from an Azure Identity `TokenCredential`.
+   *
+   * @example
+   * ```ts
+   * import { MapsSearchClient } from "@azure/maps-search";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * const credential = new DefaultAzureCredential();
+   *
+   * const client = new MapsSearchClient(credential, "<maps-account-client-id>");
+   *```
    *
    * @param credential - An TokenCredential instance used to authenticate requests to the service
    * @param mapsAccountClientId - The Azure Maps client id of a specific map resource
@@ -609,7 +626,7 @@ export class MapsSearchClient {
       BatchResult<SearchAddressResult>
     >
   > {
-    // TODO: Check reqeusts number
+    // TODO: Check requests number
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(queries);
     try {
@@ -648,7 +665,7 @@ export class MapsSearchClient {
       BatchResult<SearchAddressResult>
     >
   > {
-    // TODO: Check reqeusts number
+    // TODO: Check requests number
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
       options
@@ -690,7 +707,7 @@ export class MapsSearchClient {
       BatchResult<ReverseSearchAddressResult>
     >
   > {
-    // TODO: Check reqeusts number
+    // TODO: Check requests number
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
