@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Events } from "../operationsInterfaces";
+import { MultiSlotEvents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PersonalizerBase } from "../personalizerBase";
 import {
-  RewardRequest,
-  EventsRewardOptionalParams,
-  EventsActivateOptionalParams
+  MultiSlotRewardRequest,
+  MultiSlotEventsRewardOptionalParams,
+  MultiSlotEventsActivateOptionalParams
 } from "../models";
 
-/** Class containing Events operations. */
-export class EventsImpl implements Events {
+/** Class containing MultiSlotEvents operations. */
+export class MultiSlotEventsImpl implements MultiSlotEvents {
   private readonly client: PersonalizerBase;
 
   /**
-   * Initialize a new instance of the class Events class.
+   * Initialize a new instance of the class MultiSlotEvents class.
    * @param client Reference to the service client
    */
   constructor(client: PersonalizerBase) {
@@ -30,32 +30,32 @@ export class EventsImpl implements Events {
   }
 
   /**
-   * Report reward between 0 and 1 that resulted from using the action specified in rewardActionId, for
-   * the specified event.
+   * Report reward that resulted from using the action specified in rewardActionId for the slot.
    * @param eventId The event id this reward applies to.
-   * @param reward The reward should be a floating point number, typically between 0 and 1.
+   * @param body List of slot id and reward values. The reward should be a floating point number,
+   *             typically between 0 and 1.
    * @param options The options parameters.
    */
   reward(
     eventId: string,
-    reward: RewardRequest,
-    options?: EventsRewardOptionalParams
+    body: MultiSlotRewardRequest,
+    options?: MultiSlotEventsRewardOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { eventId, reward, options },
+      { eventId, body, options },
       rewardOperationSpec
     );
   }
 
   /**
-   * Report that the specified event was actually used (e.g. by being displayed to the user) and a reward
-   * should be expected for it.
-   * @param eventId The event ID to be activated.
+   * Report that the specified event was actually used or displayed to the user and a rewards should be
+   * expected for it.
+   * @param eventId The event ID this activation applies to.
    * @param options The options parameters.
    */
   activate(
     eventId: string,
-    options?: EventsActivateOptionalParams
+    options?: MultiSlotEventsActivateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { eventId, options },
@@ -67,7 +67,7 @@ export class EventsImpl implements Events {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const rewardOperationSpec: coreClient.OperationSpec = {
-  path: "/events/{eventId}/reward",
+  path: "/multislot/events/{eventId}/reward",
   httpMethod: "POST",
   responses: {
     204: {},
@@ -75,14 +75,14 @@ const rewardOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.reward,
+  requestBody: Parameters.body2,
   urlParameters: [Parameters.endpoint, Parameters.eventId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const activateOperationSpec: coreClient.OperationSpec = {
-  path: "/events/{eventId}/activate",
+  path: "/multislot/events/{eventId}/activate",
   httpMethod: "POST",
   responses: {
     204: {},

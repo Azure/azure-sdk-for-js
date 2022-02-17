@@ -1,180 +1,97 @@
-## An isomorphic javascript sdk for - PersonalizerClient
+# Azure Service client library for JavaScript
 
-This package contains an isomorphic SDK for PersonalizerClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Service client.
+
+Personalizer Service is an Azure Cognitive Service that makes it easy to target content and experiences without complex pre-analysis or cleanup of past data. Given a context and featurized content, the Personalizer Service returns which content item to show to users in rewardActionId. As rewards are sent in response to the use of rewardActionId, the reinforcement learning algorithm will improve the model and improve performance of future rank calls.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/cognitiveservices-personalizer) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/cognitiveservices-personalizer) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cognitiveservices-personalizer?view=azure-node-preview) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/cognitiveservices-personalizer/samples)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-### How to Install
+### Prerequisites
+
+- An [Azure subscription][azure_sub].
+
+### Install the `@azure/cognitiveservices-personalizer` package
+
+Install the Azure Service client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/cognitiveservices-personalizer
 ```
 
-### How to use
+### Create and authenticate a `PersonalizerBase`
 
-#### nodejs - Authentication, client creation and reward events as an example written in TypeScript.
+To create a client object to access the Azure Service API, you will need the `endpoint` of your Azure Service resource and a `credential`. The Azure Service client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure Service resource in the [Azure Portal][azure_portal].
 
-##### Install @azure/ms-rest-azure-js
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
+
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
-npm install @azure/ms-rest-azure-js
+npm install @azure/identity
 ```
 
-##### Sample code
-The following sample ranks a personalized request object. To know more, refer to the [Azure Documentation on Personalizer](https://docs.microsoft.com/azure/cognitive-services/personalizer/)
+You will also need to **register a new AAD application and grant access to Azure Service** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { PersonalizerClient } = require("@azure/cognitiveservices-personalizer");
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
-
-async function main() {
-  const personalizerKey = process.env["personalizerKey"] || "<personalizerKey>";
-  const personalizerEndPoint =
-    process.env["personalizerEndPoint"] || "<personalizerEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    personalizerKey
-  );
-
-  const client = new PersonalizerClient(
-    cognitiveServiceCredentials,
-    personalizerEndPoint
-  );
-
-  const rankRequest = {
-    contextFeatures: [
-      {
-        timeOfDay: "Morning"
-      }
-    ],
-    actions: [
-      {
-        id: "NewsArticle",
-        features: [
-          {
-            type: "News"
-          }
-        ]
-      },
-      {
-        id: "SportsArticle",
-        features: [
-          {
-            type: "Sports"
-          }
-        ]
-      },
-      {
-        id: "EntertainmentArticle",
-        features: [
-          {
-            type: "Entertainment"
-          }
-        ]
-      }
-    ],
-    excludedActions: ["SportsArticle"],
-    eventId: "75269AD0-BFEE-4598-8196-C57383D38E10",
-    deferActivation: false
-  };
-
-  client
-    .rank(rankRequest)
-    .then(result => {
-      console.log("The result is: ");
-      console.log(result);
-    })
-    .catch(err => {
-      console.log("An error occurred:");
-      console.error(err);
-    });
-}
-
-main();
+const { PersonalizerBase } = require("@azure/cognitiveservices-personalizer");
+const { DefaultAzureCredential } = require("@azure/identity");
+const client = new PersonalizerBase("<endpoint>", new DefaultAzureCredential());
 ```
 
-#### browser - Authentication, client creation and reward events as an example written in JavaScript.
 
-##### Sample code
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/cognitiveservices-personalizer sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/cognitiveservices-personalizer/dist/cognitiveservices-personalizer.js"></script>
-    <script type="text/javascript">
-      const personalizerKey = "<YOUR_PERSONALIZER_KEY>";
-      const personalizerEndPoint = "<YOUR_PERSONALIZER_ENDPOINT>";
-      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
-        inHeader: {
-          "Ocp-Apim-Subscription-Key": personalizerKey
-        }
-      });
-      const client = new Azure.CognitiveservicesPersonalizer.PersonalizerClient(
-        cognitiveServiceCredentials,
-        personalizerEndPoint
-      );
+## Key concepts
 
-      const rankRequest = {
-        contextFeatures: [
-          {
-            timeOfDay: "Morning"
-          }
-        ],
-        actions: [
-          {
-            id: "NewsArticle",
-            features: [
-              {
-                type: "News"
-              }
-            ]
-          },
-          {
-            id: "SportsArticle",
-            features: [
-              {
-                type: "Sports"
-              }
-            ]
-          },
-          {
-            id: "EntertainmentArticle",
-            features: [
-              {
-                type: "Entertainment"
-              }
-            ]
-          }
-        ],
-        excludedActions: ["SportsArticle"],
-        eventId: "75269AD0-BFEE-4598-8196-C57383D38E10",
-        deferActivation: false
-      };
+### PersonalizerBase
 
-      client
-        .rank(rankRequest)
-        .then(result => {
-          console.log("The result is: ");
-          console.log(result);
-        })
-        .catch(err => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-    </script>
-  </head>
-  <body></body>
-</html>
+`PersonalizerBase` is the primary interface for developers using the Azure Service client library. Explore the methods on this client object to understand the different features of the Azure Service service that you can access.
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/cognitiveservices-personalizer/samples) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-personalizer%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
