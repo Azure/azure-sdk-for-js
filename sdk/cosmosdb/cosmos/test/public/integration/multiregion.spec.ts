@@ -129,7 +129,9 @@ describe("Multi-region tests", function (this: Suite) {
         on: PluginOn.request,
         plugin: async (context: RequestContext) => {
           const response = responses[requestIndex];
-          lastEndpointCalled = context.endpoint;
+          if (context.endpoint) {
+            lastEndpointCalled = context.endpoint;
+          }
           requestIndex++;
           if (response.code > 400) {
             throw response;
@@ -170,7 +172,9 @@ describe("Multi-region tests", function (this: Suite) {
         on: PluginOn.request,
         plugin: async (context: RequestContext) => {
           const response = responses[requestIndex];
-          lastEndpointCalled = context.endpoint;
+          if (context.endpoint) {
+            lastEndpointCalled = context.endpoint;
+          }
           requestIndex++;
           if (response.code > 400) {
             throw response;
