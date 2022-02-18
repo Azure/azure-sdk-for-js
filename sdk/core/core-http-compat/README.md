@@ -4,35 +4,6 @@ This library provides classes and interfaces to be used by Azure client librarie
 
 ## Usage
 
-### ExtendedServiceClientOptions
-
-With `@azure/core-http` library, the `options` parameter to the generated client will look like:
-
-```
-export interface SearchClientOptionalParams extends coreHttp.ServiceClientOptions {
-  /** Overrides client endpoint. */
-  endpoint?: string;
-}
-```
-
-With the `@azure/core-client` & `@azure/core-rest-pipeline` libraries, the `options` parameter to the generated client will look like:
-
-```
-export interface SearchClientOptionalParams extends coreClient.ServiceClientOptions {
-  /** Overrides client endpoint. */
-  endpoint?: string;
-}
-```
-
-With the Core HTTP Compatibility library, the `options` parameter to the generated client will look like:
-
-```
-export interface SearchClientOptionalParams extends coreHttpCompat.ExtendedServiceClientOptions {
-  /** Overrides client endpoint. */
-  endpoint?: string;
-}
-```
-
 ### ExtendedCommonClientOptions
 
 With `@azure/core-http` library, the `options` parameter to the custom client will look like:

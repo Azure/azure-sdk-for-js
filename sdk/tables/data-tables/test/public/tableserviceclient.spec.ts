@@ -6,7 +6,7 @@ import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
 
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { createTableServiceClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
@@ -140,11 +140,41 @@ describe(`TableServiceClient`, () => {
       assert.deepEqual(result, lastPage);
     });
   });
-
   describe("Statistics", () => {
     it("should getStatistics", async () => {
       const result = await client.getStatistics();
       assert.deepEqual(result.geoReplication?.status, "live");
+    });
+  });
+
+  describe("tracing", () => {
+    it("should trace through the various operations", async () => {
+      const tableName = `testTracing${suffix}`;
+      await recorder.setMatcher("HeaderlessMatcher");
+      await assert.supportsTracing(
+        async (options) => {
+          await client.createTable(tableName, options);
+          await client.getProperties(options);
+          try {
+            await client.setProperties({}, options);
+          } catch {
+            // ignore exceptions
+          }
+          try {
+            await client.getStatistics(options);
+          } catch {
+            // ignore exceptions
+          }
+          await client.deleteTable(tableName, options);
+        },
+        [
+          "TableServiceClient.createTable",
+          "TableServiceClient.getProperties",
+          "TableServiceClient.setProperties",
+          "TableServiceClient.getStatistics",
+          "TableServiceClient.deleteTable",
+        ]
+      );
     });
   });
 });

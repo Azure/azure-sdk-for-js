@@ -13256,7 +13256,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-oRYiWyqhAamtLlSZxYaWCGSKyl6A7P3grILLMa2G+GtRmqomlrnMwWJb1yz9TqWakYO7VubXGr3xO0K/LR50zA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-kb8AlUxGYulbQUvdsIwBApht7u8v9SiLXM/KVUgTMrZG+ik2rxLpb6O66Krfn+qgOpsrgYLz7dMfMTNjf4tC2g==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -13643,12 +13643,12 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-TEbNW856SR3kFwVpkaq6xq+/lScXvhz1tDQwNF6qBlgQOSMwk5VnR+R82rTsPT0G9gSoTWrnox0ZpAja5SolDA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-zFQEY/Qa2Ud1QWmhQHRwpaB4zOj4uMVUU4MMabmJn1SddUjy0ovTRWA6l6sL8gYIsx7LUdlDy49xqyhy+U0f9w==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
@@ -14958,7 +14958,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-0HnabFIBko9eTEkMSRH34JvoRtKba6Av18Q/4bbi+k31s2M8mBVXSjIrjlwJYWHP7Y69kS6J3kbV94L7SYf6Kg==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-NyZJL22Y1a7ARbMZcFPMfeB0/CQbfXRZqfH0wOpq3UMd4BqMFvyUVNuBXRap2Ah7dUfh874PRqRwOf15w05bvA==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -15540,7 +15540,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-QeAh37wZ7x+si7DtdLlPkhtPSKALaFyEbsrVY6wM8OtZPgfJPW2/qBsO/ugOv8ru4EWbCG8ktahimx9Nghsa2w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -16422,7 +16422,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-IzlvKcllARl3HKjtBicSvjXCawMUH1xPyU8NzW9r6UbXzre6di7K3pjVdSwgnGEPqoHLUNXb1WqAfMMkNz0rBQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-8CmCvHXr6QPXJpZRBhREuF+RM4c5qytOZkSJ8/StQkPtJ5sNhIS2X9xg2aeNHkud3LlS6YmsvEeLKls3Jk2odQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
