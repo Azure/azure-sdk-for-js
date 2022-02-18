@@ -69,7 +69,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#analyzeSentiment", function () {
         it("client throws on empty list", async function () {
-
           return assert.isRejected(client.analyzeSentiment([]), /non-empty array/);
         });
 
