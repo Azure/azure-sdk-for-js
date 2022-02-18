@@ -321,10 +321,15 @@ export async function retryForever<T>(
   if (!config.retryOptions) {
     config.retryOptions = {};
   }
-  if (!config.retryOptions.retryDelayInMs || config.retryOptions.retryDelayInMs < 0) {
+  // eslint-disable-next-line eqeqeq
+  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
     config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
-  if (!config.retryOptions.maxRetryDelayInMs || config.retryOptions.maxRetryDelayInMs < 0) {
+  if (
+    // eslint-disable-next-line eqeqeq
+    config.retryOptions.maxRetryDelayInMs == undefined ||
+    config.retryOptions.maxRetryDelayInMs < 0
+  ) {
     config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
   if (!config.retryOptions.mode) {

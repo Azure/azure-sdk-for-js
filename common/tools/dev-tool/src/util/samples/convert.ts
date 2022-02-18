@@ -1,24 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import fs from "fs-extra";
-import path from "path";
 import { EOL } from "os";
 
 import * as prettier from "prettier";
 import ts from "typescript";
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-
-import { createPrinter } from "../../util/printer";
-import { toCommonJs } from "../../util/samples/transforms";
+import { createPrinter } from "../printer";
 
 const log = createPrinter("ts-to-js");
-
-export const commandInfo = makeCommandInfo(
-  "ts-to-js",
-  "convert a TypeScript sample to a JavaScript equivalent using our conventions for samples"
-);
 
 const prettierOptions: prettier.Options = {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -119,25 +109,3 @@ export function convert(srcText: string, transpileOptions?: ts.TranspileOptions)
 
   return postTransform(output.outputText);
 }
-
-export default leafCommand(commandInfo, async (options) => {
-  if (options.args.length !== 2) {
-    throw new Error("Wrong number of arguments. Got " + options.args.length + " but expected 2.");
-  }
-
-  const [src, dest] = options.args.map(path.normalize);
-
-  const srcText = (await fs.readFile(src)).toString("utf-8");
-
-  const outputText = convert(srcText, {
-    fileName: src,
-    transformers: {
-      after: [toCommonJs],
-    },
-  });
-
-  await fs.ensureDir(path.dirname(dest));
-  await fs.writeFile(dest, outputText);
-
-  return true;
-});

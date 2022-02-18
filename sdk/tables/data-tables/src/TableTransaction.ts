@@ -36,13 +36,12 @@ import {
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
-import { createSpan } from "./utils/tracing";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * Helper to build a list of transaction actions
@@ -268,31 +267,23 @@ export class InternalTableTransaction {
 
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
-    const { span, updatedOptions } = createSpan(
-      "TableTransaction-submitTransaction",
-      {} as OperationOptions
-    );
-    const request = createPipelineRequest({
-      url: this.url,
-      method: "POST",
-      body,
-      headers: createHttpHeaders(headers),
-      tracingOptions: updatedOptions.tracingOptions,
-      allowInsecureConnection: this.allowInsecureConnection,
-    });
+    return tracingClient.withSpan(
+      "TableTransaction.submitTransaction",
+      {} as OperationOptions,
+      async (updatedOptions) => {
+        const request = createPipelineRequest({
+          url: this.url,
+          method: "POST",
+          body,
+          headers: createHttpHeaders(headers),
+          tracingOptions: updatedOptions.tracingOptions,
+          allowInsecureConnection: this.allowInsecureConnection,
+        });
 
-    try {
-      const rawTransactionResponse = await this.client.sendRequest(request);
-      return parseTransactionResponse(rawTransactionResponse);
-    } catch (error) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+        const rawTransactionResponse = await this.client.sendRequest(request);
+        return parseTransactionResponse(rawTransactionResponse);
+      }
+    );
   }
 
   private checkPartitionKey(partitionKey: string): void {
