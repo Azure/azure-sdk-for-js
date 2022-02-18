@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { isPlaybackMode, Recorder } from "../src";
+import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 
@@ -159,7 +159,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           await recorder.start({ envSetupForPlayback: {} });
           await recorder.setMatcher("CustomDefaultMatcher", {
             ignoredHeaders: [headerName],
-          });
+          } as CustomMatcherOptions);
 
           const testHeader = {
             headerName, // dynamic header
@@ -183,7 +183,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           await recorder.setMatcher("CustomDefaultMatcher", {
             compareBodies: false,
             ignoredHeaders: ["Content-Length"], // adding this header since the body sizes are different
-          });
+          } as CustomMatcherOptions);
 
           // The body shouldn't matter for the match; verify this by using a
           // different body in playback vs record mode.

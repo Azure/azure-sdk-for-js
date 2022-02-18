@@ -6,7 +6,7 @@
 
 - Bug Fix - Fixed the bug where the `recordingId` was being ignored in the add-sanitizer requests which led the test level sanitizers to be treated as session level sanitizers.
   [#20393](https://github.com/Azure/azure-sdk-for-js/pull/20393)
-- `CustomDefaultMatcher`- exposes the default matcher in a customizable way. Currently, this includes enabling/disabling body match, adding additional excluded headers and ignored headers, and enable/disable matching for the order of query params in the requests.
+- `CustomDefaultMatcher`- exposes the default matcher in a customizable way. Currently, this includes enabling/disabling body match, adding additional excluded headers, and enable/disable matching the order of query params in the requests.
   [#20404](https://github.com/Azure/azure-sdk-for-js/pull/20404)
 
 ## 2022-02-04
