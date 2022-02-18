@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js"
+    "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js",
+    "./dist-esm/test/public/util/setup.js": "./dist-esm/test/public/util/setup.browser.js"
   },
   "//metadata": {
     "constantPaths": [

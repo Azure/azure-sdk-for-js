@@ -1,23 +1,13 @@
-import {
-  InMemorySpanExporter,
-  SimpleSpanProcessor,
-  ConsoleSpanExporter,
-} from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { TestClient, tracingClientAttributes } from "./testClient";
-import { OpenTelemetryInstrumenter } from "../../src/instrumenter";
-import { useInstrumenter } from "@azure/core-tracing";
+import { TestClient, tracingClientAttributes } from "../testClient";
 import { assert } from "chai";
+import { inMemoryExporter } from "../../public/util/setup";
 
-const provider = new NodeTracerProvider();
-const inMemoryExporter = new InMemorySpanExporter();
-provider.addSpanProcessor(new SimpleSpanProcessor(inMemoryExporter));
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-provider.register();
-useInstrumenter(new OpenTelemetryInstrumenter());
+describe("instrumentation", () => {
+  beforeEach(() => {
+    inMemoryExporter.reset();
+  });
 
-describe.only("instrumentation", () => {
   describe("with a configured client", () => {
     it("works when using withSpan", async () => {
       await new TestClient().outer();
@@ -54,7 +44,6 @@ describe.only("instrumentation", () => {
       });
 
       // Check attributes on all spans
-      assert.equal(coreRestPipeline.attributes["az.namespace"], tracingClientAttributes.namespace);
       assert.equal(inner.attributes["az.namespace"], tracingClientAttributes.namespace);
       assert.equal(outer.attributes["az.namespace"], tracingClientAttributes.namespace);
     });
