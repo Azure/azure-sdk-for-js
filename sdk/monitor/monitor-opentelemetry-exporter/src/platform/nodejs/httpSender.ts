@@ -9,7 +9,7 @@ import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
-  ApplicationInsightsClientTrackOptionalParams,
+  TrackOptionalParams,
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
 
@@ -50,7 +50,7 @@ export class HttpSender implements Sender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    let options: ApplicationInsightsClientTrackOptionalParams = {};
+    let options: TrackOptionalParams = {};
     try {
       let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
