@@ -313,3 +313,16 @@ export type SearchAddressBatchOptions = BatchPollerOptions;
  * Options for performing batch reverse searches
  */
 export type ReverseSearchAddressBatchOptions = BatchPollerOptions;
+
+/**
+ * Options for retrieving batch fuzzy search results
+ */
+export type GetFuzzySearchBatchResultOptions = BatchPollerOptions;
+/**
+ * Options for retrieving batch address search results
+ */
+export type GetSearchAddressBatchResultOptions = BatchPollerOptions;
+/**
+ * Options for retrieving batch reverse search results
+ */
+export type GetReverseSearchAddressBatchResultOptions = BatchPollerOptions;

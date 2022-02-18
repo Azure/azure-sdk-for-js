@@ -67,7 +67,10 @@ import {
   SearchPointOfInterestOptions,
   SearchStructuredAddressOptions,
   FuzzySearchBaseOptions,
-  SearchPointOfInterestBaseOptions
+  SearchPointOfInterestBaseOptions,
+  GetFuzzySearchBatchResultOptions,
+  GetSearchAddressBatchResultOptions,
+  GetReverseSearchAddressBatchResultOptions
 } from "./models/options";
 import { BatchPoller, BatchPollerProxy } from "./models/pollers";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
@@ -611,16 +614,46 @@ export class MapsSearchClient {
   }
 
   /**
+   * Sends batches of fuzzy search queries. The method return the result directly.
+   *
+   * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
+   * @param options - Optional parameters for the operation
+   */
+  public async fuzzySearchBatch(
+    queries: FuzzySearchQuery[],
+    options: FuzzySearchBatchOptions = {}
+  ): Promise<BatchResult<SearchAddressResult>> {
+    const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearchBatchSync", options);
+    const batchRequest = createFuzzySearchBatchRequest(queries);
+    console.log(batchRequest);
+    try {
+      const internalResult = await this.client.search.fuzzySearchBatchSync(
+        this.defaultFormat,
+        batchRequest,
+        updatedOptions
+      );
+      return mapSearchAddressBatchResult(internalResult);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Sends batches of fuzzy search queries. The method returns a poller for retrieving the result later.
    *
-   * @param requests - The list of search requests to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
+   * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
    */
   public async beginFuzzySearchBatch(
     queries: FuzzySearchQuery[],
     options: FuzzySearchBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    // TODO: Check requests number
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(queries);
     try {
@@ -648,16 +681,82 @@ export class MapsSearchClient {
   }
 
   /**
+   * Retrieve the result of a previous fuzzy search batch request
+   *
+   * @param batchId - Batch id for querying the operation.
+   * @param options - Optional parameters for the operation
+   */
+  public async beginGetFuzzySearchBatchResult(
+    batchId: string,
+    options: GetFuzzySearchBatchResultOptions = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    const { span, updatedOptions } = createSpan(
+      "MapsSearchClient-beginGetFuzzySearchBatchResult",
+      options
+    );
+    try {
+      const internalPoller = await this.client.search.beginGetFuzzySearchBatch(
+        batchId,
+        updatedOptions
+      );
+      const poller = new BatchPollerProxy<
+        BatchResult<SearchAddressResult>,
+        SearchAddressBatchResult
+      >(internalPoller, mapSearchAddressBatchResult);
+
+      await poller.poll();
+      return poller;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sends batches of geocoding queries. The method return the result directly.
+   *
+   * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
+   * @param options - Optional parameters for the operation
+   */
+  public async searchAddressBatch(
+    queries: SearchAddressQuery[],
+    options: SearchAddressBatchOptions = {}
+  ): Promise<BatchResult<SearchAddressResult>> {
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddressBatchSync", options);
+    const batchRequest = createSearchAddressBatchRequest(queries);
+    try {
+      const internalResult = await this.client.search.searchAddressBatchSync(
+        this.defaultFormat,
+        batchRequest,
+        updatedOptions
+      );
+      return mapSearchAddressBatchResult(internalResult);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Sends batches of geocoding queries. The method returns a poller for retrieving the result later.
    *
-   * @param requests - The list of search requests to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
+   * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
    */
   public async beginSearchAddressBatch(
     queries: SearchAddressQuery[],
     options: SearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
-    // TODO: Check requests number
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
       options
@@ -688,16 +787,85 @@ export class MapsSearchClient {
   }
 
   /**
+   * Retrieve the result of a previous search address batch request
+   *
+   * @param batchId - Batch id for querying the operation.
+   * @param options - Optional parameters for the operation
+   */
+  public async beginGetSearchAddressBatchResult(
+    batchId: string,
+    options: GetSearchAddressBatchResultOptions = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    const { span, updatedOptions } = createSpan(
+      "MapsSearchClient-beginGetSearchAddressBatchResult",
+      options
+    );
+    try {
+      const internalPoller = await this.client.search.beginGetSearchAddressBatch(
+        batchId,
+        updatedOptions
+      );
+      const poller = new BatchPollerProxy<
+        BatchResult<SearchAddressResult>,
+        SearchAddressBatchResult
+      >(internalPoller, mapSearchAddressBatchResult);
+
+      await poller.poll();
+      return poller;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sends batches of reverse geocoding queries. The method return the result directly.
+   *
+   * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
+   * @param options - Optional parameters for the operation
+   */
+  public async reverseSearchAddressBatchSync(
+    queries: ReverseSearchAddressQuery[],
+    options: ReverseSearchAddressBatchOptions = {}
+  ): Promise<BatchResult<ReverseSearchAddressResult>> {
+    const { span, updatedOptions } = createSpan(
+      "MapsSearchClient-reverseSearchAddressBatchSync",
+      options
+    );
+    const batchRequest = createReverseSearchAddressBatchRequest(queries);
+    try {
+      const internalResult = await this.client.search.reverseSearchAddressBatchSync(
+        this.defaultFormat,
+        batchRequest,
+        updatedOptions
+      );
+      return mapReverseSearchAddressBatchResult(internalResult);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Sends batches of reverse geocoding queries. The method returns a poller for retrieving the result later.
    *
-   * @param requests - The list of search requests to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
+   * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
    */
   public async beginReverseSearchAddressBatch(
     queries: ReverseSearchAddressQuery[],
     options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
-    // TODO: Check requests number
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
@@ -710,6 +878,43 @@ export class MapsSearchClient {
         updatedOptions
       );
 
+      const poller = new BatchPollerProxy<
+        BatchResult<ReverseSearchAddressResult>,
+        ReverseSearchAddressBatchResult
+      >(internalPoller, mapReverseSearchAddressBatchResult);
+
+      await poller.poll();
+      return poller;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieve the result of a previous reverse search address batch request
+   *
+   * @param batchId - Batch id for querying the operation.
+   * @param options - Optional parameters for the operation
+   */
+  public async beginGetReverseSearchAddressBatchResult(
+    batchId: string,
+    options: GetReverseSearchAddressBatchResultOptions = {}
+  ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
+    const { span, updatedOptions } = createSpan(
+      "MapsSearchClient-beginGetReverseSearchAddressBatchResult",
+      options
+    );
+    try {
+      const internalPoller = await this.client.search.beginGetReverseSearchAddressBatch(
+        batchId,
+        updatedOptions
+      );
       const poller = new BatchPollerProxy<
         BatchResult<ReverseSearchAddressResult>,
         ReverseSearchAddressBatchResult

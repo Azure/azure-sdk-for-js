@@ -293,6 +293,9 @@ export interface GeometryIdentifier {
 export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
 
 // @public
+export type GetFuzzySearchBatchResultOptions = BatchPollerOptions;
+
+// @public
 export interface GetGeometriesOptions extends OperationOptions {
 }
 
@@ -300,6 +303,12 @@ export interface GetGeometriesOptions extends OperationOptions {
 export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
     language?: string;
 }
+
+// @public
+export type GetReverseSearchAddressBatchResultOptions = BatchPollerOptions;
+
+// @public
+export type GetSearchAddressBatchResultOptions = BatchPollerOptions;
 
 // @public
 export enum KnownElectricVehicleConnector {
@@ -445,14 +454,20 @@ export class MapsSearchClient {
     constructor(credential: AzureKeyCredential, options?: MapsSearchClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsSearchClientOptions);
     beginFuzzySearchBatch(queries: FuzzySearchQuery[], options?: FuzzySearchBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginGetFuzzySearchBatchResult(batchId: string, options?: GetFuzzySearchBatchResultOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginGetReverseSearchAddressBatchResult(batchId: string, options?: GetReverseSearchAddressBatchResultOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
+    beginGetSearchAddressBatchResult(batchId: string, options?: GetSearchAddressBatchResultOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     beginReverseSearchAddressBatch(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>>;
     beginSearchAddressBatch(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<BatchPoller<BatchResult<SearchAddressResult>>>;
     fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult>;
+    fuzzySearchBatch(queries: FuzzySearchQuery[], options?: FuzzySearchBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     getGeometries(geometryIds: string[], options?: GetGeometriesOptions): Promise<EntityGeometry[]>;
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions): Promise<ReverseSearchAddressResult>;
+    reverseSearchAddressBatchSync(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<BatchResult<ReverseSearchAddressResult>>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
     searchAddress(query: string, options?: SearchAddressOptions): Promise<SearchAddressResult>;
+    searchAddressBatch(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     searchAlongRoute(query: string, maxDetourTime: number, route: GeoJsonLineString, options?: SearchAlongRouteOptions): Promise<SearchAddressResult>;
     searchInsideGeometry(query: string, geometry: SearchGeometry, options?: SearchInsideGeometryOptions): Promise<SearchAddressResult>;
     searchNearbyPointOfInterest(coordinates: LatLon, options?: SearchNearbyPointOfInterestOptions): Promise<SearchAddressResult>;
