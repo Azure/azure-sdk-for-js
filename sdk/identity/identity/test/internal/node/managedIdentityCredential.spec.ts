@@ -327,6 +327,34 @@ describe("ManagedIdentityCredential", function () {
     );
   });
 
+  it("IMDS MSI accepts a custom set of retries, even when client Id is not passed through the first parameter", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential({
+        retryOptions: {
+          maxRetries: 4,
+        },
+      }),
+      insecureResponses: [
+        // Any response on the ping request is fine, since it means that the endpoint is indeed there.
+        createResponse(503, {}, { "Retry-After": "2" }),
+        // After the ping, we try to get a token from the IMDS endpoint.
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        createResponse(503, {}, { "Retry-After": "2" }),
+        // This is the extra one
+        createResponse(503, {}, { "Retry-After": "2" }),
+      ],
+    });
+
+    assert.ok(error?.message);
+    assert.equal(
+      error?.message.split("\n")[0],
+      "ManagedIdentityCredential authentication failed. Status code: 503"
+    );
+  });
+
   it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
