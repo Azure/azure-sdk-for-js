@@ -71,7 +71,7 @@ This error contains several pieces of information:
 
 - **STS Error Code and Message**: The error code and message returned from the Azure AD STS. This can give insight into the specific reason the request failed. In this specific case, the request failed because the provided client secret is incorrect. For more information, see [Azure AD STS error codes](https://docs.microsoft.com/azure/active-directory/develop/reference-aadsts-error-codes#aadsts-error-codes).
 
-- **Correlation ID and Timestamp**: The correlation ID and call Timestamp used to identify the request in server-side logs. This information can be useful to support engineers when diagnosing unexpected STS failures.
+- **Correlation ID and Timestamp**: The correlation ID and call timestamp used to identify the request in server-side logs. This information can be useful to support engineers when diagnosing unexpected STS failures.
 
 ### Enable and configure logging
 
