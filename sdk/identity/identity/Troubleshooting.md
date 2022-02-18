@@ -319,7 +319,7 @@ Subscription1 (xxxxxxxx-xxxx-xxxx-xxx... test@outlook.com    Subscription1      
 ```
 Once you've verified Azure PowerShell is using correct account, you can validate that it’s able to obtain tokens for this account.
 
-```bash
+```powershell
 Get-AzAccessToken -ResourceUrl "https://management.core.windows.net"
 ```
 If the preceding command isn't working properly, follow the instructions to resolve the Azure PowerShell issue. Then try running the credential again.
