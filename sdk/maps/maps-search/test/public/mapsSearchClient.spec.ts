@@ -478,15 +478,125 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           });
         });
       });
+    });
 
-      describe("LROs", function() {
-        // const pollingInterval = isPlaybackMode() ? 0 : 2000;
-        before(function(this: Context) {
-          this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+    describe("LROs", function() {
+      const pollingInterval = isPlaybackMode() ? 0 : 2000;
+
+      before(function(this: Context) {
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+      });
+
+      describe("#beginFuzzySearchBatch", function() {
+        it("should throw errors if given empty array as queries", async function() {
+          // "Number of queries must be between 1 and 10000 inclusive.""
+          assert.isRejected(client.beginFuzzySearchBatch([]));
         });
-        // describe("#beginFuzzySearchBatch", function() {});
-        // describe("#beginSearchAddressBatch", function() {});
-        // describe("#beginReverseSearchAddressBatch", function() {});
+        it("could take an array of fuzzy search queries as input", async function() {
+          const batchQueries = [
+            { query: "pizza", countryFilter: ["fr"] },
+            { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+            { query: "pizza", countryFilter: ["tw"], coordinates: { latitude: 25, longitude: 121 } }
+          ];
+
+          const poller = await client.beginFuzzySearchBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+
+          const batchResult = await poller.pollUntilDone();
+
+          assert.equal(batchResult.totalRequests, batchQueries.length);
+          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+        });
+
+        it("should return a poller that can be used to retrieve the batchId", async function() {
+          const batchQueries = [{ query: "pizza", countryFilter: ["fr"] }];
+
+          const poller = await client.beginFuzzySearchBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+
+          assert.isDefined(poller.getBatchId());
+
+          await poller.pollUntilDone();
+
+          assert.isDefined(poller.getBatchId());
+        });
+      });
+      describe("#beginSearchAddressBatch", function() {
+        it("should throw errors if given empty array as queries", async function() {
+          // "Number of queries must be between 1 and 10000 inclusive.""
+          assert.isRejected(client.beginSearchAddressBatch([]));
+        });
+        it("could take an array of fuzzy search queries as input", async function() {
+          const batchQueries = [
+            { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
+            { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
+            { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } }
+          ];
+
+          const poller = await client.beginSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+
+          const batchResult = await poller.pollUntilDone();
+
+          assert.equal(batchResult.totalRequests, batchQueries.length);
+          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+        });
+
+        it("should return a poller that can be used to retrieve the batchId", async function() {
+          const batchQueries = [{ query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } }];
+
+          const poller = await client.beginSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+
+          assert.isDefined(poller.getBatchId());
+
+          await poller.pollUntilDone();
+
+          assert.isDefined(poller.getBatchId());
+        });
+      });
+      describe("#beginReverseSearchAddressBatch", function() {
+        it("should throw errors if given empty array as queries", async function() {
+          // "Number of queries must be between 1 and 10000 inclusive.""
+          assert.isRejected(client.beginReverseSearchAddressBatch([]));
+        });
+        it("could take an array of fuzzy search queries as input", async function() {
+          const batchQueries = [
+            { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+            {
+              coordinates: { latitude: 47.639765, longitude: -122.127896 },
+              options: { radiusInMeters: 5000 }
+            },
+            { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
+          ];
+
+          const poller = await client.beginReverseSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+
+          const batchResult = await poller.pollUntilDone();
+
+          assert.equal(batchResult.totalRequests, batchQueries.length);
+          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+        });
+
+        it("should return a poller that can be used to retrieve the batchId", async function() {
+          const batchQueries = [{ coordinates: { latitude: 47.621028, longitude: -122.34817 } }];
+
+          const poller = await client.beginReverseSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+
+          assert.isDefined(poller.getBatchId());
+
+          await poller.pollUntilDone();
+
+          assert.isDefined(poller.getBatchId());
+        });
       });
     });
   });

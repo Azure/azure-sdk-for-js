@@ -290,15 +290,26 @@ export interface SearchAlongRouteOptions extends SearchGeometryBaseOptions {
   electricVehicleConnectorFilter?: ElectricVehicleConnector[];
 }
 
+export interface BatchPollerOptions extends OperationOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
+
 /**
  * Options for performing batch fuzzy searches
  */
-export type FuzzySearchBatchOptions = OperationOptions;
+export type FuzzySearchBatchOptions = BatchPollerOptions;
 /**
  * Options for performing batch address searches
  */
-export type SearchAddressBatchOptions = OperationOptions;
+export type SearchAddressBatchOptions = BatchPollerOptions;
 /**
  * Options for performing batch reverse searches
  */
-export type ReverseSearchAddressBatchOptions = OperationOptions;
+export type ReverseSearchAddressBatchOptions = BatchPollerOptions;
