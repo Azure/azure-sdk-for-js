@@ -8,8 +8,9 @@ import {
   getInstrumenter,
   useInstrumenter,
 } from "../src/instrumenter";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+import { TRACING_CONTEXT_SPAN_KEY } from "../src/constants";
 import { assert } from "chai";
+import { createTracingContext } from "../src/tracingContext";
 
 describe("Instrumenter", () => {
   describe("NoOpInstrumenter", () => {
@@ -59,7 +60,7 @@ describe("Instrumenter", () => {
         assert.isEmpty(instrumenter.createRequestHeaders(createTracingContext()));
         assert.isEmpty(
           instrumenter.createRequestHeaders(
-            createTracingContext().setValue(knownContextKeys.span, createDefaultTracingSpan())
+            createTracingContext().setValue(TRACING_CONTEXT_SPAN_KEY, createDefaultTracingSpan())
           )
         );
       });

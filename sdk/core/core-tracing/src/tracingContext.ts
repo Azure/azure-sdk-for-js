@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  TRACING_CONTEXT_CLIENT_KEY,
+  TRACING_CONTEXT_NAMESPACE_KEY,
+  TRACING_CONTEXT_SPAN_KEY,
+} from "./constants";
 import { TracingClient, TracingContext, TracingSpan } from "./interfaces";
-
-/** @internal */
-export const knownContextKeys = {
-  span: Symbol.for("@azure/core-tracing span"),
-  namespace: Symbol.for("@azure/core-tracing namespace"),
-  client: Symbol.for("@azure/core-tracing client"),
-  parentContext: Symbol.for("@azure/core-tracing parent context"),
-};
 
 /**
  * Creates a new {@link TracingContext} with the given options.
@@ -21,13 +18,13 @@ export const knownContextKeys = {
 export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
   let context: TracingContext = new TracingContextImpl(options.parentContext);
   if (options.span) {
-    context = context.setValue(knownContextKeys.span, options.span);
+    context = context.setValue(TRACING_CONTEXT_SPAN_KEY, options.span);
   }
   if (options.client) {
-    context = context.setValue(knownContextKeys.client, options.client);
+    context = context.setValue(TRACING_CONTEXT_CLIENT_KEY, options.client);
   }
   if (options.namespace) {
-    context = context.setValue(knownContextKeys.namespace, options.namespace);
+    context = context.setValue(TRACING_CONTEXT_NAMESPACE_KEY, options.namespace);
   }
   return context;
 }

@@ -19,3 +19,4 @@ export {
 } from "./interfaces";
 export { useInstrumenter } from "./instrumenter";
 export { createTracingClient } from "./tracingClient";
+export { TRACING_CONTEXT_NAMESPACE_KEY } from "./constants";

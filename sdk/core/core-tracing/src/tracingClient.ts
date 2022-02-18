@@ -10,8 +10,8 @@ import {
   TracingSpan,
   TracingSpanOptions,
 } from "./interfaces";
+import { TRACING_CONTEXT_NAMESPACE_KEY } from "./constants";
 import { getInstrumenter } from "./instrumenter";
-import { knownContextKeys } from "./tracingContext";
 
 /**
  * Creates a new tracing client.
@@ -38,10 +38,10 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     });
     let tracingContext = startSpanResult.tracingContext;
     const span = startSpanResult.span;
-    if (!tracingContext.getValue(knownContextKeys.namespace)) {
-      tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
+    if (!tracingContext.getValue(TRACING_CONTEXT_NAMESPACE_KEY)) {
+      tracingContext = tracingContext.setValue(TRACING_CONTEXT_NAMESPACE_KEY, namespace);
     }
-    span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
+    span.setAttribute("az.namespace", tracingContext.getValue(TRACING_CONTEXT_NAMESPACE_KEY));
     const updatedOptions = {
       ...operationOptions,
       tracingOptions: {

@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TracingContextImpl, createTracingContext, knownContextKeys } from "../src/tracingContext";
+import {
+  TRACING_CONTEXT_CLIENT_KEY,
+  TRACING_CONTEXT_NAMESPACE_KEY,
+  TRACING_CONTEXT_SPAN_KEY,
+} from "../src/constants";
+import { TracingContextImpl, createTracingContext } from "../src/tracingContext";
 import { assert } from "chai";
 import { createDefaultTracingSpan } from "../src/instrumenter";
 import { createTracingClient } from "../src/tracingClient";
@@ -104,18 +109,18 @@ describe("TracingContext", () => {
         span,
         namespace,
       });
-      assert.strictEqual(newContext.getValue(knownContextKeys.client), client);
-      assert.strictEqual(newContext.getValue(knownContextKeys.namespace), namespace);
-      assert.strictEqual(newContext.getValue(knownContextKeys.span), span);
+      assert.strictEqual(newContext.getValue(TRACING_CONTEXT_CLIENT_KEY), client);
+      assert.strictEqual(newContext.getValue(TRACING_CONTEXT_NAMESPACE_KEY), namespace);
+      assert.strictEqual(newContext.getValue(TRACING_CONTEXT_SPAN_KEY), span);
     });
 
     it("can be initialized from an existing context", () => {
       const parentContext = createTracingContext().setValue(
-        knownContextKeys.namespace,
+        TRACING_CONTEXT_NAMESPACE_KEY,
         "test-namespace"
       );
       const newContext = createTracingContext({ parentContext: parentContext });
-      assert.equal(newContext.getValue(knownContextKeys.namespace), "test-namespace");
+      assert.equal(newContext.getValue(TRACING_CONTEXT_NAMESPACE_KEY), "test-namespace");
     });
   });
 });

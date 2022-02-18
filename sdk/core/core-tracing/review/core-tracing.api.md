@@ -50,6 +50,9 @@ export type SpanStatusSuccess = {
 };
 
 // @public
+export const TRACING_CONTEXT_NAMESPACE_KEY: unique symbol;
+
+// @public
 export interface TracingClient {
     createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
     parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
