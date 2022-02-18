@@ -321,6 +321,7 @@ Name                                     Account             SubscriptionName   
 ----                                     -------             ----------------    -----------         --------
 Subscription1 (xxxxxxxx-xxxx-xxxx-xxx... test@outlook.com    Subscription1       AzureCloud          xxxxxxxx-x...
 ```
+
 Once you've verified Azure PowerShell is using correct account, you can validate that it’s able to obtain tokens for this account.
 
 ```powershell
