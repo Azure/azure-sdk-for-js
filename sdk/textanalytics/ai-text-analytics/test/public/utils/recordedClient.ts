@@ -74,5 +74,6 @@ export function createClient(
 export async function startRecorder(currentTest?: Test): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderStartOptions);
+  recorder.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Accept-Language"] });
   return recorder;
 }
