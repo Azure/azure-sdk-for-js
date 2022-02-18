@@ -46,12 +46,18 @@ export async function execute({
     retryPolicies = {
       endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
         requestContext.globalEndpointManager,
-        requestContext.operationType
+        requestContext.operationType ? requestContext.operationType : null
       ),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
-        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
+        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount
+          ? requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount
+          : null,
+        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds
+          ? requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds
+          : null,
         requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
+          ? requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
+          : null
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
         requestContext.globalEndpointManager,

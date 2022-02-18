@@ -83,7 +83,6 @@
     "src/retry/endpointDiscoveryRetryPolicy.ts",
     "src/retry/resourceThrottleRetryPolicy.ts",
     "src/retry/RetryPolicy.ts",
-    "src/retry/retryUtility.ts",
     "src/retry/sessionRetryPolicy.ts",
     "src/routing/CollectionRoutingMapFactory.ts",
     "src/routing/inMemoryCollectionRoutingMap.ts",
