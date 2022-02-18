@@ -286,7 +286,7 @@ The supported clouds are:
 
 You can manually verify that the Azure CLI is properly authenticated and can obtain tokens. First, use the `account` command to verify the account which is currently logged into the Azure CLI. 
 
-```bash
+```azurecli
 az account show
 ```
 
