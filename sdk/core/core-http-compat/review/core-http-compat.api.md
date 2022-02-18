@@ -12,13 +12,13 @@ import { ServiceClientOptions } from '@azure/core-client';
 export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
 
 // @public
-export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedOptions;
-
-// @public
-export interface ExtendedOptions {
+export interface ExtendedClientOptions {
     keepAliveOptions?: KeepAliveOptions;
     redirectOptions?: RedirectOptions;
 }
+
+// @public
+export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedClientOptions;
 
 // @public
 export class ExtendedServiceClient extends ServiceClient {
@@ -26,7 +26,7 @@ export class ExtendedServiceClient extends ServiceClient {
 }
 
 // @public
-export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedOptions;
+export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClientOptions;
 
 // @public
 export interface KeepAliveOptions {
