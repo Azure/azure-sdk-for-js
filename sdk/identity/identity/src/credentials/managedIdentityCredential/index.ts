@@ -95,11 +95,12 @@ export class ManagedIdentityCredential implements TokenCredential {
   ) {
     let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
+      this.clientId = clientIdOrOptions;
       _options = options;
     } else {
+      this.clientId = (clientIdOrOptions as ManagedIdentityCredentialClientIdOptions)?.clientId;
       _options = clientIdOrOptions;
     }
-    this.clientId = (_options as ManagedIdentityCredentialClientIdOptions)?.clientId;
     this.resourceId = (_options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
