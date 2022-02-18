@@ -19,7 +19,7 @@ import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
-export interface ManagedIdentityCredentialOptionsBase extends TokenCredentialOptions { }
+export interface ManagedIdentityCredentialOptionsBase extends TokenCredentialOptions {}
 
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
