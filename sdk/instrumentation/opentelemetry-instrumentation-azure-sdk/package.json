@@ -87,9 +87,14 @@
   },
   "devDependencies": {
     "@azure-tools/test-recorder": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.5.1",
+    "@azure/data-tables": "^13.1.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
+    "@opentelemetry/sdk-trace-base": "^1.0.1",
+    "@opentelemetry/sdk-trace-node": "^1.0.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -122,12 +127,7 @@
     "source-map-support": "^0.5.9",
     "typedoc": "0.15.2",
     "typescript": "~4.2.0",
-    "util": "^0.12.1",
-    "@opentelemetry/sdk-trace-node": "^1.0.1",
-    "@azure/data-tables": "^13.1.0",
-    "@opentelemetry/sdk-trace-base": "^1.0.1",
-    "@azure/core-rest-pipeline": "^1.5.1",
-    "@azure/test-utils": "^1.0.0"
+    "util": "^0.12.1"
   },
   "//sampleConfiguration": {
     "skipFolder": true,
