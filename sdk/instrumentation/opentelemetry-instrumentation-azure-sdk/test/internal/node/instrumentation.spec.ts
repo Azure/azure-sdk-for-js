@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { TestClient, tracingClientAttributes } from "../testClient";
+import { TestClient, tracingClientAttributes } from "../../public/util/testClient";
 
 import { assert } from "chai";
 import { inMemoryExporter } from "../../public/util/setup";

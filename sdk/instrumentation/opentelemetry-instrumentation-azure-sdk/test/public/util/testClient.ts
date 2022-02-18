@@ -10,10 +10,10 @@ import {
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 
-import { SDK_VERSION } from "../../src/constants";
+import { SDK_VERSION } from "../../../src/constants";
 
 /**
- * A partial implementation of OperationOptions.
+ * A partial interface compatible with OperationOptions.
  */
 export interface Options {
   tracingOptions?: OperationTracingOptions;
