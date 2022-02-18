@@ -58,6 +58,12 @@ export interface BatchPoller<TSearchBatchResult> extends PollerLike<PollOperatio
     getBatchId(): string | undefined;
 }
 
+// @public (undocumented)
+export interface BatchPollerOptions extends OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
 // @public
 export interface BatchResult<TResult extends SearchAddressResult | ReverseSearchAddressResult> {
     readonly batchItems?: BatchItem<TResult>[];
@@ -129,7 +135,7 @@ export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions
 }
 
 // @public
-export type FuzzySearchBatchOptions = OperationOptions;
+export type FuzzySearchBatchOptions = BatchPollerOptions;
 
 // @public
 export type FuzzySearchOptions = FuzzySearchRequest & FuzzySearchBaseOptions;
@@ -525,7 +531,7 @@ export type Position3D = [number, number, number];
 export type QueryType = string;
 
 // @public
-export type ReverseSearchAddressBatchOptions = OperationOptions;
+export type ReverseSearchAddressBatchOptions = BatchPollerOptions;
 
 // @public
 export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
@@ -603,7 +609,7 @@ export interface SearchAddressBaseOptions extends SearchBaseOptions {
 }
 
 // @public
-export type SearchAddressBatchOptions = OperationOptions;
+export type SearchAddressBatchOptions = BatchPollerOptions;
 
 // @public
 export interface SearchAddressOptions extends SearchAddressBaseOptions {

@@ -14,7 +14,7 @@ export interface BatchPoller<TSearchBatchResult>
 /**
  * @internal
  */
-export class BatchPollerImpl<TSearchBatchResult, TInternalBatchResult>
+export class BatchPollerProxy<TSearchBatchResult, TInternalBatchResult>
   implements BatchPoller<TSearchBatchResult> {
   constructor(
     private internalPoller: PollerLike<

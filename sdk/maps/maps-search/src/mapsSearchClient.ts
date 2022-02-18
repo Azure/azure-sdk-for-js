@@ -69,7 +69,7 @@ import {
   FuzzySearchBaseOptions,
   SearchPointOfInterestBaseOptions
 } from "./models/options";
-import { BatchPoller, BatchPollerImpl } from "./models/pollers";
+import { BatchPoller, BatchPollerProxy } from "./models/pollers";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
 import { mapsAzureKeyCredentialPolicy } from "./credential/mapsAzureKeyCredentialPolicy";
 import { logger } from "./utils/logger";
@@ -629,7 +629,7 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      const poller = new BatchPollerImpl<
+      const poller = new BatchPollerProxy<
         BatchResult<SearchAddressResult>,
         SearchAddressBatchResult
       >(internalPoller, mapSearchAddressBatchResult);
@@ -669,7 +669,7 @@ export class MapsSearchClient {
         batchRequest,
         updatedOptions
       );
-      const poller = new BatchPollerImpl<
+      const poller = new BatchPollerProxy<
         BatchResult<SearchAddressResult>,
         SearchAddressBatchResult
       >(internalPoller, mapSearchAddressBatchResult);
@@ -710,7 +710,7 @@ export class MapsSearchClient {
         updatedOptions
       );
 
-      const poller = new BatchPollerImpl<
+      const poller = new BatchPollerProxy<
         BatchResult<ReverseSearchAddressResult>,
         ReverseSearchAddressBatchResult
       >(internalPoller, mapReverseSearchAddressBatchResult);
