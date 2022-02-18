@@ -20,10 +20,10 @@ export class MockEventReceiverTest extends EventPerfTest {
       {
         processEvent: async (_event: Event) => {
           // { event: event }
-          await this.eventRaised();
+          this.eventRaised();
         },
         processError: async (error: Error) => {
-          await this.errorRaised(error);
+          this.errorRaised(error);
         },
       },
       { raiseErrorAfterInSeconds: 10 }

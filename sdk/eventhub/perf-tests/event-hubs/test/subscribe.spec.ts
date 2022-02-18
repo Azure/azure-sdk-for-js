@@ -82,11 +82,11 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
         processEvents: async (events: ReceivedEventData[], _context: PartitionContext) => {
           for (const _event of events) {
             console.log(_event.sequenceNumber, _context.partitionId);
-            await this.eventRaised();
+            this.eventRaised();
           }
         },
         processError: async (error: Error | MessagingError, _context: PartitionContext) => {
-          await this.errorRaised(error);
+          this.errorRaised(error);
         },
       },
       {

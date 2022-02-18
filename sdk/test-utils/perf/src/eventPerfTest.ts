@@ -11,7 +11,7 @@ import { isDefined } from "./utils";
  */
 export abstract class EventPerfTest<
   TOptions = Record<string, unknown>
-> extends PerfTestBase<TOptions> {
+  > extends PerfTestBase<TOptions> {
   start: [number, number]; // process.hrtime()
   private testDuration = 0;
   private abortController: AbortController | undefined;
@@ -49,13 +49,13 @@ export abstract class EventPerfTest<
     }
   }
 
-  public async eventRaised(): Promise<void> {
+  public eventRaised() {
     this.completedOperations++;
     this.lastMillisecondsElapsed = this.getTimeElapsedInMilliseconds();
     this.isTimeExceeded() && !this.abortController?.signal.aborted && this.abortController?.abort();
   }
 
-  public async errorRaised(error: Error): Promise<void> {
+  public errorRaised(error: Error) {
     console.warn(`Error occurred:\n ${error}`);
     !this.abortController?.signal.aborted && this.abortController?.abort();
   }

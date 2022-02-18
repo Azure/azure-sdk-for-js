@@ -73,13 +73,12 @@ export class MockEventHubConsumerClient {
   private async internalSubscribe(handlers: EventHandlers, options?: SubscribeOptions) {
     this.partitions = options?.partitions || this.partitions;
     let maxEventsPerSecond: number;
-    let maxEventsPerSecondPerPartition: number;
     if (options && options.maxEventsPerSecond > 0) {
       maxEventsPerSecond = options.maxEventsPerSecond;
     } else {
       maxEventsPerSecond = Infinity;
     }
-    maxEventsPerSecondPerPartition = Math.ceil(maxEventsPerSecond / this.partitions);
+    const maxEventsPerSecondPerPartition = Math.ceil(maxEventsPerSecond / this.partitions);
     const promises = [];
     for (let i = 0; i < this.partitions; i++) {
       promises.push(
@@ -102,23 +101,38 @@ export class MockEventHubConsumerClient {
     partitionId: number,
     maxEventsPerSecondPerPartition: number
   ) {
+    // eventArrays[i] contains an array of events with length i
+    const eventArrays: Event[][] = new Array(this.maxBatchSize);
+    for (var i = 0; i <= this.maxBatchSize; i++) {
+      const events: Event[] = new Array(i);
+      for (var j = 0; j < i; j++) {
+        events[j] = { body: generateUuid() };
+      }
+      eventArrays[i] = events;
+    }
+
     const startTime = process.hrtime();
     let eventsRaised = 0;
-    while (this.closeCalled === false) {
-      const elapsed = process.hrtime(startTime);
-      const elapsedSeconds = elapsed[0] + elapsed[1] / 1000000000;
-      const targetEventsRaised = elapsedSeconds * maxEventsPerSecondPerPartition;
 
-      if (eventsRaised < targetEventsRaised) {
-        let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
-        const events: Event[] = [];
-        while (numberOfEvents--) events.push({ body: generateUuid() });
-        await processEvents(events, { partitionId });
-        eventsRaised += events.length;
-      } else {
-        await this.processFuncWithDelay(async () => {
-          /* empty */
-        }, 1000 / maxEventsPerSecondPerPartition);
+    while (this.closeCalled === false) {
+      let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
+
+      if (maxEventsPerSecondPerPartition === Infinity) {
+        await processEvents(eventArrays[numberOfEvents], { partitionId });
+      }
+      else {
+        const elapsed = process.hrtime(startTime);
+        const elapsedSeconds = elapsed[0] + elapsed[1] / 1000000000;
+        const targetEventsRaised = elapsedSeconds * maxEventsPerSecondPerPartition;
+
+        if (eventsRaised < targetEventsRaised) {
+          await processEvents(eventArrays[numberOfEvents], { partitionId });
+          eventsRaised += numberOfEvents;
+        } else {
+          await this.processFuncWithDelay(async () => {
+            /* empty */
+          }, 1000 / maxEventsPerSecondPerPartition);
+        }
       }
     }
   }
