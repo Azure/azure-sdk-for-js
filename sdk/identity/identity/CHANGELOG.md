@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- 2.0.3 contains a regression: Passing a client Id besides the options argument on the `ManagedIdentityCredential` would discard the options argument. We have fixed it and we have added tests.
+- Fixed a regression in version 2.0.3 in which providing an options bag, but _not_ a client ID, to the `ManagedIdentityCredential` constructor would discard the `options` parameter.
 
 ## 2.0.3 (2022-02-16)
 
