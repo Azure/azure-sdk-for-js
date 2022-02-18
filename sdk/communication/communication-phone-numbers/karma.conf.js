@@ -8,6 +8,12 @@ const {
   isRecordMode,
 } = require("@azure-tools/test-recorder");
 
+// Get all variables containing the available phone numbers per test agent.
+// E.g. -> AZURE_PHONE_NUMBER_windows_2019_node12
+const getPhoneNumberPoolEnvVars = () => {
+  return Object.keys(process.env).filter((key) => key.startsWith("AZURE_PHONE_NUMBER_"));
+};
+
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -63,6 +69,9 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS",
+      "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS",
+      "AZURE_TEST_AGENT",
+      ...getPhoneNumberPoolEnvVars(),
     ],
 
     // test results reporter to use
