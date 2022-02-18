@@ -10,13 +10,14 @@ import {
 } from "@azure/core-rest-pipeline";
 import { KeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { createCommunicationKeyCredentialPolicy } from "../src/credential/auth-policy-v2/communicationKeyCredentialPolicy";
+import { createCommunicationAccessKeyCredentialPolicy } from "../src/credential/communicationAccessKeyCredentialPolicy";
 import { isNode } from "../src/credential/isNode";
 
 describe("CommunicationKeyCredentialPolicy", () => {
   it("signs the request", async () => {
     const credential = new MockKeyCredential("pw==");
-    const communicationKeyCredentialPolicy = createCommunicationKeyCredentialPolicy(credential);
+    const communicationKeyCredentialPolicy =
+      createCommunicationAccessKeyCredentialPolicy(credential);
 
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
 

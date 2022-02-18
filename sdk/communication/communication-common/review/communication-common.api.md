@@ -8,7 +8,6 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { RequestPolicyFactory } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -53,17 +52,11 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
     kind: "communicationUser";
 }
 
-// @public @deprecated
-export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
+// @public
+export function createCommunicationAccessKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy;
 
 // @public
-export function createCommunicationAuthenticationPolicy(credential: KeyCredential | TokenCredential): PipelinePolicy;
-
-// @public @deprecated
-export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
-
-// @public
-export function createCommunicationKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy;
+export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential): PipelinePolicy;
 
 // @public
 export const deserializeCommunicationIdentifier: (serializedIdentifier: SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
