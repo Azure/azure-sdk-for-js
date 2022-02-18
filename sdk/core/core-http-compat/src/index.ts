@@ -10,7 +10,7 @@ export {
   ExtendedServiceClient,
   ExtendedServiceClientOptions,
   ExtendedCommonClientOptions,
-  ExtendedOptions,
+  ExtendedClientOptions,
 } from "./extendedClient";
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
 export { RedirectOptions } from "./policies/redirectOptions";
