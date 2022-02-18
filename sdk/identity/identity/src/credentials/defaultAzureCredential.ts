@@ -82,13 +82,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
 
-    // For JavaScript users.
-    if (managedIdentityClientId && managedResourceId) {
-      throw new Error(
-        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`
-      );
-    }
-
+    // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     const managedIdentityOptions: ManagedIdentityCredentialOptions = {
       resourceId: managedResourceId,
       clientId: managedIdentityClientId,
