@@ -63,7 +63,9 @@ The `AuthenticationError` is used to indicate about a failure to authenticate wi
 Trace ID: 00a7e15c-4557-4974-91d5-886428b00e00
 Correlation ID: 20267531-0284-4543-93d7-cf50919fd841
 Timestamp: 2022-02-04 00:28:06Z - Correlation ID: 20267531-0284-4543-93d7-cf50919fd841 - Trace ID: 00a7e15c-4557-4974-91d5-886428b00e00`
+
 This error contains several pieces of information:
+
 
 - **Failing Credential Type**: The type of credential that failed to authenticate. This can be helpful when diagnosing issues with chained credential types such as `DefaultAzureCredential` or `ChainedTokenCredential`.
 
