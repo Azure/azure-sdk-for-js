@@ -19,11 +19,11 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
     },
     maxEventsPerSecond: {
       description: "Max rate to receive in events/sec",
-      defaultValue: 1000,
+      defaultValue: -1, // defaults to infinity
     },
     delayToRaiseErrorInSeconds: {
       description: "Raises error after the given duration - in seconds",
-      defaultValue: 15,
+      defaultValue: -1, // defaults to no error being thrown
     },
   };
   public subscriber: { close: () => Promise<void> } | undefined;

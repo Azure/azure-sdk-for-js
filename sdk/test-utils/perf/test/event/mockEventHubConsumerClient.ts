@@ -15,6 +15,8 @@ export interface SubscribeOptions {
   partitions?: number;
   /**
    * Raises the error after the specified time.
+   *
+   * If not provided or is less than 0, no error is thrown.
    */
   delayToRaiseErrorInSeconds: number;
   /**
@@ -85,7 +87,7 @@ export class MockEventHubConsumerClient {
         this.handlePartition(handlers.processEvents, i, maxEventsPerSecondPerPartition)
       );
     }
-    if (options?.delayToRaiseErrorInSeconds) {
+    if (options && options?.delayToRaiseErrorInSeconds > 0) {
       promises.push(
         this.processFuncWithDelay(async () => {
           await handlers.processError(new Error(`new error ${generateUuid()}`));
