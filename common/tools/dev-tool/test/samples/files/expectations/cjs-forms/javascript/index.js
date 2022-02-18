@@ -24,6 +24,13 @@ require("./hasSideEffects");
 const path_1 = require("path");
 const path_2 = require("path");
 
+const test1 = require("@azure/test1").default,
+  { x: x1 } = require("@azure/test1");
+const test2 = require("@azure-test2/test2").default,
+  { x: x2 } = require("@azure-test2/test2");
+
+void [test1, test2, x1, x2];
+
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);

@@ -18,21 +18,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "22db9105-66cd-4bae-aa90-46461821d97c",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "27319ae0-7ac1-40fd-a2c4-297ff11a64fe",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
       },
-      "RequestBody": [
-        "{\n",
-        "  \u0022type\u0022: \u0022record\u0022,\n",
-        "  \u0022name\u0022: \u0022Test\u0022,\n",
-        "  \u0022fields\u0022: [{ \u0022name\u0022: \u0022X\u0022, \u0022type\u0022: { \u0022type\u0022: \u0022string\u0022 } }]\n",
-        "}\n"
-      ],
+      "RequestBody": {
+        "type": "record",
+        "name": "Test",
+        "fields": [
+          {
+            "name": "X",
+            "type": {
+              "type": "string"
+            }
+          }
+        ]
+      },
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Wed, 05 Jan 2022 18:01:39 GMT",
+        "Date": "Mon, 14 Feb 2022 23:10:40 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2021-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "24972ebfc1bf46a1a6e29f1845794f85",
@@ -61,15 +66,15 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "e60776a2-e148-4ec1-877d-d145272112fd",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "0d5e4f60-a5c5-4ea1-91e1-820bde56ac0c",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; serialization=Avro",
-        "Date": "Wed, 05 Jan 2022 18:01:40 GMT",
+        "Date": "Mon, 14 Feb 2022 23:10:41 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2021-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "24972ebfc1bf46a1a6e29f1845794f85",
@@ -112,9 +117,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "8421ac95-57f8-42e7-8c5a-48aa68d67f74",
-        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "8e60d9bb-b38d-4e9a-931a-1bd519f6342a",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "type": "record",
@@ -131,7 +136,7 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Date": "Wed, 05 Jan 2022 18:01:40 GMT",
+        "Date": "Mon, 14 Feb 2022 23:10:42 GMT",
         "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test2/versions/1?api-version=2021-10",
         "Schema-Group-Name": "group-1",
         "Schema-Id": "24972ebfc1bf46a1a6e29f1845794f85",

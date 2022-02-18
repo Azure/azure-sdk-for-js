@@ -1,47 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
-import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { Context } from "mocha";
 import { TableClient } from "../../src";
 import { assert } from "chai";
+import { createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
 describe(`Access Policy operations`, () => {
   let client: TableClient;
+  let unrecordedClient: TableClient;
   let recorder: Recorder;
   const tableName = `AccessPolicy`;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recordedEnvironmentSetup);
-
-    if (!isNode) {
-      this.skip();
-    }
-
-    client = createTableClient(tableName, "AccountKey");
-
-    try {
-      if (!isPlaybackMode()) {
-        await client.createTable();
-      }
-    } catch {
-      console.warn("Table already exists");
-    }
+    recorder = new Recorder(this.currentTest);
+    client = await createTableClient(tableName, "AccountKey", recorder);
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
+  before(async function (this: Context) {
+    if (!isNode) {
+      this.skip();
+    }
+
+    if (!isPlaybackMode()) {
+      unrecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unrecordedClient.createTable();
+    }
+  });
+
   after(async () => {
-    try {
-      if (!isPlaybackMode()) {
-        await client.deleteTable();
-      }
-    } catch {
-      console.warn("Table was not deleted");
+    if (!isPlaybackMode() && isNode) {
+      await unrecordedClient.deleteTable();
     }
   });
 

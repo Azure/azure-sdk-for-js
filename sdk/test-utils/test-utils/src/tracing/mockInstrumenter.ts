@@ -14,6 +14,12 @@ import { MockTracingSpan } from "./mockTracingSpan";
  * Represents an implementation of {@link Instrumenter} interface that keeps track of the tracing contexts and spans
  */
 export class MockInstrumenter implements Instrumenter {
+  private isEnabled: boolean;
+
+  constructor() {
+    this.isEnabled = false;
+  }
+
   /**
    * Stack of immutable contexts, each of which is a bag of tracing values for the current operation
    */
@@ -58,7 +64,8 @@ export class MockInstrumenter implements Instrumenter {
       spanContext.traceId,
       spanContext.spanId,
       tracingContext,
-      spanOptions
+      spanOptions,
+      this.isEnabled
     );
     let context: TracingContext = new MockContext(tracingContext);
     context = context.setValue(spanKey, span);
@@ -106,5 +113,13 @@ export class MockInstrumenter implements Instrumenter {
     this.startedSpans = [];
     this.traceIdCounter = 0;
     this.spanIdCounter = 0;
+  }
+
+  disable() {
+    this.isEnabled = false;
+  }
+
+  enable() {
+    this.isEnabled = true;
   }
 }

@@ -13,7 +13,7 @@ import {
 import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
+import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
 import { logErrorStackTrace, logger } from "./log";
@@ -28,7 +28,7 @@ import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, EventDataInternal } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { OperationOptions } from "./util/operationOptions";
-import { createEventHubSpan } from "./diagnostics/tracing";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 
 /**
@@ -172,6 +172,14 @@ export class EventHubProducerClient {
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
    * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
    *
+   * Events with different values for partitionKey or partitionId will need to be put into different batches.
+   * To simplify such batch management across partitions or to have the client automatically batch events
+   * and send them in specific intervals, use `EventHubBufferedProducerClient` instead.
+   *
+   * The below example assumes you have an array of events at hand to be batched safely.
+   * If you have events coming in one by one, `EventHubBufferedProducerClient` is recommended instead
+   * for effecient management of batches.
+   *
    * Example usage:
    * ```ts
    * const client = new EventHubProducerClient(connectionString);
@@ -291,7 +299,12 @@ export class EventHubProducerClient {
   }
 
   /**
-   * Sends an array of events to the associated Event Hub.
+   * Sends an array of events as a batch to the associated Event Hub.
+   *
+   * Azure Event Hubs has a limit on the size of the batch that can be sent which if exceeded
+   * will result in an error with code `MessageTooLargeError`.
+   * To safely send within batch size limits, use `EventHubProducerClient.createBatch()` or
+   * `EventHubBufferedProducerClient` instead.
    *
    * Example usage:
    * ```ts
@@ -307,6 +320,7 @@ export class EventHubProducerClient {
    * - `partitionKey` : A value that is hashed to produce a partition assignment. If set, `partitionId` can not be set.
    *
    * @returns Promise<void>
+   * @throws MessageTooLargeError if all the events in the input array cannot be fit into a batch.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
@@ -316,7 +330,15 @@ export class EventHubProducerClient {
     options?: SendBatchOptions
   ): Promise<void>;
   /**
-   * Sends a batch of events to the associated Event Hub.
+   * Sends a batch of events created using `EventHubProducerClient.createBatch()` to the associated Event Hub.
+   *
+   * Events with different values for partitionKey or partitionId will need to be put into different batches.
+   * To simplify such batch management across partitions or to have the client automatically batch events
+   * and send them in specific intervals, use `EventHubBufferedProducerClient` instead.
+   *
+   * The below example assumes you have an array of events at hand to be batched safely.
+   * If you have events coming in one by one, `EventHubBufferedProducerClient` is recommended instead
+   * for effecient management of batches.
    *
    * Example usage:
    * ```ts
@@ -356,13 +378,14 @@ export class EventHubProducerClient {
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
 
-    // link message span contexts
-    let spanContextsToLink: SpanContext[] = [];
     // Holds an EventData properties object containing tracing properties.
     // This lets us avoid cloning batch when it is EventData[], which is
     // important as the idempotent EventHubSender needs to decorate the
     // original EventData passed through.
     const eventDataTracingProperties: Array<EventData["properties"]> = [];
+
+    // link message span contexts
+    let spanContextsToLink: TracingContext[] = [];
 
     if (isEventDataBatch(batch)) {
       if (
@@ -403,40 +426,37 @@ export class EventHubProducerClient {
       partitionKey,
     });
 
-    let sender = this._sendersMap.get(partitionId || "");
-    if (!sender) {
-      const partitionPublishingOptions = isDefined(partitionId)
-        ? this._partitionOptions?.[partitionId]
-        : undefined;
-      sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
-        partitionId,
-        partitionPublishingOptions,
-      });
-      this._sendersMap.set(partitionId || "", sender);
-    }
+    return tracingClient.withSpan(
+      `${EventHubProducerClient.name}.${this.sendBatch.name}`,
+      options,
+      (updatedOptions) => {
+        let sender = this._sendersMap.get(partitionId || "");
+        if (!sender) {
+          const partitionPublishingOptions = isDefined(partitionId)
+            ? this._partitionOptions?.[partitionId]
+            : undefined;
+          sender = EventHubSender.create(this._context, {
+            enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
+            partitionId,
+            partitionPublishingOptions,
+          });
+          this._sendersMap.set(partitionId || "", sender);
+        }
 
-    const sendSpan = this._createSendSpan(options, spanContextsToLink);
-
-    try {
-      const result = await sender.send(batch, {
-        ...options,
-        partitionId,
-        partitionKey,
-        retryOptions: this._clientOptions.retryOptions,
-        tracingProperties: eventDataTracingProperties,
-      });
-      sendSpan.setStatus({ code: SpanStatusCode.OK });
-      return result;
-    } catch (error) {
-      sendSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      throw error;
-    } finally {
-      sendSpan.end();
-    }
+        return sender.send(batch, {
+          ...updatedOptions,
+          partitionId,
+          partitionKey,
+          retryOptions: this._clientOptions.retryOptions,
+        });
+      },
+      {
+        spanLinks: spanContextsToLink.map<TracingSpanLink>((tracingContext) => {
+          return { tracingContext };
+        }),
+        ...toSpanOptions(this._context.config, "client"),
+      }
+    );
   }
 
   /**
@@ -503,24 +523,6 @@ export class EventHubProducerClient {
       ...options,
       retryOptions: this._clientOptions.retryOptions,
     });
-  }
-
-  private _createSendSpan(
-    operationOptions: OperationOptions,
-    spanContextsToLink: SpanContext[] = []
-  ): Span {
-    const links: Link[] = spanContextsToLink.map((context) => {
-      return {
-        context,
-      };
-    });
-
-    const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
-      kind: SpanKind.CLIENT,
-      links,
-    });
-
-    return span;
   }
 }
 
