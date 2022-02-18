@@ -1,14 +1,10 @@
 # Release History
 
-## 2.0.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.0.4 (2022-02-18)
 
 ### Bugs Fixed
 
-### Other Changes
+- 2.0.3 contains a regression: Passing a client Id besides the options argument on the `ManagedIdentityCredential` would discard the options argument. We have fixed it and we have added tests.
 
 ## 2.0.3 (2022-02-16)
 
