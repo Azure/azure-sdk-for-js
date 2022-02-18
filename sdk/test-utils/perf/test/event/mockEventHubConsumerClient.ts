@@ -105,9 +105,9 @@ export class MockEventHubConsumerClient {
   ) {
     // eventArrays[i] contains an array of events with length i
     const eventArrays: Event[][] = new Array(this.maxBatchSize);
-    for (var i = 0; i <= this.maxBatchSize; i++) {
+    for (let i = 0; i <= this.maxBatchSize; i++) {
       const events: Event[] = new Array(i);
-      for (var j = 0; j < i; j++) {
+      for (let j = 0; j < i; j++) {
         events[j] = { body: generateUuid() };
       }
       eventArrays[i] = events;
@@ -117,7 +117,7 @@ export class MockEventHubConsumerClient {
     let eventsRaised = 0;
 
     while (!this.closeCalled) {
-      let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
+      const numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
 
       if (maxEventsPerSecondPerPartition === Infinity) {
         await processEvents(eventArrays[numberOfEvents], { partitionId });
