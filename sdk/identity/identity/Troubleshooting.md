@@ -1,6 +1,10 @@
 ## Troubleshooting Azure Identity Authentication Issues
 
-This troubleshooting guide covers failure investigation techniques, common errors for the credential types in the Azure Identity client library for JavaScript and TypeScript, and mitigation steps to resolve these errors.
+This troubleshooting guide covers the following areas of the Azure Identity client library for JavaScript/TypeScript:
+
+- Failure investigation techniques
+- Common errors for the credential types
+- Mitigation steps to resolve errors
 
 ## Table of contents
 
