@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
+import { Test } from "mocha";
 
 import {
   assertEnvironmentVariable,
@@ -32,15 +32,6 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
-  sanitizerOptions: {
-    generalSanitizers: [
-      {
-        regex: true,
-        target: `"access_token"\s?:\s?"[^"]*"`,
-        value: `"access_token":"access_token"`,
-      },
-    ],
-  },
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
@@ -80,8 +71,8 @@ export function createClient(
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function startRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function startRecorder(currentTest?: Test): Promise<Recorder> {
+  const recorder = new Recorder(currentTest);
   await recorder.start(recorderStartOptions);
   return recorder;
 }
