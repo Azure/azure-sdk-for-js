@@ -11,7 +11,7 @@ import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/cor
 describe("TextAnalyticsClient Custom PipelineOptions", function () {
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
-      const client = createClient("DummyAPIKey", {
+      const client = createClient("DummyAPIKey", undefined, {
         httpClient: {
           sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
             status: 200,

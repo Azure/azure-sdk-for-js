@@ -22,12 +22,12 @@ const envSetupForPlayback: { [k: string]: string } = {
   // Second API key
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
   ENDPOINT: "https://endpoint",
-  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME: "project_name",
-  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME: "deployment_name",
-  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME: "project_name",
-  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name",
-  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME: "project_name",
-  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name",
+  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME: "sanitized",
+  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME: "sanitized",
+  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME: "sanitized",
+  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
+  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME: "sanitized",
+  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "sanitized",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -47,7 +47,8 @@ export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 
 export function createClient(
   authMethod: AuthMethod,
-  options?: TextAnalyticsClientOptions
+  recorder?: Recorder,
+  options: TextAnalyticsClientOptions = {}
 ): TextAnalyticsClient {
   let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
@@ -70,7 +71,7 @@ export function createClient(
   return new TextAnalyticsClient(
     env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
     credential,
-    options
+    recorder ? recorder.configureClientOptions(options) : options
   );
 }
 

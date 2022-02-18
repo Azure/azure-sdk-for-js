@@ -1,0 +1,122 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/keyPhrases",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "709",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000025-0000000000000050-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ecc92ef5-aeb0-4c43-84dd-890af9308c7e"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "1",
+            "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+            "language": "en"
+          },
+          {
+            "id": "3",
+            "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+            "language": "en"
+          },
+          {
+            "id": "4",
+            "text": "I didn\u0027t like the last book I read at all.",
+            "language": "en"
+          },
+          {
+            "id": "5",
+            "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+            "language": "es"
+          },
+          {
+            "id": "6",
+            "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+            "language": "es"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "53ff0376-963d-434d-a738-3d133996071c",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+        "Date": "Fri, 18 Feb 2022 18:59:13 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "16"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "1",
+            "keyPhrases": [
+              "wonderful trip",
+              "Space Needle",
+              "Seattle"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "keyPhrases": [
+              "entire trip",
+              "Space Needle",
+              "Seattle"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "keyPhrases": [
+              "movie",
+              "Saturday"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "4",
+            "keyPhrases": [
+              "last book"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "5",
+            "keyPhrases": [
+              "Monte Rainier",
+              "caminos"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "6",
+            "keyPhrases": [
+              "mucho tr\u00E1fico",
+              "d\u00EDa",
+              "carretera",
+              "ayer"
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-06-01"
+      }
+    }
+  ],
+  "Variables": {}
+}

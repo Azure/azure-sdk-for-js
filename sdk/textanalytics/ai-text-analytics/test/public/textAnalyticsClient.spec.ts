@@ -50,8 +50,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this);
-      client = createClient(authMethod);
-      recorder.configureClient(client["client"]);
+      client = createClient(authMethod, recorder);
       let nextId = 0;
       getId = function () {
         nextId += 1;
@@ -70,10 +69,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#analyzeSentiment", function () {
         it("client throws on empty list", async function () {
+
           return assert.isRejected(client.analyzeSentiment([]), /non-empty array/);
         });
 
-        it.only("client accepts string[] and language", async function () {
+        it("client accepts string[] and language", async function () {
           const results = await client.analyzeSentiment(testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
