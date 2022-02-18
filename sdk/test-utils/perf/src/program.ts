@@ -132,7 +132,7 @@ export class PerfProgram {
 
     // Even though we've set a setTimeout here, the eventLoop might get too busy to load it on time.
     // For this reason, we also check if the time has passed inside of runAll.
-    setTimeout(() => abortController.abort(), durationMilliseconds);
+    const durationTimeout = setTimeout(() => abortController.abort(), durationMilliseconds);
 
     // This is how we customize how frequently we log how many completed operations have been executed.
     // We don't enforce this inside of runAll, so it might never be executed, depending on the number
@@ -180,6 +180,8 @@ export class PerfProgram {
 
     // Once we finish, we clear the log interval.
     clearInterval(logInterval);
+    // If the runAll ended before the duration, we need to clear the timeout
+    clearTimeout(durationTimeout);
 
     // Finally, we show the results.
     console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
