@@ -33,12 +33,13 @@ export interface AzureExporterConfig {
  * Internal Azure exporter configuration
  * @internal
  */
-export interface AzureExporterInternalConfig extends AzureExporterConfig {
+export interface AzureExporterInternalConfig {
   instrumentationKey: string;
   batchSendRetryIntervalMs: number;
   maxConsecutiveFailuresBeforeWarning: number;
   endpointUrl: string;
   apiVersion: ServiceApiVersion;
+  aadTokenCredential?: TokenCredential;
 }
 
 /**
