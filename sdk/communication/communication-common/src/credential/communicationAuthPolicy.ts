@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { createCommunicationKeyCredentialPolicy } from "./communicationKeyCredentialPolicy";
+import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy";
 /**
  * Creates a pipeline policy to authenticate request based
  * on the credential passed in.
@@ -15,7 +15,7 @@ import { createCommunicationKeyCredentialPolicy } from "./communicationKeyCreden
  *
  * @param credential - The KeyCredential or TokenCredential.
  */
-export function createCommunicationAuthenticationPolicy(
+export function createCommunicationAuthPolicy(
   credential: KeyCredential | TokenCredential
 ): PipelinePolicy {
   if (isTokenCredential(credential)) {
@@ -25,6 +25,6 @@ export function createCommunicationAuthenticationPolicy(
     };
     return bearerTokenAuthenticationPolicy(policyOptions);
   } else {
-    return createCommunicationKeyCredentialPolicy(credential);
+    return createCommunicationAccessKeyCredentialPolicy(credential);
   }
 }
