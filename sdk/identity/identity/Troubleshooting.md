@@ -53,7 +53,7 @@ The `CredentialUnavailableError` is used to indicate that the credential can’t
 
 ### AuthenticationError
 
-The `AuthenticationError` is used to indicate about a failure to authenticate with Azure Active Directory. The `errorResponse` field contains more details about the specific failure.
+The `AuthenticationError` is used to indicate about a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
 
 ## Find relevant information in error messages
 
