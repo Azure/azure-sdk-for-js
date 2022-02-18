@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/deviceprovisioningservices/ci.mgmt.yml
+      - sdk/deviceprovisioningservices/arm-deviceprovisioningservices/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/desktopvirtualization/ci.mgmt.yml
+      - sdk/desktopvirtualization/arm-desktopvirtualization/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: deviceprovisioningservices
+    Artifacts:
+      - name: azure-arm-deviceprovisioningservices
+        safeName: azurearmdeviceprovisioningservices        

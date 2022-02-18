@@ -8,6 +8,9 @@ trigger:
   paths:
     include:
       - sdk/containerregistry/
+    exclude:
+      - sdk/containerregistry/ci.mgmt.yml
+      - sdk/containerregistry/arm-containerregistry/
 pr:
   branches:
     include:
@@ -20,6 +23,10 @@ pr:
   paths:
     include:
       - sdk/containerregistry/
+    exclude:
+      - sdk/containerregistry/ci.mgmt.yml
+      - sdk/containerregistry/arm-containerregistry/
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -27,5 +34,3 @@ extends:
     Artifacts:
       - name: azure-container-registry
         safeName: azurecontainerregistry
-      - name: azure-arm-containerregistry
-        safeName: azurearmcontainerregistry
