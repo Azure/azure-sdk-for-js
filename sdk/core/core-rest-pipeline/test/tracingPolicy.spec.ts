@@ -92,8 +92,11 @@ describe("tracingPolicy", function () {
     let startSpanStub: sinon.SinonStub;
 
     beforeEach(() => {
-      tracingContext = createTracingContext().setValue(Symbol.for("az.namespace"), "test");
-      assert.equal(tracingContext.getValue(Symbol.for("az.namespace")), "test");
+      tracingContext = createTracingContext().setValue(
+        Symbol.for("@azure/core-tracing namespace"),
+        "test"
+      );
+      assert.equal(tracingContext.getValue(Symbol.for("@azure/core-tracing namespace")), "test");
 
       startSpanStub = sinon
         .stub(tracingClient, "startSpan")

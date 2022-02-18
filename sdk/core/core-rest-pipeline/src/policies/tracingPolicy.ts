@@ -109,7 +109,7 @@ function tryCreateSpan(
     }
 
     const namespaceFromContext = updatedOptions.tracingOptions.tracingContext?.getValue(
-      Symbol.for("az.namespace")
+      Symbol.for("@azure/core-tracing namespace")
     );
 
     if (typeof namespaceFromContext === "string") {
