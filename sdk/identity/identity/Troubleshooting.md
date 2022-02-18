@@ -250,7 +250,7 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 | Error Message |Description| Mitigation |
 |---|---|---|
 |Failed To Read VS Code Credentials<p/><p/>OR<p/>Authenticate via Azure Tools plugin in VS Code.|No Azure account information was found in the VS Code configuration.|<ul><li>Ensure the [Azure Account plugin](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is properly installed</li><li>Use **View > Command Palette** to execute the **Azure: Sign In** command. This command opens a browser window and displays a page that allows you to sign in to Azure.</li><li>If you already had the Azure Account extension installed and had logged in to your account, try logging out and logging in again as that will repopulate the cache and potentially mitigate the error you're getting.</li></ul>|
-|MSAL Interaction Required Error|The `VisualStudioCodeCredential` was able to read the cached credentials from the cache but the cached token is likely expired.|Log into the Azure Account extension via **View > Command Palette** to execute the **Azure: Sign In** command in the VS Code IDE.|
+|MSAL Interaction Required Error|The `VisualStudioCodeCredential` was able to read the cached credentials from the cache but the cached token is likely expired.|Log into the VS Code *Azure Account* extension via **View** > **Command Palette** to execute the **Azure: Sign In** command.|
 #### Failed to read VS Code credentials / authenticate via Azure Tools plugin in VS Code
 
 The Visual Studio Code credential failed to read the credential details from the cache.
