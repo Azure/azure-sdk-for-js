@@ -57,7 +57,7 @@ The `AuthenticationError` is used to indicate about a failure to authenticate wi
 
 ## Find relevant information in error messages
 
-`AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the AAD STS and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message.
+`AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the Azure AD Security Token Service (STS) and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message.
 
 ` AuthenticationRequiredError: invalid_request: 9002331 - [2022-02-04 00:28:06Z]: AADSTS9002331: Application '6b666991-4567-4982-9981-61877200efy1'(kaghiya-identity) is configured for use by Microsoft Account users only. Please use the /consumers endpoint to serve this request.
 Trace ID: 00a7e15c-4557-4974-91d5-886428b00e00
