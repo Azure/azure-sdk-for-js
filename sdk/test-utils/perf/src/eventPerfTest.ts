@@ -11,14 +11,14 @@ import { isDefined } from "./utils";
  */
 export abstract class EventPerfTest<
   TOptions = Record<string, unknown>
-  > extends PerfTestBase<TOptions> {
-  start: [number, number]; // process.hrtime()
+> extends PerfTestBase<TOptions> {
+  startTime: bigint;
   private testDuration = 0;
   private abortController: AbortController | undefined;
 
   constructor() {
     super();
-    this.start = [0, 0];
+    this.startTime = BigInt(0);
     this.completedOperations = 0;
     this.lastMillisecondsElapsed = 0;
   }
@@ -36,8 +36,7 @@ export abstract class EventPerfTest<
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void> {
-    // call run
-    this.start = process.hrtime();
+    this.startTime = process.hrtime.bigint(); // process.hrtime.bigint() method returns the current high-resolution real-time in nanoseconds as a bigint
     this.completedOperations = 0;
     this.lastMillisecondsElapsed = 0;
     this.testDuration = durationMilliseconds;
@@ -61,9 +60,7 @@ export abstract class EventPerfTest<
   }
 
   private getTimeElapsedInMilliseconds() {
-    const elapsed = process.hrtime(this.start);
-    const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
-    return elapsedMilliseconds;
+    return Number(process.hrtime.bigint() - this.startTime) / 1000000;
   }
 
   private isTimeExceeded() {

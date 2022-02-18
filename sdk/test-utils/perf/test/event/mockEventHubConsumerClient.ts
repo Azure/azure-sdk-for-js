@@ -16,7 +16,7 @@ export interface SubscribeOptions {
   /**
    * Raises the error after the specified time.
    */
-  raiseErrorAfterInSeconds: number;
+  delayToRaiseErrorInSeconds: number;
   /**
    * Max number of events a batch can have.
    */
@@ -71,7 +71,7 @@ export class MockEventHubConsumerClient {
   }
 
   private async internalSubscribe(handlers: EventHandlers, options?: SubscribeOptions) {
-    this.partitions = options?.partitions || this.partitions;
+    this.partitions = options?.partitions ?? this.partitions;
     let maxEventsPerSecond: number;
     if (options && options.maxEventsPerSecond > 0) {
       maxEventsPerSecond = options.maxEventsPerSecond;
@@ -85,11 +85,11 @@ export class MockEventHubConsumerClient {
         this.handlePartition(handlers.processEvents, i, maxEventsPerSecondPerPartition)
       );
     }
-    if (options?.raiseErrorAfterInSeconds) {
+    if (options?.delayToRaiseErrorInSeconds) {
       promises.push(
         this.processFuncWithDelay(async () => {
           await handlers.processError(new Error(`new error ${generateUuid()}`));
-        }, options?.raiseErrorAfterInSeconds * 1000)
+        }, options?.delayToRaiseErrorInSeconds * 1000)
       );
     }
 
@@ -114,13 +114,12 @@ export class MockEventHubConsumerClient {
     const startTime = process.hrtime();
     let eventsRaised = 0;
 
-    while (this.closeCalled === false) {
+    while (!this.closeCalled) {
       let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
 
       if (maxEventsPerSecondPerPartition === Infinity) {
         await processEvents(eventArrays[numberOfEvents], { partitionId });
-      }
-      else {
+      } else {
         const elapsed = process.hrtime(startTime);
         const elapsedSeconds = elapsed[0] + elapsed[1] / 1000000000;
         const targetEventsRaised = elapsedSeconds * maxEventsPerSecondPerPartition;

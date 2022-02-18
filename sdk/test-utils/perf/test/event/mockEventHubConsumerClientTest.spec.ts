@@ -21,7 +21,7 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
       description: "Max rate to receive in events/sec",
       defaultValue: 1000,
     },
-    raiseErrorAfterInSeconds: {
+    delayToRaiseErrorInSeconds: {
       description: "Raises error after the given duration - in seconds",
       defaultValue: 15,
     },
@@ -34,7 +34,7 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
   }
 
   setup() {
-    const { raiseErrorAfterInSeconds, partitions, maxBatchSize, maxEventsPerSecond } =
+    const { delayToRaiseErrorInSeconds, partitions, maxBatchSize, maxEventsPerSecond } =
       this.parsedOptions;
     this.subscriber = this.client.subscribe(
       {
@@ -46,7 +46,7 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
         },
       },
       {
-        raiseErrorAfterInSeconds: raiseErrorAfterInSeconds.value,
+        delayToRaiseErrorInSeconds: delayToRaiseErrorInSeconds.value,
         partitions: partitions?.value,
         maxBatchSize: maxBatchSize.value,
         maxEventsPerSecond: maxEventsPerSecond.value,
