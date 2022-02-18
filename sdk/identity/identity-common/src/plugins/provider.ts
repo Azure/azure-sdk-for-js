@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialPlugin";
+import { VSCodeCredentialFinder } from "../visualStudioCodeCredentialPlugin";
 import { TokenCachePersistenceOptions } from "../tokenCachePersistenceOptions";
 
 /**
