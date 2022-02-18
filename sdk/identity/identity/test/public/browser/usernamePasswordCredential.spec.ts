@@ -18,7 +18,8 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("sends an authorization request with the given username and password", async () => {
-    const password = "p@55wOrd";
+    let password = "p@55wOrd";
+    password = "p@55wOrd";
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scope"],
