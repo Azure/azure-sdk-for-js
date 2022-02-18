@@ -523,6 +523,67 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isDefined(poller.getBatchId());
         });
       });
+
+      describe("#beginGetFuzzySearchBatchResult", function() {
+        it("should throw error if batchId is missing", async function() {
+          // "query is missing or empty"
+          assert.isRejected(client.beginGetFuzzySearchBatchResult(""));
+        });
+
+        it("should throw error if invalid batchId is given", async function() {
+          // "Invalid value : [batchId] for parameter batchRequestId"
+          assert.isRejected(
+            client.beginGetFuzzySearchBatchResult("11111111-2222-3333-4444-5555555555557")
+          );
+        });
+
+        it("could retrieve a previous submitted batch results", async function() {
+          const batchQueries = [
+            { query: "pizza", countryFilter: ["fr"] },
+            { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+            { query: "pizza", countryFilter: ["tw"], coordinates: { latitude: 25, longitude: 121 } }
+          ];
+
+          // Initiate fuzzy search batch
+          const poller1 = await client.beginFuzzySearchBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetFuzzySearchBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult = await poller2.pollUntilDone();
+          assert.equal(batchResult.totalRequests, batchQueries.length);
+          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+        });
+
+        it("should obtain the same result as beginFuzzySearchBatch ", async function() {
+          const batchQueries = [
+            { query: "pizza", countryFilter: ["fr"] },
+            { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+            { query: "pizza", countryFilter: ["tw"], coordinates: { latitude: 25, longitude: 121 } }
+          ];
+
+          // Initiate fuzzy search batch
+          const poller1 = await client.beginFuzzySearchBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult1 = await poller1.pollUntilDone();
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetFuzzySearchBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult2 = await poller2.pollUntilDone();
+          assert.deepEqual(batchResult1, batchResult2);
+        });
+      });
+
       describe("#beginSearchAddressBatch", function() {
         it("should throw errors if given empty array as queries", async function() {
           // "Number of queries must be between 1 and 10000 inclusive.""
@@ -559,6 +620,67 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isDefined(poller.getBatchId());
         });
       });
+
+      describe("#beginGetSearchAddressBatchResult", function() {
+        it("should throw error if batchId is missing", async function() {
+          // "query is missing or empty"
+          assert.isRejected(client.beginGetSearchAddressBatchResult(""));
+        });
+
+        it("should throw error if invalid batchId is given", async function() {
+          // "Invalid value : [batchId] for parameter batchRequestId"
+          assert.isRejected(
+            client.beginGetSearchAddressBatchResult("11111111-2222-3333-4444-5555555555557")
+          );
+        });
+
+        it("could retrieve a previous submitted batch results", async function() {
+          const batchQueries = [
+            { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
+            { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
+            { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } }
+          ];
+
+          // Initiate search address batch
+          const poller1 = await client.beginSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetSearchAddressBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult = await poller2.pollUntilDone();
+          assert.equal(batchResult.totalRequests, batchQueries.length);
+          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+        });
+
+        it("should obtain the same result as beginSearchAddressBatch ", async function() {
+          const batchQueries = [
+            { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
+            { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
+            { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } }
+          ];
+
+          // Initiate search address batch
+          const poller1 = await client.beginSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult1 = await poller1.pollUntilDone();
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetSearchAddressBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult2 = await poller2.pollUntilDone();
+          assert.deepEqual(batchResult1, batchResult2);
+        });
+      });
+
       describe("#beginReverseSearchAddressBatch", function() {
         it("should throw errors if given empty array as queries", async function() {
           // "Number of queries must be between 1 and 10000 inclusive.""
@@ -596,6 +718,72 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           await poller.pollUntilDone();
 
           assert.isDefined(poller.getBatchId());
+        });
+      });
+
+      describe("#beginGetReverseSearchAddressBatchResult", function() {
+        it("should throw error if batchId is missing", async function() {
+          // "query is missing or empty"
+          assert.isRejected(client.beginGetReverseSearchAddressBatchResult(""));
+        });
+
+        it("should throw error if invalid batchId is given", async function() {
+          // "Invalid value : [batchId] for parameter batchRequestId"
+          assert.isRejected(
+            client.beginGetReverseSearchAddressBatchResult("11111111-2222-3333-4444-5555555555557")
+          );
+        });
+
+        it("could retrieve a previous submitted batch results", async function() {
+          const batchQueries = [
+            { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+            {
+              coordinates: { latitude: 47.639765, longitude: -122.127896 },
+              options: { radiusInMeters: 5000 }
+            },
+            { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
+          ];
+
+          // Initiate search address batch
+          const poller1 = await client.beginReverseSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetReverseSearchAddressBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult = await poller2.pollUntilDone();
+          assert.equal(batchResult.totalRequests, batchQueries.length);
+          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+        });
+
+        it("should obtain the same result as beginReverseSearchAddressBatch ", async function() {
+          const batchQueries = [
+            { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+            {
+              coordinates: { latitude: 47.639765, longitude: -122.127896 },
+              options: { radiusInMeters: 5000 }
+            },
+            { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
+          ];
+
+          // Initiate search address batch
+          const poller1 = await client.beginReverseSearchAddressBatch(batchQueries, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult1 = await poller1.pollUntilDone();
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetReverseSearchAddressBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval
+          });
+          const batchResult2 = await poller2.pollUntilDone();
+          assert.deepEqual(batchResult1, batchResult2);
         });
       });
     });
