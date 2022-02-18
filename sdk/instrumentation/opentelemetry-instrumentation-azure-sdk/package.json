@@ -126,7 +126,8 @@
     "@opentelemetry/sdk-trace-node": "^1.0.1",
     "@azure/data-tables": "^13.1.0",
     "@opentelemetry/sdk-trace-base": "^1.0.1",
-    "@azure/core-rest-pipeline": "^1.5.1"
+    "@azure/core-rest-pipeline": "^1.5.1",
+    "@azure/test-utils": "^1.0.0"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

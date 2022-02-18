@@ -1,23 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { TestClient, tracingClientAttributes } from "../testClient";
-import { assert } from "chai";
+
+import { assert } from "@azure/test-utils";
 import { inMemoryExporter } from "../../public/util/setup";
 
-describe("instrumentation", () => {
+describe("instrumentation end-to-end tests", () => {
   beforeEach(() => {
     inMemoryExporter.reset();
   });
 
+  // This is node-only since we use the BasicTracerProvider in the browser
+  // which does not set up a context manager. Altenatively we can always pull in
+  // @opentelemetry/sdk-trace-web but it did not feel necessary at this time.
   describe("with a configured client", () => {
     it("works when using withSpan", async () => {
       await new TestClient().outer();
       const spans = inMemoryExporter.getFinishedSpans();
-      // count of spans
-      // happy path
-      // error path
-      // withContext, withSpan
-      // with links
-      console.log(spans);
       assert.lengthOf(spans, 3);
       const [coreRestPipeline, inner, outer] = spans;
 
@@ -44,6 +45,7 @@ describe("instrumentation", () => {
       });
 
       // Check attributes on all spans
+      assert.equal(coreRestPipeline.attributes["az.namespace"], tracingClientAttributes.namespace);
       assert.equal(inner.attributes["az.namespace"], tracingClientAttributes.namespace);
       assert.equal(outer.attributes["az.namespace"], tracingClientAttributes.namespace);
     });

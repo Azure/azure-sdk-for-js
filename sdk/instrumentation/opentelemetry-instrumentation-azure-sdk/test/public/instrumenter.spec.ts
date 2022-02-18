@@ -4,13 +4,13 @@
 import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
+
 import { Context } from "mocha";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
-import { TestTracer } from "./util/testTracer";
 import { Span } from "@opentelemetry/sdk-trace-base";
-import sinon from "sinon";
 import { assert } from "chai";
 import { inMemoryExporter } from "./util/setup";
+import sinon from "sinon";
 
 function unwrap(span: TracingSpan): Span {
   return (span as OpenTelemetrySpanWrapper).unwrap() as Span;
@@ -26,7 +26,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
     it("uses the passed in context if it exists", () => {
       const propagationSpy = sinon.spy(propagator);
-      const span = new TestTracer().startSpan("test");
+      const span = trace.getTracer("test").startSpan("test");
       const tracingContext = trace.setSpan(context.active(), span);
       instrumenter.createRequestHeaders(tracingContext);
       assert.isTrue(propagationSpy.inject.calledWith(tracingContext));
