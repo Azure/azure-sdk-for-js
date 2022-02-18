@@ -13,33 +13,33 @@
 
 const {
   DocumentModelAdministrationClient,
-  AzureKeyCredential
+  AzureKeyCredential,
 } = require("@azure/ai-form-recognizer");
 
-// Load the .env file if it exists
 const dotenv = require("dotenv");
+const { DocumentModelBuildMode } = require("../src/options/BuildModelOptions");
 dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
 
   // This object will hold the SAS-encoded URLs to containers that hold
   // different types of purchase order documents and their labels.
   const purchaseOrderSasUrls = {
     supplies:
-      process.env["PURCHASE_ORDER_SUPPLIES_SAS_URL"] ??
+      process.env["PURCHASE_ORDER_SUPPLIES_SAS_URL"] ||
       "<sas url to container with purchase orders for supplies>",
     equipment:
-      process.env["PURCHASE_ORDER_EQUIPMENT_SAS_URL"] ??
+      process.env["PURCHASE_ORDER_EQUIPMENT_SAS_URL"] ||
       "<sas url to container with purchase orders for equipment>",
     furniture:
-      process.env["PURCHASE_ORDER_FURNITURE_SAS_URL"] ??
+      process.env["PURCHASE_ORDER_FURNITURE_SAS_URL"] ||
       "<sas url to container with purchase orders for furniture>",
     cleaningSupplies:
-      process.env["PURCHASE_ORDER_CLEANING_SUPPLIES_SAS_URL"] ??
-      "<sas url to container with purchase orders for cleaning supplies>"
+      process.env["PURCHASE_ORDER_CLEANING_SUPPLIES_SAS_URL"] ||
+      "<sas url to container with purchase orders for cleaning supplies>",
   };
 
   // First, we need several models to compose, so for the sake of this example program, we will build them all using
@@ -56,12 +56,17 @@ async function main() {
     Object.entries(purchaseOrderSasUrls)
       .map(async ([kind, sasUrl]) => {
         const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
-        const poller = await trainingClient.beginBuildModel(modelId, sasUrl, {
-          description: "A model that extracts data from " + kind + " purchase orders.",
-          onProgress: ({ status }) => {
-            console.log(`training model "${kind}": ${status}`);
+        const poller = await trainingClient.beginBuildModel(
+          modelId,
+          sasUrl,
+          DocumentModelBuildMode.Neural,
+          {
+            description: "A model that extracts data from " + kind + " purchase orders.",
+            onProgress: ({ status }) => {
+              console.log(`training model "${kind}": ${status}`);
+            },
           }
-        });
+        );
 
         return poller.pollUntilDone();
       })
@@ -76,7 +81,7 @@ async function main() {
       "A composed model that classifies purchase order documents and extracts data from them.",
     onProgress(state) {
       console.log(`composing model "purchase_order": ${state.status}`);
-    }
+    },
   });
 
   const composedModel = await poller.pollUntilDone();
@@ -90,7 +95,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    composedModel.docTypes ?? {}
+    composedModel.docTypes || {}
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);
@@ -100,7 +105,7 @@ async function main() {
 
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);
-      console.log(`    ${fieldSchema.description ?? "<no description>"}`);
+      console.log(`    ${fieldSchema.description || "<no description>"}`);
     }
   }
 }
@@ -108,3 +113,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

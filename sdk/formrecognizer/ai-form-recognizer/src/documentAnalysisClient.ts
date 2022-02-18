@@ -167,7 +167,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model, but you could use a custom model ID/name instead.
-   * const poller = await client.beginAnalyzeDocuments("prebuilt-receipt", url);
+   * const poller = await client.beginAnalyzeDocument("prebuilt-receipt", url);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -200,7 +200,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model, but you could use a custom model ID/name instead.
-   * const poller = await client.beginAnalyzeDocuments("prebuilt-receipt", file);
+   * const poller = await client.beginAnalyzeDocument("prebuilt-receipt", file);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -263,7 +263,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model.
-   * const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, url);
+   * const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -297,7 +297,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model.
-   * const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, file);
+   * const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, file);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {

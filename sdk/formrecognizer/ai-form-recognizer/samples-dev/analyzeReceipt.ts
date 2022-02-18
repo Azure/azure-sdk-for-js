@@ -22,8 +22,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
@@ -39,18 +39,21 @@ async function main() {
 
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
   if (result) {
-    const receipt = result.fields;
+    const { merchantName, items, total } = result.fields;
+
     console.log("=== Receipt Information ===");
     console.log("Type:", result.docType);
-    console.log("Merchant:", receipt.merchantName?.value);
+    console.log("Merchant:", merchantName && merchantName.value);
 
     console.log("Items:");
-    for (const { properties: item } of receipt.items?.values ?? []) {
-      console.log("- Description:", item.description?.value);
-      console.log("  Total Price:", item.totalPrice?.value);
+    for (const item of (items && items.values) || []) {
+      const { description, totalPrice } = item.properties;
+
+      console.log("- Description:", description && description.value);
+      console.log("  Total Price:", totalPrice && totalPrice.value);
     }
 
-    console.log("Total:", receipt.total?.value);
+    console.log("Total:", total && total.value);
   } else {
     throw new Error("Expected at least one receipt in the result.");
   }

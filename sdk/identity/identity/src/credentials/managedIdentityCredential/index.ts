@@ -19,7 +19,7 @@ import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
-export interface ManagedIdentityCredentialOptionsBase extends TokenCredentialOptions {}
+export interface ManagedIdentityCredentialOptionsBase extends TokenCredentialOptions { }
 
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
@@ -69,6 +69,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private clientId: string | undefined;
   private resourceId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
+  private isAvailableIdentityClient: IdentityClient;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -92,25 +93,27 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
     options?: ManagedIdentityCredentialOptionsBase
   ) {
+    let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
-      // clientId, options constructor
-      this.clientId = clientIdOrOptions;
-      this.resourceId = (options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
-      this.identityClient = new IdentityClient(options);
+      _options = options;
     } else {
-      // options only constructor
-      this.clientId = (clientIdOrOptions as ManagedIdentityCredentialClientIdOptions)?.clientId;
-      this.resourceId = (
-        clientIdOrOptions as ManagedIdentityCredentialResourceIdOptions
-      )?.resourceId;
-      this.identityClient = new IdentityClient(clientIdOrOptions);
+      _options = clientIdOrOptions;
     }
+    this.clientId = (_options as ManagedIdentityCredentialClientIdOptions)?.clientId;
+    this.resourceId = (_options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
       throw new Error(
         `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`
       );
     }
+    this.identityClient = new IdentityClient(_options);
+    this.isAvailableIdentityClient = new IdentityClient({
+      ..._options,
+      retryOptions: {
+        maxRetries: 0,
+      },
+    });
   }
 
   private cachedMSI: MSI | undefined;
@@ -129,7 +132,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       if (
         await msi.isAvailable({
           scopes,
-          identityClient: this.identityClient,
+          identityClient: this.isAvailableIdentityClient,
           clientId: this.clientId,
           resourceId: this.resourceId,
           getTokenOptions,
