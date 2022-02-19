@@ -1,25 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CachePluginControl } from "../../../identity/src/plugins/provider";
 import { VSCodeCredentialFinder } from "../visualStudioCodeCredentialPlugin";
-import { TokenCachePersistenceOptions } from "../tokenCachePersistenceOptions";
 
 /**
  * The type of an Azure Identity plugin, a function accepting a plugin
  * context.
  */
 export type IdentityPlugin = (context: unknown) => void;
-
-/**
- * Plugin context entries for controlling cache plugins.
- */
-export interface CachePluginControl {
-  setPersistence(
-    persistenceFactory: (
-      options?: TokenCachePersistenceOptions
-    ) => Promise<import("@azure/msal-common").ICachePlugin>
-  ): void;
-}
 
 /**
  * Plugin context entries for controlling VisualStudioCodeCredential.

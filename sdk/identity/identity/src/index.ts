@@ -3,7 +3,7 @@
 
 export * from "./plugins/consumer";
 
-export { IdentityPlugin } from "./plugins/provider";
+export { IdentityPlugin } from "../../identity-common/src/plugins/provider";
 
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
@@ -79,7 +79,7 @@ export {
   OnBehalfOfCredentialCertificateOptions,
 } from "./credentials/onBehalfOfCredentialOptions";
 
-export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
+export { TokenCachePersistenceOptions } from "../../identity-common/src/tokenCachePersistenceOptions";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";
