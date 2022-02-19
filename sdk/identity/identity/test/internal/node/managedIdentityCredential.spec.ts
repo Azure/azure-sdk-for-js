@@ -385,7 +385,7 @@ describe("ManagedIdentityCredential", function () {
     const imdsPingRequest = authDetails.requests[0];
     assert.equal(
       imdsPingRequest.url,
-      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&mi_res_id=resource-id"
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&msi_res_id=resource-id"
     );
   });
 
@@ -519,6 +519,23 @@ describe("ManagedIdentityCredential", function () {
   it("Cloud Shell does not support resourceId", async () => {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({
+        resourceId: "resource-id",
+      }),
+      secureResponses: [createResponse(200, { access_token: "token" })],
+    });
+
+    assert.isEmpty(authDetails.requests);
+  });
+
+  it("Service fabric does not support resourceId", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "secret";
+    process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
