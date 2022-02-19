@@ -13,7 +13,7 @@ import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
+import { VSCodeCredentialFinder } from "../../../identity-common/src/visualStudioCodeCredentialPlugin";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 
 const CommonTenantId = "common";

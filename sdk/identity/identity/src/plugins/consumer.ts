@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzurePluginContext, IdentityPlugin } from "./provider";
+import { AzurePluginContext, IdentityPlugin } from "../../../identity-common/src/plugins/provider";
 import { msalNodeFlowCacheControl } from "../msal/nodeFlows/msalNodeCommon";
 import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
 

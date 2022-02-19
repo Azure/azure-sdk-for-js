@@ -22,7 +22,7 @@ import {
   msalToPublic,
   publicToMsal,
 } from "../utils";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { TokenCachePersistenceOptions } from "../../../../identity-common/src/tokenCachePersistenceOptions";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 import { RegionalAuthority } from "../../regionalAuthority";
 
