@@ -14475,12 +14475,13 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-S+AlETAyDI7S3yytNEyl37nxUjw/nUdqaafgUhwLl69ZXGC7C6VBMzuktuv6r2bu6U6iHQAyL2DnT8hnumXa5w==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-QwQrgU0CiZrVMh+RFC/H9v1/kl9ToPL1+XuiwR4tXR7RcNjQ7a56Dotcq+SHGNSqpvh7uksYFbrJhN/YOttpmw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.3
+      '@azure/msal-common': 4.5.1
       '@azure/msal-node': 1.5.0
       '@azure/msal-node-extensions': 1.0.0-alpha.13
       '@microsoft/api-extractor': 7.19.4
@@ -14512,12 +14513,13 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-e7QxypHbLGvtETZ2dQ0XQ04lQe43afVyGRrB4r+5Zu1NHLOCm4hKFOOIPOhwHZ7MlAmgzqQdYR3cIZm6hghYlQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-1k1jqhJUW0j58CHfGYrwJJgWcjl0wyupYawdxSwHklY7q3hV2usWp2aCT9lpplfZ5KjEnM5lGaRilnLDYgOp+Q==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.3
+      '@azure/msal-common': 4.5.1
       '@microsoft/api-extractor': 7.19.4
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
