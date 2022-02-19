@@ -50,7 +50,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this.currentTest);
-      client = createClient(authMethod, recorder);
+      client = createClient({ authMethod, recorder });
       let nextId = 0;
       getId = function () {
         nextId += 1;
