@@ -1,0 +1,7 @@
+{
+  "commit": "fcb6c3d2546de19ca7566c83420b1ed967b36773",
+  "readme": "specification/mobilenetwork/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/home/vsts/work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/mobilenetwork/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.16.20220105.1",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "use": "@autorest/typescript@6.0.0-alpha.16.20220105.1"
+}
