@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
+import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "@azure/identity";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";

@@ -4,11 +4,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
-import {
-  ClientCertificateCredential,
-  TokenCachePersistenceOptions,
-} from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { ClientCertificateCredential, TokenCachePersistenceOptions } from "@azure/identity";
+import { msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
@@ -17,6 +14,8 @@ import assert from "assert";
 import { createPersistence } from "./setup.spec";
 
 const ASSET_PATH = "assets";
+
+export type MsalTestCleanup = () => Promise<void>;
 
 describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
