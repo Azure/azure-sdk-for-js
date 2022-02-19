@@ -88,7 +88,7 @@ export function tokenExchangeMsi(): MSI {
     async isAvailable({ clientId, resourceId }): Promise<boolean> {
       if (resourceId) {
         logger.info(
-          `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported by the Azure Arc Managed Identity Endpoint.`
+          `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported.`
         );
         return false;
       }
