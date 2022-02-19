@@ -9,6 +9,12 @@
   - If `resourceId` is provided, the managed identity providers for Azure App Service (2017), Azure Arc, Azure Cloud Shell, Azure Service Fabric and Token Exchange authentication will be skipped since this parameter is not supported by the identity endpoints in those services.
 - Added `clientId` to the optional parameters of the `ManagedIdentityCredential`.
 
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.4 (2022-02-18)
 
 ### Bugs Fixed
