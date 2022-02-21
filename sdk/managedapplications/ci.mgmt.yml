@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/managedapplications/ci.mgmt.yml
+      - sdk/managedapplications/arm-managedapplications/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/managedapplications/ci.mgmt.yml
+      - sdk/managedapplications/arm-managedapplications/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: managedapplications
+    Artifacts:
+      - name: azure-arm-managedapplications
+        safeName: azurearmmanagedapplications        

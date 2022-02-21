@@ -227,6 +227,9 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.LogAnalyticsOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters29,
@@ -256,6 +259,9 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.LogAnalyticsOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters30,

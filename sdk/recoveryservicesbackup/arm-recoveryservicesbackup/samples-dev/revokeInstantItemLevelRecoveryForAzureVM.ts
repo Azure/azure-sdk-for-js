@@ -14,7 +14,7 @@ displaying all recoverable files and folders. This is an asynchronous operation.
  *
  * @summary Revokes an iSCSI connection which can be used to download a script. Executing this script opens a file explorer
 displaying all recoverable files and folders. This is an asynchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/Revoke_Ilr.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/Revoke_Ilr.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

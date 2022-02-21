@@ -8,7 +8,7 @@ import {
   DecodeMessageDataOptions,
   MessageAdapter,
   MessageWithMetadata,
-  SchemaRegistryAvroEncoderOptions,
+  AvroEncoderOptions,
 } from "./models";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageWithMetadata } from "./utility";
@@ -32,14 +32,14 @@ const cacheOptions: LRUCacheOptions<string, any> = {
  * Avro encoder that obtains schemas from a schema registry and does not
  * pack schemas into its payloads.
  */
-export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
+export class AvroEncoder<MessageT = MessageWithMetadata> {
   /**
    * Creates a new encoder.
    *
    * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    */
-  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions<MessageT>) {
+  constructor(client: SchemaRegistry, options?: AvroEncoderOptions<MessageT>) {
     this.registry = client;
     this.schemaGroup = options?.groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;

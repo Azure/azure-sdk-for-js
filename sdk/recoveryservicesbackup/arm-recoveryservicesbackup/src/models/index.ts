@@ -106,7 +106,8 @@ export type SchedulePolicyUnion =
   | SchedulePolicy
   | LogSchedulePolicy
   | LongTermSchedulePolicy
-  | SimpleSchedulePolicy;
+  | SimpleSchedulePolicy
+  | SimpleSchedulePolicyV2;
 export type RetentionPolicyUnion =
   | RetentionPolicy
   | LongTermRetentionPolicy
@@ -1129,7 +1130,8 @@ export interface SchedulePolicy {
   schedulePolicyType:
     | "LogSchedulePolicy"
     | "LongTermSchedulePolicy"
-    | "SimpleSchedulePolicy";
+    | "SimpleSchedulePolicy"
+    | "SimpleSchedulePolicyV2";
 }
 
 /** Base class for retention policy. */
@@ -1529,6 +1531,17 @@ export interface HourlySchedule {
   scheduleWindowStartTime?: Date;
   /** To specify duration of the backup window */
   scheduleWindowDuration?: number;
+}
+
+export interface DailySchedule {
+  /** List of times of day this schedule has to be run. */
+  scheduleRunTimes?: Date[];
+}
+
+export interface WeeklySchedule {
+  scheduleRunDays?: DayOfWeek[];
+  /** List of times of day this schedule has to be run. */
+  scheduleRunTimes?: Date[];
 }
 
 /** IaaS VM workload specific restore details for restores using managed identity */
@@ -2669,6 +2682,7 @@ export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
   instantRpRetentionRangeInDays?: number;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
+  policyType?: IaasvmPolicyType;
 };
 
 /** Azure SQL workload-specific backup policy. */
@@ -3166,6 +3180,20 @@ export type SimpleSchedulePolicy = SchedulePolicy & {
   hourlySchedule?: HourlySchedule;
   /** At every number weeks this schedule has to be run. */
   scheduleWeeklyFrequency?: number;
+};
+
+/** The V2 policy schedule for IaaS that supports hourly backups. */
+export type SimpleSchedulePolicyV2 = SchedulePolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  schedulePolicyType: "SimpleSchedulePolicyV2";
+  /** Frequency of the schedule operation of this policy. */
+  scheduleRunFrequency?: ScheduleRunType;
+  /** hourly schedule of this policy */
+  hourlySchedule?: HourlySchedule;
+  /** Daily schedule of this policy */
+  dailySchedule?: DailySchedule;
+  /** Weekly schedule of this policy */
+  weeklySchedule?: WeeklySchedule;
 };
 
 /** Long term retention policy. */
@@ -3700,7 +3728,9 @@ export enum KnownProtectionIntentItemType {
   Invalid = "Invalid",
   AzureResourceItem = "AzureResourceItem",
   RecoveryServiceVaultItem = "RecoveryServiceVaultItem",
-  AzureWorkloadContainerAutoProtectionIntent = "AzureWorkloadContainerAutoProtectionIntent"
+  AzureWorkloadContainerAutoProtectionIntent = "AzureWorkloadContainerAutoProtectionIntent",
+  AzureWorkloadAutoProtectionIntent = "AzureWorkloadAutoProtectionIntent",
+  AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent"
 }
 
 /**
@@ -3711,7 +3741,9 @@ export enum KnownProtectionIntentItemType {
  * **Invalid** \
  * **AzureResourceItem** \
  * **RecoveryServiceVaultItem** \
- * **AzureWorkloadContainerAutoProtectionIntent**
+ * **AzureWorkloadContainerAutoProtectionIntent** \
+ * **AzureWorkloadAutoProtectionIntent** \
+ * **AzureWorkloadSQLAutoProtectionIntent**
  */
 export type ProtectionIntentItemType = string;
 
@@ -4001,7 +4033,10 @@ export enum KnownContainerType {
   VMAppContainer = "VMAppContainer",
   SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
   StorageContainer = "StorageContainer",
-  GenericContainer = "GenericContainer"
+  GenericContainer = "GenericContainer",
+  MicrosoftClassicComputeVirtualMachines = "Microsoft.ClassicCompute/virtualMachines",
+  MicrosoftComputeVirtualMachines = "Microsoft.Compute/virtualMachines",
+  AzureWorkloadContainer = "AzureWorkloadContainer"
 }
 
 /**
@@ -4023,7 +4058,10 @@ export enum KnownContainerType {
  * **VMAppContainer** \
  * **SQLAGWorkLoadContainer** \
  * **StorageContainer** \
- * **GenericContainer**
+ * **GenericContainer** \
+ * **Microsoft.ClassicCompute\/virtualMachines** \
+ * **Microsoft.Compute\/virtualMachines** \
+ * **AzureWorkloadContainer**
  */
 export type ContainerType = string;
 
@@ -4222,6 +4260,24 @@ export enum KnownHealthStatus {
  * **Invalid**
  */
 export type HealthStatus = string;
+
+/** Known values of {@link IaasvmPolicyType} that the service accepts. */
+export enum KnownIaasvmPolicyType {
+  Invalid = "Invalid",
+  V1 = "V1",
+  V2 = "V2"
+}
+
+/**
+ * Defines values for IaasvmPolicyType. \
+ * {@link KnownIaasvmPolicyType} can be used interchangeably with IaasvmPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **V1** \
+ * **V2**
+ */
+export type IaasvmPolicyType = string;
 
 /** Known values of {@link ProtectedItemState} that the service accepts. */
 export enum KnownProtectedItemState {

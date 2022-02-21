@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  HttpClient,
   Pipeline,
   PipelineOptions,
   PipelinePolicy,
@@ -181,6 +182,10 @@ export type ClientOptions = PipelineOptions & {
    * Additional policies to include in the HTTP pipeline.
    */
   additionalPolicies?: AdditionalPolicyConfig[];
+  /**
+   * Specify a custom HttpClient when making requests.
+   */
+  httpClient?: HttpClient;
 };
 
 /**

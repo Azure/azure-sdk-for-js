@@ -150,6 +150,9 @@ export interface CloudToDeviceProperties {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export type DefaultAction = string;
 
 // @public
@@ -333,6 +336,7 @@ export type IotHubDescription = Resource & {
     properties?: IotHubProperties;
     sku: IotHubSkuInfo;
     identity?: ArmIdentity;
+    readonly systemData?: SystemData;
 };
 
 // @public
@@ -372,6 +376,7 @@ export interface IotHubProperties {
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
+    enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
     eventHubEndpoints?: {
         [propertyName: string]: EventHubProperties;
@@ -740,6 +745,18 @@ export enum KnownCapabilities {
     DeviceManagement = "DeviceManagement",
     // (undocumented)
     None = "None"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -1254,6 +1271,16 @@ export interface StorageEndpointProperties {
     containerName: string;
     identity?: ManagedIdentity;
     sasTtlAsIso8601?: string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
