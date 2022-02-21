@@ -10973,6 +10973,184 @@ export const AmazonS3LinkedService: coreClient.CompositeMapper = {
   }
 };
 
+export const TeamDeskLinkedService: coreClient.CompositeMapper = {
+  serializedName: "TeamDesk",
+  type: {
+    name: "Composite",
+    className: "TeamDeskLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "typeProperties.url",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const QuickbaseLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Quickbase",
+  type: {
+    name: "Composite",
+    className: "QuickbaseLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      url: {
+        serializedName: "typeProperties.url",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      userToken: {
+        serializedName: "typeProperties.userToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const SmartsheetLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Smartsheet",
+  type: {
+    name: "Composite",
+    className: "SmartsheetLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ZendeskLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Zendesk",
+  type: {
+    name: "Composite",
+    className: "ZendeskLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "typeProperties.url",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const AmazonRedshiftLinkedService: coreClient.CompositeMapper = {
   serializedName: "AmazonRedshift",
   type: {
@@ -27195,6 +27373,10 @@ export let discriminators = {
   "LinkedService.SapOpenHub": SapOpenHubLinkedService,
   "LinkedService.RestService": RestServiceLinkedService,
   "LinkedService.AmazonS3": AmazonS3LinkedService,
+  "LinkedService.TeamDesk": TeamDeskLinkedService,
+  "LinkedService.Quickbase": QuickbaseLinkedService,
+  "LinkedService.Smartsheet": SmartsheetLinkedService,
+  "LinkedService.Zendesk": ZendeskLinkedService,
   "LinkedService.AmazonRedshift": AmazonRedshiftLinkedService,
   "LinkedService.CustomDataSource": CustomDataSourceLinkedService,
   "LinkedService.AzureSearch": AzureSearchLinkedService,

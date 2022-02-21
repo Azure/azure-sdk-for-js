@@ -79,6 +79,10 @@ export type LinkedServiceUnion =
   | SapOpenHubLinkedService
   | RestServiceLinkedService
   | AmazonS3LinkedService
+  | TeamDeskLinkedService
+  | QuickbaseLinkedService
+  | SmartsheetLinkedService
+  | ZendeskLinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -1275,6 +1279,10 @@ export interface LinkedService {
     | "SapOpenHub"
     | "RestService"
     | "AmazonS3"
+    | "TeamDesk"
+    | "Quickbase"
+    | "Smartsheet"
+    | "Zendesk"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -4907,6 +4915,64 @@ export type AmazonS3LinkedService = LinkedService & {
   serviceUrl?: Record<string, unknown>;
   /** The session token for the S3 temporary security credential. */
   sessionToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for TeamDesk. */
+export type TeamDeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TeamDesk";
+  /** The authentication type to use. */
+  authenticationType: TeamDeskAuthenticationType;
+  /** The url to connect TeamDesk source. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
+  /** The username of the TeamDesk source. Type: string (or Expression with resultType string). */
+  userName?: Record<string, unknown>;
+  /** The password of the TeamDesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the TeamDesk source. */
+  apiToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Quickbase. */
+export type QuickbaseLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Quickbase";
+  /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
+  /** The user token for the Quickbase source. */
+  userToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Smartsheet. */
+export type SmartsheetLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Smartsheet";
+  /** The api token for the Smartsheet source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Zendesk. */
+export type ZendeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Zendesk";
+  /** The authentication type to use. */
+  authenticationType: ZendeskAuthenticationType;
+  /** The url to connect Zendesk source. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
+  /** The username of the Zendesk source. Type: string (or Expression with resultType string). */
+  userName?: Record<string, unknown>;
+  /** The password of the Zendesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the Zendesk source. */
+  apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
 };
@@ -11096,6 +11162,38 @@ export enum KnownRestServiceAuthenticationType {
  * **ManagedServiceIdentity**
  */
 export type RestServiceAuthenticationType = string;
+
+/** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
+export enum KnownTeamDeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for TeamDeskAuthenticationType. \
+ * {@link KnownTeamDeskAuthenticationType} can be used interchangeably with TeamDeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type TeamDeskAuthenticationType = string;
+
+/** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
+export enum KnownZendeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for ZendeskAuthenticationType. \
+ * {@link KnownZendeskAuthenticationType} can be used interchangeably with ZendeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type ZendeskAuthenticationType = string;
 
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {

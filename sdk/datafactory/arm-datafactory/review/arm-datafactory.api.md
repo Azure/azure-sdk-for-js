@@ -4894,6 +4894,14 @@ export enum KnownSybaseAuthenticationType {
 }
 
 // @public
+export enum KnownTeamDeskAuthenticationType {
+    // (undocumented)
+    Basic = "Basic",
+    // (undocumented)
+    Token = "Token"
+}
+
+// @public
 export enum KnownTeradataAuthenticationType {
     // (undocumented)
     Basic = "Basic",
@@ -4980,6 +4988,14 @@ export enum KnownWebHookActivityMethod {
 }
 
 // @public
+export enum KnownZendeskAuthenticationType {
+    // (undocumented)
+    Basic = "Basic",
+    // (undocumented)
+    Token = "Token"
+}
+
+// @public
 export interface LinkedIntegrationRuntime {
     readonly createTime?: Date;
     readonly dataFactoryLocation?: string;
@@ -5023,7 +5039,7 @@ export interface LinkedService {
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
 }
 
 // @public
@@ -5094,7 +5110,7 @@ export interface LinkedServicesListByFactoryOptionalParams extends coreClient.Op
 export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
 
 // @public
 export interface LogLocationSettings {
@@ -6366,6 +6382,14 @@ export interface QueryDataFlowDebugSessionsResponse {
 }
 
 // @public
+export type QuickbaseLinkedService = LinkedService & {
+    type: "Quickbase";
+    url: Record<string, unknown>;
+    userToken: SecretBaseUnion;
+    encryptedCredential?: Record<string, unknown>;
+};
+
+// @public
 export type QuickBooksLinkedService = LinkedService & {
     type: "QuickBooks";
     connectionProperties?: Record<string, unknown>;
@@ -7168,6 +7192,13 @@ export interface SkipErrorFile {
 }
 
 // @public
+export type SmartsheetLinkedService = LinkedService & {
+    type: "Smartsheet";
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: Record<string, unknown>;
+};
+
+// @public
 export type SnowflakeDataset = Dataset & {
     type: "SnowflakeTable";
     schemaTypePropertiesSchema?: Record<string, unknown>;
@@ -7747,6 +7778,20 @@ export type TarReadSettings = CompressionReadSettings & {
 };
 
 // @public
+export type TeamDeskAuthenticationType = string;
+
+// @public
+export type TeamDeskLinkedService = LinkedService & {
+    type: "TeamDesk";
+    authenticationType: TeamDeskAuthenticationType;
+    url: Record<string, unknown>;
+    userName?: Record<string, unknown>;
+    password?: SecretBaseUnion;
+    apiToken?: SecretBaseUnion;
+    encryptedCredential?: Record<string, unknown>;
+};
+
+// @public
 export type TeradataAuthenticationType = string;
 
 // @public
@@ -8290,6 +8335,20 @@ export type XmlSource = CopySource & {
     storeSettings?: StoreReadSettingsUnion;
     formatSettings?: XmlReadSettings;
     additionalColumns?: Record<string, unknown>;
+};
+
+// @public
+export type ZendeskAuthenticationType = string;
+
+// @public
+export type ZendeskLinkedService = LinkedService & {
+    type: "Zendesk";
+    authenticationType: ZendeskAuthenticationType;
+    url: Record<string, unknown>;
+    userName?: Record<string, unknown>;
+    password?: SecretBaseUnion;
+    apiToken?: SecretBaseUnion;
+    encryptedCredential?: Record<string, unknown>;
 };
 
 // @public
