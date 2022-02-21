@@ -461,6 +461,18 @@ export const PointOfInterest: coreClient.CompositeMapper = {
           }
         }
       },
+      categories: {
+        serializedName: "categories",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       classifications: {
         serializedName: "classifications",
         readOnly: true,
@@ -1254,6 +1266,22 @@ export const BatchRequestItem: coreClient.CompositeMapper = {
   }
 };
 
+export const BatchResultItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchResultItem",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const BatchResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1284,22 +1312,6 @@ export const BatchResultSummary: coreClient.CompositeMapper = {
       },
       totalRequests: {
         serializedName: "totalRequests",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const BatchResultItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchResultItem",
-    modelProperties: {
-      statusCode: {
-        serializedName: "statusCode",
         readOnly: true,
         type: {
           name: "Number"
@@ -1637,6 +1649,40 @@ export const GeoJsonLineString: coreClient.CompositeMapper = {
   }
 };
 
+export const SearchAddressBatchItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchAddressBatchItem",
+    modelProperties: {
+      ...BatchResultItem.type.modelProperties,
+      response: {
+        serializedName: "response",
+        type: {
+          name: "Composite",
+          className: "SearchAddressBatchItemResponse"
+        }
+      }
+    }
+  }
+};
+
+export const ReverseSearchAddressBatchItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReverseSearchAddressBatchItem",
+    modelProperties: {
+      ...BatchResultItem.type.modelProperties,
+      response: {
+        serializedName: "response",
+        type: {
+          name: "Composite",
+          className: "ReverseSearchAddressBatchItemResponse"
+        }
+      }
+    }
+  }
+};
+
 export const SearchAddressBatchResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1677,40 +1723,6 @@ export const ReverseSearchAddressBatchResult: coreClient.CompositeMapper = {
               className: "ReverseSearchAddressBatchItem"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const SearchAddressBatchItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SearchAddressBatchItem",
-    modelProperties: {
-      ...BatchResultItem.type.modelProperties,
-      response: {
-        serializedName: "response",
-        type: {
-          name: "Composite",
-          className: "SearchAddressBatchItemResponse"
-        }
-      }
-    }
-  }
-};
-
-export const ReverseSearchAddressBatchItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ReverseSearchAddressBatchItem",
-    modelProperties: {
-      ...BatchResultItem.type.modelProperties,
-      response: {
-        serializedName: "response",
-        type: {
-          name: "Composite",
-          className: "ReverseSearchAddressBatchItemResponse"
         }
       }
     }

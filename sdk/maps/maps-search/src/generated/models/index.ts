@@ -284,6 +284,11 @@ export interface PointOfInterest {
    */
   readonly categorySet?: PointOfInterestCategorySet[];
   /**
+   * Categories array
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly categories?: string[];
+  /**
    * Classification array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -688,6 +693,15 @@ export interface BatchRequestItem {
   query?: string;
 }
 
+/** An item returned from Batch API. Extend with 'response' property. */
+export interface BatchResultItem {
+  /**
+   * HTTP request status code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusCode?: number;
+}
+
 /** This object is returned from a successful Batch service call. Extend with 'batchItems' property. */
 export interface BatchResult {
   /**
@@ -709,15 +723,6 @@ export interface BatchResultSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalRequests?: number;
-}
-
-/** An item returned from Batch API. Extend with 'response' property. */
-export interface BatchResultItem {
-  /**
-   * HTTP request status code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusCode?: number;
 }
 
 /** The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport. */
@@ -815,24 +820,6 @@ export type ReverseSearchAddressBatchItemResponse = ReverseSearchAddressResult &
 /** A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details. */
 export type GeoJsonLineString = GeoJsonGeometry & GeoJsonLineStringData & {};
 
-/** This object is returned from a successful Search Address Batch service call. */
-export type SearchAddressBatchResult = BatchResult & {
-  /**
-   * Array containing the batch results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly batchItems?: SearchAddressBatchItem[];
-};
-
-/** This object is returned from a successful Search Address Reverse Batch service call. */
-export type ReverseSearchAddressBatchResult = BatchResult & {
-  /**
-   * Array containing the batch results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly batchItems?: ReverseSearchAddressBatchItem[];
-};
-
 /** An item returned from Search Address Batch service call. */
 export type SearchAddressBatchItem = BatchResultItem & {
   /**
@@ -849,6 +836,24 @@ export type ReverseSearchAddressBatchItem = BatchResultItem & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly response?: ReverseSearchAddressBatchItemResponse;
+};
+
+/** This object is returned from a successful Search Address Batch service call. */
+export type SearchAddressBatchResult = BatchResult & {
+  /**
+   * Array containing the batch results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly batchItems?: SearchAddressBatchItem[];
+};
+
+/** This object is returned from a successful Search Address Reverse Batch service call. */
+export type ReverseSearchAddressBatchResult = BatchResult & {
+  /**
+   * Array containing the batch results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly batchItems?: ReverseSearchAddressBatchItem[];
 };
 
 /** A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details. */
