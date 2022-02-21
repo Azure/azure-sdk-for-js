@@ -1574,6 +1574,11 @@
       "packageName": "@azure/core-http-compat",
       "projectFolder": "sdk/core/core-http-compat",
       "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/arm-app",
+      "projectFolder": "sdk/app/arm-app",
+      "versionPolicyName": "management"
     }
   ]
 }
