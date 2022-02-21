@@ -507,6 +507,7 @@ export interface OperatingHoursTimeRange {
 // @public
 export interface PointOfInterest {
     readonly brands?: BrandName[];
+    readonly categories?: string[];
     readonly categorySet?: PointOfInterestCategorySet[];
     readonly classifications?: Classification[];
     readonly name?: string;

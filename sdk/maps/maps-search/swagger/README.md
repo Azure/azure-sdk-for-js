@@ -13,7 +13,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/maps/data-plane/Search/preview/1.0/search.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Search/preview/1.0/search.json
 #input-file: ..\..\..\..\..\azure-rest-api-specs\specification\maps\data-plane\Search\preview\1.0\search.json
 # add-credentials: true
 # credential-default-policy-type: BearerTokenCredentialPolicy
@@ -24,7 +24,7 @@ package-version: 1.0.0-beta.1
 disable-async-iterators: true
 hide-clients: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.13"
+  "@autorest/typescript": "6.0.0-beta.15"
 ```
 
 ## Customization for Track 2 Generator
