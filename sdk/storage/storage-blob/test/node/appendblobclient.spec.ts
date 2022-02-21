@@ -17,12 +17,12 @@ import {
   getConnectionStringFromEnvironment,
   bodyToString,
   recorderEnvSetup,
-  getTokenBSU,
-  getTokenCredential,
+  getTokenBSUWithDefaultCredential,
+  getStorageAccessTokenWithDefaultCredential,
 } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 
@@ -153,10 +153,6 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("appendBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG78 - version 2020-10-02 is enabled on production.
-      this.skip();
-    }
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -181,10 +177,11 @@ describe("AppendBlobClient Node.js only", () => {
       credential
     );
 
-    const tokenBlobServiceClient = getTokenBSU();
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
     const tokenAppendBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getAppendBlobClient(blobName);
+
     await tokenAppendBlobClient.appendBlockFromURL(
       `${blockBlobClient.url}?${sas}`,
       0,
@@ -197,10 +194,6 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("appendBlockFromURL - source bear token and destination account key", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG78 - version 2020-10-02 is enabled on production.
-      this.skip();
-    }
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -208,8 +201,7 @@ describe("AppendBlobClient Node.js only", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
-    const tokenCredential = getTokenCredential();
-    const accessToken = await tokenCredential.getToken([]);
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     // const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
     // const tokenAppendBlobClient = tokenBlobServiceClient.getContainerClient(containerName).getAppendBlobClient(blobName);
@@ -226,10 +218,6 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("appendBlockFromURL - destination bearer token", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG78 - version 2020-10-02 is enabled on production.
-      this.skip();
-    }
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -237,7 +225,7 @@ describe("AppendBlobClient Node.js only", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
-    const tokenBlobServiceClient = getTokenBSU();
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
     const tokenAppendBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getAppendBlobClient(blobName);

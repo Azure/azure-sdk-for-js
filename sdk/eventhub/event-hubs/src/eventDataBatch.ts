@@ -5,10 +5,8 @@ import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
-import { Span, SpanContext } from "@azure/core-tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
+import { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { PartitionPublishingProperties } from "./models/private";
@@ -48,11 +46,6 @@ export interface TryAddOptions {
    * The options to use when creating Spans for tracing.
    */
   tracingOptions?: OperationTracingOptions;
-
-  /**
-   * @deprecated Tracing options have been moved to the `tracingOptions` property.
-   */
-  parentSpan?: Span | SpanContext;
 }
 
 /**
@@ -153,7 +146,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * List of 'message' span contexts.
    */
-  private _spanContexts: SpanContext[] = [];
+  private _spanContexts: TracingContext[] = [];
   /**
    * The message annotations to apply on the batch envelope.
    * This will reflect the message annotations on the first event
@@ -256,7 +249,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    */
-  get _messageSpanContexts(): SpanContext[] {
+  get _messageSpanContexts(): TracingContext[] {
     return this._spanContexts;
   }
 
@@ -377,7 +370,6 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
-    options = convertTryAddOptionsForCompatibility(options);
 
     const { entityPath, host } = this._context.config;
     const { event: instrumentedEvent, spanContext } = instrumentEventData(

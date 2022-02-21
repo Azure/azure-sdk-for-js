@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/mariadb/ci.mgmt.yml
+      - sdk/mariadb/arm-mariadb/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/mariadb/ci.mgmt.yml
+      - sdk/mariadb/arm-mariadb/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: mariadb
+    Artifacts:
+      - name: azure-arm-mariadb
+        safeName: azurearmmariadb       

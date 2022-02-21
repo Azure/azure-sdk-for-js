@@ -7,7 +7,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   BlobClient,
@@ -27,8 +27,8 @@ import {
   getConnectionStringFromEnvironment,
   getEncryptionScope_1,
   getImmutableContainerName,
-  getTokenBSU,
-  getTokenCredential,
+  getStorageAccessTokenWithDefaultCredential,
+  getTokenBSUWithDefaultCredential,
   recorderEnvSetup,
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -208,11 +208,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - destination encryption scope", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG79 - version 2020-12-06 is enabled on production.
-      this.skip();
-    }
-
     let encryptionScopeName: string;
 
     try {
@@ -255,12 +250,8 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source SAS and destination bearer token", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG78 - version 2020-10-02 is enabled on production.
-      this.skip();
-    }
     const newBlobName = recorder.getUniqueName("copiedblob");
-    const tokenBlobServiceClient = getTokenBSU();
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
     const tokenNewBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getAppendBlobClient(newBlobName);
@@ -294,12 +285,8 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - destination bearer token", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG78 - version 2020-10-02 is enabled on production.
-      this.skip();
-    }
     const newBlobName = recorder.getUniqueName("copiedblob");
-    const tokenBlobServiceClient = getTokenBSU();
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
     const tokenNewBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getAppendBlobClient(newBlobName);
@@ -315,15 +302,10 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source bearer token and destination account key", async function (this: Context) {
-    if (!isPlaybackMode()) {
-      // Enable this when STG78 - version 2020-10-02 is enabled on production.
-      this.skip();
-    }
     const newBlobName = recorder.getUniqueName("copiedblob");
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
-    const tokenCredential = getTokenCredential();
-    const accessToken = await tokenCredential.getToken([]);
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     const result = await newBlobClient.syncCopyFromURL(blobClient.url, {
       sourceAuthorization: {

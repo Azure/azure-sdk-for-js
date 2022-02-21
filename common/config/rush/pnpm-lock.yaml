@@ -168,6 +168,7 @@ specifiers:
   '@rush-temp/core-client-1': file:./projects/core-client-1.tgz
   '@rush-temp/core-crypto': file:./projects/core-crypto.tgz
   '@rush-temp/core-http': file:./projects/core-http.tgz
+  '@rush-temp/core-http-compat': file:./projects/core-http-compat.tgz
   '@rush-temp/core-lro': file:./projects/core-lro.tgz
   '@rush-temp/core-paging': file:./projects/core-paging.tgz
   '@rush-temp/core-rest-pipeline': file:./projects/core-rest-pipeline.tgz
@@ -420,6 +421,7 @@ dependencies:
   '@rush-temp/core-client-1': file:projects/core-client-1.tgz
   '@rush-temp/core-crypto': file:projects/core-crypto.tgz
   '@rush-temp/core-http': file:projects/core-http.tgz
+  '@rush-temp/core-http-compat': file:projects/core-http-compat.tgz
   '@rush-temp/core-lro': file:projects/core-lro.tgz
   '@rush-temp/core-paging': file:projects/core-paging.tgz
   '@rush-temp/core-rest-pipeline': file:projects/core-rest-pipeline.tgz
@@ -8866,7 +8868,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-o7nTFUp/He8mxChlJgVsEQGvMSgBwZ3Q0cA3IwYAEgFxksGNGDqirKVX14ixCFXZ4WccvZ7N4k7cRVsDsLJO4g==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-negpkvINfMedZMo/5L1bUc1Jurs3pGS6PuodsviCc+XynPV3SHz+/TtOJD49pu7VzkDnSKEU7Yz1DpaV083KQQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -8912,7 +8914,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -9496,22 +9497,22 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-hmINbh19nn8k1jqs1nWFUU2duhpE4z8dFI3PpCUI1LKxEWlzJhpu2vMzeR0KDn6wfXakBgXe4Bd51pim+3t58Q==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-gN6VdLPNFLxYG9Q/S//Ru95Im4dd2dhhBU9HrtSa3nLDVk0UPJKzE81RmUaTXyj2O5oZh524mAlC+lJWR2boTg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -12046,24 +12047,24 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-Nx/m2MguiIwPOF+3c6onTQua7qql7fNqujx5TzVHGWc6YLo+n/4AbQuIHnlCYGnalPGuEYdMZ8neePX6fOnYVg==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-+8h93tQKgGcrkPBBmEhiaSyaGWRjCD8hsfP44fAZ4P7I5DjeRFDoQjYrmEcUlR3Lgvig1nxjHlL8a6hMDHf9aA==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@types/chai': 4.3.0
       chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -13235,6 +13236,24 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/core-http-compat.tgz:
+    resolution: {integrity: sha512-kb8AlUxGYulbQUvdsIwBApht7u8v9SiLXM/KVUgTMrZG+ik2rxLpb6O66Krfn+qgOpsrgYLz7dMfMTNjf4tC2g==, tarball: file:projects/core-http-compat.tgz}
+    name: '@rush-temp/core-http-compat'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.4
+      cross-env: 7.0.3
+      downlevel-dts: 0.8.0
+      eslint: 7.32.0
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      prettier: 2.5.1
+      rimraf: 3.0.2
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/core-http.tgz:
     resolution: {integrity: sha512-MgjS9B/NsYEJb0ZNztZvrIRdvw1y48DQFQey7Zf87jHUI/+W/3DxTl+c2KXnrAvtWOPAikYS0IZbqww8LRPNdw==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
@@ -13600,12 +13619,12 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-TEbNW856SR3kFwVpkaq6xq+/lScXvhz1tDQwNF6qBlgQOSMwk5VnR+R82rTsPT0G9gSoTWrnox0ZpAja5SolDA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-zFQEY/Qa2Ud1QWmhQHRwpaB4zOj4uMVUU4MMabmJn1SddUjy0ovTRWA6l6sL8gYIsx7LUdlDy49xqyhy+U0f9w==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
@@ -13834,11 +13853,11 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-pBrhEn6e2Di9awJaS8boEUBHwzLdLA6udItp6pqvGjjIl4LqQZSlYinDrlevKddv+aijwT0GXH1VcJJ8ANBxZQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-itrh9O/PoTinG39ND5MqHEWiUIvLDTNSZvBlCO4LmU7MliEmXRHUhN4p99BWuXPf89pfZ5e08o7Ad+rmdpzXGQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.67.1
@@ -14689,7 +14708,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-vooDpQ9bSQgJCKjMaW8rhrsZVAu5H8OfPagXSDRQB2hPz0fEL6rUgvHoajxoLHaJXqsXkRg2QdpLWP8ESJ00Iw==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-yFr89E5+B2YApiYUYVtA0quOfFKPKBfpxJPWiJq5betC6Zz/1lzKOCf7Kd1WCyqYriJ5AKAgoG+fkfFXo63xZA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -14915,7 +14934,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-0HnabFIBko9eTEkMSRH34JvoRtKba6Av18Q/4bbi+k31s2M8mBVXSjIrjlwJYWHP7Y69kS6J3kbV94L7SYf6Kg==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-NyZJL22Y1a7ARbMZcFPMfeB0/CQbfXRZqfH0wOpq3UMd4BqMFvyUVNuBXRap2Ah7dUfh874PRqRwOf15w05bvA==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -15212,7 +15231,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-Z16hjklcfBBkYbwEMmEEC4QtxSnbIFdVyiD1OFdjnPeFt+ZbHxhs4BOtkc6vCQEZb5vgPEqJ5PULYbtKpJHuWg==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-I/aBL09l+iLLQZa1vjIFArGmsfU5aWEy11NYlMMUReaIRPDpjkJ74DsmWvqUBj24HwciOYNzf+8dd2QdZ6mKAg==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -15252,13 +15271,12 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-cQaHJb4jVWl+mTuCSJZ1anD4t1eVre5FR//AEZeIdneTG2v+K/dBs5hNIa9IvHGoMl0yE0JNcb7cbMod+kAW3g==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-5wMpq1xaYGMhJcpyFyHMrujIaEpRxmo/BL0EPtjM5uN7zAzoFLEAvYP2/hMq5giM99goN7LN6Ih20REBbLZ/mw==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -15298,7 +15316,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16381,7 +16398,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-IzlvKcllARl3HKjtBicSvjXCawMUH1xPyU8NzW9r6UbXzre6di7K3pjVdSwgnGEPqoHLUNXb1WqAfMMkNz0rBQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-8CmCvHXr6QPXJpZRBhREuF+RM4c5qytOZkSJ8/StQkPtJ5sNhIS2X9xg2aeNHkud3LlS6YmsvEeLKls3Jk2odQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
