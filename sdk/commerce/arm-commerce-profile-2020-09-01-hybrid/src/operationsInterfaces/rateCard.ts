@@ -6,25 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RateCard } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { UsageManagementClient } from "../usageManagementClient";
 import { RateCardGetOptionalParams, RateCardGetResponse } from "../models";
 
-/** Class containing RateCard operations. */
-export class RateCardImpl implements RateCard {
-  private readonly client: UsageManagementClient;
-
-  /**
-   * Initialize a new instance of the class RateCard class.
-   * @param client Reference to the service client
-   */
-  constructor(client: UsageManagementClient) {
-    this.client = client;
-  }
-
+/** Interface representing a RateCard. */
+export interface RateCard {
   /**
    * Enables you to query for the resource/meter metadata and related prices used in a given subscription
    * by Offer ID, Currency, Locale and Region. The metadata associated with the billing meters, including
@@ -41,29 +26,5 @@ export class RateCardImpl implements RateCard {
   get(
     filter: string,
     options?: RateCardGetOptionalParams
-  ): Promise<RateCardGetResponse> {
-    return this.client.sendOperationRequest(
-      { filter, options },
-      getOperationSpec
-    );
-  }
+  ): Promise<RateCardGetResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Commerce/RateCard",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceRateCardInfo
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
