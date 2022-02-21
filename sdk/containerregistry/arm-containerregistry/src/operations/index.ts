@@ -6,10 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./connectedRegistries";
+export * from "./exportPipelines";
 export * from "./registries";
+export * from "./importPipelines";
 export * from "./operations";
+export * from "./pipelineRuns";
 export * from "./privateEndpointConnections";
 export * from "./replications";
+export * from "./scopeMaps";
+export * from "./tokens";
 export * from "./webhooks";
 export * from "./agentPools";
 export * from "./runs";
