@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -23,7 +23,6 @@ pr:
     include:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault/
-
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -31,3 +30,5 @@ extends:
     Artifacts:
       - name: azure-arm-keyvault
         safeName: azurearmkeyvault
+      - name: azure-arm-keyvault-profile-2020-09-01-hybrid
+        safeName: azurearmkeyvaultprofile20200901hybrid
