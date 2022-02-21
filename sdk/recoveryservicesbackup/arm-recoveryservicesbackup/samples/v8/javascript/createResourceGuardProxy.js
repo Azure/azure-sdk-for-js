@@ -14,7 +14,7 @@ Secures vault critical operations
  *
  * @summary Add or Update ResourceGuardProxy under vault
 Secures vault critical operations
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

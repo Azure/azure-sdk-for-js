@@ -12,7 +12,7 @@
  * This sample demonstrates how to Returns ResourceGuardProxy under vault and with the name referenced in request
  *
  * @summary Returns ResourceGuardProxy under vault and with the name referenced in request
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

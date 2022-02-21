@@ -1,53 +1,58 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/98123456-7614-3456-5678-789980112547/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1321",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 01:15:34 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.16 - EUS ProdSlices",
-    "x-ms-request-id": "4b70a089-36a1-447b-9e22-27353b74d900"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
-   "query": {},
-   "requestBody": "{\"query\":\"range x from 1 to 10000000000 step 1 | count\",\"timespan\":\"P1D\"}",
-   "status": 504,
-   "response": "{\"error\":{\"message\":\"Gateway timeout\",\"code\":\"GatewayTimeout\",\"correlationId\":\"5b0916dc-db1e-4ea0-bc08-11cc9d45aa95\",\"innererror\":{\"code\":\"GatewayTimeout\",\"message\":\"Kusto query timed out\"}}}",
-   "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
-    "content-length": "191",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 01:15:53 GMT",
-    "preference-applied": "wait=1",
-    "strict-transport-security": "max-age=15724800; includeSubDomains",
-    "vary": "Accept-Encoding",
-    "via": "1.1 draft-oms-7d47d4b4cd-5kggs",
-    "x-content-type-options": "nosniff"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "f7f46b3463438dc0f1148cb2be69104f"
+  "Entries": [
+    {
+      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "73",
+        "Content-Type": "application/json",
+        "prefer": "wait=1",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "f7589e41-9973-41bb-b92f-e94d6a6e492b",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "query": "range x from 1 to 10000000000 step 1 | count",
+        "timespan": "P1D"
+      },
+      "StatusCode": 504,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+        "Connection": "keep-alive",
+        "Content-Length": "191",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 11 Feb 2022 23:24:42 GMT",
+        "Preference-Applied": "wait=1",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "Via": "1.1 draft-oms-5565f6c877-hg67w",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "error": {
+          "message": "Gateway timeout",
+          "code": "GatewayTimeout",
+          "correlationId": "abcedfc7-51b4-4d7d-9e56-914361437783",
+          "innererror": {
+            "code": "GatewayTimeout",
+            "message": "Kusto query timed out"
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }
