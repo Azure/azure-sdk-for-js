@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./permissions";
-export * from "./roleDefinitions";
-export * from "./providerOperationsMetadataOperations";
-export * from "./globalAdministrator";
-export * from "./roleAssignments";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AuthorizationManagementClient } from "./authorizationManagementClient";
+export * from "./operationsInterfaces";
