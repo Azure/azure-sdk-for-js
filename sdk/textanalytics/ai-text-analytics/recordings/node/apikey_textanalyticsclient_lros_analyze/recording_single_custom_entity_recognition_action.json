@@ -1,0 +1,462 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "516",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "7e423efe-278b-4bf7-bb2b-7fe3fceb3509"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": {
+          "customEntityRecognitionTasks": [
+            {
+              "parameters": {
+                "project-name": "sanitized",
+                "deployment-name": "sanitized",
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "fe9298ee-7eab-4848-ae80-712980260489",
+        "Date": "Fri, 18 Feb 2022 19:31:14 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/70ed07f4-3e9f-487a-b17f-501590daee9e",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "419"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/70ed07f4-3e9f-487a-b17f-501590daee9e?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e9afb4b5-f296-4d15-a5b4-cf2f83e757d3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d3d310d2-d57c-4ecb-939a-abecb294245a",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:14 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "70ed07f4-3e9f-487a-b17f-501590daee9e",
+        "lastUpdateDateTime": "2022-02-18T19:31:15Z",
+        "createdDateTime": "2022-02-18T19:31:15Z",
+        "expirationDateTime": "2022-02-19T19:31:15Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/70ed07f4-3e9f-487a-b17f-501590daee9e?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "a3771400-bce6-4967-899e-372814bd20b1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "07c64ae3-8b0e-4016-95d5-148d8a2520a2",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:14 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "70ed07f4-3e9f-487a-b17f-501590daee9e",
+        "lastUpdateDateTime": "2022-02-18T19:31:15Z",
+        "createdDateTime": "2022-02-18T19:31:15Z",
+        "expirationDateTime": "2022-02-19T19:31:15Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/70ed07f4-3e9f-487a-b17f-501590daee9e?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "61d8f1b9-b05f-4eaf-bb7f-9973a03740b2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "1f4f77cb-4747-4bcf-aa34-b8bbbe6dd248",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:16 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "43"
+      },
+      "ResponseBody": {
+        "jobId": "70ed07f4-3e9f-487a-b17f-501590daee9e",
+        "lastUpdateDateTime": "2022-02-18T19:31:16Z",
+        "createdDateTime": "2022-02-18T19:31:15Z",
+        "expirationDateTime": "2022-02-19T19:31:15Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "customEntityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:31:16.2607063Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Government",
+                        "category": "restaurant_name",
+                        "offset": 23,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      },
+                      {
+                        "text": "Office",
+                        "category": "restaurant_name",
+                        "offset": 49,
+                        "length": 6,
+                        "confidenceScore": 0.11
+                      },
+                      {
+                        "text": "GAO",
+                        "category": "restaurant_name",
+                        "offset": 57,
+                        "length": 3,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "Accountability",
+                        "category": "geographic_poi",
+                        "offset": 34,
+                        "length": 14,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "natural",
+                        "category": "geographic_poi",
+                        "offset": 106,
+                        "length": 7,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "dramatic",
+                        "category": "sort",
+                        "offset": 77,
+                        "length": 8,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "oil",
+                        "category": "restaurant_type",
+                        "offset": 98,
+                        "length": 3,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "gas",
+                        "category": "restaurant_type",
+                        "offset": 114,
+                        "length": 3,
+                        "confidenceScore": 0.09
+                      },
+                      {
+                        "text": "and",
+                        "category": "served_dish",
+                        "offset": 102,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "development",
+                        "category": "object_type",
+                        "offset": 118,
+                        "length": 11,
+                        "confidenceScore": 0.06
+                      },
+                      {
+                        "text": "federal",
+                        "category": "state",
+                        "offset": 133,
+                        "length": 7,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "protection",
+                        "category": "state",
+                        "offset": 267,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      },
+                      {
+                        "text": "lands",
+                        "category": "poi",
+                        "offset": 141,
+                        "length": 5,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "BLM",
+                        "category": "poi",
+                        "offset": 202,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "the",
+                        "category": "timeRange",
+                        "offset": 152,
+                        "length": 3,
+                        "confidenceScore": 0.24
+                      },
+                      {
+                        "text": "past six years",
+                        "category": "timeRange",
+                        "offset": 156,
+                        "length": 14,
+                        "confidenceScore": 0.54
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "sanitized",
+                "deploymentName": "sanitized"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/70ed07f4-3e9f-487a-b17f-501590daee9e?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "052eed48-6917-4fc8-b791-0c9cf04ecbd5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "ac0e7621-7ef3-4d4f-ba0e-a18d622b71d2",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:17 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "33"
+      },
+      "ResponseBody": {
+        "jobId": "70ed07f4-3e9f-487a-b17f-501590daee9e",
+        "lastUpdateDateTime": "2022-02-18T19:31:16Z",
+        "createdDateTime": "2022-02-18T19:31:15Z",
+        "expirationDateTime": "2022-02-19T19:31:15Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "customEntityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:31:16.2607063Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Government",
+                        "category": "restaurant_name",
+                        "offset": 23,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      },
+                      {
+                        "text": "Office",
+                        "category": "restaurant_name",
+                        "offset": 49,
+                        "length": 6,
+                        "confidenceScore": 0.11
+                      },
+                      {
+                        "text": "GAO",
+                        "category": "restaurant_name",
+                        "offset": 57,
+                        "length": 3,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "Accountability",
+                        "category": "geographic_poi",
+                        "offset": 34,
+                        "length": 14,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "natural",
+                        "category": "geographic_poi",
+                        "offset": 106,
+                        "length": 7,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "dramatic",
+                        "category": "sort",
+                        "offset": 77,
+                        "length": 8,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "oil",
+                        "category": "restaurant_type",
+                        "offset": 98,
+                        "length": 3,
+                        "confidenceScore": 0.03
+                      },
+                      {
+                        "text": "gas",
+                        "category": "restaurant_type",
+                        "offset": 114,
+                        "length": 3,
+                        "confidenceScore": 0.09
+                      },
+                      {
+                        "text": "and",
+                        "category": "served_dish",
+                        "offset": 102,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "development",
+                        "category": "object_type",
+                        "offset": 118,
+                        "length": 11,
+                        "confidenceScore": 0.06
+                      },
+                      {
+                        "text": "federal",
+                        "category": "state",
+                        "offset": 133,
+                        "length": 7,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "protection",
+                        "category": "state",
+                        "offset": 267,
+                        "length": 10,
+                        "confidenceScore": 0.05
+                      },
+                      {
+                        "text": "lands",
+                        "category": "poi",
+                        "offset": 141,
+                        "length": 5,
+                        "confidenceScore": 0.04
+                      },
+                      {
+                        "text": "BLM",
+                        "category": "poi",
+                        "offset": 202,
+                        "length": 3,
+                        "confidenceScore": 0.07
+                      },
+                      {
+                        "text": "the",
+                        "category": "timeRange",
+                        "offset": 152,
+                        "length": 3,
+                        "confidenceScore": 0.24
+                      },
+                      {
+                        "text": "past six years",
+                        "category": "timeRange",
+                        "offset": 156,
+                        "length": 14,
+                        "confidenceScore": 0.54
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "sanitized",
+                "deploymentName": "sanitized"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

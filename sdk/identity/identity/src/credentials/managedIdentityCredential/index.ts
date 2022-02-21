@@ -62,7 +62,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       _options = options;
     } else {
       // options only constructor
-      _options = options;
+      _options = clientIdOrOptions;
     }
     this.identityClient = new IdentityClient(_options);
     this.isAvailableIdentityClient = new IdentityClient({

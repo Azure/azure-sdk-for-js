@@ -576,17 +576,23 @@ export class StreamingReceiver extends MessageReceiver {
    * @param catchAndReportError - A function and reports an error but does not throw it.
    */
   private async _initAndAddCreditOperation(caller: "detach" | "subscribe"): Promise<void> {
+    if (this._receiverHelper.isSuspended()) {
+      // user has suspended us while we were initializing
+      // the connection. Abort this attempt - if they attempt
+      // resubscribe we'll just reinitialize.
+      // This checks should happen before throwErrorIfConnectionClosed(); otherwise
+      // we won't be able to break out of the retry-for-ever loops when user suspend us.
+      throw new AbortError("Receiver was suspended during initialization.");
+    }
+
     throwErrorIfConnectionClosed(this._context);
 
     await this._messageHandlers().preInitialize();
 
     if (this._receiverHelper.isSuspended()) {
-      // user has suspended us while we were initializing
-      // the connection. Abort this attempt - if they attempt
-      // resubscribe we'll just reinitialize.
+      // Need to check again as user can suspend us in preInitialize()
       throw new AbortError("Receiver was suspended during initialization.");
     }
-
     await this._init(
       this._createReceiverOptions(caller === "detach", this._getHandlers()),
       this._subscribeOptions?.abortSignal

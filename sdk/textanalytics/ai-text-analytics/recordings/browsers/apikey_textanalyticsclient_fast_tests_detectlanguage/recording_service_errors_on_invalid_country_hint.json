@@ -1,25 +1,65 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/languages",
-   "query": {},
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"hello\",\"countryHint\":\"invalidcountry\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Country Hint.\",\"innererror\":{\"code\":\"InvalidCountryHint\",\"message\":\"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code.\"}}}],\"modelVersion\":\"2021-01-05\"}",
-   "responseHeaders": {
-    "apim-request-id": "5f4ef4d2-6b75-43ab-abd9-b32661fca374",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:50:09 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "3"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "47fb39e4d90d4d4f6b254f5b853c7a94"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/languages",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "Content-Length": "72",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000014-0000000000000028-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "7398fac8-34e7-48ef-923b-bb716ca9de48",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "hello",
+            "countryHint": "invalidcountry"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "26e9d9f4-f1b0-418e-9520-04aeb0448a9c",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:10:18 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "3"
+      },
+      "ResponseBody": {
+        "documents": [],
+        "errors": [
+          {
+            "id": "0",
+            "error": {
+              "code": "InvalidArgument",
+              "message": "Invalid Country Hint.",
+              "innererror": {
+                "code": "InvalidCountryHint",
+                "message": "Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."
+              }
+            }
+          }
+        ],
+        "modelVersion": "2021-11-20"
+      }
+    }
+  ],
+  "Variables": {}
 }

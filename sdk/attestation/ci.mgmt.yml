@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/attestation/ci.mgmt.yml
+      - sdk/attestation/arm-attestation/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/attestation/ci.mgmt.yml
+      - sdk/attestation/arm-attestation/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: attestation
+    Artifacts:
+      - name: azure-arm-attestation
+        safeName: azurearmattestation       

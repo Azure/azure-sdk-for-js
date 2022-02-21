@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/orbital/ci.mgmt.yml
+      - sdk/orbital/arm-orbital/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/orbital/ci.mgmt.yml
+      - sdk/orbital/arm-orbital/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: orbital
+    Artifacts:
+      - name: azure-arm-orbital
+        safeName: azurearmorbital
