@@ -1,0 +1,379 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "319",
+        "Content-Type": "application/json",
+        "traceparent": "00-00000000000000000000000000000425-0000000000000920-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "e44c8554-b196-404e-973e-4414ada6395d"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "Microsoft was founded by Bill Gates and Paul Allen",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "Microsoft fue fundado por Bill Gates y Paul Allen",
+              "language": "es"
+            }
+          ]
+        },
+        "tasks": {
+          "entityRecognitionTasks": [
+            {
+              "parameters": {
+                "model-version": "latest",
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "fd40da04-5356-4f94-85b8-e445750dedf6",
+        "Date": "Fri, 18 Feb 2022 19:05:26 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/adceb679-9ccc-4436-a8d7-307fb790ad42",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "190"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/adceb679-9ccc-4436-a8d7-307fb790ad42?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000426-0000000000000922-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "a67c7800-efc7-42dc-8d25-1a6da8bc9bc3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "c4c1aaca-f2df-4e55-a7e2-15d5dd611de8",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:26 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6"
+      },
+      "ResponseBody": {
+        "jobId": "adceb679-9ccc-4436-a8d7-307fb790ad42",
+        "lastUpdateDateTime": "2022-02-18T19:05:26Z",
+        "createdDateTime": "2022-02-18T19:05:26Z",
+        "expirationDateTime": "2022-02-19T19:05:26Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/adceb679-9ccc-4436-a8d7-307fb790ad42?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000427-0000000000000924-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "58bc7863-c9c1-4809-b287-5f6b9409c369"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "ffb3956f-cd02-4644-b338-594032155d5f",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:26 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "adceb679-9ccc-4436-a8d7-307fb790ad42",
+        "lastUpdateDateTime": "2022-02-18T19:05:26Z",
+        "createdDateTime": "2022-02-18T19:05:26Z",
+        "expirationDateTime": "2022-02-19T19:05:26Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/adceb679-9ccc-4436-a8d7-307fb790ad42?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000428-0000000000000926-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "5e36e6f0-2ff7-40be-b385-8632c139b6da"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "35585e2d-febf-4ed3-a191-f4b27e5d1735",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:28 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6"
+      },
+      "ResponseBody": {
+        "jobId": "adceb679-9ccc-4436-a8d7-307fb790ad42",
+        "lastUpdateDateTime": "2022-02-18T19:05:26Z",
+        "createdDateTime": "2022-02-18T19:05:26Z",
+        "expirationDateTime": "2022-02-19T19:05:26Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/adceb679-9ccc-4436-a8d7-307fb790ad42?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000429-0000000000000928-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "c477964e-0157-4f48-bd61-174257d20a2a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "bdda91bc-f361-46fa-b6fe-2be4c2460ae9",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:30 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "85"
+      },
+      "ResponseBody": {
+        "jobId": "adceb679-9ccc-4436-a8d7-307fb790ad42",
+        "lastUpdateDateTime": "2022-02-18T19:05:29Z",
+        "createdDateTime": "2022-02-18T19:05:26Z",
+        "expirationDateTime": "2022-02-19T19:05:26Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:05:29.3233723Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 25,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 40,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 26,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 39,
+                        "length": 10,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/adceb679-9ccc-4436-a8d7-307fb790ad42?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000430-0000000000000930-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "a124cb61-d5c9-442a-a34f-63e717eafae0"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2a54960e-1225-4a23-8ce9-de7a9fca7021",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:30 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "114"
+      },
+      "ResponseBody": {
+        "jobId": "adceb679-9ccc-4436-a8d7-307fb790ad42",
+        "lastUpdateDateTime": "2022-02-18T19:05:29Z",
+        "createdDateTime": "2022-02-18T19:05:26Z",
+        "expirationDateTime": "2022-02-19T19:05:26Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:05:29.3233723Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 25,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 40,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 26,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 39,
+                        "length": 10,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

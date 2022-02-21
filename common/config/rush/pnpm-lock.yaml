@@ -169,6 +169,7 @@ specifiers:
   '@rush-temp/core-client-1': file:./projects/core-client-1.tgz
   '@rush-temp/core-crypto': file:./projects/core-crypto.tgz
   '@rush-temp/core-http': file:./projects/core-http.tgz
+  '@rush-temp/core-http-compat': file:./projects/core-http-compat.tgz
   '@rush-temp/core-lro': file:./projects/core-lro.tgz
   '@rush-temp/core-paging': file:./projects/core-paging.tgz
   '@rush-temp/core-rest-pipeline': file:./projects/core-rest-pipeline.tgz
@@ -422,6 +423,7 @@ dependencies:
   '@rush-temp/core-client-1': file:projects/core-client-1.tgz
   '@rush-temp/core-crypto': file:projects/core-crypto.tgz
   '@rush-temp/core-http': file:projects/core-http.tgz
+  '@rush-temp/core-http-compat': file:projects/core-http-compat.tgz
   '@rush-temp/core-lro': file:projects/core-lro.tgz
   '@rush-temp/core-paging': file:projects/core-paging.tgz
   '@rush-temp/core-rest-pipeline': file:projects/core-rest-pipeline.tgz
@@ -8898,7 +8900,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-o7nTFUp/He8mxChlJgVsEQGvMSgBwZ3Q0cA3IwYAEgFxksGNGDqirKVX14ixCFXZ4WccvZ7N4k7cRVsDsLJO4g==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-negpkvINfMedZMo/5L1bUc1Jurs3pGS6PuodsviCc+XynPV3SHz+/TtOJD49pu7VzkDnSKEU7Yz1DpaV083KQQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -8944,7 +8946,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -13296,6 +13297,24 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/core-http-compat.tgz:
+    resolution: {integrity: sha512-kb8AlUxGYulbQUvdsIwBApht7u8v9SiLXM/KVUgTMrZG+ik2rxLpb6O66Krfn+qgOpsrgYLz7dMfMTNjf4tC2g==, tarball: file:projects/core-http-compat.tgz}
+    name: '@rush-temp/core-http-compat'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.4
+      cross-env: 7.0.3
+      downlevel-dts: 0.8.0
+      eslint: 7.32.0
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      prettier: 2.5.1
+      rimraf: 3.0.2
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/core-http.tgz:
     resolution: {integrity: sha512-MgjS9B/NsYEJb0ZNztZvrIRdvw1y48DQFQey7Zf87jHUI/+W/3DxTl+c2KXnrAvtWOPAikYS0IZbqww8LRPNdw==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
@@ -13661,12 +13680,12 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-TEbNW856SR3kFwVpkaq6xq+/lScXvhz1tDQwNF6qBlgQOSMwk5VnR+R82rTsPT0G9gSoTWrnox0ZpAja5SolDA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-zFQEY/Qa2Ud1QWmhQHRwpaB4zOj4uMVUU4MMabmJn1SddUjy0ovTRWA6l6sL8gYIsx7LUdlDy49xqyhy+U0f9w==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0-preview.14
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
@@ -14976,7 +14995,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-0HnabFIBko9eTEkMSRH34JvoRtKba6Av18Q/4bbi+k31s2M8mBVXSjIrjlwJYWHP7Y69kS6J3kbV94L7SYf6Kg==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-NyZJL22Y1a7ARbMZcFPMfeB0/CQbfXRZqfH0wOpq3UMd4BqMFvyUVNuBXRap2Ah7dUfh874PRqRwOf15w05bvA==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -16440,7 +16459,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-IzlvKcllARl3HKjtBicSvjXCawMUH1xPyU8NzW9r6UbXzre6di7K3pjVdSwgnGEPqoHLUNXb1WqAfMMkNz0rBQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-8CmCvHXr6QPXJpZRBhREuF+RM4c5qytOZkSJ8/StQkPtJ5sNhIS2X9xg2aeNHkud3LlS6YmsvEeLKls3Jk2odQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:

@@ -1,127 +1,499 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 01:02:58 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12171.14 - SCUS ProdSlices",
-    "x-ms-request-id": "98507e92-833b-4e49-9784-5045646d0700"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs",
-   "query": {
-    "stringIndexType": "UnicodeCodePoint"
-   },
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen\",\"language\":\"en\"}]}",
-   "status": 202,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "7babda94-5af2-4a6a-b535-de1aedd7bd0e",
-    "date": "Sat, 23 Oct 2021 01:02:58 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c2b0fb79-ffe9-4474-9bf8-75d6ea536dba",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "195"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c2b0fb79-ffe9-4474-9bf8-75d6ea536dba",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c2b0fb79-ffe9-4474-9bf8-75d6ea536dba\",\"lastUpdateDateTime\":\"2021-10-23T01:02:59Z\",\"createdDateTime\":\"2021-10-23T01:02:59Z\",\"expirationDateTime\":\"2021-10-24T01:02:59Z\",\"status\":\"notStarted\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "0e9662bb-968d-4088-afe5-02428ca963d7",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 01:02:58 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c2b0fb79-ffe9-4474-9bf8-75d6ea536dba",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c2b0fb79-ffe9-4474-9bf8-75d6ea536dba\",\"lastUpdateDateTime\":\"2021-10-23T01:02:59Z\",\"createdDateTime\":\"2021-10-23T01:02:59Z\",\"expirationDateTime\":\"2021-10-24T01:02:59Z\",\"status\":\"notStarted\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "7ed704d9-6a65-437d-852e-443399719484",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 01:02:58 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c2b0fb79-ffe9-4474-9bf8-75d6ea536dba",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c2b0fb79-ffe9-4474-9bf8-75d6ea536dba\",\"lastUpdateDateTime\":\"2021-10-23T01:02:59Z\",\"createdDateTime\":\"2021-10-23T01:02:59Z\",\"expirationDateTime\":\"2021-10-24T01:02:59Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":12,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":0.99,\"name\":\"ibuprofen\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]}],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
-   "responseHeaders": {
-    "apim-request-id": "31b16424-5885-4e4d-af55-29613734a732",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 01:03:00 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "160"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c2b0fb79-ffe9-4474-9bf8-75d6ea536dba",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c2b0fb79-ffe9-4474-9bf8-75d6ea536dba\",\"lastUpdateDateTime\":\"2021-10-23T01:02:59Z\",\"createdDateTime\":\"2021-10-23T01:02:59Z\",\"expirationDateTime\":\"2021-10-24T01:02:59Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":12,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":0.99,\"name\":\"ibuprofen\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]}],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
-   "responseHeaders": {
-    "apim-request-id": "73a1123c-2410-4c2c-8fd2-32fc76a3883c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 01:03:00 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "69"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "3a4d4b61449c4b62316d886bdd39c2af"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs?stringIndexType=UnicodeCodePoint",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "103",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000667-0000000000001568-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "df794912-c278-4cc4-9f7f-0fc192a58947",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDC67\uD83C\uDFFE\u200D\uD83D\uDC66\uD83C\uDFFF ibuprofen",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "31961934-4103-48d9-a725-8908ed0c52ed",
+        "Date": "Fri, 18 Feb 2022 19:19:59 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/0a070a10-e141-45e6-8f9f-4a8b9c40a3db",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "111"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/0a070a10-e141-45e6-8f9f-4a8b9c40a3db?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000668-0000000000001570-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "0f9a2858-a9fe-4490-932c-f02987668734",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d6ed328f-4b89-4a49-857f-089e670e2d4e",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:19:59 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "11"
+      },
+      "ResponseBody": {
+        "jobId": "0a070a10-e141-45e6-8f9f-4a8b9c40a3db",
+        "lastUpdateDateTime": "2022-02-18T19:19:59Z",
+        "createdDateTime": "2022-02-18T19:19:59Z",
+        "expirationDateTime": "2022-02-19T19:19:59Z",
+        "status": "notStarted",
+        "errors": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/0a070a10-e141-45e6-8f9f-4a8b9c40a3db?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000669-0000000000001572-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "d13818ab-c8c9-4047-896f-835cdd5b1596",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "436b4701-6160-4493-a8ff-9767c9afe1fa",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:19:59 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "11"
+      },
+      "ResponseBody": {
+        "jobId": "0a070a10-e141-45e6-8f9f-4a8b9c40a3db",
+        "lastUpdateDateTime": "2022-02-18T19:19:59Z",
+        "createdDateTime": "2022-02-18T19:19:59Z",
+        "expirationDateTime": "2022-02-19T19:19:59Z",
+        "status": "running",
+        "errors": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/0a070a10-e141-45e6-8f9f-4a8b9c40a3db?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000670-0000000000001574-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "45183867-a14c-432c-95f9-7a344da9f80e",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "0cf7a3f1-43f2-4e5a-bb00-57c0107267e9",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:20:01 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "37"
+      },
+      "ResponseBody": {
+        "jobId": "0a070a10-e141-45e6-8f9f-4a8b9c40a3db",
+        "lastUpdateDateTime": "2022-02-18T19:19:59Z",
+        "createdDateTime": "2022-02-18T19:19:59Z",
+        "expirationDateTime": "2022-02-19T19:19:59Z",
+        "status": "succeeded",
+        "errors": [],
+        "results": {
+          "documents": [
+            {
+              "id": "0",
+              "entities": [
+                {
+                  "offset": 12,
+                  "length": 9,
+                  "text": "ibuprofen",
+                  "category": "MedicationName",
+                  "confidenceScore": 0.99,
+                  "name": "ibuprofen",
+                  "links": [
+                    {
+                      "dataSource": "UMLS",
+                      "id": "C0020740"
+                    },
+                    {
+                      "dataSource": "AOD",
+                      "id": "0000019879"
+                    },
+                    {
+                      "dataSource": "ATC",
+                      "id": "M01AE01"
+                    },
+                    {
+                      "dataSource": "CCPSS",
+                      "id": "0046165"
+                    },
+                    {
+                      "dataSource": "CHV",
+                      "id": "0000006519"
+                    },
+                    {
+                      "dataSource": "CSP",
+                      "id": "2270-2077"
+                    },
+                    {
+                      "dataSource": "DRUGBANK",
+                      "id": "DB01050"
+                    },
+                    {
+                      "dataSource": "GS",
+                      "id": "1611"
+                    },
+                    {
+                      "dataSource": "LCH_NW",
+                      "id": "sh97005926"
+                    },
+                    {
+                      "dataSource": "LNC",
+                      "id": "LP16165-0"
+                    },
+                    {
+                      "dataSource": "MEDCIN",
+                      "id": "40458"
+                    },
+                    {
+                      "dataSource": "MMSL",
+                      "id": "d00015"
+                    },
+                    {
+                      "dataSource": "MSH",
+                      "id": "D007052"
+                    },
+                    {
+                      "dataSource": "MTHSPL",
+                      "id": "WK2XYI10QM"
+                    },
+                    {
+                      "dataSource": "NCI",
+                      "id": "C561"
+                    },
+                    {
+                      "dataSource": "NCI_CTRP",
+                      "id": "C561"
+                    },
+                    {
+                      "dataSource": "NCI_DCP",
+                      "id": "00803"
+                    },
+                    {
+                      "dataSource": "NCI_DTP",
+                      "id": "NSC0256857"
+                    },
+                    {
+                      "dataSource": "NCI_FDA",
+                      "id": "WK2XYI10QM"
+                    },
+                    {
+                      "dataSource": "NCI_NCI-GLOSS",
+                      "id": "CDR0000613511"
+                    },
+                    {
+                      "dataSource": "NDDF",
+                      "id": "002377"
+                    },
+                    {
+                      "dataSource": "PDQ",
+                      "id": "CDR0000040475"
+                    },
+                    {
+                      "dataSource": "RCD",
+                      "id": "x02MO"
+                    },
+                    {
+                      "dataSource": "RXNORM",
+                      "id": "5640"
+                    },
+                    {
+                      "dataSource": "SNM",
+                      "id": "E-7772"
+                    },
+                    {
+                      "dataSource": "SNMI",
+                      "id": "C-603C0"
+                    },
+                    {
+                      "dataSource": "SNOMEDCT_US",
+                      "id": "387207008"
+                    },
+                    {
+                      "dataSource": "USP",
+                      "id": "m39860"
+                    },
+                    {
+                      "dataSource": "USPMG",
+                      "id": "MTHU000060"
+                    },
+                    {
+                      "dataSource": "VANDF",
+                      "id": "4017840"
+                    }
+                  ]
+                }
+              ],
+              "relations": [],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-05-15"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/0a070a10-e141-45e6-8f9f-4a8b9c40a3db?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000671-0000000000001576-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "09918f84-1516-4929-bf67-dd2586821e5b",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "092c6bb3-f1aa-4d00-b650-b3d5303610e8",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:20:01 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "113"
+      },
+      "ResponseBody": {
+        "jobId": "0a070a10-e141-45e6-8f9f-4a8b9c40a3db",
+        "lastUpdateDateTime": "2022-02-18T19:19:59Z",
+        "createdDateTime": "2022-02-18T19:19:59Z",
+        "expirationDateTime": "2022-02-19T19:19:59Z",
+        "status": "succeeded",
+        "errors": [],
+        "results": {
+          "documents": [
+            {
+              "id": "0",
+              "entities": [
+                {
+                  "offset": 12,
+                  "length": 9,
+                  "text": "ibuprofen",
+                  "category": "MedicationName",
+                  "confidenceScore": 0.99,
+                  "name": "ibuprofen",
+                  "links": [
+                    {
+                      "dataSource": "UMLS",
+                      "id": "C0020740"
+                    },
+                    {
+                      "dataSource": "AOD",
+                      "id": "0000019879"
+                    },
+                    {
+                      "dataSource": "ATC",
+                      "id": "M01AE01"
+                    },
+                    {
+                      "dataSource": "CCPSS",
+                      "id": "0046165"
+                    },
+                    {
+                      "dataSource": "CHV",
+                      "id": "0000006519"
+                    },
+                    {
+                      "dataSource": "CSP",
+                      "id": "2270-2077"
+                    },
+                    {
+                      "dataSource": "DRUGBANK",
+                      "id": "DB01050"
+                    },
+                    {
+                      "dataSource": "GS",
+                      "id": "1611"
+                    },
+                    {
+                      "dataSource": "LCH_NW",
+                      "id": "sh97005926"
+                    },
+                    {
+                      "dataSource": "LNC",
+                      "id": "LP16165-0"
+                    },
+                    {
+                      "dataSource": "MEDCIN",
+                      "id": "40458"
+                    },
+                    {
+                      "dataSource": "MMSL",
+                      "id": "d00015"
+                    },
+                    {
+                      "dataSource": "MSH",
+                      "id": "D007052"
+                    },
+                    {
+                      "dataSource": "MTHSPL",
+                      "id": "WK2XYI10QM"
+                    },
+                    {
+                      "dataSource": "NCI",
+                      "id": "C561"
+                    },
+                    {
+                      "dataSource": "NCI_CTRP",
+                      "id": "C561"
+                    },
+                    {
+                      "dataSource": "NCI_DCP",
+                      "id": "00803"
+                    },
+                    {
+                      "dataSource": "NCI_DTP",
+                      "id": "NSC0256857"
+                    },
+                    {
+                      "dataSource": "NCI_FDA",
+                      "id": "WK2XYI10QM"
+                    },
+                    {
+                      "dataSource": "NCI_NCI-GLOSS",
+                      "id": "CDR0000613511"
+                    },
+                    {
+                      "dataSource": "NDDF",
+                      "id": "002377"
+                    },
+                    {
+                      "dataSource": "PDQ",
+                      "id": "CDR0000040475"
+                    },
+                    {
+                      "dataSource": "RCD",
+                      "id": "x02MO"
+                    },
+                    {
+                      "dataSource": "RXNORM",
+                      "id": "5640"
+                    },
+                    {
+                      "dataSource": "SNM",
+                      "id": "E-7772"
+                    },
+                    {
+                      "dataSource": "SNMI",
+                      "id": "C-603C0"
+                    },
+                    {
+                      "dataSource": "SNOMEDCT_US",
+                      "id": "387207008"
+                    },
+                    {
+                      "dataSource": "USP",
+                      "id": "m39860"
+                    },
+                    {
+                      "dataSource": "USPMG",
+                      "id": "MTHU000060"
+                    },
+                    {
+                      "dataSource": "VANDF",
+                      "id": "4017840"
+                    }
+                  ]
+                }
+              ],
+              "relations": [],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-05-15"
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

@@ -1,46 +1,95 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs",
-   "query": {
-    "stringIndexType": "Utf16CodeUnit"
-   },
-   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"Patient does not suffer from high blood pressure.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Prescribed 100mg ibuprofen, taken twice daily.\",\"language\":\"en\"}]}",
-   "status": 202,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "90679c22-822a-4f82-9415-5410fdd7c3ce",
-    "date": "Sat, 23 Oct 2021 00:56:18 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c13668e6-6270-4e6a-b746-8a6e756f724b",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "172"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c13668e6-6270-4e6a-b746-8a6e756f724b",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"c13668e6-6270-4e6a-b746-8a6e756f724b\",\"lastUpdateDateTime\":\"2021-10-23T00:56:19Z\",\"createdDateTime\":\"2021-10-23T00:56:19Z\",\"expirationDateTime\":\"2021-10-24T00:56:19Z\",\"status\":\"notStarted\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "b24aa2bb-b4a2-43b9-b997-9c57cfc989e5",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:56:18 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "22188dd88cd7873245aff997830b38f3"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs?stringIndexType=Utf16CodeUnit",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "Content-Length": "184",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000318-0000000000000636-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "860210cc-e6f5-41e1-aeb4-ec9694c3dd4c",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "1",
+            "text": "Patient does not suffer from high blood pressure.",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "Prescribed 100mg ibuprofen, taken twice daily.",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "3d0319c2-6d61-418e-a5bc-90b3a5f0694b",
+        "Date": "Fri, 18 Feb 2022 19:14:42 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/2175dc2e-1627-4250-a170-bd332ecc02f4",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "233"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/2175dc2e-1627-4250-a170-bd332ecc02f4?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000319-0000000000000638-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "c9e25755-6c03-482b-9f44-c0a7eb9d741b",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "bf960f4d-fcf0-4acb-afac-12c0736d1483",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:14:42 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "2175dc2e-1627-4250-a170-bd332ecc02f4",
+        "lastUpdateDateTime": "2022-02-18T19:14:43Z",
+        "createdDateTime": "2022-02-18T19:14:43Z",
+        "expirationDateTime": "2022-02-19T19:14:43Z",
+        "status": "notStarted",
+        "errors": []
+      }
+    }
+  ],
+  "Variables": {}
 }

@@ -1,52 +1,69 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:56:49 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12171.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "ffae8c06-3c09-4510-8736-8553ca0b0f00"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
-   "query": {
-    "stringIndexType": "UnicodeCodePoint"
-   },
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":121,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
-   "responseHeaders": {
-    "apim-request-id": "18ad37d7-a1d6-4052-973a-b347223b62f2",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Sat, 23 Oct 2021 00:56:49 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "42"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "44c2300ce411e8279dc446b4136bb8d1"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii?stringIndexType=UnicodeCodePoint",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "296",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000389-0000000000000890-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "21445ad9-17d6-46c1-b4d7-0a040c39ef87",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "o\u0335\u0308\u0307\u0312\u0303\u034B\u0307\u0305\u035B\u030B\u035B\u030E\u0341\u0351\u0304\u0310\u0302\u030E\u031B\u0357\u035D\u0333\u0318\u0318\u0355\u0354\u0355\u0327\u032D\u0327\u031F\u0319\u034E\u0348\u031E\u0322\u0354m\u0335\u035D\u0315\u0304\u030F\u0360\u034C\u0302\u0311\u033D\u034D\u0349\u0317g\u0335\u030B\u0352\u0344\u0360\u0313\u0312\u0308\u030D\u030C\u0343\u0305\u0351\u0312\u0343\u0305\u0305\u0352\u033F\u030F\u0301\u0357\u0300\u0307\u035B\u030F\u0300\u031B\u0344\u0300\u030A\u033E\u0340\u035D\u0314\u0349\u0322\u031E\u0321\u032F\u0320\u0324\u0323\u0355\u0322\u031F\u032B\u032B\u033C\u0330\u0353\u0345\u0321\u0328\u0326\u0321\u0356\u035C\u0327\u0323\u0323\u034E SSN: 859-98-0987",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "0c40fb7b-e0e6-496d-8371-f9210e4cc8c7",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
+        "Date": "Fri, 18 Feb 2022 19:15:33 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "53"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "redactedText": "o\u0335\u0308\u0307\u0312\u0303\u034B\u0307\u0305\u035B\u030B\u035B\u030E\u0341\u0351\u0304\u0310\u0302\u030E\u031B\u0357\u035D\u0333\u0318\u0318\u0355\u0354\u0355\u0327\u032D\u0327\u031F\u0319\u034E\u0348\u031E\u0322\u0354m\u0335\u035D\u0315\u0304\u030F\u0360\u034C\u0302\u0311\u033D\u034D\u0349\u0317g\u0335\u030B\u0352\u0344\u0360\u0313\u0312\u0308\u030D\u030C\u0343\u0305\u0351\u0312\u0343\u0305\u0305\u0352\u033F\u030F\u0301\u0357\u0300\u0307\u035B\u030F\u0300\u031B\u0344\u0300\u030A\u033E\u0340\u035D\u0314\u0349\u0322\u031E\u0321\u032F\u0320\u0324\u0323\u0355\u0322\u031F\u032B\u032B\u033C\u0330\u0353\u0345\u0321\u0328\u0326\u0321\u0356\u035C\u0327\u0323\u0323\u034E SSN: ***********",
+            "id": "0",
+            "entities": [
+              {
+                "text": "859-98-0987",
+                "category": "USSocialSecurityNumber",
+                "offset": 121,
+                "length": 11,
+                "confidenceScore": 0.65
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-01-15"
+      }
+    }
+  ],
+  "Variables": {}
 }

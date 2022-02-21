@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii?stringIndexType=TextElement_v8",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "73",
+        "Content-Type": "application/json",
+        "traceparent": "00-00000000000000000000000000000399-0000000000000859-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "645ed4a8-734d-4cad-82ac-0a17625b9917"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "a\u00F1o SSN: 859-98-0987",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b8fc040c-a830-4380-9295-e327ebbafcaf",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
+        "Date": "Fri, 18 Feb 2022 19:05:03 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "23"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "redactedText": "a\u00F1o SSN: ***********",
+            "id": "0",
+            "entities": [
+              {
+                "text": "859-98-0987",
+                "category": "USSocialSecurityNumber",
+                "offset": 9,
+                "length": 11,
+                "confidenceScore": 0.65
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-01-15"
+      }
+    }
+  ],
+  "Variables": {}
+}

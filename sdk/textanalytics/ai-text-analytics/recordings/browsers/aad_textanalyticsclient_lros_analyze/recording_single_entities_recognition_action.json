@@ -1,144 +1,540 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:57:39 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12171.14 - EUS ProdSlices",
-    "x-ms-request-id": "d0af8865-ece8-4625-88e2-e051e78f0400"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
-   "query": {},
-   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Microsoft fue fundado por Bill Gates y Paul Allen el 4 de abril de 1975.\",\"language\":\"es\"},{\"id\":\"3\",\"text\":\"Microsoft wurde am 4. April 1975 von Bill Gates und Paul Allen gegründet.\",\"language\":\"de\"}]},\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
-   "status": 202,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "4d49cac3-1cc5-4c8a-a7d8-85c22c080236",
-    "date": "Sat, 23 Oct 2021 00:57:40 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8de72ea4-0a19-4a39-aaa9-69885aa8bcc5",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "210"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8de72ea4-0a19-4a39-aaa9-69885aa8bcc5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"8de72ea4-0a19-4a39-aaa9-69885aa8bcc5\",\"lastUpdateDateTime\":\"2021-10-23T00:57:40Z\",\"createdDateTime\":\"2021-10-23T00:57:40Z\",\"expirationDateTime\":\"2021-10-24T00:57:40Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "ddeafb06-a97b-4d90-ba52-cf2334425754",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:57:40 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8de72ea4-0a19-4a39-aaa9-69885aa8bcc5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"8de72ea4-0a19-4a39-aaa9-69885aa8bcc5\",\"lastUpdateDateTime\":\"2021-10-23T00:57:40Z\",\"createdDateTime\":\"2021-10-23T00:57:40Z\",\"expirationDateTime\":\"2021-10-24T00:57:40Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "cbfb574e-9f8c-4b1a-aee7-e31794352230",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:57:40 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "12"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8de72ea4-0a19-4a39-aaa9-69885aa8bcc5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"8de72ea4-0a19-4a39-aaa9-69885aa8bcc5\",\"lastUpdateDateTime\":\"2021-10-23T00:57:41Z\",\"createdDateTime\":\"2021-10-23T00:57:40Z\",\"expirationDateTime\":\"2021-10-24T00:57:40Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "54a32cc4-d44b-4610-81f3-b13229596490",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:57:42 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8de72ea4-0a19-4a39-aaa9-69885aa8bcc5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"8de72ea4-0a19-4a39-aaa9-69885aa8bcc5\",\"lastUpdateDateTime\":\"2021-10-23T00:57:43Z\",\"createdDateTime\":\"2021-10-23T00:57:40Z\",\"expirationDateTime\":\"2021-10-24T00:57:40Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:57:43.6121635Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":0,\"length\":9,\"confidenceScore\":1.0},{\"text\":\"Bill Gates\",\"category\":\"Person\",\"offset\":25,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"Paul Allen\",\"category\":\"Person\",\"offset\":40,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"April 4, 1975\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":54,\"length\":13,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":0,\"length\":9,\"confidenceScore\":1.0},{\"text\":\"Bill Gates\",\"category\":\"Person\",\"offset\":26,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"Paul Allen\",\"category\":\"Person\",\"offset\":39,\"length\":10,\"confidenceScore\":0.99},{\"text\":\"4 de abril de 1975\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":53,\"length\":18,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":0,\"length\":9,\"confidenceScore\":1.0},{\"text\":\"4. April 1975\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":19,\"length\":13,\"confidenceScore\":0.8},{\"text\":\"Bill Gates\",\"category\":\"Person\",\"offset\":37,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"Paul Allen\",\"category\":\"Person\",\"offset\":52,\"length\":10,\"confidenceScore\":1.0}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "f14c0037-671b-4c79-a695-6b4d9f80cc27",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:57:44 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "166"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8de72ea4-0a19-4a39-aaa9-69885aa8bcc5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"8de72ea4-0a19-4a39-aaa9-69885aa8bcc5\",\"lastUpdateDateTime\":\"2021-10-23T00:57:43Z\",\"createdDateTime\":\"2021-10-23T00:57:40Z\",\"expirationDateTime\":\"2021-10-24T00:57:40Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:57:43.6121635Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":0,\"length\":9,\"confidenceScore\":1.0},{\"text\":\"Bill Gates\",\"category\":\"Person\",\"offset\":25,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"Paul Allen\",\"category\":\"Person\",\"offset\":40,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"April 4, 1975\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":54,\"length\":13,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":0,\"length\":9,\"confidenceScore\":1.0},{\"text\":\"Bill Gates\",\"category\":\"Person\",\"offset\":26,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"Paul Allen\",\"category\":\"Person\",\"offset\":39,\"length\":10,\"confidenceScore\":0.99},{\"text\":\"4 de abril de 1975\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":53,\"length\":18,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":0,\"length\":9,\"confidenceScore\":1.0},{\"text\":\"4. April 1975\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":19,\"length\":13,\"confidenceScore\":0.8},{\"text\":\"Bill Gates\",\"category\":\"Person\",\"offset\":37,\"length\":10,\"confidenceScore\":1.0},{\"text\":\"Paul Allen\",\"category\":\"Person\",\"offset\":52,\"length\":10,\"confidenceScore\":1.0}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "69eb3aa9-75bd-4682-9806-1f016cf4a637",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:57:44 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "120"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "58c31a1268898c94d00c54fe40756a87"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "471",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000432-0000000000001008-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "3f48ba29-5d82-4cd8-8143-6f4800821e36",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975.",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "Microsoft fue fundado por Bill Gates y Paul Allen el 4 de abril de 1975.",
+              "language": "es"
+            },
+            {
+              "id": "3",
+              "text": "Microsoft wurde am 4. April 1975 von Bill Gates und Paul Allen gegr\u00FCndet.",
+              "language": "de"
+            }
+          ]
+        },
+        "tasks": {
+          "entityRecognitionTasks": [
+            {
+              "parameters": {
+                "model-version": "latest",
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "e1d86b6d-f50d-4844-83d8-2d17b6fcba05",
+        "Date": "Fri, 18 Feb 2022 19:16:07 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/0d3ac030-7377-49eb-b793-f904323460d6",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "232"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/0d3ac030-7377-49eb-b793-f904323460d6?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000433-0000000000001010-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "5ec1a8f5-8ec0-4fc2-8f6a-6f88a01d7d47",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "1452beb2-4817-45e1-aa9c-b365e7846e00",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:07 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "0d3ac030-7377-49eb-b793-f904323460d6",
+        "lastUpdateDateTime": "2022-02-18T19:16:07Z",
+        "createdDateTime": "2022-02-18T19:16:06Z",
+        "expirationDateTime": "2022-02-19T19:16:06Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/0d3ac030-7377-49eb-b793-f904323460d6?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000434-0000000000001012-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "69e72960-6f37-41c6-9bfe-5e4b6da6473c",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d85e21aa-1419-4085-9528-9e5a366a373f",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:07 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "0d3ac030-7377-49eb-b793-f904323460d6",
+        "lastUpdateDateTime": "2022-02-18T19:16:07Z",
+        "createdDateTime": "2022-02-18T19:16:06Z",
+        "expirationDateTime": "2022-02-19T19:16:06Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/0d3ac030-7377-49eb-b793-f904323460d6?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000435-0000000000001014-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "a0a169fd-4f76-4f48-b161-bc53c0ea59fb",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "03db4ae9-acb1-4c73-84c9-3d27d61a444a",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:09 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "27"
+      },
+      "ResponseBody": {
+        "jobId": "0d3ac030-7377-49eb-b793-f904323460d6",
+        "lastUpdateDateTime": "2022-02-18T19:16:07Z",
+        "createdDateTime": "2022-02-18T19:16:06Z",
+        "expirationDateTime": "2022-02-19T19:16:06Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/0d3ac030-7377-49eb-b793-f904323460d6?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000436-0000000000001016-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "99c0e098-3ac6-4194-85a8-fc3d697ceb91",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "96c48a32-5019-4a50-ad35-cebdf6a19ad7",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:11 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "50"
+      },
+      "ResponseBody": {
+        "jobId": "0d3ac030-7377-49eb-b793-f904323460d6",
+        "lastUpdateDateTime": "2022-02-18T19:16:10Z",
+        "createdDateTime": "2022-02-18T19:16:06Z",
+        "expirationDateTime": "2022-02-19T19:16:06Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:16:10.1006686Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 25,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 40,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "April 4, 1975",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 54,
+                        "length": 13,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 26,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 39,
+                        "length": 10,
+                        "confidenceScore": 0.99
+                      },
+                      {
+                        "text": "4 de abril de 1975",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 53,
+                        "length": 18,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "4. April 1975",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 19,
+                        "length": 13,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 37,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 52,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/0d3ac030-7377-49eb-b793-f904323460d6?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000437-0000000000001018-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "8e9d64e1-e8ee-4a65-91f7-8949eecf8fac",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "8ca99fa1-74be-4115-bc93-89d4bd42944c",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:11 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "67"
+      },
+      "ResponseBody": {
+        "jobId": "0d3ac030-7377-49eb-b793-f904323460d6",
+        "lastUpdateDateTime": "2022-02-18T19:16:10Z",
+        "createdDateTime": "2022-02-18T19:16:06Z",
+        "expirationDateTime": "2022-02-19T19:16:06Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:16:10.1006686Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 25,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 40,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "April 4, 1975",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 54,
+                        "length": 13,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 26,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 39,
+                        "length": 10,
+                        "confidenceScore": 0.99
+                      },
+                      {
+                        "text": "4 de abril de 1975",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 53,
+                        "length": 18,
+                        "confidenceScore": 0.8
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [
+                      {
+                        "text": "Microsoft",
+                        "category": "Organization",
+                        "offset": 0,
+                        "length": 9,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "4. April 1975",
+                        "category": "DateTime",
+                        "subcategory": "Date",
+                        "offset": 19,
+                        "length": 13,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "Bill Gates",
+                        "category": "Person",
+                        "offset": 37,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      },
+                      {
+                        "text": "Paul Allen",
+                        "category": "Person",
+                        "offset": 52,
+                        "length": 10,
+                        "confidenceScore": 1.0
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

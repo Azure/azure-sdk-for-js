@@ -1,101 +1,286 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
-   "query": {},
-   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customSingleClassificationTasks\":[{\"parameters\":{\"project-name\":\"project_name\",\"deployment-name\":\"deployment_name\"}}]}}",
-   "status": 202,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "c06f7181-1e95-43ef-9829-1540c04ba097",
-    "date": "Sat, 23 Oct 2021 00:50:18 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/81134e80-2f1f-4fce-ac19-11cb794545b5",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "455"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/81134e80-2f1f-4fce-ac19-11cb794545b5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:19Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "ffbb320e-74ca-41c7-99c5-0d65b4ff30eb",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:50:18 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "11"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/81134e80-2f1f-4fce-ac19-11cb794545b5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:19Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "e92481de-d1ed-432e-949d-2bb568b2c7d5",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:50:19 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "38"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/81134e80-2f1f-4fce-ac19-11cb794545b5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:20Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customSingleClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:20.0438873Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classification\":{\"category\":\"RateBook\",\"confidenceScore\":0.76},\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "808aaaaf-db2c-453f-9b5e-5da734f6bd09",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:50:21 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "97"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/81134e80-2f1f-4fce-ac19-11cb794545b5",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:20Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customSingleClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:20.0438873Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classification\":{\"category\":\"RateBook\",\"confidenceScore\":0.76},\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "9d32a1dd-e4cc-45d6-8dd6-36761143d1bd",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:50:21 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "82"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "e184c5d74e207d46fa391f79f2d76cbb"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "Content-Length": "485",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "c2cda8a6-62ad-4b45-bb5b-865384f83466",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": {
+          "customSingleClassificationTasks": [
+            {
+              "parameters": {
+                "project-name": "sanitized",
+                "deployment-name": "sanitized"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "f3adad39-6c61-44a7-9937-0bd1695e21ef",
+        "Date": "Fri, 18 Feb 2022 19:31:45 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/c20ed88a-8fe0-4de8-b140-957b5aa9e866",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "149"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/c20ed88a-8fe0-4de8-b140-957b5aa9e866?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "21f57321-c5e8-4836-b318-aaf375dbb553",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "eb34a7ba-b95a-4ced-a032-664e97c9f024",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:45 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "c20ed88a-8fe0-4de8-b140-957b5aa9e866",
+        "lastUpdateDateTime": "2022-02-18T19:31:45Z",
+        "createdDateTime": "2022-02-18T19:31:45Z",
+        "expirationDateTime": "2022-02-19T19:31:45Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/c20ed88a-8fe0-4de8-b140-957b5aa9e866?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "9d34b5d0-1dbe-4330-b474-30490caf4de3",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "a98788f9-28e9-48d6-85a3-d48e7f1af2ca",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:45 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "10"
+      },
+      "ResponseBody": {
+        "jobId": "c20ed88a-8fe0-4de8-b140-957b5aa9e866",
+        "lastUpdateDateTime": "2022-02-18T19:31:45Z",
+        "createdDateTime": "2022-02-18T19:31:45Z",
+        "expirationDateTime": "2022-02-19T19:31:45Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/c20ed88a-8fe0-4de8-b140-957b5aa9e866?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "d0de753d-8466-4fe7-b1bb-eb92e6a1da87",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e6228161-d99c-4fbe-9ecd-d14d88f71bec",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "34"
+      },
+      "ResponseBody": {
+        "jobId": "c20ed88a-8fe0-4de8-b140-957b5aa9e866",
+        "lastUpdateDateTime": "2022-02-18T19:31:46Z",
+        "createdDateTime": "2022-02-18T19:31:45Z",
+        "expirationDateTime": "2022-02-19T19:31:45Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "customSingleClassificationTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:31:46.4037972Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "classification": {
+                      "category": "RateBook",
+                      "confidenceScore": 0.76
+                    },
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "sanitized",
+                "deploymentName": "sanitized"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/c20ed88a-8fe0-4de8-b140-957b5aa9e866?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "f0d68512-fa23-4d56-a609-85736ade169f",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "96598f72-8b8e-4fac-9c2a-c112659eae7c",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:31:48 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "457"
+      },
+      "ResponseBody": {
+        "jobId": "c20ed88a-8fe0-4de8-b140-957b5aa9e866",
+        "lastUpdateDateTime": "2022-02-18T19:31:46Z",
+        "createdDateTime": "2022-02-18T19:31:45Z",
+        "expirationDateTime": "2022-02-19T19:31:45Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "customSingleClassificationTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:31:46.4037972Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "classification": {
+                      "category": "RateBook",
+                      "confidenceScore": 0.76
+                    },
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "sanitized",
+                "deploymentName": "sanitized"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }
