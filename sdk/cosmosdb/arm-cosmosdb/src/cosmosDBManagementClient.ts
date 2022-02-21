@@ -22,12 +22,16 @@ import {
   CollectionPartitionImpl,
   PartitionKeyRangeIdImpl,
   PartitionKeyRangeIdRegionImpl,
+  GraphResourcesImpl,
   SqlResourcesImpl,
   MongoDBResourcesImpl,
   TableResourcesImpl,
   CassandraResourcesImpl,
   GremlinResourcesImpl,
   LocationsImpl,
+  DataTransferJobsImpl,
+  CassandraClustersImpl,
+  CassandraDataCentersImpl,
   NotebookWorkspacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -38,8 +42,12 @@ import {
   RestorableMongodbDatabasesImpl,
   RestorableMongodbCollectionsImpl,
   RestorableMongodbResourcesImpl,
-  CassandraClustersImpl,
-  CassandraDataCentersImpl
+  RestorableGremlinDatabasesImpl,
+  RestorableGremlinGraphsImpl,
+  RestorableGremlinResourcesImpl,
+  RestorableTablesImpl,
+  RestorableTableResourcesImpl,
+  ServiceImpl
 } from "./operations";
 import {
   DatabaseAccounts,
@@ -55,12 +63,16 @@ import {
   CollectionPartition,
   PartitionKeyRangeId,
   PartitionKeyRangeIdRegion,
+  GraphResources,
   SqlResources,
   MongoDBResources,
   TableResources,
   CassandraResources,
   GremlinResources,
   Locations,
+  DataTransferJobs,
+  CassandraClusters,
+  CassandraDataCenters,
   NotebookWorkspaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -71,8 +83,12 @@ import {
   RestorableMongodbDatabases,
   RestorableMongodbCollections,
   RestorableMongodbResources,
-  CassandraClusters,
-  CassandraDataCenters
+  RestorableGremlinDatabases,
+  RestorableGremlinGraphs,
+  RestorableGremlinResources,
+  RestorableTables,
+  RestorableTableResources,
+  Service
 } from "./operationsInterfaces";
 import { CosmosDBManagementClientOptionalParams } from "./models";
 
@@ -108,7 +124,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/15.0.0`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,7 +147,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-15";
+    this.apiVersion = options.apiVersion || "2021-11-15-preview";
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -145,12 +161,16 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.collectionPartition = new CollectionPartitionImpl(this);
     this.partitionKeyRangeId = new PartitionKeyRangeIdImpl(this);
     this.partitionKeyRangeIdRegion = new PartitionKeyRangeIdRegionImpl(this);
+    this.graphResources = new GraphResourcesImpl(this);
     this.sqlResources = new SqlResourcesImpl(this);
     this.mongoDBResources = new MongoDBResourcesImpl(this);
     this.tableResources = new TableResourcesImpl(this);
     this.cassandraResources = new CassandraResourcesImpl(this);
     this.gremlinResources = new GremlinResourcesImpl(this);
     this.locations = new LocationsImpl(this);
+    this.dataTransferJobs = new DataTransferJobsImpl(this);
+    this.cassandraClusters = new CassandraClustersImpl(this);
+    this.cassandraDataCenters = new CassandraDataCentersImpl(this);
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -163,8 +183,12 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       this
     );
     this.restorableMongodbResources = new RestorableMongodbResourcesImpl(this);
-    this.cassandraClusters = new CassandraClustersImpl(this);
-    this.cassandraDataCenters = new CassandraDataCentersImpl(this);
+    this.restorableGremlinDatabases = new RestorableGremlinDatabasesImpl(this);
+    this.restorableGremlinGraphs = new RestorableGremlinGraphsImpl(this);
+    this.restorableGremlinResources = new RestorableGremlinResourcesImpl(this);
+    this.restorableTables = new RestorableTablesImpl(this);
+    this.restorableTableResources = new RestorableTableResourcesImpl(this);
+    this.service = new ServiceImpl(this);
   }
 
   databaseAccounts: DatabaseAccounts;
@@ -180,12 +204,16 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   collectionPartition: CollectionPartition;
   partitionKeyRangeId: PartitionKeyRangeId;
   partitionKeyRangeIdRegion: PartitionKeyRangeIdRegion;
+  graphResources: GraphResources;
   sqlResources: SqlResources;
   mongoDBResources: MongoDBResources;
   tableResources: TableResources;
   cassandraResources: CassandraResources;
   gremlinResources: GremlinResources;
   locations: Locations;
+  dataTransferJobs: DataTransferJobs;
+  cassandraClusters: CassandraClusters;
+  cassandraDataCenters: CassandraDataCenters;
   notebookWorkspaces: NotebookWorkspaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
@@ -196,6 +224,10 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   restorableMongodbDatabases: RestorableMongodbDatabases;
   restorableMongodbCollections: RestorableMongodbCollections;
   restorableMongodbResources: RestorableMongodbResources;
-  cassandraClusters: CassandraClusters;
-  cassandraDataCenters: CassandraDataCenters;
+  restorableGremlinDatabases: RestorableGremlinDatabases;
+  restorableGremlinGraphs: RestorableGremlinGraphs;
+  restorableGremlinResources: RestorableGremlinResources;
+  restorableTables: RestorableTables;
+  restorableTableResources: RestorableTableResources;
+  service: Service;
 }
