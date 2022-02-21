@@ -9,7 +9,7 @@ import {
 } from "./models";
 import {
   CommunicationUserIdentifier,
-  createCommunicationAuthenticationPolicy,
+  createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
@@ -89,7 +89,7 @@ export class CommunicationIdentityClient {
 
     this.client = new IdentityRestClient(url, { endpoint: url, ...internalPipelineOptions });
 
-    const authPolicy = createCommunicationAuthenticationPolicy(credential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
   }
 
