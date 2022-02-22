@@ -3860,9 +3860,13 @@ packages:
       semver: 6.3.0
     dev: false
 
-  /eslint-plugin-promise/4.3.1:
-    resolution: {integrity: sha512-bY2sGqyptzFBDLh/GMbAxfdJC+b0f23ME63FOE4+Jao0oZ3E1LEwFtWJX/1pGMJLiTtrSSern2CRM/g+dfc0eQ==}
-    engines: {node: '>=6'}
+  /eslint-plugin-promise/6.0.0_eslint@7.32.0:
+    resolution: {integrity: sha512-7GPezalm5Bfi/E22PnQxDWH2iW9GTvAlUNTztemeHb6c1BniSyoeTrM87JkC0wYdi6aQrZX9p2qEiAno8aTcbw==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0
+    dependencies:
+      eslint: 7.32.0
     dev: false
 
   /eslint-plugin-tsdoc/0.2.14:
@@ -13841,7 +13845,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-L7HkizsdDc/0/ZqKkNo4eNOvRKzmrzg/Ae8eS5hF9Z2fwaHODmXlT2gpmwnhogJjKs31bDA0rhIzp2pGZ/5gsw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-b9jZ8mqW0mbkStNGNjwmVGtkT7iLTX59lFCOuKzl+KH/VvKLStoNCs19xf1HEXO2WrMLkzOj5c9K0WMXusvvmQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -13861,7 +13865,7 @@ packages:
       eslint-config-prettier: 7.2.0_eslint@7.32.0
       eslint-plugin-import: 2.25.4_eslint@7.32.0
       eslint-plugin-no-only-tests: 2.6.0
-      eslint-plugin-promise: 4.3.1
+      eslint-plugin-promise: 6.0.0_eslint@7.32.0
       eslint-plugin-tsdoc: 0.2.14
       glob: 7.2.0
       json-schema: 0.4.0
