@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/privatedns/ci.mgmt.yml
+      - sdk/privatedns/arm-privatedns/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/privatedns/ci.mgmt.yml
+      - sdk/privatedns/arm-privatedns/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: privatedns
+    Artifacts:
+      - name: azure-arm-privatedns
+        safeName: azurearmprivatedns

@@ -10,7 +10,9 @@ trigger:
     include:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
-
+    exclude:
+      - sdk/cosmosdb/arm-cosmosdb/
+      - sdk/cosmosdb/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -22,7 +24,9 @@ pr:
     include:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
-
+    exclude:
+      - sdk/cosmosdb/arm-cosmosdb/
+      - sdk/cosmosdb/ci.mgmt.yml
 extends:
   template: /eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
   parameters:

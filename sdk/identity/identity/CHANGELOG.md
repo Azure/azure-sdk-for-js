@@ -1,5 +1,21 @@
 # Release History
 
+## 2.0.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.4 (2022-02-18)
+
+### Bugs Fixed
+
+- Fixed a regression in version 2.0.3 in which providing an options bag, but _not_ a client ID, to the `ManagedIdentityCredential` constructor would discard the `options` parameter.
+
 ## 2.0.3 (2022-02-16)
 
 ### Features Added
