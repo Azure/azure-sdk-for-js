@@ -1,8 +1,8 @@
 {
-  "name": "azure-maps-search-samples-js",
+  "name": "azure-maps-search-samples-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Maps Search client library samples for JavaScript",
+  "description": "Azure Maps Search client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },
