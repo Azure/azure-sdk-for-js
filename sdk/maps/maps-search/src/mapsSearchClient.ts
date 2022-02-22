@@ -623,9 +623,8 @@ export class MapsSearchClient {
     queries: FuzzySearchQuery[],
     options: FuzzySearchBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearchBatchSync", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(queries);
-    console.log(batchRequest);
     try {
       const internalResult = await this.client.search.fuzzySearchBatchSync(
         this.defaultFormat,
@@ -727,7 +726,7 @@ export class MapsSearchClient {
     queries: SearchAddressQuery[],
     options: SearchAddressBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
-    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddressBatchSync", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddressBatch", options);
     const batchRequest = createSearchAddressBatchRequest(queries);
     try {
       const internalResult = await this.client.search.searchAddressBatchSync(
@@ -829,12 +828,12 @@ export class MapsSearchClient {
    * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
    */
-  public async reverseSearchAddressBatchSync(
+  public async reverseSearchAddressBatch(
     queries: ReverseSearchAddressQuery[],
     options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchResult<ReverseSearchAddressResult>> {
     const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-reverseSearchAddressBatchSync",
+      "MapsSearchClient-reverseSearchAddressBatch",
       options
     );
     const batchRequest = createReverseSearchAddressBatchRequest(queries);
