@@ -303,7 +303,9 @@ az account get-access-token --output json --resource https://management.core.win
 >Note that output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 
 ## Troubleshoot Azure PowerShell authentication issues
+
 ### CredentialUnavailableError
+
 | Error Message |Description| Mitigation |
 |---|---|---|
 |PowerShell isn't installed.|No local installation of PowerShell was found.|Ensure that PowerShell is properly installed on the machine. Instructions for installing PowerShell can be found [here](https://docs.microsoft.com/powershell/scripting/install/installing-powershell).|
