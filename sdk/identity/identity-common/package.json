@@ -59,6 +59,7 @@
     "docs": "echo Skipped."
   },
   "dependencies": {
+    "@azure/core-client": "^1.4.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
