@@ -1,0 +1,18 @@
+{
+  "init": {
+      "initScript": {
+        "path": ".scripts/sdk_init.sh"
+      }
+    },
+  "generateAndBuild": {
+      "generateAndBuildScript": {
+        "path": ".scripts/sdk_generateAndBuild.sh",
+        "stdout": {
+          "storeLogByFilter": "Error: |error |throw|exception"
+        },
+        "stderr": {
+          "storeLogByFilter": "Error: |error |throw|exception"
+        }
+      }
+  }
+}
