@@ -1,0 +1,100 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  record,
+  Recorder,
+  RecorderEnvironmentSetup,
+  TestContextInterface,
+  pluginForIdentitySDK,
+} from "@azure-tools/test-recorder";
+import Sinon, { createSandbox } from "sinon";
+import { MsalBaseUtilities } from "../../identity/src/msal/utils";
+
+export type MsalTestCleanup = () => Promise<void>;
+
+export interface MsalTestSetupResponse {
+  cleanup: MsalTestCleanup;
+  recorder: Recorder;
+  sandbox: Sinon.SinonSandbox;
+}
+
+export function msalNodeTestSetup(
+  testContext: TestContextInterface | Mocha.Context
+): MsalTestSetupResponse {
+  const playbackValues = {
+    correlationId: "client-request-id",
+  };
+  const recorderEnvSetup: RecorderEnvironmentSetup = {
+    replaceableVariables: {
+      AZURE_TENANT_ID: PlaybackTenantId,
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_USERNAME: "azure_username",
+      AZURE_PASSWORD: "azure_password",
+    },
+    customizationsOnRecordings: [
+      (recording: string): string =>
+        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+      (recording: string): string =>
+        recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
+      (recording: string): string =>
+        recording.replace(/refresh_token=[^&]*/g, `refresh_token=refresh_token`),
+      (recording: string): string =>
+        recording.replace(
+          /client-request-id=[a-z0-9-]*/g,
+          `client-request-id=${playbackValues.correlationId}`
+        ),
+      (recording: string): string =>
+        recording.replace(/client_assertion=[a-zA-Z0-9-._]*/g, `client_assertion=client_assertion`),
+      (recording: string): string => recording.replace(/esctx=[a-zA-Z0-9-_]*/g, `esctx=esctx`),
+      (recording: string): string => recording.replace(/'fpc=[^;]*/g, `'fpc=fpc;`),
+      // Device code specific
+      (recording: string): string =>
+        recording.replace(/user_code":"[^"]*/g, `user_code":"USER_CODE`),
+      (recording: string): string =>
+        recording.replace(
+          /enter the code [A-Z0-9]* to authenticate/g,
+          `enter the code USER_CODE to authenticate`
+        ),
+      (recording: string): string =>
+        recording.replace(/device_code":"[^"]*/g, `device_code":"DEVICE_CODE`),
+      (recording: string): string =>
+        recording.replace(/device_code=[^&]*/g, `device_code=DEVICE_CODE`),
+      (recording: string): string => recording.replace(/"interval": *[0-9]*/g, `"interval": 0`),
+      // This last part is a JWT token that comes from the service, that has three parts joined by a dot.
+      // Our fake id_token has the following parts encoded in base64 and joined by a dot:
+      // - {"typ":"JWT","alg":"RS256","kid":"kid"}
+      // - {"aud":"aud","iss":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","iat":1615337163,"nbf":1615337163,"exp":1615341063,"aio":"aio","idp":"https://sts.windows.net/idp/","name":"Daniel Rodríguez","oid":"oid","preferred_username":"danrodri@microsoft.com","rh":"rh.","sub":"sub","tid":"12345678-1234-1234-1234-123456789012","uti":"uti","ver":"2.0"}
+      // - no_idea_whats_this
+      (recording: string): string =>
+        recording.replace(
+          /id_token":"[^"]*/g,
+          `id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz`
+        ),
+      // client_info is base64-encoded JSON that contains information about the user and tenant IDs
+      // The following replaces it with some dummy JSON that uses a UID/UTID of 12345678-1234-1234-1234-123456789012
+      (recording) =>
+        recording.replace(
+          /client_info":"[^"]*/g,
+          'client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K'
+        ),
+    ],
+    queryParametersToSkip: [],
+    onLoadCallbackForPlayback: pluginForIdentitySDK,
+  };
+  const recorder = record(testContext, recorderEnvSetup);
+  const sandbox = createSandbox();
+
+  const stub = sandbox.stub(MsalBaseUtilities.prototype, "generateUuid");
+  stub.returns(playbackValues.correlationId);
+
+  return {
+    sandbox,
+    recorder,
+    async cleanup() {
+      await recorder.stop();
+      sandbox.restore();
+    },
+  };
+}
