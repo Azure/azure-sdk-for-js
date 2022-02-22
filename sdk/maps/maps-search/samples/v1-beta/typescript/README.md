@@ -6,10 +6,10 @@ products:
   - azure
   - azure-maps
   - search
-urlFragment: maps-search-typescript
+urlFragment: maps-search-typescript-beta
 ---
 
-# Azure Maps Search client library samples for TypeScript
+# Azure Maps Search client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure Maps Search in some common scenarios.
 
@@ -69,7 +69,7 @@ npx cross-env MAPS_SUBSCRIPTION_KEY="<maps subscription key>" MAPS_SUBSCRIPTION_
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1/typescript/src/search.ts
+[search]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search/samples/v1-beta/typescript/src/search.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-search
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template

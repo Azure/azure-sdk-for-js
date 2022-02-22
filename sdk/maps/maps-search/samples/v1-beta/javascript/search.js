@@ -8,8 +8,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { MapsSearchClient } = require("@azure/maps-search");
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 /**
  * Azure Maps supports two ways to authenticate requests:
  * - Shared Key authentication (subscription-key)
@@ -56,30 +55,32 @@ async function main() {
     streetName: "NE 24th Street",
     municipality: "Redmond",
     countrySubdivision: "WA",
-    postalCode: "98052"
+    postalCode: "98052",
   };
   console.log(await client.searchStructuredAddress(structuredAddress));
 
   console.log(" --- Perform a fuzzy search with coordinates:");
-  let fuzzyResult = await client.fuzzySearch("pizza", coordinates);
+  let fuzzyResult = await client.fuzzySearch({ query: "pizza", coordinates });
   console.log(fuzzyResult);
 
   console.log(" --- Perform a fuzzy search with country filter:");
-  fuzzyResult = await client.fuzzySearch("pizza", ["Fr"]);
+  fuzzyResult = await client.fuzzySearch({ query: "pizza", countryFilter: ["Fr"] });
   console.log(fuzzyResult);
 
   console.log(" --- Perform a fuzzy search with coordinate and country filter:");
-  fuzzyResult = await client.fuzzySearch("pizza", coordinates, ["Fr"]);
+  fuzzyResult = await client.fuzzySearch({ query: "pizza", coordinates, countryFilter: ["Fr"] });
   console.log(fuzzyResult);
 
   // let's save geometry IDs from the fuzzy search for the getSearchPolygon example
   let geometryIds = [];
-  fuzzyResult = await client.fuzzySearch("Netherlands", ["NL"]);
-  fuzzyResult.results?.forEach((res) => {
-    if (res.dataSources?.geometry?.id) {
-      geometryIds.push(res.dataSources.geometry.id);
-    }
-  });
+  fuzzyResult = await client.fuzzySearch({ query: "Netherlands", countryFilter: ["NL"] });
+  if (fuzzyResult.results) {
+    fuzzyResult.results.forEach((res) => {
+      if (res.dataSources && res.dataSources.geometry && res.dataSources.geometry.id) {
+        geometryIds.push(res.dataSources.geometry.id);
+      }
+    });
+  }
   console.log(" --- Search nearby POI:");
   const searchNearbyCoordinate = { latitude: 40.70627, longitude: -74.011454 };
   const searchNearbyOptions = { radiusInMeters: 8046 };
@@ -91,60 +92,66 @@ async function main() {
   const searchPOIQuery = "juice bars";
   const searchPOIOptions = {
     top: 5,
-    radiusInMeters: 8046
+    radiusInMeters: 8046,
   };
   console.log(
-    await client.searchPointOfInterest(
-      searchPOIQuery,
-      { latitude: 47.606038, longitude: -122.333345 },
-      searchPOIOptions
-    )
+    await client.searchPointOfInterest({
+      query: searchPOIQuery,
+      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      ...searchPOIOptions,
+    })
   );
 
   console.log(" --- Search POI with countryFilter:");
-  console.log(await client.searchPointOfInterest(searchPOIQuery, ["fr"], searchPOIOptions));
+  console.log(
+    await client.searchPointOfInterest({
+      query: searchPOIQuery,
+      countryFilter: ["fr"],
+      ...searchPOIOptions,
+    })
+  );
 
   console.log(" --- Search POI with coordinate and countryFilter:");
   console.log(
-    await client.searchPointOfInterest(
-      searchPOIQuery,
-      { latitude: 47.606038, longitude: -122.333345 },
-      ["fr"],
-      searchPOIOptions
-    )
+    await client.searchPointOfInterest({
+      query: searchPOIQuery,
+      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      countryFilter: ["fr"],
+      ...searchPOIOptions,
+    })
   );
 
   console.log(" --- Search POI category with coordinates:");
   const searchPOICategoryQuery = "atm";
   const searchPOICategoryOptions = {
     skip: 5,
-    radiusInMeters: 8046
+    radiusInMeters: 8046,
   };
   console.log(
-    await client.searchPointOfInterestCategory(
-      searchPOICategoryQuery,
-      { latitude: 47.606038, longitude: -122.333345 },
-      searchPOICategoryOptions
-    )
+    await client.searchPointOfInterestCategory({
+      query: searchPOICategoryQuery,
+      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      ...searchPOICategoryOptions,
+    })
   );
 
   console.log(" --- Search POI category with countryFilter:");
   console.log(
-    await client.searchPointOfInterestCategory(
-      searchPOICategoryQuery,
-      ["fr"],
-      searchPOICategoryOptions
-    )
+    await client.searchPointOfInterestCategory({
+      query: searchPOICategoryQuery,
+      countryFilter: ["fr"],
+      ...searchPOICategoryOptions,
+    })
   );
 
   console.log(" --- Search POI category with coordinates and countryFilter:");
   console.log(
-    await client.searchPointOfInterestCategory(
-      searchPOICategoryQuery,
-      { latitude: 47.606038, longitude: -122.333345 },
-      ["fr"],
-      searchPOICategoryOptions
-    )
+    await client.searchPointOfInterestCategory({
+      query: searchPOICategoryQuery,
+      coordinates: { latitude: 47.606038, longitude: -122.333345 },
+      countryFilter: ["fr"],
+      ...searchPOICategoryOptions,
+    })
   );
 
   console.log(" --- Get search POI category tree:");
@@ -164,8 +171,8 @@ async function main() {
       [-122.143035, 47.653536],
       [-122.187164, 47.617556],
       [-122.114981, 47.570599],
-      [-122.132756, 47.654009]
-    ]
+      [-122.132756, 47.654009],
+    ],
   };
   const searchAlongRouteOptions = { top: 2 };
   console.log(
@@ -186,9 +193,9 @@ async function main() {
         [-122.43576049804686, 37.7524152343544],
         [-122.43301391601562, 37.70660472542312],
         [-122.36434936523438, 37.712059855877314],
-        [-122.43576049804686, 37.7524152343544]
-      ]
-    ]
+        [-122.43576049804686, 37.7524152343544],
+      ],
+    ],
   };
   const searchInsideGeometryOptions = { top: 2 };
   console.log(
@@ -210,9 +217,9 @@ async function main() {
             [-122.43576049804686, 37.7524152343544],
             [-122.43301391601562, 37.70660472542312],
             [-122.36434936523438, 37.712059855877314],
-            [-122.43576049804686, 37.7524152343544]
-          ]
-        ]
+            [-122.43576049804686, 37.7524152343544],
+          ],
+        ],
       },
       {
         type: "Polygon",
@@ -221,11 +228,11 @@ async function main() {
             [-121.43576049804686, 38.7524152343544],
             [-121.43301391601562, 38.70660472542312],
             [-121.36434936523438, 38.712059855877314],
-            [-121.43576049804686, 38.7524152343544]
-          ]
-        ]
-      }
-    ]
+            [-121.43576049804686, 38.7524152343544],
+          ],
+        ],
+      },
+    ],
   };
   console.log(
     await client.searchInsideGeometry(
@@ -248,24 +255,24 @@ async function main() {
               [-121.43576049804686, 38.7524152343544],
               [-121.43301391601562, 38.70660472542312],
               [-121.36434936523438, 38.712059855877314],
-              [-121.43576049804686, 38.7524152343544]
-            ]
-          ]
+              [-121.43576049804686, 38.7524152343544],
+            ],
+          ],
         },
-        properties: {}
+        properties: {},
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-121.43576049804686, 38.7524152343544]
+          coordinates: [-121.43576049804686, 38.7524152343544],
         },
         properties: {
           subType: "Circle",
-          radius: 5000
-        }
-      }
-    ]
+          radius: 5000,
+        },
+      },
+    ],
   };
   console.log(
     await client.searchInsideGeometry(
@@ -291,10 +298,8 @@ async function main() {
   const searchAddressRequests = [
     { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
     { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
-    { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } }
+    { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
   ];
-  console.log(" --- Search address batch:");
-  console.log(await client.searchAddressBatchSync(searchAddressRequests));
 
   console.log(" --- Search address batch (long-running):");
   const searchPoller = await client.beginSearchAddressBatch(searchAddressRequests);
@@ -318,13 +323,10 @@ async function main() {
     { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
     {
       coordinates: { latitude: 47.639765, longitude: -122.127896 },
-      options: { radiusInMeters: 5000 }
+      options: { radiusInMeters: 5000 },
     },
-    { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
+    { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
   ];
-
-  console.log(" --- Search address reverse batch:");
-  console.log(await client.reverseSearchAddressBatchSync(reverseSearchAddressRequests));
 
   console.log(" --- Search address reverse batch (long-running):");
   const reverseSearchPoller = await client.beginReverseSearchAddressBatch(
@@ -350,21 +352,19 @@ async function main() {
     {
       query: "atm",
       coordinates: { latitude: 48.858561, longitude: 2.294911 },
-      options: { radiusInMeters: 5000, top: 5 }
+      options: { radiusInMeters: 5000, top: 5 },
     },
     {
       query: "Statue Of Liberty",
-      options: { top: 2 }
+      countryFilter: ["us"],
+      options: { top: 2 },
     },
     {
       query: "Starbucks",
       coordinates: { latitude: 47.621028, longitude: -122.34817 },
-      options: { radiusInMeters: 5000 }
-    }
+      options: { radiusInMeters: 5000 },
+    },
   ];
-
-  console.log(" --- Search fuzzy batch:");
-  console.log(await client.fuzzySearchBatchSync(fuzzySearchRequests));
 
   console.log(" --- Search fuzzy batch (long-running):");
   const fuzzySearchPoller = await client.beginFuzzySearchBatch(fuzzySearchRequests);

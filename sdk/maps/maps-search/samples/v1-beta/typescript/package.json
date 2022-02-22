@@ -1,8 +1,8 @@
 {
-  "name": "azure-maps-search-samples-ts",
+  "name": "azure-maps-search-samples-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Maps Search client library samples for TypeScript",
+  "description": "Azure Maps Search client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -35,6 +35,7 @@
     "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
+    "@types/node": "^12.0.0",
     "typescript": "~4.4.0",
     "rimraf": "latest"
   }
