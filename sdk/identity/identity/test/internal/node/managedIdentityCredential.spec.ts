@@ -482,27 +482,6 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
-  it("App Service does not support resourceId", async () => {
-    // Trigger App Service behavior by setting environment variables
-    process.env.MSI_ENDPOINT = "https://endpoint";
-    process.env.MSI_SECRET = "secret";
-
-    const authDetails = await testContext.sendCredentialRequests({
-      scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({
-        resourceId: "resource-id",
-      }),
-      secureResponses: [
-        createResponse(200, {
-          access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
-        }),
-      ],
-    });
-
-    assert.isEmpty(authDetails.requests);
-  });
-
   it("sends an authorization request correctly in an Cloud Shell environment", async () => {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
@@ -514,38 +493,6 @@ describe("ManagedIdentityCredential", function () {
     const authRequest = authDetails.requests[0];
     assert.equal(authRequest.method, "POST");
     assert.equal(authDetails.result!.token, "token");
-  });
-
-  it("Cloud Shell does not support resourceId", async () => {
-    // Trigger Cloud Shell behavior by setting environment variables
-    process.env.MSI_ENDPOINT = "https://endpoint";
-
-    const authDetails = await testContext.sendCredentialRequests({
-      scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({
-        resourceId: "resource-id",
-      }),
-      secureResponses: [createResponse(200, { access_token: "token" })],
-    });
-
-    assert.isEmpty(authDetails.requests);
-  });
-
-  it("Service fabric does not support resourceId", async () => {
-    // Trigger Cloud Shell behavior by setting environment variables
-    process.env.IDENTITY_ENDPOINT = "https://endpoint";
-    process.env.IDENTITY_HEADER = "secret";
-    process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
-
-    const authDetails = await testContext.sendCredentialRequests({
-      scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential({
-        resourceId: "resource-id",
-      }),
-      secureResponses: [createResponse(200, { access_token: "token" })],
-    });
-
-    assert.isEmpty(authDetails.requests);
   });
 
   it("authorization request fails with client id passed in an Cloud Shell environment", async function (this: Context) {

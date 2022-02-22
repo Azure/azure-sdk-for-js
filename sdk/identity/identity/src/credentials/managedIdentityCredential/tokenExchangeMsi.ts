@@ -24,8 +24,7 @@ const readFileAsync = promisify(fs.readFile);
 function prepareRequestOptions(
   scopes: string | string[],
   clientAssertion: string,
-  clientId: string,
-  resourceId?: string
+  clientId: string
 ): PipelineRequestOptions {
   const bodyParams: Record<string, string> = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
@@ -34,10 +33,6 @@ function prepareRequestOptions(
     client_id: clientId,
     grant_type: "client_credentials",
   };
-
-  if (resourceId) {
-    bodyParams.mi_res_id = resourceId;
-  }
 
   const urlParams = new URLSearchParams(bodyParams);
   const url = new URL(
@@ -85,13 +80,7 @@ export function tokenExchangeMsi(): MSI {
   }
 
   return {
-    async isAvailable({ clientId, resourceId }): Promise<boolean> {
-      if (resourceId) {
-        logger.info(
-          `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported.`
-        );
-        return false;
-      }
+    async isAvailable({ clientId }): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
         (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
@@ -108,6 +97,13 @@ export function tokenExchangeMsi(): MSI {
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
       const { identityClient, scopes, clientId, resourceId } = configuration;
+
+      if (resourceId) {
+        logger.warning(
+          `${msiName}: User defined managed Identity by resource Id is not supported. Argument resourceId will be ignored.`
+        );
+      }
+
       logger.info(`${msiName}: Using the client assertion coming from environment variables.`);
 
       let assertion: string;
@@ -122,12 +118,7 @@ export function tokenExchangeMsi(): MSI {
 
       const request = createPipelineRequest({
         abortSignal: getTokenOptions.abortSignal,
-        ...prepareRequestOptions(
-          scopes,
-          assertion,
-          clientId || process.env.AZURE_CLIENT_ID!,
-          resourceId
-        ),
+        ...prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID!),
         // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
         allowInsecureConnection: true,
       });

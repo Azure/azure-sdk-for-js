@@ -80,16 +80,10 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure Service Fabric MSI is available, and also how to retrieve a token from the Azure Service Fabric MSI.
  */
 export const fabricMsi: MSI = {
-  async isAvailable({ scopes, resourceId }): Promise<boolean> {
+  async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
-      return false;
-    }
-    if (resourceId) {
-      logger.info(
-        `${msiName}: Unavailable. User defined managed Identity by resource Id is not supported by the Azure Fabric Managed Identity Endpoint.`
-      );
       return false;
     }
     const env = process.env;
@@ -107,7 +101,13 @@ export const fabricMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { scopes, identityClient, clientId } = configuration;
+    const { scopes, identityClient, clientId, resourceId } = configuration;
+
+    if (resourceId) {
+      logger.warning(
+        `${msiName}: User defined managed Identity by resource Id is not supported by the Azure Fabric Managed Identity Endpoint. Argument resourceId will be ignored.`
+      );
+    }
 
     logger.info(
       [
