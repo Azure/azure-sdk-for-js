@@ -18,9 +18,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
 
 1. Install dependencies.
    ```
-   // install the nodeauth packages to do the authentication work.
-   npm install @azure/ms-rest-nodeauth
-   // or install @azure/identity, if you would like to use @azure/identity to do the authentication work.
+   // install the @azure/identity packages to do the authentication work.
    npm install @azure/identity
    
    // Then install your target try out package,  you can install the latest published with
@@ -35,24 +33,25 @@ In this document, we will give a brief introduction on how to use the JavaScript
 1. Create a ts file (free name and copy follow code into this file) eg: test_1.ts
     eg：
     ```
-        const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+        const DefaultAzureCredential = require("@azure/identity");
         const { TargetManagementClient } = require("@azure/arm-target");  // must same as dependencies
         const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-        msRestNodeAuth.interactiveLogin().then((creds) => {
-            const client = new TargetManagementClient(creds, subscriptionId);
-            client.operations.list().then((result) => {      // you can test that you need test operation
-                console.log("The result is:");
-                console.log(result);
-            });
-        }).catch((err) => {
-                console.error(err);
+        async function main(){
+          const credentials = new DefaultAzureCredential();
+          const client = new TargetManagementClient(credentials,subscriptionId);   // must same as dependencies
+          for await (const item of client.operations.list()){    // you can test that you need test operation
+            console.log(item)  
+          }
+        }
+        main().catch(err => {
+          console.log(err);
         });
     ```   
     A few points, you need to pay attention here:  
-    In the example, we are using msRestNodeAuth.interactiveLogin, you can also try other way such as Service Principal
+    In the example, we are using DefaultAzureCredential, you can also try other way such as InteractiveBrowserCredential
     ```
-        const credentials = await msRestNodeAuth.loginWithServicePrincipalSecret(clientID, clientSecret, tenantID);
+        const credentials = new DefaultAzureCredential();;
     ```
     In the example, we only add client.operations.list(), you may change them into other resources CURD function per your need.  
     for example：  
