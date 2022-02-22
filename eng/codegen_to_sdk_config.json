@@ -1,12 +1,12 @@
 {
   "init": {
       "initScript": {
-        "path": ".scripts/sdk_init.sh"
+        "path": ".scripts/automation_init.sh"
       }
     },
   "generateAndBuild": {
       "generateAndBuildScript": {
-        "path": ".scripts/sdk_generateAndBuild.sh",
+        "path": ".scripts/automation_generate.sh",
         "stdout": {
           "storeLogByFilter": "Error: |error |throw|exception"
         },
