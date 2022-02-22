@@ -8,22 +8,20 @@
  */
 
 const fs = require("fs");
-const { ModelParser, ModelParsingOption } = require("@azure/dtdl-parser");
+const { createParser, ModelParsingOption } = require("@azure/dtdl-parser");
 
 async function main() {
-  const rawDtdlDigest = fs.readFileSync(
-    "samples/typescript/parser/InterfaceContentsEmbeddedV2.json",
-    "utf-8"
-  );
-  const modelParser = new ModelParser();
+  const rawDtdlDigest = fs.readFileSync("./samples-dev/InterfaceContentsEmbeddedV2.json", "utf-8");
+  const modelParser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
   modelParser.options = ModelParsingOption.PermitAnyTopLevelElement;
-  const modelDict = await modelParser.parseAsync([rawDtdlDigest]);
+  const modelDict = await modelParser.parse([rawDtdlDigest]);
   console.log(modelDict);
   Object.entries(modelDict).forEach(([key, value]) => {
     console.log(key);
     console.log(typeof value);
   });
 }
+
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
