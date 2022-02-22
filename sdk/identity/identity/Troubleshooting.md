@@ -235,6 +235,7 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 
 #### CredentialUnavailableError
 
+
 | Error Message |Description| Mitigation |
 |---|---|---|
 |ManagedIdentityCredential authentication unavailable.|The environment variables configured by the App Services host weren't present.|<ul><li>Ensure the managed identity has been properly configured on the App Service. Instructions for configuring the managed identity can be found [here](https://docs.microsoft.com/azure/app-service/overview-managed-identity?tabs=portal%2Cjavascript).</li><li>Verify the App Service environment is properly configured and the managed identity endpoint is available. See [below](#verify-the-app-service-managed-identity-endpoint-is-available) for instructions.</li></ul>|
