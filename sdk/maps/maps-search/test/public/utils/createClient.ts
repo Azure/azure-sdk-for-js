@@ -13,24 +13,16 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   MAPS_CLIENT_ID: "azure_maps_client_id",
-  MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key"
+  MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
-    // the endpoint string used with nock, which will be expanded to
-    // https://<endpoint>:443/ and therefore will not match, so we have to do
-    // this instead.
-    (recording: string): string => {
-      const replaced = recording.replace("endpoint:443", "endpoint");
-      return replaced;
-    }
+      recording.replace(/batch\/{?\w{8}-?\w{4}-?\w{4}-?\w{4}-?\w{12}}?/g, `batch/<batch-id>`),
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export type AuthMethod = "SubscriptionKey" | "AAD";
