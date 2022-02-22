@@ -118,6 +118,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can update the tags of a certificate", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -349,6 +350,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can delete a certificate", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,

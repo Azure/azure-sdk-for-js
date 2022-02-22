@@ -38,6 +38,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   // The tests follow
 
   it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
