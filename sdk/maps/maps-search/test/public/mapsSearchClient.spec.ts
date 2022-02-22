@@ -108,6 +108,25 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           });
         });
 
+        describe("#searchAddressBatch", function() {
+          it("should throw errors if given empty array as queries", async function() {
+            // "Number of queries must be between 1 and 10000 inclusive.""
+            assert.isRejected(client.searchAddressBatch([]));
+          });
+          it("could take an array of fuzzy search queries as input", async function() {
+            const batchQueries = [
+              { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
+              { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
+              { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } }
+            ];
+
+            const batchResult = await client.searchAddressBatch(batchQueries);
+
+            assert.equal(batchResult.totalRequests, batchQueries.length);
+            assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          });
+        });
+
         describe("#searchStructuredAddress", function() {
           it("should throw error the the query contains invalid countryCode", async function() {
             const structuredAddress = {
@@ -149,6 +168,29 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
             searchResult.results?.forEach((r) => {
               assert.isString(r.address?.streetName);
             });
+          });
+        });
+
+        describe("#reverseSearchAddressBatch", function() {
+          it("should throw errors if given empty array as queries", async function() {
+            // "Number of queries must be between 1 and 10000 inclusive.""
+            assert.isRejected(client.reverseSearchAddressBatch([]));
+          });
+
+          it("could take an array of fuzzy search queries as input", async function() {
+            const batchQueries = [
+              { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+              {
+                coordinates: { latitude: 47.639765, longitude: -122.127896 },
+                options: { radiusInMeters: 5000 }
+              },
+              { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
+            ];
+
+            const batchResult = await client.reverseSearchAddressBatch(batchQueries);
+
+            assert.equal(batchResult.totalRequests, batchQueries.length);
+            assert.equal(batchResult.batchItems?.length, batchQueries.length);
           });
         });
 
@@ -376,6 +418,30 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
               }
             });
             assertSearchResults(searchResult.results);
+          });
+        });
+
+        describe("#fuzzySearchBatch", function() {
+          it("should throw errors if given empty array as queries", async function() {
+            // "Number of queries must be between 1 and 10000 inclusive.""
+            assert.isRejected(client.fuzzySearchBatch([]));
+          });
+
+          it("could take an array of fuzzy search queries as input", async function() {
+            const batchQueries = [
+              { query: "pizza", countryFilter: ["fr"] },
+              { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+              {
+                query: "pizza",
+                countryFilter: ["tw"],
+                coordinates: { latitude: 25, longitude: 121 }
+              }
+            ];
+
+            const batchResult = await client.fuzzySearchBatch(batchQueries);
+
+            assert.equal(batchResult.totalRequests, batchQueries.length);
+            assert.equal(batchResult.batchItems?.length, batchQueries.length);
           });
         });
 
@@ -686,6 +752,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           // "Number of queries must be between 1 and 10000 inclusive.""
           assert.isRejected(client.beginReverseSearchAddressBatch([]));
         });
+
         it("could take an array of fuzzy search queries as input", async function() {
           const batchQueries = [
             { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
