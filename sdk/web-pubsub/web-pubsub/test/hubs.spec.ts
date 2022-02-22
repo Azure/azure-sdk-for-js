@@ -33,7 +33,7 @@ describe("HubClient", function () {
     it("takes an endpoint, an API key, a hub name, and options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubServiceClient(
-          env.ENDPOINT,
+          env.WPS_ENDPOINT,
           new AzureKeyCredential(env.WPS_API_KEY),
           "test-hub",
           {
@@ -45,7 +45,7 @@ describe("HubClient", function () {
 
     it("takes an endpoint, DefaultAzureCredential, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(env.ENDPOINT, new DefaultAzureCredential(), "test-hub", {
+        new WebPubSubServiceClient(env.WPS_ENDPOINT, new DefaultAzureCredential(), "test-hub", {
           retryOptions: { maxRetries: 2 },
         });
       });
@@ -76,7 +76,7 @@ describe("HubClient", function () {
 
     it("can broadcast using the DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        env.ENDPOINT,
+        env.WPS_ENDPOINT,
         new DefaultAzureCredential(),
         "simplechat"
       );
@@ -94,7 +94,7 @@ describe("HubClient", function () {
 
     it("can broadcast using APIM", async () => {
       const apimClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat", {
-        reverseProxyEndpoint: env.REVERSE_PROXY_ENDPOINT,
+        reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT,
       });
 
       await apimClient.sendToAll("hello", { contentType: "text/plain", onResponse });
