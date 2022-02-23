@@ -802,6 +802,7 @@ sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
+sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
