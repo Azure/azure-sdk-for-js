@@ -66,7 +66,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   });
 
   it("can resume from a stopped poller", async function (this: Context) {
-    this.retries(5)
+    this.retries(5);
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -92,7 +92,8 @@ describe("Certificates client - LRO - certificate operation", () => {
     const completeCertificate: KeyVaultCertificateWithPolicy = await resumePoller.pollUntilDone();
     assert.equal(completeCertificate.name, certificateName);
 
-    const operation: CertificateOperation = await resumePoller.getOperationState().certificateOperation!;
+    const operation: CertificateOperation = await resumePoller.getOperationState()
+      .certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(resumePoller.getOperationState().isCompleted);
   });
