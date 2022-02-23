@@ -37,7 +37,7 @@ export interface DefaultAzureCredentialClientIdOptions extends TokenCredentialOp
  * Provides options to configure the {@link DefaultAzureCredential} class.
  * This variation supports `managedIdentityResourceId` and not `managedIdentityClientId`, since only one of both is supported.
  */
-export interface DefaultAzureCredentialResourceIdOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialOptionsWithResourceId extends TokenCredentialOptions {
   /**
    * Optionally pass in a Tenant ID to be used as part of the credential.
    * By default it may use a generic tenant ID depending on the underlying credential.
@@ -58,7 +58,7 @@ export interface DefaultAzureCredentialResourceIdOptions extends TokenCredential
  */
 export type DefaultAzureCredentialOptions =
   | DefaultAzureCredentialClientIdOptions
-  | DefaultAzureCredentialResourceIdOptions;
+  | DefaultAzureCredentialOptionsWithResourceId;
 
 /**
  * The type of a class that implements TokenCredential and accepts
@@ -79,7 +79,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
-    const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
+    const managedResourceId = (options as DefaultAzureCredentialOptionsWithResourceId)
       ?.managedIdentityResourceId;
 
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
