@@ -139,6 +139,10 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.EnableScanInQuery] = options.enableScanInQuery;
   }
 
+  if (options.maxIntegratedCacheStaleness) {
+    headers[Constants.HttpHeaders.DedicatedGatewayCacheStaleness] = options.maxIntegratedCacheStaleness
+  }
+
   if (options.populateQuotaInfo) {
     headers[Constants.HttpHeaders.PopulateQuotaInfo] = options.populateQuotaInfo;
   }
