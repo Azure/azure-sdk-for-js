@@ -14,10 +14,6 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Search/preview/1.0/search.json
-#input-file: ..\..\..\..\..\azure-rest-api-specs\specification\maps\data-plane\Search\preview\1.0\search.json
-# add-credentials: true
-# credential-default-policy-type: BearerTokenCredentialPolicy
-# credential-scopes: https://atlas.microsoft.com/.default
 add-credentials: false
 override-client-name: GeneratedClient
 package-version: 1.0.0-beta.1
