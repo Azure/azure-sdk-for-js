@@ -112,10 +112,10 @@ describe("RegistryArtifact functional test", async function () {
 });
 
 describe("digest calculation helper", () => {
-  it("should calculate the digest correctly", () => {
+  it("should calculate the digest correctly", async () => {
     const buf = Buffer.from("Hello world!", "utf8");
     const expectedChecksum = "c0535e4be2b79ffd93291305436bf889314e4a3faec05ecffcbb7df31ad9e51a";
 
-    assert.equal(calculateDigest(buf), `sha256:${expectedChecksum}`);
+    assert.equal(await calculateDigest(buf), `sha256:${expectedChecksum}`);
   });
 });

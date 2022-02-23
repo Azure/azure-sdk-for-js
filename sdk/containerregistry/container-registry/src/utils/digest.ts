@@ -1,7 +1,20 @@
 import crypto from "crypto";
 
-// TODO browser version of this?
-export function calculateDigest(data: Buffer): string {
-  const checksum = crypto.createHash("sha256").update(data).digest("hex");
-  return `sha256:${checksum}`;
+
+export function calculateDigest(buffer: Buffer): Promise<string>;
+
+export function calculateDigest(stream: NodeJS.ReadableStream): Promise<string>;
+
+export function calculateDigest(bufferOrStream: Buffer | NodeJS.ReadableStream): Promise<string>;
+
+export function calculateDigest(bufferOrStream: NodeJS.ReadableStream | Buffer): Promise<string> {
+  const hash = crypto.createHash("sha256");
+  if(Buffer.isBuffer(bufferOrStream)) {
+    return Promise.resolve(`sha256:${hash.update(bufferOrStream).digest('hex')}`);
+  } else {
+    bufferOrStream.pipe(hash);
+    return new Promise(resolve => hash.on('end', () => {
+      resolve(`sha256:${hash.digest('hex')}`);
+    }));
+  }
 }

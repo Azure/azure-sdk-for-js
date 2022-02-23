@@ -6,24 +6,31 @@ import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
+import { GeneratedClient } from "../generated";
 import { ContainerRegistryClientOptions } from "..";
 import { ChallengeHandler } from "../containerRegistryChallengeHandler";
 import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential";
-import {
-  ContainerRegistryBlobDeleteBlobOptionalParams,
-  ContainerRegistryBlobGetBlobOptionalParams,
-  ContainerRegistryDeleteManifestOptionalParams,
-  GeneratedClient,
-  Manifest,
-  OCIManifest,
-} from "../generated";
 import { logger } from "../logger";
 import { calculateDigest } from "../utils/digest";
-import { UploadManifestOptions } from "./models";
+import { UploadManifestOptions,
+  ContainerRegistryBlobDeleteBlobOptionalParams,
+  ContainerRegistryBlobGetBlobOptionalParams,
+  ContainerRegistryBlobGetBlobResponse,
+  ContainerRegistryDeleteManifestOptionalParams,
+  Manifest,
+  OCIManifest,
+} from "./models";
 
 const LATEST_API_VERSION = "2021-07-01";
 
+function isReadableStream(body: any): body is NodeJS.ReadableStream {
+  return body && typeof body.pipe === "function";
+}
+
+/**
+ * Blob client
+ */
 export class ContainerRegistryBlobClient {
   /**
    * The Azure Container Registry endpoint.
@@ -135,38 +142,37 @@ export class ContainerRegistryBlobClient {
     );
   }
 
-  async deleteBlob(
+  public async deleteBlob(
     digest: string,
     options?: ContainerRegistryBlobDeleteBlobOptionalParams
   ): Promise<void> {
     await this.client.containerRegistryBlob.deleteBlob(this.repositoryName, digest, options);
   }
 
-  async uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<void>;
+  public async uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<void>;
 
-  async uploadManifest(manifestBuffer: Buffer, options?: UploadManifestOptions): Promise<void>;
+  public async uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<void>;
 
-  async uploadManifest(
-    manifestOrManifestBuffer: Buffer | OCIManifest,
+  public async uploadManifest(
+    manifestOrManifestStream: NodeJS.ReadableStream | OCIManifest,
     options?: UploadManifestOptions
   ): Promise<void> {
-    const manifestBuffer = Buffer.isBuffer(manifestOrManifestBuffer)
-      ? manifestOrManifestBuffer
-      : Buffer.from(JSON.stringify(manifestOrManifestBuffer), "utf8");
 
-    const tagOrDigest = options?.tag ?? calculateDigest(manifestBuffer);
+    const manifestBody = isReadableStream(manifestOrManifestStream) ? manifestOrManifestStream : Buffer.from(JSON.stringify(manifestOrManifestStream), "utf-8");
+
+    const tagOrDigest = options?.tag ?? await calculateDigest(manifestBody);
     await this.client.containerRegistry.createManifest(
       this.repositoryName,
       tagOrDigest,
-      manifestBuffer,
+      manifestBody,
       options
     );
   }
 
-  async downloadManifest(tagOrDigest: string): Promise<Manifest> {
+  public async downloadManifest(tagOrDigest: string): Promise<Manifest> {
     const response = await this.client.containerRegistry.getManifest(
       this.repositoryName,
-      tagOrDigest
+      tagOrDigest,
     );
 
     // TODO: validate digest (comes from Docker-Content-Digest header, how do we get the header?)
@@ -174,24 +180,29 @@ export class ContainerRegistryBlobClient {
     return response;
   }
 
-  async deleteManifest(
+  public async deleteManifest(
     digest: string,
     options?: ContainerRegistryDeleteManifestOptionalParams
   ): Promise<void> {
     await this.client.containerRegistry.deleteManifest(this.repositoryName, digest, options);
   }
 
-  // TODO: ReadableStream support for browser?
-  async uploadBlob(blob: Buffer): Promise<void> {
+  // TODO: investigate stream support
+  // right now: just support readablestream
+  public async uploadBlob(blob: NodeJS.ReadableStream): Promise<void> {
+
     const startUploadResult = await this.client.containerRegistryBlob.startUpload(
       this.repositoryName
     );
 
     if (!startUploadResult.location) {
-      throw undefined; // TODO error
+      // Think we just throw Error
+      // Check the guidelines for best practice
+      throw new Error(""); // TODO error
     }
+    
+    const digestCallback = calculateDigest(blob);
 
-    const digest = calculateDigest(blob);
     const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
       startUploadResult.location,
       blob
@@ -201,7 +212,9 @@ export class ContainerRegistryBlobClient {
       throw undefined; // TODO error
     }
 
-    const completeResult = await this.client.containerRegistryBlob.completeUpload(
+    const digest = await digestCallback;
+
+    await this.client.containerRegistryBlob.completeUpload(
       digest,
       uploadChunkResult.location
     );
@@ -209,7 +222,7 @@ export class ContainerRegistryBlobClient {
     // TODO return?
   }
 
-  async downloadBlob(digest: string, options?: ContainerRegistryBlobGetBlobOptionalParams) {
+  public async downloadBlob(digest: string, options?: ContainerRegistryBlobGetBlobOptionalParams): Promise<ContainerRegistryBlobGetBlobResponse> {
     return await this.client.containerRegistryBlob.getBlob(this.repositoryName, digest, options);
   }
 }

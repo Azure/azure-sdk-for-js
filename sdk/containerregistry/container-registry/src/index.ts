@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export * from "./containerRegistryClient";
+export * from "./blob/containerRegistryBlobClient";
 export {
   ContainerRepository,
   DeleteRepositoryOptions,
@@ -20,3 +21,4 @@ export {
   ListTagPropertiesOptions,
 } from "./registryArtifact";
 export * from "./models";
+export * from "./blob/models";

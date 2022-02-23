@@ -8,9 +8,27 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface Annotations {
+    [property: string]: any;
+    authors?: string;
+    created?: Date;
+    description?: string;
+    documentation?: string;
+    licenses?: string;
+    name?: string;
+    revision?: string;
+    source?: string;
+    title?: string;
+    url?: string;
+    vendor?: string;
+    version?: string;
+}
 
 // @public
 export type ArtifactManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
@@ -58,6 +76,48 @@ export interface ArtifactTagProperties {
 }
 
 // @public
+export class ContainerRegistryBlobClient {
+    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpoint: string, repositoryName: string, options?: ContainerRegistryClientOptions);
+    // (undocumented)
+    deleteBlob(digest: string, options?: ContainerRegistryBlobDeleteBlobOptionalParams): Promise<void>;
+    // (undocumented)
+    deleteManifest(digest: string, options?: ContainerRegistryDeleteManifestOptionalParams): Promise<void>;
+    // (undocumented)
+    downloadBlob(digest: string, options?: ContainerRegistryBlobGetBlobOptionalParams): Promise<ContainerRegistryBlobGetBlobResponse>;
+    // (undocumented)
+    downloadManifest(tagOrDigest: string): Promise<Manifest>;
+    readonly endpoint: string;
+    readonly repositoryName: string;
+    // (undocumented)
+    uploadBlob(blob: NodeJS.ReadableStream): Promise<void>;
+    // (undocumented)
+    uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<void>;
+    // (undocumented)
+    uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<void>;
+}
+
+// @public
+export interface ContainerRegistryBlobDeleteBlobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerRegistryBlobGetBlobHeaders {
+    contentLength?: number;
+    dockerContentDigest?: string;
+}
+
+// @public
+export interface ContainerRegistryBlobGetBlobOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
 export class ContainerRegistryClient {
     constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     constructor(endpoint: string, options?: ContainerRegistryClientOptions);
@@ -72,6 +132,14 @@ export class ContainerRegistryClient {
 export interface ContainerRegistryClientOptions extends CommonClientOptions {
     audience?: string;
     serviceVersion?: "2021-07-01";
+}
+
+// @public
+export interface ContainerRegistryCreateManifestOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerRegistryDeleteManifestOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -109,6 +177,15 @@ export interface DeleteRepositoryOptions extends OperationOptions {
 
 // @public
 export interface DeleteTagOptions extends OperationOptions {
+}
+
+// @public
+export interface Descriptor {
+    annotations?: Annotations;
+    digest?: string;
+    mediaType?: string;
+    size?: number;
+    urls?: string[];
 }
 
 // @public
@@ -181,9 +258,21 @@ export interface ListTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
+export interface Manifest {
+    schemaVersion?: number;
+}
+
+// @public
 export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
     continuationToken?: string;
 }
+
+// @public
+export type OCIManifest = Manifest & {
+    config?: Descriptor;
+    layers?: Descriptor[];
+    annotations?: Annotations;
+};
 
 // @public
 export interface RegistryArtifact {
@@ -231,6 +320,12 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
+}
+
+// @public (undocumented)
+export interface UploadManifestOptions extends ContainerRegistryCreateManifestOptionalParams {
+    // (undocumented)
+    tag?: string;
 }
 
 // (No @packageDocumentation comment for this package)

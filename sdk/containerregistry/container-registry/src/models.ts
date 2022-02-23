@@ -3,7 +3,7 @@
 
 export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generated";
 
-import { ArtifactTagProperties } from "./generated";
+import { ArtifactTagProperties,  } from "./generated";
 
 /**
  * Defines known cloud audiences for Azure Container Registry.
