@@ -38,17 +38,21 @@ To distinguish these failures from failures in the service client, Azure Identit
 import * from "@azure/identity";
 import * from "@azure/keyvault-secrets";
 
-// Create a key client using the DefaultAzureCredential
-const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
-const credential = new DefaultAzureCredential();
-const client = new KeyClient(keyVaultUrl, credential);
+async function main() {
+  // Create a key client using the DefaultAzureCredential
+  const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+  const credential = new DefaultAzureCredential();
+  const client = new KeyClient(keyVaultUrl, credential);
 
-try {
-// Retrieving the properties of the existing keys in that specific Key Vault.
-  console.log(await client.listPropertiesOfKeys().next());
-} catch (error) {
-  console.log("Authentication Failed", error.message);
+  try {
+    // Retrieving the properties of the existing keys in that specific Key Vault.
+    console.log(await client.listPropertiesOfKeys().next());
+  } catch (error) {
+    console.log("Authentication Failed", error.message);
+  }
 }
+
+main();
 ```
 
 ### CredentialUnavailableError
