@@ -7,6 +7,9 @@ trigger:
   paths:
     include:
       - sdk/storage/
+    exclude:
+      - sdk/storage/ci.mgmt.yml
+      - sdk/storage/arm-storage/
 pr:
   branches:
     include:
@@ -19,6 +22,9 @@ pr:
   paths:
     include:
       - sdk/storage/
+    exclude:
+      - sdk/storage/ci.mgmt.yml
+      - sdk/storage/arm-storage/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,5 +40,3 @@ extends:
         safeName: azurestoragequeue
       - name: azure-storage-blob-changefeed
         safeName: azurestorageblobchangefeed
-      - name: azure-arm-storage
-        safeName: azurearmstorage

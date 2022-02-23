@@ -139,6 +139,7 @@ export async function createTableServiceClient(
 
   if (recorder) {
     await recorder.start(recorderOptions);
+    await recorder.setMatcher("HeaderlessMatcher");
     options = recorder.configureClientOptions({ allowInsecureConnection: true });
   }
 

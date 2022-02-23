@@ -12,7 +12,7 @@
  * This sample demonstrates how to Provides the result of an operation.
  *
  * @summary Provides the result of an operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

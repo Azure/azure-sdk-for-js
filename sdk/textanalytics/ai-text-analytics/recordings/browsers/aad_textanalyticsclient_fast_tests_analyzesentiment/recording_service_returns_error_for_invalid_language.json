@@ -1,51 +1,65 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:56:38 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12171.14 - NCUS ProdSlices",
-    "x-ms-request-id": "f948e482-dbea-4a35-9a49-344e333c0300"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/sentiment",
-   "query": {
-    "stringIndexType": "Utf16CodeUnit"
-   },
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"Hello world!\",\"language\":\"notalanguage\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,hi,it,ja,ko,nl,no,pt-BR,pt-PT,tr,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis\"}}}],\"modelVersion\":\"2020-04-01\"}",
-   "responseHeaders": {
-    "apim-request-id": "66bb741c-ecd6-479f-b997-7d3999875ef2",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:56:38 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "3"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "95dc0a75a7e111778cfbf0de50a24cb0"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/sentiment?stringIndexType=Utf16CodeUnit",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "74",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000335-0000000000000676-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "2c03e27f-33ef-4c17-9191-b45d4ece2277",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "Hello world!",
+            "language": "notalanguage"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "9f0baaeb-8724-4331-b10f-7e2ef0479525",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:14:54 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "3"
+      },
+      "ResponseBody": {
+        "documents": [],
+        "errors": [
+          {
+            "id": "0",
+            "error": {
+              "code": "InvalidArgument",
+              "message": "Invalid Language Code.",
+              "innererror": {
+                "code": "UnsupportedLanguageCode",
+                "message": "Invalid language code. Supported languages: de,en,es,fr,hi,it,ja,ko,nl,no,pt-BR,pt-PT,tr,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis"
+              }
+            }
+          }
+        ],
+        "modelVersion": "2020-04-01"
+      }
+    }
+  ],
+  "Variables": {}
 }

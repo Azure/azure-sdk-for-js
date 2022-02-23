@@ -1,0 +1,125 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/languages",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "715",
+        "Content-Type": "application/json",
+        "traceparent": "00-00000000000000000000000000000350-0000000000000713-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "19aba295-ed03-4d6a-a5d0-f286262e62e3"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "1",
+            "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+            "countryHint": ""
+          },
+          {
+            "id": "2",
+            "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+            "countryHint": ""
+          },
+          {
+            "id": "3",
+            "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+            "countryHint": ""
+          },
+          {
+            "id": "4",
+            "text": "I didn\u0027t like the last book I read at all.",
+            "countryHint": ""
+          },
+          {
+            "id": "5",
+            "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+            "countryHint": ""
+          },
+          {
+            "id": "6",
+            "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+            "countryHint": ""
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "fa10a2d7-8ffc-40fc-aee0-ca13795f7ced",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+        "Date": "Fri, 18 Feb 2022 19:04:10 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "9"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "1",
+            "detectedLanguage": {
+              "name": "English",
+              "iso6391Name": "en",
+              "confidenceScore": 1.0
+            },
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "detectedLanguage": {
+              "name": "English",
+              "iso6391Name": "en",
+              "confidenceScore": 1.0
+            },
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "detectedLanguage": {
+              "name": "English",
+              "iso6391Name": "en",
+              "confidenceScore": 1.0
+            },
+            "warnings": []
+          },
+          {
+            "id": "4",
+            "detectedLanguage": {
+              "name": "English",
+              "iso6391Name": "en",
+              "confidenceScore": 1.0
+            },
+            "warnings": []
+          },
+          {
+            "id": "5",
+            "detectedLanguage": {
+              "name": "Spanish",
+              "iso6391Name": "es",
+              "confidenceScore": 0.99
+            },
+            "warnings": []
+          },
+          {
+            "id": "6",
+            "detectedLanguage": {
+              "name": "Spanish",
+              "iso6391Name": "es",
+              "confidenceScore": 1.0
+            },
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-11-20"
+      }
+    }
+  ],
+  "Variables": {}
+}

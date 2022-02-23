@@ -1,0 +1,521 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "460",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000178-0000000000000356-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "7b4dae77-ac66-44c3-bf4e-33e6a1d0ed39"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "I will go to the park."
+            },
+            {
+              "id": "2",
+              "text": "Este es un document escrito en Espa\u00F1ol."
+            },
+            {
+              "id": "3",
+              "text": "\u732B\u306F\u5E78\u305B"
+            }
+          ]
+        },
+        "tasks": {
+          "entityRecognitionTasks": [
+            {
+              "parameters": {
+                "model-version": "latest",
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ],
+          "entityRecognitionPiiTasks": [
+            {
+              "parameters": {
+                "model-version": "latest",
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ],
+          "keyPhraseExtractionTasks": [
+            {
+              "parameters": {
+                "model-version": "latest"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "6db3f985-cacf-4605-b3a0-2ff295f2d12d",
+        "Date": "Fri, 18 Feb 2022 19:01:26 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/599c8183-6120-41ef-9464-a3641cd7f4c3",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "194"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/599c8183-6120-41ef-9464-a3641cd7f4c3?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000179-0000000000000358-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "6a59a7ed-bf85-47a6-8e3f-5e0abbc094a6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "aaf78050-a4f0-4a3b-8dad-e6dc8368e707",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:01:26 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "9"
+      },
+      "ResponseBody": {
+        "jobId": "599c8183-6120-41ef-9464-a3641cd7f4c3",
+        "lastUpdateDateTime": "2022-02-18T19:01:26Z",
+        "createdDateTime": "2022-02-18T19:01:25Z",
+        "expirationDateTime": "2022-02-19T19:01:25Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 3,
+          "total": 3
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/599c8183-6120-41ef-9464-a3641cd7f4c3?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000180-0000000000000360-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "7ece8476-e029-4a64-adea-905e7cba7234"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "04c6b809-cba6-42e2-9b57-de974c005939",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:01:26 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "599c8183-6120-41ef-9464-a3641cd7f4c3",
+        "lastUpdateDateTime": "2022-02-18T19:01:26Z",
+        "createdDateTime": "2022-02-18T19:01:25Z",
+        "expirationDateTime": "2022-02-19T19:01:25Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 3,
+          "total": 3
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/599c8183-6120-41ef-9464-a3641cd7f4c3?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000181-0000000000000362-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "fbcfd207-9fde-4a3a-ae95-a0198a786012"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "6a84ec30-bdd0-475f-9446-7b554abe19b8",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:01:28 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "81"
+      },
+      "ResponseBody": {
+        "jobId": "599c8183-6120-41ef-9464-a3641cd7f4c3",
+        "lastUpdateDateTime": "2022-02-18T19:01:28Z",
+        "createdDateTime": "2022-02-18T19:01:25Z",
+        "expirationDateTime": "2022-02-19T19:01:25Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 2,
+          "total": 3,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:28.1779654Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "park",
+                        "category": "Location",
+                        "offset": 17,
+                        "length": 4,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Espa\u00F1ol",
+                        "category": "Skill",
+                        "offset": 31,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/599c8183-6120-41ef-9464-a3641cd7f4c3?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000182-0000000000000364-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "aaa7256e-6ba0-4c16-927c-1606acfb84dd"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "6822e532-f860-4a5b-9927-e973a162d908",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:01:30 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "276"
+      },
+      "ResponseBody": {
+        "jobId": "599c8183-6120-41ef-9464-a3641cd7f4c3",
+        "lastUpdateDateTime": "2022-02-18T19:01:29Z",
+        "createdDateTime": "2022-02-18T19:01:25Z",
+        "expirationDateTime": "2022-02-19T19:01:25Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 3,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 3,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:28.1779654Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "park",
+                        "category": "Location",
+                        "offset": 17,
+                        "length": 4,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Espa\u00F1ol",
+                        "category": "Skill",
+                        "offset": 31,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ],
+          "entityRecognitionPiiTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:29.0549592Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "I will go to the park.",
+                    "id": "1",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Este es un document escrito en Espa\u00F1ol.",
+                    "id": "2",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "\u732B\u306F\u5E78\u305B",
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ],
+          "keyPhraseExtractionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:29.4120285Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "keyPhrases": [
+                      "park"
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "keyPhrases": [
+                      "Espa\u00F1ol",
+                      "document"
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "keyPhrases": [
+                      "\u306F\u5E78\u305B"
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/599c8183-6120-41ef-9464-a3641cd7f4c3?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000183-0000000000000366-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "8b1c8e9e-c1f5-405a-8b91-66ab45538c3b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "6f6c62e6-22cf-43d8-a72b-dc232e1187eb",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:01:30 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "143"
+      },
+      "ResponseBody": {
+        "jobId": "599c8183-6120-41ef-9464-a3641cd7f4c3",
+        "lastUpdateDateTime": "2022-02-18T19:01:29Z",
+        "createdDateTime": "2022-02-18T19:01:25Z",
+        "expirationDateTime": "2022-02-19T19:01:25Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 3,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 3,
+          "entityRecognitionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:28.1779654Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "park",
+                        "category": "Location",
+                        "offset": 17,
+                        "length": 4,
+                        "confidenceScore": 0.99
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "Espa\u00F1ol",
+                        "category": "Skill",
+                        "offset": 31,
+                        "length": 7,
+                        "confidenceScore": 0.94
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ],
+          "entityRecognitionPiiTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:29.0549592Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "I will go to the park.",
+                    "id": "1",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Este es un document escrito en Espa\u00F1ol.",
+                    "id": "2",
+                    "entities": [],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "\u732B\u306F\u5E78\u305B",
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ],
+          "keyPhraseExtractionTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:01:29.4120285Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "1",
+                    "keyPhrases": [
+                      "park"
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "keyPhrases": [
+                      "Espa\u00F1ol",
+                      "document"
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "keyPhrases": [
+                      "\u306F\u5E78\u305B"
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

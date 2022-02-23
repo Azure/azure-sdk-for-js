@@ -1,0 +1,231 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/sentiment?stringIndexType=Utf16CodeUnit",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "709",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000007-0000000000000014-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "86502000-e89c-4ae2-808e-59f24a054e82"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "1",
+            "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+            "language": "en"
+          },
+          {
+            "id": "3",
+            "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+            "language": "en"
+          },
+          {
+            "id": "4",
+            "text": "I didn\u0027t like the last book I read at all.",
+            "language": "en"
+          },
+          {
+            "id": "5",
+            "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+            "language": "es"
+          },
+          {
+            "id": "6",
+            "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+            "language": "es"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "33443c55-dc10-4f14-b708-b2ad4dcc3448",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+        "Date": "Fri, 18 Feb 2022 18:59:01 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "273"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "1",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.01,
+              "negative": 0.0
+            },
+            "sentences": [
+              {
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 0.99,
+                  "neutral": 0.01,
+                  "negative": 0.0
+                },
+                "offset": 0,
+                "length": 86,
+                "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "sentences": [
+              {
+                "sentiment": "negative",
+                "confidenceScores": {
+                  "positive": 0.0,
+                  "neutral": 0.0,
+                  "negative": 1.0
+                },
+                "offset": 0,
+                "length": 58,
+                "text": "Unfortunately, it rained during my entire trip to Seattle."
+              },
+              {
+                "sentiment": "neutral",
+                "confidenceScores": {
+                  "positive": 0.01,
+                  "neutral": 0.7,
+                  "negative": 0.29
+                },
+                "offset": 59,
+                "length": 43,
+                "text": "I didn\u0027t even get to visit the Space Needle"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "sentences": [
+              {
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 1.0,
+                  "neutral": 0.0,
+                  "negative": 0.0
+                },
+                "offset": 0,
+                "length": 101,
+                "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected."
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "4",
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.03,
+              "negative": 0.96
+            },
+            "sentences": [
+              {
+                "sentiment": "negative",
+                "confidenceScores": {
+                  "positive": 0.01,
+                  "neutral": 0.03,
+                  "negative": 0.96
+                },
+                "offset": 0,
+                "length": 42,
+                "text": "I didn\u0027t like the last book I read at all."
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "5",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.89,
+              "neutral": 0.08,
+              "negative": 0.03
+            },
+            "sentences": [
+              {
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 0.89,
+                  "neutral": 0.08,
+                  "negative": 0.03
+                },
+                "offset": 0,
+                "length": 73,
+                "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos."
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "6",
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.11,
+              "neutral": 0.29,
+              "negative": 0.6
+            },
+            "sentences": [
+              {
+                "sentiment": "negative",
+                "confidenceScores": {
+                  "positive": 0.11,
+                  "neutral": 0.29,
+                  "negative": 0.6
+                },
+                "offset": 0,
+                "length": 29,
+                "text": "La carretera estaba atascada."
+              },
+              {
+                "sentiment": "neutral",
+                "confidenceScores": {
+                  "positive": 0.09,
+                  "neutral": 0.58,
+                  "negative": 0.33
+                },
+                "offset": 30,
+                "length": 35,
+                "text": "Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer."
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2020-04-01"
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -12,7 +12,7 @@
  * This sample demonstrates how to Returns the list of available operations.
  *
  * @summary Returns the list of available operations.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/ListOperations.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/ListOperations.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
