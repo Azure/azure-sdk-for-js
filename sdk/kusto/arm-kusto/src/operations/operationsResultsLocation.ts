@@ -6,22 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationsResults } from "../operationsInterfaces";
+import { OperationsResultsLocation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import {
-  OperationsResultsGetOptionalParams,
-  OperationsResultsGetResponse
-} from "../models";
+import { OperationsResultsLocationGetOptionalParams } from "../models";
 
-/** Class containing OperationsResults operations. */
-export class OperationsResultsImpl implements OperationsResults {
+/** Class containing OperationsResultsLocation operations. */
+export class OperationsResultsLocationImpl
+  implements OperationsResultsLocation {
   private readonly client: KustoManagementClient;
 
   /**
-   * Initialize a new instance of the class OperationsResults class.
+   * Initialize a new instance of the class OperationsResultsLocation class.
    * @param client Reference to the service client
    */
   constructor(client: KustoManagementClient) {
@@ -37,8 +35,8 @@ export class OperationsResultsImpl implements OperationsResults {
   get(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
-  ): Promise<OperationsResultsGetResponse> {
+    options?: OperationsResultsLocationGetOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
       getOperationSpec
@@ -52,14 +50,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/operationResults/{operationId}",
   httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 202: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -67,6 +58,5 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.location,
     Parameters.operationId
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };

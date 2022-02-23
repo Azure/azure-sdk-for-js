@@ -9,25 +9,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**
- * This sample demonstrates how to Starts a Kusto cluster.
+ * This sample demonstrates how to Returns operation results.
  *
- * @summary Starts a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersStart.json
+ * @summary Returns operation results.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoOperationResultsOperationResultResponseTypeGet.json
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function kustoClustersStart() {
+async function kustoOperationsResultsLocationGet() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
-  const clusterName = "kustoCluster2";
+  const location = "westus";
+  const operationId = "30972f1b-b61d-4fd8-bd34-3dcfa24670f3";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginStartAndWait(
-    resourceGroupName,
-    clusterName
+  const result = await client.operationsResultsLocation.get(
+    location,
+    operationId
   );
   console.log(result);
 }
 
-kustoClustersStart().catch(console.error);
+kustoOperationsResultsLocationGet().catch(console.error);

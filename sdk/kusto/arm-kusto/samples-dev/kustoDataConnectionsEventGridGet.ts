@@ -9,25 +9,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /**
- * This sample demonstrates how to Starts a Kusto cluster.
+ * This sample demonstrates how to Returns a data connection.
  *
- * @summary Starts a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersStart.json
+ * @summary Returns a data connection.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsEventGridGet.json
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function kustoClustersStart() {
+async function kustoDataConnectionsEventGridGet() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoCluster2";
+  const clusterName = "kustoCluster";
+  const databaseName = "KustoDatabase8";
+  const dataConnectionName = "dataConnectionTest";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.clusters.beginStartAndWait(
+  const result = await client.dataConnections.get(
     resourceGroupName,
-    clusterName
+    clusterName,
+    databaseName,
+    dataConnectionName
   );
   console.log(result);
 }
 
-kustoClustersStart().catch(console.error);
+kustoDataConnectionsEventGridGet().catch(console.error);

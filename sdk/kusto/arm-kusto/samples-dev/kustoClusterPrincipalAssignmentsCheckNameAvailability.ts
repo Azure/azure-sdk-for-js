@@ -12,7 +12,7 @@
  * This sample demonstrates how to Checks that the principal assignment name is valid and is not already in use.
  *
  * @summary Checks that the principal assignment name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoClusterPrincipalAssignmentsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClusterPrincipalAssignmentsCheckNameAvailability.json
  */
 import {
   ClusterPrincipalAssignmentCheckNameRequest,
@@ -23,7 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoClusterPrincipalAssignmentsCheckNameAvailability() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest = {
     name: "kustoprincipal1",
     type: "Microsoft.Kusto/clusters/principalAssignments"

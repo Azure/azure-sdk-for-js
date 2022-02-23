@@ -12,7 +12,7 @@
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionEventGridValidationAsync.json
  */
 import {
   DataConnectionValidation,
@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function kustoDataConnectionValidation() {
+async function kustoDataConnectionEventGridValidation() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
   const clusterName = "kustoCluster";
@@ -28,15 +28,21 @@ async function kustoDataConnectionValidation() {
   const parameters: DataConnectionValidation = {
     dataConnectionName: "dataConnectionTest",
     properties: {
-      compression: "None",
-      consumerGroup: "testConsumerGroup1",
+      blobStorageEventType: "Microsoft.Storage.BlobCreated",
+      consumerGroup: "$Default",
       dataFormat: "JSON",
+      databaseRouting: "Single",
+      eventGridResourceId:
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
       eventHubResourceId:
         "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
-      kind: "EventHub",
+      ignoreFirstRecord: false,
+      kind: "EventGrid",
       managedIdentityResourceId:
         "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
       mappingRuleName: "TestMapping",
+      storageAccountResourceId:
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
       tableName: "TestTable"
     }
   };
@@ -51,4 +57,4 @@ async function kustoDataConnectionValidation() {
   console.log(result);
 }
 
-kustoDataConnectionValidation().catch(console.error);
+kustoDataConnectionEventGridValidation().catch(console.error);

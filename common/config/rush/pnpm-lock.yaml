@@ -7092,6 +7092,21 @@ packages:
       source-map-resolve: 0.6.0
     dev: false
 
+  /rollup-plugin-sourcemaps/0.6.3_rollup@2.67.1:
+    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.67.1
+      rollup: 2.67.1
+      source-map-resolve: 0.6.0
+    dev: false
+
   /rollup-plugin-terser/5.3.1_rollup@2.67.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
     peerDependencies:
@@ -8887,7 +8902,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-o7nTFUp/He8mxChlJgVsEQGvMSgBwZ3Q0cA3IwYAEgFxksGNGDqirKVX14ixCFXZ4WccvZ7N4k7cRVsDsLJO4g==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-negpkvINfMedZMo/5L1bUc1Jurs3pGS6PuodsviCc+XynPV3SHz+/TtOJD49pu7VzkDnSKEU7Yz1DpaV083KQQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -8933,7 +8948,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -10519,26 +10533,27 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-DxB7ehSu9ZXG5jB0NoR60sg4ZIXgzuQcITfbOobN4DPPigMM0lMHFKamwpTBMdSauHm4U/j9fKDDjlmh/3HS7w==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-DmwQ0mGGDBTvBmOu97/X0xavKTV0us4ex0blk91xqEvdwYw47c5rPG8dWaj+BcPUQIeZYZjrpJ0BgVBLr6SVzQ==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -13740,7 +13755,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-HHJexN/cUky99Na2FGl/mUweka1rPkQFFVUaBWqP6yHLcZIikBhJ9rsxOS7TGOSM7wCsEGrlRolOh+5jiHMxzw==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-O94bnJUDhIxxX2FnhYTmpFtSLvpe2XaNNwI3e6a7JvEuIkcHKMiN8Sh5WvA8BAhkEV+KsKKKNS8v0erLyit6TA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -13789,7 +13804,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-HkF/GM4awodeF184YdeRQvLU+4ZEtC14BZNKwc+K3Z08l9qb+MyNS5/M6OogfKRwL0V6T+bgYGNRciYVn4JO3Q==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-/Dpf2haY7btQZGQuvHBOvp+FV73jJdRtvEb9Iq2FlChhxnlxi3rnU+c5d3RiTER/V7CN2eTqZTmGqU81I5hofA==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
