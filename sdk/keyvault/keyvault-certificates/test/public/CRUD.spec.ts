@@ -558,7 +558,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can read, cancel and delete a certificate's operation", async function (this: Context) {
     // Known flaky test due to the lag between the request and when the job gets picked up by the service.
-    this.retries(2);
+    this.retries(5);
 
     const certificateName = recorder.getUniqueName("crudcertoperation");
     await client.beginCreateCertificate(
