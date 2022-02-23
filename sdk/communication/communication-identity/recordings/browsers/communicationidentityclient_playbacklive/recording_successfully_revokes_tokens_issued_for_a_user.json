@@ -8,19 +8,19 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\",\"voip\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T14:12:06.4467336+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T14:34:11.2910428+00:00\"}}",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "927",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 23 Feb 2022 14:12:05 GMT",
-    "ms-cv": "F8f+Qh5r3EePMxsfVozKAQ.0",
+    "date": "Wed, 23 Feb 2022 14:34:10 GMT",
+    "ms-cv": "du9CgJSgIkCpIx1ki5m2zw.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0tkAWYgAAAACx6M4XSNqMSLl+MLNTuz2DUFJHMDFFREdFMDcyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "04kUWYgAAAACCqGCJC6pYQ7o2XSwlwt1LUFJHMDFFREdFMDkxMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "39ms"
+    "x-processing-time": "276ms"
    }
   },
   {
@@ -34,14 +34,14 @@
    "response": "",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
-    "date": "Wed, 23 Feb 2022 14:12:06 GMT",
-    "ms-cv": "+a8C8SJJDEKUJksrXxGCtw.0",
+    "date": "Wed, 23 Feb 2022 14:34:12 GMT",
+    "ms-cv": "F1erb7r/rUGND11ZbPhVIg.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0tkAWYgAAAADlVlcWiwBGR774NW9cOA3PUFJHMDFFREdFMDcyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "040UWYgAAAABFMhIf5J7VRKtT+7NipqX2UFJHMDFFREdFMDkxMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "593ms"
+    "x-processing-time": "872ms"
    }
   }
  ],

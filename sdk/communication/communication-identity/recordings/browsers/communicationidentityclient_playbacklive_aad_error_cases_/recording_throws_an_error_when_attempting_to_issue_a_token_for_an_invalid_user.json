@@ -11,16 +11,16 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1327",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 23 Feb 2022 14:12:02 GMT",
+    "date": "Wed, 23 Feb 2022 14:34:05 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+ams2\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+dub2\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12470.11 - SCUS ProdSlices",
+    "x-ms-ests-server": "2.1.12470.11 - EUS ProdSlices",
     "x-ms-request-id": "00000000-0000-0000-0000-000000000000"
    }
   },
@@ -36,14 +36,14 @@
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-type": "application/json",
-    "date": "Wed, 23 Feb 2022 14:12:02 GMT",
-    "ms-cv": "UxGCgY5XAUaWAWPjGX8WEQ.0",
+    "date": "Wed, 23 Feb 2022 14:34:05 GMT",
+    "ms-cv": "IgwmDz97Wk2R+KIjxVB8Jw.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0s0AWYgAAAAADfpm0ChnwRJlihEGU7un/UFJHMDFFREdFMDcyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "03UUWYgAAAACiCM9qyXUqRaAU0BWUiyIpUFJHMDFFREdFMDkxMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "15ms"
+    "x-processing-time": "75ms"
    }
   }
  ],

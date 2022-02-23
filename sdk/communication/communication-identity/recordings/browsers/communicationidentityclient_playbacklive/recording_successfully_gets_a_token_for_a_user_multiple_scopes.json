@@ -13,14 +13,14 @@
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 23 Feb 2022 14:12:04 GMT",
-    "ms-cv": "y/PJVv94Yky15jUMtobTXA.0",
+    "date": "Wed, 23 Feb 2022 14:34:09 GMT",
+    "ms-cv": "/McWEaeH5EqqMM1PfoJLeA.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0tUAWYgAAAACUZw3ijR05R6APl23jtll/UFJHMDFFREdFMDcyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "04UUWYgAAAABqvJ/lr1K1SZccoK4cNiRRUFJHMDFFREdFMDkxMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "24ms"
+    "x-processing-time": "288ms"
    }
   },
   {
@@ -31,19 +31,19 @@
    },
    "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
    "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T14:12:05.9890852+00:00\"}",
+   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T14:34:10.2478445+00:00\"}",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "811",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 23 Feb 2022 14:12:05 GMT",
-    "ms-cv": "yL4t+tgKWU+XzmKEcLgk8Q.0",
+    "date": "Wed, 23 Feb 2022 14:34:09 GMT",
+    "ms-cv": "UlGkZLCaz0uP4hKFRfVqVg.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0tUAWYgAAAAAOXe7go1GESbKKCLxFtrrTUFJHMDFFREdFMDcyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "04kUWYgAAAAAl1V4hB/ztTKN9IJ2CPEr3UFJHMDFFREdFMDkxMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "39ms"
+    "x-processing-time": "81ms"
    }
   }
  ],
