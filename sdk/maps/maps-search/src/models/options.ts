@@ -9,7 +9,7 @@ import {
   LocalizedMapView,
   OperatingHoursRange,
   RoadUseType,
-  SearchIndexes
+  SearchIndexes,
 } from "../generated/models";
 
 /**
@@ -18,7 +18,7 @@ import {
 export type MapsSearchClientOptions = CommonClientOptions;
 
 /**
- * Options for retrieving polygon gemotries given geometry ids
+ * Options for retrieving polygon geometries given geometry ids
  */
 export interface GetGeometriesOptions extends OperationOptions {}
 
