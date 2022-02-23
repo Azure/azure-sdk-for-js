@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Feature client.
 
+> ⚠️ This package @azure/arm-features with versions lower than 3.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 3.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
+
 Azure Feature Exposure Control (AFEC) provides a mechanism for the resource providers to control feature exposure to users. Resource providers typically use this mechanism to provide public/private preview for new features prior to making them generally available. Users need to explicitly register for AFEC features to get access to such functionality.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/features/arm-features) |
@@ -15,6 +17,8 @@ Azure Feature Exposure Control (AFEC) provides a mechanism for the resource prov
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 

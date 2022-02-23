@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure CustomerInsightsManagement client.
 
+> ⚠️ This package @azure/arm-customerinsights with versions lower than 4.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 4.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
+
 The Azure Customer Insights management API provides a RESTful set of web services that interact with Azure Customer Insights service to manage your resources. The API has entities that capture the relationship between an end user and the Azure Customer Insights service.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/customer-insights/arm-customerinsights) |
@@ -15,6 +17,8 @@ The Azure Customer Insights management API provides a RESTful set of web service
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 

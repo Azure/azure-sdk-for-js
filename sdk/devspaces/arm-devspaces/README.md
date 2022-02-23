@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DevSpacesManagement client.
 
+> ⚠️ This package @azure/arm-devspaces with versions lower than 2.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 2.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
+
 Dev Spaces Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devspaces/arm-devspaces) |
@@ -15,6 +17,8 @@ Dev Spaces Client
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
+
+> ⚠️ This package @azure/arm-devspaces with versions lower than 2.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 2.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
 
 ### Prerequisites
 
