@@ -160,6 +160,9 @@ export const Constants = {
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
+
+    // Dedicated Gateway Headers
+    DedicatedGatewayCacheStaleness: "x-ms-dedicatedgateway-max-age"
   },
 
   // GlobalDB related constants
@@ -322,26 +325,26 @@ export enum PermissionScopeValues {
 
   ScopeAccountReadAllAccessValue = 0xffff,
   ScopeDatabaseReadAllAccessValue = PermissionScopeValues.ScopeDatabaseReadValue |
-    PermissionScopeValues.ScopeDatabaseReadOfferValue |
-    PermissionScopeValues.ScopeDatabaseListContainerValue |
-    PermissionScopeValues.ScopeContainerReadValue |
-    PermissionScopeValues.ScopeContainerReadOfferValue,
+  PermissionScopeValues.ScopeDatabaseReadOfferValue |
+  PermissionScopeValues.ScopeDatabaseListContainerValue |
+  PermissionScopeValues.ScopeContainerReadValue |
+  PermissionScopeValues.ScopeContainerReadOfferValue,
 
   ScopeContainersReadAllAccessValue = PermissionScopeValues.ScopeContainerReadValue |
-    PermissionScopeValues.ScopeContainerReadOfferValue,
+  PermissionScopeValues.ScopeContainerReadOfferValue,
 
   ScopeAccountWriteAllAccessValue = 0xffff,
   ScopeDatabaseWriteAllAccessValue = PermissionScopeValues.ScopeDatabaseDeleteValue |
-    PermissionScopeValues.ScopeDatabaseReplaceOfferValue |
-    PermissionScopeValues.ScopeDatabaseCreateContainerValue |
-    PermissionScopeValues.ScopeDatabaseDeleteContainerValue |
-    PermissionScopeValues.ScopeContainerReplaceValue |
-    PermissionScopeValues.ScopeContainerDeleteValue |
-    PermissionScopeValues.ScopeContainerReplaceOfferValue,
+  PermissionScopeValues.ScopeDatabaseReplaceOfferValue |
+  PermissionScopeValues.ScopeDatabaseCreateContainerValue |
+  PermissionScopeValues.ScopeDatabaseDeleteContainerValue |
+  PermissionScopeValues.ScopeContainerReplaceValue |
+  PermissionScopeValues.ScopeContainerDeleteValue |
+  PermissionScopeValues.ScopeContainerReplaceOfferValue,
 
   ScopeContainersWriteAllAccessValue = PermissionScopeValues.ScopeContainerReplaceValue |
-    PermissionScopeValues.ScopeContainerDeleteValue |
-    PermissionScopeValues.ScopeContainerReplaceOfferValue,
+  PermissionScopeValues.ScopeContainerDeleteValue |
+  PermissionScopeValues.ScopeContainerReplaceOfferValue,
 
   /**
    * Values which set permission Scope applicable to data plane related operations.
@@ -385,15 +388,15 @@ export enum PermissionScopeValues {
 
   ScopeContainerReadAllAccessValue = 0xffffffff,
   ScopeItemReadAllAccessValue = PermissionScopeValues.ScopeContainerExecuteQueriesValue |
-    PermissionScopeValues.ScopeItemReadValue,
+  PermissionScopeValues.ScopeItemReadValue,
   ScopeContainerWriteAllAccessValue = 0xffffffff,
   ScopeItemWriteAllAccessValue = PermissionScopeValues.ScopeContainerCreateItemsValue |
-    PermissionScopeValues.ScopeContainerReplaceItemsValue |
-    PermissionScopeValues.ScopeContainerUpsertItemsValue |
-    PermissionScopeValues.ScopeContainerDeleteItemsValue |
-    PermissionScopeValues.ScopeItemReplaceValue |
-    PermissionScopeValues.ScopeItemUpsertValue |
-    PermissionScopeValues.ScopeItemDeleteValue,
+  PermissionScopeValues.ScopeContainerReplaceItemsValue |
+  PermissionScopeValues.ScopeContainerUpsertItemsValue |
+  PermissionScopeValues.ScopeContainerDeleteItemsValue |
+  PermissionScopeValues.ScopeItemReplaceValue |
+  PermissionScopeValues.ScopeItemUpsertValue |
+  PermissionScopeValues.ScopeItemDeleteValue,
 
   NoneValue = 0,
 }
