@@ -348,6 +348,7 @@ export const Constants: {
         PreTriggerExclude: string;
         PostTriggerInclude: string;
         PostTriggerExclude: string;
+        DedicatedGatewayCacheStaleness: string;
         IndexingDirective: string;
         SessionToken: string;
         ConsistencyLevel: string;
@@ -1476,6 +1477,7 @@ export interface RequestOptions extends SharedOptions {
     populateQuotaInfo?: boolean;
     postTriggerInclude?: string | string[];
     preTriggerInclude?: string | string[];
+    maxIntegratedCacheStaleness?: string;
     resourceTokenExpirySeconds?: number;
     urlConnection?: string;
 }
