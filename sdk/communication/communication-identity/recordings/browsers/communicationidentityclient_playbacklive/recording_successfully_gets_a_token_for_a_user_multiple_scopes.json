@@ -10,17 +10,17 @@
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:01 GMT",
-    "ms-cv": "fAjW7dqDSkqQJl2tCjvFOQ.0",
+    "date": "Wed, 23 Feb 2022 13:37:13 GMT",
+    "ms-cv": "vcUPUlqZSkG3+QPVwd+nVg.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0KuluYQAAAAB8eB2DAPJ8SaDsQcOA3tPjUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "0iTgWYgAAAAC6SygUzj09SYZbJBp3YZkRUFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "95ms"
+    "x-processing-time": "28ms"
    }
   },
   {
@@ -31,19 +31,19 @@
    },
    "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
    "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-10-20T15:50:02.642183+00:00\"}",
+   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T13:37:14.3020499+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
-    "content-length": "810",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+    "content-length": "811",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:01 GMT",
-    "ms-cv": "go069fbotEaN6b5D5iP4Xg.0",
+    "date": "Wed, 23 Feb 2022 13:37:14 GMT",
+    "ms-cv": "47Keq+Kt8EeX3qs/wC89Og.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0KuluYQAAAABkf4QXJvZ7Q4X17zxbFI1nUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "0ijgWYgAAAADmsTOmtTGyQ6IFiG1gVHIZUFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "97ms"
+    "x-processing-time": "34ms"
    }
   }
  ],

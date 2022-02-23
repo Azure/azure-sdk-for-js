@@ -8,19 +8,19 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\",\"voip\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-10-20T15:50:03.0081466+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T13:37:14.5741932+00:00\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "927",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:02 GMT",
-    "ms-cv": "YaD06XJKVk6KNaVr0YZwJQ.0",
+    "date": "Wed, 23 Feb 2022 13:37:14 GMT",
+    "ms-cv": "BcNQ4UFRoUKn2oHYGN223g.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0KuluYQAAAACzciYFvOe+Q7UANqsZjTvwUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "0ijgWYgAAAAA02vk1FxAeQoyCQ6XVbcobUFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "174ms"
+    "x-processing-time": "42ms"
    }
   }
  ],

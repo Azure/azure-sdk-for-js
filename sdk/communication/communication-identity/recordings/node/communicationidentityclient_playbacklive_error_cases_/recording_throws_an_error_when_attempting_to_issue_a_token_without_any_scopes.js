@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "ed18ffc85a130ce448c3ca7906b2e304";
+module.exports.hash = "46e08f51f4817e0c122d262206cbc361";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -15,21 +15,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'Lmoqw4N2L0C5y/fRKV27dA.0',
+  '5wvPEMEpr0u+Bpj0uLw/eQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01',
   'X-Processing-Time',
-  '97ms',
+  '26ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0HsppYQAAAAAcD84rNtexSr751iMGaGy0UFJHMDFFREdFMDcxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
+  '0dzgWYgAAAAD7AzClweaCR5z863FmTmSZUFJHMDFFREdFMDYxNwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Fri, 15 Oct 2021 18:36:14 GMT'
+  'Wed, 23 Feb 2022 13:36:55 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -43,19 +43,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'B1N9O1fQLEy2MtAT0qgS0Q.0',
+  '1cOhq9InPkCF/EQSCSueCw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01',
   'X-Processing-Time',
-  '17ms',
+  '20ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0HsppYQAAAAAgxhqw27tzSbzXH4EgQb0VUFJHMDFFREdFMDcxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
+  '0dzgWYgAAAADRj78IbbfBSITXX2MkUkuwUFJHMDFFREdFMDYxNwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Fri, 15 Oct 2021 18:36:14 GMT'
+  'Wed, 23 Feb 2022 13:36:55 GMT'
 ]);

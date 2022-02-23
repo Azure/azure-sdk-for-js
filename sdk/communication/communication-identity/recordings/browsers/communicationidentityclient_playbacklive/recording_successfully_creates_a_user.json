@@ -10,17 +10,17 @@
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:00 GMT",
-    "ms-cv": "3k7fmHKAJke4dqV/R8uTMg.0",
+    "date": "Wed, 23 Feb 2022 13:37:12 GMT",
+    "ms-cv": "SM3FBBp1sU6M/fGLNhtmNA.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0KOluYQAAAACq6PSlX4dKRJGIxbvJ16ZeUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "0iDgWYgAAAADPv00SOZiMS5Ybm1e6sky4UFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "95ms"
+    "x-processing-time": "31ms"
    }
   }
  ],

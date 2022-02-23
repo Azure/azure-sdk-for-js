@@ -4,14 +4,14 @@
    "method": "POST",
    "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=CDr7Q%7EKYoVreBSYmel36eFHlits-iwmAIwPoE&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"sanitized\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1327",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:49:54 GMT",
+    "date": "Wed, 23 Feb 2022 13:37:06 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,7 +20,7 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+ams2\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12108.11 - EUS ProdSlices",
+    "x-ms-ests-server": "2.1.12470.11 - NCUS ProdSlices",
     "x-ms-request-id": "00000000-0000-0000-0000-000000000000"
    }
   },
@@ -34,17 +34,17 @@
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:49:53 GMT",
-    "ms-cv": "KtnPBvOUMEe9CqiRBFHWQA.0",
+    "date": "Wed, 23 Feb 2022 13:37:07 GMT",
+    "ms-cv": "7581tWIj70iuiZhai/y8gw.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0IuluYQAAAADAvPuQz1n9TpTlJO0GZJQdUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "0gzgWYgAAAACeDl0fc+T+TpIKvFIBsYz3UFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "85ms"
+    "x-processing-time": "34ms"
    }
   },
   {
@@ -55,19 +55,19 @@
    },
    "requestBody": "{\"scopes\":[\"chat\"]}",
    "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-10-20T15:49:54.9341419+00:00\"}",
+   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2022-02-24T13:37:07.6802564+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
     "content-length": "804",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:49:54 GMT",
-    "ms-cv": "7tAjCrcPZkW0+lsBwtIBEA.0",
+    "date": "Wed, 23 Feb 2022 13:37:07 GMT",
+    "ms-cv": "0fbsiqLdPEaf+O99XCmivg.0",
     "request-context": "appId=",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0IuluYQAAAAAgeMRa08NtSrNi/adTnwpaUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+    "x-azure-ref": "0gzgWYgAAAADn4BMI01KhTqNsQJTP2+TuUFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "103ms"
+    "x-processing-time": "28ms"
    }
   }
  ],
