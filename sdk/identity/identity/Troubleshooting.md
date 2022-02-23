@@ -35,8 +35,8 @@ Errors arising from authentication issues can be thrown on any service client me
 To distinguish these failures from failures in the service client, Azure Identity classes throws the `AuthenticationRequiredError` with details describing the source of the error in the error message. Depending on the application, these errors may or may not be recoverable.
 
 ```ts
-import * from @azure/identity;
-import * from @azure/keyvault-secrets;
+import * from "@azure/identity";
+import * from "@azure/keyvault-secrets";
 
 // Create a key client using the DefaultAzureCredential
 const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
