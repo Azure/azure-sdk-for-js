@@ -41,7 +41,8 @@ function expiresOnParser(requestBody: TokenResponseParsedBody): number {
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -55,6 +56,9 @@ function prepareRequestOptions(
 
   if (clientId) {
     queryParameters.client_id = clientId;
+  }
+  if (resourceId) {
+    queryParameters.msi_res_id = resourceId;
   }
   const query = new URLSearchParams(queryParameters);
 
@@ -105,7 +109,7 @@ export const fabricMsi: MSI = {
 
     if (resourceId) {
       logger.warning(
-        `${msiName}: User defined managed Identity by resource Id is not supported by the Azure Fabric Managed Identity Endpoint. Argument resourceId will be ignored.`
+        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
       );
     }
 
@@ -121,7 +125,7 @@ export const fabricMsi: MSI = {
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId),
+      ...prepareRequestOptions(scopes, clientId, resourceId),
       // The service fabric MSI endpoint will be HTTPS (however, the certificate will be self-signed).
       // allowInsecureConnection: true
     });

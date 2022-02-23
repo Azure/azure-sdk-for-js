@@ -6,7 +6,7 @@
 
 - Added support for specifying a custom `resourceId` when creating a `ManagedIdentityCredential` or `DefaultAzureCredential`.
   - In some scenarios where a user-assigned managed identity is required, the identity may be known by an ARM resource ID, but not a client ID (such as when user-assigned identities are created using an ARM template). The `resourceId` option allows an app to select its managed identity by its ARM resource ID to support such scenarios.
-  - If `resourceId` is provided, the managed identity providers for Azure App Service (2017), Azure Arc, Azure Cloud Shell, Azure Service Fabric and Token Exchange authentication will log a warning since this parameter is not supported by the identity endpoints in those services. The authentication attempts will be sent, but the parameter will be ignored.
+  - If `resourceId` is provided, the managed identity providers for Azure App Service (2017), Azure Arc, Azure Cloud Shell, Azure Service Fabric and Token Exchange authentication will log a warning since this parameter is not supported by the identity endpoints in those services. The authentication attempts will be sent, but the parameter will be ignored by the service.
 - Added `clientId` to the optional parameters of the `ManagedIdentityCredential`.
 
 ### Breaking Changes

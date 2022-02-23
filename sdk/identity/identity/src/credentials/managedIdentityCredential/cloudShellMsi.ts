@@ -19,7 +19,8 @@ export const logger = credentialLogger(msiName);
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -32,6 +33,9 @@ function prepareRequestOptions(
 
   if (clientId) {
     body.client_id = clientId;
+  }
+  if (resourceId) {
+    body.msi_res_id = resourceId;
   }
 
   // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
@@ -75,24 +79,25 @@ export const cloudShellMsi: MSI = {
   ): Promise<AccessToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
-    if (resourceId) {
+    if (clientId) {
       logger.warning(
-        `${msiName}: User defined managed Identity by resource Id is not supported by Cloud Shell Managed Identity Endpoint. Argument resourceId will be ignored.`
+        `${msiName}: user-assigned identities not supported. The argument clientId might be ignored by the service.`
       );
     }
 
-    if (clientId) {
+    if (resourceId) {
       logger.warning(
-        `${msiName}: does not support user-assigned identities in the Cloud Shell environment. Argument clientId will be ignored.`
+        `${msiName}: user defined managed Identity by resource Id not supported. The argument resourceId might be ignored by the service.`
       );
     }
+
     logger.info(
       `${msiName}: Using the endpoint coming form the environment variable MSI_ENDPOINT = ${process.env.MSI_ENDPOINT}.`
     );
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId),
+      ...prepareRequestOptions(scopes, clientId, resourceId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true,
     });

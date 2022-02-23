@@ -91,7 +91,7 @@ export const appServiceMsi2017: MSI = {
 
     if (resourceId) {
       logger.warning(
-        `${msiName}: User defined managed Identity by resource Id is not supported by the App Service Managed Identity Endpoint 2017. Argument resourceId will be ignored.`
+        `${msiName}: managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
       );
     }
 

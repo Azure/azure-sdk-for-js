@@ -26,7 +26,7 @@ function prepareRequestOptions(
   clientAssertion: string,
   clientId: string
 ): PipelineRequestOptions {
-  const bodyParams: Record<string, string> = {
+  let bodyParams: Record<string, string> = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
@@ -96,13 +96,7 @@ export function tokenExchangeMsi(): MSI {
       configuration: MSIConfiguration,
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
-      const { identityClient, scopes, clientId, resourceId } = configuration;
-
-      if (resourceId) {
-        logger.warning(
-          `${msiName}: User defined managed Identity by resource Id is not supported. Argument resourceId will be ignored.`
-        );
-      }
+      const { identityClient, scopes, clientId } = configuration;
 
       logger.info(`${msiName}: Using the client assertion coming from environment variables.`);
 
