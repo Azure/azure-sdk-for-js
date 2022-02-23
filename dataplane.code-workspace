@@ -145,6 +145,10 @@
       "path": "sdk/maps/maps-search"
     },
     {
+      "name": "maps-route",
+      "path": "sdk/maps/maps-route"
+    },
+    {
       "name": "metrics-advisor",
       "path": "sdk/metricsadvisor/ai-metrics-advisor"
     },
