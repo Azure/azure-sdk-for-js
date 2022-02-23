@@ -48,6 +48,8 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
     (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
+      (recording: string): string =>
+        recording.replace(/"id_token"\s?:\s?"[^"]*"/g, `"id_token":"sanitized"`),
     (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
     (recording: string): string => {
