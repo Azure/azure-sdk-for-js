@@ -61,7 +61,7 @@ The execution order is:
 2. **Policies not in a phase** - Any policies added to the pipeline without a specified phase
 3. **Deserialize Phase** - Policies that transform the raw HTTP response into friendlier response shapes. In addition to transforming the body JSON string into a JavaScript object, this can also include things like creating native JS `Date` objects from strings and other object forms not natively supported by JSON.
 4. **Retry Phase** - Policies that inspect the raw response, typically the response code and errors returned from the service to decide whether or not to re-try the request.
-5. **Sign Phase** - Policies that sign the request for security purposes, for example adding a bearer token
+5. **Sign Phase** - Policies that sign the request for security purposes, for example adding a HMAC signature to prevent tampering during transport.```
 
 # Default Pipeline
 
