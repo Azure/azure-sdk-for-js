@@ -1,3 +1,5 @@
+A Pipeline in the Azure SDKs is a collection of policies that can work on the request before sending it to the server and also on the raw responses before handing them to the SDK users. This document describes in detail the structure and functionality of the Pipeline and Policies
+
 # Policies
 
 A pipeline policy manipulates a request as it travels through the pipeline. It is conceptually a middleware that is allowed to modify the request before it is made as well as the response when it is received.
@@ -116,27 +118,27 @@ declare function createPipelineFromOptions(options: InternalPipelineOptions): Pi
 
 ### Policies included in a default pipeline
 
-- proxyPolicy <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS Only" title="NodeJS Only" width="60"/>
+- proxyPolicy (**NodeJS Only**)
   - A policy that allows one to apply proxy settings to all requests. If not passed static settings, they will be retrieved from the HTTPS_PROXY or HTTP_PROXY environment variables.
-- decompressResponsePolicy <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS Only" title="NodeJS Only" width="60"/>
-  - A policy to enable response decompression according to Accept-Encoding header
+- decompressResponsePolicy (**NodeJS Only**)
+  - A policy to enable response decompression according to Accept-Encoding header.
 - formDataPolicy
   - A policy that encodes FormData on the request into the body.
 - userAgentPolicy
-  - A policy that sets the User-Agent header (or equivalent) to reflect the library version
+  - A policy that sets the User-Agent header (or equivalent) to reflect the SDK version and device runtime.
 - setClientRequestIdPolicy
-  - The programmatic identifier of the setClientRequestIdPolicy
+  - A policy that tags each outgoing request with a unique ID for tracing purposes. This can be useful when opening support tickets against Azure services.
 - defaultRetryPolicy
   - A policy that retries according to three strategies:
     - When the server sends a 429 response with a Retry-After header.
-    - When there are errors in the underlying transport layer (e.g. DNS lookup failures).
-    - Or otherwise if the outgoing request fails, it will retry with an exponentially increasing delay.
+    - When there are errors in the underlying transport layer (e.g. DNS lookup failures.)
+    - After considering the above, if the outgoing request fails with a non-final response code, it will retry with an exponentially increasing delay.
 - tracingPolicy
-  - A simple policy to create OpenTelemetry Spans for each request made by the pipeline that has SpanOptions with a parent. Requests made without a parent Span will not be recorded.
+  - A policy to create [OpenTelemetry](https://opentelemetry.io/) tracing spans for each request made by the pipeline. Requests made without a valid tracing context will not be recorded. SDK client authors are expected to use the appropriate callbacks from `@azure/core-tracing` to set tracing contexts for all client operations.
 - redirectPolicy
   - A policy to follow Location headers from the server in order to support server-side redirection.
 - logPolicy
-  - A policy that logs all requests and responses.
+  - A policy that logs all requests and responses using [@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 There are other policies commonly added to the default pipeline:
 
@@ -155,7 +157,7 @@ For example, the `bearerTokenAuthenticationPolicy` would sign the request by add
 
 When instantiating a new client a pipeline can be configured by adding additional policies to the default pipeline, passing a static array of policies.
 
-When configuring additional policies the following execution positions can be specified
+When configuring additional policies the following execution positions can be specified:
 
 - `perCall` - When a policy is assigned a `perCall` position, it will be run once before sending the request. If the request needs to be retried, the policy will not be called again.
 - `perRetry` - When a policy is assigned a `perRetry` position, the policy will be executed again before each new request is sent.
@@ -197,7 +199,7 @@ The `HttpClient` is the last logical piece of the pipeline. The `HttpClient` wil
 
 For browsers, an `HttpClient` implementation based on `Fetch API` will be used. When running in Node, an `HttpClient` based on Node's native `https` module will be used.
 
-A custom `HttpClient` implementation can be provided when constructing the `Pipeline`
+A custom `HttpClient` implementation can be provided when constructing an SDK client.
 
 # Examples
 
