@@ -36,7 +36,7 @@ export interface Pipeline {
 }
 ```
 
-It is important to never rely on policy insert ordering and always express policy execution constraints using `AddPipelineOptions` when policies have interactions. For example, the following code snippets have identical effects:
+**Note**: It is important to never rely on policy insert ordering and always express policy execution constraints using `AddPipelineOptions` when policies have interactions. For example, the following code snippets have identical effects:
 
 ```typescript
 pipeline.addPolicy(barPolicy);
