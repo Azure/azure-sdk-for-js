@@ -55,15 +55,15 @@ function Get-javascript-DocsMsTocChildrenForManagementPackages($packageMetadata,
 }
 
 function Get-javascript-UpdatedDocsMsToc($toc) {
-  $items = $toc[0].items
-  for ($i = 0; $i -lt $items.Count; $i++) {
+  $services = $toc[0].items
+  for ($i = 0; $i -lt $services.Count; $i++) {
 
     # Add "Plugin" docs to Identity. Packages associated with these entries do
     # not build successfully in the docs CI system becaues they export nothing
     # that the docs CI system can document. This ensures that the readme pages
     # are documented properly even if their packages are not onboarded.
-    if ($items[$i].name -eq 'Identity') {
-      $items[$i].items += [PSCustomObject]@{
+    if ($services[$i].name -eq 'Identity') {
+      $services[$i].items += [PSCustomObject]@{
         name  = "Plugins";
         items = @(
           [PSCustomObject]@{
@@ -84,5 +84,5 @@ function Get-javascript-UpdatedDocsMsToc($toc) {
   # PowerShell outputs a single object if the output is an array with only one
   # object. The preceeding comma ensures that the output remains an array for
   # appropriate export formatting.
-  return , $toc
+  return @($toc)
 }
