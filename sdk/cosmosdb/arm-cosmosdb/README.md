@@ -8,7 +8,7 @@ Azure Cosmos DB Database Service Resource Provider REST API
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cosmosdb) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdb) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdb?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -53,8 +53,17 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new CosmosDBManagementClient(new DefaultAzureCredential(), subscriptionId);
+
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new CosmosDBManagementClient(credential, subscriptionId);
 ```
 
 
