@@ -158,7 +158,7 @@ When instantiating a new client a pipeline can be configured by adding additiona
 When configuring additional policies the following execution positions can be specified
 
 - `perCall` - When a policy is assigned a `perCall` position, it will be run once before sending the request. If the request needs to be retried, the policy will not be called again.
-- `perRetry` - When a policy is assigned a `perRetry` position, the policy will be executed before sending each request re-try.
+- `perRetry` - When a policy is assigned a `perRetry` position, the policy will be executed again before each new request is sent.
 
 ```typescript
 type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
