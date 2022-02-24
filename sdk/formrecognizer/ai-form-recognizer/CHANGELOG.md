@@ -4,6 +4,15 @@
 
 ### Features Added
 
+- Supports the Sovereign clouds (AzureUSGovernment/AzureChinaCloud), pass the `audience` parameter in the client options for `DocumentAnalysisClient | DocumentModelAdministrationClient` to authenticate with a resource in a [Sovereign Cloud](https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-national-cloud).
+  Import and leverage the `KnownFormRecognizerAudience` enum to get the endpoint. Possible values for audience as of now.
+
+  - `KnownFormRecognizerAudience.AzureResourceManagerChina` (`"https://cognitiveservices.azure.cn/.default"`),
+  - `KnownFormRecognizerAudience.AzureResourceManagerGovernment` (`"https://cognitiveservices.azure.us/.default"`),
+  - `KnownFormRecognizerAudience.AzureResourceManagerPublicCloud` (`"https://cognitiveservices.azure.com/.default"`),
+
+  If `audience` is undefined, it is considered to be a PublicCloud (`"https://cognitiveservices.azure.com/.default"`)
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -6,7 +6,10 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
-import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
+import {
+  DEFAULT_GENERATED_CLIENT_OPTIONS,
+  FormRecognizerCommonClientOptions,
+} from "./options/FormRecognizerClientOptions";
 
 import * as Mappers from "./generated/models/mappers";
 import { createSerializer } from "@azure/core-client";
@@ -99,7 +102,7 @@ export const maybemap = <T1, T2>(value: T1 | undefined, f: (v: T1) => T2): T2 | 
 export function makeServiceClient(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: GeneratedClientOptionalParams
+  options: GeneratedClientOptionalParams & Pick<FormRecognizerCommonClientOptions, "audience">
 ): GeneratedClient {
   const client = new GeneratedClient(endpoint?.replace(/\/$/, ""), {
     ...DEFAULT_GENERATED_CLIENT_OPTIONS,
@@ -109,7 +112,7 @@ export function makeServiceClient(
   const authPolicy = isTokenCredential(credential)
     ? bearerTokenAuthenticationPolicy({
         credential,
-        scopes: DEFAULT_COGNITIVE_SCOPE,
+        scopes: options.audience ?? DEFAULT_COGNITIVE_SCOPE,
       })
     : createFormRecognizerAzureKeyCredentialPolicy(credential);
 

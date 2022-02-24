@@ -68,6 +68,12 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
    * Default: FormRecognizerApiVersion.Latest ("2021-09-30-preview")
    */
   apiVersion?: FormRecognizerApiVersion;
+  /**
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * See {@link KnownFormRecognizerAudience} for known audience values.
+   */
+  audience?: string;
 }
 
 /**
