@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- All of our credentials now support a new option on their constructor: `allowLoggingAccountIdentifiers`. If set to true, after a successful authentication our logging will include information specific to the authenticated account, including: the Client ID, the Tenant ID, the Object ID of the authenticated user, and if possible the User Principal Name.
+
 ### Breaking Changes
 
 ### Bugs Fixed
