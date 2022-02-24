@@ -295,6 +295,7 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends CommonClientOptions {
+    allowLoggingAccountIdentifiers?: boolean;
     authorityHost?: string;
 }
 

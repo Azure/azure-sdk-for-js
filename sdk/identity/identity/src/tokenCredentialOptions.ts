@@ -14,4 +14,8 @@ export interface TokenCredentialOptions extends CommonClientOptions {
    * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  allowLoggingAccountIdentifiers?: boolean;
 }

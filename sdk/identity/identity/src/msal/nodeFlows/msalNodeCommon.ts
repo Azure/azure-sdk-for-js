@@ -39,6 +39,10 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    * If the property is not specified, uses a non-regional authority endpoint.
    */
   regionalAuthority?: string;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  allowLoggingAccountIdentifiers?: boolean;
 }
 
 /**
@@ -119,6 +123,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
       authorityHost: authority,
+      allowLoggingAccountIdentifiers: options.allowLoggingAccountIdentifiers,
     });
 
     let clientCapabilities: string[] = ["cp1"];

@@ -10,6 +10,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   PipelineRequest,
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
@@ -75,6 +76,7 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
+  private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
@@ -102,6 +104,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     this.authorityHost = baseUri;
     this.abortControllers = new Map();
+    this.allowLoggingAccountIdentifiers = options?.allowLoggingAccountIdentifiers;
   }
 
   async sendTokenRequest(
@@ -280,6 +283,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     });
 
     const response = await this.sendRequest(request);
+
+    this.logIdentifiers(response);
+
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
@@ -301,10 +307,35 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     });
 
     const response = await this.sendRequest(request);
+
+    this.logIdentifiers(response);
+
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
       status: response.status,
     };
+  }
+
+  logIdentifiers(response: PipelineResponse): void {
+    if (!this.allowLoggingAccountIdentifiers || !response.bodyAsText) {
+      return;
+    }
+    try {
+      const parsed = (response as any).parsedBody || JSON.parse(response.bodyAsText);
+      const accessToken = parsed.access_token;
+      console.log({ accessToken });
+      const { appid, upn, tid, oid } = JSON.parse(atob(accessToken.split(".")[1]));
+      logger.info(
+        `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
+          upn || "No User Principal Name available"
+        }. Object ID (user): ${oid}`
+      );
+    } catch (e) {
+      logger.warning(
+        "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
+        e.message
+      );
+    }
   }
 }
