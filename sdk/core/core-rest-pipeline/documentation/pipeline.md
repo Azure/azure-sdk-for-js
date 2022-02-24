@@ -58,7 +58,7 @@ export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 The execution order is:
 
 1. **Serialize Phase** - Policies that assamble the request to be sent through HTTP, i.e. transforming the body object to its JSON string representation.
-2. **Policies not in a phase** - Any policies added to the pipeline without an specified phase
+2. **Policies not in a phase** - Any policies added to the pipeline without a specified phase
 3. **Deserialize Phase** - Policies that transform the raw HTTP response to a friendlier shapes to the clients. For example transforming the body JSON string to a JavaScript object
 4. **Retry Phase** - Policies that inspect the raw response, typically the response code and errors returned from the service to decide whether or not to re-try the request.
 5. **Sign Phase** - Policies that sign the request for security purposes, for example adding a bearer token
