@@ -2,7 +2,7 @@
 
 A pipeline policy manipulates a request as it travels through the pipeline. It is conceptually a middleware that is allowed to modify the request before it is made as well as the response when it is received.
 
-It is important to note that policies have a bubbling nature, this means that the **first** policy to touch the request will be the **last** policy to work on the response.
+It is important to note that the **first** policy to touch the request will be the **last** policy to work on the response.
 
 More information about the Middleware pattern can be found [here](https://docs.microsoft.com/aspnet/core/fundamentals/middleware/?tabs=aspnetcore2x&view=aspnetcore-6.0)
 
