@@ -83,6 +83,7 @@ function Get-javascript-UpdatedDocsMsToc($toc) {
 
   # PowerShell outputs a single object if the output is an array with only one
   # object. The preceeding comma ensures that the output remains an array for
-  # appropriate export formatting.
-  return @($toc)
+  # appropriate export formatting. Other formatting (e.g. `@($toc)`) does not
+  # produce useful outputs.
+  return , $toc
 }
