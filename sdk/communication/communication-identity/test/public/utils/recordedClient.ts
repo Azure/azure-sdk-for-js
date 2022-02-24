@@ -7,12 +7,14 @@ import {
   Recorder,
   RecorderEnvironmentSetup,
   env,
+  isLiveMode,
   isPlaybackMode,
   record,
 } from "@azure-tools/test-recorder";
 import { CommunicationIdentityClient } from "../../../src";
 import { Context } from "mocha";
 import { TokenCredential } from "@azure/core-auth";
+import { createXhrHttpClient } from "@azure/test-utils";
 import { isNode } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -24,6 +26,8 @@ export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
+
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
@@ -84,7 +88,9 @@ export function createRecordedCommunicationIdentityClient(
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING),
+    client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
+      httpClient,
+    }),
     recorder,
   };
 }
@@ -105,7 +111,10 @@ export function createRecordedCommunicationIdentityClientWithToken(
     };
 
     // casting is a workaround to enable min-max testing
-    return { client: new CommunicationIdentityClient(endpoint, credential), recorder };
+    return {
+      client: new CommunicationIdentityClient(endpoint, credential, { httpClient }),
+      recorder,
+    };
   }
 
   if (isNode) {
@@ -114,10 +123,14 @@ export function createRecordedCommunicationIdentityClientWithToken(
     credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      env.AZURE_CLIENT_SECRET,
+      { httpClient }
     );
   }
 
   // casting is a workaround to enable min-max testing
-  return { client: new CommunicationIdentityClient(endpoint, credential), recorder };
+  return {
+    client: new CommunicationIdentityClient(endpoint, credential, { httpClient }),
+    recorder,
+  };
 }
