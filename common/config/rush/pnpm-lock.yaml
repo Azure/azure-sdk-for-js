@@ -9668,7 +9668,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-zGLtmr4RJTq17ajNRZ20xV0XNDjikI6J+nhCa43DnCR4zJ5newFoFSIPObuJVtcFoPPer81HOd8kMbEFuNA4xA==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-b1vFT9mSxKrh2OYoHJ9mxx/0N56HfFL+QnYdIP9fvo59HvrfYClQD+GnE9ESVqL1EeP9T/ax6m+na2x/no8Wsw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -9676,18 +9676,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -13760,7 +13761,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-HHJexN/cUky99Na2FGl/mUweka1rPkQFFVUaBWqP6yHLcZIikBhJ9rsxOS7TGOSM7wCsEGrlRolOh+5jiHMxzw==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-O94bnJUDhIxxX2FnhYTmpFtSLvpe2XaNNwI3e6a7JvEuIkcHKMiN8Sh5WvA8BAhkEV+KsKKKNS8v0erLyit6TA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -13809,7 +13810,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-HkF/GM4awodeF184YdeRQvLU+4ZEtC14BZNKwc+K3Z08l9qb+MyNS5/M6OogfKRwL0V6T+bgYGNRciYVn4JO3Q==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-/Dpf2haY7btQZGQuvHBOvp+FV73jJdRtvEb9Iq2FlChhxnlxi3rnU+c5d3RiTER/V7CN2eTqZTmGqU81I5hofA==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:

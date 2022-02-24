@@ -7,25 +7,24 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RestorableMongodbCollections } from "../operationsInterfaces";
+import { RestorableGremlinGraphs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
-  RestorableMongodbCollectionGetResult,
-  RestorableMongodbCollectionsListOptionalParams,
-  RestorableMongodbCollectionsListResponse
+  RestorableGremlinGraphGetResult,
+  RestorableGremlinGraphsListOptionalParams,
+  RestorableGremlinGraphsListResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RestorableMongodbCollections operations. */
-export class RestorableMongodbCollectionsImpl
-  implements RestorableMongodbCollections {
+/** Class containing RestorableGremlinGraphs operations. */
+export class RestorableGremlinGraphsImpl implements RestorableGremlinGraphs {
   private readonly client: CosmosDBManagementClient;
 
   /**
-   * Initialize a new instance of the class RestorableMongodbCollections class.
+   * Initialize a new instance of the class RestorableGremlinGraphs class.
    * @param client Reference to the service client
    */
   constructor(client: CosmosDBManagementClient) {
@@ -33,9 +32,9 @@ export class RestorableMongodbCollectionsImpl
   }
 
   /**
-   * Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB collections under a
-   * specific database.  This helps in scenario where container was accidentally deleted.  This API
-   * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+   * Show the event feed of all mutations done on all the Azure Cosmos DB Gremlin graphs under a specific
+   * database. This helps in scenario where container was accidentally deleted. This API requires
+   * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
@@ -43,8 +42,8 @@ export class RestorableMongodbCollectionsImpl
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): PagedAsyncIterableIterator<RestorableMongodbCollectionGetResult> {
+    options?: RestorableGremlinGraphsListOptionalParams
+  ): PagedAsyncIterableIterator<RestorableGremlinGraphGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -62,8 +61,8 @@ export class RestorableMongodbCollectionsImpl
   private async *listPagingPage(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): AsyncIterableIterator<RestorableMongodbCollectionGetResult[]> {
+    options?: RestorableGremlinGraphsListOptionalParams
+  ): AsyncIterableIterator<RestorableGremlinGraphGetResult[]> {
     let result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
@@ -71,8 +70,8 @@ export class RestorableMongodbCollectionsImpl
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): AsyncIterableIterator<RestorableMongodbCollectionGetResult> {
+    options?: RestorableGremlinGraphsListOptionalParams
+  ): AsyncIterableIterator<RestorableGremlinGraphGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
@@ -83,9 +82,9 @@ export class RestorableMongodbCollectionsImpl
   }
 
   /**
-   * Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB collections under a
-   * specific database.  This helps in scenario where container was accidentally deleted.  This API
-   * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+   * Show the event feed of all mutations done on all the Azure Cosmos DB Gremlin graphs under a specific
+   * database. This helps in scenario where container was accidentally deleted. This API requires
+   * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
@@ -93,8 +92,8 @@ export class RestorableMongodbCollectionsImpl
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): Promise<RestorableMongodbCollectionsListResponse> {
+    options?: RestorableGremlinGraphsListOptionalParams
+  ): Promise<RestorableGremlinGraphsListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
       listOperationSpec
@@ -106,11 +105,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGraphs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableMongodbCollectionsListResult
+      bodyMapper: Mappers.RestorableGremlinGraphsListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -120,7 +119,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.startTime,
     Parameters.endTime,
-    Parameters.restorableMongodbDatabaseRid
+    Parameters.restorableGremlinDatabaseRid
   ],
   urlParameters: [
     Parameters.$host,

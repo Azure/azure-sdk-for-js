@@ -7,25 +7,24 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RestorableMongodbCollections } from "../operationsInterfaces";
+import { RestorableTables } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
-  RestorableMongodbCollectionGetResult,
-  RestorableMongodbCollectionsListOptionalParams,
-  RestorableMongodbCollectionsListResponse
+  RestorableTableGetResult,
+  RestorableTablesListOptionalParams,
+  RestorableTablesListResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RestorableMongodbCollections operations. */
-export class RestorableMongodbCollectionsImpl
-  implements RestorableMongodbCollections {
+/** Class containing RestorableTables operations. */
+export class RestorableTablesImpl implements RestorableTables {
   private readonly client: CosmosDBManagementClient;
 
   /**
-   * Initialize a new instance of the class RestorableMongodbCollections class.
+   * Initialize a new instance of the class RestorableTables class.
    * @param client Reference to the service client
    */
   constructor(client: CosmosDBManagementClient) {
@@ -33,9 +32,9 @@ export class RestorableMongodbCollectionsImpl
   }
 
   /**
-   * Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB collections under a
-   * specific database.  This helps in scenario where container was accidentally deleted.  This API
-   * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+   * Show the event feed of all mutations done on all the Azure Cosmos DB Tables. This helps in scenario
+   * where table was accidentally deleted. This API requires
+   * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
@@ -43,8 +42,8 @@ export class RestorableMongodbCollectionsImpl
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): PagedAsyncIterableIterator<RestorableMongodbCollectionGetResult> {
+    options?: RestorableTablesListOptionalParams
+  ): PagedAsyncIterableIterator<RestorableTableGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -62,8 +61,8 @@ export class RestorableMongodbCollectionsImpl
   private async *listPagingPage(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): AsyncIterableIterator<RestorableMongodbCollectionGetResult[]> {
+    options?: RestorableTablesListOptionalParams
+  ): AsyncIterableIterator<RestorableTableGetResult[]> {
     let result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
@@ -71,8 +70,8 @@ export class RestorableMongodbCollectionsImpl
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): AsyncIterableIterator<RestorableMongodbCollectionGetResult> {
+    options?: RestorableTablesListOptionalParams
+  ): AsyncIterableIterator<RestorableTableGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
@@ -83,9 +82,9 @@ export class RestorableMongodbCollectionsImpl
   }
 
   /**
-   * Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB collections under a
-   * specific database.  This helps in scenario where container was accidentally deleted.  This API
-   * requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+   * Show the event feed of all mutations done on all the Azure Cosmos DB Tables. This helps in scenario
+   * where table was accidentally deleted. This API requires
+   * 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param instanceId The instanceId GUID of a restorable database account.
    * @param options The options parameters.
@@ -93,8 +92,8 @@ export class RestorableMongodbCollectionsImpl
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableMongodbCollectionsListOptionalParams
-  ): Promise<RestorableMongodbCollectionsListResponse> {
+    options?: RestorableTablesListOptionalParams
+  ): Promise<RestorableTablesListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
       listOperationSpec
@@ -106,11 +105,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableMongodbCollections",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableMongodbCollectionsListResult
+      bodyMapper: Mappers.RestorableTablesListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -119,8 +118,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.startTime,
-    Parameters.endTime,
-    Parameters.restorableMongodbDatabaseRid
+    Parameters.endTime
   ],
   urlParameters: [
     Parameters.$host,
