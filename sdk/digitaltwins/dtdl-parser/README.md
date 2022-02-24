@@ -1,10 +1,12 @@
-# Azure Model Parser client library for JavaScript
+# Azure DTDL Parser client library for JavaScript
 
-Use this library to parse your DTDL models and validate their structure conforms to the DTDL specification.
+Use this library to parse DTDL models and validate their structure conforms to the [DTDL specification](https://aka.ms/dtdl).
 
-The Digital Twin Definition Language (DTDL) defines a JSON-LD based schema for creating Digital Twin models. As the DTDL specification evolves, this parser will be updated accordingly. A key characteristic of Azure Digital Twins is the ability to define your own vocabulary and build your twin graph in the self-defined terms of your business. This capability is provided through user-provided models. You can think of models as the nouns in a description of your world.
+The Digital Twin Definition Language (DTDL) defines a JSON-LD based schema for creating models for Digital Twins and IoT devices. As the DTDL specification evolves, this parser will be updated accordingly. A key characteristic of Azure Digital Twins is the ability to define your own vocabulary, or device capabilities, and build your twin graph in the self-defined terms of your business. This capability is provided through user-provided models. You can think of models as the nouns in a description of your world and devices.
 
-Learn more about DTDL [here](https://docs.microsoft.com/azure/digital-twins/concepts-models).
+Learn more about DTDL for Digital Twins [here](https://docs.microsoft.com/azure/digital-twins/concepts-models).
+Learn more about DTDL for IoT Devices [here](https://docs.microsoft.com/en-us/azure/iot-develop/concepts-modeling-guide).
+
 
 ## Getting started
 
@@ -21,7 +23,7 @@ None.
 
 ### Install the `@azure/dtdl-parser` package
 
-Install the Digital Twins Model Parser client library for JavaScript with `npm`:
+Install the DTDL Parser client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/dtdl-parser
@@ -41,7 +43,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### DTDL Parser
 
-DTDL (Digital Twins Definition Language) defines a contract for interacting with models of Digital Twin Plug and Plan devices. The DTDL Parser is a langauge parser that is partially hand-written, partially generated based on a DTDL schema definition, which can validate if a string provided to it conforms to DTDL langauge definitions.
+DTDL (Digital Twins Definition Language) defines a contract for interacting with models of Digital Twin Plug and Play devices. The DTDL Parser is a langauge parser that is partially hand-written, partially generated based on a DTDL schema definition, which can validate if a string provided to it conforms to DTDL langauge definitions.
 
 You can learn more about DTDL for models by reading "Learn about twin models and how to define them in (Azure Digital Twins](https://docs.microsoft.com/azure/digital-twins/concepts-models)
 
@@ -49,7 +51,13 @@ You can learn more about DTDL for models by reading "Learn about twin models and
 
 ### Parse a DTDL Model
 
-To parse a sample DTDL model, either start with one you have already written or use one located in the public DTDL database. Let's grab a sample model from the models repository:
+To parse a sample DTDL model, either start with one you have already written or use one located in the public DTDL repository. Let's grab a sample model from the models repository:
+
+To install the ModelsRepositoryClient run 
+
+```
+npm i @azure/iot-modelsrepository
+```
 
 ```js
 // example.js
