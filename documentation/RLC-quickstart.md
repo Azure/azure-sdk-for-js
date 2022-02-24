@@ -552,4 +552,4 @@ Please change the paths.include value as your own project path, and change the A
 If there's already a ci.yml file in your project path. then the only thing you need to do is to add the Artifacts name and safeName of yours into that ci.yml.  
 
 # Create API View
-You may also want to create API View when submitting a PR. You can do it easily by uploading a json file to [API View Website](https://apiview.dev/). The json file is under `<you-sdk-folder>/temp`, and its name ends with `api.json`.
+You may also want to create API View when submitting a PR. You can do it easily by uploading a json file to [API View Website](https://apiview.dev/). The json file is under `<you-sdk-folder>/temp`, and its name ends with `api.json`, For example: `sdk/compute/arm-compute/temp/arm-compute.api.json`.
