@@ -15,16 +15,16 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       if (useAad) {
-        ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
       } else {
-        ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClient(this));
       }
     });
 

@@ -5,22 +5,13 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "0",
         "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.9 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 201,
@@ -28,14 +19,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 24 Feb 2022 20:42:53 GMT",
-        "MS-CV": "GdU7iLTybk\u002BLblD3h9ddww.0",
+        "Date": "Thu, 24 Feb 2022 20:44:02 GMT",
+        "MS-CV": "Jlb0BDXY5kydJ2fq9z5bbA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ze0XYgAAAAA91xudZ5h7SL/bSnPQP0FvQk4zRURHRTExMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Eu4XYgAAAACRvlgINhJxRItQZDcCLS\u002BHQk4zRURHRTExMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "80ms"
+        "X-Processing-Time": "84ms"
       },
       "ResponseBody": {
         "identity": {
@@ -48,22 +39,13 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "13",
         "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.9 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "scopes": []
@@ -72,12 +54,12 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Thu, 24 Feb 2022 20:42:53 GMT",
-        "MS-CV": "Zxw4vPqUSEaxl7FbE9KnfQ.0",
+        "Date": "Thu, 24 Feb 2022 20:44:02 GMT",
+        "MS-CV": "Y9qxpT96mUqIK\u002BvjayanhA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ze0XYgAAAACsY6Pc\u002BKrARqI51Ka/APrgQk4zRURHRTExMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Eu4XYgAAAACVvU8ChfyASLYTmLM/iGFuQk4zRURHRTExMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
         "X-Processing-Time": "11ms"
