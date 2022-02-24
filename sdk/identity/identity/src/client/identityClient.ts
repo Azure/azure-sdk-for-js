@@ -317,17 +317,34 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     };
   }
 
-  logIdentifiers(response: PipelineResponse): void {
+  /**
+   * If allowLoggingAccountIdentifiers was set on the constructor options
+   * we try to log the account identifiers by parsing the received access token.
+   *
+   * The account identifiers we try to log are:
+   * - `appid`: The application or Client Identifier.
+   * - `upn`: User Principal Name.
+   *   - It might not be available in some authentication scenarios.
+   *   - If it's not available, we put a placeholder: "No User Principal Name available".
+   * - `tid`: Tenant Identifier.
+   * - `oid`: Object Identifier of the authenticated user.
+   */
+  private logIdentifiers(response: PipelineResponse): void {
     if (!this.allowLoggingAccountIdentifiers || !response.bodyAsText) {
       return;
     }
+    const unavailableUpn = "No User Principal Name available";
     try {
       const parsed = (response as any).parsedBody || JSON.parse(response.bodyAsText);
       const accessToken = parsed.access_token;
+      if (!accessToken) {
+        // Without an access token allowLoggingAccountIdentifiers isn't useful.
+        return;
+      }
       const { appid, upn, tid, oid } = JSON.parse(atob(accessToken.split(".")[1]));
       logger.info(
         `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
-          upn || "No User Principal Name available"
+          upn || unavailableUpn
         }. Object ID (user): ${oid}`
       );
     } catch (e) {
