@@ -127,6 +127,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         return null;
       }
 
+      this.logIdentifiers(response);
+
       const token = {
         accessToken: {
           token: parsedBody.access_token,
