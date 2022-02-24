@@ -112,7 +112,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
 declare function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;
 ```
 
-**Note:** `InternalPipelineOptions` is used internally to configure the SDK pipeline but it is not exposed to consumers. Consumers can configure the default pipeline through the `PipelineOptions` when instantiating a new client
+**Note:** `InternalPipelineOptions` is used internally by SDK client authors to configure the SDK pipeline but it is not exposed to consumers. Consumers can configure the default pipeline through the `PipelineOptions` when instantiating a new client.
 
 ### Policies included in a default pipeline
 
