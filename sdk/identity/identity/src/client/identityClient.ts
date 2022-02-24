@@ -324,7 +324,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     try {
       const parsed = (response as any).parsedBody || JSON.parse(response.bodyAsText);
       const accessToken = parsed.access_token;
-      console.log({ accessToken });
       const { appid, upn, tid, oid } = JSON.parse(atob(accessToken.split(".")[1]));
       logger.info(
         `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
