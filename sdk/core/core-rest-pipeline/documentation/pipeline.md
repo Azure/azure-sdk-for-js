@@ -193,7 +193,7 @@ const client = new ServiceClient({
 
 # HttpClient
 
-The `HttpClient` is the last logical piece of the pipeline. The `HttpClient` will send the request over the wire after all policies have run and will hand off the response back to the pipeline once the server responds. There are 2 default implementations for the `HttpClient`, the platform where the SDK is executed will define which implementation is provided.
+The `HttpClient` is the last logical piece of the pipeline. The `HttpClient` will send the request over the wire after all policies have run and will hand off the response back to the pipeline once the server responds. There are different default implementations for the `HttpClient` based on if the SDK is running inside a Node or browser runtime.
 
 For browsers an `HttpClient` implementation based on `Fetch API` will be used. When running in Node an `HttpClient` based on Node's native `https` will be used.
 
