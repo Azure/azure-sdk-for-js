@@ -6,7 +6,7 @@ The APIs listed in this specification can be used to manage Template Spec resour
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/templatespecs/arm-templatespecs) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-templatespecs) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-templatespecs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-templatespecs?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
