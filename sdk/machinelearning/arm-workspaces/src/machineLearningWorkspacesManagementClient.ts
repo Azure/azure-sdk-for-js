@@ -44,7 +44,7 @@ export class MachineLearningWorkspacesManagementClient extends coreClient.Servic
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-workspaces/1.0.0`;
+    const packageDetails = `azsdk-js-arm-workspaces/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
