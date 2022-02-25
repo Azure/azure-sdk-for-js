@@ -1,38 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
-import {
-  Recorder,
-  RecorderEnvironmentSetup,
-  env,
-  isLiveMode,
-  isPlaybackMode,
-  record,
-} from "@azure-tools/test-recorder";
+import { Recorder, SanitizerOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { CommunicationIdentityClient } from "../../../src";
 import { Context } from "mocha";
 import { TokenCredential } from "@azure/core-auth";
-import { createXhrHttpClient } from "@azure/test-utils";
-import { isNode } from "@azure/core-util";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { parseConnectionString } from "@azure/communication-common";
-
-if (isNode) {
-  dotenv.config();
-}
 
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
 }
 
-const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
+  COMMUNICATION_ENDPOINT: "https://joheredicoms.communication.azure.com/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
@@ -45,92 +29,95 @@ const replaceableVariables: { [k: string]: string } = {
   SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
-    (recording: string): string =>
-      recording.replace(/"id_token"\s?:\s?"[^"]*"/g, `"id_token":"sanitized"`),
-    (recording: string): string =>
-      recording.replace(/"refresh_token"\s?:\s?"[^"]*"/g, `"refresh_token":"sanitized"`),
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
-    (recording: string): string => {
-      return recording.replace(
-        /(https:\/\/[^/',]*\/identities\/)[^/',]*(\/token)/,
-        "$1sanitized$2"
-      );
+const sanitizerOptions: SanitizerOptions = {
+  connectionStringSanitizers: [
+    {
+      actualConnString: env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING,
+      fakeConnString: "endpoint=https://joheredicoms.communication.azure.com/;accesskey=banana",
     },
-    (recording: string): string =>
-      recording.replace(/\/identities\/[^/'",]*/, "/identities/sanitized"),
-    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
-    (recording: string): string =>
-      recording.replace(
-        /[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi,
-        "00000000-0000-0000-0000-000000000000"
-      ),
   ],
-  queryParametersToSkip: [],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `https:\/\/(?<host_name>.*)\.communication\.azure\.com\/(.*)`,
+      value: "joheredicoms",
+      groupForReplace: "host_name",
+    },
+    {
+      regex: true,
+      target: `(.*)\/identities\/(?<secret_content>.*?)[\/|?](.*)`,
+      value: "sanitized",
+      groupForReplace: "secret_content",
+    },
+  ],
+  generalSanitizers: [
+    { regex: true, target: `"access_token"\s?:\s?"[^"]*"`, value: `"access_token":"sanitized"` },
+    { regex: true, target: `"token"\s?:\s?"[^"]*"`, value: `"token":"sanitized"` },
+    { regex: true, target: `"id_token"\s?:\s?"[^"]*"`, value: `"id_token":"sanitized"` },
+    { regex: true, target: `"refresh_token"\s?:\s?"[^"]*"`, value: `"refresh_token":"sanitized"` },
+    { regex: true, target: `"id"\s?:\s?"[^"]*"`, value: `"id":"sanitized"` },
+    {
+      regex: true,
+      target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
+      value: `sanitized`,
+    },
+  ],
 };
 
-export function createRecorder(context: Context): Recorder {
-  const recorder = record(context, environmentSetup);
-  return recorder;
-}
-
-export function createRecordedCommunicationIdentityClient(
+export async function createRecordedCommunicationIdentityClient(
   context: Context
-): RecordedClient<CommunicationIdentityClient> {
-  const recorder = record(context, environmentSetup);
+): Promise<RecordedClient<CommunicationIdentityClient>> {
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start({ envSetupForPlayback: replaceableVariables });
+  recorder.addSanitizers(sanitizerOptions);
+
+  const client = new CommunicationIdentityClient(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
-      httpClient,
-    }),
+    client,
     recorder,
   };
 }
 
-export function createRecordedCommunicationIdentityClientWithToken(
+export async function createRecordedCommunicationIdentityClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> {
-  const recorder = record(context, environmentSetup);
+): Promise<RecordedClient<CommunicationIdentityClient>> {
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start({ envSetupForPlayback: replaceableVariables });
+  recorder.addSanitizers(sanitizerOptions);
+
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? ""
   ).endpoint;
   if (isPlaybackMode()) {
     credential = {
-      getToken: async (_scopes) => {
+      getToken: async (_scopes: any) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
       },
     };
 
+    const client = new CommunicationIdentityClient(
+      endpoint,
+      credential,
+      recorder.configureClientOptions({})
+    );
+
     // casting is a workaround to enable min-max testing
-    return {
-      client: new CommunicationIdentityClient(endpoint, credential, { httpClient }),
-      recorder,
-    };
+    return { client, recorder };
   }
 
-  if (isNode) {
-    credential = new DefaultAzureCredential();
-  } else {
-    credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET,
-      { httpClient }
-    );
-  }
+  credential = createTestCredential();
+  const client = new CommunicationIdentityClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({})
+  );
 
   // casting is a workaround to enable min-max testing
-  return {
-    client: new CommunicationIdentityClient(endpoint, credential, { httpClient }),
-    recorder,
-  };
+  return { client, recorder };
 }
