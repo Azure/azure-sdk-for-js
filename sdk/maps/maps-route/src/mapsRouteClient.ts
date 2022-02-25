@@ -14,33 +14,25 @@ import {
   RouteDirectionParameters,
   RouteDirections,
   RouteDirectionsBatchResult,
-  RouteGetRouteDirectionsBatchOptionalParams as GetRouteDirectionsBatchOptionalParams,
-  RouteGetRouteDirectionsOptionalParams as GetRouteDirectionsOptionalParams,
-  RouteGetRouteDirectionsWithAdditionalParametersOptionalParams as GetRouteDirectionsWithAdditionalParametersOptionalParams,
-  RouteGetRouteMatrixOptionalParams as GetRouteMatrixOptionalParams,
-  RouteGetRouteRangeOptionalParams as GetRouteRangeOptionalParams,
   RouteMatrixQuery,
   RouteMatrixResult,
   RouteRangeResult,
-  RouteRequestRouteDirectionsBatchOptionalParams as RequestRouteDirectionsBatchOptionalParams,
-  RouteRequestRouteDirectionsBatchSyncOptionalParams as RequestRouteDirectionsBatchSyncOptionalParams,
-  RouteRequestRouteMatrixOptionalParams as RequestRouteMatrixOptionalParams,
-  RouteRequestRouteMatrixSyncOptionalParams as RequestRouteMatrixSyncOptionalParams,
 } from "./generated";
 import {
   GetRouteDirectionsBatchOptions,
-  GetRouteDirectionsOptions,
-  GetRouteDirectionsWithAdditionalParametersOptions,
+  RouteDirectionsOptions,
   GetRouteMatrixOptions,
-  GetRouteRangeOptions,
+  RouteRangeOptions,
   MapsRouteClientOptions,
   RequestRouteDirectionsBatchOptions,
-  RequestRouteMatrixOptions,
+  RouteMatrixOptions,
 } from "./models/options";
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { LatLon } from "./models/models";
+import { toColonDelimitedLatLonString, toNumericArray } from "./models/mappers";
 
 const isMapsRouteClientOptions = (
   clientIdOrOptions: any
@@ -126,22 +118,25 @@ export class MapsRouteClient {
   }
 
   /**
+   * Returns a route between an origin and a destination.
    *
-   * @param routePoints
-   * @param options
-   * @returns
+   * @param routePoints - An array of coordinates through which the route is calculated
+   * @param options - Optional parameters for the operation
    */
   public async getRouteDirections(
-    routePoints: string,
-    options?: GetRouteDirectionsOptions
+    routePoints: LatLon[],
+    options?: RouteDirectionsOptions
   ): Promise<RouteDirections> {
+    if (!Array.isArray(routePoints) || routePoints.length === 0) {
+      throw new Error("routePoints must be a non-empty array");
+    }
+
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteDirections", options);
-    const internalOptions = updatedOptions as GetRouteDirectionsOptionalParams;
     try {
       const result = await this.client.routeOperations.getRouteDirections(
         this.defaultFormat,
-        routePoints,
-        internalOptions
+        toColonDelimitedLatLonString(routePoints),
+        updatedOptions
       );
       return result;
     } catch (e) {
@@ -156,29 +151,27 @@ export class MapsRouteClient {
   }
 
   /**
+   * Returns a route between an origin and a destination, passing through waypoints if they are specified.
    *
-   * @param routePoints
-   * @param routeDirectionParameters
-   * @param options
-   * @returns
+   * @param routePoints - An array of coordinates through which the route is calculated
+   * @param routeDirectionParameters - Additional parameters used for reconstructing a route and for calculating zero or more alternative routes to this reference route
+   * @param options - Optional parameters for the operation
    */
   public async getRouteDirectionsWithAdditionalParameters(
-    routePoints: string,
+    routePoints: LatLon[],
     routeDirectionParameters: RouteDirectionParameters,
-    options?: GetRouteDirectionsWithAdditionalParametersOptions
+    options?: RouteDirectionsOptions
   ): Promise<RouteDirections> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-getRouteDirectionsWithAdditionalParameters",
       options
     );
-    const internalOptions =
-      updatedOptions as GetRouteDirectionsWithAdditionalParametersOptionalParams;
     try {
       const result = await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
         this.defaultFormat,
-        routePoints,
+        toColonDelimitedLatLonString(routePoints),
         routeDirectionParameters,
-        internalOptions
+        updatedOptions
       );
       return result;
     } catch (e) {
@@ -193,22 +186,21 @@ export class MapsRouteClient {
   }
 
   /**
+   * Calculates a set of locations that can be reached from the origin point based on fuel, energy, or time budget that is specified.
    *
-   * @param query
-   * @param options
-   * @returns
+   * @param coordinates - The coordinates from which the range calculation should start
+   * @param options - Optional parameters for the operation
    */
   public async getRouteRange(
-    query: number[],
-    options?: GetRouteRangeOptions
+    coordinates: LatLon,
+    options?: RouteRangeOptions
   ): Promise<RouteRangeResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteRange", options);
-    const internalOptions = updatedOptions as GetRouteRangeOptionalParams;
     try {
       const result = await this.client.routeOperations.getRouteRange(
         this.defaultFormat,
-        query,
-        internalOptions
+        toNumericArray(coordinates),
+        updatedOptions
       );
       return result;
     } catch (e) {
@@ -223,10 +215,10 @@ export class MapsRouteClient {
   }
 
   /**
+   * Sends batches of route direction queries. The method return the result directly.
    *
    * @param routeDirectionsBatchQueries
-   * @param options
-   * @returns
+   * @param options - Optional parameters for the operation
    */
   public async requestRouteDirectionsBatch(
     routeDirectionsBatchQueries: BatchRequest,
@@ -236,12 +228,11 @@ export class MapsRouteClient {
       "MapsRouteClient-requestRouteDirectionsBatch",
       options
     );
-    const internalOptions = updatedOptions as RequestRouteDirectionsBatchSyncOptionalParams;
     try {
       const result = await this.client.routeOperations.requestRouteDirectionsBatchSync(
         this.defaultFormat,
         routeDirectionsBatchQueries,
-        internalOptions
+        updatedOptions
       );
       return result;
     } catch (e) {
@@ -256,10 +247,10 @@ export class MapsRouteClient {
   }
 
   /**
+   * Sends batches of route direction queries. The method returns a poller for retrieving the result later.
    *
    * @param routeDirectionsBatchQueries
-   * @param options
-   * @returns
+   * @param options - Optional parameters for the operation
    */
   public async beginRequestRouteDirectionsBatch(
     routeDirectionsBatchQueries: BatchRequest,
@@ -271,12 +262,11 @@ export class MapsRouteClient {
       "MapsRouteClient-beginRequestRouteDirectionsBatch",
       options
     );
-    const internalOptions = updatedOptions as RequestRouteDirectionsBatchOptionalParams;
     try {
       const poller = await this.client.routeOperations.beginRequestRouteDirectionsBatch(
         this.defaultFormat,
         routeDirectionsBatchQueries,
-        internalOptions
+        updatedOptions
       );
 
       await poller.poll();
@@ -293,10 +283,10 @@ export class MapsRouteClient {
   }
 
   /**
+   *  Retrieves the result of a previous route direction batch request. The method returns a poller for retrieving the result.
    *
-   * @param batchId
-   * @param options
-   * @returns
+   * @param batchId - Batch id for querying the operation.
+   * @param options - Optional parameters for the operation
    */
   public async beginGetRouteDirectionsBatchResult(
     batchId: string,
@@ -308,11 +298,10 @@ export class MapsRouteClient {
       "MapsRouteClient-beginGetRouteDirectionsBatchResult",
       options
     );
-    const internalOptions = updatedOptions as GetRouteDirectionsBatchOptionalParams;
     try {
       const poller = await this.client.routeOperations.beginGetRouteDirectionsBatch(
         batchId,
-        internalOptions
+        updatedOptions
       );
 
       await poller.poll();
@@ -329,22 +318,22 @@ export class MapsRouteClient {
   }
 
   /**
+   * Calculates a matrix of route summaries for a set of routes defined by origin and destination locations.
+   * The method return the result directly.
    *
-   * @param routeMatrixQuery
-   * @param options
-   * @returns
+   * @param routeMatrixQuery - The matrix of origin and destination coordinates to compute the routes.
+   * @param options - Optional parameters for the operation
    */
   public async requestRouteMatrix(
     routeMatrixQuery: RouteMatrixQuery,
-    options?: RequestRouteMatrixOptions
+    options?: RouteMatrixOptions
   ): Promise<RouteMatrixResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
-    const internalOptions = updatedOptions as RequestRouteMatrixSyncOptionalParams;
     try {
       const result = await this.client.routeOperations.requestRouteMatrixSync(
         this.defaultFormat,
         routeMatrixQuery,
-        internalOptions
+        updatedOptions
       );
       return result;
     } catch (e) {
@@ -359,22 +348,22 @@ export class MapsRouteClient {
   }
 
   /**
+   * Calculates a matrix of route summaries for a set of routes defined by origin and destination locations.
+   * The method returns a poller for retrieving the result later.
    *
-   * @param routeMatrixQuery
-   * @param options
-   * @returns
+   * @param routeMatrixQuery - The matrix of origin and destination coordinates to compute the routes.
+   * @param options - Optional parameters for the operation
    */
   public async beginRequestRouteMatrix(
     routeMatrixQuery: RouteMatrixQuery,
-    options?: RequestRouteMatrixOptions
+    options?: RouteMatrixOptions
   ): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
-    const internalOptions = updatedOptions as RequestRouteMatrixOptionalParams;
     try {
       const poller = await this.client.routeOperations.beginRequestRouteMatrix(
         this.defaultFormat,
         routeMatrixQuery,
-        internalOptions
+        updatedOptions
       );
 
       await poller.poll();
@@ -391,10 +380,11 @@ export class MapsRouteClient {
   }
 
   /**
+   * Retrieves the result of a previous route matrix request.
+   * The method returns a poller for retrieving the result.
    *
-   * @param matrixId
-   * @param options
-   * @returns
+   * @param batchId - Batch id for querying the operation.
+   * @param options - Optional parameters for the operation
    */
   public async beginGetRouteMatrixResult(
     matrixId: string,
@@ -404,11 +394,10 @@ export class MapsRouteClient {
       "MapsRouteClient-beginGetRouteMatrixResult",
       options
     );
-    const internalOptions = updatedOptions as GetRouteMatrixOptionalParams;
     try {
       const poller = await this.client.routeOperations.beginGetRouteMatrix(
         matrixId,
-        internalOptions
+        updatedOptions
       );
 
       await poller.poll();
