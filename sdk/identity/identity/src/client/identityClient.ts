@@ -343,7 +343,11 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         // Without an access token allowLoggingAccountIdentifiers isn't useful.
         return;
       }
-      const { appid, upn, tid, oid } = JSON.parse(atob(accessToken.split(".")[1]));
+      const base64Metadata = accessToken.split(".")[1];
+      const { appid, upn, tid, oid } = JSON.parse(
+        Buffer.from(base64Metadata, "base64").toString("utf8")
+      );
+
       logger.info(
         `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
           upn || unavailableUpn

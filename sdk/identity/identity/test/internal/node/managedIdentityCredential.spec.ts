@@ -120,7 +120,9 @@ describe("ManagedIdentityCredential", function () {
       tid: "HIDDEN",
       oid: "HIDDEN",
     };
-    const base64AccessTokenData = btoa(JSON.stringify(accessTokenData));
+    const base64AccessTokenData = Buffer.from(JSON.stringify(accessTokenData), "utf8").toString(
+      "base64"
+    );
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
