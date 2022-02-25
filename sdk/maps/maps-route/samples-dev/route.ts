@@ -42,21 +42,30 @@ async function main() {
 
   console.log(" --- Get route directions:");
   console.log(
-    await client.getRouteDirections("51.368752,-0.118332:41.385426,-0.128929", {
-      vehicleWidth: 2,
-      vehicleHeight: 2,
-      isCommercialVehicle: true,
-      vehicleLoadType: "USHazmatClass1",
-      travelMode: "truck",
-    })
+    await client.getRouteDirections(
+      [
+        { latitude: 51.368752, longitude: -0.118332 },
+        { latitude: 41.385426, longitude: -0.128929 },
+      ],
+      {
+        vehicleWidth: 2,
+        vehicleHeight: 2,
+        isCommercialVehicle: true,
+        vehicleLoadType: "USHazmatClass1",
+        travelMode: "truck",
+      }
+    )
   );
 
   console.log(" --- Get route range:");
   const routeRangeOptions = { timeBudgetInSec: 6000 };
   console.log(
-    await client.getRouteRange([50.97452, 5.86605], {
-      ...routeRangeOptions,
-    })
+    await client.getRouteRange(
+      { latitude: 50.97452, longitude: 5.86605 },
+      {
+        ...routeRangeOptions,
+      }
+    )
   );
 
   console.log(" --- Post route directions:");
@@ -101,7 +110,10 @@ async function main() {
   };
   console.log(
     await client.getRouteDirectionsWithAdditionalParameters(
-      "52.50931,13.42936:52.50274,13.43872",
+      [
+        { latitude: 52.50931, longitude: 13.42936 },
+        { latitude: 52.50274, longitude: 13.43872 },
+      ],
       routeDirectionParameters
     )
   );
@@ -127,7 +139,7 @@ async function main() {
     routeDirectionsBatchQueries
   );
 
-  console.log(routeDirectionPoller.pollUntilDone());
+  console.log(await routeDirectionPoller.pollUntilDone());
 
   console.log(" --- Post route matrix:");
   const routeMatrixQuery: RouteMatrixQuery = {
