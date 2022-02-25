@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ApiVersion73Preview, KeyVaultClientOptionalParams } from "./models";
 
 const packageName = "@azure/keyvault-keys";
-export const packageVersion = "4.4.0-beta.3";
+export const packageVersion = "4.4.0-beta.4";
 
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
   apiVersion: ApiVersion73Preview;
@@ -34,7 +34,7 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
     }
 
     const defaultUserAgent = `azsdk-js-${packageName.replace(
-      "@azure/",
+      /@.*\//,
       ""
     )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 export {
-  AzureCommunicationTokenCredential,
   CommunicationTokenCredential,
-  CommunicationGetTokenOptions
+  CommunicationGetTokenOptions,
 } from "./communicationTokenCredential";
+export { AzureCommunicationTokenCredential } from "./azureCommunicationTokenCredential";
 export * from "./credential";
 export { CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential";
 export * from "./credential";

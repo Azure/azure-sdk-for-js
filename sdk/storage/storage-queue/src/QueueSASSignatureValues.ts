@@ -114,7 +114,7 @@ export function generateQueueSASQueryParameters(
     queueSASSignatureValues.identifier,
     queueSASSignatureValues.ipRange ? ipRangeToString(queueSASSignatureValues.ipRange) : "",
     queueSASSignatureValues.protocol ? queueSASSignatureValues.protocol : "",
-    version
+    version,
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);

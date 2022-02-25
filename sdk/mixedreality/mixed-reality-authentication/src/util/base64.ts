@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
+const isNode =
+  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
 
 declare global {
   // stub these out for the browser
@@ -13,9 +14,8 @@ declare global {
  * Base64 encode.
  *
  * @internal
- * @export
- * @param {string} content
- * @returns {string}
+ * @param content - The string to be encoded
+ * @returns encoded string
  */
 export function base64encode(content: string): string {
   return isNode ? Buffer.from(content).toString("base64") : btoa(content);
@@ -25,9 +25,8 @@ export function base64encode(content: string): string {
  * Base64 decode.
  *
  * @internal
- * @export
- * @param {string} encodedString
- * @returns {string}
+ * @param encodedString - The encoded string
+ * @returns decoded string
  */
 export function base64decode(encodedString: string): string {
   return isNode ? Buffer.from(encodedString, "base64").toString() : atob(encodedString);

@@ -3,35 +3,29 @@
 
 import { ClientSecretCredential } from "../../../src";
 import { assertClientCredentials } from "../../authTestUtils";
-import { prepareIdentityTests } from "../../httpRequests";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests
-} from "../../httpRequestsCommon";
+import { IdentityTestContext } from "../../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
 
-describe("ClientSecretCredential", function() {
-  let testContext: IdentityTestContext;
-  let sendCredentialRequests: SendCredentialRequests;
+describe("ClientSecretCredential", function () {
+  let testContext: IdentityTestContextInterface;
 
-  beforeEach(async function() {
-    testContext = await prepareIdentityTests({});
-    sendCredentialRequests = testContext.sendCredentialRequests;
+  beforeEach(async function () {
+    testContext = new IdentityTestContext({});
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
   it("sends an authorization request with the given credentials", async () => {
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential: new ClientSecretCredential("tenant", "client", "secret"),
       secureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     assertClientCredentials(

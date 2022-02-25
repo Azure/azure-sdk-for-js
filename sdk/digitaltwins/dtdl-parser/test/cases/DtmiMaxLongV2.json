@@ -1,0 +1,28 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:someInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong;999999999",
+          "@type": "Property",
+          "name": "foo",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong:veryLong;999999999",
+        "type": "Property",
+        "properties": {}
+      }
+    ]
+  }
+}

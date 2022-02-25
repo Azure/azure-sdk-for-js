@@ -11,7 +11,7 @@ import { CassandraResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClientContext } from "../cosmosDBManagementClientContext";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -19,6 +19,8 @@ import {
   CassandraResourcesListCassandraKeyspacesOptionalParams,
   CassandraTableGetResults,
   CassandraResourcesListCassandraTablesOptionalParams,
+  CassandraViewGetResults,
+  CassandraResourcesListCassandraViewsOptionalParams,
   CassandraResourcesListCassandraKeyspacesResponse,
   CassandraResourcesGetCassandraKeyspaceOptionalParams,
   CassandraResourcesGetCassandraKeyspaceResponse,
@@ -49,19 +51,34 @@ import {
   CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
-  CassandraResourcesMigrateCassandraTableToManualThroughputResponse
+  CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
+  CassandraResourcesListCassandraViewsResponse,
+  CassandraResourcesGetCassandraViewOptionalParams,
+  CassandraResourcesGetCassandraViewResponse,
+  CassandraViewCreateUpdateParameters,
+  CassandraResourcesCreateUpdateCassandraViewOptionalParams,
+  CassandraResourcesCreateUpdateCassandraViewResponse,
+  CassandraResourcesDeleteCassandraViewOptionalParams,
+  CassandraResourcesGetCassandraViewThroughputOptionalParams,
+  CassandraResourcesGetCassandraViewThroughputResponse,
+  CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
+  CassandraResourcesUpdateCassandraViewThroughputResponse,
+  CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
+  CassandraResourcesMigrateCassandraViewToAutoscaleResponse,
+  CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
+  CassandraResourcesMigrateCassandraViewToManualThroughputResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CassandraResources operations. */
 export class CassandraResourcesImpl implements CassandraResources {
-  private readonly client: CosmosDBManagementClientContext;
+  private readonly client: CosmosDBManagementClient;
 
   /**
    * Initialize a new instance of the class CassandraResources class.
    * @param client Reference to the service client
    */
-  constructor(client: CosmosDBManagementClientContext) {
+  constructor(client: CosmosDBManagementClient) {
     this.client = client;
   }
 
@@ -184,6 +201,74 @@ export class CassandraResourcesImpl implements CassandraResources {
     options?: CassandraResourcesListCassandraTablesOptionalParams
   ): AsyncIterableIterator<CassandraTableGetResults> {
     for await (const page of this.listCassandraTablesPagingPage(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The options parameters.
+   */
+  public listCassandraViews(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): PagedAsyncIterableIterator<CassandraViewGetResults> {
+    const iter = this.listCassandraViewsPagingAll(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listCassandraViewsPagingPage(
+          resourceGroupName,
+          accountName,
+          keyspaceName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listCassandraViewsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): AsyncIterableIterator<CassandraViewGetResults[]> {
+    let result = await this._listCassandraViews(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    );
+    yield result.value || [];
+  }
+
+  private async *listCassandraViewsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): AsyncIterableIterator<CassandraViewGetResults> {
+    for await (const page of this.listCassandraViewsPagingPage(
       resourceGroupName,
       accountName,
       keyspaceName,
@@ -1298,6 +1383,570 @@ export class CassandraResourcesImpl implements CassandraResources {
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * Lists the Cassandra materialized views under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The options parameters.
+   */
+  private _listCassandraViews(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: CassandraResourcesListCassandraViewsOptionalParams
+  ): Promise<CassandraResourcesListCassandraViewsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, keyspaceName, options },
+      listCassandraViewsOperationSpec
+    );
+  }
+
+  /**
+   * Gets the Cassandra view under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  getCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesGetCassandraViewOptionalParams
+  ): Promise<CassandraResourcesGetCassandraViewResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      getCassandraViewOperationSpec
+    );
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra View
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param createUpdateCassandraViewParameters The parameters to provide for the current Cassandra View.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
+    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CassandraResourcesCreateUpdateCassandraViewResponse>,
+      CassandraResourcesCreateUpdateCassandraViewResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesCreateUpdateCassandraViewResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        viewName,
+        createUpdateCassandraViewParameters,
+        options
+      },
+      createUpdateCassandraViewOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra View
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param createUpdateCassandraViewParameters The parameters to provide for the current Cassandra View.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateCassandraViewAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
+    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  ): Promise<CassandraResourcesCreateUpdateCassandraViewResponse> {
+    const poller = await this.beginCreateUpdateCassandraView(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      createUpdateCassandraViewParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra view.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginDeleteCassandraView(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesDeleteCassandraViewOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      deleteCassandraViewOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra view.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginDeleteCassandraViewAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesDeleteCassandraViewOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDeleteCassandraView(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account
+   * with the provided name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  getCassandraViewThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesGetCassandraViewThroughputOptionalParams
+  ): Promise<CassandraResourcesGetCassandraViewThroughputResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      getCassandraViewThroughputOperationSpec
+    );
+  }
+
+  /**
+   * Update RUs per second of an Azure Cosmos DB Cassandra view
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param updateThroughputParameters The RUs per second of the parameters to provide for the current
+   *                                   Cassandra view.
+   * @param options The options parameters.
+   */
+  async beginUpdateCassandraViewThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    updateThroughputParameters: ThroughputSettingsUpdateParameters,
+    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesUpdateCassandraViewThroughputResponse
+      >,
+      CassandraResourcesUpdateCassandraViewThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesUpdateCassandraViewThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        viewName,
+        updateThroughputParameters,
+        options
+      },
+      updateCassandraViewThroughputOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Update RUs per second of an Azure Cosmos DB Cassandra view
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param updateThroughputParameters The RUs per second of the parameters to provide for the current
+   *                                   Cassandra view.
+   * @param options The options parameters.
+   */
+  async beginUpdateCassandraViewThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    updateThroughputParameters: ThroughputSettingsUpdateParameters,
+    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  ): Promise<CassandraResourcesUpdateCassandraViewThroughputResponse> {
+    const poller = await this.beginUpdateCassandraViewThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      updateThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesMigrateCassandraViewToAutoscaleResponse
+      >,
+      CassandraResourcesMigrateCassandraViewToAutoscaleResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesMigrateCassandraViewToAutoscaleResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      migrateCassandraViewToAutoscaleOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToAutoscaleAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  ): Promise<CassandraResourcesMigrateCassandraViewToAutoscaleResponse> {
+    const poller = await this.beginMigrateCassandraViewToAutoscale(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+      >,
+      CassandraResourcesMigrateCassandraViewToManualThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CassandraResourcesMigrateCassandraViewToManualThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, keyspaceName, viewName, options },
+      migrateCassandraViewToManualThroughputOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param viewName Cosmos DB view name.
+   * @param options The options parameters.
+   */
+  async beginMigrateCassandraViewToManualThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    viewName: string,
+    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  ): Promise<CassandraResourcesMigrateCassandraViewToManualThroughputResponse> {
+    const poller = await this.beginMigrateCassandraViewToManualThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1706,6 +2355,214 @@ const migrateCassandraTableToManualThroughputOperationSpec: coreClient.Operation
     Parameters.accountName,
     Parameters.tableName,
     Parameters.keyspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCassandraViewsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraViewListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCassandraViewOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createUpdateCassandraViewOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    },
+    201: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    },
+    202: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    },
+    204: {
+      bodyMapper: Mappers.CassandraViewGetResults
+    }
+  },
+  requestBody: Parameters.createUpdateCassandraViewParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteCassandraViewOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  serializer
+};
+const getCassandraViewThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateCassandraViewThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    }
+  },
+  requestBody: Parameters.updateThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const migrateCassandraViewToAutoscaleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToAutoscale",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const migrateCassandraViewToManualThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToManualThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.viewName
   ],
   headerParameters: [Parameters.accept],
   serializer

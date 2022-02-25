@@ -1,0 +1,240 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:deepObject;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "myField",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "myField",
+                "schema": {
+                  "@type": "Object",
+                  "fields": [
+                    {
+                      "name": "myField",
+                      "schema": {
+                        "@type": "Object",
+                        "fields": [
+                          {
+                            "name": "myField",
+                            "schema": {
+                              "@type": "Object",
+                              "fields": [
+                                {
+                                  "name": "myField",
+                                  "schema": "double"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:deepObject;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepObject:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:test:deepObject:_fields:__myField:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepObject:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField:_schema:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:dtdl:instance:Schema:double;3"
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": true,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": 3.14 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": true } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": null } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": \"3.14\" } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": [ 3.14 ] } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"otherField\": { \"myField\": 3.14 } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": 3.14 } } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": true,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { } } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": true,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": 3.14 } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"myField\": 3.14 }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": true,
+      "submit": "{ }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": 3.14, \"office\": 6.28 } } } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "\"{ \"myField\": { \"myField\": { \"myField\": { \"myField\": { \"myField\": 3.14 } } } } }\""
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:test:deepObject;1",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

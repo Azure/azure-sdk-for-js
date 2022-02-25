@@ -11,6 +11,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SqlDatabaseGetResults,
   SqlResourcesListSqlDatabasesOptionalParams,
+  ClientEncryptionKeyGetResults,
+  SqlResourcesListClientEncryptionKeysOptionalParams,
   SqlContainerGetResults,
   SqlResourcesListSqlContainersOptionalParams,
   SqlStoredProcedureGetResults,
@@ -38,6 +40,11 @@ import {
   SqlResourcesMigrateSqlDatabaseToAutoscaleResponse,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputResponse,
+  SqlResourcesGetClientEncryptionKeyOptionalParams,
+  SqlResourcesGetClientEncryptionKeyResponse,
+  ClientEncryptionKeyCreateUpdateParameters,
+  SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
+  SqlResourcesCreateUpdateClientEncryptionKeyResponse,
   SqlResourcesGetSqlContainerOptionalParams,
   SqlResourcesGetSqlContainerResponse,
   SqlContainerCreateUpdateParameters,
@@ -101,6 +108,19 @@ export interface SqlResources {
     accountName: string,
     options?: SqlResourcesListSqlDatabasesOptionalParams
   ): PagedAsyncIterableIterator<SqlDatabaseGetResults>;
+  /**
+   * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The options parameters.
+   */
+  listClientEncryptionKeys(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams
+  ): PagedAsyncIterableIterator<ClientEncryptionKeyGetResults>;
   /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -370,6 +390,64 @@ export interface SqlResources {
     databaseName: string,
     options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
   ): Promise<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
+  /**
+   * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param options The options parameters.
+   */
+  getClientEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
+  ): Promise<SqlResourcesGetClientEncryptionKeyResponse>;
+  /**
+   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
+   * Powershell (instead of directly).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
+   *                                                  key.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateClientEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
+      SqlResourcesCreateUpdateClientEncryptionKeyResponse
+    >
+  >;
+  /**
+   * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
+   * Powershell (instead of directly).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param clientEncryptionKeyName Cosmos DB ClientEncryptionKey name.
+   * @param createUpdateClientEncryptionKeyParameters The parameters to provide for the client encryption
+   *                                                  key.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateClientEncryptionKeyAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    clientEncryptionKeyName: string,
+    createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+  ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse>;
   /**
    * Gets the SQL container under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

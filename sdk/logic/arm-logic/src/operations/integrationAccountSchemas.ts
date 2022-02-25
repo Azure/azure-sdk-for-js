@@ -11,7 +11,7 @@ import { IntegrationAccountSchemas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   IntegrationAccountSchema,
   IntegrationAccountSchemasListNextOptionalParams,
@@ -32,13 +32,13 @@ import {
 /** Class containing IntegrationAccountSchemas operations. */
 export class IntegrationAccountSchemasImpl
   implements IntegrationAccountSchemas {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class IntegrationAccountSchemas class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

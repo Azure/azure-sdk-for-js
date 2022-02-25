@@ -5,13 +5,13 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
+import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { ProxySettings } from "../serviceClient";
-import { WebResourceLike } from "../webResource";
-import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
+import { WebResourceLike } from "../webResource";
 import { getEnvironmentValue } from "../util/utils";
 
 /**
@@ -91,6 +91,11 @@ export function loadNoProxy(): string[] {
   return [];
 }
 
+/**
+ * Converts a given URL of a proxy server into `ProxySettings` or attempts to retrieve `ProxySettings` from the current environment if one is not passed.
+ * @param proxyUrl - URL of the proxy
+ * @returns The default proxy settings, or undefined.
+ */
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   if (!proxyUrl) {
     proxyUrl = loadEnvironmentProxyValue();
@@ -106,7 +111,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
     host: schema + parsedUrl.getHost(),
     port: Number.parseInt(parsedUrl.getPort() || "80"),
     username,
-    password
+    password,
   };
 }
 
@@ -138,13 +143,15 @@ export function proxyPolicy(
         proxySettings!,
         options?.customNoProxyList
       );
-    }
+    },
   };
 }
 
-function extractAuthFromUrl(
-  url: string
-): { username?: string; password?: string; urlWithoutAuth: string } {
+function extractAuthFromUrl(url: string): {
+  username?: string;
+  password?: string;
+  urlWithoutAuth: string;
+} {
   const atIndex = url.indexOf("@");
   if (atIndex === -1) {
     return { urlWithoutAuth: url };
@@ -161,7 +168,7 @@ function extractAuthFromUrl(
   return {
     username,
     password,
-    urlWithoutAuth
+    urlWithoutAuth,
   };
 }
 

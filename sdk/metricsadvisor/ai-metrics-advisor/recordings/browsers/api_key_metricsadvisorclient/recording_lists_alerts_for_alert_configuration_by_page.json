@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"alertId\":\"17cd3a55400\",\"timestamp\":\"2021-10-31T00:00:00Z\",\"createdTime\":\"2021-11-01T00:16:11.817Z\",\"modifiedTime\":\"2021-11-04T22:31:08.352Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query?$maxpagesize=1&$skip=1\"}",
    "responseHeaders": {
-    "apim-request-id": "7789b05e-94ae-4fa6-9160-2fa64cf67872",
+    "apim-request-id": "fa8a6f30-6702-4fb0-9bfc-082f80bc1cb1",
     "content-length": "350",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:24 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "120",
-    "x-request-id": "7789b05e-94ae-4fa6-9160-2fa64cf67872"
+    "x-envoy-upstream-service-time": "103",
+    "x-request-id": "fa8a6f30-6702-4fb0-9bfc-082f80bc1cb1"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"alertId\":\"17cce7ef800\",\"timestamp\":\"2021-10-30T00:00:00Z\",\"createdTime\":\"2021-10-31T00:16:45.619Z\",\"modifiedTime\":\"2021-11-03T22:35:00.394Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query?$maxpagesize=1&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "36c321f2-d68f-423e-bbd6-c1684b1b1443",
+    "apim-request-id": "f597a6f9-48c5-4769-be2a-3fd022f78970",
     "content-length": "350",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:24 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "112",
-    "x-request-id": "36c321f2-d68f-423e-bbd6-c1684b1b1443"
+    "x-envoy-upstream-service-time": "83",
+    "x-request-id": "f597a6f9-48c5-4769-be2a-3fd022f78970"
    }
   }
  ],

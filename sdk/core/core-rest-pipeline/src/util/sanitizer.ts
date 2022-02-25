@@ -65,7 +65,8 @@ const defaultAllowedHeaderNames = [
   "Retry-After",
   "Server",
   "Transfer-Encoding",
-  "User-Agent"
+  "User-Agent",
+  "WWW-Authenticate",
 ];
 
 const defaultAllowedQueryParameters: string[] = ["api-version"];
@@ -79,7 +80,7 @@ export class Sanitizer {
 
   constructor({
     additionalAllowedHeaderNames: allowedHeaderNames = [],
-    additionalAllowedQueryParameters: allowedQueryParameters = []
+    additionalAllowedQueryParameters: allowedQueryParameters = [],
   }: SanitizerOptions = {}) {
     allowedHeaderNames = defaultAllowedHeaderNames.concat(allowedHeaderNames);
     allowedQueryParameters = defaultAllowedQueryParameters.concat(allowedQueryParameters);
@@ -98,7 +99,7 @@ export class Sanitizer {
           return {
             ...value,
             name: value.name,
-            message: value.message
+            message: value.message,
           };
         }
 

@@ -1,0 +1,1620 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "749",
+        "Content-Type": "application/json",
+        "traceparent": "00-00000000000000000000000000000458-0000000000000992-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "6582cca2-0019-4240-8340-3575b29ae620"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "The food was unacceptable",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "The rooms were beautiful. The AC was good and quiet.",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "The breakfast was good, but the toilet was smelly.",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+              "language": "en"
+            },
+            {
+              "id": "4",
+              "text": "I had a great unobstructed view of the Microsoft campus.",
+              "language": "en"
+            },
+            {
+              "id": "5",
+              "text": "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+              "language": "en"
+            },
+            {
+              "id": "6",
+              "text": "The toilet smelled.",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": {
+          "sentimentAnalysisTasks": [
+            {
+              "parameters": {
+                "opinionMining": true,
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "519114a0-f245-4f97-bac8-a8ad29469738",
+        "Date": "Fri, 18 Feb 2022 19:05:56 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "259"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000459-0000000000000994-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "3a21c337-9bd0-4406-b4bd-52b94900ec2c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "88086d36-b2c2-4571-96aa-db82e4a8d473",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:57 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:05:57Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000460-0000000000000996-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "bb91a899-2b36-45ea-9769-59c91199553e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "7a99edd0-454a-470b-9d3f-1762f53fc0b8",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:57 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:05:57Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000461-0000000000000998-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "50a3b2d2-bb12-472e-b533-fe0086f79aa7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "dcec53fc-dda4-424a-9d24-923bede4bc7e",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:05:59 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:05:57Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000462-0000000000001000-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "8364dae6-e4b4-4263-a43a-3926c0d6ab0d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b8ba812a-0c40-4ff2-b005-670818986956",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:06:01 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:05:57Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000463-0000000000001002-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ffcebbfb-ce03-4ed1-b46c-e8874a484130"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "04fd5303-cb3d-45f3-941b-a54e0152abf5",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:06:03 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "6"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:05:57Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000464-0000000000001004-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b01e0fb6-d4dd-46b2-9edc-cc74869cc274"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d98752ea-6cd5-4c55-bded-2e265daade25",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:06:05 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "118"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:06:05Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "sentimentAnalysisTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:06:05.9945715Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.0,
+                      "neutral": 0.0,
+                      "negative": 1.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "negative",
+                        "confidenceScores": {
+                          "positive": 0.0,
+                          "neutral": 0.0,
+                          "negative": 1.0
+                        },
+                        "offset": 0,
+                        "length": 25,
+                        "text": "The food was unacceptable",
+                        "targets": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 4,
+                            "length": 4,
+                            "text": "food",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/0/sentences/0/assessments/0"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 13,
+                            "length": 12,
+                            "text": "unacceptable",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "neutral": 0.0,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 25,
+                        "text": "The rooms were beautiful.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 4,
+                            "length": 5,
+                            "text": "rooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/1/sentences/0/assessments/0"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 15,
+                            "length": 9,
+                            "text": "beautiful",
+                            "isNegated": false
+                          }
+                        ]
+                      },
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 26,
+                        "length": 26,
+                        "text": "The AC was good and quiet.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 30,
+                            "length": 2,
+                            "text": "AC",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/1/sentences/1/assessments/0"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/1/sentences/1/assessments/1"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 37,
+                            "length": 4,
+                            "text": "good",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 46,
+                            "length": 5,
+                            "text": "quiet",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "neutral": 0.0,
+                      "negative": 0.99
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "negative",
+                        "confidenceScores": {
+                          "positive": 0.01,
+                          "neutral": 0.0,
+                          "negative": 0.99
+                        },
+                        "offset": 0,
+                        "length": 50,
+                        "text": "The breakfast was good, but the toilet was smelly.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 4,
+                            "length": 9,
+                            "text": "breakfast",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/2/sentences/0/assessments/0"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 32,
+                            "length": 6,
+                            "text": "toilet",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/2/sentences/0/assessments/1"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 18,
+                            "length": 4,
+                            "text": "good",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 43,
+                            "length": 6,
+                            "text": "smelly",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "neutral": 0.0,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 71,
+                        "text": "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 11,
+                            "length": 5,
+                            "text": "hotel",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/0"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 24,
+                            "length": 9,
+                            "text": "breakfast",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/1"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 41,
+                            "length": 15,
+                            "text": "shuttle service",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/2"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 65,
+                            "length": 5,
+                            "text": "rooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/0"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/1"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/3"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/2"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 19,
+                            "length": 4,
+                            "text": "good",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 36,
+                            "length": 4,
+                            "text": "nice",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 0,
+                            "length": 5,
+                            "text": "loved",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 59,
+                            "length": 5,
+                            "text": "clean",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "4",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "neutral": 0.0,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 56,
+                        "text": "I had a great unobstructed view of the Microsoft campus.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 0.97,
+                              "negative": 0.03
+                            },
+                            "offset": 27,
+                            "length": 4,
+                            "text": "view",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/4/sentences/0/assessments/0"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/4/sentences/0/assessments/1"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 8,
+                            "length": 5,
+                            "text": "great",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 0.93,
+                              "negative": 0.07
+                            },
+                            "offset": 14,
+                            "length": 12,
+                            "text": "unobstructed",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "5",
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.0,
+                      "neutral": 0.0,
+                      "negative": 1.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "negative",
+                        "confidenceScores": {
+                          "positive": 0.0,
+                          "neutral": 0.0,
+                          "negative": 1.0
+                        },
+                        "offset": 0,
+                        "length": 75,
+                        "text": "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 5,
+                            "length": 5,
+                            "text": "rooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/5/sentences/0/assessments/0"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 15,
+                            "length": 9,
+                            "text": "bathrooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/5/sentences/0/assessments/1"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 42,
+                            "length": 6,
+                            "text": "toilet",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/5/sentences/0/assessments/2"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 0,
+                            "length": 4,
+                            "text": "nice",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 30,
+                            "length": 3,
+                            "text": "old",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 53,
+                            "length": 5,
+                            "text": "dirty",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "6",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.03,
+                      "neutral": 0.63,
+                      "negative": 0.34
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.03,
+                          "neutral": 0.63,
+                          "negative": 0.34
+                        },
+                        "offset": 0,
+                        "length": 19,
+                        "text": "The toilet smelled.",
+                        "targets": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.01,
+                              "negative": 0.99
+                            },
+                            "offset": 4,
+                            "length": 6,
+                            "text": "toilet",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/6/sentences/0/assessments/0"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.01,
+                              "negative": 0.99
+                            },
+                            "offset": 11,
+                            "length": 7,
+                            "text": "smelled",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2020-04-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/6158f4f6-82aa-44a1-8df7-54834ee2693b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "traceparent": "00-00000000000000000000000000000465-0000000000001006-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "3f6b0a25-2638-49d6-93a8-e18abfa729f9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5611c746-c52c-44d7-921d-25caec07edd7",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:06:05 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "313"
+      },
+      "ResponseBody": {
+        "jobId": "6158f4f6-82aa-44a1-8df7-54834ee2693b",
+        "lastUpdateDateTime": "2022-02-18T19:06:05Z",
+        "createdDateTime": "2022-02-18T19:05:57Z",
+        "expirationDateTime": "2022-02-19T19:05:57Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "sentimentAnalysisTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:06:05.9945715Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.0,
+                      "neutral": 0.0,
+                      "negative": 1.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "negative",
+                        "confidenceScores": {
+                          "positive": 0.0,
+                          "neutral": 0.0,
+                          "negative": 1.0
+                        },
+                        "offset": 0,
+                        "length": 25,
+                        "text": "The food was unacceptable",
+                        "targets": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 4,
+                            "length": 4,
+                            "text": "food",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/0/sentences/0/assessments/0"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 13,
+                            "length": 12,
+                            "text": "unacceptable",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "1",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "neutral": 0.0,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 25,
+                        "text": "The rooms were beautiful.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 4,
+                            "length": 5,
+                            "text": "rooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/1/sentences/0/assessments/0"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 15,
+                            "length": 9,
+                            "text": "beautiful",
+                            "isNegated": false
+                          }
+                        ]
+                      },
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 26,
+                        "length": 26,
+                        "text": "The AC was good and quiet.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 30,
+                            "length": 2,
+                            "text": "AC",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/1/sentences/1/assessments/0"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/1/sentences/1/assessments/1"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 37,
+                            "length": 4,
+                            "text": "good",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 46,
+                            "length": 5,
+                            "text": "quiet",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "2",
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "neutral": 0.0,
+                      "negative": 0.99
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "negative",
+                        "confidenceScores": {
+                          "positive": 0.01,
+                          "neutral": 0.0,
+                          "negative": 0.99
+                        },
+                        "offset": 0,
+                        "length": 50,
+                        "text": "The breakfast was good, but the toilet was smelly.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 4,
+                            "length": 9,
+                            "text": "breakfast",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/2/sentences/0/assessments/0"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 32,
+                            "length": 6,
+                            "text": "toilet",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/2/sentences/0/assessments/1"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 18,
+                            "length": 4,
+                            "text": "good",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 43,
+                            "length": 6,
+                            "text": "smelly",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "3",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "neutral": 0.0,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 71,
+                        "text": "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 11,
+                            "length": 5,
+                            "text": "hotel",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/0"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 24,
+                            "length": 9,
+                            "text": "breakfast",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/1"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 41,
+                            "length": 15,
+                            "text": "shuttle service",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/2"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 65,
+                            "length": 5,
+                            "text": "rooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/0"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/1"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/3"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/3/sentences/0/assessments/2"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 19,
+                            "length": 4,
+                            "text": "good",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 36,
+                            "length": 4,
+                            "text": "nice",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 0,
+                            "length": 5,
+                            "text": "loved",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 59,
+                            "length": 5,
+                            "text": "clean",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "4",
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "neutral": 0.0,
+                      "negative": 0.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                          "positive": 1.0,
+                          "neutral": 0.0,
+                          "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 56,
+                        "text": "I had a great unobstructed view of the Microsoft campus.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 0.97,
+                              "negative": 0.03
+                            },
+                            "offset": 27,
+                            "length": 4,
+                            "text": "view",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/4/sentences/0/assessments/0"
+                              },
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/4/sentences/0/assessments/1"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 8,
+                            "length": 5,
+                            "text": "great",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 0.93,
+                              "negative": 0.07
+                            },
+                            "offset": 14,
+                            "length": 12,
+                            "text": "unobstructed",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "5",
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.0,
+                      "neutral": 0.0,
+                      "negative": 1.0
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "negative",
+                        "confidenceScores": {
+                          "positive": 0.0,
+                          "neutral": 0.0,
+                          "negative": 1.0
+                        },
+                        "offset": 0,
+                        "length": 75,
+                        "text": "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+                        "targets": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 5,
+                            "length": 5,
+                            "text": "rooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/5/sentences/0/assessments/0"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 15,
+                            "length": 9,
+                            "text": "bathrooms",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/5/sentences/0/assessments/1"
+                              }
+                            ]
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 42,
+                            "length": 6,
+                            "text": "toilet",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/5/sentences/0/assessments/2"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                              "positive": 1.0,
+                              "negative": 0.0
+                            },
+                            "offset": 0,
+                            "length": 4,
+                            "text": "nice",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 30,
+                            "length": 3,
+                            "text": "old",
+                            "isNegated": false
+                          },
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.0,
+                              "negative": 1.0
+                            },
+                            "offset": 53,
+                            "length": 5,
+                            "text": "dirty",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "id": "6",
+                    "sentiment": "neutral",
+                    "confidenceScores": {
+                      "positive": 0.03,
+                      "neutral": 0.63,
+                      "negative": 0.34
+                    },
+                    "sentences": [
+                      {
+                        "sentiment": "neutral",
+                        "confidenceScores": {
+                          "positive": 0.03,
+                          "neutral": 0.63,
+                          "negative": 0.34
+                        },
+                        "offset": 0,
+                        "length": 19,
+                        "text": "The toilet smelled.",
+                        "targets": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.01,
+                              "negative": 0.99
+                            },
+                            "offset": 4,
+                            "length": 6,
+                            "text": "toilet",
+                            "relations": [
+                              {
+                                "relationType": "assessment",
+                                "ref": "#/documents/6/sentences/0/assessments/0"
+                              }
+                            ]
+                          }
+                        ],
+                        "assessments": [
+                          {
+                            "sentiment": "negative",
+                            "confidenceScores": {
+                              "positive": 0.01,
+                              "negative": 0.99
+                            },
+                            "offset": 11,
+                            "length": 7,
+                            "text": "smelled",
+                            "isNegated": false
+                          }
+                        ]
+                      }
+                    ],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2020-04-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

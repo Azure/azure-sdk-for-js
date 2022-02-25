@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import { PartitionOwnership } from "../../src";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
+import { PartitionOwnership } from "../../src";
 import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
+import chai from "chai";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
 const should = chai.should();
 
 testWithServiceTypes(() => {
@@ -24,7 +25,7 @@ testWithServiceTypes(() => {
           ownerId: partitionToOwner[partitionId],
           partitionId: partitionId,
           etag: "etag",
-          lastModifiedTimeInMs: Date.now()
+          lastModifiedTimeInMs: Date.now(),
         });
       }
 
@@ -50,7 +51,7 @@ testWithServiceTypes(() => {
           // we already own this so we won't
           // try to reclaim it.
           ownerId: "ownerId",
-          partitionId: ""
+          partitionId: "",
         });
 
         m.set("2", {
@@ -60,7 +61,7 @@ testWithServiceTypes(() => {
           // owned by someone else - we'll steal this
           // partition
           ownerId: "someOtherOwnerId",
-          partitionId: ""
+          partitionId: "",
         });
 
         const lb = new UnbalancedLoadBalancingStrategy();
@@ -82,7 +83,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -98,7 +99,7 @@ testWithServiceTypes(() => {
           "a",
           createOwnershipMap({
             "1": "b",
-            "2": "a"
+            "2": "a",
           }),
           allPartitions
         );
@@ -119,7 +120,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -135,7 +136,7 @@ testWithServiceTypes(() => {
             "0": "b",
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -157,7 +158,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "0": "a",
             "1": "a",
-            "2": "a"
+            "2": "a",
           }),
           ["0", "1", "2"]
         );
@@ -175,7 +176,7 @@ testWithServiceTypes(() => {
             "0": "a",
             "1": "a",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           ["0", "1", "2", "3"]
         );
@@ -221,7 +222,7 @@ testWithServiceTypes(() => {
           "7": "c",
           "8": "c",
 
-          "9": "d"
+          "9": "d",
         });
 
         const requestedPartitions = lbs.getPartitionsToCliam("c", initialOwnershipMap, partitions);
@@ -242,7 +243,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "0": "a",
             "1": "b",
-            "2": "a"
+            "2": "a",
           }),
           ["0", "1", "2"]
         );
@@ -263,7 +264,7 @@ testWithServiceTypes(() => {
           "a",
           createOwnershipMap({
             "1": "b",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -277,7 +278,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -291,7 +292,7 @@ testWithServiceTypes(() => {
             "0": "b",
             "1": "a",
             "2": "b",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -305,7 +306,7 @@ testWithServiceTypes(() => {
         const allPartitions = ["0", "1"];
         const ownershipMap = createOwnershipMap({
           "0": "b",
-          "1": "a"
+          "1": "a",
         });
 
         // At this point, 'a' has its fair share of partitions, and none should be returned.
@@ -334,7 +335,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -350,7 +351,7 @@ testWithServiceTypes(() => {
           "a",
           createOwnershipMap({
             "1": "b",
-            "2": "a"
+            "2": "a",
           }),
           allPartitions
         );
@@ -371,7 +372,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -387,7 +388,7 @@ testWithServiceTypes(() => {
             "0": "b",
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -409,7 +410,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "0": "a",
             "1": "a",
-            "2": "a"
+            "2": "a",
           }),
           ["0", "1", "2"]
         );
@@ -427,7 +428,7 @@ testWithServiceTypes(() => {
             "0": "a",
             "1": "a",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           ["0", "1", "2", "3"]
         );
@@ -454,7 +455,7 @@ testWithServiceTypes(() => {
             "4": "b",
             "5": "b",
             "6": "b",
-            "7": "b"
+            "7": "b",
           }),
           allPartitions
         );
@@ -501,7 +502,7 @@ testWithServiceTypes(() => {
           "7": "c",
           "8": "c",
 
-          "9": "d"
+          "9": "d",
         });
 
         const requestedPartitions = lbs.getPartitionsToCliam("c", initialOwnershipMap, partitions);
@@ -522,7 +523,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "0": "a",
             "1": "b",
-            "2": "a"
+            "2": "a",
           }),
           ["0", "1", "2"]
         );
@@ -543,7 +544,7 @@ testWithServiceTypes(() => {
           "a",
           createOwnershipMap({
             "1": "b",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -557,7 +558,7 @@ testWithServiceTypes(() => {
           createOwnershipMap({
             "1": "b",
             "2": "a",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -571,7 +572,7 @@ testWithServiceTypes(() => {
             "0": "b",
             "1": "a",
             "2": "b",
-            "3": "a"
+            "3": "a",
           }),
           allPartitions
         );
@@ -585,7 +586,7 @@ testWithServiceTypes(() => {
         const allPartitions = ["0", "1", "2", "3"];
         const ownershipMap = createOwnershipMap({
           "0": "b",
-          "1": "a"
+          "1": "a",
         });
 
         // At this point, "a" should only grab 1 partition since both "a" and "b" should end up with 2 partitions each.

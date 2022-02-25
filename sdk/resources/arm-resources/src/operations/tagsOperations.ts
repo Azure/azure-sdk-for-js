@@ -6,48 +6,45 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TagsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ResourceManagementClientContext } from "../resourceManagementClientContext";
+import { ResourceManagementClient } from "../resourceManagementClient";
 import {
   TagDetails,
-  TagsOperationsListNextOptionalParams,
-  TagsOperationsListOptionalParams,
-  TagsOperationsListNextNextOptionalParams,
-  TagsOperationsDeleteValueOptionalParams,
-  TagsOperationsCreateOrUpdateValueOptionalParams,
-  TagsOperationsCreateOrUpdateValueResponse,
-  TagsOperationsCreateOrUpdateOptionalParams,
-  TagsOperationsCreateOrUpdateResponse,
-  TagsOperationsDeleteOptionalParams,
-  TagsOperationsListResponse,
+  TagsListNextOptionalParams,
+  TagsListOptionalParams,
+  TagsDeleteValueOptionalParams,
+  TagsCreateOrUpdateValueOptionalParams,
+  TagsCreateOrUpdateValueResponse,
+  TagsCreateOrUpdateOptionalParams,
+  TagsCreateOrUpdateResponse,
+  TagsDeleteOptionalParams,
+  TagsListResponse,
   TagsResource,
-  TagsOperationsCreateOrUpdateAtScopeOptionalParams,
-  TagsOperationsCreateOrUpdateAtScopeResponse,
+  TagsCreateOrUpdateAtScopeOptionalParams,
+  TagsCreateOrUpdateAtScopeResponse,
   TagsPatchResource,
-  TagsOperationsUpdateAtScopeOptionalParams,
-  TagsOperationsUpdateAtScopeResponse,
-  TagsOperationsGetAtScopeOptionalParams,
-  TagsOperationsGetAtScopeResponse,
-  TagsOperationsDeleteAtScopeOptionalParams,
-  TagsOperationsListNextResponse,
-  TagsOperationsListNextNextResponse
+  TagsUpdateAtScopeOptionalParams,
+  TagsUpdateAtScopeResponse,
+  TagsGetAtScopeOptionalParams,
+  TagsGetAtScopeResponse,
+  TagsDeleteAtScopeOptionalParams,
+  TagsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a TagsOperations. */
+/** Class containing TagsOperations operations. */
 export class TagsOperationsImpl implements TagsOperations {
-  private readonly client: ResourceManagementClientContext;
+  private readonly client: ResourceManagementClient;
 
   /**
    * Initialize a new instance of the class TagsOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ResourceManagementClientContext) {
+  constructor(client: ResourceManagementClient) {
     this.client = client;
   }
 
@@ -59,7 +56,7 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: TagsOperationsListOptionalParams
+    options?: TagsListOptionalParams
   ): PagedAsyncIterableIterator<TagDetails> {
     const iter = this.listPagingAll(options);
     return {
@@ -76,7 +73,7 @@ export class TagsOperationsImpl implements TagsOperations {
   }
 
   private async *listPagingPage(
-    options?: TagsOperationsListOptionalParams
+    options?: TagsListOptionalParams
   ): AsyncIterableIterator<TagDetails[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -89,55 +86,9 @@ export class TagsOperationsImpl implements TagsOperations {
   }
 
   private async *listPagingAll(
-    options?: TagsOperationsListOptionalParams
+    options?: TagsListOptionalParams
   ): AsyncIterableIterator<TagDetails> {
     for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: TagsOperationsListNextOptionalParams
-  ): PagedAsyncIterableIterator<TagDetails> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: TagsOperationsListNextOptionalParams
-  ): AsyncIterableIterator<TagDetails[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: TagsOperationsListNextOptionalParams
-  ): AsyncIterableIterator<TagDetails> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
       yield* page;
     }
   }
@@ -153,7 +104,7 @@ export class TagsOperationsImpl implements TagsOperations {
   deleteValue(
     tagName: string,
     tagValue: string,
-    options?: TagsOperationsDeleteValueOptionalParams
+    options?: TagsDeleteValueOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { tagName, tagValue, options },
@@ -171,8 +122,8 @@ export class TagsOperationsImpl implements TagsOperations {
   createOrUpdateValue(
     tagName: string,
     tagValue: string,
-    options?: TagsOperationsCreateOrUpdateValueOptionalParams
-  ): Promise<TagsOperationsCreateOrUpdateValueResponse> {
+    options?: TagsCreateOrUpdateValueOptionalParams
+  ): Promise<TagsCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
       { tagName, tagValue, options },
       createOrUpdateValueOperationSpec
@@ -188,8 +139,8 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   createOrUpdate(
     tagName: string,
-    options?: TagsOperationsCreateOrUpdateOptionalParams
-  ): Promise<TagsOperationsCreateOrUpdateResponse> {
+    options?: TagsCreateOrUpdateOptionalParams
+  ): Promise<TagsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { tagName, options },
       createOrUpdateOperationSpec
@@ -203,10 +154,7 @@ export class TagsOperationsImpl implements TagsOperations {
    * @param tagName The name of the tag.
    * @param options The options parameters.
    */
-  delete(
-    tagName: string,
-    options?: TagsOperationsDeleteOptionalParams
-  ): Promise<void> {
+  delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void> {
     return this.client.sendOperationRequest(
       { tagName, options },
       deleteOperationSpec
@@ -220,9 +168,7 @@ export class TagsOperationsImpl implements TagsOperations {
    * result.
    * @param options The options parameters.
    */
-  private _list(
-    options?: TagsOperationsListOptionalParams
-  ): Promise<TagsOperationsListResponse> {
+  private _list(options?: TagsListOptionalParams): Promise<TagsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -236,8 +182,8 @@ export class TagsOperationsImpl implements TagsOperations {
   createOrUpdateAtScope(
     scope: string,
     parameters: TagsResource,
-    options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams
-  ): Promise<TagsOperationsCreateOrUpdateAtScopeResponse> {
+    options?: TagsCreateOrUpdateAtScopeOptionalParams
+  ): Promise<TagsCreateOrUpdateAtScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, parameters, options },
       createOrUpdateAtScopeOperationSpec
@@ -257,8 +203,8 @@ export class TagsOperationsImpl implements TagsOperations {
   updateAtScope(
     scope: string,
     parameters: TagsPatchResource,
-    options?: TagsOperationsUpdateAtScopeOptionalParams
-  ): Promise<TagsOperationsUpdateAtScopeResponse> {
+    options?: TagsUpdateAtScopeOptionalParams
+  ): Promise<TagsUpdateAtScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, parameters, options },
       updateAtScopeOperationSpec
@@ -272,8 +218,8 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   getAtScope(
     scope: string,
-    options?: TagsOperationsGetAtScopeOptionalParams
-  ): Promise<TagsOperationsGetAtScopeResponse> {
+    options?: TagsGetAtScopeOptionalParams
+  ): Promise<TagsGetAtScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
       getAtScopeOperationSpec
@@ -287,7 +233,7 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   deleteAtScope(
     scope: string,
-    options?: TagsOperationsDeleteAtScopeOptionalParams
+    options?: TagsDeleteAtScopeOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, options },
@@ -302,26 +248,11 @@ export class TagsOperationsImpl implements TagsOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: TagsOperationsListNextOptionalParams
-  ): Promise<TagsOperationsListNextResponse> {
+    options?: TagsListNextOptionalParams
+  ): Promise<TagsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: TagsOperationsListNextNextOptionalParams
-  ): Promise<TagsOperationsListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
     );
   }
 }
@@ -499,26 +430,6 @@ const deleteAtScopeOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagsListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

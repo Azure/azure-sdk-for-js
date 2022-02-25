@@ -5,19 +5,24 @@ import {
   CheckpointStore,
   PartitionOwnership,
   Checkpoint,
-  OperationOptions
+  OperationOptions,
 } from "@azure/event-hubs";
-import { ContainerClient, Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
+import { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
 import { logger, logErrorStackTrace } from "./log";
+import { ContainerClientLike } from "./storageBlobInterfaces";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * An implementation of CheckpointStore that uses Azure Blob Storage to persist checkpoint data.
  */
 export class BlobCheckpointStore implements CheckpointStore {
-  private _containerClient: ContainerClient;
+  private _containerClient: ContainerClientLike;
 
-  constructor(containerClient: ContainerClient) {
+  /**
+   * Constructs a new instance of {@link BlobCheckpointStore}
+   * @param containerClient - An instance of a storage blob ContainerClient.
+   */
+  constructor(containerClient: ContainerClientLike) {
     this._containerClient = containerClient;
   }
   /**
@@ -47,7 +52,7 @@ export class BlobCheckpointStore implements CheckpointStore {
       type: "ownership",
       fullyQualifiedNamespace,
       eventHubName,
-      consumerGroup: consumerGroup
+      consumerGroup: consumerGroup,
     });
 
     try {
@@ -55,7 +60,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         abortSignal,
         includeMetadata: true,
         prefix: blobPrefix,
-        tracingOptions
+        tracingOptions,
       });
 
       for await (const blob of blobs) {
@@ -76,7 +81,7 @@ export class BlobCheckpointStore implements CheckpointStore {
           partitionId: blobName,
           lastModifiedTimeInMs:
             blob.properties.lastModified && blob.properties.lastModified.getTime(),
-          etag: blob.properties.etag
+          etag: blob.properties.etag,
         };
         partitionOwnershipArray.push(partitionOwnership);
       }
@@ -112,7 +117,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         const updatedBlobResponse = await this._setBlobMetadata(
           blobName,
           {
-            ownerid: ownership.ownerId
+            ownerid: ownership.ownerId,
           },
           ownership.etag,
           options
@@ -175,14 +180,14 @@ export class BlobCheckpointStore implements CheckpointStore {
       type: "checkpoint",
       fullyQualifiedNamespace,
       eventHubName,
-      consumerGroup
+      consumerGroup,
     });
 
     const blobs = this._containerClient.listBlobsFlat({
       abortSignal,
       includeMetadata: true,
       prefix: blobPrefix,
-      tracingOptions
+      tracingOptions,
     });
 
     const checkpoints: Checkpoint[] = [];
@@ -206,7 +211,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         fullyQualifiedNamespace,
         partitionId: blobName,
         offset,
-        sequenceNumber
+        sequenceNumber,
       });
     }
 
@@ -236,7 +241,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         blobName,
         {
           sequencenumber: checkpoint.sequenceNumber.toString(),
-          offset: checkpoint.offset.toString()
+          offset: checkpoint.offset.toString(),
         },
         undefined,
         options
@@ -299,9 +304,9 @@ export class BlobCheckpointStore implements CheckpointStore {
       return blockBlobClient.setMetadata(metadata as Metadata, {
         abortSignal,
         conditions: {
-          ifMatch: etag
+          ifMatch: etag,
         },
-        tracingOptions
+        tracingOptions,
       });
     } else {
       try {
@@ -310,7 +315,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         // https://github.com/Azure/azure-sdk-for-js/issues/10132
         return await blockBlobClient.setMetadata(metadata as Metadata, {
           abortSignal,
-          tracingOptions
+          tracingOptions,
         });
       } catch (err) {
         // Check if the error is `BlobNotFound` and fallback to `upload` if it is.
@@ -326,7 +331,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         return blockBlobClient.upload("", 0, {
           abortSignal,
           metadata: metadata as Metadata,
-          tracingOptions
+          tracingOptions,
         });
       }
     }
@@ -342,7 +347,6 @@ type CheckpointMetadata = {
 };
 
 /**
- * @hidden
  * @internal
  */
 export function parseIntOrThrow(

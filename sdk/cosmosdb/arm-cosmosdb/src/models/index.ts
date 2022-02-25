@@ -12,62 +12,17 @@ export type BackupPolicyUnion =
   | BackupPolicy
   | PeriodicModeBackupPolicy
   | ContinuousModeBackupPolicy;
-
-/** The core properties of ARM resources. */
-export interface ARMResourceProperties {
-  /**
-   * The unique resource identifier of the ARM resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The location of the resource group to which the resource belongs. */
-  location?: string;
-  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Identity for the resource. */
-export interface ManagedServiceIdentity {
-  /**
-   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
-}
-
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
+export type DataTransferDataSourceSinkUnion =
+  | DataTransferDataSourceSink
+  | CosmosCassandraDataTransferDataSourceSink
+  | CosmosSqlDataTransferDataSourceSink
+  | AzureBlobDataTransferDataSourceSink;
+export type ServiceResourcePropertiesUnion =
+  | ServiceResourceProperties
+  | DataTransferServiceResourceProperties
+  | SqlDedicatedGatewayServiceResourceProperties
+  | GraphAPIComputeServiceResourceProperties
+  | MaterializedViewsBuilderServiceResourceProperties;
 
 /** IpAddressOrRange object */
 export interface IpAddressOrRange {
@@ -137,25 +92,6 @@ export interface VirtualNetworkRule {
   ignoreMissingVNetServiceEndpoint?: boolean;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Private endpoint which the connection belongs to. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
@@ -173,6 +109,25 @@ export interface PrivateLinkServiceConnectionStateProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 export interface ApiProperties {
@@ -196,6 +151,10 @@ export interface RestoreParameters {
   restoreTimestampInUtc?: Date;
   /** List of specific databases available for restore. */
   databasesToRestore?: DatabaseRestoreResource[];
+  /** List of specific gremlin databases available for restore. */
+  gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
+  /** List of specific tables available for restore. */
+  tablesToRestore?: string[];
 }
 
 /** Specific Databases to restore. */
@@ -204,6 +163,14 @@ export interface DatabaseRestoreResource {
   databaseName?: string;
   /** The names of the collections available for restore. */
   collectionNames?: string[];
+}
+
+/** Specific Gremlin Databases to restore. */
+export interface GremlinDatabaseRestoreResource {
+  /** The name of the gremlin database available for restore. */
+  databaseName?: string;
+  /** The names of the graphs available for restore. */
+  graphNames?: string[];
 }
 
 /** The object representing the policy for taking backups on an account. */
@@ -238,6 +205,12 @@ export interface CorsPolicy {
   maxAgeInSeconds?: number;
 }
 
+/** Indicates what diagnostic log settings are to be enabled. */
+export interface DiagnosticLogSettings {
+  /** Describe the level of detail with which queries are to be logged. */
+  enableFullTextQuery?: EnableFullTextQuery;
+}
+
 /** The object that represents all properties related to capacity enforcement on an account. */
 export interface Capacity {
   /** The total throughput limit imposed on the account. A totalThroughputLimit of 2000 imposes a strict limit of max throughput that can be provisioned on that account to be 2000. A totalThroughputLimit of -1 indicates no limits on provisioning of throughput. */
@@ -258,6 +231,64 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
+}
+
+/** The core properties of ARM resources. */
+export interface ARMResourceProperties {
+  /**
+   * The unique resource identifier of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The location of the resource group to which the resource belongs. */
+  location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
+  tags?: { [propertyName: string]: string };
+  /** Identity for the resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+/** Identity for the resource. */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+  };
+}
+
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Parameters for patching Azure Cosmos DB database account properties. */
@@ -312,10 +343,14 @@ export interface DatabaseAccountUpdateParameters {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
+  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
+  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
+  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
+  enableMaterializedViews?: boolean;
 }
 
 /** The list of new failover policies for the failover priority change. */
@@ -657,6 +692,42 @@ export interface MetricAvailability {
   readonly retention?: string;
 }
 
+/** The List operation response, that contains the Graph resource and their properties. */
+export interface GraphResourcesListResult {
+  /**
+   * List of Graph resource and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GraphResourceGetResults[];
+}
+
+/** Cosmos DB Graph resource object */
+export interface GraphResource {
+  /** Name of the Cosmos DB Graph */
+  id: string;
+}
+
+/** Cosmos DB options resource object */
+export interface OptionsResource {
+  /** Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when retrieving offer details. */
+  throughput?: number;
+  /** Specifies the Autoscale settings. */
+  autoscaleSettings?: AutoscaleSettings;
+}
+
+export interface AutoscaleSettings {
+  /** Represents maximum throughput, the resource can scale up to. */
+  maxThroughput?: number;
+}
+
+/** CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput" */
+export interface CreateUpdateOptions {
+  /** Request Units per second. For example, "throughput": 10000. */
+  throughput?: number;
+  /** Specifies the Autoscale settings. */
+  autoscaleSettings?: AutoscaleSettings;
+}
+
 /** The List operation response, that contains the SQL databases and their properties. */
 export interface SqlDatabaseListResult {
   /**
@@ -689,27 +760,6 @@ export interface ExtendedResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-}
-
-/** Cosmos DB options resource object */
-export interface OptionsResource {
-  /** Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when retrieving offer details. */
-  throughput?: number;
-  /** Specifies the Autoscale settings. */
-  autoscaleSettings?: AutoscaleSettings;
-}
-
-export interface AutoscaleSettings {
-  /** Represents maximum throughput, the resource can scale up to. */
-  maxThroughput?: number;
-}
-
-/** CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput" */
-export interface CreateUpdateOptions {
-  /** Request Units per second. For example, "throughput": 10000. */
-  throughput?: number;
-  /** Specifies the Autoscale settings. */
-  autoscaleSettings?: AutoscaleSettings;
 }
 
 /** Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both. */
@@ -761,6 +811,62 @@ export interface ThroughputPolicyResource {
 export interface CloudError {
   /** Error Response. */
   error?: ErrorResponse;
+}
+
+/** The List operation response, that contains the client encryption keys and their properties. */
+export interface ClientEncryptionKeysListResult {
+  /**
+   * List of client encryption keys and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ClientEncryptionKeyGetResults[];
+}
+
+/** Cosmos DB client encryption key resource object. */
+export interface ClientEncryptionKeyResource {
+  /** Name of the ClientEncryptionKey */
+  id?: string;
+  /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
+  encryptionAlgorithm?: string;
+  /** Wrapped (encrypted) form of the key represented as a byte array. */
+  wrappedDataEncryptionKey?: Uint8Array;
+  /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
+  keyWrapMetadata?: KeyWrapMetadata;
+}
+
+/** Represents key wrap metadata that a key wrapping provider can use to wrap/unwrap a client encryption key. */
+export interface KeyWrapMetadata {
+  /** The name of associated KeyEncryptionKey (aka CustomerManagedKey). */
+  name?: string;
+  /** ProviderName of KeyStoreProvider. */
+  type?: string;
+  /** Reference / link to the KeyEncryptionKey. */
+  value?: string;
+}
+
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
+export interface ARMProxyResource {
+  /**
+   * The unique resource identifier of the database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Parameters to create and update ClientEncryptionKey. */
+export interface ClientEncryptionKeyCreateUpdateParameters {
+  /** The standard JSON format of a ClientEncryptionKey */
+  resource: ClientEncryptionKeyResource;
 }
 
 /** The List operation response, that contains the containers and their properties. */
@@ -1125,27 +1231,13 @@ export interface LocationListResult {
   readonly value?: LocationGetResult[];
 }
 
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export interface ARMProxyResource {
-  /**
-   * The unique resource identifier of the database account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the database account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Cosmos DB location metadata */
 export interface LocationProperties {
+  /**
+   * The current status of location in Azure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
   /**
    * Flag indicating whether the location supports availability zones or not.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1161,6 +1253,416 @@ export interface LocationProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupStorageRedundancies?: BackupStorageRedundancy[];
+}
+
+/** The List operation response, that contains the Cassandra views and their properties. */
+export interface CassandraViewListResult {
+  /**
+   * List of Cassandra views and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: CassandraViewGetResults[];
+}
+
+/** Cosmos DB Cassandra view resource object */
+export interface CassandraViewResource {
+  /** Name of the Cosmos DB Cassandra view */
+  id: string;
+  /** View Definition of the Cosmos DB Cassandra view */
+  viewDefinition: string;
+}
+
+/** The properties of a DataTransfer Job */
+export interface DataTransferJobProperties {
+  /**
+   * Job Name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jobName?: string;
+  /** Source DataStore details */
+  source: DataTransferDataSourceSinkUnion;
+  /** Destination DataStore details */
+  destination: DataTransferDataSourceSinkUnion;
+  /**
+   * Job Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Percentage of completion.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentageComplete?: number;
+  /**
+   * Last Updated Time (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedUtcTime?: Date;
+  /** Worker count */
+  workerCount?: number;
+  /**
+   * Error response for Faulted job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorResponse;
+}
+
+/** Base class for all DataTransfer source/sink */
+export interface DataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBCassandra" | "CosmosDBSql" | "AzureBlobStorage";
+}
+
+/** The List operation response, that contains the Data Transfer jobs and their properties. */
+export interface DataTransferJobFeedResults {
+  /**
+   * List of Data Transfer jobs and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DataTransferJobGetResults[];
+  /**
+   * URL to get the next set of Data Transfer job list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of managed Cassandra clusters. */
+export interface ListClusters {
+  /** Container for the array of clusters. */
+  value?: ClusterResource[];
+}
+
+/** Properties of a managed Cassandra cluster. */
+export interface ClusterResourceProperties {
+  /** The status of the resource at the time the operation was called. */
+  provisioningState?: ManagedCassandraProvisioningState;
+  /** To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup. */
+  restoreFromBackupId?: string;
+  /** Resource id of a subnet that this cluster's management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>' */
+  delegatedManagementSubnetId?: string;
+  /** Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version. */
+  cassandraVersion?: string;
+  /** If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property. */
+  clusterNameOverride?: string;
+  /** Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. 'Ldap' is in preview. */
+  authenticationMethod?: AuthenticationMethod;
+  /** Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is 'Cassandra'. */
+  initialCassandraAdminPassword?: string;
+  /** Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached. */
+  prometheusEndpoint?: SeedNode;
+  /** Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs. */
+  repairEnabled?: boolean;
+  /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
+  clientCertificates?: Certificate[];
+  /** List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property. */
+  externalGossipCertificates?: Certificate[];
+  /**
+   * List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All managed nodes will present TLS client certificates that are verifiable using one of the certificates provided in this property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gossipCertificates?: Certificate[];
+  /** List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes. */
+  externalSeedNodes?: SeedNode[];
+  /**
+   * List of IP addresses of seed nodes in the managed data centers. These should be added to the seed node lists of all unmanaged nodes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly seedNodes?: SeedNode[];
+  /** Number of hours to wait between taking a backup of the cluster. */
+  hoursBetweenBackups?: number;
+  /** Whether the cluster and associated data centers has been deallocated. */
+  deallocated?: boolean;
+  /** Whether Cassandra audit logging is enabled */
+  cassandraAuditLoggingEnabled?: boolean;
+}
+
+export interface SeedNode {
+  /** IP address of this seed node. */
+  ipAddress?: string;
+}
+
+export interface Certificate {
+  /** PEM formatted public key. */
+  pem?: string;
+}
+
+/** The core properties of ARM resources. */
+export interface ManagedCassandraARMResourceProperties {
+  /**
+   * The unique resource identifier of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The location of the resource group to which the resource belongs. */
+  location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
+  tags?: { [propertyName: string]: string };
+  /** Identity for the resource. */
+  identity?: ManagedCassandraManagedServiceIdentity;
+}
+
+/** Identity for the resource. */
+export interface ManagedCassandraManagedServiceIdentity {
+  /**
+   * The object id of the identity resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of the resource. */
+  type?: ManagedCassandraResourceIdentityType;
+}
+
+/** Specification of which command to run where */
+export interface CommandPostBody {
+  /** The command which should be run */
+  command: string;
+  /** The arguments for the command to be run */
+  arguments?: { [propertyName: string]: string };
+  /** IP address of the cassandra host to run the command on */
+  host: string;
+  /** If true, stops cassandra before executing the command and then start it again */
+  cassandraStopStart?: boolean;
+  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
+  readwrite?: boolean;
+}
+
+/** Response of /command api */
+export interface CommandOutput {
+  /** Output of the command. */
+  commandOutput?: string;
+}
+
+/** List of restorable backups for a Cassandra cluster. */
+export interface ListBackups {
+  /**
+   * Container for array of backups.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BackupResource[];
+}
+
+export interface BackupResourceProperties {
+  /** The time this backup was taken, formatted like 2021-01-21T17:35:21 */
+  timestamp?: Date;
+}
+
+/** List of managed Cassandra data centers and their properties. */
+export interface ListDataCenters {
+  /**
+   * Container for array of data centers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DataCenterResource[];
+}
+
+/** Properties of a managed Cassandra data center. */
+export interface DataCenterResourceProperties {
+  /** The status of the resource at the time the operation was called. */
+  provisioningState?: ManagedCassandraProvisioningState;
+  /** The region this data center should be created in. */
+  dataCenterLocation?: string;
+  /** Resource id of a subnet the nodes in this data center should have their network interfaces connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the subnet specified in the cluster's 'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>'. */
+  delegatedSubnetId?: string;
+  /** The number of nodes the data center should have. This is the desired number. After it is set, it may take some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the fetchNodeStatus method on the cluster. */
+  nodeCount?: number;
+  /**
+   * IP addresses for seed nodes in this data center. This is for reference. Generally you will want to use the seedNodes property on the cluster, which aggregates the seed nodes from all data centers in the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly seedNodes?: SeedNode[];
+  /** A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are allowed. */
+  base64EncodedCassandraYamlFragment?: string;
+  /** Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key. */
+  managedDiskCustomerKeyUri?: string;
+  /** Indicates the Key Uri of the customer key to use for encryption of the backup storage account. */
+  backupStorageCustomerKeyUri?: string;
+  /** Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2 */
+  sku?: string;
+  /** Disk SKU used for data centers. Default value is P30. */
+  diskSku?: string;
+  /** Number of disk used for data centers. Default value is 4. */
+  diskCapacity?: number;
+  /** If the data center has Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
+  availabilityZone?: boolean;
+  /** Ldap authentication method properties. This feature is in preview. */
+  authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
+}
+
+/** Ldap authentication method properties. This feature is in preview. */
+export interface AuthenticationMethodLdapProperties {
+  /** Hostname of the LDAP server. */
+  serverHostname?: string;
+  /** Port of the LDAP server. */
+  serverPort?: number;
+  /** Distinguished name of the look up user account, who can look up user details on authentication. */
+  serviceUserDistinguishedName?: string;
+  /** Password of the look up user. */
+  serviceUserPassword?: string;
+  /** Distinguished name of the object to start the recursive search of users from. */
+  searchBaseDistinguishedName?: string;
+  /** Template to use for searching. Defaults to (cn=%s) where %s will be replaced by the username used to login. */
+  searchFilterTemplate?: string;
+  serverCertificates?: Certificate[];
+}
+
+/** Properties of a managed Cassandra cluster public status. */
+export interface CassandraClusterPublicStatus {
+  eTag?: string;
+  reaperStatus?: ManagedCassandraReaperStatus;
+  /** List relevant information about any connection errors to the Datacenters. */
+  connectionErrors?: ConnectionError[];
+  /** List of the status of each datacenter in this cluster. */
+  dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
+}
+
+export interface ManagedCassandraReaperStatus {
+  healthy?: boolean;
+  /** Dictionary of <string> */
+  repairRunIds?: { [propertyName: string]: string };
+  /** Dictionary of <string> */
+  repairSchedules?: { [propertyName: string]: string };
+}
+
+export interface ConnectionError {
+  /** The kind of connection error that occurred. */
+  connectionState?: ConnectionState;
+  /** The IP of host that originated the failed connection. */
+  iPFrom?: string;
+  /** The IP that the connection attempted to reach. */
+  iPTo?: string;
+  /** The TCP port the connection was attempted on. */
+  port?: number;
+  /** Detailed error message about the failed connection. */
+  exception?: string;
+}
+
+export interface CassandraClusterPublicStatusDataCentersItem {
+  /** The name of this Datacenter. */
+  name?: string;
+  /** A list of all seed nodes in the cluster, managed and unmanaged. */
+  seedNodes?: string[];
+  nodes?: ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems[];
+}
+
+export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems {
+  /** The node's IP address. */
+  address?: string;
+  /** The state of the node in Cassandra ring. */
+  state?: NodeState;
+  status?: string;
+  /** The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cells or tombstones) is counted. */
+  load?: string;
+  /** List of tokens this node covers. */
+  tokens?: string[];
+  size?: number;
+  /** The network ID of the node. */
+  hostID?: string;
+  /** The rack this node is part of. */
+  rack?: string;
+  /** The timestamp at which that snapshot of these usage statistics were taken. */
+  timestamp?: string;
+  /** The amount of disk used, in kB, of the directory /var/lib/cassandra. */
+  diskUsedKB?: number;
+  /** The amount of disk free, in kB, of the directory /var/lib/cassandra. */
+  diskFreeKB?: number;
+  /** Used memory (calculated as total - free - buffers - cache), in kB. */
+  memoryUsedKB?: number;
+  /** Memory used by kernel buffers (Buffers in /proc/meminfo) and page cache and slabs (Cached and SReclaimable in /proc/meminfo), in kB. */
+  memoryBuffersAndCachedKB?: number;
+  /** Unused memory (MemFree and SwapFree in /proc/meminfo), in kB. */
+  memoryFreeKB?: number;
+  /** Total installed memory (MemTotal and SwapTotal in /proc/meminfo), in kB. */
+  memoryTotalKB?: number;
+  /** A float representing the current system-wide CPU utilization as a percentage. */
+  cpuUsage?: number;
+}
+
+/** The set of data plane operations permitted through this Role Definition. */
+export interface Privilege {
+  /** An Azure Cosmos DB Mongo DB Resource. */
+  resource?: PrivilegeResource;
+  /** An array of actions that are allowed. */
+  actions?: string[];
+}
+
+/** An Azure Cosmos DB Mongo DB Resource. */
+export interface PrivilegeResource {
+  /** The database name the role is applied. */
+  db?: string;
+  /** The collection name the role is applied. */
+  collection?: string;
+}
+
+/** The set of roles permitted through this Role Definition. */
+export interface Role {
+  /** The database name the role is applied. */
+  db?: string;
+  /** The role name. */
+  role?: string;
+}
+
+/** Parameters to create and update an Azure Cosmos DB Mongo Role Definition. */
+export interface MongoRoleDefinitionCreateUpdateParameters {
+  /** A user-friendly name for the Role Definition. Must be unique for the database account. */
+  roleName?: string;
+  /** Indicates whether the Role Definition was built-in or user created. */
+  type?: MongoRoleDefinitionType;
+  /** The database name for which access is being granted for this Role Definition. */
+  databaseName?: string;
+  /** A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege. */
+  privileges?: Privilege[];
+  /** The set of roles inherited by this Role Definition. */
+  roles?: Role[];
+}
+
+/** The relevant Mongo Role Definitions. */
+export interface MongoRoleDefinitionListResult {
+  /**
+   * List of Mongo Role Definitions and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: MongoRoleDefinitionGetResults[];
+}
+
+/** Parameters to create and update an Azure Cosmos DB Mongo User Definition. */
+export interface MongoUserDefinitionCreateUpdateParameters {
+  /** The user name for User Definition. */
+  userName?: string;
+  /** The password for User Definition. Response does not contain user password. */
+  password?: string;
+  /** The database name for which access is being granted for this User Definition. */
+  databaseName?: string;
+  /** A custom definition for the USer Definition. */
+  customData?: string;
+  /** The set of roles inherited by the User Definition. */
+  roles?: Role[];
+  /** The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256. */
+  mechanisms?: string;
+}
+
+/** The relevant User Definition. */
+export interface MongoUserDefinitionListResult {
+  /**
+   * List of User Definition and their properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: MongoUserDefinitionGetResults[];
 }
 
 /** A list of notebook workspace resources */
@@ -1592,16 +2094,19 @@ export interface RestorableMongodbResourcesListResult {
   readonly value?: DatabaseRestoreResource[];
 }
 
-/** List of managed Cassandra clusters. */
-export interface ListClusters {
-  /** Container for the array of clusters. */
-  value?: ClusterResource[];
+/** The List operation response, that contains the Gremlin database events and their properties. */
+export interface RestorableGremlinDatabasesListResult {
+  /**
+   * List of Gremlin database events and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: RestorableGremlinDatabaseGetResult[];
 }
 
-/** The core properties of ARM resources. */
-export interface ManagedCassandraARMResourceProperties {
+/** An Azure Cosmos DB Gremlin database event */
+export interface RestorableGremlinDatabaseGetResult {
   /**
-   * The unique resource identifier of the ARM resource.
+   * The unique resource Identifier of the ARM resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -1615,214 +2120,218 @@ export interface ManagedCassandraARMResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The location of the resource group to which the resource belongs. */
-  location?: string;
-  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: { [propertyName: string]: string };
-  /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
+  /** The resource of an Azure Cosmos DB Gremlin database event */
+  resource?: RestorableGremlinDatabasePropertiesResource;
 }
 
-/** Identity for the resource. */
-export interface ManagedCassandraManagedServiceIdentity {
+/** The resource of an Azure Cosmos DB Gremlin database event */
+export interface RestorableGremlinDatabasePropertiesResource {
   /**
-   * The object id of the identity resource.
+   * A system generated property. A unique identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
+  readonly rid?: string;
   /**
-   * The tenant id of the resource.
+   * The operation type of this database event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tenantId?: string;
-  /** The type of the resource. */
-  type?: ManagedCassandraResourceIdentityType;
-}
-
-/** Properties of a managed Cassandra cluster. */
-export interface ClusterResourceProperties {
-  /** The status of the resource at the time the operation was called. */
-  provisioningState?: ManagedCassandraProvisioningState;
-  /** To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup. */
-  restoreFromBackupId?: string;
-  /** Resource id of a subnet that this cluster's management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>' */
-  delegatedManagementSubnetId?: string;
-  /** Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version. */
-  cassandraVersion?: string;
-  /** If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property. */
-  clusterNameOverride?: string;
-  /** Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. */
-  authenticationMethod?: AuthenticationMethod;
-  /** Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is 'Cassandra'. */
-  initialCassandraAdminPassword?: string;
-  /** Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached. */
-  prometheusEndpoint?: SeedNode;
-  /** Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs. */
-  repairEnabled?: boolean;
-  /** List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property. */
-  clientCertificates?: Certificate[];
-  /** List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property. */
-  externalGossipCertificates?: Certificate[];
+  readonly operationType?: OperationType;
   /**
-   * List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All managed nodes will present TLS client certificates that are verifiable using one of the certificates provided in this property.
+   * The time when this database event happened.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly gossipCertificates?: Certificate[];
-  /** List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes. */
-  externalSeedNodes?: SeedNode[];
+  readonly eventTimestamp?: string;
   /**
-   * List of IP addresses of seed nodes in the managed data centers. These should be added to the seed node lists of all unmanaged nodes.
+   * The name of this Gremlin database.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly seedNodes?: SeedNode[];
-  /** Number of hours to wait between taking a backup of the cluster. To disable backups, set this property to 0. */
-  hoursBetweenBackups?: number;
-  /** Whether the cluster and associated data centers has been deallocated. */
-  deallocated?: boolean;
-  /** Whether Cassandra audit logging is enabled */
-  cassandraAuditLoggingEnabled?: boolean;
-}
-
-export interface SeedNode {
-  /** IP address of this seed node. */
-  ipAddress?: string;
-}
-
-export interface Certificate {
-  /** PEM formatted public key. */
-  pem?: string;
-}
-
-/** Specification of which command to run where */
-export interface CommandPostBody {
-  /** The command which should be run */
-  command: string;
-  /** The arguments for the command to be run */
-  arguments?: { [propertyName: string]: string };
-  /** IP address of the cassandra host to run the command on */
-  host: string;
-  /** If true, stops cassandra before executing the command and then start it again */
-  cassandraStopStart?: boolean;
-  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
-  readwrite?: boolean;
-}
-
-/** Response of /command api */
-export interface CommandOutput {
-  /** Output of the command. */
-  commandOutput?: string;
-}
-
-/** List of managed Cassandra data centers and their properties. */
-export interface ListDataCenters {
+  readonly ownerId?: string;
   /**
-   * Container for array of data centers.
+   * The resource ID of this Gremlin database.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: DataCenterResource[];
+  readonly ownerResourceId?: string;
 }
 
-/** Properties of a managed Cassandra data center. */
-export interface DataCenterResourceProperties {
-  /** The status of the resource at the time the operation was called. */
-  provisioningState?: ManagedCassandraProvisioningState;
-  /** The region this data center should be created in. */
-  dataCenterLocation?: string;
-  /** Resource id of a subnet the nodes in this data center should have their network interfaces connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the subnet specified in the cluster's 'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>'. */
-  delegatedSubnetId?: string;
-  /** The number of nodes the data center should have. This is the desired number. After it is set, it may take some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the fetchNodeStatus method on the cluster. */
-  nodeCount?: number;
+/** The List operation response, that contains the Gremlin graph events and their properties. */
+export interface RestorableGremlinGraphsListResult {
   /**
-   * IP addresses for seed nodes in this data center. This is for reference. Generally you will want to use the seedNodes property on the cluster, which aggregates the seed nodes from all data centers in the cluster.
+   * List of Gremlin graph events and their properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly seedNodes?: SeedNode[];
-  /** A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are allowed. */
-  base64EncodedCassandraYamlFragment?: string;
-  /** Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key. */
-  managedDiskCustomerKeyUri?: string;
-  /** Indicates the Key Uri of the customer key to use for encryption of the backup storage account. */
-  backupStorageCustomerKeyUri?: string;
-  /** Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2 */
-  sku?: string;
-  /** Disk SKU used for data centers. Default value is P30. */
-  diskSku?: string;
-  /** Number of disk used for data centers. Default value is 4. */
-  diskCapacity?: number;
-  /** If the azure data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
-  availabilityZone?: boolean;
+  readonly value?: RestorableGremlinGraphGetResult[];
 }
 
-/** Properties of a managed Cassandra cluster public status. */
-export interface CassandraClusterPublicStatus {
-  eTag?: string;
-  reaperStatus?: ManagedCassandraReaperStatus;
-  /** List relevant information about any connection errors to the Datacenters. */
-  connectionErrors?: ConnectionError[];
-  /** List of the status of each datacenter in this cluster. */
-  dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
+/** An Azure Cosmos DB Gremlin graph event */
+export interface RestorableGremlinGraphGetResult {
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The resource of an Azure Cosmos DB Gremlin graph event */
+  resource?: RestorableGremlinGraphPropertiesResource;
 }
 
-export interface ManagedCassandraReaperStatus {
-  healthy?: boolean;
-  /** Dictionary of <string> */
-  repairRunIds?: { [propertyName: string]: string };
-  /** Dictionary of <string> */
-  repairSchedules?: { [propertyName: string]: string };
+/** The resource of an Azure Cosmos DB Gremlin graph event */
+export interface RestorableGremlinGraphPropertiesResource {
+  /**
+   * A system generated property. A unique identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rid?: string;
+  /**
+   * The operation type of this graph event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationType?: OperationType;
+  /**
+   * The time when this graph event happened.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventTimestamp?: string;
+  /**
+   * The name of this Gremlin graph.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ownerId?: string;
+  /**
+   * The resource ID of this Gremlin graph.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ownerResourceId?: string;
 }
 
-export interface ConnectionError {
-  /** The kind of connection error that occurred. */
-  connectionState?: ConnectionState;
-  /** The IP of host that originated the failed connection. */
-  iPFrom?: string;
-  /** The IP that the connection attempted to reach. */
-  iPTo?: string;
-  /** The TCP port the connection was attempted on. */
-  port?: number;
-  /** Detailed error message about the failed connection. */
-  exception?: string;
+/** The List operation response, that contains the restorable Gremlin resources. */
+export interface RestorableGremlinResourcesListResult {
+  /**
+   * List of restorable Gremlin resources, including the gremlin database and graph names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GremlinDatabaseRestoreResource[];
 }
 
-export interface CassandraClusterPublicStatusDataCentersItem {
-  /** The name of this Datacenter. */
-  name?: string;
-  /** A list of all seed nodes in the cluster, managed and unmanaged. */
-  seedNodes?: string[];
-  nodes?: ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems[];
+/** The List operation response, that contains the Table events and their properties. */
+export interface RestorableTablesListResult {
+  /**
+   * List of Table events and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: RestorableTableGetResult[];
 }
 
-export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems {
-  /** The node's IP address. */
-  address?: string;
-  /** The state of the node in Cassandra ring. */
-  state?: NodeState;
-  status?: string;
-  /** The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cells or tombstones) is counted. */
-  load?: string;
-  /** List of tokens this node covers. */
-  tokens?: string[];
-  size?: number;
-  /** The network ID of the node. */
-  hostID?: string;
-  /** The rack this node is part of. */
-  rack?: string;
-  /** The timestamp when these statistics were captured. */
-  timestamp?: string;
-  /** The amount of disk used, in kB, of the directory /var/lib/cassandra. */
-  diskUsedKB?: number;
-  /** The amount of disk free, in kB, of the directory /var/lib/cassandra. */
-  diskFreeKB?: number;
-  /** Used memory (calculated as total - free - buffers - cache), in kB. */
-  memoryUsedKB?: number;
-  /** Memory used by kernel buffers (Buffers in /proc/meminfo) and page cache and slabs (Cached and SReclaimable in /proc/meminfo), in kB. */
-  memoryBuffersAndCachedKB?: number;
-  /** Unused memory (MemFree and SwapFree in /proc/meminfo), in kB. */
-  memoryFreeKB?: number;
-  /** Total installed memory (MemTotal and SwapTotal in /proc/meminfo), in kB. */
-  memoryTotalKB?: number;
-  /** A float representing the current system-wide CPU utilization as a percentage. */
-  cpuUsage?: number;
+/** An Azure Cosmos DB Table event */
+export interface RestorableTableGetResult {
+  /**
+   * The unique resource Identifier of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The resource of an Azure Cosmos DB Table event */
+  resource?: RestorableTablePropertiesResource;
+}
+
+/** The resource of an Azure Cosmos DB Table event */
+export interface RestorableTablePropertiesResource {
+  /**
+   * A system generated property. A unique identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rid?: string;
+  /**
+   * The operation type of this table event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationType?: OperationType;
+  /**
+   * The time when this table event happened.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventTimestamp?: string;
+  /**
+   * The name of this Table.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ownerId?: string;
+  /**
+   * The resource ID of this Table.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ownerResourceId?: string;
+}
+
+/** List of restorable table names. */
+export interface RestorableTableResourcesListResult {
+  /**
+   * List of restorable table names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string[];
+}
+
+/** The List operation response, that contains the Service Resource and their properties. */
+export interface ServiceResourceListResult {
+  /**
+   * List of Service Resource and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ServiceResource[];
+}
+
+/** Services response resource. */
+export interface ServiceResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  serviceType:
+    | "DataTransfer"
+    | "SqlDedicatedGateway"
+    | "GraphAPICompute"
+    | "MaterializedViewsBuilder";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * Time of the last state change (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTime?: Date;
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize;
+  /** Instance count for the service. */
+  instanceCount?: number;
+  /**
+   * Describes the status of a service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ServiceStatus;
+}
+
+/** Parameters for Create or Update Request for ServiceResource */
+export interface ServiceResourceCreateUpdateParameters {
+  /** Instance type for the service. */
+  instanceSize?: ServiceSize;
+  /** Instance count for the service. */
+  instanceCount?: number;
+  /** ServiceType for the service. */
+  serviceType?: ServiceType;
 }
 
 /** Configuration values for periodic mode backup */
@@ -1835,12 +2344,70 @@ export interface PeriodicModeProperties {
   backupStorageRedundancy?: BackupStorageRedundancy;
 }
 
+/** Describes the service response property. */
+export interface DataTransferServiceResource {
+  /** Properties for DataTransferServiceResource. */
+  properties?: DataTransferServiceResourceProperties;
+}
+
+/** Resource for a regional service location. */
+export interface RegionalServiceResource {
+  /**
+   * The regional service name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The location name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /**
+   * Describes the status of a service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ServiceStatus;
+}
+
+/** Describes the service response property for SqlDedicatedGateway. */
+export interface SqlDedicatedGatewayServiceResource {
+  /** Properties for SqlDedicatedGatewayServiceResource. */
+  properties?: SqlDedicatedGatewayServiceResourceProperties;
+}
+
+/** Describes the service response property for GraphAPICompute. */
+export interface GraphAPIComputeServiceResource {
+  /** Properties for GraphAPIComputeServiceResource. */
+  properties?: GraphAPIComputeServiceResourceProperties;
+}
+
+/** Describes the service response property for MaterializedViewsBuilder. */
+export interface MaterializedViewsBuilderServiceResource {
+  /** Properties for MaterializedViewsBuilderServiceResource. */
+  properties?: MaterializedViewsBuilderServiceResourceProperties;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** The object representing periodic mode backup policy. */
+export type PeriodicModeBackupPolicy = BackupPolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Periodic";
+  /** Configuration values for periodic mode backup */
+  periodicModeProperties?: PeriodicModeProperties;
+};
+
+/** The object representing continuous mode backup policy. */
+export type ContinuousModeBackupPolicy = BackupPolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Continuous";
+};
+
 /** An Azure Cosmos DB database account. */
 export type DatabaseAccountGetResults = ARMResourceProperties & {
   /** Indicates the type of database account. This can only be set at database account creation. */
   kind?: DatabaseAccountKind;
-  /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1937,18 +2504,20 @@ export type DatabaseAccountGetResults = ARMResourceProperties & {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
+  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
+  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
+  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
+  enableMaterializedViews?: boolean;
 };
 
 /** Parameters to create and update Cosmos DB database accounts. */
 export type DatabaseAccountCreateUpdateParameters = ARMResourceProperties & {
   /** Indicates the type of database account. This can only be set at database account creation. */
   kind?: DatabaseAccountKind;
-  /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
   /** The consistency policy for the Cosmos DB account. */
   consistencyPolicy?: ConsistencyPolicy;
   /** An array that contains the georeplication locations enabled for the Cosmos DB account. */
@@ -1997,12 +2566,30 @@ export type DatabaseAccountCreateUpdateParameters = ARMResourceProperties & {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
+  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
+  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** Parameters to indicate the information about the restore. */
   restoreParameters?: RestoreParameters;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
+  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
+  enableMaterializedViews?: boolean;
+};
+
+/** An Azure Cosmos DB Graph resource. */
+export type GraphResourceGetResults = ARMResourceProperties & {
+  resource?: GraphResourceGetPropertiesResource;
+  options?: GraphResourceGetPropertiesOptions;
+};
+
+/** Parameters to create and update Cosmos DB Graph resource. */
+export type GraphResourceCreateUpdateParameters = ARMResourceProperties & {
+  /** The standard JSON format of a Graph resource */
+  resource: GraphResource;
+  /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
+  options?: CreateUpdateOptions;
 };
 
 /** An Azure Cosmos DB SQL database. */
@@ -2181,21 +2768,18 @@ export type GremlinGraphCreateUpdateParameters = ARMResourceProperties & {
   options?: CreateUpdateOptions;
 };
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
-
-/** The object representing periodic mode backup policy. */
-export type PeriodicModeBackupPolicy = BackupPolicy & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Periodic";
-  /** Configuration values for periodic mode backup */
-  periodicModeProperties?: PeriodicModeProperties;
+/** An Azure Cosmos DB Cassandra view. */
+export type CassandraViewGetResults = ARMResourceProperties & {
+  resource?: CassandraViewGetPropertiesResource;
+  options?: CassandraViewGetPropertiesOptions;
 };
 
-/** The object representing continuous mode backup policy. */
-export type ContinuousModeBackupPolicy = BackupPolicy & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Continuous";
+/** Parameters to create and update Cosmos DB Cassandra view. */
+export type CassandraViewCreateUpdateParameters = ARMResourceProperties & {
+  /** The standard JSON format of a Cassandra view */
+  resource: CassandraViewResource;
+  /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
+  options?: CreateUpdateOptions;
 };
 
 /** The access keys for the given database account. */
@@ -2279,6 +2863,30 @@ export type PartitionUsage = Usage & {
   readonly partitionKeyRangeId?: string;
 };
 
+export type GraphResourceGetPropertiesResource = GraphResource & {};
+
+export type GraphResourceGetPropertiesOptions = OptionsResource & {};
+
+export type SqlDatabaseGetPropertiesOptions = OptionsResource & {};
+
+export type SqlContainerGetPropertiesOptions = OptionsResource & {};
+
+export type MongoDBDatabaseGetPropertiesOptions = OptionsResource & {};
+
+export type MongoDBCollectionGetPropertiesOptions = OptionsResource & {};
+
+export type TableGetPropertiesOptions = OptionsResource & {};
+
+export type CassandraKeyspaceGetPropertiesOptions = OptionsResource & {};
+
+export type CassandraTableGetPropertiesOptions = OptionsResource & {};
+
+export type GremlinDatabaseGetPropertiesOptions = OptionsResource & {};
+
+export type GremlinGraphGetPropertiesOptions = OptionsResource & {};
+
+export type CassandraViewGetPropertiesOptions = OptionsResource & {};
+
 export type SqlDatabaseGetPropertiesResource = SqlDatabaseResource &
   ExtendedResourceProperties & {
     /** A system generated property that specified the addressable path of the collections resource. */
@@ -2308,6 +2916,9 @@ export type RestorableSqlDatabasePropertiesResourceDatabase = SqlDatabaseResourc
   };
 
 export type ThroughputSettingsGetPropertiesResource = ThroughputSettingsResource &
+  ExtendedResourceProperties & {};
+
+export type ClientEncryptionKeyGetPropertiesResource = ClientEncryptionKeyResource &
   ExtendedResourceProperties & {};
 
 export type SqlContainerGetPropertiesResource = SqlContainerResource &
@@ -2343,6 +2954,9 @@ export type GremlinDatabaseGetPropertiesResource = GremlinDatabaseResource &
 export type GremlinGraphGetPropertiesResource = GremlinGraphResource &
   ExtendedResourceProperties & {};
 
+export type CassandraViewGetPropertiesResource = CassandraViewResource &
+  ExtendedResourceProperties & {};
+
 /** Cosmos DB SQL container resource object */
 export type RestorableSqlContainerPropertiesResourceContainer = SqlContainerResource &
   ExtendedResourceProperties & {
@@ -2353,28 +2967,97 @@ export type RestorableSqlContainerPropertiesResourceContainer = SqlContainerReso
     readonly self?: string;
   };
 
-export type SqlDatabaseGetPropertiesOptions = OptionsResource & {};
-
-export type SqlContainerGetPropertiesOptions = OptionsResource & {};
-
-export type MongoDBDatabaseGetPropertiesOptions = OptionsResource & {};
-
-export type MongoDBCollectionGetPropertiesOptions = OptionsResource & {};
-
-export type TableGetPropertiesOptions = OptionsResource & {};
-
-export type CassandraKeyspaceGetPropertiesOptions = OptionsResource & {};
-
-export type CassandraTableGetPropertiesOptions = OptionsResource & {};
-
-export type GremlinDatabaseGetPropertiesOptions = OptionsResource & {};
-
-export type GremlinGraphGetPropertiesOptions = OptionsResource & {};
+/** Client Encryption Key. */
+export type ClientEncryptionKeyGetResults = ARMProxyResource & {
+  resource?: ClientEncryptionKeyGetPropertiesResource;
+};
 
 /** Cosmos DB location get result */
 export type LocationGetResult = ARMProxyResource & {
   /** Cosmos DB location metadata */
   properties?: LocationProperties;
+};
+
+/** Parameters to create Data Transfer Job */
+export type CreateJobRequest = ARMProxyResource & {
+  /** Data Transfer Create Job Properties */
+  properties: DataTransferJobProperties;
+};
+
+/** A Cosmos DB Data Transfer Job */
+export type DataTransferJobGetResults = ARMProxyResource & {
+  /**
+   * Job Name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jobName?: string;
+  /** Source DataStore details */
+  source?: DataTransferDataSourceSinkUnion;
+  /** Destination DataStore details */
+  destination?: DataTransferDataSourceSinkUnion;
+  /**
+   * Job Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Percentage of completion.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentageComplete?: number;
+  /**
+   * Last Updated Time (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedUtcTime?: Date;
+  /** Worker count */
+  workerCount?: number;
+  /**
+   * Error response for Faulted job
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorResponse;
+};
+
+/** A restorable backup of a Cassandra cluster. */
+export type BackupResource = ARMProxyResource & {
+  properties?: BackupResourceProperties;
+};
+
+/** A managed Cassandra data center. */
+export type DataCenterResource = ARMProxyResource & {
+  /** Properties of a managed Cassandra data center. */
+  properties?: DataCenterResourceProperties;
+};
+
+/** An Azure Cosmos DB Mongo Role Definition. */
+export type MongoRoleDefinitionGetResults = ARMProxyResource & {
+  /** A user-friendly name for the Role Definition. Must be unique for the database account. */
+  roleName?: string;
+  /** Indicates whether the Role Definition was built-in or user created. */
+  typePropertiesType?: MongoRoleDefinitionType;
+  /** The database name for which access is being granted for this Role Definition. */
+  databaseName?: string;
+  /** A set of privileges contained by the Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Scopes higher than Database are not enforceable as privilege. */
+  privileges?: Privilege[];
+  /** The set of roles inherited by this Role Definition. */
+  roles?: Role[];
+};
+
+/** An Azure Cosmos DB User Definition */
+export type MongoUserDefinitionGetResults = ARMProxyResource & {
+  /** The user name for User Definition. */
+  userName?: string;
+  /** The password for User Definition. Response does not contain user password. */
+  password?: string;
+  /** The database name for which access is being granted for this User Definition. */
+  databaseName?: string;
+  /** A custom definition for the USer Definition. */
+  customData?: string;
+  /** The set of roles inherited by the User Definition. */
+  roles?: Role[];
+  /** The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256. */
+  mechanisms?: string;
 };
 
 /** A notebook workspace resource */
@@ -2435,10 +3118,34 @@ export type SqlRoleAssignmentGetResults = ARMProxyResource & {
   principalId?: string;
 };
 
-/** A managed Cassandra data center. */
-export type DataCenterResource = ARMProxyResource & {
-  /** Properties of a managed Cassandra data center. */
-  properties?: DataCenterResourceProperties;
+/** Properties for the database account. */
+export type ServiceResource = ARMProxyResource & {
+  /** Services response resource. */
+  properties?: ServiceResourcePropertiesUnion;
+};
+
+/** A CosmosDB Cassandra API data source/sink */
+export type CosmosCassandraDataTransferDataSourceSink = DataTransferDataSourceSink & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBCassandra";
+  keyspaceName: string;
+  tableName: string;
+};
+
+/** A CosmosDB Cassandra API data source/sink */
+export type CosmosSqlDataTransferDataSourceSink = DataTransferDataSourceSink & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBSql";
+  databaseName: string;
+  containerName: string;
+};
+
+/** An Azure Blob Storage data source/sink */
+export type AzureBlobDataTransferDataSourceSink = DataTransferDataSourceSink & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "AzureBlobStorage";
+  containerName: string;
+  endpointUrl?: string;
 };
 
 /** Representation of a managed Cassandra cluster. */
@@ -2446,6 +3153,78 @@ export type ClusterResource = ManagedCassandraARMResourceProperties & {
   /** Properties of a managed Cassandra cluster. */
   properties?: ClusterResourceProperties;
 };
+
+/** Properties for DataTransferServiceResource. */
+export type DataTransferServiceResourceProperties = ServiceResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  serviceType: "DataTransfer";
+  /**
+   * An array that contains all of the locations for the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: DataTransferRegionalServiceResource[];
+};
+
+/** Properties for SqlDedicatedGatewayServiceResource. */
+export type SqlDedicatedGatewayServiceResourceProperties = ServiceResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  serviceType: "SqlDedicatedGateway";
+  /** SqlDedicatedGateway endpoint for the service. */
+  sqlDedicatedGatewayEndpoint?: string;
+  /**
+   * An array that contains all of the locations for the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
+};
+
+/** Properties for GraphAPIComputeServiceResource. */
+export type GraphAPIComputeServiceResourceProperties = ServiceResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  serviceType: "GraphAPICompute";
+  /** GraphAPICompute endpoint for the service. */
+  graphApiComputeEndpoint?: string;
+  /**
+   * An array that contains all of the locations for the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: GraphAPIComputeRegionalServiceResource[];
+};
+
+/** Properties for MaterializedViewsBuilderServiceResource. */
+export type MaterializedViewsBuilderServiceResourceProperties = ServiceResourceProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  serviceType: "MaterializedViewsBuilder";
+  /**
+   * An array that contains all of the locations for the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: MaterializedViewsBuilderRegionalServiceResource[];
+};
+
+/** Resource for a regional service location. */
+export type DataTransferRegionalServiceResource = RegionalServiceResource & {};
+
+/** Resource for a regional service location. */
+export type SqlDedicatedGatewayRegionalServiceResource = RegionalServiceResource & {
+  /**
+   * The regional endpoint for SqlDedicatedGateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlDedicatedGatewayEndpoint?: string;
+};
+
+/** Resource for a regional service location. */
+export type GraphAPIComputeRegionalServiceResource = RegionalServiceResource & {
+  /**
+   * The regional endpoint for GraphAPICompute.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly graphApiComputeEndpoint?: string;
+};
+
+/** Resource for a regional service location. */
+export type MaterializedViewsBuilderRegionalServiceResource = RegionalServiceResource & {};
 
 /** A private endpoint connection */
 export type PrivateEndpointConnection = ProxyResource & {
@@ -2883,6 +3662,128 @@ export enum KnownBackupStorageRedundancy {
  */
 export type BackupStorageRedundancy = string;
 
+/** Known values of {@link DataTransferComponent} that the service accepts. */
+export enum KnownDataTransferComponent {
+  CosmosDBCassandra = "CosmosDBCassandra",
+  CosmosDBSql = "CosmosDBSql",
+  AzureBlobStorage = "AzureBlobStorage"
+}
+
+/**
+ * Defines values for DataTransferComponent. \
+ * {@link KnownDataTransferComponent} can be used interchangeably with DataTransferComponent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CosmosDBCassandra** \
+ * **CosmosDBSql** \
+ * **AzureBlobStorage**
+ */
+export type DataTransferComponent = string;
+
+/** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
+export enum KnownManagedCassandraProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ManagedCassandraProvisioningState. \
+ * {@link KnownManagedCassandraProvisioningState} can be used interchangeably with ManagedCassandraProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ManagedCassandraProvisioningState = string;
+
+/** Known values of {@link AuthenticationMethod} that the service accepts. */
+export enum KnownAuthenticationMethod {
+  None = "None",
+  Cassandra = "Cassandra",
+  Ldap = "Ldap"
+}
+
+/**
+ * Defines values for AuthenticationMethod. \
+ * {@link KnownAuthenticationMethod} can be used interchangeably with AuthenticationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Cassandra** \
+ * **Ldap**
+ */
+export type AuthenticationMethod = string;
+
+/** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
+export enum KnownManagedCassandraResourceIdentityType {
+  SystemAssigned = "SystemAssigned",
+  None = "None"
+}
+
+/**
+ * Defines values for ManagedCassandraResourceIdentityType. \
+ * {@link KnownManagedCassandraResourceIdentityType} can be used interchangeably with ManagedCassandraResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **None**
+ */
+export type ManagedCassandraResourceIdentityType = string;
+
+/** Known values of {@link ConnectionState} that the service accepts. */
+export enum KnownConnectionState {
+  Unknown = "Unknown",
+  OK = "OK",
+  OperatorToDataCenterNetworkError = "OperatorToDataCenterNetworkError",
+  DatacenterToDatacenterNetworkError = "DatacenterToDatacenterNetworkError",
+  InternalOperatorToDataCenterCertificateError = "InternalOperatorToDataCenterCertificateError",
+  InternalError = "InternalError"
+}
+
+/**
+ * Defines values for ConnectionState. \
+ * {@link KnownConnectionState} can be used interchangeably with ConnectionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **OK** \
+ * **OperatorToDataCenterNetworkError** \
+ * **DatacenterToDatacenterNetworkError** \
+ * **InternalOperatorToDataCenterCertificateError** \
+ * **InternalError**
+ */
+export type ConnectionState = string;
+
+/** Known values of {@link NodeState} that the service accepts. */
+export enum KnownNodeState {
+  Normal = "Normal",
+  Leaving = "Leaving",
+  Joining = "Joining",
+  Moving = "Moving",
+  Stopped = "Stopped"
+}
+
+/**
+ * Defines values for NodeState. \
+ * {@link KnownNodeState} can be used interchangeably with NodeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Normal** \
+ * **Leaving** \
+ * **Joining** \
+ * **Moving** \
+ * **Stopped**
+ */
+export type NodeState = string;
+
 /** Known values of {@link NotebookWorkspaceName} that the service accepts. */
 export enum KnownNotebookWorkspaceName {
   Default = "default"
@@ -2941,107 +3842,67 @@ export enum KnownOperationType {
  */
 export type OperationType = string;
 
-/** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
-export enum KnownManagedCassandraResourceIdentityType {
-  SystemAssigned = "SystemAssigned",
-  None = "None"
+/** Known values of {@link ServiceSize} that the service accepts. */
+export enum KnownServiceSize {
+  CosmosD4S = "Cosmos.D4s",
+  CosmosD8S = "Cosmos.D8s",
+  CosmosD16S = "Cosmos.D16s"
 }
 
 /**
- * Defines values for ManagedCassandraResourceIdentityType. \
- * {@link KnownManagedCassandraResourceIdentityType} can be used interchangeably with ManagedCassandraResourceIdentityType,
+ * Defines values for ServiceSize. \
+ * {@link KnownServiceSize} can be used interchangeably with ServiceSize,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SystemAssigned** \
- * **None**
+ * **Cosmos.D4s** \
+ * **Cosmos.D8s** \
+ * **Cosmos.D16s**
  */
-export type ManagedCassandraResourceIdentityType = string;
+export type ServiceSize = string;
 
-/** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
-export enum KnownManagedCassandraProvisioningState {
+/** Known values of {@link ServiceType} that the service accepts. */
+export enum KnownServiceType {
+  SqlDedicatedGateway = "SqlDedicatedGateway",
+  DataTransfer = "DataTransfer",
+  GraphAPICompute = "GraphAPICompute",
+  MaterializedViewsBuilder = "MaterializedViewsBuilder"
+}
+
+/**
+ * Defines values for ServiceType. \
+ * {@link KnownServiceType} can be used interchangeably with ServiceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlDedicatedGateway** \
+ * **DataTransfer** \
+ * **GraphAPICompute** \
+ * **MaterializedViewsBuilder**
+ */
+export type ServiceType = string;
+
+/** Known values of {@link ServiceStatus} that the service accepts. */
+export enum KnownServiceStatus {
   Creating = "Creating",
+  Running = "Running",
   Updating = "Updating",
   Deleting = "Deleting",
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for ManagedCassandraProvisioningState. \
- * {@link KnownManagedCassandraProvisioningState} can be used interchangeably with ManagedCassandraProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ManagedCassandraProvisioningState = string;
-
-/** Known values of {@link AuthenticationMethod} that the service accepts. */
-export enum KnownAuthenticationMethod {
-  None = "None",
-  Cassandra = "Cassandra"
-}
-
-/**
- * Defines values for AuthenticationMethod. \
- * {@link KnownAuthenticationMethod} can be used interchangeably with AuthenticationMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Cassandra**
- */
-export type AuthenticationMethod = string;
-
-/** Known values of {@link ConnectionState} that the service accepts. */
-export enum KnownConnectionState {
-  Unknown = "Unknown",
-  OK = "OK",
-  OperatorToDataCenterNetworkError = "OperatorToDataCenterNetworkError",
-  DatacenterToDatacenterNetworkError = "DatacenterToDatacenterNetworkError",
-  InternalOperatorToDataCenterCertificateError = "InternalOperatorToDataCenterCertificateError",
-  InternalError = "InternalError"
-}
-
-/**
- * Defines values for ConnectionState. \
- * {@link KnownConnectionState} can be used interchangeably with ConnectionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **OK** \
- * **OperatorToDataCenterNetworkError** \
- * **DatacenterToDatacenterNetworkError** \
- * **InternalOperatorToDataCenterCertificateError** \
- * **InternalError**
- */
-export type ConnectionState = string;
-
-/** Known values of {@link NodeState} that the service accepts. */
-export enum KnownNodeState {
-  Normal = "Normal",
-  Leaving = "Leaving",
-  Joining = "Joining",
-  Moving = "Moving",
+  Error = "Error",
   Stopped = "Stopped"
 }
 
 /**
- * Defines values for NodeState. \
- * {@link KnownNodeState} can be used interchangeably with NodeState,
+ * Defines values for ServiceStatus. \
+ * {@link KnownServiceStatus} can be used interchangeably with ServiceStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Normal** \
- * **Leaving** \
- * **Joining** \
- * **Moving** \
+ * **Creating** \
+ * **Running** \
+ * **Updating** \
+ * **Deleting** \
+ * **Error** \
  * **Stopped**
  */
-export type NodeState = string;
+export type ServiceStatus = string;
 
 /** Known values of {@link NodeStatus} that the service accepts. */
 export enum KnownNodeStatus {
@@ -3058,12 +3919,6 @@ export enum KnownNodeStatus {
  * **Down**
  */
 export type NodeStatus = string;
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned"
-  | "None";
 /** Defines values for DefaultConsistencyLevel. */
 export type DefaultConsistencyLevel =
   | "Eventual"
@@ -3073,6 +3928,16 @@ export type DefaultConsistencyLevel =
   | "ConsistentPrefix";
 /** Defines values for NetworkAclBypass. */
 export type NetworkAclBypass = "None" | "AzureServices";
+/** Defines values for EnableFullTextQuery. */
+export type EnableFullTextQuery = "None" | "True" | "False";
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned"
+  | "None";
+/** Defines values for MongoRoleDefinitionType. */
+export type MongoRoleDefinitionType = "BuiltInRole" | "CustomRole";
 /** Defines values for RoleDefinitionType. */
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
 
@@ -3363,6 +4228,41 @@ export interface PartitionKeyRangeIdRegionListMetricsOptionalParams
 export type PartitionKeyRangeIdRegionListMetricsResponse = PartitionMetricListResult;
 
 /** Optional parameters. */
+export interface GraphResourcesListGraphsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listGraphs operation. */
+export type GraphResourcesListGraphsResponse = GraphResourcesListResult;
+
+/** Optional parameters. */
+export interface GraphResourcesGetGraphOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getGraph operation. */
+export type GraphResourcesGetGraphResponse = GraphResourceGetResults;
+
+/** Optional parameters. */
+export interface GraphResourcesCreateUpdateGraphOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateGraph operation. */
+export type GraphResourcesCreateUpdateGraphResponse = GraphResourceGetResults;
+
+/** Optional parameters. */
+export interface GraphResourcesDeleteGraphResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface SqlResourcesListSqlDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3439,6 +4339,32 @@ export interface SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
 
 /** Contains response data for the migrateSqlDatabaseToManualThroughput operation. */
 export type SqlResourcesMigrateSqlDatabaseToManualThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface SqlResourcesListClientEncryptionKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listClientEncryptionKeys operation. */
+export type SqlResourcesListClientEncryptionKeysResponse = ClientEncryptionKeysListResult;
+
+/** Optional parameters. */
+export interface SqlResourcesGetClientEncryptionKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getClientEncryptionKey operation. */
+export type SqlResourcesGetClientEncryptionKeyResponse = ClientEncryptionKeyGetResults;
+
+/** Optional parameters. */
+export interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateClientEncryptionKey operation. */
+export type SqlResourcesCreateUpdateClientEncryptionKeyResponse = ClientEncryptionKeyGetResults;
 
 /** Optional parameters. */
 export interface SqlResourcesListSqlContainersOptionalParams
@@ -3862,6 +4788,76 @@ export interface MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptio
 export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse = ThroughputSettingsGetResults;
 
 /** Optional parameters. */
+export interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMongoRoleDefinition operation. */
+export type MongoDBResourcesGetMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateMongoRoleDefinition operation. */
+export type MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse = MongoRoleDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMongoRoleDefinitions operation. */
+export type MongoDBResourcesListMongoRoleDefinitionsResponse = MongoRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMongoUserDefinition operation. */
+export type MongoDBResourcesGetMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateMongoUserDefinition operation. */
+export type MongoDBResourcesCreateUpdateMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+/** Optional parameters. */
+export interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMongoUserDefinitions operation. */
+export type MongoDBResourcesListMongoUserDefinitionsResponse = MongoUserDefinitionListResult;
+
+/** Optional parameters. */
 export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3950,6 +4946,18 @@ export interface TableResourcesMigrateTableToManualThroughputOptionalParams
 
 /** Contains response data for the migrateTableToManualThroughput operation. */
 export type TableResourcesMigrateTableToManualThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the retrieveContinuousBackupInformation operation. */
+export type TableResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
 
 /** Optional parameters. */
 export interface CassandraResourcesListCassandraKeyspacesOptionalParams
@@ -4108,6 +5116,84 @@ export interface CassandraResourcesMigrateCassandraTableToManualThroughputOption
 export type CassandraResourcesMigrateCassandraTableToManualThroughputResponse = ThroughputSettingsGetResults;
 
 /** Optional parameters. */
+export interface CassandraResourcesListCassandraViewsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCassandraViews operation. */
+export type CassandraResourcesListCassandraViewsResponse = CassandraViewListResult;
+
+/** Optional parameters. */
+export interface CassandraResourcesGetCassandraViewOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCassandraView operation. */
+export type CassandraResourcesGetCassandraViewResponse = CassandraViewGetResults;
+
+/** Optional parameters. */
+export interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateCassandraView operation. */
+export type CassandraResourcesCreateUpdateCassandraViewResponse = CassandraViewGetResults;
+
+/** Optional parameters. */
+export interface CassandraResourcesDeleteCassandraViewOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CassandraResourcesGetCassandraViewThroughputOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCassandraViewThroughput operation. */
+export type CassandraResourcesGetCassandraViewThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateCassandraViewThroughput operation. */
+export type CassandraResourcesUpdateCassandraViewThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the migrateCassandraViewToAutoscale operation. */
+export type CassandraResourcesMigrateCassandraViewToAutoscaleResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
+export interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the migrateCassandraViewToManualThroughput operation. */
+export type CassandraResourcesMigrateCassandraViewToManualThroughputResponse = ThroughputSettingsGetResults;
+
+/** Optional parameters. */
 export interface GremlinResourcesListGremlinDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4264,6 +5350,18 @@ export interface GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalPa
 export type GremlinResourcesMigrateGremlinGraphToManualThroughputResponse = ThroughputSettingsGetResults;
 
 /** Optional parameters. */
+export interface GremlinResourcesRetrieveContinuousBackupInformationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the retrieveContinuousBackupInformation operation. */
+export type GremlinResourcesRetrieveContinuousBackupInformationResponse = BackupInformation;
+
+/** Optional parameters. */
 export interface LocationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4276,6 +5374,186 @@ export interface LocationsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type LocationsGetResponse = LocationGetResult;
+
+/** Optional parameters. */
+export interface DataTransferJobsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type DataTransferJobsCreateResponse = DataTransferJobGetResults;
+
+/** Optional parameters. */
+export interface DataTransferJobsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DataTransferJobsGetResponse = DataTransferJobGetResults;
+
+/** Optional parameters. */
+export interface DataTransferJobsListByDatabaseAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseAccount operation. */
+export type DataTransferJobsListByDatabaseAccountResponse = DataTransferJobFeedResults;
+
+/** Optional parameters. */
+export interface DataTransferJobsListByDatabaseAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseAccountNext operation. */
+export type DataTransferJobsListByDatabaseAccountNextResponse = DataTransferJobFeedResults;
+
+/** Optional parameters. */
+export interface CassandraClustersListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type CassandraClustersListBySubscriptionResponse = ListClusters;
+
+/** Optional parameters. */
+export interface CassandraClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type CassandraClustersListByResourceGroupResponse = ListClusters;
+
+/** Optional parameters. */
+export interface CassandraClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CassandraClustersGetResponse = ClusterResource;
+
+/** Optional parameters. */
+export interface CassandraClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CassandraClustersCreateUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdate operation. */
+export type CassandraClustersCreateUpdateResponse = ClusterResource;
+
+/** Optional parameters. */
+export interface CassandraClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CassandraClustersUpdateResponse = ClusterResource;
+
+/** Optional parameters. */
+export interface CassandraClustersInvokeCommandOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the invokeCommand operation. */
+export type CassandraClustersInvokeCommandResponse = CommandOutput;
+
+/** Optional parameters. */
+export interface CassandraClustersListBackupsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBackups operation. */
+export type CassandraClustersListBackupsResponse = ListBackups;
+
+/** Optional parameters. */
+export interface CassandraClustersGetBackupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBackup operation. */
+export type CassandraClustersGetBackupResponse = BackupResource;
+
+/** Optional parameters. */
+export interface CassandraClustersDeallocateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CassandraClustersStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CassandraClustersStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the status operation. */
+export type CassandraClustersStatusResponse = CassandraClusterPublicStatus;
+
+/** Optional parameters. */
+export interface CassandraDataCentersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CassandraDataCentersListResponse = ListDataCenters;
+
+/** Optional parameters. */
+export interface CassandraDataCentersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CassandraDataCentersGetResponse = DataCenterResource;
+
+/** Optional parameters. */
+export interface CassandraDataCentersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CassandraDataCentersCreateUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdate operation. */
+export type CassandraDataCentersCreateUpdateResponse = DataCenterResource;
+
+/** Optional parameters. */
+export interface CassandraDataCentersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CassandraDataCentersUpdateResponse = DataCenterResource;
 
 /** Optional parameters. */
 export interface NotebookWorkspacesListByDatabaseAccountOptionalParams
@@ -4419,9 +5697,9 @@ export interface RestorableSqlContainersListOptionalParams
   extends coreClient.OperationOptions {
   /** The resource ID of the SQL database. */
   restorableSqlDatabaseRid?: string;
-  /** The snapshot create timestamp after which snapshots need to be listed. */
+  /** Restorable Sql containers event feed start time. */
   startTime?: string;
-  /** The snapshot create timestamp before which snapshots need to be listed. */
+  /** Restorable Sql containers event feed end time. */
   endTime?: string;
 }
 
@@ -4450,6 +5728,10 @@ export type RestorableMongodbDatabasesListResponse = RestorableMongodbDatabasesL
 /** Optional parameters. */
 export interface RestorableMongodbCollectionsListOptionalParams
   extends coreClient.OperationOptions {
+  /** Restorable MongoDB collections event feed start time. */
+  startTime?: string;
+  /** Restorable MongoDB collections event feed end time. */
+  endTime?: string;
   /** The resource ID of the MongoDB database. */
   restorableMongodbDatabaseRid?: string;
 }
@@ -4470,142 +5752,95 @@ export interface RestorableMongodbResourcesListOptionalParams
 export type RestorableMongodbResourcesListResponse = RestorableMongodbResourcesListResult;
 
 /** Optional parameters. */
-export interface CassandraClustersListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type CassandraClustersListBySubscriptionResponse = ListClusters;
-
-/** Optional parameters. */
-export interface CassandraClustersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type CassandraClustersListByResourceGroupResponse = ListClusters;
-
-/** Optional parameters. */
-export interface CassandraClustersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CassandraClustersGetResponse = ClusterResource;
-
-/** Optional parameters. */
-export interface CassandraClustersDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CassandraClustersCreateUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createUpdate operation. */
-export type CassandraClustersCreateUpdateResponse = ClusterResource;
-
-/** Optional parameters. */
-export interface CassandraClustersUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type CassandraClustersUpdateResponse = ClusterResource;
-
-/** Optional parameters. */
-export interface CassandraClustersInvokeCommandOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the invokeCommand operation. */
-export type CassandraClustersInvokeCommandResponse = CommandOutput;
-
-/** Optional parameters. */
-export interface CassandraClustersDeallocateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CassandraClustersStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CassandraClustersStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the status operation. */
-export type CassandraClustersStatusResponse = CassandraClusterPublicStatus;
-
-/** Optional parameters. */
-export interface CassandraDataCentersListOptionalParams
+export interface RestorableGremlinDatabasesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type CassandraDataCentersListResponse = ListDataCenters;
+export type RestorableGremlinDatabasesListResponse = RestorableGremlinDatabasesListResult;
 
 /** Optional parameters. */
-export interface CassandraDataCentersGetOptionalParams
+export interface RestorableGremlinGraphsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Restorable Gremlin graphs event feed start time. */
+  startTime?: string;
+  /** Restorable Gremlin graphs event feed end time. */
+  endTime?: string;
+  /** The resource ID of the Gremlin database. */
+  restorableGremlinDatabaseRid?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RestorableGremlinGraphsListResponse = RestorableGremlinGraphsListResult;
+
+/** Optional parameters. */
+export interface RestorableGremlinResourcesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The location where the restorable resources are located. */
+  restoreLocation?: string;
+  /** The timestamp when the restorable resources existed. */
+  restoreTimestampInUtc?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RestorableGremlinResourcesListResponse = RestorableGremlinResourcesListResult;
+
+/** Optional parameters. */
+export interface RestorableTablesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Restorable Tables event feed start time. */
+  startTime?: string;
+  /** Restorable Tables event feed end time. */
+  endTime?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RestorableTablesListResponse = RestorableTablesListResult;
+
+/** Optional parameters. */
+export interface RestorableTableResourcesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The location where the restorable resources are located. */
+  restoreLocation?: string;
+  /** The timestamp when the restorable resources existed. */
+  restoreTimestampInUtc?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RestorableTableResourcesListResponse = RestorableTableResourcesListResult;
+
+/** Optional parameters. */
+export interface ServiceListOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the list operation. */
+export type ServiceListResponse = ServiceResourceListResult;
+
+/** Optional parameters. */
+export interface ServiceCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ServiceCreateResponse = ServiceResource;
+
+/** Optional parameters. */
+export interface ServiceGetOptionalParams extends coreClient.OperationOptions {}
+
 /** Contains response data for the get operation. */
-export type CassandraDataCentersGetResponse = DataCenterResource;
+export type ServiceGetResponse = ServiceResource;
 
 /** Optional parameters. */
-export interface CassandraDataCentersDeleteOptionalParams
+export interface ServiceDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface CassandraDataCentersCreateUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createUpdate operation. */
-export type CassandraDataCentersCreateUpdateResponse = DataCenterResource;
-
-/** Optional parameters. */
-export interface CassandraDataCentersUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type CassandraDataCentersUpdateResponse = DataCenterResource;
 
 /** Optional parameters. */
 export interface CosmosDBManagementClientOptionalParams

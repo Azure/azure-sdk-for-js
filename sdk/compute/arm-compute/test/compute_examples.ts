@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -32,6 +34,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Compute test", () => {
@@ -82,7 +88,8 @@ describe("Compute test", () => {
     const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
       resourceGroupName,
       network_name,
-      parameter
+      parameter,
+      testPollingOptions
     );
 
     const subnet_parameter: Subnet = {
@@ -92,7 +99,8 @@ describe("Compute test", () => {
       resourceGroupName,
       network_name,
       subnet_name,
-      subnet_parameter
+      subnet_parameter,
+      testPollingOptions
     );
   }
 
@@ -124,7 +132,8 @@ describe("Compute test", () => {
     const nic_info = await network_client.networkInterfaces.beginCreateOrUpdateAndWait(
       group_name,
       nic_name,
-      parameter
+      parameter,
+      testPollingOptions
     );
   }
 
@@ -206,7 +215,7 @@ describe("Compute test", () => {
       osProfile: {
         adminUsername: "testuser",
         computerName: "myVM",
-        adminPassword: "Aa!1()-xyz",
+        adminPassword: "SecretPlaceholder",
         windowsConfiguration: {
           enableAutomaticUpdates: true, // need automatic update for reimage
         },
@@ -226,7 +235,7 @@ describe("Compute test", () => {
           },
         ],
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name,virtual_machine_name);
   });
 
@@ -260,12 +269,12 @@ describe("Compute test", () => {
           },
         ],
       }
-    })
+    }, testPollingOptions)
     assert.equal(res.type,"Microsoft.Compute/virtualMachines");
   });
 
   it("virtualMachines delete test", async function() {
-    const res = await client.virtualMachines.beginDeleteAndWait(resourceGroupName,virtual_machine_name);
+    const res = await client.virtualMachines.beginDeleteAndWait(resourceGroupName,virtual_machine_name,testPollingOptions);
     const resArray = new Array();
     for await (const item of client.virtualMachines.list(resourceGroupName)) {
       resArray.push(item);

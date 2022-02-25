@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("My test", () => {
@@ -69,11 +75,11 @@ describe("My test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
       location: "eastus",
-    })
+    },testPollingOptions)
   });
 
   it("subnets create test", async function() {
-    const res = await client.subnets.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,subnetName,{addressPrefix: "10.0.0.0/24"});
+    const res = await client.subnets.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,subnetName,{addressPrefix: "10.0.0.0/24"},testPollingOptions);
   });
 
   it("ipGroups create test", async function() {
@@ -83,7 +89,7 @@ describe("My test", () => {
       },
       location: "eastus",
       ipAddresses: ["13.64.39.16/32", "40.74.146.80/31", "40.74.147.32/28"],
-    });
+    },testPollingOptions);
   });
 
   it("virtualNetworks get test", async function() {
@@ -131,7 +137,7 @@ describe("My test", () => {
   });
 
   it("ipGroups beginDeleteAndWait test", async function() {
-    const res = await client.ipGroups.beginDeleteAndWait(resourceGroupName,virtualNetworkName);
+    const res = await client.ipGroups.beginDeleteAndWait(resourceGroupName,virtualNetworkName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.ipGroups.listByResourceGroup(resourceGroupName)){
       resArray.push(item);
@@ -140,7 +146,7 @@ describe("My test", () => {
   });
 
   it("subnets beginDeleteAndWait test", async function() {
-    const res = await client.subnets.beginDeleteAndWait(resourceGroupName,virtualNetworkName,subnetName);
+    const res = await client.subnets.beginDeleteAndWait(resourceGroupName,virtualNetworkName,subnetName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.subnets.list(resourceGroupName,virtualNetworkName)){
       resArray.push(item);
@@ -149,7 +155,7 @@ describe("My test", () => {
   });
 
   it("virtualNetworks beginDeleteAndWait test", async function() {
-    const res = await client.virtualNetworks.beginDeleteAndWait(resourceGroupName,virtualNetworkName);
+    const res = await client.virtualNetworks.beginDeleteAndWait(resourceGroupName,virtualNetworkName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.virtualNetworks.list(resourceGroupName)){
       resArray.push(item);

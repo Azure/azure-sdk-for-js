@@ -7,7 +7,7 @@ import {
   WebResource,
   HttpOperationResponse,
   HttpHeaders,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "@azure/core-http";
 
 interface PerfPolicyOptions {
@@ -17,7 +17,7 @@ interface PerfPolicyOptions {
 const defaultResponse = {
   status: 200,
   request: new WebResource(),
-  headers: new HttpHeaders()
+  headers: new HttpHeaders(),
 };
 
 /**
@@ -29,13 +29,23 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
     url: {
       required: true,
       description: "URL that will replace any request's original targeted URL",
-      shortName: "u"
-    }
+      shortName: "u",
+    },
   };
   async run(): Promise<void> {
-    const targetUrl = url.parse(this.parsedOptions.url.value!);
-    const differentUrl = url.parse(this.parsedOptions.url.value!);
+    const urlOption = this.parsedOptions.url.value;
+
+    if (!urlOption) {
+      throw new Error(`URL not specified`);
+    }
+
+    const targetUrl = url.parse(urlOption);
+    const differentUrl = url.parse(urlOption);
     differentUrl.host = `not-${differentUrl.host}`;
+
+    if (!targetUrl.host) {
+      throw new Error("Input URL does not specify a host");
+    }
 
     const request = new WebResource(url.format(differentUrl));
 
@@ -55,13 +65,13 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
         }
 
         return defaultResponse;
-      }
+      },
     };
 
     const policy = new PerfPolicy(
       nextPolicy,
       new RequestPolicyOptions(),
-      targetUrl.host!,
+      targetUrl.host,
       targetUrl.port
     );
     await policy.sendRequest(request);

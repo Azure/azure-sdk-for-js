@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Apimanagement test", () => {
@@ -73,9 +79,8 @@ describe("Apimanagement test", () => {
             capacity: 1
         },
         publisherEmail: "foo@contoso.com",
-        publisherName: "foo",
-        
-    });
+        publisherName: "foo"  
+    },testPollingOptions);
     assert.equal(res.name,serviceName);
   }).timeout(3600000);
 
@@ -103,12 +108,12 @@ describe("Apimanagement test", () => {
             customProperties: {
               "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false"
             }
-        });
+        },testPollingOptions);
         assert.equal(res.type,"Microsoft.ApiManagement/service");
         break;
       }else {
         // The resource is activating
-        await sleep(300000);
+        await delay(300000)
       }
     }
   }).timeout(3600000);
@@ -119,8 +124,8 @@ describe("Apimanagement test", () => {
       count++;
       const res = await client.apiManagementService.get(resourceGroupName,serviceName);
       if(res.provisioningState == "Succeeded"){
-        const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName,serviceName);
-        const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName,location);
+        const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName,serviceName,testPollingOptions);
+        const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName,location,testPollingOptions);
         const resArray = new Array();
         for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
             resArray.push(item);
@@ -129,7 +134,7 @@ describe("Apimanagement test", () => {
         break;
       }else {
         // The resource is activating
-        await sleep(300000);
+        await delay(300000);
       }
     }
   }).timeout(3600000);

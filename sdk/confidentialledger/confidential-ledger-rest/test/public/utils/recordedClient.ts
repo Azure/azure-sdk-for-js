@@ -5,9 +5,16 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import ConfidentialLedger, { ConfidentialLedgerRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
+import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import "./env";
 
@@ -38,12 +45,14 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClient(): ConfidentialLedgerRestClient {
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = new ClientSecretCredential(
     env["AZURE_TENANT_ID"],
     env["AZURE_CLIENT_ID"],
-    env["AZURE_CLIENT_SECRET"]
+    env["AZURE_CLIENT_SECRET"],
+    { httpClient }
   );
-  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential);
+  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential, { httpClient });
 }
 
 /**

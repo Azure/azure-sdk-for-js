@@ -7,11 +7,11 @@ import {
   EventDataBatch,
   EventHubBufferedProducerClientOptions,
   EventHubProducerClient,
-  OperationOptions
+  OperationOptions,
 } from "./index";
-import { AwaitableQueue } from "./impl/awaitableQueue";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./log";
 
@@ -47,7 +47,7 @@ export class BatchingPartitionChannel {
   private _flushState:
     | { isFlushing: false }
     | { isFlushing: true; currentPromise: Promise<void>; resolve: () => void } = {
-    isFlushing: false
+    isFlushing: false,
   };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
@@ -67,7 +67,7 @@ export class BatchingPartitionChannel {
     onSendEventsErrorHandler,
     onSendEventsSuccessHandler,
     partitionId,
-    producer
+    producer,
   }: BatchingPartitionChannelProps) {
     this._loopAbortSignal = loopAbortSignal;
     this._maxBufferSize = maxBufferSize;
@@ -242,7 +242,7 @@ export class BatchingPartitionChannel {
     this._lastBatchCreationTime = Date.now();
     this._batchedEvents = [];
     const batch = await this._producer.createBatch({
-      partitionId: this._partitionId
+      partitionId: this._partitionId,
     });
     this._incrementReadiness();
     return batch;
@@ -276,7 +276,7 @@ export class BatchingPartitionChannel {
     this._updateFlushState();
     this._onSendEventsSuccessHandler?.({
       events: this._batchedEvents,
-      partitionId: this._partitionId
+      partitionId: this._partitionId,
     }).catch((e) => {
       logger.error(
         `The following error occured in the onSendEventsSuccessHandler: ${JSON.stringify(
@@ -298,7 +298,7 @@ export class BatchingPartitionChannel {
     this._onSendEventsErrorHandler({
       error: err,
       events: event ? [event] : this._batchedEvents,
-      partitionId: this._partitionId
+      partitionId: this._partitionId,
     }).catch((e) => {
       logger.error(
         `The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(

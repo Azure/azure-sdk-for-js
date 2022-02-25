@@ -6,6 +6,26 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
 
+/** @internal */
+export const dataSectionTypeCode = 0x75 as const;
+/** @internal */
+export const sequenceSectionTypeCode = 0x76 as const;
+/** @internal */
+export const valueSectionTypeCode = 0x77 as const;
+
+/**
+ * Mirror of the internal Section interface in rhea.
+ *
+ * @internal
+ */
+export interface RheaAmqpSection {
+  typecode:
+    | typeof dataSectionTypeCode
+    | typeof sequenceSectionTypeCode
+    | typeof valueSectionTypeCode;
+  content: any;
+}
+
 /**
  * The default data transformer that will be used by the Azure SDK.
  * @internal
@@ -64,16 +84,17 @@ export const defaultDataTransformer = {
    * of the AMQP mesage.
    *
    * @param body - The AMQP message body
-   * @return decoded body or the given body as-is.
+   * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body content.
+   * @returns decoded body or the given body as-is.
    */
-  decode(body: unknown): unknown {
+  decode(body: unknown, skipParsingBodyAsJson: boolean): unknown {
     let actualContent = body;
 
     if (isRheaAmqpSection(body)) {
       actualContent = body.content;
     }
 
-    return tryToJsonDecode(actualContent);
+    return skipParsingBodyAsJson ? actualContent : tryToJsonDecode(actualContent);
   },
   /**
    * A function that takes the body property from an AMQP message, which can come from either
@@ -83,16 +104,21 @@ export const defaultDataTransformer = {
    * indicating which part of the AMQP message the body was decoded from.
    *
    * @param body - The AMQP message body as received from rhea.
-   * @return The decoded/raw body and the body type.
+   * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body.
+   * @returns The decoded/raw body and the body type.
    */
   decodeWithType(
-    body: unknown | RheaAmqpSection
+    body: unknown | RheaAmqpSection,
+    skipParsingBodyAsJson: boolean
   ): { body: unknown; bodyType: "data" | "sequence" | "value" } {
     try {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
           case dataSectionTypeCode:
-            return { body: tryToJsonDecode(body.content), bodyType: "data" };
+            return {
+              body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
+              bodyType: "data",
+            };
           case sequenceSectionTypeCode:
             // typecode:
             // handle sequences
@@ -105,7 +131,7 @@ export const defaultDataTransformer = {
         // not sure - we have to try to infer the proper bodyType and content
         if (isBuffer(body)) {
           // This indicates that we are getting the AMQP described type. Let us try decoding it.
-          return { body: tryToJsonDecode(body), bodyType: "data" };
+          return { body: skipParsingBodyAsJson ? body : tryToJsonDecode(body), bodyType: "data" };
         } else {
           return { body: body, bodyType: "value" };
         }
@@ -117,7 +143,7 @@ export const defaultDataTransformer = {
       );
       throw err;
     }
-  }
+  },
 };
 
 /** @internal */
@@ -137,11 +163,12 @@ export function isRheaAmqpSection(
  * Attempts to decode 'body' as a JSON string. If it fails it returns body
  * verbatim.
  *
- * @param body An AMQP message body.
+ * @param body - An AMQP message body.
  * @returns A JSON decoded object, or body if body was not a JSON string.
  *
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function tryToJsonDecode(body: any): any {
   let processedBody = body;
   try {
@@ -157,24 +184,4 @@ export function tryToJsonDecode(body: any): any {
     );
   }
   return processedBody;
-}
-
-/** @internal */
-export const dataSectionTypeCode: 0x75 = 0x75;
-/** @internal */
-export const sequenceSectionTypeCode: 0x76 = 0x76;
-/** @internal */
-export const valueSectionTypeCode: 0x77 = 0x77;
-
-/**
- * Mirror of the internal Section interface in rhea.
- *
- * @internal
- */
-export interface RheaAmqpSection {
-  typecode:
-    | typeof dataSectionTypeCode
-    | typeof sequenceSectionTypeCode
-    | typeof valueSectionTypeCode;
-  content: any;
 }

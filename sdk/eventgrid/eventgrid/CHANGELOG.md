@@ -1,6 +1,6 @@
 # Release History
 
-## 4.5.1 (Unreleased)
+## 4.7.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,44 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.7.0 (2022-02-08)
+
+### Key Bug Fixes
+
+- The TypeScript typings for two events have had small changes to accurately reflect the data sent by Azure.
+  - `Microsoft.EventHub.CaptureFileCreated`'s `fileurl` property is now correctly cased as `fileUrl`
+  - `Microsoft.Storage.DirectoryDeleted`'s `recursive` property has been changed from `boolean` to `string`. The service sets this property to the string `"true"` or `"false"`.
+
+## 4.6.0 (2022-01-11)
+
+### Features Added
+
+- Added a new property to `AcsRecordingChunkInfo` (for the `Microsoft.Communication.RecordingFileStatusUpdated` system event):
+
+  - `deleteLocation`
+
+- Added new properties to `ContainerRegistryArtifactEventData` and `ContainerRegistryEventData` (for the `Microsoft.ContainerRegistry.{ChartDeleted|ChartPushed|ImagePushed|ImageDeleted}` system events):
+
+  - `connectedRegistry`
+  - `location`
+
+- Added new properties to `AcsRecordingFileStatusUpdatedEventData` (for the `Microsoft.Communication.RecordingFileStatusUpdated` system event):
+
+  - `recordingChannelType`
+  - `recordingContentType`
+  - `recordingFormatType`
+
+### Key Bug Fixes
+
+- The TypeScript typings for events from Azure Resource Manager were incorrect. The following properties had their types changed:
+
+  - `authorization`
+  - `claims`
+  - `httpRequest`
+
+Previously, these properties were typed as `string` but the underlying events from the service actually contained objects. Customers using `isSystemEvent` with TypeScript will
+now see compliation issues if they try to treat these properties as strings (previously, the code would fail at runtime).
 
 ## 4.5.0 (2021-10-05)
 

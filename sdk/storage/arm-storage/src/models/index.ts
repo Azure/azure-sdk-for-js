@@ -187,13 +187,17 @@ export interface StorageAccountCreateParameters {
   tags?: { [propertyName: string]: string };
   /** The identity of the resource. */
   identity?: Identity;
+  /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
+  allowedCopyScope?: AllowedCopyScope;
+  /** Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
+  publicNetworkAccess?: PublicNetworkAccess;
   /** SasPolicy assigned to the storage account. */
   sasPolicy?: SasPolicy;
   /** KeyPolicy assigned to the storage account. */
   keyPolicy?: KeyPolicy;
   /** User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property. */
   customDomain?: CustomDomain;
-  /** Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled. */
+  /** Encryption settings to be used for server-side encryption for the storage account. */
   encryption?: Encryption;
   /** Network rule set */
   networkRuleSet?: NetworkRuleSet;
@@ -203,6 +207,10 @@ export interface StorageAccountCreateParameters {
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01. */
   enableHttpsTrafficOnly?: boolean;
+  /** Enables Secure File Transfer Protocol, if set to true */
+  isSftpEnabled?: boolean;
+  /** Enables local users feature, if set to true */
+  isLocalUserEnabled?: boolean;
   /** Account HierarchicalNamespace enabled if sets to true. */
   isHnsEnabled?: boolean;
   /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
@@ -219,6 +227,10 @@ export interface StorageAccountCreateParameters {
   enableNfsV3?: boolean;
   /** Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property. */
   allowCrossTenantReplication?: boolean;
+  /** A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property. */
+  defaultToOAuthAuthentication?: boolean;
+  /** The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the new containers in the account by default. */
+  immutableStorageWithVersioning?: ImmutableStorageAccount;
 }
 
 /** The SKU of the storage account. */
@@ -322,10 +334,10 @@ export interface EncryptionServices {
 
 /** A service that allows server-side encryption to be used. */
 export interface EncryptionService {
-  /** A boolean indicating whether or not the service encrypts the data as it is stored. */
+  /** A boolean indicating whether or not the service encrypts the data as it is stored. Encryption at rest is enabled by default today and cannot be disabled. */
   enabled?: boolean;
   /**
-   * Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
+   * Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is encrypted at rest by default today and cannot be disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastEnabledTime?: Date;
@@ -357,6 +369,8 @@ export interface KeyVaultProperties {
 export interface EncryptionIdentity {
   /** Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account. */
   encryptionUserAssignedIdentity?: string;
+  /** ClientId of the multi-tenant application to be used in conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the storage account. */
+  encryptionFederatedIdentityClientId?: string;
 }
 
 /** Network rule set */
@@ -423,6 +437,10 @@ export interface ActiveDirectoryProperties {
   domainSid: string;
   /** Specifies the security identifier (SID) for Azure Storage. */
   azureStorageSid: string;
+  /** Specifies the Active Directory SAMAccountName for Azure Storage. */
+  samAccountName?: string;
+  /** Specifies the Active Directory account type for Azure Storage. */
+  accountType?: ActiveDirectoryPropertiesAccountType;
 }
 
 /** Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user data, the default option is microsoft routing */
@@ -435,23 +453,22 @@ export interface RoutingPreference {
   publishInternetEndpoints?: boolean;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+/** This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning. */
+export interface ImmutableStorageAccount {
+  /** A boolean flag which enables account-level immutability. All the containers under such an account have object-level immutability enabled by default. */
+  enabled?: boolean;
+  /** Specifies the default account-level immutability policy which is inherited and applied to objects that do not possess an explicit immutability policy at the object level. The object-level immutability policy has higher precedence than the container-level immutability policy, which has a higher precedence than the account-level immutability policy. */
+  immutabilityPolicy?: AccountImmutabilityPolicyProperties;
+}
+
+/** This defines account-level immutability policy properties. */
+export interface AccountImmutabilityPolicyProperties {
+  /** The immutability period for the blobs in the container since the policy creation, in days. */
+  immutabilityPeriodSinceCreationInDays?: number;
+  /** The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted. */
+  state?: AccountImmutabilityPolicyState;
+  /** This property can only be changed for disabled and unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. */
+  allowProtectedAppendWrites?: boolean;
 }
 
 /** The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object. */
@@ -594,6 +611,25 @@ export interface PrivateLinkServiceConnectionState {
   actionRequired?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
 /** Blob restore status. */
 export interface BlobRestoreStatus {
   /**
@@ -646,7 +682,7 @@ export interface StorageAccountUpdateParameters {
   kind?: Kind;
   /** Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property. */
   customDomain?: CustomDomain;
-  /** Provides the encryption settings on the account. The default setting is unencrypted. */
+  /** Not applicable. Azure Storage encryption at rest is enabled by default for all storage accounts and cannot be disabled. */
   encryption?: Encryption;
   /** SasPolicy assigned to the storage account. */
   sasPolicy?: SasPolicy;
@@ -658,6 +694,10 @@ export interface StorageAccountUpdateParameters {
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
   enableHttpsTrafficOnly?: boolean;
+  /** Enables Secure File Transfer Protocol, if set to true */
+  isSftpEnabled?: boolean;
+  /** Enables local users feature, if set to true */
+  isLocalUserEnabled?: boolean;
   /** Network rule set */
   networkRuleSet?: NetworkRuleSet;
   /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
@@ -672,6 +712,14 @@ export interface StorageAccountUpdateParameters {
   allowSharedKeyAccess?: boolean;
   /** Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property. */
   allowCrossTenantReplication?: boolean;
+  /** A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property. */
+  defaultToOAuthAuthentication?: boolean;
+  /** Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default. */
+  immutableStorageWithVersioning?: ImmutableStorageAccount;
+  /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
+  allowedCopyScope?: AllowedCopyScope;
 }
 
 /** The response from the List Deleted Accounts operation. */
@@ -1011,7 +1059,7 @@ export interface BlobInventoryPolicyDefinition {
   schedule: Schedule;
   /** This is a required field. This field specifies the scope of the inventory created either at the blob or container level. */
   objectType: ObjectType;
-  /** This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime'. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl' are valid only for Hns enabled accounts. */
+  /** This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, AccessTierInferred, Tags, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime'. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl' are valid only for Hns enabled accounts.'Tags' field is only valid for non Hns accounts */
   schemaFields: string[];
 }
 
@@ -1088,6 +1136,48 @@ export interface ObjectReplicationPolicyFilter {
   prefixMatch?: string[];
   /** Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z */
   minCreationTime?: string;
+}
+
+/** List storage account local users. */
+export interface LocalUsers {
+  /** The local users associated with the storage account. */
+  value?: LocalUser[];
+}
+
+export interface PermissionScope {
+  /** The permissions for the local user. Possible values include: Read (r), Write (w), Delete (d), List (l), and Create (c). */
+  permissions: string;
+  /** The service used by the local user, e.g. blob, file. */
+  service: string;
+  /** The name of resource, normally the container name or the file share name, used by the local user. */
+  resourceName: string;
+}
+
+export interface SshPublicKey {
+  /** Optional. It is used to store the function/usage of the key */
+  description?: string;
+  /** Ssh public key base64 encoded. The format should be: '<keyType> <keyData>', e.g. ssh-rsa AAAABBBB */
+  key?: string;
+}
+
+/** The Storage Account Local User keys. */
+export interface LocalUserKeys {
+  /** Optional, local user ssh authorized keys for SFTP. */
+  sshAuthorizedKeys?: SshPublicKey[];
+  /**
+   * Auto generated by the server for SMB authentication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sharedKey?: string;
+}
+
+/** The secrets of Storage Account Local User. */
+export interface LocalUserRegeneratePasswordResult {
+  /**
+   * Auto generated password by the server for SSH authentication if hasSshPassword is set to true on the creation of local user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sshPassword?: string;
 }
 
 /** The key vault properties for the encryption scope. This is a required field if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'. */
@@ -1227,8 +1317,10 @@ export interface ImmutabilityPolicyProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: ImmutabilityPolicyState;
-  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API */
+  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. */
   allowProtectedAppendWrites?: boolean;
+  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive. */
+  allowProtectedAppendWritesAll?: boolean;
 }
 
 /** An update history of the ImmutabilityPolicy of a blob container. */
@@ -1263,6 +1355,10 @@ export interface UpdateHistoryProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly upn?: string;
+  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. */
+  allowProtectedAppendWrites?: boolean;
+  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive. */
+  allowProtectedAppendWritesAll?: boolean;
 }
 
 /** The LegalHold property of a blob container. */
@@ -1274,6 +1370,8 @@ export interface LegalHoldProperties {
   readonly hasLegalHold?: boolean;
   /** The list of LegalHold tags of a blob container. */
   tags?: TagProperty[];
+  /** Protected append blob writes history. */
+  protectedAppendWritesHistory?: ProtectedAppendWritesHistory;
 }
 
 /** A tag of the LegalHold of a blob container. */
@@ -1305,6 +1403,17 @@ export interface TagProperty {
   readonly upn?: string;
 }
 
+/** Protected append writes history setting for the blob container with Legal holds. */
+export interface ProtectedAppendWritesHistory {
+  /** When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. */
+  allowProtectedAppendWritesAll?: boolean;
+  /**
+   * Returns the date and time the tag was added.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+}
+
 /** Object level immutability properties of the container. */
 export interface ImmutableStorageWithVersioning {
   /** This is an immutable property, when set to true it enables object level immutability at the container level. */
@@ -1330,6 +1439,8 @@ export interface LegalHold {
   readonly hasLegalHold?: boolean;
   /** Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP. */
   tags: string[];
+  /** When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. */
+  allowProtectedAppendWritesAll?: boolean;
 }
 
 /** Lease Container request schema. */
@@ -1404,24 +1515,6 @@ export interface SmbSetting {
 export interface Multichannel {
   /** Indicates whether multichannel is enabled */
   enabled?: boolean;
-}
-
-/** An error response from the Storage service. */
-export interface CloudErrorAutoGenerated {
-  /** An error response from the Storage service. */
-  error?: CloudErrorBodyAutoGenerated;
-}
-
-/** An error response from the Storage service. */
-export interface CloudErrorBodyAutoGenerated {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBodyAutoGenerated[];
 }
 
 /** Response schema. Contains list of shares returned, and if paging is requested or required, a URL to next page of shares. */
@@ -1528,14 +1621,6 @@ export interface ListTableResource {
   readonly nextLink?: string;
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-};
-
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnection = Resource & {
   /** The resource of private end point. */
@@ -1547,6 +1632,14 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -1613,6 +1706,32 @@ export type ObjectReplicationPolicy = Resource & {
   destinationAccount?: string;
   /** The storage account object replication rules. */
   rules?: ObjectReplicationPolicyRule[];
+};
+
+/** The local user associated with the storage accounts. */
+export type LocalUser = Resource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The permission scopes of the local user. */
+  permissionScopes?: PermissionScope[];
+  /** Optional, local user home directory. */
+  homeDirectory?: string;
+  /** Optional, local user ssh authorized keys for SFTP. */
+  sshAuthorizedKeys?: SshPublicKey[];
+  /**
+   * A unique Security Identifier that is generated by the server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sid?: string;
+  /** Indicates whether shared key exists. Set it to false to remove existing shared key. */
+  hasSharedKey?: boolean;
+  /** Indicates whether ssh key exists. Set it to false to remove existing SSH key. */
+  hasSshKey?: boolean;
+  /** Indicates whether ssh password exists. Set it to false to remove existing SSH password. */
+  hasSshPassword?: boolean;
 };
 
 /** The Encryption Scope resource. */
@@ -1806,7 +1925,7 @@ export type StorageAccount = TrackedResource & {
    */
   readonly secondaryEndpoints?: Endpoints;
   /**
-   * Gets the encryption settings on the account. If unspecified, the account is unencrypted.
+   * Encryption settings to be used for server-side encryption for the storage account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly encryption?: Encryption;
@@ -1824,6 +1943,10 @@ export type StorageAccount = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkRuleSet?: NetworkRuleSet;
+  /** Enables Secure File Transfer Protocol, if set to true */
+  isSftpEnabled?: boolean;
+  /** Enables local users feature, if set to true */
+  isLocalUserEnabled?: boolean;
   /** Account HierarchicalNamespace enabled if sets to true. */
   isHnsEnabled?: boolean;
   /**
@@ -1860,6 +1983,14 @@ export type StorageAccount = TrackedResource & {
   enableNfsV3?: boolean;
   /** Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property. */
   allowCrossTenantReplication?: boolean;
+  /** A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property. */
+  defaultToOAuthAuthentication?: boolean;
+  /** Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default. */
+  immutableStorageWithVersioning?: ImmutableStorageAccount;
+  /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
+  allowedCopyScope?: AllowedCopyScope;
 };
 
 /** Deleted storage account */
@@ -1963,6 +2094,10 @@ export type ListContainerItem = AzureEntityResource & {
   readonly hasImmutabilityPolicy?: boolean;
   /** The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process. */
   immutableStorageWithVersioning?: ImmutableStorageWithVersioning;
+  /** Enable NFSv3 root squash on blob container. */
+  enableNfsV3RootSquash?: boolean;
+  /** Enable NFSv3 all squash on blob container. */
+  enableNfsV3AllSquash?: boolean;
 };
 
 /** Properties of the blob container, including Id, resource name, resource type, Etag. */
@@ -2037,6 +2172,10 @@ export type BlobContainer = AzureEntityResource & {
   readonly hasImmutabilityPolicy?: boolean;
   /** The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process. */
   immutableStorageWithVersioning?: ImmutableStorageWithVersioning;
+  /** Enable NFSv3 root squash on blob container. */
+  enableNfsV3RootSquash?: boolean;
+  /** Enable NFSv3 all squash on blob container. */
+  enableNfsV3AllSquash?: boolean;
 };
 
 /** The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag. */
@@ -2048,8 +2187,10 @@ export type ImmutabilityPolicy = AzureEntityResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: ImmutabilityPolicyState;
-  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API */
+  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. */
   allowProtectedAppendWrites?: boolean;
+  /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive. */
+  allowProtectedAppendWritesAll?: boolean;
 };
 
 /** The file share properties be listed out. */
@@ -2340,6 +2481,38 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
+/** Known values of {@link AllowedCopyScope} that the service accepts. */
+export enum KnownAllowedCopyScope {
+  PrivateLink = "PrivateLink",
+  AAD = "AAD"
+}
+
+/**
+ * Defines values for AllowedCopyScope. \
+ * {@link KnownAllowedCopyScope} can be used interchangeably with AllowedCopyScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrivateLink** \
+ * **AAD**
+ */
+export type AllowedCopyScope = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
 /** Known values of {@link ExpirationAction} that the service accepts. */
 export enum KnownExpirationAction {
   Log = "Log"
@@ -2446,13 +2619,28 @@ export enum KnownDirectoryServiceOptions {
  */
 export type DirectoryServiceOptions = string;
 
+/** Known values of {@link ActiveDirectoryPropertiesAccountType} that the service accepts. */
+export enum KnownActiveDirectoryPropertiesAccountType {
+  User = "User",
+  Computer = "Computer"
+}
+
+/**
+ * Defines values for ActiveDirectoryPropertiesAccountType. \
+ * {@link KnownActiveDirectoryPropertiesAccountType} can be used interchangeably with ActiveDirectoryPropertiesAccountType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Computer**
+ */
+export type ActiveDirectoryPropertiesAccountType = string;
+
 /** Known values of {@link DefaultSharePermission} that the service accepts. */
 export enum KnownDefaultSharePermission {
   None = "None",
   StorageFileDataSmbShareReader = "StorageFileDataSmbShareReader",
   StorageFileDataSmbShareContributor = "StorageFileDataSmbShareContributor",
-  StorageFileDataSmbShareElevatedContributor = "StorageFileDataSmbShareElevatedContributor",
-  StorageFileDataSmbShareOwner = "StorageFileDataSmbShareOwner"
+  StorageFileDataSmbShareElevatedContributor = "StorageFileDataSmbShareElevatedContributor"
 }
 
 /**
@@ -2463,8 +2651,7 @@ export enum KnownDefaultSharePermission {
  * **None** \
  * **StorageFileDataSmbShareReader** \
  * **StorageFileDataSmbShareContributor** \
- * **StorageFileDataSmbShareElevatedContributor** \
- * **StorageFileDataSmbShareOwner**
+ * **StorageFileDataSmbShareElevatedContributor**
  */
 export type DefaultSharePermission = string;
 
@@ -2517,6 +2704,24 @@ export enum KnownMinimumTlsVersion {
  * **TLS1_2**
  */
 export type MinimumTlsVersion = string;
+
+/** Known values of {@link AccountImmutabilityPolicyState} that the service accepts. */
+export enum KnownAccountImmutabilityPolicyState {
+  Unlocked = "Unlocked",
+  Locked = "Locked",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AccountImmutabilityPolicyState. \
+ * {@link KnownAccountImmutabilityPolicyState} can be used interchangeably with AccountImmutabilityPolicyState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unlocked** \
+ * **Locked** \
+ * **Disabled**
+ */
+export type AccountImmutabilityPolicyState = string;
 
 /** Known values of {@link GeoReplicationStatus} that the service accepts. */
 export enum KnownGeoReplicationStatus {
@@ -3223,6 +3428,24 @@ export interface StorageAccountsFailoverOptionalParams
 }
 
 /** Optional parameters. */
+export interface StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface StorageAccountsRestoreBlobRangesOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3356,29 +3579,68 @@ export interface PrivateLinkResourcesListByStorageAccountOptionalParams
 export type PrivateLinkResourcesListByStorageAccountResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface ObjectReplicationPoliciesOperationsListOptionalParams
+export interface ObjectReplicationPoliciesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ObjectReplicationPoliciesOperationsListResponse = ObjectReplicationPolicies;
+export type ObjectReplicationPoliciesListResponse = ObjectReplicationPolicies;
 
 /** Optional parameters. */
-export interface ObjectReplicationPoliciesOperationsGetOptionalParams
+export interface ObjectReplicationPoliciesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ObjectReplicationPoliciesOperationsGetResponse = ObjectReplicationPolicy;
+export type ObjectReplicationPoliciesGetResponse = ObjectReplicationPolicy;
 
 /** Optional parameters. */
-export interface ObjectReplicationPoliciesOperationsCreateOrUpdateOptionalParams
+export interface ObjectReplicationPoliciesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ObjectReplicationPoliciesOperationsCreateOrUpdateResponse = ObjectReplicationPolicy;
+export type ObjectReplicationPoliciesCreateOrUpdateResponse = ObjectReplicationPolicy;
 
 /** Optional parameters. */
-export interface ObjectReplicationPoliciesOperationsDeleteOptionalParams
+export interface ObjectReplicationPoliciesDeleteOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LocalUsersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type LocalUsersListResponse = LocalUsers;
+
+/** Optional parameters. */
+export interface LocalUsersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LocalUsersGetResponse = LocalUser;
+
+/** Optional parameters. */
+export interface LocalUsersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LocalUsersCreateOrUpdateResponse = LocalUser;
+
+/** Optional parameters. */
+export interface LocalUsersDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LocalUsersListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type LocalUsersListKeysResponse = LocalUserKeys;
+
+/** Optional parameters. */
+export interface LocalUsersRegeneratePasswordOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regeneratePassword operation. */
+export type LocalUsersRegeneratePasswordResponse = LocalUserRegeneratePasswordResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesPutOptionalParams
@@ -3767,43 +4029,41 @@ export interface TableServicesGetServicePropertiesOptionalParams
 export type TableServicesGetServicePropertiesResponse = TableServiceProperties;
 
 /** Optional parameters. */
-export interface TableOperationsCreateOptionalParams
+export interface TableCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type TableOperationsCreateResponse = Table;
+export type TableCreateResponse = Table;
 
 /** Optional parameters. */
-export interface TableOperationsUpdateOptionalParams
+export interface TableUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type TableOperationsUpdateResponse = Table;
+export type TableUpdateResponse = Table;
 
 /** Optional parameters. */
-export interface TableOperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TableGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TableOperationsGetResponse = Table;
+export type TableGetResponse = Table;
 
 /** Optional parameters. */
-export interface TableOperationsDeleteOptionalParams
+export interface TableDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TableOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TableListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TableOperationsListResponse = ListTableResource;
+export type TableListResponse = ListTableResource;
 
 /** Optional parameters. */
-export interface TableOperationsListNextOptionalParams
+export interface TableListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TableOperationsListNextResponse = ListTableResource;
+export type TableListNextResponse = ListTableResource;
 
 /** Optional parameters. */
 export interface StorageManagementClientOptionalParams

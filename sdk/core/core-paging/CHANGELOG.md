@@ -1,5 +1,21 @@
 # Release History
 
+## 1.2.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.1 (2022-01-06)
+
+### Bugs Fixed
+
+- Use a TS v3.4-friendly iterator protocol [PR# 19507](https://github.com/Azure/azure-sdk-for-js/pull/19507). Fixed [Issue 19394](https://github.com/Azure/azure-sdk-for-js/issues/19394)
+
 ## 1.2.0 (2021-08-30)
 
 ### Features Added

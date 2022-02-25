@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as msAssert from "./msAssert";
 import { parseXML, stringifyXML } from "../src/util/xml";
 import { assert } from "chai";
-import * as msAssert from "./msAssert";
 
-describe("XML serializer", function() {
-  describe("parseXML(string)", function() {
-    it("with undefined", async function() {
+describe("XML serializer", function () {
+  describe("parseXML(string)", function () {
+    it("with undefined", async function () {
       const error: Error = await msAssert.throwsAsync(parseXML(undefined as any));
       assert.ok(
         error.message.indexOf("Document is empty") !== -1 || // Chrome
@@ -17,7 +17,7 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with null", async function() {
+    it("with null", async function () {
       // tslint:disable-next-line:no-null-keyword
       const error: Error = await msAssert.throwsAsync(parseXML(null as any));
       assert.ok(
@@ -28,216 +28,216 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with empty", async function() {
+    it("with empty", async function () {
       await msAssert.throwsAsync(parseXML(""));
     });
 
-    it("with text", async function() {
+    it("with text", async function () {
       await msAssert.throwsAsync(parseXML("Hello World!"));
     });
 
-    it("with empty element", async function() {
+    it("with empty element", async function () {
       const xml: any = await parseXML("<fruit/>");
       assert.deepStrictEqual(xml, ``);
     });
 
-    it("with <parsererror> element", async function() {
+    it("with <parsererror> element", async function () {
       const xml: any = await parseXML(`<errors><parsererror>error 1</parsererror></errors>`);
       assert.deepStrictEqual(xml, { parsererror: "error 1" });
     });
 
-    it("with empty element with attribute", async function() {
+    it("with empty element with attribute", async function () {
       const xml: any = await parseXML(`<fruit healthy="true" />`);
       assert.deepStrictEqual(xml, {
         $: {
-          healthy: "true"
-        }
+          healthy: "true",
+        },
       });
     });
 
-    it("with element", async function() {
+    it("with element", async function () {
       const xml: any = await parseXML("<fruit></fruit>");
       assert.deepStrictEqual(xml, ``);
     });
 
-    it("with element with value", async function() {
+    it("with element with value", async function () {
       const xml: any = await parseXML("<fruit>hurray</fruit>");
       assert.deepStrictEqual(xml, `hurray`);
     });
 
-    it("with element with attribute", async function() {
+    it("with element with attribute", async function () {
       const xml: any = await parseXML(`<fruit healthy="true"></fruit>`);
       assert.deepStrictEqual(xml, {
         $: {
-          healthy: "true"
-        }
+          healthy: "true",
+        },
       });
     });
 
-    it("with element with attribute and value", async function() {
+    it("with element with attribute and value", async function () {
       const xml: any = await parseXML(`<fruit healthy="true">yum</fruit>`);
       assert.deepStrictEqual(xml, {
         $: {
-          healthy: "true"
+          healthy: "true",
         },
-        _: "yum"
+        _: "yum",
       });
     });
 
-    it("with element with child empty element", async function() {
+    it("with element with child empty element", async function () {
       const xml: any = await parseXML(`<fruit><apples/></fruit>`);
       assert.deepStrictEqual(xml, {
-        apples: ``
+        apples: ``,
       });
     });
 
-    it("with element with child empty element with attribute", async function() {
+    it("with element with child empty element with attribute", async function () {
       const xml: any = await parseXML(`<fruit><apples tasty="true"/></fruit>`);
       assert.deepStrictEqual(xml, {
         apples: {
           $: {
-            tasty: "true"
-          }
-        }
+            tasty: "true",
+          },
+        },
       });
     });
 
-    it("with element with child element with value", async function() {
+    it("with element with child element with value", async function () {
       const xml: any = await parseXML(`<fruit><apples>yum</apples></fruit>`);
       assert.deepStrictEqual(xml, {
-        apples: "yum"
+        apples: "yum",
       });
     });
 
-    it("with element with child element with attribute and value", async function() {
+    it("with element with child element with attribute and value", async function () {
       const xml: any = await parseXML(`<fruit><apples tasty="true">yum</apples></fruit>`);
       assert.deepStrictEqual(xml, {
         apples: {
           $: {
-            tasty: "true"
+            tasty: "true",
           },
-          _: "yum"
-        }
+          _: "yum",
+        },
       });
     });
 
-    it("with underscore element", async function() {
+    it("with underscore element", async function () {
       const str = "<Metadata><h>v</h><_>underscore</_></Metadata>";
       const parsed = await parseXML(str, { xmlCharKey: "#" });
       assert.deepStrictEqual(parsed, {
         h: "v",
-        _: "underscore"
+        _: "underscore",
       });
     });
   });
 
-  describe("parseXML(string) with root", function() {
-    it("with empty element", async function() {
+  describe("parseXML(string) with root", function () {
+    it("with empty element", async function () {
       const json: any = await parseXML("<fruit/>", { includeRoot: true });
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
-    it("with empty element with attribute", async function() {
+    it("with empty element with attribute", async function () {
       const json: any = await parseXML(`<fruit healthy="true" />`, {
-        includeRoot: true
+        includeRoot: true,
       });
       assert.deepStrictEqual(json, {
         fruit: {
           $: {
-            healthy: "true"
-          }
-        }
+            healthy: "true",
+          },
+        },
       });
     });
 
-    it("with element", async function() {
+    it("with element", async function () {
       const json: any = await parseXML("<fruit></fruit>", { includeRoot: true });
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
-    it("with element with value", async function() {
+    it("with element with value", async function () {
       const json: any = await parseXML("<fruit>hurray</fruit>", { includeRoot: true });
       assert.deepStrictEqual(json, { fruit: `hurray` });
     });
 
-    it("with unwanted BOM characters", async function() {
+    it("with unwanted BOM characters", async function () {
       const json: any = await parseXML("\uFEFF<fruit>apple</fruit>", {
-        includeRoot: true
+        includeRoot: true,
       });
       assert.deepStrictEqual(json, { fruit: "apple" });
     });
 
-    it("with element with attribute", async function() {
+    it("with element with attribute", async function () {
       const json: any = await parseXML(`<fruit healthy="true"></fruit>`, {
-        includeRoot: true
+        includeRoot: true,
       });
       assert.deepStrictEqual(json, {
         fruit: {
           $: {
-            healthy: "true"
-          }
-        }
-      });
-    });
-
-    it("with element with attribute and value", async function() {
-      const json: any = await parseXML(`<fruit healthy="true">yum</fruit>`, {
-        includeRoot: true
-      });
-      assert.deepStrictEqual(json, {
-        fruit: {
-          $: {
-            healthy: "true"
+            healthy: "true",
           },
-          _: "yum"
-        }
+        },
       });
     });
 
-    it("with element with child empty element", async function() {
-      const json: any = await parseXML(`<fruit><apples/></fruit>`, {
-        includeRoot: true
+    it("with element with attribute and value", async function () {
+      const json: any = await parseXML(`<fruit healthy="true">yum</fruit>`, {
+        includeRoot: true,
       });
       assert.deepStrictEqual(json, {
         fruit: {
-          apples: ``
-        }
+          $: {
+            healthy: "true",
+          },
+          _: "yum",
+        },
       });
     });
 
-    it("with element with child empty element with attribute", async function() {
+    it("with element with child empty element", async function () {
+      const json: any = await parseXML(`<fruit><apples/></fruit>`, {
+        includeRoot: true,
+      });
+      assert.deepStrictEqual(json, {
+        fruit: {
+          apples: ``,
+        },
+      });
+    });
+
+    it("with element with child empty element with attribute", async function () {
       const json: any = await parseXML(`<apples tasty="true"/>`, { includeRoot: true });
       assert.deepStrictEqual(json, {
         apples: {
           $: {
-            tasty: "true"
-          }
-        }
+            tasty: "true",
+          },
+        },
       });
     });
 
-    it("with element with child element with value", async function() {
+    it("with element with child element with value", async function () {
       const json: any = await parseXML(`<apples>yum</apples>`, { includeRoot: true });
       assert.deepStrictEqual(json, {
-        apples: "yum"
+        apples: "yum",
       });
     });
 
-    it("with element with child element with attribute and value", async function() {
+    it("with element with child element with attribute and value", async function () {
       const json: any = await parseXML(`<apples tasty="true">yum</apples>`, {
-        includeRoot: true
+        includeRoot: true,
       });
       assert.deepStrictEqual(json, {
         apples: {
           $: {
-            tasty: "true"
+            tasty: "true",
           },
-          _: "yum"
-        }
+          _: "yum",
+        },
       });
     });
 
-    it("should handle errors gracefully", async function() {
+    it("should handle errors gracefully", async function () {
       try {
         await parseXML("INVALID", { includeRoot: true });
         throw new Error("did not throw");
@@ -249,15 +249,15 @@ describe("XML serializer", function() {
     });
   });
 
-  describe("stringifyXML(JSON) with root", function() {
-    it("with empty element with attribute", async function() {
+  describe("stringifyXML(JSON) with root", function () {
+    it("with empty element with attribute", async function () {
       const xml: any = await stringifyXML(
         {
           fruit: {
             $: {
-              healthy: "true"
-            }
-          }
+              healthy: "true",
+            },
+          },
         },
         { rootName: "fruits" }
       );
@@ -267,7 +267,7 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element", async function() {
+    it("with element", async function () {
       const xml: any = await stringifyXML({ fruit: `` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
@@ -275,7 +275,7 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with value", async function() {
+    it("with element with value", async function () {
       const xml: any = await stringifyXML({ fruit: `hurray` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
@@ -283,14 +283,14 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with attribute", async function() {
+    it("with element with attribute", async function () {
       const xml: any = await stringifyXML(
         {
           fruit: {
             $: {
-              healthy: "true"
-            }
-          }
+              healthy: "true",
+            },
+          },
         },
         { rootName: "fruits" }
       );
@@ -300,15 +300,15 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with attribute and value", async function() {
+    it("with element with attribute and value", async function () {
       const xml: any = await stringifyXML(
         {
           fruit: {
             $: {
-              healthy: "true"
+              healthy: "true",
             },
-            _: "yum"
-          }
+            _: "yum",
+          },
         },
         { rootName: "fruits" }
       );
@@ -318,15 +318,15 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with attribute and value", async function() {
+    it("with element with attribute and value", async function () {
       const xml: any = await stringifyXML(
         {
           fruit: {
             $: {
-              healthy: "true"
+              healthy: "true",
             },
-            _: "yum"
-          }
+            _: "yum",
+          },
         },
         { rootName: "fruits" }
       );
@@ -336,12 +336,12 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with child undefined element", async function() {
+    it("with element with child undefined element", async function () {
       const xml: any = await stringifyXML(
         {
           fruit: {
-            apples: undefined
-          }
+            apples: undefined,
+          },
         },
         { rootName: "fruits" }
       );
@@ -351,14 +351,14 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with child empty element with attribute", async function() {
+    it("with element with child empty element with attribute", async function () {
       const xml: any = await stringifyXML(
         {
           apples: {
             $: {
-              tasty: "true"
-            }
-          }
+              tasty: "true",
+            },
+          },
         },
         { rootName: "fruits" }
       );
@@ -368,10 +368,10 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with child element with value", async function() {
+    it("with element with child element with value", async function () {
       const xml: any = await stringifyXML(
         {
-          apples: "yum"
+          apples: "yum",
         },
         { rootName: "fruits" }
       );
@@ -381,15 +381,15 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with child element with attribute and value", async function() {
+    it("with element with child element with attribute and value", async function () {
       const xml: any = await stringifyXML(
         {
           apples: {
             $: {
-              tasty: "true"
+              tasty: "true",
             },
-            _: "yum"
-          }
+            _: "yum",
+          },
         },
         { rootName: "fruits" }
       );
@@ -400,7 +400,7 @@ describe("XML serializer", function() {
     });
   });
 
-  it("should handle errors gracefully", async function() {
+  it("should handle errors gracefully", async function () {
     try {
       await parseXML("INVALID");
       throw new Error("did not throw");

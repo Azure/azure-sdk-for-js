@@ -7,7 +7,7 @@ import {
   isTokenCredential,
   NamedKeyCredential,
   SASCredential,
-  TokenCredential
+  TokenCredential,
 } from "@azure/core-auth";
 
 /**

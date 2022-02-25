@@ -11,10 +11,10 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 const client = new CosmosClient({
   endpoint,
   key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-const validateOfferResponseBody = function(offer: any): void {
+const validateOfferResponseBody = function (offer: any): void {
   assert(offer.id, "Id cannot be null");
   assert(offer._rid, "Resource Id (Rid) cannot be null");
   assert(offer._self, "Self Link cannot be null");
@@ -22,16 +22,16 @@ const validateOfferResponseBody = function(offer: any): void {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
     await removeAllDatabases();
   });
 
-  describe("Validate Offer CRUD", function() {
-    it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function() {
+  describe("Validate Offer CRUD", function () {
+    it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function () {
       const mbInBytes = 1024 * 1024;
       const offerThroughput = 400;
       const container = await getTestContainer("Validate Offer CRUD");
@@ -77,9 +77,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         parameters: [
           {
             name: "@id",
-            value: expectedOffer.id
-          }
-        ]
+            value: expectedOffer.id,
+          },
+        ],
       };
       const { resources: offers2 } = await client.offers.query(querySpec).fetchAll();
       assert.equal(offers2.length, 1);
@@ -97,7 +97,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       }
     });
 
-    it("nativeApi Should do offer replace operations successfully name based", async function() {
+    it("nativeApi Should do offer replace operations successfully name based", async function () {
       await getTestContainer("Validate Offer CRUD");
       const { resources: offers } = await client.offers.readAll().fetchAll();
       assert.equal(offers.length, 1);

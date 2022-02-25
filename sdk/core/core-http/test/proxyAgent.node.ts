@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { should } from "chai";
-import Tunnel from "tunnel";
-import https from "https";
-
 import { HttpHeaders, ProxySettings } from "../src/coreHttp";
 import { createProxyAgent, createTunnel } from "../src/proxyAgent";
+import Tunnel from "tunnel";
+import https from "https";
+import { should } from "chai";
 
 describe("proxyAgent", () => {
   describe("createProxyAgent", () => {
@@ -24,15 +23,15 @@ describe("proxyAgent", () => {
       { proxy: "http", request: "http", port: undefined, isProxyHttps: false },
       { proxy: "hTtp", request: "https", port: 443, isProxyHttps: true },
       { proxy: "HTTPS", request: "http", port: undefined, isProxyHttps: false },
-      { proxy: "https", request: "hTTps", port: 443, isProxyHttps: true }
+      { proxy: "https", request: "hTTps", port: 443, isProxyHttps: true },
     ].forEach((testCase) => {
       it(`should return ${
         testCase.isProxyHttps ? "HTTPS" : "HTTP"
-      } proxy for ${testCase.proxy.toUpperCase()} proxy server and ${testCase.request.toUpperCase()} request`, function(done) {
+      } proxy for ${testCase.proxy.toUpperCase()} proxy server and ${testCase.request.toUpperCase()} request`, function (done) {
         const urlHost = "proxy.microsoft.com";
         const proxySettings = {
           host: `${testCase.proxy}://${urlHost}`,
-          port: 8080
+          port: 8080,
         };
         const requestUrl = `${testCase.request}://example.com`;
 
@@ -47,13 +46,13 @@ describe("proxyAgent", () => {
       });
     });
 
-    it("should copy headers correctly", function(done) {
+    it("should copy headers correctly", function (done) {
       const proxySettings = {
         host: "http://proxy.microsoft.com",
-        port: 8080
+        port: 8080,
       };
       const headers = new HttpHeaders({
-        "User-Agent": "Node.js"
+        "User-Agent": "Node.js",
       });
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings, headers);
@@ -64,12 +63,12 @@ describe("proxyAgent", () => {
       done();
     });
 
-    it("should set agent proxyAuth correctly", function(done) {
+    it("should set agent proxyAuth correctly", function (done) {
       const proxySettings: ProxySettings = {
         host: "http://proxy.microsoft.com",
         port: 8080,
         username: "username",
-        password: "SecretPlaceholder"
+        password: "SecretPlaceholder",
       };
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings);
@@ -80,11 +79,11 @@ describe("proxyAgent", () => {
       done();
     });
 
-    it("should set agent proxyAuth correctly when password is not specified", function(done) {
+    it("should set agent proxyAuth correctly when password is not specified", function (done) {
       const proxySettings: ProxySettings = {
         host: "http://proxy.microsoft.com",
         port: 8080,
-        username: "username"
+        username: "username",
       };
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings);
@@ -97,15 +96,15 @@ describe("proxyAgent", () => {
 
     [
       { host: "host", port: 0 },
-      { host: "host", port: 65535 }
+      { host: "host", port: 65535 },
     ].forEach((testCase) => {
-      it(`should not throw error when being given a valid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function(done) {
+      it(`should not throw error when being given a valid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function (done) {
         const proxySettings = {
           host: testCase.host,
-          port: testCase.port
+          port: testCase.port,
         };
 
-        const fn = function(): void {
+        const fn = function (): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.not.throw();
@@ -116,15 +115,15 @@ describe("proxyAgent", () => {
     [
       { host: "", port: 8080, expectInvalidHostError: true },
       { host: "host", port: -1, expectInvalidHostError: false },
-      { host: "host", port: 65536, expectInvalidHostError: false }
+      { host: "host", port: 65536, expectInvalidHostError: false },
     ].forEach((testCase) => {
-      it(`should throw error when being given an invalid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function(done) {
+      it(`should throw error when being given an invalid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function (done) {
         const proxySettings = {
           host: testCase.host,
-          port: testCase.port
+          port: testCase.port,
         };
 
-        const fn = function(): void {
+        const fn = function (): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.throw(
@@ -140,7 +139,7 @@ describe("proxyAgent", () => {
   describe("createTunnel", () => {
     const defaultProxySettings = {
       host: "http://proxy.microsoft.com",
-      port: 8080
+      port: 8080,
     };
 
     type HttpsAgent = https.Agent & {
@@ -151,13 +150,13 @@ describe("proxyAgent", () => {
     };
 
     [true, false].forEach((value) => {
-      it(`returns HTTP agent for HTTP request and HTTP${value ? "S" : ""} proxy`, function() {
+      it(`returns HTTP agent for HTTP request and HTTP${value ? "S" : ""} proxy`, function () {
         const tunnelConfig: Tunnel.HttpsOverHttpsOptions = {
           proxy: {
             host: defaultProxySettings.host,
             port: defaultProxySettings.port,
-            headers: {}
-          }
+            headers: {},
+          },
         };
 
         const tunnel = createTunnel(false, value, tunnelConfig) as HttpsAgent;
@@ -168,13 +167,13 @@ describe("proxyAgent", () => {
     });
 
     [true, false].forEach((value) => {
-      it(`returns HTTPS agent for HTTPS request and HTTP${value ? "S" : ""} proxy`, function() {
+      it(`returns HTTPS agent for HTTPS request and HTTP${value ? "S" : ""} proxy`, function () {
         const tunnelConfig: Tunnel.HttpsOverHttpsOptions = {
           proxy: {
             host: defaultProxySettings.host,
             port: defaultProxySettings.port,
-            headers: {}
-          }
+            headers: {},
+          },
         };
 
         const tunnel = createTunnel(true, value, tunnelConfig) as HttpsAgent;

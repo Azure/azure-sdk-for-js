@@ -11,7 +11,7 @@ import { WorkflowRunActionRepetitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   WorkflowRunActionRepetitionDefinition,
   WorkflowRunActionRepetitionsListOptionalParams,
@@ -27,13 +27,13 @@ import {
 /** Class containing WorkflowRunActionRepetitions operations. */
 export class WorkflowRunActionRepetitionsImpl
   implements WorkflowRunActionRepetitions {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class WorkflowRunActionRepetitions class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

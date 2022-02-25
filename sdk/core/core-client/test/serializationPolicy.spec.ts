@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MapperTypeNames, createSerializer } from "../src";
+import { serializeHeaders, serializeRequestBody } from "../src/serializationPolicy";
+import { Mappers } from "./testMappers1";
 import { assert } from "chai";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
-import { createSerializer, MapperTypeNames } from "../src";
-import { serializeRequestBody, serializeHeaders } from "../src/serializationPolicy";
-import { Mappers } from "./testMappers";
 
-describe("serializationPolicy", function() {
+describe("serializationPolicy", function () {
   describe("serializeRequestBody()", () => {
     it("should serialize additional properties when the mapper is refd by className", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
@@ -20,22 +20,22 @@ describe("serializationPolicy", function() {
           data: {
             baseData: {
               test: "Hello!",
-              extraProp: "FooBar"
-            }
-          }
-        }
+              extraProp: "FooBar",
+            },
+          },
+        },
       ];
 
       serializeRequestBody(
         httpRequest,
         {
-          body
+          body,
         },
         {
           httpMethod: "POST",
           requestBody: Mappers.body,
           responses: { 200: {} },
-          serializer: createSerializer(Mappers)
+          serializer: createSerializer(Mappers),
         }
       );
       assert.strictEqual(
@@ -49,7 +49,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          boolBody: false
+          boolBody: false,
         },
         {
           httpMethod: "PUT",
@@ -60,12 +60,12 @@ describe("serializationPolicy", function() {
               isConstant: true,
               serializedName: "boolBody",
               type: {
-                name: "Boolean"
-              }
-            }
+                name: "Boolean",
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `false`);
@@ -76,7 +76,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          boolBody: null
+          boolBody: null,
         },
         {
           httpMethod: "PUT",
@@ -88,12 +88,12 @@ describe("serializationPolicy", function() {
               serializedName: "nullBody",
               nullable: true,
               type: {
-                name: "String"
-              }
-            }
+                name: "String",
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `null`);
@@ -104,7 +104,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -114,12 +114,12 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.String
-              }
-            }
+                name: MapperTypeNames.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
@@ -130,7 +130,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -142,12 +142,12 @@ describe("serializationPolicy", function() {
               xmlNamespacePrefix: "foo",
               serializedName: "bodyArg",
               type: {
-                name: "String"
-              }
-            }
+                name: "String",
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
@@ -158,7 +158,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -168,12 +168,12 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.ByteArray
-              }
-            }
+                name: MapperTypeNames.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
@@ -184,7 +184,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -196,12 +196,12 @@ describe("serializationPolicy", function() {
               xmlNamespacePrefix: "test",
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.ByteArray
-              }
-            }
+                name: MapperTypeNames.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
@@ -212,7 +212,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -222,12 +222,12 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.Stream
-              }
-            }
+                name: MapperTypeNames.Stream,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         },
         stringifyXML
       );
@@ -239,7 +239,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -251,12 +251,12 @@ describe("serializationPolicy", function() {
               xmlNamespacePrefix: "test",
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.Stream
-              }
-            }
+                name: MapperTypeNames.Stream,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         },
         stringifyXML
       );
@@ -268,7 +268,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -278,13 +278,13 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.String
-              }
-            }
+                name: MapperTypeNames.String,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -299,7 +299,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -310,13 +310,13 @@ describe("serializationPolicy", function() {
               serializedName: "bodyArg",
               xmlNamespace: "https://microsoft.com",
               type: {
-                name: MapperTypeNames.String
-              }
-            }
+                name: MapperTypeNames.String,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -331,7 +331,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -341,13 +341,13 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.ByteArray
-              }
-            }
+                name: MapperTypeNames.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -362,7 +362,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -372,13 +372,13 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.Stream
-              }
-            }
+                name: MapperTypeNames.Stream,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -390,7 +390,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -401,13 +401,13 @@ describe("serializationPolicy", function() {
               xmlNamespace: "https://microsoft.com",
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.Stream
-              }
-            }
+                name: MapperTypeNames.Stream,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -419,7 +419,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -431,13 +431,13 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.ByteArray
-              }
-            }
+                name: MapperTypeNames.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -454,15 +454,15 @@ describe("serializationPolicy", function() {
         {
           requestBody: {
             updated: new Date("2020-08-12T23:36:18.308Z"),
-            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } }
-          }
+            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } },
+          },
         },
         {
           httpMethod: "POST",
           requestBody: Mappers.requestBody1,
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -479,14 +479,14 @@ describe("serializationPolicy", function() {
         {
           requestBody: {
             updated: new Date("2020-08-12T23:36:18.308Z"),
-            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } }
-          }
+            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } },
+          },
         },
         {
           httpMethod: "POST",
           requestBody: Mappers.requestBody1,
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
 
@@ -501,7 +501,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: ["Foo", "Bar"]
+          bodyArg: ["Foo", "Bar"],
         },
         {
           httpMethod: "POST",
@@ -516,14 +516,14 @@ describe("serializationPolicy", function() {
                 name: MapperTypeNames.Sequence,
                 element: {
                   xmlNamespace: "https://microsoft.com/element",
-                  type: { name: "String" }
-                }
-              }
-            }
+                  type: { name: "String" },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -538,7 +538,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: ["Foo", "Bar"]
+          bodyArg: ["Foo", "Bar"],
         },
         {
           httpMethod: "POST",
@@ -553,13 +553,13 @@ describe("serializationPolicy", function() {
                 name: MapperTypeNames.Sequence,
                 element: {
                   xmlNamespace: "https://microsoft.com/element",
-                  type: { name: "String" }
-                }
-              }
-            }
+                  type: { name: "String" },
+                },
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
@@ -573,8 +573,8 @@ describe("serializationPolicy", function() {
           bodyArg: [
             { foo: "Foo1", bar: "Bar1" },
             { foo: "Foo2", bar: "Bar2" },
-            { foo: "Foo3", bar: "Bar3" }
-          ]
+            { foo: "Foo3", bar: "Bar3" },
+          ],
         },
         {
           httpMethod: "POST",
@@ -597,8 +597,8 @@ describe("serializationPolicy", function() {
                         xmlNamespace: "https://microsoft.com/foo",
                         xmlName: "Foo",
                         type: {
-                          name: "String"
-                        }
+                          name: "String",
+                        },
                       },
                       bar: {
                         xmlNamespacePrefix: "bar",
@@ -606,18 +606,18 @@ describe("serializationPolicy", function() {
                         xmlName: "Bar",
                         serializedName: "bar",
                         type: {
-                          name: "String"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+                          name: "String",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -632,7 +632,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: { foo: "Foo", bar: "Bar" }
+          bodyArg: { foo: "Foo", bar: "Bar" },
         },
         {
           httpMethod: "POST",
@@ -650,8 +650,8 @@ describe("serializationPolicy", function() {
                     xmlNamespace: "https://microsoft.com/foo",
                     xmlName: "Foo",
                     type: {
-                      name: "String"
-                    }
+                      name: "String",
+                    },
                   },
                   bar: {
                     xmlNamespacePrefix: "bar",
@@ -659,16 +659,16 @@ describe("serializationPolicy", function() {
                     xmlName: "Bar",
                     serializedName: "bar",
                     type: {
-                      name: "String"
-                    }
-                  }
-                }
-              }
-            }
+                      name: "String",
+                    },
+                  },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -685,8 +685,8 @@ describe("serializationPolicy", function() {
         {
           metadata: {
             alpha: "hello",
-            beta: "world"
-          }
+            beta: "world",
+          },
         },
         {
           httpMethod: "POST",
@@ -698,16 +698,16 @@ describe("serializationPolicy", function() {
                 name: "Dictionary",
                 value: {
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            }
+              headerCollectionPrefix: "foo-bar-",
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -724,8 +724,8 @@ describe("serializationPolicy", function() {
         {
           metadata: {
             alpha: "hello",
-            beta: "world"
-          }
+            beta: "world",
+          },
         },
         {
           httpMethod: "POST",
@@ -741,16 +741,16 @@ describe("serializationPolicy", function() {
                   xmlNamespacePrefix: "el",
                   xmlNamespace: "https://microsoft.com/element",
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            }
+              headerCollectionPrefix: "foo-bar-",
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -767,8 +767,8 @@ describe("serializationPolicy", function() {
         {
           metadata: {
             alpha: "hello",
-            beta: "world"
-          }
+            beta: "world",
+          },
         },
         {
           httpMethod: "POST",
@@ -784,15 +784,15 @@ describe("serializationPolicy", function() {
                   xmlNamespacePrefix: "el",
                   xmlNamespace: "https://microsoft.com/element",
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            }
+              headerCollectionPrefix: "foo-bar-",
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         },
         stringifyXML
       );
@@ -805,15 +805,15 @@ describe("serializationPolicy", function() {
         httpRequest,
         {
           requestBody: {
-            "#": "pound value"
+            "#": "pound value",
           },
           options: {
             serializerOptions: {
               xml: {
-                xmlCharKey: "#"
-              }
-            }
-          }
+                xmlCharKey: "#",
+              },
+            },
+          },
         },
         {
           httpMethod: "POST",
@@ -829,15 +829,15 @@ describe("serializationPolicy", function() {
                   "#": {
                     serializedName: "#",
                     xmlName: "#",
-                    type: { name: "String" }
-                  }
-                }
-              }
-            }
+                    type: { name: "String" },
+                  },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         },
         stringifyXML
       );
@@ -852,7 +852,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -863,12 +863,12 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.String
-              }
-            }
+                name: MapperTypeNames.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -879,7 +879,7 @@ describe("serializationPolicy", function() {
       serializeRequestBody(
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -890,12 +890,12 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.String
-              }
-            }
+                name: MapperTypeNames.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: createSerializer()
+          serializer: createSerializer(),
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -911,10 +911,10 @@ describe("serializationPolicy", function() {
           options: {
             requestOptions: {
               customHeaders: {
-                "content-type": "custom/type"
-              }
-            }
-          }
+                "content-type": "custom/type",
+              },
+            },
+          },
         },
         {
           httpMethod: "POST",
@@ -925,9 +925,9 @@ describe("serializationPolicy", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperTypeNames.String
-              }
-            }
+                name: MapperTypeNames.String,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: createSerializer(),
@@ -939,11 +939,11 @@ describe("serializationPolicy", function() {
                 isConstant: true,
                 serializedName: "Content-Type",
                 type: {
-                  name: "String"
-                }
-              }
-            }
-          ]
+                  name: "String",
+                },
+              },
+            },
+          ],
         }
       );
       assert.strictEqual(httpRequest.headers.get("Content-Type"), "custom/type");

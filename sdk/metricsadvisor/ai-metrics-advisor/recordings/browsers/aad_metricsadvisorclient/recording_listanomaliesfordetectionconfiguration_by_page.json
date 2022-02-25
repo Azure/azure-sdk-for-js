@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:02 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:31 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - NCUS ProdSlices",
-    "x-ms-request-id": "f0fd182e-e541-47ca-b601-21a772e9ab00"
+    "x-ms-ests-server": "2.1.12261.22 - EUS ProdSlices",
+    "x-ms-request-id": "16adee19-742f-4705-9f3a-00b84689d000"
    }
   },
   {
@@ -32,16 +32,16 @@
    },
    "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":8.2,\"expectedValue\":0.08059720961202357}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"__SUM__\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":12.6,\"expectedValue\":114.17942348386997}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Miami\",\"category\":\"Office Products\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":34975.0,\"expectedValue\":32994.38317904984}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Istanbul\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":0.0,\"expectedValue\":3.847182887027481}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "2f838411-8d75-4cef-9584-dc69392e4dab",
-    "content-length": "608",
+    "apim-request-id": "efcb3504-3d95-4df4-8657-169b57528db3",
+    "content-length": "603",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:03 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "76",
-    "x-request-id": "2f838411-8d75-4cef-9584-dc69392e4dab"
+    "x-envoy-upstream-service-time": "68",
+    "x-request-id": "efcb3504-3d95-4df4-8657-169b57528db3"
    }
   },
   {
@@ -53,16 +53,16 @@
    },
    "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Karachi\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":3799.2,\"expectedValue\":292.12803420060055}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Cairo\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":133.6,\"expectedValue\":0.00039042653963033904}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":8.2,\"expectedValue\":0.0667363729590091}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Karachi\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":3799.2,\"expectedValue\":290.17563836248905}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "931cd4ba-df76-4c4d-b341-72d7cf7645f0",
-    "content-length": "613",
+    "apim-request-id": "9f772df3-a209-4ccc-bcd1-f24706f8e054",
+    "content-length": "609",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:03 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "83",
-    "x-request-id": "931cd4ba-df76-4c4d-b341-72d7cf7645f0"
+    "x-envoy-upstream-service-time": "73",
+    "x-request-id": "9f772df3-a209-4ccc-bcd1-f24706f8e054"
    }
   }
  ],

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
-import * as assert from "assert";
+import { assert } from "chai";
+import { Context } from "mocha";
+
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
+
 import { RestError, ShareClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-
-dotenv.config();
 
 describe("RetryPolicy", () => {
   let shareName: string;
@@ -19,7 +18,7 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -27,7 +26,7 @@ describe("RetryPolicy", () => {
     await shareClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -49,7 +48,7 @@ describe("RetryPolicy", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await injectShareClient.setMetadata(metadata);
 
@@ -75,7 +74,7 @@ describe("RetryPolicy", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
 
     let hasError = false;
@@ -83,7 +82,7 @@ describe("RetryPolicy", () => {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
       await injectShareClient.setMetadata(metadata, {
-        abortSignal: AbortController.timeout(2 * 1000)
+        abortSignal: AbortController.timeout(2 * 1000),
       });
     } catch (err) {
       hasError = true;
@@ -100,7 +99,7 @@ describe("RetryPolicy", () => {
       (shareClient as any).pipeline.factories.length - 1
     ];
     const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 3 }
+      retryOptions: { maxTries: 3 },
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
@@ -111,7 +110,7 @@ describe("RetryPolicy", () => {
       const metadata = {
         key0: "val0",
         keya: "vala",
-        keyb: "valb"
+        keyb: "valb",
       };
       await injectShareClient.setMetadata(metadata);
     } catch (err) {

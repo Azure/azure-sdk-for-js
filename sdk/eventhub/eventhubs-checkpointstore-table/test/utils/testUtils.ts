@@ -11,7 +11,7 @@ export const isNode =
 
 export enum EnvVarKeys {
   STORAGE_ACCOUNT_NAME = "STORAGE_ACCOUNT_NAME",
-  STORAGE_ACCOUNT_KEY = "STORAGE_ACCOUNT_KEY"
+  STORAGE_ACCOUNT_KEY = "STORAGE_ACCOUNT_KEY",
 }
 
 function getEnvVarValue(name: string): string | undefined {
@@ -25,6 +25,6 @@ function getEnvVarValue(name: string): string | undefined {
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
     [EnvVarKeys.STORAGE_ACCOUNT_KEY]: getEnvVarValue(EnvVarKeys.STORAGE_ACCOUNT_KEY),
-    [EnvVarKeys.STORAGE_ACCOUNT_NAME]: getEnvVarValue(EnvVarKeys.STORAGE_ACCOUNT_NAME)
+    [EnvVarKeys.STORAGE_ACCOUNT_NAME]: getEnvVarValue(EnvVarKeys.STORAGE_ACCOUNT_NAME),
   };
 }

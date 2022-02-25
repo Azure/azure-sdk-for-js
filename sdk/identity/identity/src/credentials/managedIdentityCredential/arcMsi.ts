@@ -4,7 +4,7 @@
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { readFile } from "fs";
@@ -28,7 +28,7 @@ function prepareRequestOptions(scopes: string | string[]): PipelineRequestOption
   }
   const queryParameters: Record<string, string> = {
     resource,
-    "api-version": azureArcAPIVersion
+    "api-version": azureArcAPIVersion,
   };
 
   const query = new URLSearchParams(queryParameters);
@@ -44,8 +44,8 @@ function prepareRequestOptions(scopes: string | string[]): PipelineRequestOption
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      Metadata: "true"
-    })
+      Metadata: "true",
+    }),
   });
 }
 
@@ -129,7 +129,7 @@ export const arcMsi: MSI = {
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
       ...prepareRequestOptions(scopes),
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     };
 
     const filePath = await filePathRequest(identityClient, requestOptions);
@@ -144,9 +144,9 @@ export const arcMsi: MSI = {
     const request = createPipelineRequest({
       ...requestOptions,
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request);
     return (tokenResponse && tokenResponse.accessToken) || null;
-  }
+  },
 };

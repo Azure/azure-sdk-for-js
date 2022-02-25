@@ -4,10 +4,10 @@
 import { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   delete204Succeeded,
-  deleteasyncNoheader202204,
-  deleteasyncNoheaderOperationresults123,
   deleteNoHeader,
   deleteNoHeaderOperationResults,
+  deleteasyncNoheader202204,
+  deleteasyncNoheaderOperationresults123,
   errorDelete202RetryInvalidheader,
   errorDelete204nolocation,
   errorDeleteasyncRetryFailedOperationResultsInvalidjsonpolling,
@@ -15,8 +15,8 @@ import {
   errorDeleteasyncRetryInvalidheader,
   errorDeleteasyncRetryInvalidjsonpolling,
   errorDeleteasyncRetryNostatus,
-  errorPost202nolocation,
   errorPost202RetryInvalidheader,
+  errorPost202nolocation,
   errorPostasyncRetryFailedOperationResultsInvalidjsonpolling,
   errorPostasyncRetryFailedOperationResultsNopayload,
   errorPostasyncRetryInvalidheader,
@@ -31,7 +31,6 @@ import {
   errorPutasyncRetryInvalidjsonpolling,
   errorPutasyncRetryNostatus,
   errorPutasyncRetryNostatuspayload,
-  getasyncNoheader201200,
   getDoubleHeadersFinalAzureHeaderGetDefaultAsyncOperationUrl,
   getDoubleHeadersFinalAzureHeaderGetDefaultLocation,
   getListFinalGet,
@@ -41,8 +40,10 @@ import {
   getNonretryerrorPost202retry400,
   getNonretryerrorPut201creating400,
   getNonretryerrorPut201creating400invalidjson,
+  getPatchAsyncSucceeded,
   getPayload200,
   getSubresourceAsync202200,
+  getasyncNoheader201200,
   nonretryerrorDelete202retry400,
   nonretryerrorDelete400,
   nonretryerrorDeleteasyncRetry400,
@@ -56,6 +57,8 @@ import {
   nonretryerrorPut400,
   nonretryerrorPutasyncRetry400,
   nonretryerrorPutasyncRetryFailedOperationResults400,
+  patchAsync202200,
+  patchAsyncOperationresults123,
   postDoubleHeadersFinalAzureHeaderGet,
   postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl,
   postDoubleHeadersFinalAzureHeaderGetDefault,
@@ -70,8 +73,6 @@ import {
   put201SucceededNoState,
   put202Retry200,
   put202RetryOperationResults200,
-  putasyncNoheader201200,
-  putasyncNoheaderOperationresults123,
   putNoHeader202200,
   putNoHeaderOperationResults,
   putNonresource20200,
@@ -80,8 +81,10 @@ import {
   putNonresourceOperationResults,
   putSubresource202200,
   putSubresourceAsync202200,
+  putSubresourceOperationResults,
   putSubresourceasyncOperationresults123,
-  putSubresourceOperationResults
+  putasyncNoheader201200,
+  putasyncNoheaderOperationresults123,
 } from "./routesProcesses";
 
 interface LroRoute {
@@ -98,13 +101,13 @@ export const routes: LroRoute[] = [
   {
     method: "GET",
     path: "/delete/noheader/operationresults/123",
-    process: deleteNoHeaderOperationResults
+    process: deleteNoHeaderOperationResults,
   },
   { method: "PUT", path: "/put/202/retry/200", process: put202Retry200 },
   {
     method: "GET",
     path: "/put/202/retry/operationResults/200",
-    process: put202RetryOperationResults200
+    process: put202RetryOperationResults200,
   },
   { method: "PUT", path: "/put/noheader/202/200", process: putNoHeader202200 },
   { method: "GET", path: "/put/noheader/operationresults", process: putNoHeaderOperationResults },
@@ -112,61 +115,61 @@ export const routes: LroRoute[] = [
   {
     method: "GET",
     path: "/putsubresource/operationresults",
-    process: putSubresourceOperationResults
+    process: putSubresourceOperationResults,
   },
   { method: "PUT", path: "/putnonresource/202/200", process: putNonresource20200 },
   {
     method: "GET",
     path: "/putnonresource/operationresults",
-    process: putNonresourceOperationResults
+    process: putNonresourceOperationResults,
   },
   { method: "DELETE", path: "/delete/204/succeeded", process: delete204Succeeded },
   {
     method: "POST",
     path: "/LROPostDoubleHeadersFinalLocationGet",
-    process: postDoubleHeadersFinalLocationGet
+    process: postDoubleHeadersFinalLocationGet,
   },
   {
     method: "GET",
     path: "/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl",
-    process: postDoubleHeadersFinalLocationGetAsyncOperationUrl
+    process: postDoubleHeadersFinalLocationGetAsyncOperationUrl,
   },
   {
     method: "GET",
     path: "/LROPostDoubleHeadersFinalLocationGet/location",
-    process: postDoubleHeadersFinalLocationGetLocation
+    process: postDoubleHeadersFinalLocationGetLocation,
   },
   {
     method: "POST",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGet",
-    process: postDoubleHeadersFinalAzureHeaderGet
+    process: postDoubleHeadersFinalAzureHeaderGet,
   },
   {
     method: "GET",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl",
-    process: postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl
+    process: postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl,
   },
   {
     method: "GET",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGet/location",
-    process: postDoubleHeadersFinalAzureHeaderGetLocation
+    process: postDoubleHeadersFinalAzureHeaderGetLocation,
   },
   { method: "POST", path: "/post/payload/200", process: postPayload200 },
   { method: "GET", path: "/post/payload/200", process: getPayload200 },
   {
     method: "POST",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault",
-    process: postDoubleHeadersFinalAzureHeaderGetDefault
+    process: postDoubleHeadersFinalAzureHeaderGetDefault,
   },
   {
     method: "GET",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl",
-    process: getDoubleHeadersFinalAzureHeaderGetDefaultAsyncOperationUrl
+    process: getDoubleHeadersFinalAzureHeaderGetDefaultAsyncOperationUrl,
   },
   {
     method: "GET",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location",
-    process: getDoubleHeadersFinalAzureHeaderGetDefaultLocation
+    process: getDoubleHeadersFinalAzureHeaderGetDefaultLocation,
   },
   { method: "POST", path: "/list", process: postList },
   { method: "GET", path: "/list/pollingGet", process: getListPollingGet },
@@ -175,216 +178,223 @@ export const routes: LroRoute[] = [
   {
     method: "GET",
     path: "/putnonresourceasync/operationresults/123",
-    process: putNonresourceAsyncOperationresults123
+    process: putNonresourceAsyncOperationresults123,
   },
   { method: "GET", path: "/putnonresourceasync/202/200", process: getNonresourceAsync202200 },
+  { method: "PATCH", path: "/patchasync/202/200", process: patchAsync202200 },
+  {
+    method: "GET",
+    path: "/patchasync/operationresults/123",
+    process: patchAsyncOperationresults123,
+  },
+  { method: "GET", path: "/patchasync/succeeded", process: getPatchAsyncSucceeded },
   { method: "PUT", path: "/putasync/noheader/201/200", process: putasyncNoheader201200 },
   { method: "GET", path: "/putasync/noheader/201/200", process: getasyncNoheader201200 },
   {
     method: "GET",
     path: "/putasync/noheader/operationresults/123",
-    process: putasyncNoheaderOperationresults123
+    process: putasyncNoheaderOperationresults123,
   },
   { method: "PUT", path: "/putsubresourceasync/202/200", process: putSubresourceAsync202200 },
   { method: "GET", path: "/putsubresourceasync/202/200", process: getSubresourceAsync202200 },
   {
     method: "GET",
     path: "/putsubresourceasync/operationresults/123",
-    process: putSubresourceasyncOperationresults123
+    process: putSubresourceasyncOperationresults123,
   },
   { method: "DELETE", path: "/deleteasync/noheader/202/204", process: deleteasyncNoheader202204 },
   {
     method: "GET",
     path: "/deleteasync/noheader/operationresults/123",
-    process: deleteasyncNoheaderOperationresults123
+    process: deleteasyncNoheaderOperationresults123,
   },
   { method: "PUT", path: "/nonretryerror/put/400", process: nonretryerrorPut400 },
   {
     method: "PUT",
     path: "/nonretryerror/put/201/creating/400",
-    process: nonretryerrorPut201creating400
+    process: nonretryerrorPut201creating400,
   },
   {
     method: "GET",
     path: "/nonretryerror/put/201/creating/400",
-    process: getNonretryerrorPut201creating400
+    process: getNonretryerrorPut201creating400,
   },
   {
     method: "PUT",
     path: "/nonretryerror/put/201/creating/400/invalidjson",
-    process: nonretryerrorPut201creating400invalidjson
+    process: nonretryerrorPut201creating400invalidjson,
   },
   {
     method: "GET",
     path: "/nonretryerror/put/201/creating/400/invalidjson",
-    process: getNonretryerrorPut201creating400invalidjson
+    process: getNonretryerrorPut201creating400invalidjson,
   },
   {
     method: "PUT",
     path: "/nonretryerror/putasync/retry/400",
-    process: nonretryerrorPutasyncRetry400
+    process: nonretryerrorPutasyncRetry400,
   },
   {
     method: "GET",
     path: "/nonretryerror/putasync/retry/failed/operationResults/400",
-    process: nonretryerrorPutasyncRetryFailedOperationResults400
+    process: nonretryerrorPutasyncRetryFailedOperationResults400,
   },
   {
     method: "DELETE",
     path: "/nonretryerror/delete/202/retry/400",
-    process: nonretryerrorDelete202retry400
+    process: nonretryerrorDelete202retry400,
   },
   {
     method: "GET",
     path: "/nonretryerror/delete/202/retry/400",
-    process: getNonretryerrorDelete202retry400
+    process: getNonretryerrorDelete202retry400,
   },
   { method: "DELETE", path: "/nonretryerror/delete/400", process: nonretryerrorDelete400 },
   {
     method: "DELETE",
     path: "/nonretryerror/deleteasync/retry/400",
-    process: nonretryerrorDeleteasyncRetry400
+    process: nonretryerrorDeleteasyncRetry400,
   },
   {
     method: "GET",
     path: "/nonretryerror/deleteasync/retry/failed/operationResults/400",
-    process: nonretryerrorDeleteasyncRetryFailedOperationResults400
+    process: nonretryerrorDeleteasyncRetryFailedOperationResults400,
   },
   { method: "POST", path: "/nonretryerror/post/400", process: nonretryerrorPost400 },
   {
     method: "POST",
     path: "/nonretryerror/post/202/retry/400",
-    process: nonretryerrorPost202retry400
+    process: nonretryerrorPost202retry400,
   },
   {
     method: "GET",
     path: "/nonretryerror/post/202/retry/400",
-    process: getNonretryerrorPost202retry400
+    process: getNonretryerrorPost202retry400,
   },
   {
     method: "POST",
     path: "/nonretryerror/postasync/retry/400",
-    process: nonretryerrorPostasyncRetry400
+    process: nonretryerrorPostasyncRetry400,
   },
   {
     method: "GET",
     path: "/nonretryerror/postasync/retry/failed/operationResults/400",
-    process: nonretryerrorPostasyncRetryFailedOperationResults400
+    process: nonretryerrorPostasyncRetryFailedOperationResults400,
   },
   {
     method: "PUT",
     path: "/error/put/201/noprovisioningstatepayload",
-    process: errorPut201noprovisioningstatepayload
+    process: errorPut201noprovisioningstatepayload,
   },
   {
     method: "PUT",
     path: "/error/putasync/retry/nostatuspayload",
-    process: errorPutasyncRetryNostatuspayload
+    process: errorPutasyncRetryNostatuspayload,
   },
   {
     method: "GET",
     path: "/error/putasync/retry/nostatuspayload",
-    process: errorPutasyncRetryFailedOperationResultsNostatuspayload
+    process: errorPutasyncRetryFailedOperationResultsNostatuspayload,
   },
   {
     method: "GET",
     path: "/error/putasync/retry/failed/operationResults/nostatuspayload",
-    process: errorPutasyncRetryFailedOperationResultsNostatuspayload
+    process: errorPutasyncRetryFailedOperationResultsNostatuspayload,
   },
   { method: "PUT", path: "/error/putasync/retry/nostatus", process: errorPutasyncRetryNostatus },
   {
     method: "GET",
     path: "/error/putasync/retry/nostatus",
-    process: errorPutasyncRetryFailedOperationResultsNostatus
+    process: errorPutasyncRetryFailedOperationResultsNostatus,
   },
   {
     method: "GET",
     path: "/error/putasync/retry/failed/operationResults/nostatus",
-    process: errorPutasyncRetryFailedOperationResultsNostatus
+    process: errorPutasyncRetryFailedOperationResultsNostatus,
   },
   { method: "DELETE", path: "/error/delete/204/nolocation", process: errorDelete204nolocation },
   {
     method: "DELETE",
     path: "/error/deleteasync/retry/nostatus",
-    process: errorDeleteasyncRetryNostatus
+    process: errorDeleteasyncRetryNostatus,
   },
   {
     method: "GET",
     path: "/error/deleteasync/retry/failed/operationResults/nostatus",
-    process: errorDeleteasyncRetryFailedOperationResultsNostatus
+    process: errorDeleteasyncRetryFailedOperationResultsNostatus,
   },
   { method: "POST", path: "/error/post/202/nolocation", process: errorPost202nolocation },
   {
     method: "POST",
     path: "/error/postasync/retry/nopayload",
-    process: errorPostasyncRetryNopayload
+    process: errorPostasyncRetryNopayload,
   },
   {
     method: "GET",
     path: "/error/postasync/retry/failed/operationResults/nopayload",
-    process: errorPostasyncRetryFailedOperationResultsNopayload
+    process: errorPostasyncRetryFailedOperationResultsNopayload,
   },
   {
     method: "GET",
     path: "/error/postasync/retry/failed/operationResults/nopayload",
-    process: errorPostasyncRetryFailedOperationResultsNopayload
+    process: errorPostasyncRetryFailedOperationResultsNopayload,
   },
   { method: "PUT", path: "/error/put/200/invalidjson", process: errorPut200invalidjson },
   {
     method: "PUT",
     path: "/error/putasync/retry/invalidheader",
-    process: errorPutasyncRetryInvalidheader
+    process: errorPutasyncRetryInvalidheader,
   },
   {
     method: "PUT",
     path: "/error/putasync/retry/invalidjsonpolling",
-    process: errorPutasyncRetryInvalidjsonpolling
+    process: errorPutasyncRetryInvalidjsonpolling,
   },
   {
     method: "GET",
     path: "/error/putasync/retry/failed/operationResults/invalidjsonpolling",
-    process: errorPutasyncRetryFailedOperationResultsInvalidjsonpolling
+    process: errorPutasyncRetryFailedOperationResultsInvalidjsonpolling,
   },
   {
     method: "DELETE",
     path: "/error/delete/202/retry/invalidheader",
-    process: errorDelete202RetryInvalidheader
+    process: errorDelete202RetryInvalidheader,
   },
   {
     method: "DELETE",
     path: "/error/deleteasync/retry/invalidheader",
-    process: errorDeleteasyncRetryInvalidheader
+    process: errorDeleteasyncRetryInvalidheader,
   },
   {
     method: "DELETE",
     path: "/error/deleteasync/retry/invalidjsonpolling",
-    process: errorDeleteasyncRetryInvalidjsonpolling
+    process: errorDeleteasyncRetryInvalidjsonpolling,
   },
   {
     method: "GET",
     path: "/error/deleteasync/retry/failed/operationResults/invalidjsonpolling",
-    process: errorDeleteasyncRetryFailedOperationResultsInvalidjsonpolling
+    process: errorDeleteasyncRetryFailedOperationResultsInvalidjsonpolling,
   },
   {
     method: "POST",
     path: "/error/post/202/retry/invalidheader",
-    process: errorPost202RetryInvalidheader
+    process: errorPost202RetryInvalidheader,
   },
   {
     method: "POST",
     path: "/error/postasync/retry/invalidheader",
-    process: errorPostasyncRetryInvalidheader
+    process: errorPostasyncRetryInvalidheader,
   },
   {
     method: "POST",
     path: "/error/postasync/retry/invalidjsonpolling",
-    process: errorPostasyncRetryInvalidjsonpolling
+    process: errorPostasyncRetryInvalidjsonpolling,
   },
   {
     method: "GET",
     path: "/error/postasync/retry/failed/operationResults/invalidjsonpolling",
-    process: errorPostasyncRetryFailedOperationResultsInvalidjsonpolling
-  }
+    process: errorPostasyncRetryFailedOperationResultsInvalidjsonpolling,
+  },
 ];
 
 export const routesTable = new Map(routes.map((route) => [route.path, route]));

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
-import TestClient from "../utils/testClient";
-import { getServiceVersion, onVersions } from "../utils/utils.common";
+import { authenticate } from "./utils/testAuthentication";
+import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import TestClient from "./utils/testClient";
+import { getServiceVersion, onVersions } from "./utils/common";
 import { isNode } from "@azure/core-http";
 
 onVersions({ minVer: "7.2" }).describe(
@@ -25,7 +25,7 @@ onVersions({ minVer: "7.2" }).describe(
     let keyVaultKey: KeyVaultKey;
     let keySuffix: string;
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       const authentication = await authenticate(this, getServiceVersion());
       recorder = authentication.recorder;
 
@@ -42,14 +42,14 @@ onVersions({ minVer: "7.2" }).describe(
       keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     });
 
-    describe("with AES crypto algorithms", async function() {
-      it("encrypts and decrypts using AES-GCM", async function(this: Context) {
+    describe("with AES crypto algorithms", async function () {
+      it("encrypts and decrypts using AES-GCM", async function (this: Context) {
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
         cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
           algorithm: "A256GCM",
-          plaintext: stringToUint8Array(text)
+          plaintext: stringToUint8Array(text),
         });
         assert.exists(encryptResult.iv);
         assert.exists(encryptResult.authenticationTag);
@@ -58,14 +58,14 @@ onVersions({ minVer: "7.2" }).describe(
           algorithm: "A256GCM",
           ciphertext: encryptResult.result!,
           iv: encryptResult.iv!,
-          authenticationTag: encryptResult.authenticationTag!
+          authenticationTag: encryptResult.authenticationTag!,
         });
         assert.equal(text, uint8ArrayToString(decryptResult.result));
         await testClient?.flushKey(keyName);
         await recorder.stop();
       });
 
-      it("encrypts and decrypts using AES-CBC", async function(this: Context) {
+      it("encrypts and decrypts using AES-CBC", async function (this: Context) {
         if (!isNode) {
           this.skip();
         }
@@ -78,13 +78,13 @@ onVersions({ minVer: "7.2" }).describe(
         const encryptResult = await cryptoClient.encrypt({
           algorithm: "A256CBCPAD",
           plaintext: stringToUint8Array(text),
-          iv
+          iv,
         });
 
         const decryptResult = await cryptoClient.decrypt({
           algorithm: "A256CBCPAD",
           ciphertext: encryptResult.result!,
-          iv
+          iv,
         });
         assert.equal(uint8ArrayToString(decryptResult.result), text);
         await testClient?.flushKey(keyName);

@@ -15,7 +15,7 @@ import {
   TableClient,
   TableServiceClient,
   AccountSasPermissions,
-  TableSasPermissions
+  TableSasPermissions,
 } from "@azure/data-tables";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
@@ -45,13 +45,14 @@ async function generateTableSasSample() {
     // Grants permission to query entities
     query: true,
     // Grants permission to delete tables and entities
-    delete: true
+    delete: true,
   };
 
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
+  // by default, expiration is set an hour after the SAS is created. Expiration can be
+  // set explicitly by passing expiresOn with the desired expiration Date
   const accountSas = generateAccountSas(cred, {
     permissions,
-    expiresOn: new Date("2021-12-12")
   });
 
   const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSas));
@@ -76,13 +77,14 @@ async function generateTableSasSample() {
     // Allows deleting entities
     delete: true,
     // Allows updating entities
-    update: true
+    update: true,
   };
 
   // Create the table SAS token
+  const anHourFromNow = Date.now() + 60 * 60 * 1000;
   const tableSas = generateTableSas(tableName, cred, {
-    expiresOn: new Date("2021-12-12"),
-    permissions: tablePermissions
+    expiresOn: new Date(anHourFromNow),
+    permissions: tablePermissions,
   });
 
   // Create a new client for the table we just created. Alternatively the Table Account SAS token could be used here as well
@@ -90,7 +92,11 @@ async function generateTableSasSample() {
   const table = new TableClient(tablesUrl, tableName, new AzureSASCredential(tableSas));
 
   // Create an entity in the table
-  await table.createEntity({ partitionKey: "test", rowKey: "1", foo: "bar" });
+  await table.createEntity({
+    partitionKey: "test",
+    rowKey: "1",
+    foo: "bar",
+  });
 
   // List all the entities in the table
   const entities = table.listEntities();

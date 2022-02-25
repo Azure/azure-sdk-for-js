@@ -10,7 +10,7 @@ import { ManagementPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   ManagementPolicyName,
   ManagementPoliciesGetOptionalParams,
@@ -21,15 +21,15 @@ import {
   ManagementPoliciesDeleteOptionalParams
 } from "../models";
 
-/** Class representing a ManagementPolicies. */
+/** Class containing ManagementPolicies operations. */
 export class ManagementPoliciesImpl implements ManagementPolicies {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class ManagementPolicies class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 

@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
+import {
+  CommonClientOptions,
+  OperationArguments,
+  OperationRequest,
+  OperationSpec,
+} from "./interfaces";
 import {
   HttpClient,
+  Pipeline,
   PipelineRequest,
   PipelineResponse,
-  Pipeline,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import {
-  OperationArguments,
-  OperationSpec,
-  OperationRequest,
-  CommonClientOptions
-} from "./interfaces";
-import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
-import { getRequestUrl } from "./urlHelpers";
+import { TokenCredential } from "@azure/core-auth";
+import { createClientPipeline } from "./pipeline";
 import { flattenResponse } from "./utils";
 import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
-import { createClientPipeline } from "./pipeline";
+import { getRequestUrl } from "./urlHelpers";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 
 /**
  * Options to be provided while creating the client.
@@ -93,6 +93,16 @@ export class ServiceClient {
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
+    if (options.additionalPolicies?.length) {
+      for (const { policy, position } of options.additionalPolicies) {
+        // Sign happens after Retry and is commonly needed to occur
+        // before policies that intercept post-retry.
+        const afterPhase = position === "perRetry" ? "Sign" : undefined;
+        this.pipeline.addPolicy(policy, {
+          afterPhase,
+        });
+      }
+    }
   }
 
   /**
@@ -125,7 +135,7 @@ export class ServiceClient {
     const url = getRequestUrl(baseUri, operationSpec, operationArguments, this);
 
     const request: OperationRequest = createPipelineRequest({
-      url
+      url,
     });
     request.method = operationSpec.httpMethod;
     const operationInfo = getOperationRequestInfo(request);
@@ -190,12 +200,17 @@ export class ServiceClient {
         options.onResponse(rawResponse, flatResponse);
       }
       return flatResponse;
-    } catch (error) {
-      if (error.response) {
-        error.details = flattenResponse(
-          error.response,
+    } catch (error: any) {
+      if (typeof error === "object" && error?.response) {
+        const rawResponse = error.response;
+        const flatResponse = flattenResponse(
+          rawResponse,
           operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
         );
+        error.details = flatResponse;
+        if (options?.onResponse) {
+          options.onResponse(rawResponse, flatResponse, error);
+        }
       }
       throw error;
     }
@@ -211,7 +226,7 @@ function createDefaultPipeline(options: ServiceClientOptions): Pipeline {
 
   return createClientPipeline({
     ...options,
-    credentialOptions
+    credentialOptions,
   });
 }
 

@@ -1,29 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HTTP, CloudEvent } from "cloudevents";
+import * as utils from "./utils";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
 import { logger } from "./logger";
-import * as utils from "./utils";
 
 import {
   ConnectRequest,
   ConnectResponse,
-  UserEventRequest,
-  DisconnectedRequest,
   ConnectedRequest,
   ConnectionContext,
   ConnectResponseHandler,
+  DisconnectedRequest,
+  UserEventRequest,
   UserEventResponseHandler,
-  WebPubSubEventHandlerOptions
+  WebPubSubEventHandlerOptions,
 } from "./cloudEventsProtocols";
 
 enum EventType {
   Connect,
   Connected,
   Disconnected,
-  UserEvent
+  UserEvent,
 }
 
 function getConnectResponseHandler(
@@ -52,7 +51,7 @@ function getConnectResponseHandler(
     fail(code: 400 | 401 | 500, detail?: string): void {
       response.statusCode = code;
       response.end(detail ?? "");
-    }
+    },
   };
 
   return handler;
@@ -91,20 +90,20 @@ function getUserEventResponseHandler(
     fail(code: 400 | 401 | 500, detail?: string): void {
       response.statusCode = code;
       response.end(detail ?? "");
-    }
+    },
   };
   return handler;
 }
 
-function getContext(ce: CloudEvent, origin: string): ConnectionContext {
+function getContext(request: IncomingMessage, origin: string): ConnectionContext {
   const context = {
-    signature: ce["signature"] as string,
-    userId: ce["userid"] as string,
-    hub: ce["hub"] as string,
-    connectionId: ce["connectionid"] as string,
-    eventName: ce["eventname"] as string,
+    signature: utils.getHttpHeader(request, "ce-signature"),
+    userId: utils.getHttpHeader(request, "ce-userid"),
+    hub: utils.getHttpHeader(request, "ce-hub")!,
+    connectionId: utils.getHttpHeader(request, "ce-connectionid")!,
+    eventName: utils.getHttpHeader(request, "ce-eventname")!,
     origin: origin,
-    states: utils.fromBase64JsonString(ce["connectionstate"] as string)
+    states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
   };
 
   // TODO: validation
@@ -139,6 +138,51 @@ function tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
 
 function isWebPubSubRequest(req: IncomingMessage): boolean {
   return utils.getHttpHeader(req, "ce-awpsversion") !== undefined;
+}
+
+async function readUserEventRequest(
+  request: IncomingMessage,
+  origin: string
+): Promise<UserEventRequest | undefined> {
+  const contentTypeheader = utils.getHttpHeader(request, "content-type");
+  if (contentTypeheader === undefined) {
+    return undefined;
+  }
+
+  const contentType = contentTypeheader.split(";")[0].trim();
+
+  switch (contentType) {
+    case "application/octet-stream":
+      return {
+        context: getContext(request, origin),
+        data: await utils.readRequestBody(request),
+        dataType: "binary",
+      };
+    case "application/json":
+      return {
+        context: getContext(request, origin),
+        data: JSON.parse((await utils.readRequestBody(request)).toString()),
+        dataType: "json",
+      };
+    case "text/plain":
+      return {
+        context: getContext(request, origin),
+        data: (await utils.readRequestBody(request)).toString(),
+        dataType: "text",
+      };
+    default:
+      return undefined;
+  }
+}
+
+async function readSystemEventRequest<T extends { context: ConnectionContext }>(
+  request: IncomingMessage,
+  origin: string
+): Promise<T> {
+  const body = (await utils.readRequestBody(request)).toString();
+  const parsedRequest = JSON.parse(body) as T;
+  parsedRequest.context = getContext(request, origin);
+  return parsedRequest;
 }
 
 /**
@@ -232,15 +276,11 @@ export class CloudEventsDispatcher {
         return false;
     }
 
-    const eventRequest = await utils.convertHttpToEvent(request);
-    const receivedEvent = HTTP.toEvent(eventRequest);
-
-    logger.verbose(receivedEvent);
-
     switch (eventType) {
       case EventType.Connect: {
-        const connectRequest = receivedEvent.data as ConnectRequest;
-        connectRequest.context = getContext(receivedEvent, origin);
+        const connectRequest = await readSystemEventRequest<ConnectRequest>(request, origin);
+        logger.verbose(connectRequest);
+
         this.eventHandler.handleConnect!(
           connectRequest,
           getConnectResponseHandler(connectRequest, response)
@@ -250,39 +290,31 @@ export class CloudEventsDispatcher {
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const connectedRequest = receivedEvent.data as ConnectedRequest;
-        connectedRequest.context = getContext(receivedEvent, origin);
+        const connectedRequest = await readSystemEventRequest<ConnectedRequest>(request, origin);
+        logger.verbose(connectedRequest);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
       }
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
-        disconnectedRequest.context = getContext(receivedEvent, origin);
+        const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(
+          request,
+          origin
+        );
+        logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
       case EventType.UserEvent: {
-        let userRequest: UserEventRequest;
-        if (receivedEvent.data_base64 !== undefined) {
-          userRequest = {
-            context: getContext(receivedEvent, origin),
-            data: Buffer.from(receivedEvent.data_base64, "base64"),
-            dataType: "binary"
-          };
-        } else if (receivedEvent.data !== undefined) {
-          userRequest = {
-            context: getContext(receivedEvent, origin),
-            data: receivedEvent.data as string,
-            dataType: receivedEvent.datacontenttype?.startsWith("application/json;")
-              ? "json"
-              : "text"
-          };
-        } else {
-          throw new Error("Unexpected data.");
+        const userRequest = await readUserEventRequest(request, origin);
+        if (userRequest === undefined) {
+          logger.warning(
+            `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`
+          );
+          return false;
         }
-
+        logger.verbose(userRequest);
         this.eventHandler.handleUserEvent!(
           userRequest,
           getUserEventResponseHandler(userRequest, response)

@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ICachePlugin as CachePlugin } from "@azure/msal-node";
-import { PersistenceCachePlugin, IPersistence as Persistence } from "@azure/msal-node-extensions";
-
 import { MsalPersistenceOptions, msalPersistencePlatforms } from "./platforms";
+import { IPersistence as Persistence, PersistenceCachePlugin } from "@azure/msal-node-extensions";
+import { ICachePlugin as CachePlugin } from "@azure/msal-node";
 
 /**
  * This is used to gain access to the underlying Persistence instance, which we use for testing
@@ -29,6 +28,6 @@ export async function createPersistenceCachePlugin(
 
   return new PersistenceCachePlugin(persistence, {
     retryNumber: 100,
-    retryDelay: 50
+    retryDelay: 50,
   });
 }

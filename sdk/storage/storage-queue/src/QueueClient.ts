@@ -8,7 +8,7 @@ import {
   isNode,
   getDefaultProxySettings,
   URLBuilder,
-  RequestOptionsBase
+  RequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
@@ -27,7 +27,7 @@ import {
   QueueGetPropertiesResponse,
   QueueSetAccessPolicyResponse,
   QueueSetMetadataResponse,
-  SignedIdentifierModel
+  SignedIdentifierModel,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operations";
@@ -39,7 +39,7 @@ import {
   isIpEndpointStyle,
   truncatedISO8061Date,
   getStorageClientContext,
-  appendToURLQuery
+  appendToURLQuery,
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -566,7 +566,11 @@ export class QueueClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -626,12 +630,12 @@ export class QueueClient extends StorageClient {
     try {
       return await this.queueContext.create({
         ...updatedOptions,
-        abortSignal: options.abortSignal
+        abortSignal: options.abortSignal,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -659,29 +663,29 @@ export class QueueClient extends StorageClient {
       if (response._response.status === 204) {
         return {
           succeeded: false,
-          ...response
+          ...response,
         };
       }
       return {
         succeeded: true,
-        ...response
+        ...response,
       };
     } catch (e) {
       if (e.details?.errorCode === "QueueAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a queue only if it does not already exist."
+          message: "Expected exception when creating a queue only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -703,23 +707,23 @@ export class QueueClient extends StorageClient {
       const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
-        ...res
+        ...res,
       };
     } catch (e) {
       if (e.details?.errorCode === "QueueNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a queue only if it exists."
+          message: "Expected exception when deleting a queue only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -748,12 +752,12 @@ export class QueueClient extends StorageClient {
     try {
       return await this.queueContext.delete({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -775,20 +779,20 @@ export class QueueClient extends StorageClient {
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking queue existence"
+          message: "Expected exception when checking queue existence",
         });
         return false;
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -816,12 +820,12 @@ export class QueueClient extends StorageClient {
     try {
       return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -849,12 +853,12 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -880,7 +884,7 @@ export class QueueClient extends StorageClient {
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
 
       const res: QueueGetAccessPolicyResponse = {
@@ -890,14 +894,14 @@ export class QueueClient extends StorageClient {
         clientRequestId: response.clientRequestId,
         signedIdentifiers: [],
         version: response.version,
-        errorCode: response.errorCode
+        errorCode: response.errorCode,
       };
 
       for (const identifier of response) {
         let accessPolicy: any = undefined;
         if (identifier.accessPolicy) {
           accessPolicy = {
-            permissions: identifier.accessPolicy.permissions
+            permissions: identifier.accessPolicy.permissions,
           };
 
           if (identifier.accessPolicy.expiresOn) {
@@ -911,7 +915,7 @@ export class QueueClient extends StorageClient {
 
         res.signedIdentifiers.push({
           accessPolicy,
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
@@ -919,7 +923,7 @@ export class QueueClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -951,21 +955,21 @@ export class QueueClient extends StorageClient {
             permissions: identifier.accessPolicy.permissions,
             startsOn: identifier.accessPolicy.startsOn
               ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
-              : undefined
+              : undefined,
           },
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
       return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -987,12 +991,12 @@ export class QueueClient extends StorageClient {
     try {
       return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1029,7 +1033,7 @@ export class QueueClient extends StorageClient {
     try {
       const response = await this.messagesContext.enqueue(
         {
-          messageText: messageText
+          messageText: messageText,
         },
         updatedOptions
       );
@@ -1045,12 +1049,12 @@ export class QueueClient extends StorageClient {
         popReceipt: item.popReceipt,
         nextVisibleOn: item.nextVisibleOn,
         insertedOn: item.insertedOn,
-        expiresOn: item.expiresOn
+        expiresOn: item.expiresOn,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1097,7 +1101,7 @@ export class QueueClient extends StorageClient {
         clientRequestId: response.clientRequestId,
         receivedMessageItems: [],
         version: response.version,
-        errorCode: response.errorCode
+        errorCode: response.errorCode,
       };
 
       for (const item of response) {
@@ -1108,7 +1112,7 @@ export class QueueClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1144,7 +1148,7 @@ export class QueueClient extends StorageClient {
         clientRequestId: response.clientRequestId,
         peekedMessageItems: [],
         version: response.version,
-        errorCode: response.errorCode
+        errorCode: response.errorCode,
       };
 
       for (const item of response) {
@@ -1155,7 +1159,7 @@ export class QueueClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1181,12 +1185,12 @@ export class QueueClient extends StorageClient {
     try {
       return await this.getMessageIdContext(messageId).delete(popReceipt, {
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1228,12 +1232,12 @@ export class QueueClient extends StorageClient {
       return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
         abortSignal: options.abortSignal,
         tracingOptions: updatedOptions.tracingOptions,
-        queueMessage
+        queueMessage,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1298,7 +1302,7 @@ export class QueueClient extends StorageClient {
     const sas = generateQueueSASQueryParameters(
       {
         queueName: this.name,
-        ...options
+        ...options,
       },
       this.credential
     ).toString();

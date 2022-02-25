@@ -46,14 +46,14 @@ describe("EPH with iothub connection string", function(): void {
           }
         );
         const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
-          debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
+          debug("Test logs: [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
         };
         const onError: OnReceivedError = (err) => {
           debug("An error occurred while receiving the message: %O", err);
           throw err;
         };
         const runtimeInfo = await host.getHubRuntimeInformation();
-        debug(">>>> runtimeInfo: %O", runtimeInfo);
+        debug("Test logs: runtimeInfo: %O", runtimeInfo);
         // tslint:disable-next-line: no-unused-expression
         runtimeInfo.createdAt.should.exist;
         (typeof runtimeInfo.partitionCount).should.equal("number");

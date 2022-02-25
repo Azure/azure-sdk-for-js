@@ -55,7 +55,7 @@ export class SegmentFactory {
       const blobClient = containerClient.getBlobClient(manifestPath);
       const blobDownloadRes = await blobClient.download(undefined, undefined, {
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       const blobContent: string = await bodyToString(blobDownloadRes);
 
@@ -73,7 +73,7 @@ export class SegmentFactory {
           shardCursor,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           }
         );
         if (shard.hasNext()) {
@@ -92,7 +92,7 @@ export class SegmentFactory {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

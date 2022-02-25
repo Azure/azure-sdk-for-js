@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader,
-  isSpanContextValid
-} from "@azure/core-tracing";
-import { SpanContext } from "@azure/core-tracing";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, isAmqpAnnotatedMessage } from "../eventData";
+import { TracingContext } from "@azure/core-tracing";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { OperationOptions } from "../util/operationOptions";
-import { createMessageSpan } from "./tracing";
+import { toSpanOptions, tracingClient } from "./tracing";
 
 /**
- * @hidden
+ * @internal
  */
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
@@ -29,7 +24,7 @@ export function instrumentEventData(
   options: OperationOptions,
   entityPath: string,
   host: string
-): { event: EventData; spanContext: SpanContext | undefined } {
+): { event: EventData; spanContext: TracingContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties
     : eventData.properties;
@@ -41,17 +36,23 @@ export function instrumentEventData(
     return { event: eventData, spanContext: undefined };
   }
 
-  const { span: messageSpan } = createMessageSpan(options, { entityPath, host });
+  const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
+    "message",
+    options,
+    toSpanOptions({ entityPath, host }, "producer")
+  );
   try {
     if (!messageSpan.isRecording()) {
       return {
         event: eventData,
-        spanContext: undefined
+        spanContext: undefined,
       };
     }
 
-    const traceParent = getTraceParentHeader(messageSpan.spanContext());
-    if (traceParent && isSpanContextValid(messageSpan.spanContext())) {
+    const traceParent = tracingClient.createRequestHeaders(
+      updatedOptions.tracingOptions?.tracingContext
+    )["traceparent"];
+    if (traceParent) {
       const copiedProps = { ...props };
 
       // create a copy so the original isn't modified
@@ -65,7 +66,7 @@ export function instrumentEventData(
 
     return {
       event: eventData,
-      spanContext: messageSpan.spanContext()
+      spanContext: updatedOptions.tracingOptions?.tracingContext,
     };
   } finally {
     messageSpan.end();
@@ -77,11 +78,11 @@ export function instrumentEventData(
  * @param eventData - An individual `EventData` object.
  * @internal
  */
-export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined {
+export function extractSpanContextFromEventData(eventData: EventData): TracingContext | undefined {
   if (!eventData.properties || !eventData.properties[TRACEPARENT_PROPERTY]) {
     return;
   }
 
   const diagnosticId = eventData.properties[TRACEPARENT_PROPERTY];
-  return extractSpanContextFromTraceParentHeader(diagnosticId);
+  return tracingClient.parseTraceparentHeader(diagnosticId);
 }

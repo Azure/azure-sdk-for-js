@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isDuration, isValidUuid } from "./utils";
 import * as base64 from "./base64";
 import {
-  Serializer,
+  BaseMapper,
+  CompositeMapper,
+  DictionaryMapper,
+  EnumMapper,
   Mapper,
   MapperConstraints,
-  DictionaryMapper,
-  SequenceMapper,
-  CompositeMapper,
   PolymorphicDiscriminator,
-  EnumMapper,
-  BaseMapper,
+  RequiredSerializerOptions,
+  SequenceMapper,
+  Serializer,
   SerializerOptions,
-  XML_CHARKEY,
   XML_ATTRKEY,
-  RequiredSerializerOptions
+  XML_CHARKEY,
 } from "./interfaces";
+import { isDuration, isValidUuid } from "./utils";
 
 class SerializerImpl implements Serializer {
   constructor(
@@ -46,7 +46,7 @@ class SerializerImpl implements Serializer {
         MinLength,
         MultipleOf,
         Pattern,
-        UniqueItems
+        UniqueItems,
       } = mapper.constraints;
       if (ExclusiveMaximum !== undefined && value >= ExclusiveMaximum) {
         failValidation("ExclusiveMaximum", ExclusiveMaximum);
@@ -113,8 +113,8 @@ class SerializerImpl implements Serializer {
       xml: {
         rootName: options.xml.rootName ?? "",
         includeRoot: options.xml.includeRoot ?? false,
-        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY
-      }
+        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
+      },
     };
     let payload: any = {};
     const mapperType = mapper.type.name as string;
@@ -226,8 +226,8 @@ class SerializerImpl implements Serializer {
       xml: {
         rootName: options.xml.rootName ?? "",
         includeRoot: options.xml.includeRoot ?? false,
-        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY
-      }
+        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
+      },
     };
     if (responseBody === undefined || responseBody === null) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -350,9 +350,7 @@ function bufferToBase64Url(buffer: Uint8Array): string | undefined {
   // Uint8Array to Base64.
   const str = base64.encodeByteArray(buffer);
   // Base64 to Base64Url.
-  return trimEnd(str, "=")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_");
+  return trimEnd(str, "=").replace(/\+/g, "-").replace(/\//g, "_");
 }
 
 function base64UrlToByteArray(str: string): Uint8Array | undefined {
@@ -557,12 +555,18 @@ function serializeSequenceType(
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
   }
-  const elementType = mapper.type.element;
+  let elementType = mapper.type.element;
   if (!elementType || typeof elementType !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
         `mapper and it must of type "object" in ${objectName}.`
     );
+  }
+  // Quirk: Composite mappers referenced by `element` might
+  // not have *all* properties declared (like uberParent),
+  // so let's try to look up the full definition by name.
+  if (elementType.type.name === "Composite" && elementType.type.className) {
+    elementType = serializer.modelMappers[elementType.type.className] ?? elementType;
   }
   const tempArray = [];
   for (let i = 0; i < object.length; i++) {
@@ -751,7 +755,7 @@ function serializeCompositeType(
             : "xmlns";
           parentObject[XML_ATTRKEY] = {
             ...parentObject[XML_ATTRKEY],
-            [xmlnsKey]: mapper.xmlNamespace
+            [xmlnsKey]: mapper.xmlNamespace,
           };
         }
         const propertyObjectName =
@@ -1058,8 +1062,7 @@ function deserializeSequenceType(
   objectName: string,
   options: RequiredSerializerOptions
 ): any {
-  /* jshint validthis: true */
-  const element = mapper.type.element;
+  let element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
@@ -1070,6 +1073,13 @@ function deserializeSequenceType(
     if (!Array.isArray(responseBody)) {
       // xml2js will interpret a single element array as just the element, so force it to be an array
       responseBody = [responseBody];
+    }
+
+    // Quirk: Composite mappers referenced by `element` might
+    // not have *all* properties declared (like uberParent),
+    // so let's try to look up the full definition by name.
+    if (element.type.name === "Composite" && element.type.className) {
+      element = serializer.modelMappers[element.type.className] ?? element;
     }
 
     const tempArray = [];
@@ -1094,8 +1104,12 @@ function getPolymorphicMapper(
 ): CompositeMapper {
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
   if (polymorphicDiscriminator) {
-    const discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
+    let discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
     if (discriminatorName) {
+      // The serializedName might have \\, which we just want to ignore
+      if (polymorphicPropertyName === "serializedName") {
+        discriminatorName = discriminatorName.replace(/\\/gi, "");
+      }
       const discriminatorValue = object[discriminatorName];
       if (discriminatorValue !== undefined && discriminatorValue !== null) {
         const typeName = mapper.type.uberParent || mapper.type.className;
@@ -1154,5 +1168,5 @@ export const MapperTypeNames = {
   String: "String",
   Stream: "Stream",
   TimeSpan: "TimeSpan",
-  UnixTime: "UnixTime"
+  UnixTime: "UnixTime",
 } as const;

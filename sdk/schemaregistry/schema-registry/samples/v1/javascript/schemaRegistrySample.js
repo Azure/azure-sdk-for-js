@@ -21,7 +21,7 @@ const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 const schemaObject = {
   type: "record",
   name: "User",
-  namespace: "com-azure-schemaregistry-samples",
+  namespace: "com.azure.schemaregistry.samples",
   fields: [
     {
       name: "firstName",

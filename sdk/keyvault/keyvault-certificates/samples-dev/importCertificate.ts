@@ -143,8 +143,8 @@ export async function main(): Promise<void> {
       policy: {
         contentType: "application/x-pkcs12",
         issuerName: WellKnownIssuer.Self,
-        subject: "CN=contoso.com"
-      }
+        subject: "CN=contoso.com",
+      },
     }
   );
 
@@ -166,8 +166,8 @@ export async function main(): Promise<void> {
       policy: {
         contentType: "application/x-pem-file",
         issuerName: WellKnownIssuer.Self,
-        subject: "CN=contoso.com"
-      }
+        subject: "CN=contoso.com",
+      },
     }
   );
 

@@ -49,7 +49,7 @@ export class FilesystemFetcher implements Fetcher {
     } catch (e) {
       const options: RestErrorOptions = {
         code: "ResourceNotFound",
-        statusCode: e?.status
+        statusCode: e?.status,
       };
       throw new RestError("Failed to fetch from Filesystem", options);
     }

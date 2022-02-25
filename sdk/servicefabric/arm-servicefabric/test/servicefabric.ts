@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -32,6 +34,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("ServiceFabric test", () => {
@@ -108,7 +114,7 @@ describe("ServiceFabric test", () => {
         ],
         reliabilityLevel: "Silver",
         upgradeMode: "Automatic"
-    });
+    },testPollingOptions);
     assert.equal(res.name,clusterName);
   });
 
@@ -143,6 +149,9 @@ describe("ServiceFabric test", () => {
   });
 
   it("clusters update test", async function() {
+    if(isPlaybackMode()) { 
+      this.skip(); 
+    }
     const res = await client.clusters.beginUpdateAndWait(resourceGroup,clusterName,{
       tags: {
             a: "b"
@@ -184,12 +193,12 @@ describe("ServiceFabric test", () => {
         reliabilityLevel: "Bronze",
         upgradeMode: "Automatic",
         eventStoreServiceEnabled: true
-    });
+    },testPollingOptions);
     assert.equal(res.upgradeMode,"Automatic");
   });
 
   it("applicationTypes delete test", async function() {
-    const resDelete = await client.applicationTypes.beginDeleteAndWait(resourceGroup,clusterName,applicationTypeName);
+    const resDelete = await client.applicationTypes.beginDeleteAndWait(resourceGroup,clusterName,applicationTypeName,testPollingOptions);
     const res = await client.applicationTypes.list(resourceGroup,clusterName)
     assert.equal(res.value?.length,0)
   });

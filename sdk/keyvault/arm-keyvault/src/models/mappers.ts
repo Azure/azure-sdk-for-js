@@ -85,13 +85,6 @@ export const KeyProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      rotationPolicy: {
-        serializedName: "rotationPolicy",
-        type: {
-          name: "Composite",
-          className: "RotationPolicy"
-        }
       }
     }
   }
@@ -140,122 +133,11 @@ export const KeyAttributes: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const RotationPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RotationPolicy",
-    modelProperties: {
-      attributes: {
-        serializedName: "attributes",
-        type: {
-          name: "Composite",
-          className: "KeyRotationPolicyAttributes"
-        }
       },
-      lifetimeActions: {
-        serializedName: "lifetimeActions",
+      exportable: {
+        serializedName: "exportable",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LifetimeAction"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const KeyRotationPolicyAttributes: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyRotationPolicyAttributes",
-    modelProperties: {
-      created: {
-        serializedName: "created",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      updated: {
-        serializedName: "updated",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      expiryTime: {
-        serializedName: "expiryTime",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LifetimeAction: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LifetimeAction",
-    modelProperties: {
-      trigger: {
-        serializedName: "trigger",
-        type: {
-          name: "Composite",
-          className: "Trigger"
-        }
-      },
-      action: {
-        serializedName: "action",
-        type: {
-          name: "Composite",
-          className: "Action"
-        }
-      }
-    }
-  }
-};
-
-export const Trigger: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Trigger",
-    modelProperties: {
-      timeAfterCreate: {
-        serializedName: "timeAfterCreate",
-        type: {
-          name: "String"
-        }
-      },
-      timeBeforeExpiry: {
-        serializedName: "timeBeforeExpiry",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Action: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Action",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: ["rotate", "notify"]
+          name: "Boolean"
         }
       }
     }
@@ -478,6 +360,7 @@ export const VaultProperties: coreClient.CompositeMapper = {
         }
       },
       enableRbacAuthorization: {
+        defaultValue: false,
         serializedName: "enableRbacAuthorization",
         type: {
           name: "Boolean"
@@ -1373,87 +1256,6 @@ export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const ManagedHsmResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedHsmResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "ManagedHsmSku"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedHsmSku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedHsmSku",
-    modelProperties: {
-      family: {
-        serializedName: "family",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["Standard_B1", "Custom_B32"]
-        }
-      }
-    }
-  }
-};
-
 export const ManagedHsmProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1705,6 +1507,87 @@ export const MhsmPrivateLinkServiceConnectionState: coreClient.CompositeMapper =
         serializedName: "actionsRequired",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ManagedHsmSku"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedHsmSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmSku",
+    modelProperties: {
+      family: {
+        serializedName: "family",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Standard_B1", "Custom_B32"]
         }
       }
     }
@@ -2465,13 +2348,6 @@ export const Key: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      rotationPolicy: {
-        serializedName: "properties.rotationPolicy",
-        type: {
-          name: "Composite",
-          className: "RotationPolicy"
         }
       }
     }

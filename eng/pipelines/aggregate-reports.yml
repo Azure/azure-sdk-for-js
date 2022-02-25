@@ -19,10 +19,20 @@ stages:
       - job: GenerateReports
         timeoutInMinutes: 120
         steps:
-          - task: NodeTool@0
-            displayName: 'Use Node 10.x'
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 16.x
+
+          - task: PowerShell@2
             inputs:
-              versionSpec: 10.x
+              targetType: 'filePath'
+              filePath: eng/scripts/spell-check-public-api.ps1
+              pwsh: true
+            displayName: Spell check public API
+
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 10.x
 
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:
@@ -35,7 +45,7 @@ stages:
             displayName: 'Install tool dependencies'
 
           - script: |
-              node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/data.js"
+              node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
             displayName: 'Validate dependencies'
 
@@ -43,15 +53,27 @@ stages:
               copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
             displayName: 'Copy static file'
 
-          - task: AzureFileCopy@3
-            displayName: 'Upload dependency report'
+          - task: AzureFileCopy@4
+            displayName: 'Upload Dependency Report'
             inputs:
-              sourcePath: '$(Build.ArtifactStagingDirectory)'
+              sourcePath: '$(Build.ArtifactStagingDirectory)/*'
               azureSubscription: 'Azure SDK Artifacts'
               destination: AzureBlob
               storage: azuresdkartifacts
               containerName: 'azure-sdk-for-js'
               blobPrefix: dependencies
+              AdditionalArgumentsForBlobCopy: '--exclude-pattern=*data.js*'
+
+          - task: AzureFileCopy@4
+            displayName: 'Upload Dependency Graph'
+            inputs:
+              sourcePath: '$(Build.ArtifactStagingDirectory)/*'
+              azureSubscription: 'Azure SDK Artifacts'
+              destination: AzureBlob
+              storage: azuresdkartifacts
+              containerName: 'azure-sdk-for-js'
+              blobPrefix: dependencies/dependencyGraph
+              AdditionalArgumentsForBlobCopy: '--include-pattern=*data.js*'
 
           - task: PowerShell@2
             displayName: "Verify Repository Resource Refs"
@@ -73,25 +95,9 @@ stages:
               ExclusionDataBaseFileName: "JavaScriptPoliCheckExclusion"
               PublishAnalysisLogs: false
 
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
-            displayName: 'Run CredScan'
-            condition: succeededOrFailed()
-            inputs:
-              suppressionsFile: 'eng\CredScanSuppression.json'
-
-          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
-            displayName: 'Post Analysis (CredScan)'
-            inputs:
-              GdnBreakAllTools: false
-              GdnBreakGdnToolCredScan: true
-              GdnBreakGdnToolCredScanSeverity: Error
-              # Specify baseline file input to scan tool
-              # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
-              GdnBreakBaselines: baseline  
-              # Used for generating baseline file.
-              # GdnBreakOutputBaselineFile: js
-              # GdnBreakOutputBaseline: baseline
-            continueOnError: true
+          - template: /eng/common/pipelines/templates/steps/credscan.yml
+            parameters:
+              BaselineFilePath: $(Build.SourcesDirectory)\eng\js.gdnbaselines
 
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
             displayName: 'Publish Security Analysis Logs'

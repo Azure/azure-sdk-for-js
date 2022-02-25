@@ -9,7 +9,7 @@ import {
   DeliveryAnnotations,
   MessageAnnotations,
   uuid_to_string,
-  Message as RheaMessage
+  Message as RheaMessage,
 } from "rhea-promise";
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
@@ -24,7 +24,7 @@ export enum DispositionType {
   complete = "complete",
   deadletter = "deadletter",
   abandon = "abandon",
-  defer = "defer"
+  defer = "defer",
 }
 
 /**
@@ -79,6 +79,10 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
    * Annotation for the message being locked until.
    */
   "x-opt-locked-until"?: Date | number;
+  /**
+   * Annotation for the message state.
+   */
+  "x-opt-message-state"?: number;
 }
 
 /**
@@ -282,7 +286,7 @@ export function toRheaMessage(
   if (isAmqpAnnotatedMessage(msg)) {
     amqpMsg = {
       ...AmqpAnnotatedMessage.toRheaMessage(msg),
-      body: encoder.encode(msg.body, msg.bodyType ?? "data")
+      body: encoder.encode(msg.body, msg.bodyType ?? "data"),
     };
   } else {
     let bodyType: "data" | "sequence" | "value" = "data";
@@ -314,7 +318,7 @@ export function toRheaMessage(
 
     amqpMsg = {
       body: encoder.encode(msg.body, bodyType),
-      message_annotations: {}
+      message_annotations: {},
     };
 
     amqpMsg.ttl = msg.timeToLive;
@@ -389,8 +393,11 @@ export function toRheaMessage(
   return amqpMsg;
 }
 
-/** @internal @ignore */
-export function updateMessageId(rheaMessage: RheaMessage, messageId: RheaMessage["message_id"]) {
+/** @internal */
+export function updateMessageId(
+  rheaMessage: RheaMessage,
+  messageId: RheaMessage["message_id"]
+): void {
   if (messageId != null) {
     if (typeof messageId === "string" && messageId.length > Constants.maxMessageIdLength) {
       throw new Error(
@@ -402,7 +409,7 @@ export function updateMessageId(rheaMessage: RheaMessage, messageId: RheaMessage
   }
 }
 
-/** @internal @ignore */
+/** @internal */
 export function updateScheduledTime(
   rheaMessage: RheaMessage,
   scheduledEnqueuedTimeUtc: Date | undefined
@@ -492,6 +499,11 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly deadLetterSource?: string;
   /**
+   * State of the message can be active, deferred or scheduled. Deferred messages have deferred state,
+   * scheduled messages have scheduled state, all other messages have active state.
+   */
+  readonly state: "active" | "deferred" | "scheduled";
+  /**
    * The underlying raw amqp message.
    * @readonly
    */
@@ -504,19 +516,23 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
  */
 export function fromRheaMessage(
   rheaMessage: RheaMessage,
+  skipParsingBodyAsJson: boolean,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
 ): ServiceBusReceivedMessage {
   if (!rheaMessage) {
     rheaMessage = {
-      body: undefined
+      body: undefined,
     };
   }
 
-  const { body, bodyType } = defaultDataTransformer.decodeWithType(rheaMessage.body);
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(
+    rheaMessage.body,
+    skipParsingBodyAsJson
+  );
 
   const sbmsg: ServiceBusMessage = {
-    body: body
+    body: body,
   };
 
   if (rheaMessage.application_properties != null) {
@@ -566,15 +582,21 @@ export function fromRheaMessage(
     }
   }
 
-  type PartialWritable<T> = Partial<
-    {
-      -readonly [P in keyof T]: T[P];
-    }
-  >;
-  const props: PartialWritable<ServiceBusReceivedMessage> = {};
+  type PartialWritable<T> = Partial<{
+    -readonly [P in keyof T]: T[P];
+  }>;
+  const props: PartialWritable<ServiceBusReceivedMessage> & {
+    state: "active" | "deferred" | "scheduled";
+  } = { state: "active" };
   if (rheaMessage.message_annotations != null) {
     if (rheaMessage.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = rheaMessage.message_annotations[Constants.deadLetterSource];
+    }
+    const messageState = rheaMessage.message_annotations[Constants.messageState];
+    if (messageState === 1) {
+      props.state = "deferred";
+    } else if (messageState === 2) {
+      props.state = "scheduled";
     }
     if (rheaMessage.message_annotations[Constants.enqueueSequenceNumber] != null) {
       props.enqueuedSequenceNumber =
@@ -642,7 +664,7 @@ export function fromRheaMessage(
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
       | string
-      | undefined
+      | undefined,
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
@@ -658,7 +680,6 @@ export function isServiceBusMessage(possible: unknown): possible is ServiceBusMe
 
 /**
  * @internal
- * @ignore
  */
 export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
   return (
@@ -847,6 +868,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly deadLetterSource?: string;
   /**
+   * State of the message can be active, deferred or scheduled. Deferred messages have deferred state,
+   * scheduled messages have scheduled state, all other messages have active state.
+   */
+  readonly state: "active" | "deferred" | "scheduled";
+  /**
    * The associated delivery of the received message.
    */
   readonly delivery: Delivery;
@@ -872,36 +898,24 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
-    receiveMode: ReceiveMode
+    receiveMode: ReceiveMode,
+    skipParsingBodyAsJson: boolean
   ) {
     const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
       msg,
+      skipParsingBodyAsJson,
       delivery,
       shouldReorderLockToken
     );
+    this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
+    this.state = restOfMessageProps.state; // to suppress error TS2564: Property 'state' has no initializer and is not definitely assigned in the constructor.
+
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
-
-    let actualBodyType:
-      | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
-      | undefined = undefined;
-
-    if (msg.body) {
-      try {
-        const result = defaultDataTransformer.decodeWithType(msg.body);
-
-        this.body = result.body;
-        actualBodyType = result.bodyType;
-      } catch (err) {
-        this.body = undefined;
-      }
-    }
-    this._rawAmqpMessage = _rawAmqpMessage;
-    this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 
@@ -924,7 +938,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      applicationProperties: this.applicationProperties
+      applicationProperties: this.applicationProperties,
       // Will be required later for implementing Transactions
       // viaPartitionKey: this.viaPartitionKey
     };
@@ -956,7 +970,7 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     [0, 'foo', new Date(), { nested: new Date()}]
   */
   if (Array.isArray(thing)) {
-    return (thing.map(convertDatesToNumbers) as unknown) as T;
+    return thing.map(convertDatesToNumbers) as unknown as T;
   }
 
   /*

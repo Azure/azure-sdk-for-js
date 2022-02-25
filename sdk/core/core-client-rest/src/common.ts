@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import {
+  HttpClient,
   Pipeline,
   PipelineOptions,
+  PipelinePolicy,
   PipelineRequest,
   RawHttpHeaders,
 } from "@azure/core-rest-pipeline";
@@ -41,6 +43,16 @@ export type RequestParameters = {
   allowInsecureConnection?: boolean;
   /** Set to true if you want to skip encoding the path parameters */
   skipUrlEncoding?: boolean;
+  /**
+   * With this property set to true, the response body will be returned
+   * as a binary array UInt8Array
+   */
+  binaryResponse?: boolean;
+
+  /**
+   * Path parameters for custom the base url
+   */
+  pathParameters?: Record<string, any>;
 };
 
 /**
@@ -121,6 +133,23 @@ export interface ResourceMethods {
 }
 
 /**
+ * Used to configure additional policies added to the pipeline at construction.
+ */
+export interface AdditionalPolicyConfig {
+  /**
+   * A policy to be added.
+   */
+  policy: PipelinePolicy;
+  /**
+   * Determines if this policy be applied before or after retry logic.
+   * Only use `perRetry` if you need to modify the request again
+   * each time the operation is retried due to retryable service
+   * issues.
+   */
+  position: "perCall" | "perRetry";
+}
+
+/**
  * General options that a Rest Level Client can take
  */
 export type ClientOptions = PipelineOptions & {
@@ -149,6 +178,14 @@ export type ClientOptions = PipelineOptions & {
    * Option to allow calling http (insecure) endpoints
    */
   allowInsecureConnection?: boolean;
+  /**
+   * Additional policies to include in the HTTP pipeline.
+   */
+  additionalPolicies?: AdditionalPolicyConfig[];
+  /**
+   * Specify a custom HttpClient when making requests.
+   */
+  httpClient?: HttpClient;
 };
 
 /**

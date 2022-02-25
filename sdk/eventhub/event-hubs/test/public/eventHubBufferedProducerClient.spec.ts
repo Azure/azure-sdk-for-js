@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
-import { createMockServer } from "./utils/mockService";
 import {
-  EventHubBufferedProducerClient,
   EventData,
+  EventHubBufferedProducerClient,
   OnSendEventsErrorContext,
-  OnSendEventsSuccessContext
+  OnSendEventsSuccessContext,
 } from "../../src/index";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import chai from "chai";
+import { createMockServer } from "./utils/mockService";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
 const assert = chai.assert;
 
@@ -78,7 +78,7 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsSuccessHandler(context) {
             results.push({ type: "success", context });
           },
-          maxWaitTimeInMs: 1000
+          maxWaitTimeInMs: 1000,
         });
 
         for (let i = 0; i < expectedEventCount; i++) {
@@ -109,12 +109,12 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsSuccessHandler(context) {
             results.push({ type: "success", context });
           },
-          maxWaitTimeInMs: 1000
+          maxWaitTimeInMs: 1000,
         });
 
         for (let i = 0; i < expectedEventCount; i++) {
           const bufferedEventCount = await client.enqueueEvent(testEvents[i], {
-            partitionKey: "foo"
+            partitionKey: "foo",
           });
           assert.equal(bufferedEventCount, i + 1, "Unexpected number of events buffered.");
         }
@@ -133,7 +133,7 @@ testWithServiceTypes((serviceVersion) => {
         const testEvents: EventData[] = [];
         for (let i = 0; i < expectedEventCount; i++) {
           testEvents.push({
-            body: `Test event ${i}`
+            body: `Test event ${i}`,
           });
         }
 
@@ -144,16 +144,16 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsSuccessHandler(context) {
             results.push({ type: "success", context });
           },
-          maxEventBufferLengthPerPartition: 2
+          maxEventBufferLengthPerPartition: 2,
         });
 
         for (const testEvent of testEvents) {
           await client.enqueueEvent(testEvent, {
-            partitionKey: "foo"
+            partitionKey: "foo",
           });
           results.push({
             type: "enqueue",
-            event: testEvent
+            event: testEvent,
           });
         }
 
@@ -174,7 +174,7 @@ testWithServiceTypes((serviceVersion) => {
           "enqueue",
           "success",
           "enqueue",
-          "success"
+          "success",
         ]);
         assert.deepEqual(
           resultEnqueued,
@@ -194,7 +194,7 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsSuccessHandler(context) {
             results.push({ type: "success", context });
           },
-          maxEventBufferLengthPerPartition: 2
+          maxEventBufferLengthPerPartition: 2,
         });
 
         /**
@@ -227,13 +227,27 @@ testWithServiceTypes((serviceVersion) => {
         await client.enqueueEvent({ body: 1 }, { partitionId: "0" });
         await Promise.all([
           client.flush().then(() => results.push({ type: "flush" })),
-          client.enqueueEvent({ body: 2 }, { partitionId: "0" })
+          client.enqueueEvent({ body: 2 }, { partitionId: "0" }),
         ]);
         await client.flush();
         results.push({ type: "flush" });
 
         const resultTypes = results.map((r) => r.type);
         assert.deepEqual(resultTypes, ["success", "flush", "success", "flush"]);
+      });
+
+      it("passes idempotent publish options to internal producer", async () => {
+        const results: Result[] = [];
+        client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
+          async onSendEventsErrorHandler(context) {
+            results.push({ type: "error", context });
+          },
+          enableIdempotentPartitions: true,
+        });
+
+        const internalProducer = (client as any)._producer;
+        assert.ok(internalProducer, "Expecting internal standard producer to be valid");
+        assert.equal(internalProducer._enableIdempotentPartitions, true);
       });
     });
   });

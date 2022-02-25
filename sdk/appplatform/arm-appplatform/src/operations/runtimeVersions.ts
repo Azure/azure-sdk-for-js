@@ -10,7 +10,7 @@ import { RuntimeVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClientContext } from "../appPlatformManagementClientContext";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   RuntimeVersionsListRuntimeVersionsOptionalParams,
   RuntimeVersionsListRuntimeVersionsResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing RuntimeVersions operations. */
 export class RuntimeVersionsImpl implements RuntimeVersions {
-  private readonly client: AppPlatformManagementClientContext;
+  private readonly client: AppPlatformManagementClient;
 
   /**
    * Initialize a new instance of the class RuntimeVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: AppPlatformManagementClientContext) {
+  constructor(client: AppPlatformManagementClient) {
     this.client = client;
   }
 

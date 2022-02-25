@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListenOptions } from "net";
-import { EventEmitter } from "events";
 import {
+  ConnectionError,
+  ConnectionEvents,
   ConnectionOptions,
   Container,
   EventContext,
   Message,
+  Receiver,
   ReceiverEvents,
   Sender,
-  create_container,
   SenderEvents,
-  Receiver,
-  ConnectionEvents,
-  ConnectionError
+  create_container,
 } from "rhea";
+import { EventEmitter } from "events";
+import { ListenOptions } from "net";
 import { convertBufferToMessages } from "../utils/convertBufferToMessage";
 
 export interface MockServerOptions {
@@ -148,6 +148,8 @@ export class MockServer extends EventEmitter {
     return new Promise((resolve, reject) => {
       const options = this._options;
       const ONE_MB = 1024 * 1024;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const listenOptions: ListenOptions & ConnectionOptions & any = {
         port: options.port ?? 0,
         max_frame_size: 65536,
@@ -156,15 +158,15 @@ export class MockServer extends EventEmitter {
         receiver_options: {
           max_message_size: options.maxMessageSize ?? ONE_MB,
           autosettle: true,
-          autoaccept: false
+          autoaccept: false,
         },
         sender_options: {
           max_message_size: options.maxMessageSize ?? ONE_MB,
-          autosettle: true
+          autosettle: true,
         },
         transport: "tls",
         rejectUnauthorized: true,
-        ...options.tlsOptions
+        ...options.tlsOptions,
       };
 
       this._setupDefaultListeners();
@@ -183,6 +185,7 @@ export class MockServer extends EventEmitter {
   emit(type: "receiverClose", event: ReceiverCloseEvent): boolean;
   emit(type: "senderClose", event: SenderCloseEvent): boolean;
   emit(type: "connectionClose", event: ConnectionCloseEvent): boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
   emit(type: string, event: any): boolean {
     return super.emit(type, event);
   }
@@ -191,56 +194,57 @@ export class MockServer extends EventEmitter {
    * Add new "receiverOpen" event listener.
    * This event indicates when the remote peer has created a `Sender`
    * and the server creates a `Receiver` link in response.
-   * @param type "receiverOpen"
-   * @param listener
+   * @param type - "receiverOpen"
+   * @param listener -
    */
   public on(type: "receiverOpen", listener: (event: ReceiverOpenEvent) => void): this;
   /**
    * Add new "receiverClose" event listener.
    * This event indicates when the remote peer has closed a `Sender`
    * and the server closes a `Receiver` link in response.
-   * @param type "receiverClose"
-   * @param listener
+   * @param type - "receiverClose"
+   * @param listener -
    */
   public on(type: "receiverClose", listener: (event: ReceiverCloseEvent) => void): this;
   /**
    * Add new "connectionOpen" event listener.
    * This event indicates when the remote peer has created a connection to the server.
-   * @param type "connectionOpen"
-   * @param listener
+   * @param type - "connectionOpen"
+   * @param listener -
    */
   public on(type: "connectionOpen", listener: (event: ConnectionOpenEvent) => void): this;
   /**
    * Add new "senderOpen" event listener.
    * This event indicates when the remote peer has created a `Receiver`
    * and the server creates a `Sender` link in response.
-   * @param type "senderOpen"
-   * @param listener
+   * @param type - "senderOpen"
+   * @param listener -
    */
   public on(type: "senderOpen", listener: (event: SenderOpenEvent) => void): this;
   /**
    * Add new "senderClose" event listener.
    * This event indicates when the remote peer has closed a `Receiver`
    * and the server closes a `Sender` link in response.
-   * @param type "senderClose"
-   * @param listener
+   * @param type - "senderClose"
+   * @param listener -
    */
   public on(type: "senderClose", listener: (event: SenderCloseEvent) => void): this;
   /**
    * Add new "connectionClose" event listener.
    * This event indicates when the remote peer has closed a connection to the server.
-   * @param type "connectionClose"
-   * @param listener
+   * @param type - "connectionClose"
+   * @param listener -
    */
   public on(type: "connectionClose", listener: (event: ConnectionCloseEvent) => void): this;
   /**
    * Add new "onMessage" event listener.
    * This event indicates when the server has received a message from a remote peer.
    * Messages are received over a `Receiver` link.
-   * @param type "connectionClose"
-   * @param listener
+   * @param type - "connectionClose"
+   * @param listener -
    */
   public on(type: "onMessages", listener: (event: OnMessagesEvent) => void): this;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public on(type: string, listener: (event: any) => void): this {
     return super.on(type, listener);
   }
@@ -267,32 +271,35 @@ export class MockServer extends EventEmitter {
     });
   }
 
-  private _setupDefaultListeners() {
+  private _setupDefaultListeners(): void {
     this._container.sasl_server_mechanisms.enable_anonymous();
     this._container.sasl.server_add_external(this._container.sasl_server_mechanisms);
-    this._container.sasl_server_mechanisms["MSSBCBS"] = this._container.sasl_server_mechanisms[
-      "EXTERNAL"
-    ];
-    this._container.on(ConnectionEvents.connectionError, () => {});
-    this._container.on(ConnectionEvents.protocolError, () => {});
+    this._container.sasl_server_mechanisms["MSSBCBS"] =
+      this._container.sasl_server_mechanisms["EXTERNAL"];
+    this._container.on(ConnectionEvents.connectionError, () => {
+      /* do nothing */
+    });
+    this._container.on(ConnectionEvents.protocolError, () => {
+      /* do nothing */
+    });
     this._container.on(ConnectionEvents.connectionOpen, (context: EventContext) => {
-      context.connection.on("error", function(this: typeof context.connection, err: Error) {
+      context.connection.on("error", function (this: typeof context.connection, err: Error) {
         console.log(`Error occurred on connection:`, err?.message);
       });
       this.emit("connectionOpen", {
-        context
+        context,
       });
     });
     this._container.on(ConnectionEvents.connectionClose, (context: EventContext) => {
       this.emit("connectionClose", {
         context,
-        error: context.error as ConnectionError
+        error: context.error as ConnectionError,
       });
     });
     this._container.on(ConnectionEvents.disconnected, (context: EventContext) => {
       this.emit("connectionClose", {
         context,
-        error: context.error as Error
+        error: context.error as Error,
       });
     });
     this._container.on(SenderEvents.senderOpen, (context: EventContext) => {
@@ -301,7 +308,7 @@ export class MockServer extends EventEmitter {
         this.emit("senderOpen", {
           context,
           entityPath,
-          sender: context.sender
+          sender: context.sender,
         });
       }
     });
@@ -311,7 +318,7 @@ export class MockServer extends EventEmitter {
         this.emit("receiverOpen", {
           context,
           entityPath,
-          receiver: context.receiver
+          receiver: context.receiver,
         });
       }
     });
@@ -322,7 +329,7 @@ export class MockServer extends EventEmitter {
         this.emit("senderClose", {
           context,
           entityPath,
-          sender: context.sender
+          sender: context.sender,
         });
       }
     });
@@ -332,11 +339,11 @@ export class MockServer extends EventEmitter {
         this.emit("receiverClose", {
           context,
           entityPath,
-          receiver: context.receiver
+          receiver: context.receiver,
         });
       }
     });
-    this._container.on("error", function(err) {
+    this._container.on("error", function (err) {
       console.log("Unexpected error encountered:", err);
     });
   }
@@ -358,7 +365,7 @@ export class MockServer extends EventEmitter {
     return incomingMessages;
   }
 
-  private _handleMessage = (context: EventContext) => {
+  private _handleMessage = (context: EventContext): void => {
     if (!context.message || !context.receiver) {
       return;
     }
@@ -371,11 +378,15 @@ export class MockServer extends EventEmitter {
       sendMessage: (message: Message) => {
         this._sendMessage(context, message, message.to);
       },
-      context
+      context,
     });
   };
 
-  private _sendMessage = (context: EventContext, outgoingMessage: Message, toLinkName?: string) => {
+  private _sendMessage = (
+    context: EventContext,
+    outgoingMessage: Message,
+    toLinkName?: string
+  ): void => {
     const sender = context.connection.find_sender(
       (s: Sender) => s.name === toLinkName || s.target.address === toLinkName
     );

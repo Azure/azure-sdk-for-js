@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("ContainerRegistry test", () => {
@@ -76,91 +82,91 @@ describe("ContainerRegistry test", () => {
               name: "Premium"
           },
           adminUserEnabled: false
-      });
+      },testPollingOptions);
       assert.equal(res.name,registryName)
   });
 
-  it("importPipelines create test", async function() {
-    const res = await client.importPipelines.beginCreateAndWait(resourceGroup,registryName,importPipelineName,{
-      location: location,
-        identity: {
-            type: "SystemAssigned"
-        },
-        source: {
-            type: "AzureStorageBlobContainer",
-            uri: "https://accountname.blob.core.windows.net/containername",
-            keyVaultUri: "https://myvault.vault.azure.net/secrets/acrimportsas"
-        },
-        options: [
-            "OverwriteTags",
-            "DeleteSourceBlobOnSuccess",
-            "ContinueOnErrors"
-        ]
-    });
-    assert.equal(res.name,importPipelineName)
-  });
+  // it("importPipelines create test", async function() {
+  //   const res = await client.importPipelines.beginCreateAndWait(resourceGroup,registryName,importPipelineName,{
+  //     location: location,
+  //       identity: {
+  //           type: "SystemAssigned"
+  //       },
+  //       source: {
+  //           type: "AzureStorageBlobContainer",
+  //           uri: "https://accountname.blob.core.windows.net/containername",
+  //           keyVaultUri: "https://myvault.vault.azure.net/secrets/acrimportsas"
+  //       },
+  //       options: [
+  //           "OverwriteTags",
+  //           "DeleteSourceBlobOnSuccess",
+  //           "ContinueOnErrors"
+  //       ]
+  //   },testPollingOptions);
+  //   assert.equal(res.name,importPipelineName)
+  // });
 
-  it("exportPipelines create test", async function() {
-    const res = await client.exportPipelines.beginCreateAndWait(resourceGroup,registryName,exportPipelineName,{
-      location: location,
-        identity: {
-            type: "SystemAssigned"
-        },
-        target: {
-            type: "AzureStorageBlobContainer",
-            uri: "https://accountname.blob.core.windows.net/containername",
-            keyVaultUri: "https://myvault.vault.azure.net/secrets/acrexportsas"
-        },
-        options: [
-            "OverwriteBlobs"
-        ]
-    });
-    assert.equal(res.name,exportPipelineName);
-  });
+  // it("exportPipelines create test", async function() {
+  //   const res = await client.exportPipelines.beginCreateAndWait(resourceGroup,registryName,exportPipelineName,{
+  //     location: location,
+  //       identity: {
+  //           type: "SystemAssigned"
+  //       },
+  //       target: {
+  //           type: "AzureStorageBlobContainer",
+  //           uri: "https://accountname.blob.core.windows.net/containername",
+  //           keyVaultUri: "https://myvault.vault.azure.net/secrets/acrexportsas"
+  //       },
+  //       options: [
+  //           "OverwriteBlobs"
+  //       ]
+  //   },testPollingOptions);
+  //   assert.equal(res.name,exportPipelineName);
+  // });
 
-  it("importPipelines get test", async function() {
-    const res = await client.importPipelines.get(resourceGroup,registryName,importPipelineName);
-    assert.equal(res.name,importPipelineName)
-  });
+  // it("importPipelines get test", async function() {
+  //   const res = await client.importPipelines.get(resourceGroup,registryName,importPipelineName);
+  //   assert.equal(res.name,importPipelineName)
+  // });
 
-  it("exportPipelines get test", async function() {
-    const res = await client.exportPipelines.get(resourceGroup,registryName,exportPipelineName);
-    assert.equal(res.name,exportPipelineName)
-  });
+  // it("exportPipelines get test", async function() {
+  //   const res = await client.exportPipelines.get(resourceGroup,registryName,exportPipelineName);
+  //   assert.equal(res.name,exportPipelineName)
+  // });
 
-  it("importPipelines list test", async function() {
-    const resArray = new Array();
-    for await (let item of client.importPipelines.list(resourceGroup,registryName)){
-        resArray.push(item);
-    }
-    assert.equal(resArray.length,1);
-  });
+  // it("importPipelines list test", async function() {
+  //   const resArray = new Array();
+  //   for await (let item of client.importPipelines.list(resourceGroup,registryName)){
+  //       resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length,1);
+  // });
 
-  it("exportPipelines list test", async function() {
-    const resArray = new Array();
-    for await (let item of client.exportPipelines.list(resourceGroup,registryName)){
-        resArray.push(item);
-    }
-    assert.equal(resArray.length,1);
-  });
+  // it("exportPipelines list test", async function() {
+  //   const resArray = new Array();
+  //   for await (let item of client.exportPipelines.list(resourceGroup,registryName)){
+  //       resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length,1);
+  // });
 
-  it("importPipelines delete test", async function() {
-    const res = await client.importPipelines.beginDeleteAndWait(resourceGroup,registryName,importPipelineName);
-    const resArray = new Array();
-    for await (let item of client.importPipelines.list(resourceGroup,registryName)){
-        resArray.push(item);
-    }
-    assert.equal(resArray.length,0);
-  });
+  // it("importPipelines delete test", async function() {
+  //   const res = await client.importPipelines.beginDeleteAndWait(resourceGroup,registryName,importPipelineName,testPollingOptions);
+  //   const resArray = new Array();
+  //   for await (let item of client.importPipelines.list(resourceGroup,registryName)){
+  //       resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length,0);
+  // });
 
-  it("exportPipelines delete test", async function() {
-    const res = await client.exportPipelines.beginDeleteAndWait(resourceGroup,registryName,exportPipelineName);
-    const resArray = new Array();
-    for await (let item of client.exportPipelines.list(resourceGroup,registryName)){
-        resArray.push(item);
-    }
-    assert.equal(resArray.length,0);
-  });
+  // it("exportPipelines delete test", async function() {
+  //   const res = await client.exportPipelines.beginDeleteAndWait(resourceGroup,registryName,exportPipelineName,testPollingOptions);
+  //   const resArray = new Array();
+  //   for await (let item of client.exportPipelines.list(resourceGroup,registryName)){
+  //       resArray.push(item);
+  //   }
+  //   assert.equal(resArray.length,0);
+  // });
 
   it("tasks create test", async function() {
     const res = await client.tasks.beginCreateAndWait(resourceGroup,registryName,taskName,{
@@ -192,7 +198,7 @@ describe("ContainerRegistry test", () => {
               status: "Enabled"
           }
       }
-    });
+    },testPollingOptions);
     assert.equal(res.name,taskName);
   });
 
@@ -238,12 +244,12 @@ describe("ContainerRegistry test", () => {
               status: "Enabled"
           }
       }
-    });
+    },testPollingOptions);
     assert.equal(res.type,"Microsoft.ContainerRegistry/registries/tasks");
   });
 
   it("tasks delete test", async function() {
-    const res = await client.tasks.beginDeleteAndWait(resourceGroup,registryName,taskName);
+    const res = await client.tasks.beginDeleteAndWait(resourceGroup,registryName,taskName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.tasks.list(resourceGroup,registryName)){
         resArray.push(item);
@@ -252,6 +258,6 @@ describe("ContainerRegistry test", () => {
   });
 
   it("registries delete test", async function() {
-    const res = await client.registries.beginDeleteAndWait(resourceGroup,registryName);
+    const res = await client.registries.beginDeleteAndWait(resourceGroup,registryName,testPollingOptions);
   });
 });

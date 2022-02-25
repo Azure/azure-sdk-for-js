@@ -6,413 +6,302 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * The resource model definition representing SKU
- */
+/** The resource model definition representing SKU */
 export interface Sku {
-  /**
-   * The name of the SKU. Ex - P3. It is typically a letter+number code
-   */
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
-  /**
-   * This field is required to be implemented by the Resource Provider if the service has more than
-   * one tier, but is not required on a PUT. Possible values include: 'Free', 'Basic', 'Standard',
-   * 'Premium', 'Enterprise'
-   */
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
   tier?: SkuTier;
-  /**
-   * The SKU size. When the name field is the combination of tier and some other value, this would
-   * be the standalone code.
-   */
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
   size?: string;
-  /**
-   * If the service has different generations of hardware, for the same SKU, then that can be
-   * captured here.
-   */
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
   family?: string;
-  /**
-   * If the SKU supports scale out/in then the capacity integer should be included. If scale out/in
-   * is not possible for the resource this may be omitted.
-   */
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
   capacity?: number;
 }
 
-/**
- * User-assigned managed identity.
- */
-export interface UserAssignedIdentity {
-  /**
-   * Azure Active Directory principal ID associated with this Identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * Client App Id associated with this identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clientId?: string;
-}
-
-/**
- * Identity for the resource.
- */
+/** Identity for the resource. */
 export interface Identity {
-  /**
-   * The identity type. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned, UserAssigned'
-   */
+  /** The identity type. */
   type?: ResourceIdentityType;
   /**
    * The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
   /**
    * The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
-  /**
-   * The list of user assigned identities associated with the resource. The user identity
-   * dictionary key references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-   */
+  /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
+/** User-assigned managed identity. */
+export interface UserAssignedIdentity {
+  /**
+   * Azure Active Directory principal ID associated with this Identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * Client App Id associated with this identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
+  /** The identity that created the resource. */
   createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
+  /** The type of identity that created the resource. */
   createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
+  /** The timestamp of resource creation (UTC). */
   createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
+  /** The identity that last modified the resource. */
   lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
+  /** The type of identity that last modified the resource. */
   lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
+  /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
 }
 
-/**
- * SkuCapability indicates the capability of a certain feature.
- */
+/** Properties of Cognitive Services account. */
+export interface AccountProperties {
+  /**
+   * Gets the status of the cognitive services account at the time the operation was called.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Endpoint of the created account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /**
+   * The internal identifier (deprecated, do not use this property).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internalId?: string;
+  /**
+   * Gets the capabilities of the cognitive services account. Each item indicates the capability of a specific feature. The values are read-only and for reference only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: SkuCapability[];
+  /**
+   * If the resource is migrated from an existing key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMigrated?: boolean;
+  /** Resource migration token. */
+  migrationToken?: string;
+  /**
+   * Sku change info of account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuChangeInfo?: SkuChangeInfo;
+  /** Optional subdomain name used for token-based authentication. */
+  customSubDomainName?: string;
+  /** A collection of rules governing the accessibility from specific network locations. */
+  networkAcls?: NetworkRuleSet;
+  /** The encryption properties for this resource. */
+  encryption?: Encryption;
+  /** The storage accounts for this resource. */
+  userOwnedStorage?: UserOwnedStorage[];
+  /**
+   * The private endpoint connection associated with the Cognitive Services account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The api properties for special APIs. */
+  apiProperties?: ApiProperties;
+  /**
+   * Gets the date of cognitive services account creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dateCreated?: string;
+  /**
+   * The call rate limit Cognitive Services account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callRateLimit?: CallRateLimit;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly quotaLimit?: QuotaLimit;
+  restrictOutboundNetworkAccess?: boolean;
+  allowedFqdnList?: string[];
+  disableLocalAuth?: boolean;
+  /**
+   * Dictionary of <string>
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: { [propertyName: string]: string };
+  restore?: boolean;
+}
+
+/** SkuCapability indicates the capability of a certain feature. */
 export interface SkuCapability {
-  /**
-   * The name of the SkuCapability.
-   */
+  /** The name of the SkuCapability. */
   name?: string;
-  /**
-   * The value of the SkuCapability.
-   */
+  /** The value of the SkuCapability. */
   value?: string;
 }
 
-/**
- * Sku change info of account.
- */
+/** Sku change info of account. */
 export interface SkuChangeInfo {
-  /**
-   * Gets the count of downgrades.
-   */
+  /** Gets the count of downgrades. */
   countOfDowngrades?: number;
-  /**
-   * Gets the count of upgrades after downgrades.
-   */
+  /** Gets the count of upgrades after downgrades. */
   countOfUpgradesAfterDowngrades?: number;
-  /**
-   * Gets the last change date.
-   */
+  /** Gets the last change date. */
   lastChangeDate?: string;
 }
 
-/**
- * A rule governing the accessibility from a specific ip address or ip range.
- */
-export interface IpRule {
-  /**
-   * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or
-   * '124.56.78.0/24' (all addresses that start with 124.56.78).
-   */
-  value: string;
-}
-
-/**
- * A rule governing the accessibility from a specific virtual network.
- */
-export interface VirtualNetworkRule {
-  /**
-   * Full resource id of a vnet subnet, such as
-   * '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
-   */
-  id: string;
-  /**
-   * Gets the state of virtual network rule.
-   */
-  state?: string;
-  /**
-   * Ignore missing vnet service endpoint or not.
-   */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-}
-
-/**
- * A set of rules governing the network accessibility.
- */
+/** A set of rules governing the network accessibility. */
 export interface NetworkRuleSet {
-  /**
-   * The default action when no rule from ipRules and from virtualNetworkRules match. This is only
-   * used after the bypass property has been evaluated. Possible values include: 'Allow', 'Deny'
-   */
+  /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
   defaultAction?: NetworkRuleAction;
-  /**
-   * The list of IP address rules.
-   */
+  /** The list of IP address rules. */
   ipRules?: IpRule[];
-  /**
-   * The list of virtual network rules.
-   */
+  /** The list of virtual network rules. */
   virtualNetworkRules?: VirtualNetworkRule[];
 }
 
-/**
- * Properties to configure keyVault Properties
- */
+/** A rule governing the accessibility from a specific ip address or ip range. */
+export interface IpRule {
+  /** An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). */
+  value: string;
+}
+
+/** A rule governing the accessibility from a specific virtual network. */
+export interface VirtualNetworkRule {
+  /** Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. */
+  id: string;
+  /** Gets the state of virtual network rule. */
+  state?: string;
+  /** Ignore missing vnet service endpoint or not. */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+/** Properties to configure Encryption */
+export interface Encryption {
+  /** Properties of KeyVault */
+  keyVaultProperties?: KeyVaultProperties;
+  /** Enumerates the possible value of keySource for Encryption */
+  keySource?: KeySource;
+}
+
+/** Properties to configure keyVault Properties */
 export interface KeyVaultProperties {
-  /**
-   * Name of the Key from KeyVault
-   */
+  /** Name of the Key from KeyVault */
   keyName?: string;
-  /**
-   * Version of the Key from KeyVault
-   */
+  /** Version of the Key from KeyVault */
   keyVersion?: string;
-  /**
-   * Uri of KeyVault
-   */
+  /** Uri of KeyVault */
   keyVaultUri?: string;
   identityClientId?: string;
 }
 
-/**
- * Properties to configure Encryption
- */
-export interface Encryption {
-  /**
-   * Properties of KeyVault
-   */
-  keyVaultProperties?: KeyVaultProperties;
-  /**
-   * Enumerates the possible value of keySource for Encryption. Possible values include:
-   * 'Microsoft.CognitiveServices', 'Microsoft.KeyVault'. Default value: 'Microsoft.KeyVault'.
-   */
-  keySource?: KeySource;
-}
-
-/**
- * The user owned storage for Cognitive Services account.
- */
+/** The user owned storage for Cognitive Services account. */
 export interface UserOwnedStorage {
-  /**
-   * Full resource id of a Microsoft.Storage resource.
-   */
+  /** Full resource id of a Microsoft.Storage resource. */
   resourceId?: string;
   identityClientId?: string;
 }
 
-/**
- * The Private Endpoint resource.
- */
+/** Properties of the PrivateEndpointConnectProperties. */
+export interface PrivateEndpointConnectionProperties {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /** The private link resource group ids. */
+  groupIds?: string[];
+}
+
+/** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /**
    * The ARM identifier for Private Endpoint
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
 }
 
-/**
- * A collection of information about the state of the connection between service consumer and
- * provider.
- */
+/** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
-  /**
-   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
-   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
-   */
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
   status?: PrivateEndpointServiceConnectionStatus;
-  /**
-   * The reason for approval/rejection of the connection.
-   */
+  /** The reason for approval/rejection of the connection. */
   description?: string;
-  /**
-   * A message indicating if changes on the service provider require any updates on the consumer.
-   */
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
   actionsRequired?: string;
 }
 
-/**
- * Properties of the PrivateEndpointConnectProperties.
- */
-export interface PrivateEndpointConnectionProperties {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * The resource of private end point.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource. Possible values include:
-   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
-   */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-  /**
-   * The private link resource group ids.
-   */
-  groupIds?: string[];
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * The Private Endpoint Connection resource.
- */
-export interface PrivateEndpointConnection extends AzureEntityResource {
-  /**
-   * Resource properties.
-   */
-  properties?: PrivateEndpointConnectionProperties;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The location of the private endpoint connection
-   */
-  location?: string;
-}
-
-/**
- * The api properties for special APIs.
- */
+/** The api properties for special APIs. */
 export interface ApiProperties {
-  /**
-   * (QnAMaker Only) The runtime endpoint of QnAMaker.
-   */
-  qnaRuntimeEndpoint?: string;
-  /**
-   * (QnAMaker Only) The Azure Search endpoint key of QnAMaker.
-   */
-  qnaAzureSearchEndpointKey?: string;
-  /**
-   * (QnAMaker Only) The Azure Search endpoint id of QnAMaker.
-   */
-  qnaAzureSearchEndpointId?: string;
-  /**
-   * (Bing Search Only) The flag to enable statistics of Bing Search.
-   */
-  statisticsEnabled?: boolean;
-  /**
-   * (Personalization Only) The flag to enable statistics of Bing Search.
-   */
-  eventHubConnectionString?: string;
-  /**
-   * (Personalization Only) The storage account connection string.
-   */
-  storageAccountConnectionString?: string;
-  /**
-   * (Metrics Advisor Only) The Azure AD Client Id (Application Id).
-   */
-  aadClientId?: string;
-  /**
-   * (Metrics Advisor Only) The Azure AD Tenant Id.
-   */
-  aadTenantId?: string;
-  /**
-   * (Metrics Advisor Only) The super user of Metrics Advisor.
-   */
-  superUser?: string;
-  /**
-   * (Metrics Advisor Only) The website name of Metrics Advisor.
-   */
-  websiteName?: string;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+  /** (QnAMaker Only) The runtime endpoint of QnAMaker. */
+  qnaRuntimeEndpoint?: string;
+  /** (QnAMaker Only) The Azure Search endpoint key of QnAMaker. */
+  qnaAzureSearchEndpointKey?: string;
+  /** (QnAMaker Only) The Azure Search endpoint id of QnAMaker. */
+  qnaAzureSearchEndpointId?: string;
+  /** (Bing Search Only) The flag to enable statistics of Bing Search. */
+  statisticsEnabled?: boolean;
+  /** (Personalization Only) The flag to enable statistics of Bing Search. */
+  eventHubConnectionString?: string;
+  /** (Personalization Only) The storage account connection string. */
+  storageAccountConnectionString?: string;
+  /** (Metrics Advisor Only) The Azure AD Client Id (Application Id). */
+  aadClientId?: string;
+  /** (Metrics Advisor Only) The Azure AD Tenant Id. */
+  aadTenantId?: string;
+  /** (Metrics Advisor Only) The super user of Metrics Advisor. */
+  superUser?: string;
+  /** (Metrics Advisor Only) The website name of Metrics Advisor. */
+  websiteName?: string;
 }
 
-/**
- * An interface representing RequestMatchPattern.
- */
-export interface RequestMatchPattern {
-  path?: string;
-  method?: string;
+/** The call rate limit Cognitive Services account. */
+export interface CallRateLimit {
+  /** The count value of Call Rate Limit. */
+  count?: number;
+  /** The renewal period in seconds of Call Rate Limit. */
+  renewalPeriod?: number;
+  rules?: ThrottlingRule[];
 }
 
-/**
- * An interface representing ThrottlingRule.
- */
 export interface ThrottlingRule {
   key?: string;
   renewalPeriod?: number;
@@ -422,1371 +311,1189 @@ export interface ThrottlingRule {
   matchPatterns?: RequestMatchPattern[];
 }
 
-/**
- * The call rate limit Cognitive Services account.
- */
-export interface CallRateLimit {
-  /**
-   * The count value of Call Rate Limit.
-   */
-  count?: number;
-  /**
-   * The renewal period in seconds of Call Rate Limit.
-   */
-  renewalPeriod?: number;
-  rules?: ThrottlingRule[];
+export interface RequestMatchPattern {
+  path?: string;
+  method?: string;
 }
 
-/**
- * An interface representing QuotaLimit.
- */
 export interface QuotaLimit {
   count?: number;
   renewalPeriod?: number;
   rules?: ThrottlingRule[];
 }
 
-/**
- * Properties of Cognitive Services account.
- */
-export interface AccountProperties {
-  /**
-   * Gets the status of the cognitive services account at the time the operation was called.
-   * Possible values include: 'Accepted', 'Creating', 'Deleting', 'Moving', 'Failed', 'Succeeded',
-   * 'ResolvingDNS'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Endpoint of the created account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoint?: string;
-  /**
-   * The internal identifier (deprecated, do not use this property).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly internalId?: string;
-  /**
-   * Gets the capabilities of the cognitive services account. Each item indicates the capability of
-   * a specific feature. The values are read-only and for reference only.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly capabilities?: SkuCapability[];
-  /**
-   * If the resource is migrated from an existing key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isMigrated?: boolean;
-  /**
-   * Resource migration token.
-   */
-  migrationToken?: string;
-  /**
-   * Sku change info of account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly skuChangeInfo?: SkuChangeInfo;
-  /**
-   * Optional subdomain name used for token-based authentication.
-   */
-  customSubDomainName?: string;
-  /**
-   * A collection of rules governing the accessibility from specific network locations.
-   */
-  networkAcls?: NetworkRuleSet;
-  /**
-   * The encryption properties for this resource.
-   */
-  encryption?: Encryption;
-  /**
-   * The storage accounts for this resource.
-   */
-  userOwnedStorage?: UserOwnedStorage[];
-  /**
-   * The private endpoint connection associated with the Cognitive Services account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Whether or not public endpoint access is allowed for this account. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * The api properties for special APIs.
-   */
-  apiProperties?: ApiProperties;
-  /**
-   * Gets the date of cognitive services account creation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dateCreated?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly callRateLimit?: CallRateLimit;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotaLimit?: QuotaLimit;
-  restrictOutboundNetworkAccess?: boolean;
-  allowedFqdnList?: string[];
-  disableLocalAuth?: boolean;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoints?: { [propertyName: string]: string };
-  restore?: boolean;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/**
- * Cognitive Services account is an Azure resource representing the provisioned account, it's type,
- * location and SKU.
- */
-export interface Account extends AzureEntityResource {
-  /**
-   * The Kind of the resource.
-   */
-  kind?: string;
-  sku?: Sku;
-  identity?: Identity;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location?: string;
-  /**
-   * Properties of Cognitive Services account.
-   */
-  properties?: AccountProperties;
-}
-
-/**
- * The access keys for the cognitive services account.
- */
-export interface ApiKeys {
-  /**
-   * Gets the value of key 1.
-   */
-  key1?: string;
-  /**
-   * Gets the value of key 2.
-   */
-  key2?: string;
-}
-
-/**
- * Regenerate key parameters.
- */
-export interface RegenerateKeyParameters {
-  /**
-   * key name to generate (Key1|Key2). Possible values include: 'Key1', 'Key2'
-   */
-  keyName: KeyName;
-}
-
-/**
- * Cognitive Services resource type and SKU.
- */
-export interface AccountSku {
-  /**
-   * Resource Namespace and Type
-   */
-  resourceType?: string;
-  /**
-   * The SKU of Cognitive Services account.
-   */
-  sku?: Sku;
-}
-
-/**
- * The list of cognitive services accounts operation response.
- */
-export interface AccountSkuListResult {
-  /**
-   * Gets the list of Cognitive Services accounts and their properties.
-   */
-  value?: AccountSku[];
-}
-
-/**
- * A metric name.
- */
-export interface MetricName {
-  /**
-   * The name of the metric.
-   */
-  value?: string;
-  /**
-   * The friendly name of the metric.
-   */
-  localizedValue?: string;
-}
-
-/**
- * The usage data for a usage request.
- */
-export interface Usage {
-  /**
-   * The unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
-   * 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'
-   */
-  unit?: UnitType;
-  /**
-   * The name information for the metric.
-   */
-  name?: MetricName;
-  /**
-   * The quota period used to summarize the usage values.
-   */
-  quotaPeriod?: string;
-  /**
-   * Maximum value for this metric.
-   */
-  limit?: number;
-  /**
-   * Current value for this metric.
-   */
-  currentValue?: number;
-  /**
-   * Next reset time for current quota.
-   */
-  nextResetTime?: string;
-  /**
-   * Cognitive Services account quota usage status. Possible values include: 'Included', 'Blocked',
-   * 'InOverage', 'Unknown'
-   */
-  status?: QuotaUsageStatus;
-}
-
-/**
- * The response to a list usage request.
- */
-export interface UsageListResult {
-  /**
-   * The list of usages for Cognitive Service account.
-   */
-  value?: Usage[];
-}
-
-/**
- * Check SKU availability parameter.
- */
-export interface CheckSkuAvailabilityParameter {
-  /**
-   * The SKU of the resource.
-   */
-  skus: string[];
-  /**
-   * The Kind of the resource.
-   */
-  kind: string;
-  /**
-   * The Type of the resource.
-   */
-  type: string;
-}
-
-/**
- * SKU availability.
- */
-export interface SkuAvailability {
-  /**
-   * The Kind of the resource.
-   */
-  kind?: string;
-  /**
-   * The Type of the resource.
-   */
-  type?: string;
-  /**
-   * The SKU of Cognitive Services account.
-   */
-  skuName?: string;
-  /**
-   * Indicates the given SKU is available or not.
-   */
-  skuAvailable?: boolean;
-  /**
-   * Reason why the SKU is not available.
-   */
-  reason?: string;
-  /**
-   * Additional error message.
-   */
-  message?: string;
-}
-
-/**
- * Check SKU availability result list.
- */
-export interface SkuAvailabilityListResult {
-  /**
-   * Check SKU availability result list.
-   */
-  value?: SkuAvailability[];
-}
-
-/**
- * Check Domain availability parameter.
- */
-export interface CheckDomainAvailabilityParameter {
-  /**
-   * The subdomain name to use.
-   */
-  subdomainName: string;
-  /**
-   * The Type of the resource.
-   */
-  type: string;
-}
-
-/**
- * Domain availability.
- */
-export interface DomainAvailability {
-  /**
-   * Indicates the given SKU is available or not.
-   */
-  isSubdomainAvailable?: boolean;
-  /**
-   * Reason why the SKU is not available.
-   */
-  reason?: string;
-  /**
-   * The subdomain name to use.
-   */
-  subdomainName?: string;
-  /**
-   * The Type of the resource.
-   */
-  type?: string;
-}
-
-/**
- * An interface representing ResourceSkuRestrictionInfo.
- */
-export interface ResourceSkuRestrictionInfo {
-  /**
-   * Locations where the SKU is restricted
-   */
-  locations?: string[];
-  /**
-   * List of availability zones where the SKU is restricted.
-   */
-  zones?: string[];
-}
-
-/**
- * Describes restrictions of a SKU.
- */
-export interface ResourceSkuRestrictions {
-  /**
-   * The type of restrictions. Possible values include: 'Location', 'Zone'
-   */
-  type?: ResourceSkuRestrictionsType;
-  /**
-   * The value of restrictions. If the restriction type is set to location. This would be different
-   * locations where the SKU is restricted.
-   */
-  values?: string[];
-  /**
-   * The information about the restriction where the SKU cannot be used.
-   */
-  restrictionInfo?: ResourceSkuRestrictionInfo;
-  /**
-   * The reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription'
-   */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
-}
-
-/**
- * Describes an available Cognitive Services SKU.
- */
-export interface ResourceSku {
-  /**
-   * The type of resource the SKU applies to.
-   */
-  resourceType?: string;
-  /**
-   * The name of SKU.
-   */
-  name?: string;
-  /**
-   * Specifies the tier of Cognitive Services account.
-   */
-  tier?: string;
-  /**
-   * The Kind of resources that are supported in this SKU.
-   */
-  kind?: string;
-  /**
-   * The set of locations that the SKU is available.
-   */
-  locations?: string[];
-  /**
-   * The restrictions because of which SKU cannot be used. This is empty if there are no
-   * restrictions.
-   */
-  restrictions?: ResourceSkuRestrictions[];
-}
-
-/**
- * A list of private endpoint connections
- */
-export interface PrivateEndpointConnectionListResult {
-  /**
-   * Array of private endpoint connections
-   */
-  value?: PrivateEndpointConnection[];
-}
-
-/**
- * Properties of a private link resource.
- */
-export interface PrivateLinkResourceProperties {
-  /**
-   * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * The private link resource Private link DNS zone name.
-   */
-  requiredZoneNames?: string[];
-  /**
-   * The private link resource display name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly displayName?: string;
-}
-
-/**
- * A private link resource
- */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * Resource properties.
-   */
-  properties?: PrivateLinkResourceProperties;
-}
-
-/**
- * A list of private link resources
- */
-export interface PrivateLinkResourceListResult {
-  /**
-   * Array of private link resources
-   */
-  value?: PrivateLinkResource[];
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The error detail.
- */
+/** The error detail. */
 export interface ErrorDetail {
   /**
    * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorDetail[];
   /**
    * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.).
- * @summary Error response
- */
-export interface ErrorResponse {
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
   /**
-   * The error object.
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  error?: ErrorDetail;
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
-/**
- * Localized display information for this particular operation.
- */
-export interface OperationDisplay {
+/** The list of cognitive services accounts operation response. */
+export interface AccountListResult {
+  /** The link used to get the next page of accounts. */
+  nextLink?: string;
   /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring
-   * Insights" or "Microsoft Compute".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Gets the list of Cognitive Services accounts and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual
-   * Machines" or "Job Schedule Collections".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create
-   * or Update Virtual Machine", "Restart Virtual Machine".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and
-   * detailed views.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
+  readonly value?: Account[];
 }
 
-/**
- * Details of a REST API operation, returned from the Resource Provider Operations API
- * @summary REST API Operation
- */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
-   * "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and
-   * "false" for ARM/control-plane operations.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isDataAction?: boolean;
-  /**
-   * Localized display information for this particular operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
-   * logs UX. Default value is "user,system". Possible values include: 'user', 'system',
-   * 'user,system'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * Possible values include: 'Internal'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionType?: ActionType;
+/** The access keys for the cognitive services account. */
+export interface ApiKeys {
+  /** Gets the value of key 1. */
+  key1?: string;
+  /** Gets the value of key 2. */
+  key2?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AccountsListUsagesOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * An OData filter expression that describes a subset of usages to return. The supported
-   * parameter is name.value (name of the metric, can have an or of multiple names).
-   */
-  filter?: string;
+/** Regenerate key parameters. */
+export interface RegenerateKeyParameters {
+  /** key name to generate (Key1|Key2) */
+  keyName: KeyName;
 }
 
-/**
- * An interface representing CognitiveServicesManagementClientOptions.
- */
-export interface CognitiveServicesManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * @interface
- * The list of cognitive services accounts operation response.
- * @extends Array<Account>
- */
-export interface AccountListResult extends Array<Account> {
-  /**
-   * The link used to get the next page of accounts.
-   */
+/** The Get Skus operation response. */
+export interface ResourceSkuListResult {
+  /** The list of skus available for the subscription. */
+  value: ResourceSku[];
+  /** The uri to fetch the next page of Skus. */
   nextLink?: string;
 }
 
-/**
- * @interface
- * The Get Skus operation response.
- * @extends Array<ResourceSku>
- */
-export interface ResourceSkuListResult extends Array<ResourceSku> {
-  /**
-   * The uri to fetch the next page of Skus.
-   */
-  nextLink?: string;
+/** Describes an available Cognitive Services SKU. */
+export interface ResourceSku {
+  /** The type of resource the SKU applies to. */
+  resourceType?: string;
+  /** The name of SKU. */
+  name?: string;
+  /** Specifies the tier of Cognitive Services account. */
+  tier?: string;
+  /** The Kind of resources that are supported in this SKU. */
+  kind?: string;
+  /** The set of locations that the SKU is available. */
+  locations?: string[];
+  /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
+  restrictions?: ResourceSkuRestrictions[];
 }
 
-/**
- * @interface
- * A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
- * to get the next set of results.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
+/** Describes restrictions of a SKU. */
+export interface ResourceSkuRestrictions {
+  /** The type of restrictions. */
+  type?: ResourceSkuRestrictionsType;
+  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
+  values?: string[];
+  /** The information about the restriction where the SKU cannot be used. */
+  restrictionInfo?: ResourceSkuRestrictionInfo;
+  /** The reason for restriction. */
+  reasonCode?: ResourceSkuRestrictionsReasonCode;
+}
+
+export interface ResourceSkuRestrictionInfo {
+  /** Locations where the SKU is restricted */
+  locations?: string[];
+  /** List of availability zones where the SKU is restricted. */
+  zones?: string[];
+}
+
+/** The list of cognitive services accounts operation response. */
+export interface AccountSkuListResult {
+  /** Gets the list of Cognitive Services accounts and their properties. */
+  value?: AccountSku[];
+}
+
+/** Cognitive Services resource type and SKU. */
+export interface AccountSku {
+  /** Resource Namespace and Type */
+  resourceType?: string;
+  /** The SKU of Cognitive Services account. */
+  sku?: Sku;
+}
+
+/** The response to a list usage request. */
+export interface UsageListResult {
+  /** The list of usages for Cognitive Service account. */
+  value?: Usage[];
+}
+
+/** The usage data for a usage request. */
+export interface Usage {
+  /** The unit of the metric. */
+  unit?: UnitType;
+  /** The name information for the metric. */
+  name?: MetricName;
+  /** The quota period used to summarize the usage values. */
+  quotaPeriod?: string;
+  /** Maximum value for this metric. */
+  limit?: number;
+  /** Current value for this metric. */
+  currentValue?: number;
+  /** Next reset time for current quota. */
+  nextResetTime?: string;
+  /** Cognitive Services account quota usage status. */
+  status?: QuotaUsageStatus;
+}
+
+/** A metric name. */
+export interface MetricName {
+  /** The name of the metric. */
+  value?: string;
+  /** The friendly name of the metric. */
+  localizedValue?: string;
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
   /**
    * URL to get the next set of operation list results (if there are any).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * Defines values for SkuTier.
- * Possible values include: 'Free', 'Basic', 'Standard', 'Premium', 'Enterprise'
- * @readonly
- * @enum {string}
- */
-export type SkuTier = "Free" | "Basic" | "Standard" | "Premium" | "Enterprise";
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Check SKU availability parameter. */
+export interface CheckSkuAvailabilityParameter {
+  /** The SKU of the resource. */
+  skus: string[];
+  /** The Kind of the resource. */
+  kind: string;
+  /** The Type of the resource. */
+  type: string;
+}
+
+/** Check SKU availability result list. */
+export interface SkuAvailabilityListResult {
+  /** Check SKU availability result list. */
+  value?: SkuAvailability[];
+}
+
+/** SKU availability. */
+export interface SkuAvailability {
+  /** The Kind of the resource. */
+  kind?: string;
+  /** The Type of the resource. */
+  type?: string;
+  /** The SKU of Cognitive Services account. */
+  skuName?: string;
+  /** Indicates the given SKU is available or not. */
+  skuAvailable?: boolean;
+  /** Reason why the SKU is not available. */
+  reason?: string;
+  /** Additional error message. */
+  message?: string;
+}
+
+/** The list of cognitive services accounts operation response. */
+export interface CommitmentTierListResult {
+  /** The link used to get the next page of CommitmentTier. */
+  nextLink?: string;
+  /**
+   * Gets the list of Cognitive Services accounts CommitmentTier and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: CommitmentTier[];
+}
+
+/** Cognitive Services account commitment tier. */
+export interface CommitmentTier {
+  /** The Kind of the resource. */
+  kind?: string;
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
+  skuName?: string;
+  /** Account hosting model. */
+  hostingModel?: HostingModel;
+  /** Commitment plan type. */
+  planType?: string;
+  /** Commitment period commitment tier. */
+  tier?: string;
+  /** Commitment period commitment max count. */
+  maxCount?: number;
+  /** Cognitive Services account commitment quota. */
+  quota?: CommitmentQuota;
+  /** Cognitive Services account commitment cost. */
+  cost?: CommitmentCost;
+}
+
+/** Cognitive Services account commitment quota. */
+export interface CommitmentQuota {
+  /** Commitment quota quantity. */
+  quantity?: number;
+  /** Commitment quota unit. */
+  unit?: string;
+}
+
+/** Cognitive Services account commitment cost. */
+export interface CommitmentCost {
+  /** Commitment meter Id. */
+  commitmentMeterId?: string;
+  /** Overage meter Id. */
+  overageMeterId?: string;
+}
+
+/** Check Domain availability parameter. */
+export interface CheckDomainAvailabilityParameter {
+  /** The subdomain name to use. */
+  subdomainName: string;
+  /** The Type of the resource. */
+  type: string;
+  /** The Kind of the resource. */
+  kind?: string;
+}
+
+/** Domain availability. */
+export interface DomainAvailability {
+  /** Indicates the given SKU is available or not. */
+  isSubdomainAvailable?: boolean;
+  /** Reason why the SKU is not available. */
+  reason?: string;
+  /** The subdomain name to use. */
+  subdomainName?: string;
+  /** The Type of the resource. */
+  type?: string;
+  /** The Kind of the resource. */
+  kind?: string;
+}
+
+/** A list of private endpoint connections */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+  /**
+   * The private link resource display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+}
+
+/** The list of cognitive services accounts operation response. */
+export interface DeploymentListResult {
+  /** The link used to get the next page of Deployment. */
+  nextLink?: string;
+  /**
+   * Gets the list of Cognitive Services accounts Deployment and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Deployment[];
+}
+
+/** Properties of Cognitive Services account deployment. */
+export interface DeploymentProperties {
+  /**
+   * Gets the status of the resource at the time the operation was called.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DeploymentProvisioningState;
+  /** Properties of Cognitive Services account deployment model. */
+  model?: DeploymentModel;
+  /** Properties of Cognitive Services account deployment model. */
+  scaleSettings?: DeploymentScaleSettings;
+}
+
+/** Properties of Cognitive Services account deployment model. */
+export interface DeploymentModel {
+  /** Deployment model format. */
+  format?: string;
+  /** Deployment model name. */
+  name?: string;
+  /** Deployment model version. */
+  version?: string;
+}
+
+/** Properties of Cognitive Services account deployment model. */
+export interface DeploymentScaleSettings {
+  /** Deployment scale type. */
+  scaleType?: DeploymentScaleType;
+  /** Deployment capacity. */
+  capacity?: number;
+}
+
+/** The list of cognitive services accounts operation response. */
+export interface CommitmentPlanListResult {
+  /** The link used to get the next page of CommitmentPlan. */
+  nextLink?: string;
+  /**
+   * Gets the list of Cognitive Services accounts CommitmentPlan and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: CommitmentPlan[];
+}
+
+/** Properties of Cognitive Services account commitment plan. */
+export interface CommitmentPlanProperties {
+  /** Account hosting model. */
+  hostingModel?: HostingModel;
+  /** Commitment plan type. */
+  planType?: string;
+  /** Cognitive Services account commitment period. */
+  current?: CommitmentPeriod;
+  /** AutoRenew commitment plan. */
+  autoRenew?: boolean;
+  /** Cognitive Services account commitment period. */
+  next?: CommitmentPeriod;
+  /**
+   * Cognitive Services account commitment period.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly last?: CommitmentPeriod;
+}
+
+/** Cognitive Services account commitment period. */
+export interface CommitmentPeriod {
+  /** Commitment period commitment tier. */
+  tier?: string;
+  /** Commitment period commitment count. */
+  count?: number;
+  /**
+   * Cognitive Services account commitment quota.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quota?: CommitmentQuota;
+  /**
+   * Commitment period start date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDate?: string;
+  /**
+   * Commitment period end date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endDate?: string;
+}
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export type AzureEntityResource = Resource & {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+};
+
+/** A private link resource */
+export type PrivateLinkResource = Resource & {
+  /** Resource properties. */
+  properties?: PrivateLinkResourceProperties;
+};
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** The Private Endpoint Connection resource. */
+export type PrivateEndpointConnection = AzureEntityResource & {
+  /** Resource properties. */
+  properties?: PrivateEndpointConnectionProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The location of the private endpoint connection */
+  location?: string;
+};
+
+/** Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU. */
+export type Account = AzureEntityResource & {
+  /** The Kind of the resource. */
+  kind?: string;
+  /** The resource model definition representing SKU */
+  sku?: Sku;
+  /** Identity for the resource. */
+  identity?: Identity;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Properties of Cognitive Services account. */
+  properties?: AccountProperties;
+};
+
+/** Cognitive Services account deployment. */
+export type Deployment = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Properties of Cognitive Services account deployment. */
+  properties?: DeploymentProperties;
+};
+
+/** Cognitive Services account commitment plan. */
+export type CommitmentPlan = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Properties of Cognitive Services account commitment plan. */
+  properties?: CommitmentPlanProperties;
+};
+
+/** Known values of {@link SkuTier} that the service accepts. */
+export enum KnownSkuTier {
+  Free = "Free",
+  Basic = "Basic",
+  Standard = "Standard",
+  Premium = "Premium",
+  Enterprise = "Enterprise"
+}
 
 /**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned'
- * @readonly
- * @enum {string}
+ * Defines values for SkuTier. \
+ * {@link KnownSkuTier} can be used interchangeably with SkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Free** \
+ * **Basic** \
+ * **Standard** \
+ * **Premium** \
+ * **Enterprise**
  */
+export type SkuTier = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Accepted = "Accepted",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Moving = "Moving",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  ResolvingDNS = "ResolvingDNS"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Deleting** \
+ * **Moving** \
+ * **Failed** \
+ * **Succeeded** \
+ * **ResolvingDNS**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link NetworkRuleAction} that the service accepts. */
+export enum KnownNetworkRuleAction {
+  Allow = "Allow",
+  Deny = "Deny"
+}
+
+/**
+ * Defines values for NetworkRuleAction. \
+ * {@link KnownNetworkRuleAction} can be used interchangeably with NetworkRuleAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type NetworkRuleAction = string;
+
+/** Known values of {@link KeySource} that the service accepts. */
+export enum KnownKeySource {
+  MicrosoftCognitiveServices = "Microsoft.CognitiveServices",
+  MicrosoftKeyVault = "Microsoft.KeyVault"
+}
+
+/**
+ * Defines values for KeySource. \
+ * {@link KnownKeySource} can be used interchangeably with KeySource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.CognitiveServices** \
+ * **Microsoft.KeyVault**
+ */
+export type KeySource = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
+export enum KnownResourceSkuRestrictionsReasonCode {
+  QuotaId = "QuotaId",
+  NotAvailableForSubscription = "NotAvailableForSubscription"
+}
+
+/**
+ * Defines values for ResourceSkuRestrictionsReasonCode. \
+ * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **QuotaId** \
+ * **NotAvailableForSubscription**
+ */
+export type ResourceSkuRestrictionsReasonCode = string;
+
+/** Known values of {@link UnitType} that the service accepts. */
+export enum KnownUnitType {
+  Count = "Count",
+  Bytes = "Bytes",
+  Seconds = "Seconds",
+  Percent = "Percent",
+  CountPerSecond = "CountPerSecond",
+  BytesPerSecond = "BytesPerSecond",
+  Milliseconds = "Milliseconds"
+}
+
+/**
+ * Defines values for UnitType. \
+ * {@link KnownUnitType} can be used interchangeably with UnitType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count** \
+ * **Bytes** \
+ * **Seconds** \
+ * **Percent** \
+ * **CountPerSecond** \
+ * **BytesPerSecond** \
+ * **Milliseconds**
+ */
+export type UnitType = string;
+
+/** Known values of {@link QuotaUsageStatus} that the service accepts. */
+export enum KnownQuotaUsageStatus {
+  Included = "Included",
+  Blocked = "Blocked",
+  InOverage = "InOverage",
+  Unknown = "Unknown"
+}
+
+/**
+ * Defines values for QuotaUsageStatus. \
+ * {@link KnownQuotaUsageStatus} can be used interchangeably with QuotaUsageStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Included** \
+ * **Blocked** \
+ * **InOverage** \
+ * **Unknown**
+ */
+export type QuotaUsageStatus = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  User = "user",
+  System = "system",
+  UserSystem = "user,system"
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  Internal = "Internal"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
+/** Known values of {@link HostingModel} that the service accepts. */
+export enum KnownHostingModel {
+  Web = "Web",
+  ConnectedContainer = "ConnectedContainer",
+  DisconnectedContainer = "DisconnectedContainer"
+}
+
+/**
+ * Defines values for HostingModel. \
+ * {@link KnownHostingModel} can be used interchangeably with HostingModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Web** \
+ * **ConnectedContainer** \
+ * **DisconnectedContainer**
+ */
+export type HostingModel = string;
+
+/** Known values of {@link DeploymentProvisioningState} that the service accepts. */
+export enum KnownDeploymentProvisioningState {
+  Accepted = "Accepted",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Moving = "Moving",
+  Failed = "Failed",
+  Succeeded = "Succeeded"
+}
+
+/**
+ * Defines values for DeploymentProvisioningState. \
+ * {@link KnownDeploymentProvisioningState} can be used interchangeably with DeploymentProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Deleting** \
+ * **Moving** \
+ * **Failed** \
+ * **Succeeded**
+ */
+export type DeploymentProvisioningState = string;
+
+/** Known values of {@link DeploymentScaleType} that the service accepts. */
+export enum KnownDeploymentScaleType {
+  Manual = "Manual"
+}
+
+/**
+ * Defines values for DeploymentScaleType. \
+ * {@link KnownDeploymentScaleType} can be used interchangeably with DeploymentScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual**
+ */
+export type DeploymentScaleType = string;
+/** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "None"
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned";
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-
-/**
- * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Creating', 'Deleting', 'Moving', 'Failed', 'Succeeded',
- * 'ResolvingDNS'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningState =
-  | "Accepted"
-  | "Creating"
-  | "Deleting"
-  | "Moving"
-  | "Failed"
-  | "Succeeded"
-  | "ResolvingDNS";
-
-/**
- * Defines values for NetworkRuleAction.
- * Possible values include: 'Allow', 'Deny'
- * @readonly
- * @enum {string}
- */
-export type NetworkRuleAction = "Allow" | "Deny";
-
-/**
- * Defines values for KeySource.
- * Possible values include: 'Microsoft.CognitiveServices', 'Microsoft.KeyVault'
- * @readonly
- * @enum {string}
- */
-export type KeySource = "Microsoft.CognitiveServices" | "Microsoft.KeyVault";
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus.
- * Possible values include: 'Pending', 'Approved', 'Rejected'
- * @readonly
- * @enum {string}
- */
-export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState.
- * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PrivateEndpointConnectionProvisioningState =
-  | "Succeeded"
-  | "Creating"
-  | "Deleting"
-  | "Failed";
-
-/**
- * Defines values for PublicNetworkAccess.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type PublicNetworkAccess = "Enabled" | "Disabled";
-
-/**
- * Defines values for KeyName.
- * Possible values include: 'Key1', 'Key2'
- * @readonly
- * @enum {string}
- */
+/** Defines values for KeyName. */
 export type KeyName = "Key1" | "Key2";
-
-/**
- * Defines values for UnitType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
- * 'BytesPerSecond', 'Milliseconds'
- * @readonly
- * @enum {string}
- */
-export type UnitType =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "Percent"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Milliseconds";
-
-/**
- * Defines values for QuotaUsageStatus.
- * Possible values include: 'Included', 'Blocked', 'InOverage', 'Unknown'
- * @readonly
- * @enum {string}
- */
-export type QuotaUsageStatus = "Included" | "Blocked" | "InOverage" | "Unknown";
-
-/**
- * Defines values for ResourceSkuRestrictionsType.
- * Possible values include: 'Location', 'Zone'
- * @readonly
- * @enum {string}
- */
+/** Defines values for ResourceSkuRestrictionsType. */
 export type ResourceSkuRestrictionsType = "Location" | "Zone";
 
-/**
- * Defines values for ResourceSkuRestrictionsReasonCode.
- * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * @readonly
- * @enum {string}
- */
-export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
+/** Optional parameters. */
+export interface AccountsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Defines values for Origin.
- * Possible values include: 'user', 'system', 'user,system'
- * @readonly
- * @enum {string}
- */
-export type Origin = "user" | "system" | "user,system";
+/** Contains response data for the create operation. */
+export type AccountsCreateResponse = Account;
 
-/**
- * Defines values for ActionType.
- * Possible values include: 'Internal'
- * @readonly
- * @enum {string}
- */
-export type ActionType = "Internal";
+/** Optional parameters. */
+export interface AccountsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the create operation.
- */
-export type AccountsCreateResponse = Account & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the update operation. */
+export type AccountsUpdateResponse = Account;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
-};
+/** Optional parameters. */
+export interface AccountsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the update operation.
- */
-export type AccountsUpdateResponse = Account & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
-};
+/** Contains response data for the get operation. */
+export type AccountsGetResponse = Account;
 
-/**
- * Contains response data for the get operation.
- */
-export type AccountsGetResponse = Account & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
-};
+/** Contains response data for the listByResourceGroup operation. */
+export type AccountsListByResourceGroupResponse = AccountListResult;
 
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type AccountsListByResourceGroupResponse = AccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
-};
+/** Contains response data for the list operation. */
+export type AccountsListResponse = AccountListResult;
 
-/**
- * Contains response data for the list operation.
- */
-export type AccountsListResponse = AccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListKeysOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
-};
+/** Contains response data for the listKeys operation. */
+export type AccountsListKeysResponse = ApiKeys;
 
-/**
- * Contains response data for the listKeys operation.
- */
-export type AccountsListKeysResponse = ApiKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApiKeys;
-  };
-};
+/** Contains response data for the regenerateKey operation. */
+export type AccountsRegenerateKeyResponse = ApiKeys;
 
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type AccountsRegenerateKeyResponse = ApiKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListSkusOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApiKeys;
-  };
-};
+/** Contains response data for the listSkus operation. */
+export type AccountsListSkusResponse = AccountSkuListResult;
 
-/**
- * Contains response data for the listSkus operation.
- */
-export type AccountsListSkusResponse = AccountSkuListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListUsagesOptionalParams
+  extends coreClient.OperationOptions {
+  /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
+  filter?: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountSkuListResult;
-  };
-};
+/** Contains response data for the listUsages operation. */
+export type AccountsListUsagesResponse = UsageListResult;
 
-/**
- * Contains response data for the listUsages operation.
- */
-export type AccountsListUsagesResponse = UsageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsageListResult;
-  };
-};
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AccountsListByResourceGroupNextResponse = AccountListResult;
 
-/**
- * Contains response data for the beginCreate operation.
- */
-export type AccountsBeginCreateResponse = Account & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface AccountsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
-};
+/** Contains response data for the listNext operation. */
+export type AccountsListNextResponse = AccountListResult;
 
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type AccountsBeginUpdateResponse = Account & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface DeletedAccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
-};
+/** Contains response data for the get operation. */
+export type DeletedAccountsGetResponse = Account;
 
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type AccountsListByResourceGroupNextResponse = AccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface DeletedAccountsPurgeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
-};
+/** Optional parameters. */
+export interface DeletedAccountsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type AccountsListNextResponse = AccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type DeletedAccountsListResponse = AccountListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
-};
+/** Optional parameters. */
+export interface DeletedAccountsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the get operation.
- */
-export type DeletedAccountsGetResponse = Account & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type DeletedAccountsListNextResponse = AccountListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Account;
-  };
-};
+/** Optional parameters. */
+export interface ResourceSkusListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the list operation.
- */
-export type DeletedAccountsListResponse = AccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type ResourceSkusListResponse = ResourceSkuListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
-};
+/** Optional parameters. */
+export interface ResourceSkusListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type DeletedAccountsListNextResponse = AccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type ResourceSkusListNextResponse = ResourceSkuListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccountListResult;
-  };
-};
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the list operation.
- */
-export type ResourceSkusListResponse = ResourceSkuListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ResourceSkuListResult;
-  };
-};
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type ResourceSkusListNextResponse = ResourceSkuListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ResourceSkuListResult;
-  };
-};
+/** Optional parameters. */
+export interface CheckSkuAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the checkSkuAvailability operation. */
+export type CheckSkuAvailabilityResponse = SkuAvailabilityListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
+/** Optional parameters. */
+export interface CheckDomainAvailabilityOptionalParams
+  extends coreClient.OperationOptions {
+  /** The Kind of the resource. */
+  kind?: string;
+}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the checkDomainAvailability operation. */
+export type CheckDomainAvailabilityResponse = DomainAvailability;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
+/** Optional parameters. */
+export interface CommitmentTiersListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the checkSkuAvailability operation.
- */
-export type CheckSkuAvailabilityResponse = SkuAvailabilityListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type CommitmentTiersListResponse = CommitmentTierListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SkuAvailabilityListResult;
-  };
-};
+/** Optional parameters. */
+export interface CommitmentTiersListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the checkDomainAvailability operation.
- */
-export type CheckDomainAvailabilityResponse = DomainAvailability & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type CommitmentTiersListNextResponse = CommitmentTierListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DomainAvailability;
-  };
-};
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionListResult;
-  };
-};
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
-};
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
-};
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
-};
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
-/**
- * Contains response data for the list operation.
- */
-export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface DeploymentsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourceListResult;
-  };
-};
+/** Contains response data for the list operation. */
+export type DeploymentsListResponse = DeploymentListResult;
+
+/** Optional parameters. */
+export interface DeploymentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeploymentsGetResponse = Deployment;
+
+/** Optional parameters. */
+export interface DeploymentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DeploymentsCreateOrUpdateResponse = Deployment;
+
+/** Optional parameters. */
+export interface DeploymentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeploymentsListNextResponse = DeploymentListResult;
+
+/** Optional parameters. */
+export interface CommitmentPlansListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CommitmentPlansListResponse = CommitmentPlanListResult;
+
+/** Optional parameters. */
+export interface CommitmentPlansGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CommitmentPlansGetResponse = CommitmentPlan;
+
+/** Optional parameters. */
+export interface CommitmentPlansCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CommitmentPlansCreateOrUpdateResponse = CommitmentPlan;
+
+/** Optional parameters. */
+export interface CommitmentPlansDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CommitmentPlansListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CommitmentPlansListNextResponse = CommitmentPlanListResult;
+
+/** Optional parameters. */
+export interface CognitiveServicesManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

@@ -163,7 +163,8 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  */
 // eslint-disable-next-line no-use-before-define
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
-  implements PollerLike<TState, TResult> {
+  implements PollerLike<TState, TResult>
+{
   private stopped: boolean = true;
   private resolve?: (value: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
@@ -286,7 +287,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   protected abstract delay(): Promise<void>;
 
   /**
-   * @internal
    * Starts a loop that will break only if the poller is done
    * or if the poller is stopped.
    */
@@ -301,7 +301,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * @internal
    * pollOnce does one polling, by calling to the update method of the underlying
    * poll operation to make any relevant change effective.
    *
@@ -314,7 +313,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
       if (!this.isDone()) {
         this.operation = await this.operation.update({
           abortSignal: options.abortSignal,
-          fireProgress: this.fireProgress.bind(this)
+          fireProgress: this.fireProgress.bind(this),
         });
         if (this.isDone() && this.resolve) {
           // If the poller has finished polling, this means we now have a result.
@@ -335,7 +334,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * @internal
    * fireProgress calls the functions passed in via onProgress the method of the poller.
    *
    * It loops over all of the callbacks received from onProgress, and executes them, sending them
@@ -350,7 +348,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * @internal
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */

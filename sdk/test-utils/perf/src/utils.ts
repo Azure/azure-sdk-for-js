@@ -10,7 +10,7 @@ import http from "http";
  * @export
  * @param {string} name
  */
-export function getEnvVar(name: string) {
+export function getEnvVar(name: string): string {
   const val = process.env[name];
   if (!val) {
     throw `Environment variable ${name} is not defined.`;
@@ -25,10 +25,10 @@ let cachedHttpsAgent: https.Agent;
  * @export
  * @param {string} name
  */
-export const getCachedHttpsAgent = (insecure: boolean) => {
+export const getCachedHttpsAgent = (insecure: boolean): https.Agent => {
   if (!cachedHttpsAgent) {
     cachedHttpsAgent = new https.Agent({
-      rejectUnauthorized: !insecure
+      rejectUnauthorized: !insecure,
       // TODO: Doesn't work currently
       // pfx: require("fs").readFileSync(
       //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
@@ -45,9 +45,11 @@ export const getCachedHttpsAgent = (insecure: boolean) => {
  * @export
  * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
  */
-export async function drainStream(stream: NodeJS.ReadableStream) {
+export async function drainStream(stream: NodeJS.ReadableStream): Promise<void> {
   return new Promise((resolve, reject) => {
-    stream.on("data", () => {});
+    stream.on("data", () => {
+      // do nothing
+    });
     stream.on("end", resolve);
     stream.on("error", reject);
   });
@@ -64,7 +66,7 @@ export async function makeRequest(
         uri,
         {
           ...requestOptions,
-          agent: getCachedHttpsAgent(insecure)
+          agent: getCachedHttpsAgent(insecure),
         },
         resolve
       );

@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { ServiceFabricManagementClient } from "./serviceFabricManagementClient";
-export { ServiceFabricManagementClientContext } from "./serviceFabricManagementClientContext";
 export * from "./operationsInterfaces";

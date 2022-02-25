@@ -6,7 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  ResourceType
+  ResourceType,
 } from "../../common";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
@@ -129,7 +129,7 @@ export class Container {
       path,
       resourceType: ResourceType.container,
       resourceId: id,
-      options
+      options,
     });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return new ContainerResponse(response.result, response.headers, response.code, this);
@@ -153,7 +153,7 @@ export class Container {
       path,
       resourceType: ResourceType.container,
       resourceId: id,
-      options
+      options,
     });
     return new ContainerResponse(response.result, response.headers, response.code, this);
   }
@@ -167,7 +167,7 @@ export class Container {
       path,
       resourceType: ResourceType.container,
       resourceId: id,
-      options
+      options,
     });
     return new ContainerResponse(response.result, response.headers, response.code, this);
   }
@@ -216,7 +216,7 @@ export class Container {
       resourceType: ResourceType.offer,
       query: `SELECT * from root where root.resource = "${url}"`,
       resultFn: (result) => result.Offers,
-      options
+      options,
     });
     const offer = response.result[0]
       ? new Offer(this.database.client, response.result[0].id, this.clientContext)

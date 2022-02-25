@@ -33,7 +33,7 @@
 import {
   AttestationAdministrationClient,
   createAttestationPolicyToken,
-  KnownAttestationType
+  KnownAttestationType,
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -137,7 +137,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
 
   const setPolicyResult = await client.setPolicy(KnownAttestationType.OpenEnclave, newPolicy, {
     privateKey: privateKey,
-    certificate: certificate
+    certificate: certificate,
   });
 
   // Verify that the attestation service received the new policy.
@@ -207,7 +207,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
 
   const setPolicyResult = await client.setPolicy(KnownAttestationType.SgxEnclave, newPolicy, {
     privateKey: privateKey,
-    certificate: certificate
+    certificate: certificate,
   });
 
   // Verify that the attestation service received the new policy.
@@ -230,7 +230,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   // Now reset the policy to the default policy.
   const resetPolicyResult = await client.resetPolicy(KnownAttestationType.SgxEnclave, {
     privateKey: privateKey,
-    certificate: certificate
+    certificate: certificate,
   });
 
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);

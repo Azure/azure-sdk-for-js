@@ -11,7 +11,7 @@ import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
   generateUuid,
-  PipelineOptions
+  PipelineOptions,
 } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
@@ -50,7 +50,7 @@ import {
   EventRoutesListOptionalParams,
   QueryQueryTwinsOptionalParams,
   QueryQueryTwinsResponse,
-  QuerySpecification
+  QuerySpecification,
 } from "./generated/models";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -115,9 +115,9 @@ export class DigitalTwinsClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-request-id"]
-        }
-      }
+          allowedHeaderNames: ["x-ms-request-id"],
+        },
+      },
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
@@ -125,7 +125,7 @@ export class DigitalTwinsClient {
     this.client = new GeneratedClient({
       endpoint: endpointUrl,
       apiVersion,
-      ...pipeline
+      ...pipeline,
     });
   }
 
@@ -146,7 +146,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -175,7 +175,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -206,7 +206,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -232,7 +232,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -259,7 +259,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -295,7 +295,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -326,7 +326,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -361,7 +361,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -395,7 +395,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -427,7 +427,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -450,7 +450,7 @@ export class DigitalTwinsClient {
   ): AsyncIterableIterator<DigitalTwinsListRelationshipsResponse> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: OperationOptions = {
-        ...options
+        ...options,
       };
       const listRelationshipResponse = await this.client.digitalTwins.listRelationships(
         digitalTwinId,
@@ -508,12 +508,12 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listRelationshipsPage(digitalTwinId, updatedOptions, settings)
+          this.listRelationshipsPage(digitalTwinId, updatedOptions, settings),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -536,21 +536,20 @@ export class DigitalTwinsClient {
   ): AsyncIterableIterator<DigitalTwinsListIncomingRelationshipsResponse> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: OperationOptions = {
-        ...options
+        ...options,
       };
-      const listIncomingRelationshipsResponse = await this.client.digitalTwins.listIncomingRelationships(
-        digitalTwinId,
-        optionsComplete
-      );
+      const listIncomingRelationshipsResponse =
+        await this.client.digitalTwins.listIncomingRelationships(digitalTwinId, optionsComplete);
       continuationState.continuationToken = listIncomingRelationshipsResponse.nextLink;
       yield listIncomingRelationshipsResponse;
     }
     while (continuationState.continuationToken) {
-      const listIncomingRelationshipsResponse = await this.client.digitalTwins.listIncomingRelationshipsNext(
-        "",
-        continuationState.continuationToken,
-        options
-      );
+      const listIncomingRelationshipsResponse =
+        await this.client.digitalTwins.listIncomingRelationshipsNext(
+          "",
+          continuationState.continuationToken,
+          options
+        );
 
       continuationState.continuationToken = listIncomingRelationshipsResponse.nextLink;
       yield listIncomingRelationshipsResponse;
@@ -599,12 +598,12 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.listIncomingRelationshipsPage(digitalTwinId, updatedOptions, settings)
+          this.listIncomingRelationshipsPage(digitalTwinId, updatedOptions, settings),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -628,7 +627,8 @@ export class DigitalTwinsClient {
     messageId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams = options;
+    const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams =
+      options;
     digitalTwinsSendTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
     if (!messageId) {
       messageId = generateUuid();
@@ -647,7 +647,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -672,7 +672,8 @@ export class DigitalTwinsClient {
     messageId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
-    const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
+    const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams =
+      options;
     digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
     if (!messageId) {
       messageId = generateUuid();
@@ -692,7 +693,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -724,7 +725,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -797,7 +798,7 @@ export class DigitalTwinsClient {
     digitalTwinModelsListOptionalParams = {
       maxItemsPerPage: resultsPerPage,
       dependenciesFor: dependeciesFor,
-      includeModelDefinition: includeModelDefinition
+      includeModelDefinition: includeModelDefinition,
     };
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-listModels",
@@ -814,12 +815,12 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.getModelsPage(digitalTwinModelsListOptionalParams, settings)
+          this.getModelsPage(digitalTwinModelsListOptionalParams, settings),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -849,7 +850,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -878,7 +879,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -905,7 +906,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -930,7 +931,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -997,7 +998,7 @@ export class DigitalTwinsClient {
   ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
     let eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
     eventRoutesListOptionalParams = {
-      maxItemsPerPage: resultsPerPage
+      maxItemsPerPage: resultsPerPage,
     };
 
     const { span, updatedOptions } = createSpan(
@@ -1015,12 +1016,12 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.getEventRoutesPage(eventRoutesListOptionalParams, settings)
+          this.getEventRoutesPage(eventRoutesListOptionalParams, settings),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1046,7 +1047,7 @@ export class DigitalTwinsClient {
     const eventRoutesAddOptionalParams: EventRoutesAddOptionalParams = options;
     const eventRoute: EventRoute = {
       endpointName: endpointId,
-      filter: filter
+      filter: filter,
     };
     eventRoutesAddOptionalParams.eventRoute = eventRoute;
     const { span, updatedOptions } = createSpan(
@@ -1058,7 +1059,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1083,7 +1084,7 @@ export class DigitalTwinsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1107,7 +1108,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const querySpecification: QuerySpecification = {
         query: query,
-        continuationToken: continuationState.continuationToken
+        continuationToken: continuationState.continuationToken,
       };
       const queryResult = await this.client.query.queryTwins(querySpecification, options);
       continuationState.continuationToken = queryResult.continuationToken;
@@ -1116,7 +1117,7 @@ export class DigitalTwinsClient {
     while (continuationState.continuationToken) {
       const querySpecification: QuerySpecification = {
         query: query,
-        continuationToken: continuationState.continuationToken
+        continuationToken: continuationState.continuationToken,
       };
       const queryResult = await this.client.query.queryTwins(querySpecification, options);
 
@@ -1159,7 +1160,7 @@ export class DigitalTwinsClient {
   ): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
     let queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
     queryQueryTwinsOptionalParams = {
-      maxItemsPerPage: resultsPerPage
+      maxItemsPerPage: resultsPerPage,
     };
 
     const { span, updatedOptions } = createSpan(
@@ -1177,12 +1178,12 @@ export class DigitalTwinsClient {
           return this;
         },
         byPage: (settings: PageSettings = {}) =>
-          this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings)
+          this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

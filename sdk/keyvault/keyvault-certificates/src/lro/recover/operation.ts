@@ -7,13 +7,13 @@ import { createTraceFunction } from "../../../../keyvault-common/src";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
-  RecoverDeletedCertificateOptions
+  RecoverDeletedCertificateOptions,
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import {
   KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
 
 /**
@@ -26,9 +26,8 @@ const withTrace = createTraceFunction(
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
  */
-export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<
-  KeyVaultCertificateWithPolicy
->;
+export type RecoverDeletedCertificateState =
+  KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 /**
  * An interface representing the recovery of a deleted certificate's poll operation
@@ -44,7 +43,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     private operationOptions: OperationOptions = {}
   ) {
     super(state, {
-      cancelMessage: "Canceling the recovery of a deleted certificate is not supported."
+      cancelMessage: "Canceling the recovery of a deleted certificate is not supported.",
     });
   }
 

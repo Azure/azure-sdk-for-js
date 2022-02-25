@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { v4 } from "uuid";
 import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import {
   EventData,
@@ -12,10 +8,14 @@ import {
   EventHubProducerClient,
   EventPosition,
   ReceivedEventData,
-  Subscription
+  Subscription,
 } from "../../src";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiExclude from "chai-exclude";
 import { createMockServer } from "./utils/mockService";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { v4 } from "uuid";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -35,15 +35,15 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("EventData", function(): void {
+  describe("EventData", function (): void {
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
 
-    before("validate environment", function(): void {
+    before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -63,7 +63,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    afterEach("close the connection", async function(): Promise<void> {
+    afterEach("close the connection", async function (): Promise<void> {
       await producerClient.close();
       await consumerClient.close();
     });
@@ -75,7 +75,7 @@ testWithServiceTypes((serviceVersion) => {
         body: `message body ${randomTag}`,
         contentEncoding: "application/json; charset=utf-8",
         correlationId: randomTag,
-        messageId: v4()
+        messageId: v4(),
       } as EventData;
     }
 
@@ -100,10 +100,10 @@ testWithServiceTypes((serviceVersion) => {
                 resolve(events[0]);
                 return subscription.close();
               }
-            }
+            },
           },
           {
-            startPosition: startingPositions
+            startPosition: startingPositions,
           }
         );
       });

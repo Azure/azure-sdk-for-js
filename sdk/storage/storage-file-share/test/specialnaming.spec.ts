@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ShareClient, ShareFileClient, ShareDirectoryClient } from "../src";
+import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
-import * as assert from "assert";
+import { assert } from "chai";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Special Naming Tests", () => {
   let shareName: string;
@@ -18,7 +16,7 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
 
@@ -34,17 +32,17 @@ describe("Special Naming Tests", () => {
     await recorder.stop();
   });
 
-  after(async function(this: Context) {
+  after(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     await shareClient.delete();
     await recorder.stop();
   });
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -55,10 +53,7 @@ describe("Special Naming Tests", () => {
     await fileClient.create(10);
 
     const response = (
-      await directoryClient
-        .listFilesAndDirectories({ prefix: fileName })
-        .byPage()
-        .next()
+      await directoryClient.listFilesAndDirectories({ prefix: fileName }).byPage().next()
     ).value;
 
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -74,10 +69,7 @@ describe("Special Naming Tests", () => {
     await fileClient.create(10);
 
     const response = (
-      await directoryClient
-        .listFilesAndDirectories({ prefix: fileName })
-        .byPage()
-        .next()
+      await directoryClient.listFilesAndDirectories({ prefix: fileName }).byPage().next()
     ).value;
 
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -91,10 +83,7 @@ describe("Special Naming Tests", () => {
     await fileClient.getProperties();
 
     const response = (
-      await directoryClient
-        .listFilesAndDirectories({ prefix: fileName })
-        .byPage()
-        .next()
+      await directoryClient.listFilesAndDirectories({ prefix: fileName }).byPage().next()
     ).value;
 
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -111,10 +100,7 @@ describe("Special Naming Tests", () => {
     await fileClient.getProperties();
 
     const response = (
-      await directoryClient
-        .listFilesAndDirectories({ prefix: fileName })
-        .byPage()
-        .next()
+      await directoryClient.listFilesAndDirectories({ prefix: fileName }).byPage().next()
     ).value;
 
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -128,10 +114,7 @@ describe("Special Naming Tests", () => {
     await fileClient.getProperties();
 
     const response = (
-      await directoryClient
-        .listFilesAndDirectories({ prefix: fileName })
-        .byPage()
-        .next()
+      await directoryClient.listFilesAndDirectories({ prefix: fileName }).byPage().next()
     ).value;
 
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -148,10 +131,7 @@ describe("Special Naming Tests", () => {
     await fileClient.getProperties();
 
     const response = (
-      await directoryClient
-        .listFilesAndDirectories({ prefix: fileName })
-        .byPage()
-        .next()
+      await directoryClient.listFilesAndDirectories({ prefix: fileName }).byPage().next()
     ).value;
 
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -170,7 +150,7 @@ describe("Special Naming Tests", () => {
       await directoryClient
         .listFilesAndDirectories({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-          prefix: fileName.replace(/\\/g, "/")
+          prefix: fileName.replace(/\\/g, "/"),
         })
         .byPage()
         .next()
@@ -198,7 +178,7 @@ describe("Special Naming Tests", () => {
       await directoryClient
         .listFilesAndDirectories({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-          prefix: fileName.replace(/\\/g, "/")
+          prefix: fileName.replace(/\\/g, "/"),
         })
         .byPage()
         .next()
@@ -221,7 +201,7 @@ describe("Special Naming Tests", () => {
       await rootDirectoryClient
         .listFilesAndDirectories({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-          prefix: directoryNameSpecialChar.replace(/\\/g, "/")
+          prefix: directoryNameSpecialChar.replace(/\\/g, "/"),
         })
         .byPage()
         .next()
@@ -254,7 +234,7 @@ describe("Special Naming Tests", () => {
       await rootDirectoryClient
         .listFilesAndDirectories({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-          prefix: directoryNameSpecialChar.replace(/\\/g, "/")
+          prefix: directoryNameSpecialChar.replace(/\\/g, "/"),
         })
         .byPage()
         .next()
@@ -274,7 +254,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: blobNameEncoded
+          prefix: blobNameEncoded,
         })
         .byPage()
         .next()
@@ -293,7 +273,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: fileName
+          prefix: fileName,
         })
         .byPage()
         .next()
@@ -315,7 +295,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: fileName
+          prefix: fileName,
         })
         .byPage()
         .next()
@@ -335,7 +315,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: blobNameEncoded
+          prefix: blobNameEncoded,
         })
         .byPage()
         .next()
@@ -354,7 +334,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: fileName
+          prefix: fileName,
         })
         .byPage()
         .next()
@@ -376,7 +356,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: fileName
+          prefix: fileName,
         })
         .byPage()
         .next()
@@ -396,7 +376,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: blobNameEncoded
+          prefix: blobNameEncoded,
         })
         .byPage()
         .next()
@@ -415,7 +395,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: fileName
+          prefix: fileName,
         })
         .byPage()
         .next()
@@ -437,7 +417,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await directoryClient
         .listFilesAndDirectories({
-          prefix: fileName
+          prefix: fileName,
         })
         .byPage()
         .next()

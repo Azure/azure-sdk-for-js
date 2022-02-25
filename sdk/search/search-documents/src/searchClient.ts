@@ -6,7 +6,7 @@
 import {
   CommonClientOptions,
   InternalClientPipelineOptions,
-  OperationOptions
+  OperationOptions,
 } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
@@ -18,7 +18,7 @@ import {
   AutocompleteResult,
   AutocompleteRequest,
   SuggestRequest,
-  IndexDocumentsResult
+  IndexDocumentsResult,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -40,7 +40,7 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest
+  SearchRequest,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -54,8 +54,14 @@ import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export interface SearchClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
+
+  /**
+   * The service version to use when communicating with the service.
+   */
+  serviceVersion?: string;
 }
 
 /**
@@ -68,9 +74,15 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// the ContinuationToken logic will need to be updated below.
 
   /**
-   * The API version to use when communicating with the service.
+   *  The service version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30-Preview";
+  public readonly serviceVersion: string = utils.defaultServiceVersion;
+
+  /**
+   * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
+   */
+  public readonly apiVersion: string = utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
@@ -137,25 +149,32 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
             "OData-MaxVersion",
             "OData-Version",
             "Prefer",
-            "throttle-reason"
-          ]
-        }
-      }
+            "throttle-reason",
+          ],
+        },
+      },
     };
 
-    let apiVersion = this.apiVersion;
-
     if (options.apiVersion) {
-      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
+      if (!utils.serviceVersions.includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
-      apiVersion = options.apiVersion;
+      this.serviceVersion = options.apiVersion;
+      this.apiVersion = options.apiVersion;
+    }
+
+    if (options.serviceVersion) {
+      if (!utils.serviceVersions.includes(options.serviceVersion)) {
+        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
+      }
+      this.serviceVersion = options.serviceVersion;
+      this.apiVersion = options.serviceVersion;
     }
 
     this.client = new GeneratedClient(
       this.endpoint,
       this.indexName,
-      apiVersion,
+      this.serviceVersion,
       internalClientPipelineOptions
     );
 
@@ -182,14 +201,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         ...updatedOptions,
         onResponse: (response) => {
           documentsCount = Number(response.bodyAsText);
-        }
+        },
       });
 
       return documentsCount;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -215,7 +234,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       searchText: searchText,
       suggesterName: suggesterName,
       searchFields: this.convertSearchFields<Fields>(searchFields),
-      ...nonFieldOptions
+      ...nonFieldOptions,
     };
 
     if (!fullOptions.searchText) {
@@ -234,7 +253,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -255,7 +274,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
-      ...nextPageParameters
+      ...nextPageParameters,
     };
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
@@ -265,7 +284,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         {
           ...fullOptions,
           includeTotalResultCount: fullOptions.includeTotalCount,
-          searchText: searchText
+          searchText: searchText,
         },
         updatedOptions
       );
@@ -280,14 +299,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         coverage,
         facets,
         answers,
-        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters)
+        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters),
       };
 
       return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(converted);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -330,7 +349,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
-        continuationToken: firstPage.continuationToken
+        continuationToken: firstPage.continuationToken,
       })) {
         yield* page.results;
       }
@@ -353,7 +372,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) => {
         return this.listSearchResultsPage(searchText, options, settings);
-      }
+      },
     };
   }
 
@@ -379,12 +398,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         coverage,
         facets,
         answers,
-        results: this.listSearchResults(pageResult, searchText, updatedOptions)
+        results: this.listSearchResults(pageResult, searchText, updatedOptions),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -412,7 +431,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions
+      ...nonFieldOptions,
     };
 
     if (!fullOptions.searchText) {
@@ -428,15 +447,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     try {
       const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
 
-      const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
-        result
-      );
+      const modifiedResult =
+        utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(result);
 
       return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(modifiedResult);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -460,7 +478,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -492,7 +510,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
           ...updatedOptions,
           onResponse: (response) => {
             status = response.status;
-          }
+          },
         }
       );
       if (options.throwOnAnyFailure && status === 207) {
@@ -502,7 +520,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -529,7 +547,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -557,7 +575,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -585,7 +603,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -634,7 +652,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -652,7 +670,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     const payload = JSON.stringify({
       apiVersion: this.apiVersion,
       nextLink,
-      nextPageParameters
+      nextPageParameters,
     });
     return encode(payload);
   }
@@ -679,7 +697,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 
       return {
         nextLink: result.nextLink,
-        nextPageParameters: result.nextPageParameters
+        nextPageParameters: result.nextPageParameters,
       };
     } catch (e) {
       throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`);
@@ -699,9 +717,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       operationOptions: {
         abortSignal,
         requestOptions,
-        tracingOptions
+        tracingOptions,
       },
-      restOptions
+      restOptions,
     };
   }
 

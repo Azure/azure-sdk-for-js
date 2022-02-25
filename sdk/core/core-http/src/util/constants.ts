@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/**
+ * A set of constants used internally when processing requests.
+ */
 export const Constants = {
   /**
    * The core-http version
    */
-  coreHttpVersion: "2.2.3",
+  coreHttpVersion: "2.2.5",
 
   /**
    * Specifies HTTP.
@@ -48,13 +50,13 @@ export const Constants = {
       POST: "POST",
       MERGE: "MERGE",
       HEAD: "HEAD",
-      PATCH: "PATCH"
+      PATCH: "PATCH",
     },
 
     StatusCodes: {
       TooManyRequests: 429,
-      ServiceUnavailable: 503
-    }
+      ServiceUnavailable: 503,
+    },
   },
 
   /**
@@ -78,6 +80,6 @@ export const Constants = {
     /**
      * The UserAgent header.
      */
-    USER_AGENT: "User-Agent"
-  }
+    USER_AGENT: "User-Agent",
+  },
 };

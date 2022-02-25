@@ -277,6 +277,83 @@ export const ArtifactRenameRequest: coreClient.CompositeMapper = {
   }
 };
 
+export const MetastoreRegisterObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetastoreRegisterObject",
+    modelProperties: {
+      inputFolder: {
+        serializedName: "inputFolder",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetastoreRegistrationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetastoreRegistrationResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetastoreRequestSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetastoreRequestSuccessResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetastoreUpdateObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetastoreUpdateObject",
+    modelProperties: {
+      inputFolder: {
+        serializedName: "inputFolder",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetastoreUpdationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetastoreUpdationResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SparkConfigurationListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -297,36 +374,6 @@ export const SparkConfigurationListResponse: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -388,6 +435,36 @@ export const SparkConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -769,21 +846,6 @@ export const CreateDataFlowDebugSessionRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const SubResourceDebugResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubResourceDebugResource",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const IntegrationRuntime: coreClient.CompositeMapper = {
   serializedName: "IntegrationRuntime",
   type: {
@@ -805,6 +867,21 @@ export const IntegrationRuntime: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SubResourceDebugResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubResourceDebugResource",
+    modelProperties: {
+      name: {
+        serializedName: "name",
         type: {
           name: "String"
         }
@@ -5650,6 +5727,7 @@ export const StoredProcedureParameter: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        nullable: true,
         type: {
           name: "any"
         }
@@ -5906,6 +5984,28 @@ export const ImportSettings: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NotebookParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NotebookParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        nullable: true,
+        type: {
+          name: "any"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -7240,6 +7340,69 @@ export const Flowlet: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedIntegrationRuntime: coreClient.CompositeMapper = {
+  serializedName: "Managed",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntime",
+    uberParent: "IntegrationRuntime",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...IntegrationRuntime.type.modelProperties,
+      state: {
+        serializedName: "state",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      managedVirtualNetwork: {
+        serializedName: "managedVirtualNetwork",
+        type: {
+          name: "Composite",
+          className: "ManagedVirtualNetworkReference"
+        }
+      },
+      computeProperties: {
+        serializedName: "typeProperties.computeProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeComputeProperties"
+        }
+      },
+      ssisProperties: {
+        serializedName: "typeProperties.ssisProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeSsisProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SelfHostedIntegrationRuntime: coreClient.CompositeMapper = {
+  serializedName: "SelfHosted",
+  type: {
+    name: "Composite",
+    className: "SelfHostedIntegrationRuntime",
+    uberParent: "IntegrationRuntime",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...IntegrationRuntime.type.modelProperties,
+      linkedInfo: {
+        serializedName: "typeProperties.linkedInfo",
+        type: {
+          name: "Composite",
+          className: "LinkedIntegrationRuntimeType"
+        }
+      }
+    }
+  }
+};
+
 export const IntegrationRuntimeDebugResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7302,69 +7465,6 @@ export const LinkedServiceDebugResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "LinkedService"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedIntegrationRuntime: coreClient.CompositeMapper = {
-  serializedName: "Managed",
-  type: {
-    name: "Composite",
-    className: "ManagedIntegrationRuntime",
-    uberParent: "IntegrationRuntime",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...IntegrationRuntime.type.modelProperties,
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      managedVirtualNetwork: {
-        serializedName: "managedVirtualNetwork",
-        type: {
-          name: "Composite",
-          className: "ManagedVirtualNetworkReference"
-        }
-      },
-      computeProperties: {
-        serializedName: "typeProperties.computeProperties",
-        type: {
-          name: "Composite",
-          className: "IntegrationRuntimeComputeProperties"
-        }
-      },
-      ssisProperties: {
-        serializedName: "typeProperties.ssisProperties",
-        type: {
-          name: "Composite",
-          className: "IntegrationRuntimeSsisProperties"
-        }
-      }
-    }
-  }
-};
-
-export const SelfHostedIntegrationRuntime: coreClient.CompositeMapper = {
-  serializedName: "SelfHosted",
-  type: {
-    name: "Composite",
-    className: "SelfHostedIntegrationRuntime",
-    uberParent: "IntegrationRuntime",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...IntegrationRuntime.type.modelProperties,
-      linkedInfo: {
-        serializedName: "typeProperties.linkedInfo",
-        type: {
-          name: "Composite",
-          className: "LinkedIntegrationRuntimeType"
         }
       }
     }
@@ -12127,6 +12227,19 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
           name: "any"
         }
       },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any"
+        }
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -15566,9 +15679,14 @@ export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "any"
+        }
+      },
       clientCustomerID: {
         serializedName: "typeProperties.clientCustomerID",
-        required: true,
         type: {
           name: "any"
         }
@@ -15582,7 +15700,6 @@ export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
       },
       authenticationType: {
         serializedName: "typeProperties.authenticationType",
-        required: true,
         type: {
           name: "String"
         }
@@ -17287,6 +17404,12 @@ export const FtpReadSettings: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      disableChunking: {
+        serializedName: "disableChunking",
+        type: {
+          name: "any"
+        }
       }
     }
   }
@@ -17352,6 +17475,12 @@ export const SftpReadSettings: coreClient.CompositeMapper = {
       },
       modifiedDatetimeEnd: {
         serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "any"
+        }
+      },
+      disableChunking: {
+        serializedName: "disableChunking",
         type: {
           name: "any"
         }
@@ -22711,7 +22840,7 @@ export const SynapseNotebookActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.parameters",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "Composite", className: "NotebookParameter" } }
         }
       }
     }

@@ -62,6 +62,7 @@ import {
   DocumentExtractionSkill,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   DefaultCognitiveServicesAccount,
   CognitiveServicesAccountKey,
   HighWaterMarkChangeDetectionPolicy,
@@ -84,7 +85,7 @@ import {
   CustomNormalizer,
   SearchIndexerKnowledgeStore,
   SearchIndexerCache,
-  SemanticSettings
+  SemanticSettings,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -513,7 +514,8 @@ export type SearchIndexerSkill =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
-  | WebApiSkill;
+  | WebApiSkill
+  | AzureMachineLearningSkill;
 
 /**
  * Contains the possible cases for CognitiveServicesAccount.
@@ -1261,7 +1263,7 @@ export enum KnownTokenizerNames {
    * Divides text at whitespace. See
    * http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceTokenizer.html
    */
-  Whitespace = "whitespace"
+  Whitespace = "whitespace",
 }
 
 /**
@@ -1444,7 +1446,7 @@ export enum KnownTokenFilterNames {
   /**
    * Splits words into subwords and performs optional transformations on subword groups.
    */
-  WordDelimiter = "word_delimiter"
+  WordDelimiter = "word_delimiter",
 }
 
 /**
@@ -1456,7 +1458,7 @@ export enum KnownCharFilterNames {
    * A character filter that attempts to strip out HTML constructs. See
    * https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/HTMLStripCharFilter.html
    */
-  HtmlStrip = "html_strip"
+  HtmlStrip = "html_strip",
 }
 
 /**
@@ -1835,7 +1837,7 @@ export enum KnownAnalyzerNames {
   /**
    * An analyzer that uses the whitespace tokenizer.
    */
-  Whitespace = "whitespace"
+  Whitespace = "whitespace",
 }
 
 /**

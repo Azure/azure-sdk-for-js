@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  createHttpHeaders,
-  HttpClient,
-  HttpHeaders,
-  HttpMethods
-} from "@azure/core-rest-pipeline";
-import {
-  createSerializer,
-  deserializationPolicy,
   FullOperationResponse,
   OperationRequest,
   OperationResponseMap,
   Serializer,
-  ServiceClient
+  ServiceClient,
+  createSerializer,
+  deserializationPolicy,
 } from "../../src";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpMethods,
+  createEmptyPipeline,
+  createHttpHeaders,
+} from "@azure/core-rest-pipeline";
+import { assert } from "chai";
 
 /**
  * Representation of a Service Client test case where the response status is 200.
@@ -49,16 +49,16 @@ export async function assertServiceClientResponse(
         request,
         status: 200,
         headers: testSpec.responseHeaders ?? createHttpHeaders(),
-        bodyAsText: testSpec.responseBodyAsText
+        bodyAsText: testSpec.responseBodyAsText,
       });
-    }
+    },
   };
 
   const pipeline = createEmptyPipeline();
   pipeline.addPolicy(deserializationPolicy());
   const client1 = new ServiceClient({
     httpClient,
-    pipeline
+    pipeline,
   });
 
   let rawResponse: FullOperationResponse | undefined;
@@ -67,16 +67,16 @@ export async function assertServiceClientResponse(
       options: {
         onResponse: (response) => {
           rawResponse = response;
-        }
-      }
+        },
+      },
     },
     {
       serializer: testSpec.requestSerializer ?? createSerializer(),
       httpMethod: testSpec.requestMethod ?? "GET",
       baseUrl: "https://example.com",
       responses: {
-        200: testSpec.responseMapper
-      }
+        200: testSpec.responseMapper,
+      },
     }
   );
 

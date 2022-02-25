@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { assertThrowsAbortError } from "./utils/common";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -21,24 +22,24 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   };
 
-  beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+  beforeEach(async function (this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can recover a deleted certificate", async function(this: Context) {
+  it("can recover a deleted certificate", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -65,7 +66,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
   });
 
-  it("can recover a deleted certificate (non existing)", async function(this: Context) {
+  it("can recover a deleted certificate (non existing)", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -81,7 +82,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a certificate", async function(this: Context) {
+    it("can restore a certificate", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
@@ -115,14 +116,14 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can generate a backup of a certificate with requestOptions timeout", async function() {
+    it("can generate a backup of a certificate with requestOptions timeout", async function () {
       await assertThrowsAbortError(async () => {
         await client.backupCertificate("doesn't matter", { requestOptions: { timeout: 1 } });
       });
     });
   }
 
-  it("can restore a certificate (Malformed Backup Bytes)", async function() {
+  it("can restore a certificate (Malformed Backup Bytes)", async function () {
     const backup = new Uint8Array(4728);
     let error;
     try {
@@ -140,7 +141,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function(this: Context) {
+    it("can restore a key with requestOptions timeout", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,

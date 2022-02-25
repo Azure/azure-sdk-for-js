@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  ShareServiceClient,
   generateAccountSASQueryParameters,
   SASProtocol,
-  StorageSharedKeyCredential
+  ShareClient,
+  ShareFileClient,
+  ShareServiceClient,
+  StorageSharedKeyCredential,
 } from "../../src";
-import { ShareFileClient, ShareClient } from "../../src";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
 import { newPipeline } from "../../src/Pipeline";
@@ -26,12 +27,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getBSU();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -55,7 +56,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -63,12 +64,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new ShareServiceClient(sasURL, newPipeline());
 
-    const result = (
-      await serviceClientWithSAS
-        .listShares()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await serviceClientWithSAS.listShares().byPage().next()).value;
     assert.ok(result.shareItems!.length >= 0);
   });
 
@@ -85,7 +81,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiresOn: tmr,
         permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
-        services: AccountSASServices.parse("btqf").toString()
+        services: AccountSASServices.parse("btqf").toString(),
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -119,7 +115,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiresOn: tmr,
         permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
-        services: AccountSASServices.parse("btq").toString()
+        services: AccountSASServices.parse("btq").toString(),
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -153,7 +149,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
         services: AccountSASServices.parse("btqf").toString(),
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -194,7 +190,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         shareName: shareClient.name,
         startsOn: now,
-        version: "2018-03-28"
+        version: "2018-03-28",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -203,12 +199,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareClientwithSAS = new ShareClient(sasURL);
 
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
-    const result = (
-      await dirURLwithSAS
-        .listFilesAndDirectories()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirURLwithSAS.listFilesAndDirectories().byPage().next()).value;
     assert.ok(result.segment.directoryItems!.length >= 0);
     assert.ok(result.segment.fileItems!.length >= 0);
 
@@ -238,8 +229,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(1024, {
       fileHttpHeaders: {
-        fileContentType: "content-type-original"
-      }
+        fileContentType: "content-type-original",
+      },
     });
 
     const fileSAS = generateFileSASQueryParameters(
@@ -256,7 +247,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         shareName: fileClient.shareName,
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -297,8 +288,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(1024, {
       fileHttpHeaders: {
-        fileContentType: "content-type-original"
-      }
+        fileContentType: "content-type-original",
+      },
     });
 
     const id = "unique-id";
@@ -307,10 +298,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         accessPolicy: {
           expiresOn: tmr,
           permissions: ShareSASPermissions.parse("rcwdl").toString(),
-          startsOn: now
+          startsOn: now,
         },
-        id
-      }
+        id,
+      },
     ]);
 
     /*
@@ -325,7 +316,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareSAS = generateFileSASQueryParameters(
       {
         identifier: id,
-        shareName
+        shareName,
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -334,12 +325,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
     const dirClientwithSAS = shareClientwithSAS.getDirectoryClient("");
-    const result = (
-      await dirClientwithSAS
-        .listFilesAndDirectories()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirClientwithSAS.listFilesAndDirectories().byPage().next()).value;
     assert.ok(result.segment.directoryItems!.length >= 0);
     assert.ok(result.segment.fileItems!.length >= 0);
     await shareClient.delete();
@@ -364,8 +350,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(1024, {
       fileHttpHeaders: {
-        fileContentType: "content-type-original"
-      }
+        fileContentType: "content-type-original",
+      },
     });
 
     const id = "unique-id";
@@ -374,10 +360,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         accessPolicy: {
           expiresOn: tmr,
           permissions: FileSASPermissions.parse("rcwd").toString(),
-          startsOn: now
+          startsOn: now,
         },
-        id
-      }
+        id,
+      },
     ]);
 
     /*
@@ -393,7 +379,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         identifier: id,
         shareName,
-        filePath: fileClient.path
+        filePath: fileClient.path,
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -422,7 +408,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("f").toString(),
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -436,18 +422,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       }
     );
     assert.deepStrictEqual(sasURL, sasURL1);
 
     const serviceClientWithSAS = new ShareServiceClient(sasURL);
-    const result = (
-      await serviceClientWithSAS
-        .listShares()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await serviceClientWithSAS.listShares().byPage().next()).value;
     assert.ok(result.shareItems!.length >= 0);
   });
 
@@ -487,7 +468,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         shareName: shareClient.name,
         startsOn: now,
-        version: "2018-03-28"
+        version: "2018-03-28",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -499,18 +480,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       permissions: ShareSASPermissions.parse("rcwdl"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
-      version: "2018-03-28"
+      version: "2018-03-28",
     });
     assert.deepStrictEqual(sasURL, sasURL1);
 
     const shareClientwithSAS = new ShareClient(sasURL);
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
-    const result = (
-      await dirURLwithSAS
-        .listFilesAndDirectories()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirURLwithSAS.listFilesAndDirectories().byPage().next()).value;
     assert.ok(result.segment.directoryItems!.length >= 0);
     assert.ok(result.segment.fileItems!.length >= 0);
 
@@ -547,8 +523,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(1024, {
       fileHttpHeaders: {
-        fileContentType: "content-type-original"
-      }
+        fileContentType: "content-type-original",
+      },
     });
 
     const fileSAS = generateFileSASQueryParameters(
@@ -565,7 +541,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         shareName: fileClient.shareName,
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -582,7 +558,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       permissions: FileSASPermissions.parse("rcwd"),
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
-      version: "2016-05-31"
+      version: "2016-05-31",
     });
     assert.deepStrictEqual(sasURL1, sasURL);
 
@@ -605,5 +581,100 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(exceptionCaught);
 
     await shareClient.delete();
+  });
+
+  it("rename file - source and destination with different SAS", async () => {
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const sourceUrl = shareClient.generateSasUrl({
+      permissions: ShareSASPermissions.parse("r"),
+      expiresOn: tmr,
+    });
+
+    const sasShareClient = new ShareClient(sourceUrl);
+    const sasSourceFileClient = sasShareClient.getDirectoryClient("").getFileClient(sourceFileName);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const destFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await destFileClient.create(2048);
+
+    const sharedKeyCredential = serviceClient["credential"];
+    const destSAS = generateFileSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: FileSASPermissions.parse("w"),
+        shareName: shareName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const result = await sasSourceFileClient.rename(destFileName + "?" + destSAS, {
+      replaceIfExists: true,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename directory - source and destination with different SAS", async () => {
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const shareSASUrl = shareClient.generateSasUrl({
+      permissions: ShareSASPermissions.parse("r"),
+      expiresOn: tmr,
+    });
+
+    const sasShareClient = new ShareClient(shareSASUrl);
+    const sasSourceDirClient = sasShareClient.getDirectoryClient(sourceDirName);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const destFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await destFileClient.create(2048);
+
+    const sharedKeyCredential = serviceClient["credential"];
+    const destSAS = generateFileSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: FileSASPermissions.parse("w"),
+        shareName: shareName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const result = await sasSourceDirClient.rename(destFileName + "?" + destSAS, {
+      replaceIfExists: true,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    assert.isFalse(await sourceDirClient.exists(), "Source directory should not exist anymore");
   });
 });

@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { EventHubManagementClient } from "./eventHubManagementClient";
-export { EventHubManagementClientContext } from "./eventHubManagementClientContext";
 export * from "./operationsInterfaces";

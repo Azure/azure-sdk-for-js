@@ -23,6 +23,7 @@ import {
   BlobInventoryPolicy as BlobInventoryPolicyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ObjectReplicationPolicy as ObjectReplicationPolicyMapper,
+  LocalUser as LocalUserMapper,
   EncryptionScope as EncryptionScopeMapper,
   BlobServiceProperties as BlobServicePropertiesMapper,
   BlobContainer as BlobContainerMapper,
@@ -65,7 +66,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01",
+    defaultValue: "2021-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -184,6 +185,17 @@ export const parameters3: OperationParameter = {
   mapper: ServiceSasParametersMapper
 };
 
+export const requestType: OperationQueryParameter = {
+  parameterPath: "requestType",
+  mapper: {
+    serializedName: "requestType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: BlobRestoreParametersMapper
@@ -292,6 +304,26 @@ export const objectReplicationPolicyId: OperationURLParameter = {
 export const properties3: OperationParameter = {
   parameterPath: "properties",
   mapper: ObjectReplicationPolicyMapper
+};
+
+export const username: OperationURLParameter = {
+  parameterPath: "username",
+  mapper: {
+    constraints: {
+      MaxLength: 64,
+      MinLength: 3
+    },
+    serializedName: "username",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: LocalUserMapper
 };
 
 export const encryptionScope: OperationParameter = {

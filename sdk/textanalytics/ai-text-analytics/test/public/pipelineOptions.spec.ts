@@ -8,24 +8,27 @@ import { createClient } from "./utils/recordedClient";
 
 import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 
-describe("TextAnalyticsClient Custom PipelineOptions", function() {
+describe("TextAnalyticsClient Custom PipelineOptions", function () {
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
-      const client = createClient("DummyAPIKey", {
-        httpClient: {
-          sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
-            status: 200,
-            request,
-            bodyAsText: JSON.stringify({
-              documents: [
-                { id: "0", detectedLanguage: { name: "English", iso6391Name: "en", score: 1.0 } }
-              ],
-              errors: [],
-              modelVersion: "2019-10-01"
+      const client = createClient({
+        authMethod: "DummyAPIKey",
+        clientOptions: {
+          httpClient: {
+            sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
+              status: 200,
+              request,
+              bodyAsText: JSON.stringify({
+                documents: [
+                  { id: "0", detectedLanguage: { name: "English", iso6391Name: "en", score: 1.0 } },
+                ],
+                errors: [],
+                modelVersion: "2019-10-01",
+              }),
+              headers: createHttpHeaders(),
             }),
-            headers: createHttpHeaders()
-          })
-        }
+          },
+        },
       });
 
       return client.detectLanguage(["Hello!"], "us").then((languages) => resolve(languages));

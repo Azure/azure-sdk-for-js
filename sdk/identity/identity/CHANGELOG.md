@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.0.5 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,40 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 2.0.4 (2022-02-18)
+
+### Bugs Fixed
+
+- Fixed a regression in version 2.0.3 in which providing an options bag, but _not_ a client ID, to the `ManagedIdentityCredential` constructor would discard the `options` parameter.
+
+## 2.0.3 (2022-02-16)
+
+### Features Added
+
+- Added log warning for non-support of user assigned identity in Managed Identity credentials in Cloud Shell environments.
+
+### Bugs Fixed
+
+- Fixed bug that duplicated the tenant Id on the URI of outgoing requests when passing an `authorityHost` ending with a tenant Id.
+- `ManagedIdentityCredential` now won't retry when it tries to ping the IMDS endpoint.
+- Now we are specifying the maximum number of retries to 3 to ensure that maximum retries won't change without notice.
+
+## 2.0.2 (2022-02-03)
+
+### Features Added
+
+- Improved the error message when `InteractiveBrowserCredential` is used with an unavailable port (such as when no `redirectUri` is provided, and the port `80` is busy) and when no browser is available.
+
+### Bugs Fixed
+
 - Challenge claims now are properly being passed through to the outgoing token requests.
+- The `ManagedIdentityCredential` now properly parses expiration dates from token exchange requests.
 
 ### Other Changes
+
+- Moved the `@types/stoppable` dependency to the `devDependencies`.
 
 ## 2.0.1 (2021-10-28)
 

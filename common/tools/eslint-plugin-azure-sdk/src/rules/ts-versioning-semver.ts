@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
-import { Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Property } from "estree";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -18,7 +18,7 @@ export = {
   meta: getRuleMetaData("ts-versioning-semver", "force adherence to SemVer guidelines"),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
-      outer: "version"
+      outer: "version",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -34,7 +34,7 @@ export = {
             if (node.value.type !== "Literal") {
               context.report({
                 node: node.value,
-                message: "version is not set to a string"
+                message: "version is not set to a string",
               });
               return;
             }
@@ -48,7 +48,7 @@ export = {
             if (versionMatch === null) {
               context.report({
                 node: nodeValue,
-                message: "version is not in semver"
+                message: "version is not in semver",
               });
               return;
             }
@@ -57,7 +57,7 @@ export = {
             if (majorVersionNumber === "0") {
               context.report({
                 node: nodeValue,
-                message: "major version should not be set to 0"
+                message: "major version should not be set to 0",
               });
             }
 
@@ -70,7 +70,7 @@ export = {
             if (ver === null) {
               context.report({
                 node: nodeValue,
-                message: `unrecognized version syntax: ${secondPart}`
+                message: `unrecognized version syntax: ${secondPart}`,
               });
               return;
             }
@@ -82,7 +82,7 @@ export = {
                 if (!/^\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
                     node: nodeValue,
-                    message: `${verKeyword} format is not x.y.z-${verKeyword}.i`
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.i`,
                   });
                   return;
                 }
@@ -91,7 +91,7 @@ export = {
                 if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
                     node: nodeValue,
-                    message: `${verKeyword} format is not x.y.z-${verKeyword}.<date>.i`
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.<date>.i`,
                   });
                   return;
                 }
@@ -99,12 +99,12 @@ export = {
               default:
                 context.report({
                   node: nodeValue,
-                  message: "impossible"
+                  message: "impossible",
                 });
                 return;
             }
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

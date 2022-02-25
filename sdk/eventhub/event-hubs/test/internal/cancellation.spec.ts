@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-import { createConnectionContext } from "../../src/connectionContext";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import { createConnectionContext } from "../../src/connectionContext";
 import { createMockServer } from "../public/utils/mockService";
-chai.use(chaiAsPromised);
-
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -31,7 +31,7 @@ testWithServiceTypes((serviceVersion) => {
   describe("Cancellation via AbortSignal", () => {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     before("validate environment", () => {
       should.exist(
@@ -45,11 +45,11 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     let context: ReturnType<typeof createConnectionContext>;
-    beforeEach("create connection context", function() {
+    beforeEach("create connection context", function () {
       context = createConnectionContext(service.connectionString, service.path);
     });
 
-    afterEach("close connection context", function() {
+    afterEach("close connection context", function () {
       return context.close();
     });
 
@@ -62,7 +62,7 @@ testWithServiceTypes((serviceVersion) => {
           const controller = new AbortController();
           controller.abort();
           return controller.signal;
-        }
+        },
       },
       {
         type: "aborted after timeout",
@@ -72,8 +72,8 @@ testWithServiceTypes((serviceVersion) => {
             controller.abort();
           }, 0);
           return controller.signal;
-        }
-      }
+        },
+      },
     ];
 
     describe("EventHubReceiver", () => {
@@ -84,7 +84,7 @@ testWithServiceTypes((serviceVersion) => {
           "$default", // consumer group
           "0", // partition id
           {
-            enqueuedOn: Date.now()
+            enqueuedOn: Date.now(),
           }
         );
       });
@@ -134,7 +134,7 @@ testWithServiceTypes((serviceVersion) => {
     describe("EventHubSender", () => {
       let client: EventHubSender;
       beforeEach("instantiate EventHubSender", () => {
-        client = new EventHubSender(context);
+        client = new EventHubSender(context, { enableIdempotentProducer: false });
       });
 
       afterEach("close EventHubSender", () => {

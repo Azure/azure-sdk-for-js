@@ -29,7 +29,7 @@ async function queryTables() {
   // odata is a helper function that takes care of encoding the query
   // filter, in this sample it will add quotes around tableName
   const queryTableResults = serviceClient.listTables({
-    queryOptions: { filter: odata`TableName eq ${tableName}` }
+    queryOptions: { filter: odata`TableName eq ${tableName}` },
   });
 
   // Iterate the results

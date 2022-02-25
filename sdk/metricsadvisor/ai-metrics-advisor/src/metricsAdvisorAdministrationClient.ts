@@ -4,20 +4,19 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  PipelineOptions,
-  operationOptionsToRequestOptionsBase,
-  ServiceClientOptions,
-  OperationOptions,
-  RestResponse
-} from "@azure/core-http";
-import { TokenCredential } from "@azure/core-auth";
+  bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions,
+} from "@azure/core-rest-pipeline";
+import { FullOperationResponse, OperationOptions, CommonClientOptions } from "@azure/core-client";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { createClientPipeline } from "./createClientPipeline";
+import {
+  createMetricsAdvisorKeyCredentialPolicy,
+  MetricsAdvisorKeyCredential,
+} from "./metricsAdvisorKeyCredentialPolicy";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
@@ -43,7 +42,8 @@ import {
   AnomalyAlertConfiguration,
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
-  CredentialsPageResponse
+  CredentialsPageResponse,
+  RestResponse,
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -61,13 +61,18 @@ import {
   toServiceCredential,
   fromServiceCredential,
   toServiceDataFeedSource,
-  toServiceDataFeedSourcePatch
+  toServiceDataFeedSourcePatch,
 } from "./transforms";
+import {
+  DEFAULT_COGNITIVE_SCOPE,
+  MetricsAdvisorLoggingAllowedHeaderNames,
+  MetricsAdvisorLoggingAllowedQueryParameters,
+} from "./constants";
 
 /**
  * Client options used to configure API requests.
  */
-export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptions {}
+export interface MetricsAdvisorAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options for listing data feed ingestion status
@@ -151,11 +156,6 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * A reference to service client options.
-   */
-  private readonly pipeline: ServiceClientOptions;
-
-  /**
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -182,8 +182,19 @@ export class MetricsAdvisorAdministrationClient {
     options: MetricsAdvisorAdministrationClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.pipeline = createClientPipeline(credential, options);
-    this.client = new GeneratedClient(this.endpointUrl, this.pipeline);
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...options,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters,
+      },
+    };
+    this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : createMetricsAdvisorKeyCredentialPolicy(credential);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -211,7 +222,7 @@ export class MetricsAdvisorAdministrationClient {
       accessMode,
       admins,
       viewers,
-      description
+      description,
     } = feed;
 
     if (source.dataSourceType === "Unknown") {
@@ -242,7 +253,6 @@ export class MetricsAdvisorAdministrationClient {
         ? missingDataPointFillSettings.customFillValue
         : undefined;
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const body = {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
@@ -265,9 +275,9 @@ export class MetricsAdvisorAdministrationClient {
         admins: admins,
         viewers: viewers,
         dataFeedDescription: description,
-        ...finalOptions
+        ...finalOptions,
       };
-      const result = await this.client.createDataFeed(body, requestOptions);
+      const result = await this.client.createDataFeed(body, finalOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
@@ -277,7 +287,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -300,14 +310,13 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getDataFeedById(id, requestOptions);
+      const result = await this.client.getDataFeedById(id, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -388,11 +397,11 @@ export class MetricsAdvisorAdministrationClient {
         return this.listSegmentsOfDataFeeds(
           {
             ...options,
-            maxPageSize: settings.maxPageSize
+            maxPageSize: settings.maxPageSize,
           },
           settings.continuationToken
         );
-      }
+      },
     };
   }
 
@@ -415,14 +424,14 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
       const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -435,14 +444,14 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
       const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -470,7 +479,6 @@ export class MetricsAdvisorAdministrationClient {
       throw new Error("Cannot update a data feed to have the Unknown source type.");
     }
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
         ...toServiceDataFeedSourcePatch(patch.source),
@@ -498,15 +506,15 @@ export class MetricsAdvisorAdministrationClient {
         admins: patch.admins,
         viewers: patch.viewers,
         status: patch.status,
-        actionLinkTemplate: patch.actionLinkTemplate
+        actionLinkTemplate: patch.actionLinkTemplate,
       };
-      const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
+      const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -527,12 +535,14 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteDataFeed(id, requestOptions);
+      const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
+        ...options,
+      });
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -556,10 +566,9 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const transformed = toServiceAnomalyDetectionConfiguration(config);
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.createAnomalyDetectionConfiguration(
         transformed,
-        requestOptions
+        finalOptions
       );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
@@ -570,7 +579,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -594,13 +603,12 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getAnomalyDetectionConfiguration(id, requestOptions);
+      const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
       return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -626,18 +634,17 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
       const result = await this.client.updateAnomalyDetectionConfiguration(
         id,
         transformed,
-        requestOptions
+        finalOptions
       );
       return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -661,12 +668,17 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteAnomalyDetectionConfiguration(id, requestOptions);
+      const response = await getRawResponse(
+        () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
+        {
+          ...options,
+        }
+      );
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -688,11 +700,10 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfiguration(config);
       const result = await this.client.createAnomalyAlertingConfiguration(
         transformed,
-        requestOptions
+        finalOptions
       );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
@@ -703,7 +714,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -728,18 +739,17 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfigurationPatch(patch);
       const result = await this.client.updateAnomalyAlertingConfiguration(
         id,
         transformed,
-        requestOptions
+        finalOptions
       );
       return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -763,13 +773,12 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getAnomalyAlertingConfiguration(id, requestOptions);
+      const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
       return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -793,12 +802,17 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteAnomalyAlertingConfiguration(id, requestOptions);
+      const response = await getRawResponse(
+        () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
+        {
+          ...options,
+        }
+      );
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -811,10 +825,11 @@ export class MetricsAdvisorAdministrationClient {
     options: OperationOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<AlertConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
-    const segment = await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
-      detectionConfigId,
-      options
-    );
+    const segment =
+      await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
+        detectionConfigId,
+        options
+      );
 
     const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
     yield alertConfigurations;
@@ -912,10 +927,10 @@ export class MetricsAdvisorAdministrationClient {
        */
       byPage: () => {
         return this.listSegmentsOfAlertingConfigurations(detectionConfigId, {
-          ...options
+          ...options,
           // maxPageSize: settings.maxPageSize
         });
-      }
+      },
     };
   }
 
@@ -935,7 +950,6 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
       const result = await this.client.createHook(
         {
@@ -944,9 +958,9 @@ export class MetricsAdvisorAdministrationClient {
           description,
           externalLink,
           admins,
-          hookParameter
+          hookParameter,
         } as HookInfoUnion,
-        requestOptions
+        finalOptions
       );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
@@ -957,7 +971,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -977,16 +991,13 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getHook(id, requestOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
-        result._response.parsedBody
-      );
+      const result = await this.client.getHook(id, finalOptions);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
       return resultHookResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1003,12 +1014,12 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listHooks({
         ...options,
-        maxpagesize: maxPageSize
+        maxpagesize: maxPageSize,
       });
       const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
       const resultArray = Object.defineProperty(hooks, "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -1021,7 +1032,7 @@ export class MetricsAdvisorAdministrationClient {
       const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
       const resultArray = Object.defineProperty(hooks, "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -1108,7 +1119,7 @@ export class MetricsAdvisorAdministrationClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfHooks(settings.continuationToken, settings.maxPageSize, options);
-      }
+      },
     };
   }
 
@@ -1128,16 +1139,13 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.updateHook(id, patch, requestOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
-        result._response.parsedBody
-      );
+      const result = await this.client.updateHook(id, patch, finalOptions);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
       return resultHookResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1157,12 +1165,14 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteHook(id, requestOptions);
+      const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
+        ...options,
+      });
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1274,10 +1284,10 @@ export class MetricsAdvisorAdministrationClient {
        */
       byPage: () => {
         return this.listSegmentsOfDetectionConfigurations(metricId, {
-          ...options
+          ...options,
           // maxPageSize: settings.maxPageSize
         });
-      }
+      },
     };
   }
 
@@ -1297,16 +1307,15 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
       return {
         latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
-        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime()
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1327,11 +1336,11 @@ export class MetricsAdvisorAdministrationClient {
         dataFeedId,
         {
           startTime,
-          endTime
+          endTime,
         },
         {
           ...options,
-          maxpagesize: options?.maxPageSize
+          maxpagesize: options?.maxPageSize,
         }
       );
       const resultArray = Object.defineProperty(
@@ -1339,13 +1348,13 @@ export class MetricsAdvisorAdministrationClient {
           return {
             timestamp: s.timestamp?.getTime(),
             status: s.status,
-            message: s.message
+            message: s.message,
           };
         }) || [],
         "continuationToken",
         {
           enumerable: true,
-          value: segmentResponse.nextLink
+          value: segmentResponse.nextLink,
         }
       );
       yield resultArray;
@@ -1360,7 +1369,7 @@ export class MetricsAdvisorAdministrationClient {
         continuationToken,
         {
           startTime,
-          endTime
+          endTime,
         },
         options
       );
@@ -1370,13 +1379,13 @@ export class MetricsAdvisorAdministrationClient {
           return {
             timestamp: s.timestamp?.getTime(),
             status: s.status,
-            message: s.message
+            message: s.message,
           };
         }) || [],
         "continuationToken",
         {
           enumerable: true,
-          value: segmentResponse.nextLink
+          value: segmentResponse.nextLink,
         }
       );
       yield resultArray;
@@ -1493,10 +1502,10 @@ export class MetricsAdvisorAdministrationClient {
           settings.continuationToken,
           {
             ...options,
-            maxPageSize: settings.maxPageSize
+            maxPageSize: settings.maxPageSize,
           }
         );
-      }
+      },
     };
   }
 
@@ -1520,21 +1529,26 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.resetDataFeedIngestionStatus(
-        dataFeedId,
+      const response = await getRawResponse(
+        () =>
+          this.client.resetDataFeedIngestionStatus(
+            dataFeedId,
+            {
+              startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+              endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
+            },
+            finalOptions
+          ),
         {
-          startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
-          endTime: typeof endTime === "string" ? new Date(endTime) : endTime
-        },
-        requestOptions
+          ...options,
+        }
       );
-      logger.info(result);
-      return result;
+      logger.info(response);
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1556,10 +1570,9 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       // transformation
       const transformedCred = toServiceCredential(dataSourceCredential);
-      const result = await this.client.createCredential(transformedCred, requestOptions);
+      const result = await this.client.createCredential(transformedCred, finalOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created credential entity");
       }
@@ -1569,7 +1582,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1592,14 +1605,13 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getCredential(id, requestOptions);
+      const result = await this.client.getCredential(id, finalOptions);
       const resultCred = fromServiceCredential(result);
       return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1675,11 +1687,11 @@ export class MetricsAdvisorAdministrationClient {
         return this.listSegmentsOfCredentialEntities(
           {
             ...options,
-            maxPageSize: settings.maxPageSize
+            maxPageSize: settings.maxPageSize,
           },
           settings.continuationToken
         );
-      }
+      },
     };
   }
 
@@ -1701,14 +1713,14 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listCredentials({
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const credentials = segmentResponse.value?.map((d) => {
         return fromServiceCredential(d);
       });
       const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1720,14 +1732,14 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listCredentialsNext(continuationToken, {
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const credentials = segmentResponse.value?.map((d) => {
         return fromServiceCredential(d);
       });
       const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1750,18 +1762,17 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.updateCredential(
         id,
         toServiceCredentialPatch(patch),
-        requestOptions
+        finalOptions
       );
       const resultCred = fromServiceCredential(result);
       return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1784,16 +1795,41 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteCredential(id, requestOptions);
+      const response = await getRawResponse(() => this.client.deleteCredential(id, finalOptions), {
+        ...options,
+      });
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
       span.end();
     }
   }
+}
+interface ReturnType<T> {
+  flatResponse: T;
+  rawResponse: FullOperationResponse;
+}
+async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<ReturnType<TResult>> {
+  // renaming onResponse received from customer to customerProvidedCallback
+  const { onResponse: customerProvidedCallback } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  // flatResponseParam - is basically the flatResponse received from service call -
+  // just named it so that linter doesn't complain
+  // onResponse - includes the rawResponse and the customer's provided onResponse
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      customerProvidedCallback?.(response, flatResponseParam);
+    },
+  });
+  return { flatResponse, rawResponse: rawResponse! };
 }

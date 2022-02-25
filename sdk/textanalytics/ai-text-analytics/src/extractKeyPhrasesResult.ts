@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import { TextAnalyticsError, DocumentKeyPhrases } from "./generated/models";
 
@@ -40,7 +40,7 @@ export function makeExtractKeyPhrasesResult(
   const { id, warnings, statistics, keyPhrases } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    keyPhrases
+    keyPhrases,
   };
 }
 

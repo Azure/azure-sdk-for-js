@@ -1758,6 +1758,7 @@ export class ContainerClient extends StorageClient {
     deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
+    findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
@@ -1854,6 +1855,28 @@ export interface ContainerEncryptionScope {
 export interface ContainerExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export interface ContainerFilterBlobsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ContainerFindBlobByTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ContainerFindBlobsByTagsSegmentResponse = FilterBlobSegment & ContainerFilterBlobsHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: ContainerFilterBlobsHeaders;
+        bodyAsText: string;
+        parsedBody: FilterBlobSegmentModel;
+    };
+};
 
 // @public
 export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
@@ -2062,6 +2085,7 @@ export class ContainerSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    filterByTags: boolean;
     static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions;
     list: boolean;
     move: boolean;
@@ -2081,6 +2105,7 @@ export interface ContainerSASPermissionsLike {
     delete?: boolean;
     deleteVersion?: boolean;
     execute?: boolean;
+    filterByTags?: boolean;
     list?: boolean;
     move?: boolean;
     permanentDelete?: boolean;
@@ -2392,12 +2417,6 @@ export interface ListBlobsHierarchySegmentResponseModel {
     // (undocumented)
     serviceEndpoint: string;
 }
-
-// @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
-
-// @public
-export type ListContainersIncludeType = "metadata" | "deleted";
 
 // @public
 export interface ListContainersSegmentResponse {
@@ -3071,6 +3090,7 @@ export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeDeleted?: boolean;
     includeMetadata?: boolean;
+    includeSystem?: boolean;
     prefix?: string;
 }
 

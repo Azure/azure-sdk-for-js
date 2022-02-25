@@ -11,6 +11,6 @@ spec:
     - name: sb-stressperf
       imagePullPolicy: Always
       command: ["node", "/app/dist/src/{{ .Scenario }}.js"]
-      image: {{ default "stresstestregistry.azurecr.io/javascript" .Values.repository }}/stress:{{ default "v1" .Values.tag }}
+      image: {{ .Values.image }}
       {{- include "stress-test-addons.container-env" . | nindent 6 }}
 {{- end -}}

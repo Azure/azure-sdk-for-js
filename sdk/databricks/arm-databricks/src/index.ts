@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { AzureDatabricksManagementClient } from "./azureDatabricksManagementClient";
-export { AzureDatabricksManagementClientContext } from "./azureDatabricksManagementClientContext";
 export * from "./operationsInterfaces";

@@ -3,9 +3,9 @@
 
 /// <reference lib="ES2018.AsyncIterable" />
 
-import { Message } from "rhea";
 import "@azure/core-asynciterator-polyfill";
 import { EventPosition } from "../utils/eventPosition";
+import { Message } from "rhea";
 import { Queue } from "./queue";
 
 export interface MessageRecord {
@@ -14,6 +14,15 @@ export interface MessageRecord {
   sequenceNumber: number;
   offset: number;
   message: Message;
+}
+
+export interface PartitionInfo {
+  beginningSequenceNumber: number;
+  lastEnqueuedOffset: string;
+  lastEnqueuedTimeUtc: Date;
+  lastEnqueuedSequenceNumber: number;
+  partitionId: string;
+  isPartitionEmpty: boolean;
 }
 
 /**
@@ -43,7 +52,7 @@ export class MessageStore {
 
   /**
    * Gets the list of `MessageRecord` associated with the specified partition id.
-   * @param partitionId
+   * @param partitionId - The partition id to find message records for.
    */
   private _getPartitionStore(partitionId: string): MessageRecord[] {
     const partitionStore = this._partitionRecordMap.get(partitionId) ?? [];
@@ -53,7 +62,7 @@ export class MessageStore {
 
   /**
    * Gets the full Set of 'QueueViews' associated with the specified partition id.
-   * @param partitionId
+   * @param partitionId -
    */
   private _getPartitionViews(partitionId: string): Set<Queue<MessageRecord>> {
     const queueViews = this._partitionQueueViews.get(partitionId) ?? new Set();
@@ -63,10 +72,10 @@ export class MessageStore {
 
   /**
    * Returns the list of `MessageRecord` that appears on or after the specified `startPosition`.
-   * @param fullList List of `MessageRecord`.
-   * @param startPosition The `EventPosition` used to find which `MessageRecord` to start reading from.
+   * @param fullList - List of `MessageRecord`.
+   * @param startPosition - The `EventPosition` used to find which `MessageRecord` to start reading from.
    */
-  private _getSubList(fullList: MessageRecord[], startPosition: EventPosition) {
+  private _getSubList(fullList: MessageRecord[], startPosition: EventPosition): MessageRecord[] {
     if (startPosition.type === "offset" && startPosition.value === "@latest") {
       return [];
     }
@@ -96,9 +105,9 @@ export class MessageStore {
 
   /**
    * Provides information about the state of the specified partition.
-   * @param partitionId
+   * @param partitionId - The partition ID to find information about.
    */
-  public getPartitionInfo(partitionId: string) {
+  public getPartitionInfo(partitionId: string): PartitionInfo {
     const partitionStore = this._getPartitionStore(partitionId);
 
     const isEmpty = !partitionStore.length;
@@ -110,7 +119,7 @@ export class MessageStore {
         lastEnqueuedTimeUtc: new Date(0),
         lastEnqueuedSequenceNumber: -1,
         partitionId,
-        isPartitionEmpty: isEmpty
+        isPartitionEmpty: isEmpty,
       };
     }
 
@@ -122,7 +131,7 @@ export class MessageStore {
       lastEnqueuedTimeUtc: lastMessage.enqueuedTime,
       lastEnqueuedSequenceNumber: lastMessage.sequenceNumber,
       partitionId,
-      isPartitionEmpty: isEmpty
+      isPartitionEmpty: isEmpty,
     };
   }
 
@@ -130,17 +139,17 @@ export class MessageStore {
    * Associates the provided `Message` with a `partitionId` and stores it.
    *
    * This will also update any `MessageIterator`s that are waiting on this partitionId.
-   * @param partitionId
-   * @param message
-   * @param partitionKey
+   * @param partitionId - The partition id to associate the message with.
+   * @param message - The message to store.
+   * @param partitionKey - Optional partition key.
    */
-  public storeMessage(partitionId: string, message: Message, partitionKey?: string) {
+  public storeMessage(partitionId: string, message: Message, partitionKey?: string): void {
     const partitionStore = this._getPartitionStore(partitionId);
     const record: MessageRecord = {
       enqueuedTime: new Date(),
       sequenceNumber: partitionStore.length + 1,
       offset: partitionStore.length,
-      message
+      message,
     };
     if (partitionKey) {
       record.partitionKey = partitionKey;
@@ -153,13 +162,13 @@ export class MessageStore {
   /**
    * Returns an AsyncIterableIterator that yields `MessageRecord`.
    *
-   * @param partitionId
-   * @param startPosition Specifies which `MessageRecord` to start iterating from.
+   * @param partitionId - The partition ID
+   * @param startPosition - Specifies which `MessageRecord` to start iterating from.
    */
   public async *getMessageIterator(
     partitionId: string,
     startPosition: EventPosition
-  ): AsyncIterator<MessageRecord, any, boolean | undefined> {
+  ): AsyncIterator<MessageRecord, void, boolean | undefined> {
     const partitionStore = this._getPartitionStore(partitionId);
     const partitionViews = this._getPartitionViews(partitionId);
     const partitionStoreSubset = this._getSubList(partitionStore, startPosition);

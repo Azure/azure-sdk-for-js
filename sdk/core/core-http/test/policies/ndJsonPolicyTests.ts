@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { HttpHeaders } from "../../src/httpHeaders";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
-import { HttpHeaders } from "../../src/httpHeaders";
+import { assert } from "chai";
 import { ndJsonPolicy } from "../../src/policies/ndJsonPolicy";
 
-describe("NdJsonPolicy", function() {
+describe("NdJsonPolicy", function () {
   const returnOk = {
     sendRequest: async (request: WebResource) => {
       return {
         request,
         status: 200,
-        headers: new HttpHeaders()
+        headers: new HttpHeaders(),
       };
-    }
+    },
   };
 
   const emptyPolicyOptions = new RequestPolicyOptions();
 
-  it("Formats arrays correctly", async function() {
+  it("Formats arrays correctly", async function () {
     const factory = ndJsonPolicy();
     const policy = factory.create(returnOk, emptyPolicyOptions);
     const request = new WebResource();

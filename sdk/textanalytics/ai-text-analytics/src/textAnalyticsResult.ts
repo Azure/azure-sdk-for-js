@@ -10,15 +10,9 @@ import {
   TextAnalyticsWarning,
   DocumentError,
   TextDocumentBatchStatistics,
-  TextDocumentInput
+  TextDocumentInput,
 } from "./generated/models";
 import { sortResponseIdObjects } from "./util";
-
-/**
- * The result of a text analytics operation on a single input document.
- * @internal
- */
-export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
 /**
  * An Error Code returned from the Text Analytics service. Possible
@@ -92,10 +86,7 @@ export interface TextAnalyticsErrorResult {
   readonly error: TextAnalyticsError;
 }
 
-/**
- * @internal
- */
-export interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
+interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {
   /**
    * Statistics about the input document batch and how it was processed
@@ -110,10 +101,7 @@ export interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSucces
   modelVersion: string;
 }
 
-/**
- * @internal
- */
-export interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
+interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {
   /**
    * Statistics about the input document batch and how it was processed
@@ -131,10 +119,7 @@ export interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessR
   deploymentName: string;
 }
 
-/**
- * @internal
- */
-export interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
+interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
   /**
    * Response by document
    */
@@ -153,10 +138,7 @@ export interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessRe
   modelVersion: string;
 }
 
-/**
- * @internal
- */
-export interface CustomTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
+interface CustomTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
   /**
    * Response by document
    */
@@ -196,7 +178,7 @@ export function intoTextAnalyticsError(
   return {
     code: errorModel.code,
     message: errorModel.message,
-    target: errorModel.target
+    target: errorModel.target,
   };
 }
 
@@ -211,7 +193,7 @@ export function makeTextAnalyticsSuccessResult(
   return {
     id,
     statistics,
-    warnings
+    warnings,
   };
 }
 
@@ -224,27 +206,8 @@ export function makeTextAnalyticsErrorResult(
 ): TextAnalyticsErrorResult {
   return {
     id,
-    error: intoTextAnalyticsError(error)
+    error: intoTextAnalyticsError(error),
   };
-}
-
-/**
- * @internal
- * combines successful and erroneous results into a single array of results and
- * sort them so that the IDs order match that of the input documents array.
- * @param input - the array of documents sent to the service for processing.
- * @param response - the response received from the service.
- */
-export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnalyticsSuccessResult>(
-  input: TextDocumentInput[],
-  response: StandardTextAnalyticsResponse<TSuccess>
-): (TSuccess | TextAnalyticsErrorResult)[] {
-  return processAndCombineSuccessfulAndErroneousDocuments(
-    input,
-    response,
-    (x) => x,
-    makeTextAnalyticsErrorResult
-  );
 }
 
 /**
@@ -268,9 +231,8 @@ export function processAndCombineSuccessfulAndErroneousDocuments<
   processSuccess: (successResult: TSuccessService) => TSuccessSDK,
   processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
 ): (TSuccessSDK | TextAnalyticsErrorResult)[] {
-  const successResults: (TSuccessSDK | TextAnalyticsErrorResult)[] = response.documents.map(
-    processSuccess
-  );
+  const successResults: (TSuccessSDK | TextAnalyticsErrorResult)[] =
+    response.documents.map(processSuccess);
   const unsortedResults = successResults.concat(
     response.errors.map((error) => processError(error.id, error.error))
   );
@@ -304,7 +266,7 @@ export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVers
   );
   return Object.assign(sorted, {
     statistics: response.statistics,
-    modelVersion: response.modelVersion
+    modelVersion: response.modelVersion,
   });
 }
 
@@ -335,6 +297,6 @@ export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomPro
   return Object.assign(sorted, {
     statistics: response.statistics,
     projectName: response.projectName,
-    deploymentName: response.deploymentName
+    deploymentName: response.deploymentName,
   });
 }

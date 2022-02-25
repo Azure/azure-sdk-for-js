@@ -6,707 +6,432 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
+/** Response of a list operation. */
+export interface ConfluentAgreementResourceListResponse {
+  /** Results of a list operation. */
+  value?: ConfluentAgreementResource[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
 }
 
-/**
- * Agreement Terms definition
- */
-export interface ConfluentAgreementResource extends BaseResource {
+/** Agreement Terms definition */
+export interface ConfluentAgreementResource {
   /**
    * The ARM id of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the agreement.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The type of the agreement.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /**
-   * Publisher identifier string.
-   */
+  /** Publisher identifier string. */
   publisher?: string;
-  /**
-   * Product identifier string.
-   */
+  /** Product identifier string. */
   product?: string;
-  /**
-   * Plan identifier string.
-   */
+  /** Plan identifier string. */
   plan?: string;
-  /**
-   * Link to HTML with Microsoft and Publisher terms.
-   */
+  /** Link to HTML with Microsoft and Publisher terms. */
   licenseTextLink?: string;
-  /**
-   * Link to the privacy policy of the publisher.
-   */
+  /** Link to the privacy policy of the publisher. */
   privacyPolicyLink?: string;
-  /**
-   * Date and time in UTC of when the terms were accepted. This is empty if Accepted is false.
-   */
+  /** Date and time in UTC of when the terms were accepted. This is empty if Accepted is false. */
   retrieveDatetime?: Date;
-  /**
-   * Terms signature.
-   */
+  /** Terms signature. */
   signature?: string;
-  /**
-   * If any version of the terms have been accepted, otherwise false.
-   */
+  /** If any version of the terms have been accepted, otherwise false. */
   accepted?: boolean;
 }
 
-/**
- * The object that represents the operation.
- */
-export interface OperationDisplay {
-  /**
-   * Service provider: Microsoft.Confluent
-   */
-  provider?: string;
-  /**
-   * Type on which the operation is performed, e.g., 'clusters'.
-   */
-  resource?: string;
-  /**
-   * Operation type, e.g., read, write, delete, etc.
-   */
-  operation?: string;
-  /**
-   * Description of the operation, e.g., 'Write confluent'.
-   */
-  description?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-/**
- * An Confluent REST API operation.
- */
-export interface OperationResult {
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * The object that represents the operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * Indicates whether the operation is a data action
-   */
-  isDataAction?: boolean;
-}
-
-/**
- * Response body of Error
- * @summary ErrorResponseBody
- */
-export interface ErrorResponseBody {
-  /**
-   * Error code
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * Error message
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * Error target
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * Error detail
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorResponseBody[];
-}
-
-/**
- * Default error response for resource provider
- * @summary ResourceProviderDefaultErrorResponse
- */
+/** Default error response for resource provider */
 export interface ResourceProviderDefaultErrorResponse {
   /**
    * Response body of Error
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponseBody;
 }
 
-/**
- * Confluent Offer detail
- */
-export interface OfferDetail {
+/** Response body of Error */
+export interface ErrorResponseBody {
   /**
-   * Publisher Id
+   * Error code
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  publisherId: string;
+  readonly code?: string;
   /**
-   * Offer Id
+   * Error message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  id: string;
+  readonly message?: string;
   /**
-   * Offer Plan Id
+   * Error target
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  planId: string;
+  readonly target?: string;
   /**
-   * Offer Plan Name
+   * Error detail
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  planName: string;
-  /**
-   * Offer Plan Term unit
-   */
-  termUnit: string;
-  /**
-   * SaaS Offer Status. Possible values include: 'Started', 'PendingFulfillmentStart',
-   * 'InProgress', 'Subscribed', 'Suspended', 'Reinstated', 'Succeeded', 'Failed', 'Unsubscribed',
-   * 'Updating'
-   */
-  status?: SaaSOfferStatus;
+  readonly details?: ErrorResponseBody[];
 }
 
-/**
- * Subscriber detail
- */
-export interface UserDetail {
-  /**
-   * First name
-   */
-  firstName?: string;
-  /**
-   * Last name
-   */
-  lastName?: string;
-  /**
-   * Email address
-   */
-  emailAddress: string;
+/** Result of GET request to list Confluent operations. */
+export interface OperationListResult {
+  /** List of Confluent operations supported by the Microsoft.Confluent provider. */
+  value?: OperationResult[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
 }
 
-/**
- * Organization resource.
- */
-export interface OrganizationResource extends BaseResource {
+/** An Confluent REST API operation. */
+export interface OperationResult {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The object that represents the operation. */
+  display?: OperationDisplay;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+}
+
+/** The object that represents the operation. */
+export interface OperationDisplay {
+  /** Service provider: Microsoft.Confluent */
+  provider?: string;
+  /** Type on which the operation is performed, e.g., 'clusters'. */
+  resource?: string;
+  /** Operation type, e.g., read, write, delete, etc. */
+  operation?: string;
+  /** Description of the operation, e.g., 'Write confluent'. */
+  description?: string;
+}
+
+/** The response of a list operation. */
+export interface OrganizationResourceListResult {
+  /** Result of a list operation. */
+  value?: OrganizationResource[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** Organization resource. */
+export interface OrganizationResource {
   /**
    * The ARM id of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** Organization resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Location of Organization resource */
+  location?: string;
   /**
    * The creation time of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
   /**
-   * Provision states for confluent RP. Possible values include: 'Accepted', 'Creating',
-   * 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled', 'Deleted', 'NotSpecified'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Provision states for confluent RP
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisionState;
   /**
    * Id of the Confluent organization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly organizationId?: string;
   /**
    * SSO url for the Confluent organization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ssoUrl?: string;
-  /**
-   * Confluent offer detail
-   */
+  /** Confluent offer detail */
   offerDetail: OfferDetail;
-  /**
-   * Subscriber detail
-   */
+  /** Subscriber detail */
   userDetail: UserDetail;
-  /**
-   * Organization resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Location of Organization resource
-   */
-  location?: string;
 }
 
-/**
- * Organization Resource update
- */
+/** Confluent Offer detail */
+export interface OfferDetail {
+  /** Publisher Id */
+  publisherId: string;
+  /** Offer Id */
+  id: string;
+  /** Offer Plan Id */
+  planId: string;
+  /** Offer Plan Name */
+  planName: string;
+  /** Offer Plan Term unit */
+  termUnit: string;
+  /**
+   * SaaS Offer Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SaaSOfferStatus;
+}
+
+/** Subscriber detail */
+export interface UserDetail {
+  /** First name */
+  firstName?: string;
+  /** Last name */
+  lastName?: string;
+  /** Email address */
+  emailAddress: string;
+}
+
+/** Organization Resource update */
 export interface OrganizationResourceUpdate {
-  /**
-   * ARM resource tags
-   */
+  /** ARM resource tags */
   tags?: { [propertyName: string]: string };
 }
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
 /**
- * Optional Parameters.
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export interface MarketplaceAgreementsCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Confluent Marketplace Agreement resource
-   */
+export type CreatedByType = string;
+
+/** Known values of {@link ProvisionState} that the service accepts. */
+export enum KnownProvisionState {
+  Accepted = "Accepted",
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Deleted = "Deleted",
+  NotSpecified = "NotSpecified"
+}
+
+/**
+ * Defines values for ProvisionState. \
+ * {@link KnownProvisionState} can be used interchangeably with ProvisionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleted** \
+ * **NotSpecified**
+ */
+export type ProvisionState = string;
+
+/** Known values of {@link SaaSOfferStatus} that the service accepts. */
+export enum KnownSaaSOfferStatus {
+  Started = "Started",
+  PendingFulfillmentStart = "PendingFulfillmentStart",
+  InProgress = "InProgress",
+  Subscribed = "Subscribed",
+  Suspended = "Suspended",
+  Reinstated = "Reinstated",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Unsubscribed = "Unsubscribed",
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for SaaSOfferStatus. \
+ * {@link KnownSaaSOfferStatus} can be used interchangeably with SaaSOfferStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Started** \
+ * **PendingFulfillmentStart** \
+ * **InProgress** \
+ * **Subscribed** \
+ * **Suspended** \
+ * **Reinstated** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Unsubscribed** \
+ * **Updating**
+ */
+export type SaaSOfferStatus = string;
+
+/** Optional parameters. */
+export interface MarketplaceAgreementsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse;
+
+/** Optional parameters. */
+export interface MarketplaceAgreementsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Confluent Marketplace Agreement resource */
   body?: ConfluentAgreementResource;
 }
 
-/**
- * Optional Parameters.
- */
-export interface OrganizationCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Organization resource model
-   */
+/** Contains response data for the create operation. */
+export type MarketplaceAgreementsCreateResponse = ConfluentAgreementResource;
+
+/** Optional parameters. */
+export interface MarketplaceAgreementsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceListResponse;
+
+/** Optional parameters. */
+export interface OrganizationOperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OrganizationOperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OrganizationOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OrganizationOperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OrganizationListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type OrganizationListBySubscriptionResponse = OrganizationResourceListResult;
+
+/** Optional parameters. */
+export interface OrganizationListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type OrganizationListByResourceGroupResponse = OrganizationResourceListResult;
+
+/** Optional parameters. */
+export interface OrganizationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OrganizationGetResponse = OrganizationResource;
+
+/** Optional parameters. */
+export interface OrganizationCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Organization resource model */
   body?: OrganizationResource;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface OrganizationUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Updated Organization resource
-   */
+/** Contains response data for the create operation. */
+export type OrganizationCreateResponse = OrganizationResource;
+
+/** Optional parameters. */
+export interface OrganizationUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Updated Organization resource */
   body?: OrganizationResourceUpdate;
 }
 
-/**
- * Optional Parameters.
- */
-export interface OrganizationBeginCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Organization resource model
-   */
-  body?: OrganizationResource;
+/** Contains response data for the update operation. */
+export type OrganizationUpdateResponse = OrganizationResource;
+
+/** Optional parameters. */
+export interface OrganizationDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * An interface representing ConfluentManagementClientOptions.
- */
-export interface ConfluentManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Optional parameters. */
+export interface OrganizationListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type OrganizationListBySubscriptionNextResponse = OrganizationResourceListResult;
+
+/** Optional parameters. */
+export interface OrganizationListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type OrganizationListByResourceGroupNextResponse = OrganizationResourceListResult;
+
+/** Optional parameters. */
+export interface ValidationsValidateOrganizationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateOrganization operation. */
+export type ValidationsValidateOrganizationResponse = OrganizationResource;
+
+/** Optional parameters. */
+export interface ConfluentManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * Response of a list operation.
- * @extends Array<ConfluentAgreementResource>
- */
-export interface ConfluentAgreementResourceListResponse extends Array<ConfluentAgreementResource> {
-  /**
-   * Link to the next set of results, if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of GET request to list Confluent operations.
- * @extends Array<OperationResult>
- */
-export interface OperationListResult extends Array<OperationResult> {
-  /**
-   * URL to get the next set of operation list results if there are any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * The response of a list operation.
- * @extends Array<OrganizationResource>
- */
-export interface OrganizationResourceListResult extends Array<OrganizationResource> {
-  /**
-   * Link to the next set of results, if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-
-/**
- * Defines values for ProvisionState.
- * Possible values include: 'Accepted', 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed',
- * 'Canceled', 'Deleted', 'NotSpecified'
- * @readonly
- * @enum {string}
- */
-export type ProvisionState =
-  | "Accepted"
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Deleted"
-  | "NotSpecified";
-
-/**
- * Defines values for SaaSOfferStatus.
- * Possible values include: 'Started', 'PendingFulfillmentStart', 'InProgress', 'Subscribed',
- * 'Suspended', 'Reinstated', 'Succeeded', 'Failed', 'Unsubscribed', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type SaaSOfferStatus =
-  | "Started"
-  | "PendingFulfillmentStart"
-  | "InProgress"
-  | "Subscribed"
-  | "Suspended"
-  | "Reinstated"
-  | "Succeeded"
-  | "Failed"
-  | "Unsubscribed"
-  | "Updating";
-
-/**
- * Contains response data for the list operation.
- */
-export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ConfluentAgreementResourceListResponse;
-  };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type MarketplaceAgreementsCreateResponse = ConfluentAgreementResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ConfluentAgreementResource;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ConfluentAgreementResourceListResponse;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OrganizationOperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OrganizationOperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type OrganizationListBySubscriptionResponse = OrganizationResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type OrganizationListByResourceGroupResponse = OrganizationResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type OrganizationGetResponse = OrganizationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type OrganizationCreateResponse = OrganizationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type OrganizationUpdateResponse = OrganizationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type OrganizationBeginCreateResponse = OrganizationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type OrganizationListBySubscriptionNextResponse = OrganizationResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type OrganizationListByResourceGroupNextResponse = OrganizationResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
-};
-
-/**
- * Contains response data for the validateOrganization operation.
- */
-export type ValidationsValidateOrganizationResponse = OrganizationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
-};

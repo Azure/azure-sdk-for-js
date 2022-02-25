@@ -10,7 +10,7 @@ import { VideoAnalyzers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { VideoAnalyzerContext } from "../videoAnalyzerContext";
+import { VideoAnalyzerManagementClient } from "../videoAnalyzerManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 
 /** Class containing VideoAnalyzers operations. */
 export class VideoAnalyzersImpl implements VideoAnalyzers {
-  private readonly client: VideoAnalyzerContext;
+  private readonly client: VideoAnalyzerManagementClient;
 
   /**
    * Initialize a new instance of the class VideoAnalyzers class.
    * @param client Reference to the service client
    */
-  constructor(client: VideoAnalyzerContext) {
+  constructor(client: VideoAnalyzerManagementClient) {
     this.client = client;
   }
 

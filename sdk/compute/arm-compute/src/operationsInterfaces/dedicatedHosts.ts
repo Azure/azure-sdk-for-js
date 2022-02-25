@@ -18,7 +18,8 @@ import {
   DedicatedHostsUpdateResponse,
   DedicatedHostsDeleteOptionalParams,
   DedicatedHostsGetOptionalParams,
-  DedicatedHostsGetResponse
+  DedicatedHostsGetResponse,
+  DedicatedHostsRestartOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -145,4 +146,36 @@ export interface DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsGetOptionalParams
   ): Promise<DedicatedHostsGetResponse>;
+  /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRestart(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRestartAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams
+  ): Promise<void>;
 }

@@ -154,7 +154,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       kind: "AccountConnString",
       url: fileEndpoint,
       accountName,
-      accountKey
+      accountKey,
     };
   } else {
     // SAS connection string
@@ -447,9 +447,11 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   );
 }
 
-export function getShareNameAndPathFromUrl(
-  url: string
-): { baseName: string; shareName: string; path: string } {
+export function getShareNameAndPathFromUrl(url: string): {
+  baseName: string;
+  shareName: string;
+  path: string;
+} {
   //  URL may look like the following
   // "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString";
   // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
@@ -512,4 +514,28 @@ export function httpAuthorizationToString(
   httpAuthorization?: HttpAuthorization
 ): string | undefined {
   return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
+}
+
+/**
+ * Set URL path.
+ *
+ * @param url - URL to change path to.
+ * @param path - Path to set into the URL.
+ */
+export function setURLPath(url: string, path?: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setPath(path);
+  return urlParsed.toString();
+}
+
+/**
+ * Set URL query string.
+ *
+ * @param url - URL to set query string to.
+ * @param queryString - Query string to set to the URL.
+ */
+export function setURLQueries(url: string, queryString: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setQuery(queryString);
+  return urlParsed.toString();
 }

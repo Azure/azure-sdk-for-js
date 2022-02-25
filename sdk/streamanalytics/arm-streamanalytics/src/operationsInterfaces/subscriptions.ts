@@ -6,168 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SubscriptionsListQuotasOptionalParams,
-  SubscriptionsListQuotasResponse,
-  TestQuery,
-  SubscriptionsTestQueryOptionalParams,
-  SubscriptionsTestQueryResponse,
-  CompileQuery,
-  SubscriptionsCompileQueryOptionalParams,
-  SubscriptionsCompileQueryResponse,
-  SampleInput,
-  SubscriptionsSampleInputOptionalParams,
-  SubscriptionsSampleInputResponse,
-  TestInput,
-  SubscriptionsTestInputOptionalParams,
-  SubscriptionsTestInputResponse,
-  TestOutput,
-  SubscriptionsTestOutputOptionalParams,
-  SubscriptionsTestOutputResponse
+  SubscriptionsListQuotasResponse
 } from "../models";
 
 /** Interface representing a Subscriptions. */
 export interface Subscriptions {
   /**
    * Retrieves the subscription's current quota information in a particular region.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param location The region in which to retrieve the subscription's quota information. You can find
+   *                 out which regions Azure Stream Analytics is supported in here:
+   *                 https://azure.microsoft.com/en-us/regions/
    * @param options The options parameters.
    */
   listQuotas(
     location: string,
     options?: SubscriptionsListQuotasOptionalParams
   ): Promise<SubscriptionsListQuotasResponse>;
-  /**
-   * Test the Stream Analytics query on a sample input.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param testQuery The query testing object that defines the input, output, and transformation for the
-   *                  query testing.
-   * @param options The options parameters.
-   */
-  beginTestQuery(
-    location: string,
-    testQuery: TestQuery,
-    options?: SubscriptionsTestQueryOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionsTestQueryResponse>,
-      SubscriptionsTestQueryResponse
-    >
-  >;
-  /**
-   * Test the Stream Analytics query on a sample input.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param testQuery The query testing object that defines the input, output, and transformation for the
-   *                  query testing.
-   * @param options The options parameters.
-   */
-  beginTestQueryAndWait(
-    location: string,
-    testQuery: TestQuery,
-    options?: SubscriptionsTestQueryOptionalParams
-  ): Promise<SubscriptionsTestQueryResponse>;
-  /**
-   * Compile the Stream Analytics query.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param compileQuery The query compilation object which defines the input, output, and transformation
-   *                     for the query compilation.
-   * @param options The options parameters.
-   */
-  compileQuery(
-    location: string,
-    compileQuery: CompileQuery,
-    options?: SubscriptionsCompileQueryOptionalParams
-  ): Promise<SubscriptionsCompileQueryResponse>;
-  /**
-   * Sample the Stream Analytics input data.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param sampleInput Defines the necessary parameters for sampling the Stream Analytics input data.
-   * @param options The options parameters.
-   */
-  beginSampleInput(
-    location: string,
-    sampleInput: SampleInput,
-    options?: SubscriptionsSampleInputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionsSampleInputResponse>,
-      SubscriptionsSampleInputResponse
-    >
-  >;
-  /**
-   * Sample the Stream Analytics input data.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param sampleInput Defines the necessary parameters for sampling the Stream Analytics input data.
-   * @param options The options parameters.
-   */
-  beginSampleInputAndWait(
-    location: string,
-    sampleInput: SampleInput,
-    options?: SubscriptionsSampleInputOptionalParams
-  ): Promise<SubscriptionsSampleInputResponse>;
-  /**
-   * Test the Stream Analytics input.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param testInput Defines the necessary parameters for testing the Stream Analytics input.
-   * @param options The options parameters.
-   */
-  beginTestInput(
-    location: string,
-    testInput: TestInput,
-    options?: SubscriptionsTestInputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionsTestInputResponse>,
-      SubscriptionsTestInputResponse
-    >
-  >;
-  /**
-   * Test the Stream Analytics input.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param testInput Defines the necessary parameters for testing the Stream Analytics input.
-   * @param options The options parameters.
-   */
-  beginTestInputAndWait(
-    location: string,
-    testInput: TestInput,
-    options?: SubscriptionsTestInputOptionalParams
-  ): Promise<SubscriptionsTestInputResponse>;
-  /**
-   * Test the Stream Analytics output.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param testOutput Defines the necessary parameters for testing the Stream Analytics output.
-   * @param options The options parameters.
-   */
-  beginTestOutput(
-    location: string,
-    testOutput: TestOutput,
-    options?: SubscriptionsTestOutputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionsTestOutputResponse>,
-      SubscriptionsTestOutputResponse
-    >
-  >;
-  /**
-   * Test the Stream Analytics output.
-   * @param location The region to which the request is sent. You can find out which regions Azure Stream
-   *                 Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
-   * @param testOutput Defines the necessary parameters for testing the Stream Analytics output.
-   * @param options The options parameters.
-   */
-  beginTestOutputAndWait(
-    location: string,
-    testOutput: TestOutput,
-    options?: SubscriptionsTestOutputOptionalParams
-  ): Promise<SubscriptionsTestOutputResponse>;
 }

@@ -233,7 +233,7 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
 #   registry = "<url>";
 #   ...
 # }
-function ValidatePackagesForDocs($packages) {
+function ValidatePackagesForDocs($packages, $DocValidationImageId) {
   # Using GetTempPath because it works on linux and windows
   $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
   New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
@@ -244,7 +244,7 @@ function ValidatePackagesForDocs($packages) {
     # Get value for variables outside of the Foreach-Object scope
     $scriptRoot = "$using:scriptRoot"
     $workingDirectory = "$using:tempDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:ImageId" -WorkingDirectory $workingDirectory 
+    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
   }
 
   # Clean up temp folder
@@ -256,12 +256,10 @@ function ValidatePackagesForDocs($packages) {
 $PackageExclusions = @{ 
   '@azure/identity-vscode'              = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
   '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
-  '@azure-rest/core-client-paging'      = 'Cannot find types/latest/core-client-paging-rest.d.ts https://github.com/Azure/azure-sdk-for-js/issues/16677';
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
 }
 
-function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
-
+function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {
   Write-Host "Excluded packages:"
   foreach ($excludedPackage in $PackageExclusions.Keys) {
     Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
@@ -273,16 +271,18 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
     $FilteredMetadata `
-    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') # Log file for package validation
-
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
+    $DocValidationImageId
+  
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
     $FilteredMetadata `
-    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') # Log file for package validation
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
+    $DocValidationImageId
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile) {
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHistoryLogFile, $DocValidationImageId) {
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
   $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
@@ -373,7 +373,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
     $outputPackages += @{ name = $packageName }
   }
 
-  $packageValidation = ValidatePackagesForDocs $outputPackages
+  $packageValidation = ValidatePackagesForDocs $outputPackages $DocValidationImageId
   $validationHash = @{}
   foreach ($result in $packageValidation) {
     $validationHash[$result.Package.name] = $result
@@ -467,4 +467,29 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
     }
     return $null
   }
+}
+
+function Validate-javascript-DocMsPackages ($PackageInfo, $DocRepoLocation, $DocValidationImageId) 
+{ 
+  $fileLocation = ""
+  if ($PackageInfo.DevVersion -or $PackageInfo.Version -contains "beta") {
+    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
+    if ($PackageInfo.DevVersion) {
+      $PackageInfo.Version = $PackageInfo.DevVersion
+    }
+  }
+  else {
+    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
+  }
+
+  $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
+  $outputPackage = $PackageInfo
+  foreach ($package in $packageConfig.npm_package_sources) {
+    if ($package.name -eq $PackageInfo.Name) {
+      $outputPackage = $package
+      $outputPackage.name = Get-DocsMsPackageName $package.name $PackageInfo.Version
+      break
+    }
+  }
+  ValidatePackagesForDocs -packages $outputPackage -DocValidationImageId $DocValidationImageId
 }

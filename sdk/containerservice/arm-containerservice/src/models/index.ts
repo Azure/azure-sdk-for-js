@@ -109,29 +109,6 @@ export interface ManagedClusterListResult {
   readonly nextLink?: string;
 }
 
-/** The Resource model definition. */
-export interface Resource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
 /** The SKU of a Managed Cluster. */
 export interface ManagedClusterSKU {
   /** The name of a managed cluster SKU. */
@@ -548,6 +525,12 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
+  podCidrs?: string[];
+  /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
+  serviceCidrs?: string[];
+  /** IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
+  ipFamilies?: IpFamily[];
 }
 
 /** Profile of the managed cluster load balancer. */
@@ -570,8 +553,10 @@ export interface ManagedClusterLoadBalancerProfile {
 
 /** Desired managed outbound IPs for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
-  /** The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. */
+  /** The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. */
   count?: number;
+  /** The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. */
+  countIPv6?: number;
 }
 
 /** Desired outbound IP Prefix resources for the cluster load balancer. */
@@ -729,6 +714,29 @@ export interface ManagedClusterSecurityProfileAzureDefender {
   logAnalyticsWorkspaceResourceId?: string;
 }
 
+/** The Resource model definition. */
+export interface Resource {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
 /** The list of available upgrades for compute pools. */
 export interface ManagedClusterUpgradeProfile {
   /**
@@ -811,25 +819,6 @@ export interface MaintenanceConfigurationListResult {
   readonly nextLink?: string;
 }
 
-/** Reference to another subresource. */
-export interface SubResource {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to access the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -860,6 +849,25 @@ export interface TimeSpan {
   start?: Date;
   /** The end of a time span */
   end?: Date;
+}
+
+/** Reference to another subresource. */
+export interface SubResource {
+  /**
+   * Resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to access the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** The response from the List Agent Pools operation. */
@@ -1130,6 +1138,15 @@ export interface ContainerServiceVMDiagnostics {
   readonly storageUri?: string;
 }
 
+/** Profile for the container service agent pool. */
+export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
+  /** Windows agent pool names must be 6 characters or less. */
+  name: string;
+};
+
+/** Information of user assigned identity used by this add-on. */
+export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
+
 /** Managed cluster. */
 export type ManagedCluster = Resource & {
   /** The managed cluster SKU. */
@@ -1214,7 +1231,7 @@ export type ManagedCluster = Resource & {
   httpProxyConfig?: ManagedClusterHttpProxyConfig;
   /** Security profile for the managed cluster. */
   securityProfile?: ManagedClusterSecurityProfile;
-  /** Default value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster */
+  /** Allow or deny public network access for AKS */
   publicNetworkAccess?: PublicNetworkAccess;
 };
 
@@ -1266,15 +1283,6 @@ export type Snapshot = Resource & {
    */
   readonly enableFips?: boolean;
 };
-
-/** Profile for the container service agent pool. */
-export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
-  /** Windows agent pool names must be 6 characters or less. */
-  name: string;
-};
-
-/** Information of user assigned identity used by this add-on. */
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export type MaintenanceConfiguration = SubResource & {
@@ -1376,6 +1384,12 @@ export type AgentPool = SubResource & {
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
 };
+
+/** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
+export interface AgentPoolsUpgradeNodeImageVersionHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
@@ -1775,6 +1789,22 @@ export enum KnownLoadBalancerSku {
  */
 export type LoadBalancerSku = string;
 
+/** Known values of {@link IpFamily} that the service accepts. */
+export enum KnownIpFamily {
+  IPv4 = "IPv4",
+  IPv6 = "IPv6"
+}
+
+/**
+ * Defines values for IpFamily. \
+ * {@link KnownIpFamily} can be used interchangeably with IpFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4** \
+ * **IPv6**
+ */
+export type IpFamily = string;
+
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
   /** Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. */
@@ -1841,6 +1871,24 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link Format} that the service accepts. */
+export enum KnownFormat {
+  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
+  Azure = "azure",
+  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
+  Exec = "exec"
+}
+
+/**
+ * Defines values for Format. \
+ * {@link KnownFormat} can be used interchangeably with Format,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
+ * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
+ */
+export type Format = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -2383,6 +2431,8 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams
   extends coreClient.OperationOptions {
   /** server fqdn type for credentials to be returned */
   serverFqdn?: string;
+  /** Only apply to AAD clusters, specifies the format of returned kubeconfig. Format 'azure' will return azure auth-provider kubeconfig; format 'exec' will return exec format kubeconfig, which requires kubelogin binary in the path. */
+  format?: Format;
 }
 
 /** Contains response data for the listClusterUserCredentials operation. */

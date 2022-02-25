@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.3 (Unreleased)
+## 2.2.5 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,24 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 2.2.4 (2022-02-03)
+
+### Bugs Fixed
+
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+  - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
+
+## 2.2.3 (2022-01-06)
+
+### Bugs Fixed
+
 - Fix `HttpHeaders.rawHeaders()` to preserve header name case. As a result HttpClient now sends requests with their original header names. `HttpHeaders.toJson()` now has an option to preserve header key casing.
 
 ### Other Changes
+
+- Update dependency `node-fetch` version to `2.6.6` to address advisory [CVE-2020-15168](https://github.com/advisories/GHSA-w7rc-rwvf-8q5r)
 
 ## 2.2.2 (2021-11-03)
 

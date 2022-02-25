@@ -1,43 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { Service, Table } from "./generated";
+import "@azure/core-paging";
+
+import {
+  GetPropertiesResponse,
+  GetStatisticsResponse,
+  ServiceProperties,
+  SetPropertiesOptions,
+  SetPropertiesResponse,
+} from "./generatedModels";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import {
   ListTableItemsOptions,
-  TableServiceClientOptions,
+  TableItem,
   TableQueryOptions,
-  TableItem
+  TableServiceClientOptions,
 } from "./models";
 import {
-  GetStatisticsResponse,
-  GetPropertiesResponse,
-  SetPropertiesOptions,
-  ServiceProperties,
-  SetPropertiesResponse
-} from "./generatedModels";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import {
-  isNamedKeyCredential,
   NamedKeyCredential,
   SASCredential,
-  isSASCredential,
   TokenCredential,
-  isTokenCredential
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential,
 } from "@azure/core-auth";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { logger } from "./logger";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { Service, Table } from "./generated";
+import {
+  injectSecondaryEndpointHeader,
+  tablesSecondaryEndpointPolicy,
+} from "./secondaryEndpointPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+
+import { GeneratedClient } from "./generated/generatedClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { isCredential } from "./utils/isCredential";
-import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { TableItemResultPage } from "./models";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { handleTableAlreadyExists } from "./utils/errorHelpers";
+import { isCredential } from "./utils/isCredential";
+import { logger } from "./logger";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -160,18 +166,20 @@ export class TableServiceClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
         },
         deserializationOptions: {
-          parseXML
+          parseXML,
         },
         serializationOptions: {
-          stringifyXML
-        }
+          stringifyXML,
+        },
       },
-      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE })
+      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
+    client.pipeline.addPolicy(tablesSecondaryEndpointPolicy);
+
     if (isNamedKeyCredential(credential)) {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
@@ -189,15 +197,9 @@ export class TableServiceClient {
    * @param options - The options parameters.
    */
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
-    try {
-      return await this.service.getStatistics(updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TableServiceClient.getStatistics", options, (updatedOptions) =>
+      this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions))
+    );
   }
 
   /**
@@ -205,16 +207,10 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  public async getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
-    try {
-      return await this.service.getProperties(updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
+    return tracingClient.withSpan("TableServiceClient.getProperties", options, (updatedOptions) =>
+      this.service.getProperties(updatedOptions)
+    );
   }
 
   /**
@@ -223,19 +219,13 @@ export class TableServiceClient {
    * @param properties - The Table Service properties.
    * @param options - The options parameters.
    */
-  public async setProperties(
+  public setProperties(
     properties: ServiceProperties,
     options: SetPropertiesOptions = {}
   ): Promise<SetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-setProperties", options);
-    try {
-      return await this.service.setProperties(properties, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("TableServiceClient.setProperties", options, (updatedOptions) =>
+      this.service.setProperties(properties, updatedOptions)
+    );
   }
 
   /**
@@ -243,23 +233,18 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
-    try {
-      await this.table.create(
-        { name },
-        { ...updatedOptions, responsePreference: "return-content" }
-      );
-    } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableServiceClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
+  public createTable(name: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "TableServiceClient.createTable",
+      options,
+      async (updatedOptions) => {
+        try {
+          await this.table.create({ name }, updatedOptions);
+        } catch (e) {
+          handleTableAlreadyExists(e, { ...updatedOptions, logger, tableName: name });
+        }
       }
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -267,20 +252,22 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public async deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
-    try {
-      await this.table.delete(name, updatedOptions);
-    } catch (e) {
-      if (e.statusCode === 404) {
-        logger.info("TableServiceClient-deleteTable: Table doesn't exist");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
+  public deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "TableServiceClient.deleteTable",
+      options,
+      async (updatedOptions) => {
+        try {
+          await this.table.delete(name, updatedOptions);
+        } catch (e) {
+          if (e.statusCode === 404) {
+            logger.info("TableServiceClient.deleteTable: Table doesn't exist");
+          } else {
+            throw e;
+          }
+        }
       }
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -303,7 +290,7 @@ export class TableServiceClient {
       byPage: (settings) => {
         const pageOptions: InternalListTablesOptions = {
           ...options,
-          queryOptions: { top: settings?.maxPageSize }
+          queryOptions: { top: settings?.maxPageSize },
         };
 
         if (settings?.continuationToken) {
@@ -311,7 +298,7 @@ export class TableServiceClient {
         }
 
         return this.listTablesPage(pageOptions);
-      }
+      },
     };
   }
 
@@ -324,7 +311,7 @@ export class TableServiceClient {
     if (continuationToken) {
       const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
-        continuationToken
+        continuationToken,
       };
       for await (const page of this.listTablesPage(optionsWithContinuation)) {
         yield* page;
@@ -335,26 +322,28 @@ export class TableServiceClient {
   private async *listTablesPage(
     options: InternalListTablesOptions = {}
   ): AsyncIterableIterator<TableItemResultPage> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
+    let result = await tracingClient.withSpan(
+      "TableServiceClient.listTablesPage",
+      options,
+      (updatedOptions) => this._listTables(updatedOptions)
+    );
 
-    try {
-      let result = await this._listTables(updatedOptions);
+    yield result;
 
+    while (result.continuationToken) {
+      const optionsWithContinuation: InternalListTablesOptions = {
+        ...options,
+        continuationToken: result.continuationToken,
+      };
+      result = await tracingClient.withSpan(
+        "TableServiceClient.listTablesPage",
+        optionsWithContinuation,
+        async (updatedOptions, span) => {
+          span.setAttribute("continuationToken", updatedOptions.continuationToken);
+          return this._listTables(updatedOptions);
+        }
+      );
       yield result;
-
-      while (result.continuationToken) {
-        const optionsWithContinuation: InternalListTablesOptions = {
-          ...updatedOptions,
-          continuationToken: result.continuationToken
-        };
-        result = await this._listTables(optionsWithContinuation);
-        yield result;
-      }
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
     }
   }
 
@@ -362,7 +351,7 @@ export class TableServiceClient {
     const { continuationToken: nextTableName, ...listOptions } = options;
     const { xMsContinuationNextTableName: continuationToken, value = [] } = await this.table.query({
       ...listOptions,
-      nextTableName
+      nextTableName,
     });
     return Object.assign([...value], { continuationToken });
   }
@@ -385,10 +374,11 @@ export class TableServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
-    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
-      connectionString,
-      options
-    );
+    const {
+      url,
+      options: clientOptions,
+      credential,
+    } = getClientParamsFromConnectionString(connectionString, options);
 
     if (credential) {
       return new TableServiceClient(url, credential, clientOptions);

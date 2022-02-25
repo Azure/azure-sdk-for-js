@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("AppPlatform test", () => {
@@ -72,7 +78,7 @@ describe("AppPlatform test", () => {
             key1: "value1"
         },
         location: location
-    });
+    },testPollingOptions);
   });
 
   it("apps create test", async function() {
@@ -91,7 +97,7 @@ describe("AppPlatform test", () => {
                 mountPath: "/mypersistentdisk"
             }
         }
-    });
+    },testPollingOptions);
   });
 
   it("services get test", async function() {
@@ -121,7 +127,7 @@ describe("AppPlatform test", () => {
   });
 
   it("apps delete test", async function() {
-    const res = await client.apps.beginDeleteAndWait(resourceGroup,serviceName,appName);
+    const res = await client.apps.beginDeleteAndWait(resourceGroup,serviceName,appName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.apps.list(resourceGroup,serviceName)){
         resArray.push(item);
@@ -130,7 +136,7 @@ describe("AppPlatform test", () => {
   });
 
   it("services delete test", async function() {
-    const res = await client.services.beginDeleteAndWait(resourceGroup,serviceName);
+    const res = await client.services.beginDeleteAndWait(resourceGroup,serviceName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.services.list(resourceGroup)){
         resArray.push(item);

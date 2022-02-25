@@ -15,7 +15,7 @@ export {
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetEventHubPropertiesOptions
+  GetEventHubPropertiesOptions,
 } from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
@@ -26,7 +26,7 @@ export {
   EnqueueEventOptions,
   BufferedFlushOptions,
   OnSendEventsErrorContext,
-  OnSendEventsSuccessContext
+  OnSendEventsSuccessContext,
 } from "./eventHubBufferedProducerClient";
 export {
   SubscribeOptions,
@@ -36,7 +36,7 @@ export {
   ProcessErrorHandler,
   ProcessInitializeHandler,
   ProcessCloseHandler,
-  ProcessEventsHandler
+  ProcessEventsHandler,
 } from "./eventHubConsumerClientModels";
 export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
@@ -49,5 +49,7 @@ export { TokenCredential } from "@azure/core-auth";
 export { logger } from "./log";
 export {
   parseEventHubConnectionString,
-  EventHubConnectionStringProperties
+  EventHubConnectionStringProperties,
 } from "./util/connectionStringUtils";
+
+export * from "./eventDataAdapter";

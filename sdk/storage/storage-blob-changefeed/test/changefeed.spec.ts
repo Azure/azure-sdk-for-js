@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
@@ -10,6 +10,7 @@ import { SegmentFactory } from "../src/SegmentFactory";
 import { Segment } from "../src/Segment";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
 import { getHost } from "../src/utils/utils.common";
+import { BlobChangeFeedEvent } from "../src";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");
@@ -19,23 +20,23 @@ describe("Change Feed", async () => {
   const yearPaths = [
     { kind: "prefix", name: "idx/segments/1601/" },
     { kind: "prefix", name: "idx/segments/2019/" },
-    { kind: "prefix", name: "idx/segments/2020/" }
+    { kind: "prefix", name: "idx/segments/2020/" },
   ];
   const segmentsIn2019 = [
     { name: "idx/segments/2019/03/02/2000/meta.json" },
     { name: "idx/segments/2019/04/03/2200/meta.json" },
-    { name: "idx/segments/2019/05/03/2200/meta.json" }
+    { name: "idx/segments/2019/05/03/2200/meta.json" },
   ];
   const segmentsIn2020 = [
     { name: "idx/segments/2020/03/02/2000/meta.json" },
-    { name: "idx/segments/2020/05/04/1900/meta.json" }
+    { name: "idx/segments/2020/05/04/1900/meta.json" },
   ];
   const segmentTimes = [
     new Date(Date.UTC(2019, 2, 2, 20)),
     new Date(Date.UTC(2019, 3, 3, 22)),
     new Date(Date.UTC(2019, 4, 3, 22)),
     new Date(Date.UTC(2020, 2, 2, 20)),
-    new Date(Date.UTC(2020, 4, 4, 19))
+    new Date(Date.UTC(2020, 4, 4, 19)),
   ];
   let serviceClientStub: sinon.SinonStubbedInstance<BlobServiceClient>;
   let segmentFactoryStub: sinon.SinonStubbedInstance<SegmentFactory>;
@@ -114,11 +115,11 @@ describe("Change Feed", async () => {
   it("no years after start time", async () => {
     const newYearPaths = [
       { kind: "prefix", name: "idx/segments/1601/" },
-      { kind: "prefix", name: "idx/segments/2019/" }
+      { kind: "prefix", name: "idx/segments/2019/" },
     ];
     containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(newYearPaths) as any);
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
-      start: new Date(Date.UTC(2020, 0))
+      start: new Date(Date.UTC(2020, 0)),
     });
     assert.ok(!changeFeed.hasNext());
   });
@@ -126,30 +127,30 @@ describe("Change Feed", async () => {
   it("no segments remaining in start year", async () => {
     const newYearPaths = [
       { kind: "prefix", name: "idx/segments/1601/" },
-      { kind: "prefix", name: "idx/segments/2019/" }
+      { kind: "prefix", name: "idx/segments/2019/" },
     ];
     containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(newYearPaths) as any);
 
     const segments = [
       { name: "idx/segments/2019/03/02/2000/meta.json" },
-      { name: "idx/segments/2019/04/03/2200/meta.json" }
+      { name: "idx/segments/2019/04/03/2200/meta.json" },
     ];
     containerClientStub.listBlobsFlat.returns(fakeList(segments) as any);
 
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
-      start: new Date(Date.UTC(2019, 5))
+      start: new Date(Date.UTC(2019, 5)),
     });
     assert.ok(!changeFeed.hasNext());
   });
 
   it("getChange", async () => {
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
-      start: new Date(Date.UTC(2019, 0))
+      start: new Date(Date.UTC(2019, 0)),
     });
     assert.ok(changeFeed.hasNext());
 
     const event = await changeFeed.getChange();
-    assert.equal(event, 0);
+    assert.equal(event, 0 as unknown as BlobChangeFeedEvent | undefined);
 
     // advance to next non-empty segment
     for (let i = 0; i < 2; i++) {
@@ -158,14 +159,14 @@ describe("Change Feed", async () => {
     }
     assert.ok(changeFeed.hasNext());
     const event2 = await changeFeed.getChange();
-    assert.equal(event2, 2);
+    assert.equal(event2, 2 as unknown as BlobChangeFeedEvent | undefined);
 
     // advanced to next year
     segmentStubs[2].hasNext.returns(false);
     segmentStubs[2].getChange.resolves(undefined);
     assert.ok(changeFeed.hasNext());
     const event3 = await changeFeed.getChange();
-    assert.equal(event3, 3);
+    assert.equal(event3, 3 as unknown as BlobChangeFeedEvent | undefined);
 
     // stop when segment time is no less than lastConsumable
     segmentStubs[3].hasNext.returns(false);
@@ -179,18 +180,18 @@ describe("Change Feed", async () => {
     // no valid segment between start and end
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
       start: new Date(Date.UTC(2019, 2, 2, 21)),
-      end: new Date(Date.UTC(2019, 3, 3, 22))
+      end: new Date(Date.UTC(2019, 3, 3, 22)),
     });
     assert.ok(!changeFeed.hasNext());
 
     // end earlier than lastConsumable
     const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, undefined, {
       start: new Date(Date.UTC(2019, 3, 3, 22)),
-      end: new Date(Date.UTC(2019, 4, 3, 22))
+      end: new Date(Date.UTC(2019, 4, 3, 22)),
     });
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed2.getChange();
-    assert.equal(event, 1);
+    assert.equal(event, 1 as unknown as BlobChangeFeedEvent | undefined);
 
     segmentStubs[1].hasNext.returns(false);
     segmentStubs[1].getChange.resolves(undefined);
@@ -200,14 +201,14 @@ describe("Change Feed", async () => {
     // end later than lastConsumable
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, undefined, {
       start: lastConsumable,
-      end: new Date(lastConsumable.getTime() + 1)
+      end: new Date(lastConsumable.getTime() + 1),
     });
     assert.ok(!changeFeed3.hasNext());
   });
 
   it("with continuation token", async () => {
     const changeFeed = await changeFeedFactory.create(serviceClientStub as any, undefined, {
-      start: new Date(Date.UTC(2020, 2, 2, 20))
+      start: new Date(Date.UTC(2020, 2, 2, 20)),
     });
     assert.ok(changeFeed.hasNext());
 
@@ -219,13 +220,13 @@ describe("Change Feed", async () => {
     segmentStubs[3].getCursor.returns({
       ShardCursors: [],
       SegmentPath: "idx/segments/2020/02/2/2000/meta.json",
-      CurrentShardPath: ""
+      CurrentShardPath: "",
     });
     const continuation = JSON.stringify(changeFeed.getCursor());
     const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed.getChange();
-    assert.equal(event, 3);
+    assert.equal(event, 3 as unknown as BlobChangeFeedEvent | undefined);
 
     // lastConsumable changed
     blobClientStub.download.callsFake(() => {
@@ -238,6 +239,6 @@ describe("Change Feed", async () => {
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed3.hasNext());
     const event2 = await changeFeed3.getChange();
-    assert.equal(event2, 4);
+    assert.equal(event2, 4 as unknown as BlobChangeFeedEvent | undefined);
   });
 });

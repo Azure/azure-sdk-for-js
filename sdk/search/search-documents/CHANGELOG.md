@@ -1,5 +1,16 @@
 # Release History
 
+## 11.3.0-beta.6 (2022-02-08)
+
+### Features Added
+
+- Added new type of SearchIndexer skill - `AzureMachineLearningSkill`. Please refer [#20183](https://github.com/Azure/azure-sdk-for-js/pull/20183) for further details.
+
+### Other Changes
+
+- Deprecated `SearchClientOptions.apiVersion` in favor of `SearchClientOptions.serviceVersion`.
+  - `apiVersion` will continue to be supported in version 11.x; however, customers are encouraged to migrate to `serviceVersion` instead which is more consistent with the rest of our client libraries.
+
 ## 11.3.0-beta.5 (2021-11-09)
 
 ### Features Added

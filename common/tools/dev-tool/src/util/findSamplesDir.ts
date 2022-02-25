@@ -17,9 +17,6 @@ export function findSamplesRelativeDir(samplesDir: string): string {
   if (dirs.length === 0) {
     return `samples`;
   } else {
-    return `samples/${dirs
-      .sort()
-      .slice(-1)
-      .pop()}`;
+    return `samples/${dirs.sort().slice(-1).pop()}`;
   }
 }

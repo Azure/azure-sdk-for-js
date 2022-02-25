@@ -2,31 +2,31 @@
 // Licensed under the MIT license.
 
 import {
+  CommunicationUserIdentifier,
   createCommunicationAuthPolicy,
-  parseClientArguments,
   isKeyCredential,
-  CommunicationUserIdentifier
+  parseClientArguments,
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
+  InternalPipelineOptions,
+  operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
   CommunicationNetworkTraversal,
-  NetworkRelayRestClient
+  NetworkRelayRestClient,
 } from "./generated/src/networkRelayRestClient";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
-import { CommunicationRelayClientOptions } from "./models";
+import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
 import {
   CommunicationRelayConfiguration,
-  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+  RouteType,
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
 } from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
@@ -108,9 +108,9 @@ export class CommunicationRelayClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -121,15 +121,72 @@ export class CommunicationRelayClient {
   /**
    * Gets a TURN credential for a user
    *
-   * @param user - The user for whom to issue a token
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    user?: CommunicationUserIdentifier,
-    options: OperationOptions = {}
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param routeType - The specified routeType for the relay request
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    routeType: RouteType,
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param user - The user for whom to issue a token
+   * @param routeType - The specified routeType for the relay request
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    user: CommunicationUserIdentifier,
+    routeType?: RouteType,
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param user - The user for whom to issue a token
+   * @param routeType - The specified routeType for the relay request
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    paramOne?: CommunicationUserIdentifier | RouteType | GetRelayConfigurationOptions,
+    paramTwo?: RouteType | GetRelayConfigurationOptions,
+    options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
-    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
-    requestOptions.body = { id: user?.communicationUserId };
+    let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
+      options;
+
+    if (
+      typeof paramOne !== "undefined" &&
+      typeof paramOne !== "string" &&
+      "communicationUserId" in paramOne
+    ) {
+      requestOptions.body = { id: paramOne.communicationUserId };
+      if (typeof paramTwo !== "undefined" && typeof paramTwo === "string") {
+        requestOptions.body["routeType"] = paramTwo;
+      }
+    } else if (typeof paramOne !== "undefined" && typeof paramOne === "string") {
+      requestOptions.body = { routeType: paramOne };
+      if (
+        typeof paramTwo !== "undefined" &&
+        typeof paramTwo !== "string" &&
+        "requestOptions" in paramTwo
+      ) {
+        requestOptions = paramTwo;
+      }
+    } else if (typeof paramOne !== "undefined" && "requestOptions" in paramOne) {
+      requestOptions = paramOne;
+    }
 
     const { span, updatedOptions } = createSpan(
       "CommunicationNetworkTraversal_IssueRelayConfiguration",
@@ -144,7 +201,7 @@ export class CommunicationRelayClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

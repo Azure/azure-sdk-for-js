@@ -5,9 +5,8 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { UsernamePasswordCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

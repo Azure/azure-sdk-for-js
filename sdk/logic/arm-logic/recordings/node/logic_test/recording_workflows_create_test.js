@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'aa9bcf8b-c3ac-400b-81c7-61b5ad850400',
+  '8bb79ea7-567d-4761-8f1e-149001ec0d00',
   'x-ms-ests-server',
-  '2.1.12171.14 - KRSLR2 ProdSlices',
+  '2.1.12261.15 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=As83KHjvg6tFrBV1LFjYetc; expires=Sun, 21-Nov-2021 07:40:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhrOTTJBTwpKkq6UmElSuE4; expires=Sun, 16-Jan-2022 03:22:45 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr5EqmC8wx5yCWpVRKCb-69B_1PC5SdqsmZp__AKoisLl5EJCavRvEZIQlau437k1dzUBJKar88dKboGy7nhmvassyJYcwns0XmDMUt01y3JrEuzoo3mHo8HAal3M38IRJMrjpiAL69T1kfbIkpXpQAfa0oeBAPExHhfTB_ZEZdc4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrrtiOVPV-R1xAl9VNA1HNipnzLPldTJAU6CFuzW0NxtRXs9t7_6MaGQ5BrD8nH2NnJJJpbhDliDVdG1dQEn8uzxgkKEJWmAdBseHo4c5HDKsSs0Lpm0CaAWicz1ZjieUlfmBuZuk11hOAQqAkp9QKY7HQ23PEY0GCtMeiXSLjN5YgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 22 Oct 2021 07:40:25 GMT',
+  'Fri, 17 Dec 2021 03:22:44 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '937ffe50-6350-4c7f-a79b-24e5e0540400',
+  '747ab43a-ddc4-4ad9-9dd4-00eef6cd0800',
   'x-ms-ests-server',
-  '2.1.12171.14 - SEASLR1 ProdSlices',
+  '2.1.12261.15 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AjeDYYQLO8hMgu2mvfXxA6E; expires=Sun, 21-Nov-2021 07:40:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AkFdTUrOcX9GnxU0NdnlrVU; expires=Sun, 16-Jan-2022 03:22:45 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrCV77TuY8n_GXvTEMVqO_KQpDpm2VaSF8UV3UhADFhi0u0YDrJHBR902C5R09Ph7_e7QVhhhN-4StZzhc_LLuUK2516rAYxtrXo7-S-1gKjGs5Uxu1dGtgx3WJrcDZmJ_ZjM9z2-qXZ1LK8fAp-vLLiKn4v4n450d6peLN8hQwUEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJeOStMqhU1aYzyQjbRB1e9mCNTCw2eRMu68O_T7oen20KDPe9jw8jCdzQIXkgQ8x2O6LEBbtN-M5aMXNzAX7awH9e2k94N2KKAwiaZUu5F2PpjJmGEpjJrqhBqqZxvzBQc1LRx3sfL1_X-BjFNdcWExFYbw19uLBV65WfjSLISAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 22 Oct 2021 07:40:25 GMT',
+  'Fri, 17 Dec 2021 03:22:44 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=2f7f67e3-d8fe-4e01-9def-014439134444&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.4.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=96bb342f-02e7-4937-b883-42dd60528582&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,27 +93,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '7e6cbce9-7147-4087-8ec6-6378ff260a00',
+  'c0adb44a-88a3-4762-bed1-f4d006850900',
   'x-ms-ests-server',
-  '2.1.12171.14 - KRSLR1 ProdSlices',
+  '2.1.12261.15 - SEASLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Ag6IFY4IXBhPhKDkOW3zjkgWPr5BAQAAAOlhBNkOAAAA; expires=Sun, 21-Nov-2021 07:40:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ats2oRKtIqFFgfpE_WrvVHUWPr5BAQAAAIX5TdkOAAAA; expires=Sun, 16-Jan-2022 03:22:45 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 22 Oct 2021 07:40:26 GMT',
+  'Fri, 17 Dec 2021 03:22:45 GMT',
   'Content-Length',
-  '1351'
+  '1393'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .put('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Logic/workflows/myworkflowxxx', {"location":"eastus","properties":{"definition":{"$schema":"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#","contentVersion":"1.0.0.0","parameters":{},"triggers":{},"actions":{},"outputs":{}}}})
   .query(true)
-  .reply(201, {"properties":{"provisioningState":"Succeeded","createdTime":"2021-10-22T07:40:34.5190027Z","changedTime":"2021-10-22T07:40:34.5099425Z","state":"Enabled","version":"08585667184509938901","accessEndpoint":"https://prod-05.eastus.logic.azure.com:443/workflows/ff0472d6a679469b9db499c48529c7a1","definition":{"$schema":"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#","contentVersion":"1.0.0.0","parameters":{},"triggers":{},"actions":{},"outputs":{}},"parameters":{},"endpointsConfiguration":{"workflow":{"outgoingIpAddresses":[{"address":"13.92.98.111"},{"address":"40.121.91.41"},{"address":"40.114.82.191"},{"address":"23.101.139.153"},{"address":"23.100.29.190"},{"address":"23.101.136.201"},{"address":"104.45.153.81"},{"address":"23.101.132.208"}],"accessEndpointIpAddresses":[{"address":"137.135.106.54"},{"address":"40.117.99.79"},{"address":"40.117.100.228"},{"address":"137.116.126.165"}]},"connector":{"outgoingIpAddresses":[{"address":"40.71.249.139"},{"address":"40.71.249.205"},{"address":"40.114.40.132"},{"address":"40.71.11.80/28"},{"address":"40.71.15.160/27"},{"address":"52.188.157.160"},{"address":"20.88.153.176/28"},{"address":"20.88.153.192/27"}]}}},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Logic/workflows/myworkflowxxx","name":"myworkflowxxx","type":"Microsoft.Logic/workflows","location":"eastus"}, [
+  .reply(201, {"properties":{"provisioningState":"Succeeded","createdTime":"2021-12-17T03:22:52.023505Z","changedTime":"2021-12-17T03:22:52.0133243Z","state":"Enabled","version":"08585618955134757611","accessEndpoint":"https://prod-52.eastus.logic.azure.com:443/workflows/d18ded4e777e4681bbbc44f0e93996e9","definition":{"$schema":"https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#","contentVersion":"1.0.0.0","parameters":{},"triggers":{},"actions":{},"outputs":{}},"parameters":{},"endpointsConfiguration":{"workflow":{"outgoingIpAddresses":[{"address":"13.92.98.111"},{"address":"40.121.91.41"},{"address":"40.114.82.191"},{"address":"23.101.139.153"},{"address":"23.100.29.190"},{"address":"23.101.136.201"},{"address":"104.45.153.81"},{"address":"23.101.132.208 "}],"accessEndpointIpAddresses":[{"address":"137.135.106.54"},{"address":"40.117.99.79"},{"address":"40.117.100.228"},{"address":"137.116.126.165"}]},"connector":{"outgoingIpAddresses":[{"address":"40.71.249.139"},{"address":"40.71.249.205"},{"address":"40.114.40.132"},{"address":"40.71.11.80/28"},{"address":"40.71.15.160/27"},{"address":"52.188.157.160"},{"address":"20.88.153.176/28"},{"address":"20.88.153.192/27"}]}}},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Logic/workflows/myworkflowxxx","name":"myworkflowxxx","type":"Microsoft.Logic/workflows","location":"eastus"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -125,17 +125,17 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-request-id',
-  'eastus:b29c3a91-c804-4ae4-abbe-6e81dfb207ef',
+  'eastus:d0f9b02c-062e-4755-9d9b-cf802867a3ae',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-ratelimit-remaining-subscription-writes',
-  '1198',
+  '1199',
   'x-ms-correlation-request-id',
-  'ae3f09ab-02ed-4a32-9d5c-01894061f76c',
+  '5d63029b-88be-449f-9c77-dd58fe0bb23e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211022T074035Z:ae3f09ab-02ed-4a32-9d5c-01894061f76c',
+  'JAPANEAST:20211217T032253Z:5d63029b-88be-449f-9c77-dd58fe0bb23e',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 22 Oct 2021 07:40:35 GMT'
+  'Fri, 17 Dec 2021 03:22:53 GMT'
 ]);

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
+  EventHubConnectionStringProperties,
   parseEventHubConnectionString,
-  EventHubConnectionStringProperties
 } from "../src/util/connectionStringUtils";
 import chai from "chai";
 
@@ -24,7 +24,7 @@ describe("parseEventHubConnectionString", () => {
         endpoint: endpoint,
         eventHubName: eventHubName,
         sharedAccessKeyName: sharedAccessKeyName,
-        sharedAccessKey: sharedAccessKey
+        sharedAccessKey: sharedAccessKey,
       };
 
       const connectionString = `Endpoint=${endpoint};EntityPath=${eventHubName};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey}`;
@@ -36,7 +36,7 @@ describe("parseEventHubConnectionString", () => {
       const expected: EventHubConnectionStringProperties = {
         fullyQualifiedNamespace: namespace,
         endpoint: endpoint,
-        sharedAccessSignature: sharedAccessSignature
+        sharedAccessSignature: sharedAccessSignature,
       };
 
       const connectionString = `Endpoint=${endpoint};SharedAccessSignature=${sharedAccessSignature}`;

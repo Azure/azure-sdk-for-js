@@ -6,7 +6,7 @@ import {
   retryForever,
   settleMessage,
   settleMessageOperation,
-  wrapProcessErrorHandler
+  wrapProcessErrorHandler,
 } from "../../../src/receivers/receiverCommon";
 import chai from "chai";
 import { ServiceBusReceiver } from "../../../src/receivers/receiver";
@@ -14,7 +14,11 @@ import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log";
 import { ProcessErrorArgs } from "../../../src/models";
 import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
-import { DispositionType, ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+import {
+  DispositionType,
+  ServiceBusMessageImpl,
+  ServiceBusReceivedMessage,
+} from "../../../src/serviceBusMessage";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { DispositionStatusOptions } from "../../../src/core/managementClient";
 import { Delivery } from "rhea-promise";
@@ -28,7 +32,7 @@ describe("shared receiver code", () => {
     [
       new Error("Plain error"),
       new TypeError("Type errors"),
-      new ServiceBusError(new MessagingError("is a ServiceBusError"))
+      new ServiceBusError(new MessagingError("is a ServiceBusError")),
     ].forEach((expectedError) => {
       it(`translateServiceBusError - some errors are returned verbatim: ${expectedError.message}`, () => {
         const translatedError = translateServiceBusError(expectedError);
@@ -50,13 +54,13 @@ describe("shared receiver code", () => {
           name: translatedError.name,
           code: translatedError.code,
           message: translatedError.message,
-          retryable: translatedError.retryable
+          retryable: translatedError.retryable,
         },
         {
           name: "ServiceBusError",
           code: "MessagingEntityNotFound",
           message: messagingError.message,
-          retryable: messagingError.retryable
+          retryable: messagingError.retryable,
         } as ServiceBusError,
         "The code should be intact and the reason code, since it matches our blessed list, should match."
       );
@@ -67,7 +71,7 @@ describe("shared receiver code", () => {
     undefined,
     "StoreLockLostError",
     "some random code we've never heard of",
-    "GeneralError"
+    "GeneralError",
   ].forEach((unknownCode) => {
     it(`any unknown codes are marked with reason 'GeneralError': ${unknownCode}`, () => {
       const messagingError = new MessagingError("hello");
@@ -80,13 +84,13 @@ describe("shared receiver code", () => {
           name: translatedError.name,
           code: translatedError.code,
           message: translatedError.message,
-          retryable: translatedError.retryable
+          retryable: translatedError.retryable,
         },
         {
           name: "ServiceBusError",
           code: "GeneralError",
           message: expectedMessage,
-          retryable: messagingError.retryable
+          retryable: messagingError.retryable,
         } as ServiceBusError,
         "The code should be intact and the reason code, since it matches our blessed list, should match."
       );
@@ -95,10 +99,10 @@ describe("shared receiver code", () => {
 
   describe("settleMessage", () => {
     it("retry options are used and arguments plumbed through", async () => {
-      const expectedFakeMessage = ({} as any) as ServiceBusMessageImpl;
-      const expectedFakeContext = ({
-        connectionId: "hello"
-      } as any) as ConnectionContext;
+      const expectedFakeMessage = {} as any as ServiceBusMessageImpl;
+      const expectedFakeContext = {
+        connectionId: "hello",
+      } as any as ConnectionContext;
 
       let numTimesCalled = 0;
 
@@ -110,9 +114,9 @@ describe("shared receiver code", () => {
         {
           retryOptions: {
             maxRetries: 1,
-            retryDelayInMs: 0
+            retryDelayInMs: 0,
           },
-          sessionId: "here just to prove that we're propagating options"
+          sessionId: "here just to prove that we're propagating options",
         },
         async (
           message: ServiceBusMessageImpl,
@@ -141,11 +145,11 @@ describe("shared receiver code", () => {
     });
 
     it("already settled message throws message indicating lock was lost (non-session)", async () => {
-      const fakeMessage = ({
+      const fakeMessage = {
         delivery: {
-          remote_settled: true
-        } as Delivery
-      } as any) as ServiceBusMessageImpl;
+          remote_settled: true,
+        } as Delivery,
+      } as any as ServiceBusMessageImpl;
 
       await assertThrows(
         () =>
@@ -155,22 +159,22 @@ describe("shared receiver code", () => {
             {} as ConnectionContext,
             "entityPath",
             {
-              retryOptions: undefined
+              retryOptions: undefined,
             }
           ),
         {
-          message: MessageAlreadySettled
+          message: MessageAlreadySettled,
         }
       );
     });
 
     it("already settled message throws message indicating lock was lost (session)", async () => {
-      const fakeMessage = ({
+      const fakeMessage = {
         sessionId: "any session id",
         delivery: {
-          remote_settled: true
-        } as Delivery
-      } as any) as ServiceBusMessageImpl;
+          remote_settled: true,
+        } as Delivery,
+      } as any as ServiceBusMessageImpl;
 
       await assertThrows(
         () =>
@@ -180,11 +184,11 @@ describe("shared receiver code", () => {
             {} as ConnectionContext,
             "entityPath",
             {
-              retryOptions: undefined
+              retryOptions: undefined,
             }
           ),
         {
-          message: MessageAlreadySettled
+          message: MessageAlreadySettled,
         }
       );
     });
@@ -208,20 +212,20 @@ describe("shared receiver code", () => {
             throw new AbortError("Purposefully abort");
           },
           connectionId: "id",
-          operationType: RetryOperationType.connection
-        }
+          operationType: RetryOperationType.connection,
+        },
       });
 
       await assertThrows(() => retryForeverPromise, {
         name: "AbortError",
-        message: "Purposefully abort"
+        message: "Purposefully abort",
       });
 
       assert.notOk(onErrorError?.message);
     });
 
     it("exits if operation is successful", async () => {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
       let numOperationCalls = 0;
 
       await retryForever({
@@ -235,8 +239,8 @@ describe("shared receiver code", () => {
             ++numOperationCalls;
           },
           connectionId: "id",
-          operationType: RetryOperationType.connection
-        }
+          operationType: RetryOperationType.connection,
+        },
       });
 
       assert.isEmpty(errorMessages);
@@ -244,10 +248,10 @@ describe("shared receiver code", () => {
     });
 
     it("retries after each retry<> call exhausts _its_ retries", async () => {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
       let numRetryCalls = 0;
 
-      const fakeRetry = async <T>() => {
+      const fakeRetry = async <T>(): Promise<T> => {
         ++numRetryCalls;
 
         if (numRetryCalls < 3) {
@@ -273,18 +277,83 @@ describe("shared receiver code", () => {
               return 1;
             },
             connectionId: "id",
-            operationType: RetryOperationType.connection
-          }
+            operationType: RetryOperationType.connection,
+            retryOptions: {
+              retryDelayInMs: 2000,
+            },
+          },
         },
         fakeRetry
       );
 
       assert.deepEqual(errorMessages, [
         "Attempt 1: Force another call of retry<>",
-        "Attempt 2: Force another call of retry<>"
+        "Attempt 2: Force another call of retry<>",
       ]);
 
       assert.equal(numRetryCalls, 2 + 1);
+    });
+
+    it("respects retry options", async () => {
+      const errorMessages: string[] = [];
+      const errorCount = 3;
+      let numRetryCalls = 0;
+
+      const fakeRetry = async <T>(): Promise<T> => {
+        ++numRetryCalls;
+
+        if (numRetryCalls < errorCount + 1) {
+          // force retry<> to get called ${errorCount} times (because
+          // we "failed" and threw exceptions and 1 more time where
+          // we succeed.
+          throw new Error(`Attempt ${numRetryCalls}: Force another call of retry<>`);
+        }
+
+        return Promise.resolve({} as T);
+      };
+
+      const retryDelayInMs = 2000;
+      let previousAttemptTime = Date.now();
+      await retryForever(
+        {
+          logPrefix: "logPrefix",
+          logger: logger,
+          onError: (err) => {
+            errorMessages.push(err.message);
+            if (numRetryCalls > 1) {
+              // not the first attempt
+              const currentTime = Date.now();
+              if (currentTime - previousAttemptTime < retryDelayInMs) {
+                errorMessages.push(
+                  `Unexpected, Should've waited at least ${retryDelayInMs} between attempts`
+                );
+              }
+              previousAttemptTime = currentTime;
+            }
+          },
+          retryConfig: {
+            operation: async () => {
+              ++numRetryCalls;
+
+              return 1;
+            },
+            connectionId: "id",
+            operationType: RetryOperationType.connection,
+            retryOptions: {
+              retryDelayInMs,
+            },
+          },
+        },
+        fakeRetry
+      );
+
+      assert.deepEqual(errorMessages, [
+        "Attempt 1: Force another call of retry<>",
+        "Attempt 2: Force another call of retry<>",
+        "Attempt 3: Force another call of retry<>",
+      ]);
+
+      assert.equal(numRetryCalls, errorCount + 1);
     });
   });
 });
@@ -303,7 +372,7 @@ it("error handler wrapper", () => {
             fullyQualifiedNamespace: args.fullyQualifiedNamespace,
             entityPath: args.entityPath,
             errorSource: args.errorSource,
-            code: sbe.code
+            code: sbe.code,
           },
           {
             name: "ServiceBusError",
@@ -311,12 +380,12 @@ it("error handler wrapper", () => {
             fullyQualifiedNamespace: "fully qualified namespace",
             entityPath: "entity path",
             errorSource: "renewLock",
-            code: "ServiceCommunicationProblem"
+            code: "ServiceCommunicationProblem",
           }
         );
 
         throw new Error("Whoops!");
-      }
+      },
     },
     {
       logError: (err: Error, msg) => {
@@ -325,7 +394,7 @@ it("error handler wrapper", () => {
         assert.equal(msg, `An error was thrown from the user's processError handler`);
         assert.equal(err.toString(), "Error: Whoops!");
         logErrorCalled = true;
-      }
+      },
     } as ServiceBusLogger
   );
 
@@ -336,21 +405,22 @@ it("error handler wrapper", () => {
     error: err,
     entityPath: "entity path",
     errorSource: "renewLock",
-    fullyQualifiedNamespace: "fully qualified namespace"
+    fullyQualifiedNamespace: "fully qualified namespace",
   });
 
   assert.isTrue(logErrorCalled, "log error should have been called");
 });
 
 it("getMessageIterator doesn't yield empty responses", async () => {
-  const messages = [
+  const messages: ServiceBusReceivedMessage[][] = [
     [],
     [
       {
         body: "hello",
-        _rawAmqpMessage: { body: "hello" }
-      }
-    ]
+        _rawAmqpMessage: { body: "hello" },
+        state: "active",
+      },
+    ],
   ];
 
   const receiver: Pick<ServiceBusReceiver, "receiveMessages"> = {
@@ -364,7 +434,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       }
 
       throw new Error("We're okay to end it now");
-    }
+    },
   };
 
   const allReceivedMessages = [];
@@ -380,8 +450,9 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       [
         {
           body: "hello",
-          _rawAmqpMessage: { body: "hello" }
-        }
+          _rawAmqpMessage: { body: "hello" },
+          state: "active",
+        },
       ],
       allReceivedMessages,
       "We should only get one message. We don't return anything when the receive returns nothing."

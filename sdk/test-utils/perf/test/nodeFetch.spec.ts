@@ -12,10 +12,10 @@ interface NodeFetchOptions {
 
 export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
   private static fetchOptions = {
-    agent: new http.Agent({ keepAlive: true })
+    agent: new http.Agent({ keepAlive: true }),
   };
 
-  private url: string = "";
+  private url = "";
 
   public options: PerfOptionDictionary<NodeFetchOptions> = {
     url: {
@@ -24,12 +24,12 @@ export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
       shortName: "u",
       longName: "url",
       defaultValue: "http://www.example.org",
-      value: "http://www.example.org"
-    }
+      value: "http://www.example.org",
+    },
   };
 
-  public setup() {
-    this.url = this.options.url.value as string;
+  public setup(): void {
+    this.url = this.parsedOptions.url.value;
   }
 
   async run(): Promise<void> {
