@@ -4,7 +4,7 @@
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import {
   mapFuzzySearchOptions,
@@ -14,7 +14,7 @@ import {
   mapSearchAddressBatchResult,
   mapSearchAddressOptions,
   mapSearchAddressResult,
-  mapSearchPointOfInterestOptions
+  mapSearchPointOfInterestOptions,
 } from "./models/mappers";
 import {
   SearchGetPointOfInterestCategoryTreeOptionalParams as GetPointOfInterestCategoryTreeOptionalParams,
@@ -27,26 +27,26 @@ import {
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
-  SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams
+  SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
 } from "./generated/models";
 import { LatLon, SearchGeometry, StructuredAddress } from "./models/models";
 import { GeoJsonFeatureCollection, GeoJsonLineString } from "./models/geojsons";
 import {
   FuzzySearchQuery,
   ReverseSearchAddressQuery,
-  SearchAddressQuery
+  SearchAddressQuery,
 } from "./models/batchQueries";
 import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
-  createSearchAddressBatchRequest
+  createSearchAddressBatchRequest,
 } from "./models/mappers";
 import {
   EntityGeometry,
   BatchResult,
   ReverseSearchAddressResult,
   ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult
+  SearchAddressResult,
 } from "./models/results";
 import { GeneratedClient } from "./generated";
 import {
@@ -70,7 +70,7 @@ import {
   SearchPointOfInterestBaseOptions,
   GetFuzzySearchBatchResultOptions,
   GetSearchAddressBatchResultOptions,
-  GetReverseSearchAddressBatchResultOptions
+  GetReverseSearchAddressBatchResultOptions,
 } from "./models/options";
 import { BatchPoller, BatchPollerProxy } from "./models/pollers";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
@@ -139,9 +139,9 @@ export class MapsSearchClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new GeneratedClient(internalPipelineOptions);
@@ -153,7 +153,7 @@ export class MapsSearchClient {
       this.client.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential,
-          scopes: "https://atlas.microsoft.com/.default"
+          scopes: "https://atlas.microsoft.com/.default",
         })
       );
       this.client.pipeline.addPolicy(mapsClientIdPolicy(clientId));
@@ -190,14 +190,14 @@ export class MapsSearchClient {
               providerID: p.providerID,
               geometryData: p.geometryData
                 ? (p.geometryData as GeoJsonFeatureCollection)
-                : undefined
+                : undefined,
             };
           })
         : [];
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -206,22 +206,18 @@ export class MapsSearchClient {
   }
 
   /**
-   * Perform a free-form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens.
+   * Performs a free-form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens.
    *
    * @param options - Options for fuzzy search
    */
   public async fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearch", options);
-    const {
-      query,
-      coordinates,
-      countryFilter,
-      ...otherOptions
-    } = updatedOptions as FuzzySearchBaseOptions & {
-      query: string;
-      coordinates?: LatLon;
-      countryFilter?: string[];
-    };
+    const { query, coordinates, countryFilter, ...otherOptions } =
+      updatedOptions as FuzzySearchBaseOptions & {
+        query: string;
+        coordinates?: LatLon;
+        countryFilter?: string[];
+      };
 
     const internalOptions = mapFuzzySearchOptions(otherOptions);
     if (coordinates) {
@@ -242,7 +238,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -259,16 +255,12 @@ export class MapsSearchClient {
     options: SearchPointOfInterestOptions
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchPointOfInterest", options);
-    const {
-      query,
-      coordinates,
-      countryFilter,
-      ...otherOptions
-    } = updatedOptions as SearchPointOfInterestBaseOptions & {
-      query: string;
-      coordinates?: LatLon;
-      countryFilter?: string[];
-    };
+    const { query, coordinates, countryFilter, ...otherOptions } =
+      updatedOptions as SearchPointOfInterestBaseOptions & {
+        query: string;
+        coordinates?: LatLon;
+        countryFilter?: string[];
+      };
 
     const internalOptions = mapSearchPointOfInterestOptions(otherOptions);
     if (coordinates) {
@@ -289,7 +281,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -323,7 +315,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -343,16 +335,12 @@ export class MapsSearchClient {
       "MapsSearchClient-searchPointOfInterestCategory",
       options
     );
-    const {
-      query,
-      coordinates,
-      countryFilter,
-      ...otherOptions
-    } = updatedOptions as SearchPointOfInterestBaseOptions & {
-      query: string;
-      coordinates?: LatLon;
-      countryFilter?: string[];
-    };
+    const { query, coordinates, countryFilter, ...otherOptions } =
+      updatedOptions as SearchPointOfInterestBaseOptions & {
+        query: string;
+        coordinates?: LatLon;
+        countryFilter?: string[];
+      };
     const internalOptions = mapSearchPointOfInterestOptions(otherOptions);
     if (coordinates) {
       internalOptions.lat = coordinates.latitude;
@@ -372,7 +360,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -402,7 +390,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -432,7 +420,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -462,7 +450,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -495,7 +483,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -520,7 +508,7 @@ export class MapsSearchClient {
     const { countryCode, ...structuredAddressOptions } = structuredAddress;
     const internalOptions = {
       ...updatedOptions,
-      ...structuredAddressOptions
+      ...structuredAddressOptions,
     } as SearchStructuredAddressOptionalParams;
     try {
       const result = await this.client.search.searchStructuredAddress(
@@ -532,7 +520,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -561,7 +549,7 @@ export class MapsSearchClient {
         this.defaultFormat,
         query,
         {
-          geometry: (geometry as unknown) as Record<string, unknown>
+          geometry: geometry as unknown as Record<string, unknown>,
         },
         internalOptions
       );
@@ -569,7 +557,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -605,7 +593,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -614,7 +602,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of fuzzy search queries. The method return the result directly.
+   * Sends batches of fuzzy search queries.
+   * The method return the result directly.
    *
    * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
@@ -635,7 +624,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -644,7 +633,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of fuzzy search queries. The method returns a poller for retrieving the result later.
+   * Sends batches of fuzzy search queries.
+   * The method returns a poller for retrieving the result later.
    *
    * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
@@ -671,7 +661,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -680,7 +670,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Retrieve the result of a previous fuzzy search batch request
+   * Retrieves the result of a previous fuzzy search batch request.
+   * The method returns a poller for retrieving the result.
    *
    * @param batchId - Batch id for querying the operation.
    * @param options - Optional parameters for the operation
@@ -708,7 +699,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -717,7 +708,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of geocoding queries. The method return the result directly.
+   * Sends batches of geocoding queries.
+   * The method return the result directly.
    *
    * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
@@ -738,7 +730,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -747,7 +739,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of geocoding queries. The method returns a poller for retrieving the result later.
+   * Sends batches of geocoding queries.
+   * The method returns a poller for retrieving the result later.
    *
    * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
@@ -777,7 +770,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -786,7 +779,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Retrieve the result of a previous search address batch request
+   * Retrieves the result of a previous search address batch request
+   * The method returns a poller for retrieving the result.
    *
    * @param batchId - Batch id for querying the operation.
    * @param options - Optional parameters for the operation
@@ -814,7 +808,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -823,7 +817,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of reverse geocoding queries. The method return the result directly.
+   * Sends batches of reverse geocoding queries.
+   * The method return the result directly.
    *
    * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
@@ -847,7 +842,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -856,7 +851,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of reverse geocoding queries. The method returns a poller for retrieving the result later.
+   * Sends batches of reverse geocoding queries.
+   * The method returns a poller for retrieving the result later.
    *
    * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
    * @param options - Optional parameters for the operation
@@ -887,7 +883,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -896,7 +892,8 @@ export class MapsSearchClient {
   }
 
   /**
-   * Retrieve the result of a previous reverse search address batch request
+   * Retrieves the result of a previous reverse search address batch request.
+   * The method returns a poller for retrieving the result.
    *
    * @param batchId - Batch id for querying the operation.
    * @param options - Optional parameters for the operation
@@ -924,7 +921,7 @@ export class MapsSearchClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
