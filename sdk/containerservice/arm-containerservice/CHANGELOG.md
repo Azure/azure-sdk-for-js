@@ -1,15 +1,14 @@
 # Release History
+    
+## 15.1.0 (2022-02-24)
+    
+**Features**
 
-## 15.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias Format
+  - Interface ManagedClustersListClusterUserCredentialsOptionalParams has a new optional parameter format
+  - Added Enum KnownFormat
+    
+    
 ## 15.0.0 (2021-12-09)
 
 The package of @azure/arm-containerservice is using our next generation design principles since version 15.0.0, which contains breaking changes.
