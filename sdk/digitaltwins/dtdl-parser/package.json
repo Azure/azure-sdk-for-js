@@ -131,20 +131,20 @@
     ],
     "requiredResources": {},
     "extraFiles": {
-      "./ArrayV2.json": [
+      "./samples-dev/ArrayV2.json": [
         "typescript/ArrayV2.json",
         "javascript/ArrayV2.json"
       ],
 
-      "./InterfaceContentsEmbeddedV2.json": [
+      "./samples-dev/InterfaceContentsEmbeddedV2.json": [
         "typescript/InterfaceContentsEmbeddedV2.json",
         "javascript/InterfaceContentsEmbeddedV2.json"
       ],
-      "./InterfaceExtendsOnlyV2.json": [
+      "./samples-dev/InterfaceExtendsOnlyV2.json": [
         "typescript/InterfaceExtendsOnlyV2.json",
         "javascript/InterfaceExtendsOnlyV2.json"
       ],
-      "./RelationshipTargetDtmiV2.json": [
+      "./samples-dev/RelationshipTargetDtmiV2.json": [
         "typescript/RelationshipTargetDtmiV2.json",
         "javascript/RelationshipTargetDtmiV2.json"
       ]
