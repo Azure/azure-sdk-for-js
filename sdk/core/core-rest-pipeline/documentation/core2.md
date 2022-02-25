@@ -47,7 +47,7 @@ The first package, `@azure/core-rest-pipeline` will not be AutoRest-specific and
 
 A major weakness of the existing JS Core was that the request pipeline system was difficult to customize at the library level. This placed an undue burden on authors of libraries and increased support costs. As other languages had better support for customizing the request pipeline, we had a desire to provide a simple and flexible way to add and order policies that could affect both HTTP requests and responses.
 
-The [New Pipeline Design](./pipeline.md) solves these concerns by providing a new abstraction that is able to reliably apply ordered policies with minimal configuration.
+The [New Pipeline Design](pipeline.md) solves these concerns by providing a new abstraction that is able to reliably apply ordered policies with minimal configuration.
 
 ### Dropping legacy browser support
 

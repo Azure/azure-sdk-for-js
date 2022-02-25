@@ -19,7 +19,7 @@ export interface PipelinePolicy {
 
 # Pipelines
 
-A `Pipeline` composes several policies and provides the ability to make a request that will flow through the policies in a specific order determined by their requirements. This allows manipulating each request before it is sent to the server and to work on the response after receiving it.
+A `Pipeline` is composed of several policies and provides the ability to make a request that will flow through the policies in a specific order determined by their requirements. This allows manipulating each request before it is sent to the server and to work on the response after receiving it.
 
 ```typescript
 export interface AddPipelineOptions {
