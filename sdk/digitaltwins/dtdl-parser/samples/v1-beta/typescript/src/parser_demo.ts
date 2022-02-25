@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars
+ */
 
 /**
  * @summary Demonstrates the use of a ModelParser to validate a PnP model.
