@@ -6,7 +6,7 @@ These APIs allow end users to operate on Azure Machine Learning Web Services res
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-webservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-webservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-webservices) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-webservices?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

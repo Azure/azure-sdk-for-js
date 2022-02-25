@@ -56,7 +56,7 @@ export class AzureMLCommitmentPlansManagementClient extends coreClient.ServiceCl
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-commitmentplans/2.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-commitmentplans/2.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
