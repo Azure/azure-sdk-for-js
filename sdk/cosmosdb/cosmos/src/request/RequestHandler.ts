@@ -18,11 +18,13 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { URL } from "../utils/url";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
-import { cosmosDiagnosticsLogger } from "../utils/logger";
+import { CosmosTraceDiagnostics } from "../client/Diagnostics/Diagnostic";
 
-const logger = cosmosDiagnosticsLogger;
+const { performance } = require("perf_hooks");
+const cosmosTraceDiagnostics = new CosmosTraceDiagnostics();
 
 async function executeRequest(requestContext: RequestContext): Promise<CosmosResponse<any>> {
+  cosmosTraceDiagnostics.startTime = performance.now();
   return executePlugins(requestContext, httpRequest, PluginOn.request);
 }
 
@@ -34,12 +36,13 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   result: any;
   code: number;
   substatus: number;
+  trace?: any;
 }> {
   const controller = new AbortController();
   const signal = controller.signal;
-
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
+
   if (userSignal) {
     if (userSignal.aborted) {
       controller.abort();
@@ -70,6 +73,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     abortSignal: signal,
     body: requestContext.body,
   });
+
   if (requestContext.requestAgent) {
     pipelineRequest.agent = requestContext.requestAgent;
   } else {
@@ -109,7 +113,9 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);
 
-    logger.warning(
+    cosmosTraceDiagnostics.addTrace(
+      "trace",
+      "warning",
       response.status +
         " " +
         requestContext.endpoint +
@@ -118,6 +124,8 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         " " +
         result.message
     );
+
+    cosmosTraceDiagnostics.endCosmosDiagnosticTrace(performance.now());
 
     errorResponse.code = response.status;
     errorResponse.body = result;
@@ -142,12 +150,24 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
     throw errorResponse;
   }
-  return {
-    headers,
-    result,
-    code: response.status,
-    substatus,
-  };
+  const trace = JSON.stringify(cosmosTraceDiagnostics);
+  if (cosmosTraceDiagnostics.getClientElapsedTime() > 40) {
+    cosmosTraceDiagnostics.endCosmosDiagnosticTrace(performance.now());
+    return {
+      headers,
+      result,
+      code: response.status,
+      substatus,
+      trace,
+    };
+  } else {
+    return {
+      headers,
+      result,
+      code: response.status,
+      substatus,
+    };
+  }
 }
 
 /**

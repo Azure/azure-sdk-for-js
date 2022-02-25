@@ -29,9 +29,12 @@ import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
-import { cosmosDiagnosticsLogger } from "./utils/logger";
+import { CosmosTraceDiagnostics } from "./client/Diagnostics/Diagnostic";
 
-const logger = cosmosDiagnosticsLogger;
+/** @hidden */
+const cosmosTraceDiagnostics = new CosmosTraceDiagnostics();
+cosmosTraceDiagnostics.logger.info("parallelQueryExecutionContextBase");
+
 const QueryJsonContentType = "application/query+json";
 
 /**
@@ -175,16 +178,16 @@ export class ClientContext {
       }
     }
     this.applySessionToken(request);
-    logger.info(
+    cosmosTraceDiagnostics.logger.info(
       "query " +
         requestId +
         " started" +
         (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
     );
-    logger.verbose(request);
+    cosmosTraceDiagnostics.logger.verbose(request);
     const start = Date.now();
     const response = await executeRequest(request);
-    logger.info(
+    cosmosTraceDiagnostics.logger.info(
       "query " + requestId + " finished - " + (Date.now() - start) + "ms" + "raw:" + response
     );
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);

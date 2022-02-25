@@ -13,9 +13,13 @@ import { masterKey } from "../public/common/_fakeTestSecrets";
 import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
-import { startCosmosDiagnostics } from "../../src/client/Diagnostics/Diagnostic";
+import { CosmosTraceDiagnostics } from "../../src/client/Diagnostics/Diagnostic";
 
-describe("New session token", function () {
+const { performance } = require("perf_hooks");
+const cosmosTraceDiagnostics = new CosmosTraceDiagnostics();
+
+describe.only("New session token", function () {
+  cosmosTraceDiagnostics.startTime = performance.now();
   it("preserves tokens", async function () {
     let response: Response<any>;
     let rqContext: RequestContext;
@@ -43,7 +47,7 @@ describe("New session token", function () {
       partitionKey: { paths: ["/id"] },
     };
     const containerOptions = { offerThroughput: 25100 };
-    startCosmosDiagnostics();
+
     const clientContext: ClientContext = (sessionClient as any).clientContext;
     const sessionContainer: SessionContainer = (clientContext as any).sessionContainer;
     const database = await getTestDatabase("session test", sessionClient);
@@ -66,9 +70,11 @@ describe("New session token", function () {
       resourceType: ResourceType.item,
       resourceId: "1",
     });
+    cosmosTraceDiagnostics.addTrace("OperationType.Create", "info", JSON.stringify(responseToken));
     assert.equal(responseToken, token);
     assert.equal(responseToken, rqContext?.headers["x-ms-session-token"]);
   });
+  cosmosTraceDiagnostics.endCosmosDiagnosticTrace(performance.now());
 });
 
 // For some reason this test does not pass against the emulator. Skipping it for now

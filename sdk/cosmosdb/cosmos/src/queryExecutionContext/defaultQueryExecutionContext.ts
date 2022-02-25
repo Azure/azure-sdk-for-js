@@ -3,13 +3,11 @@
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
-import { cosmosDiagnosticsLogger } from "../utils/logger";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
+import { CosmosTraceDiagnostics } from "../client/Diagnostics/Diagnostic";
 
-const logger = cosmosDiagnosticsLogger;
-logger.info("ClientContext");
-
+const cosmosTraceDiagnostics = new CosmosTraceDiagnostics();
 /** @hidden */
 export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<any>>;
 
@@ -17,7 +15,7 @@ export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<a
 enum STATES {
   start = "start",
   inProgress = "inProgress",
-  ended = "ended",
+  ended = "ended"
 }
 
 /** @hidden */
@@ -74,7 +72,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
-        headers: getInitialHeader(),
+        headers: getInitialHeader()
       };
     }
 
@@ -133,11 +131,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     try {
       let p: Promise<Response<any>>;
       if (this.nextFetchFunction !== undefined) {
-        logger.verbose("using prefetch");
+        cosmosTraceDiagnostics.logger.verbose("using prefetch");
         p = this.nextFetchFunction;
         this.nextFetchFunction = undefined;
       } else {
-        logger.verbose("using fresh fetch");
+        cosmosTraceDiagnostics.logger.verbose("using fresh fetch");
         p = this.fetchFunctions[this.currentPartitionIndex](this.options);
       }
       const response = await p;

@@ -8,22 +8,22 @@ import { FeedOptions, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
-import { cosmosDiagnosticsLogger } from "../utils/logger";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
+import { CosmosTraceDiagnostics } from "../client/Diagnostics/Diagnostic";
 
 /** @hidden */
-const logger = cosmosDiagnosticsLogger;
-logger.info("parallelQueryExecutionContextBase");
+const cosmosTraceDiagnostics = new CosmosTraceDiagnostics();
+cosmosTraceDiagnostics.logger.info("parallelQueryExecutionContextBase");
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
   started = "started",
   inProgress = "inProgress",
-  ended = "ended",
+  ended = "ended"
 }
 
 /** @hidden */
@@ -93,7 +93,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             ? targetPartitionRanges.length
             : Math.min(options.maxDegreeOfParallelism, targetPartitionRanges.length);
 
-        logger.info(
+        cosmosTraceDiagnostics.logger.info(
           "Query starting against " +
             targetPartitionRanges.length +
             " ranges with parallelism of " +
@@ -329,7 +329,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           this.sem.leave();
           return resolve({
             result: undefined,
-            headers: this._getAndResetActiveResponseHeaders(),
+            headers: this._getAndResetActiveResponseHeaders()
           });
         }
 
@@ -373,7 +373,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               this.sem.leave();
               return resolve({
                 result: undefined,
-                headers: this._getAndResetActiveResponseHeaders(),
+                headers: this._getAndResetActiveResponseHeaders()
               });
             }
           } catch (err) {
@@ -427,7 +427,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // invoke the callback on the item
           return resolve({
             result: item,
-            headers: this._getAndResetActiveResponseHeaders(),
+            headers: this._getAndResetActiveResponseHeaders()
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
