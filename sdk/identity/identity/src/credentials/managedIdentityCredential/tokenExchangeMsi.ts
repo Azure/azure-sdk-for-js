@@ -26,7 +26,7 @@ function prepareRequestOptions(
   clientAssertion: string,
   clientId: string
 ): PipelineRequestOptions {
-  let bodyParams: Record<string, string> = {
+  const bodyParams: Record<string, string> = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
