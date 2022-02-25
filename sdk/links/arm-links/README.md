@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ManagementLink client.
 
+To migrate to the new version, please check {Migration Guide}(https://aka.ms/js-track2-migration-guide)
+
 > ⚠️ This package @azure/arm-links with versions lower than 2.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 2.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
 
 Azure resources can be linked together to form logical relationships. You can establish links between resources belonging to different resource groups. However, all the linked resources must belong to the same subscription. Each resource can be linked to 50 other resources. If any of the linked resources are deleted or moved, the link owner must clean up the remaining link.

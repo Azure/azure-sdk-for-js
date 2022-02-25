@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ML Team Account Management client.
 
+To migrate to the new version, please check {Migration Guide}(https://aka.ms/js-track2-migration-guide)
+
 > ⚠️ This package @azure/arm-machinelearningexperimentation with versions lower than 2.0.0-beta.1 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 2.0.0-beta.1 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
 
 These APIs allow end users to operate on Azure Machine Learning Team Account resources. They support CRUD operations for Azure Machine Learning Team Accounts.
