@@ -1,7 +1,7 @@
 {
-  "commit": "1b0a465061c68175898f8f5d27f0301f42ce994c",
+  "commit": "3080959fbda0b602e0af875d4b90a094c0f6016e",
   "readme": "specification/machinelearning/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\mydev\\azure-sdk-for-js ../azure-rest-api-specs/specification/iotspaces/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.16.20220114.1 --generate-sample=true",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/home/vsts/work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/machinelearning/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.16.20220105.1",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "use": "@autorest/typescript@6.0.0-alpha.16.20220114.1"
+  "use": "@autorest/typescript@6.0.0-alpha.16.20220105.1"
 }
