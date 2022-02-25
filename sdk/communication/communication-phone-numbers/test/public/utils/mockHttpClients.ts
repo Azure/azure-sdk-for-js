@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
+import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { PurchasedPhoneNumber } from "../../../src";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
@@ -9,12 +9,12 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
   parsedBody?: T
 ): HttpClient => {
   return {
-    async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       return {
         status,
         request,
         headers: request.headers,
-        parsedBody,
+        bodyAsText: JSON.stringify(parsedBody),
       };
     },
   };

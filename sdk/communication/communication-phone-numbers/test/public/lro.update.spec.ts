@@ -55,7 +55,7 @@ matrix([[true, false]], async function (useAad) {
       try {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 404);
         return;
       }

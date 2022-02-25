@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * Additional options for the search available phone numbers operation.

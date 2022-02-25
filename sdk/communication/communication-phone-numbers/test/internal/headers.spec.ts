@@ -2,23 +2,24 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode, WebResourceLike } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
-import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
+import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("PhoneNumbersClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: getPhoneNumberHttpClient,
-  });
-  let request: WebResourceLike;
+  } as PhoneNumbersClientOptions);
+  let request: PipelineRequest;
 
   afterEach(function () {
     sinon.restore();
@@ -63,7 +64,7 @@ describe("PhoneNumbersClient - headers", function () {
   it("sets signed authorization header with connection string", async function () {
     client = new PhoneNumbersClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: getPhoneNumberHttpClient,
-    });
+    } as PhoneNumbersClientOptions);
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
@@ -82,7 +83,7 @@ describe("PhoneNumbersClient - headers", function () {
 
     client = new PhoneNumbersClient(endpoint, credential, {
       httpClient: getPhoneNumberHttpClient,
-    });
+    } as PhoneNumbersClientOptions);
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
@@ -99,7 +100,7 @@ describe("PhoneNumbersClient - headers", function () {
       userAgentOptions: {
         userAgentPrefix: "phonenumbersclient-headers-test",
       },
-    });
+    } as PhoneNumbersClientOptions);
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");

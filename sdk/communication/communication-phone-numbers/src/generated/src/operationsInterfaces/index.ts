@@ -6,4 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export const terminalStates = ["succeeded", "failed", "canceled", "cancelled"];
+export * from "./phoneNumbers";
