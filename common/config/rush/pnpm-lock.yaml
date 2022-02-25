@@ -10220,22 +10220,22 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-A10x7G+CHddwetQ+Dy3gelAKc5I/7CFv/Wn/A296MAYWE30qTwAZs72SkhmYRWYTPNYnw6XaPDVeaDJMLimOuA==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-xw9HgItxghDJbwiaXXuSxFsEe5t+3Sm9vIuyKVmkkYMHk4zGlaVuDfAN+xUeOTlnjhQ7TBa0uyckQvnaRX5FAg==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -10596,22 +10596,22 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-+9Qoc3Tw6WUEeLcNSS/tSIEm2jGiOWhIYmL/G99sBZXuEdbUG9kO2hi6lwxPCfnaJlGFD5CL1DwM0fz3lX+39Q==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-Utz+kCDiR+3QBAK7pB0iBpdUi8cEuCxWceTgcinYoPaHTtisHN+LKgLg5K13e+ptO64hJ5W4DFsxl91eiYPn5A==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -10646,22 +10646,22 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-EtqWdf/IlUjVucWJRaCQzX4tridLWMfP0jkXNyHbXG0jSDG4GMJtqmNVkZv5kXV1q1Vo9AZF+no+NNUG7savNg==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-N4orsMJmesGip5EVaSD5phi6nhx1jdQhhUF7N9uBnosLk32xJqhinZIGkFL1D1LNM72YLk+oQ3jR0DJOJwSLbA==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -10771,22 +10771,22 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-h+NrdtZ8tDnbjuMUQs3Xp9x7G8V1qmfWtrbo91lozM/w4aCFu0ORDjy9douu9dlCHx2sW0H5iC9nOdiDsdAEsw==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-oX2g+2gmn9C7tEb4bEGrjA6yXkP2RR7PG1NlAHDksrDPwmbsRR03139eUDIcF0Hb+quKuRseakzCDYMRcNEP0A==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -11271,22 +11271,22 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-lpuxhmL5AQtn8qN3RM77tjn0XNyGIyMinXXKo1bYPHvWW8C3UR6YkNVWNAMDDqDfasEvIJ6EyVlVmXcSI51noA==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-a/9y5aQmt81i9+TUD4TEXZvhih78ohaVG8NbUC2MrRjwR7d5C16dUQualEY/4ziZppqS21SOFV8ZcdG7vlPtkg==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -11771,22 +11771,22 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-p66ofxJnT0I+Oc4eH/BaMqZqKS+KtE7AOwiC598oWe5lMpX/RJ+os2mSCZt2J8xhajI17P/sZjlxSSJNtocjeg==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-Y8XL95tGixEM0br4pDJgRVqqa4CZWJRbu1SGkBtHZNKbpJ1aU3OXeei1dk84bEtu+FvjDh3j2QOFKKhnMoSFgA==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -11796,22 +11796,22 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-ccH8okJMyZ8WxGKVGU67ywTewBADAsF92PFJmONlWwvtFM3QgTojnZPT5+cAVGiowR/ZoEd1J+ytbLLS30aPnQ==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-dZ/z3nCQ43lFVZpX8UP+Juqk9IkSNc7thAziWRyWzYXOB34A1o228B0+2J24lPnO07cU/tuyQb9jeBMzCy4ydQ==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -12348,22 +12348,22 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-eiLIXwwPrdcn8GYroZPkrGc+DxnLeQqsuMYxLJp94+wXKYzCurH5adeqfaZNaFJ/4Px/+FKP6SwJNGPmw8UMcA==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-r1KzXFTfAwSRaLKrPywoEtLobNOhPsp+wwWta65dk3Yp27sLhJthf1JqNo33+ivhPluWGOOge6h5bI3JGGJBGg==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
