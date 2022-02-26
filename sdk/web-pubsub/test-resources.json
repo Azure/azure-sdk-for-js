@@ -15,6 +15,12 @@
         "description": "The client OID to grant access to test resources."
       }
     },
+    "testApplicationId": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client ID used to run tests."
+      }
+    },
     "tenantId": {
       "type": "string",
       "metadata": {
@@ -37,7 +43,9 @@
   },
   "variables": {
     "webpubsubName": "[concat('e2e-', parameters('baseName'))]",
-    "webpubsubResourceId": "[resourceId('Microsoft.SignalRService/WebPubSub', variables('webpubsubName'))]"
+    "webpubsubResourceId": "[resourceId('Microsoft.SignalRService/WebPubSub', variables('webpubsubName'))]",
+    "operatorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'c7393b34-138c-406f-901b-d8cf2b17e6ae')]",
+    "ownerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '12cf5a90-567b-43ae-8102-96cf46c7d9b4')]",
   },
   "resources": [
     {
@@ -70,9 +78,18 @@
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2021-04-01-preview",
-      "name": "[guid(resourceGroup().id)]",
+      "name": "[guid(concat('ownerRoleId', variables('webpubsubName')))]",
       "properties": {
-        "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '12cf5a90-567b-43ae-8102-96cf46c7d9b4')]",
+        "roleDefinitionId": "[variables('ownerRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2021-04-01-preview",
+      "name": "[guid(concat('operatorRoleId', variables('webpubsubName')))]",
+      "properties": {
+        "roleDefinitionId": "[variables('operatorRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
       }
     }
@@ -84,7 +101,7 @@
     },
     "AZURE_CLIENT_ID": {
       "type": "string",
-      "value": "[parameters('testApplicationOid')]"
+      "value": "[parameters('testApplicationId')]"
     },
     "AZURE_CLIENT_SECRET": {
       "type": "string",
