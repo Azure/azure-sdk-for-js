@@ -165,14 +165,8 @@ describe("HubClient", function () {
     it("can revoke permissions from connections", async function () {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
-      let error;
-      try {
-        await client.revokePermission("xxx", "joinLeaveGroup", { targetName: "x" });
-      } catch (e) {
-        error = e;
-      }
-      // grantPermission validates connection ids, so we expect an error here.
-      assert.equal(error.statusCode, 404);
+      await client.revokePermission("invalid-id", "joinLeaveGroup", { targetName: "x" });
+      // Service doesn't throw error for invalid connection-ids
     });
 
     // service API doesn't work yet.
