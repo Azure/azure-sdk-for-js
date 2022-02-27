@@ -19,7 +19,7 @@ export default {
   ignorePatterns: ["**/generated/**"],
   "overrides": [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['*.ts', '*.tsx', '*.json'],
       parserOptions: {
         project: [
           "./tsconfig.json",
