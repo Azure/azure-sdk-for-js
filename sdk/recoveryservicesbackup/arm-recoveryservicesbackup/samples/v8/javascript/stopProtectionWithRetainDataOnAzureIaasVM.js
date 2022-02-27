@@ -14,7 +14,7 @@ asynchronous operation. To know the status of the operation, call the GetItemOpe
  *
  * @summary Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
 asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/StopProtection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/StopProtection.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

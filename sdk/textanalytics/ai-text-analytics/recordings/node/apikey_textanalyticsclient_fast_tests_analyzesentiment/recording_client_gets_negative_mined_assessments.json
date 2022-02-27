@@ -1,0 +1,116 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/sentiment?stringIndexType=Utf16CodeUnit\u0026opinionMining=true",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "84",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000009-0000000000000018-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "6760927f-7a6e-4ef1-bf42-904608af2bfb"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "The food and service is not good",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "f276b695-88e0-478c-9bfa-faadaeca54ee",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
+        "Date": "Fri, 18 Feb 2022 18:59:02 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "140"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "0",
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "sentences": [
+              {
+                "sentiment": "negative",
+                "confidenceScores": {
+                  "positive": 0.0,
+                  "neutral": 0.0,
+                  "negative": 1.0
+                },
+                "offset": 0,
+                "length": 32,
+                "text": "The food and service is not good",
+                "targets": [
+                  {
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "negative": 0.99
+                    },
+                    "offset": 4,
+                    "length": 4,
+                    "text": "food",
+                    "relations": [
+                      {
+                        "relationType": "assessment",
+                        "ref": "#/documents/0/sentences/0/assessments/0"
+                      }
+                    ]
+                  },
+                  {
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "negative": 0.99
+                    },
+                    "offset": 13,
+                    "length": 7,
+                    "text": "service",
+                    "relations": [
+                      {
+                        "relationType": "assessment",
+                        "ref": "#/documents/0/sentences/0/assessments/0"
+                      }
+                    ]
+                  }
+                ],
+                "assessments": [
+                  {
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                      "positive": 0.01,
+                      "negative": 0.99
+                    },
+                    "offset": 28,
+                    "length": 4,
+                    "text": "good",
+                    "isNegated": true
+                  }
+                ]
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2020-04-01"
+      }
+    }
+  ],
+  "Variables": {}
+}

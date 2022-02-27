@@ -15,8 +15,6 @@ import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -374,8 +372,6 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
-    // @deprecated (undocumented)
-    parentSpan?: Span | SpanContext;
     tracingOptions?: OperationTracingOptions;
 }
 

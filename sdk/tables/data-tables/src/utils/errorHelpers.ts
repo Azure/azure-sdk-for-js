@@ -4,7 +4,6 @@
 import { OperationOptions, OperationRequest } from "@azure/core-client";
 import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import { AzureLogger } from "@azure/logger";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { TableServiceError } from "../generated";
 
 export type TableServiceErrorResponse = PipelineResponse & {
@@ -24,7 +23,7 @@ export type TableServiceErrorResponse = PipelineResponse & {
 
 export function handleTableAlreadyExists(
   error: unknown,
-  options: OperationOptions & { tableName?: string; span?: any; logger?: AzureLogger } = {}
+  options: OperationOptions & { tableName?: string; logger?: AzureLogger } = {}
 ): void {
   const responseError = getErrorResponse(error);
   if (
@@ -38,7 +37,6 @@ export function handleTableAlreadyExists(
       options.onResponse(responseError, {});
     }
   } else {
-    options?.span.setStatus({ code: SpanStatusCode.ERROR, message: (error as Error)?.message });
     throw error;
   }
 }

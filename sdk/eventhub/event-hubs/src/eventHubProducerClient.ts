@@ -13,7 +13,7 @@ import {
 import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
+import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
 import { logErrorStackTrace, logger } from "./log";
@@ -28,7 +28,7 @@ import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, EventDataInternal } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { OperationOptions } from "./util/operationOptions";
-import { createEventHubSpan } from "./diagnostics/tracing";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 
 /**
@@ -378,13 +378,14 @@ export class EventHubProducerClient {
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
 
-    // link message span contexts
-    let spanContextsToLink: SpanContext[] = [];
     // Holds an EventData properties object containing tracing properties.
     // This lets us avoid cloning batch when it is EventData[], which is
     // important as the idempotent EventHubSender needs to decorate the
     // original EventData passed through.
     const eventDataTracingProperties: Array<EventData["properties"]> = [];
+
+    // link message span contexts
+    let spanContextsToLink: TracingContext[] = [];
 
     if (isEventDataBatch(batch)) {
       if (
@@ -425,40 +426,37 @@ export class EventHubProducerClient {
       partitionKey,
     });
 
-    let sender = this._sendersMap.get(partitionId || "");
-    if (!sender) {
-      const partitionPublishingOptions = isDefined(partitionId)
-        ? this._partitionOptions?.[partitionId]
-        : undefined;
-      sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
-        partitionId,
-        partitionPublishingOptions,
-      });
-      this._sendersMap.set(partitionId || "", sender);
-    }
+    return tracingClient.withSpan(
+      `${EventHubProducerClient.name}.${this.sendBatch.name}`,
+      options,
+      (updatedOptions) => {
+        let sender = this._sendersMap.get(partitionId || "");
+        if (!sender) {
+          const partitionPublishingOptions = isDefined(partitionId)
+            ? this._partitionOptions?.[partitionId]
+            : undefined;
+          sender = EventHubSender.create(this._context, {
+            enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
+            partitionId,
+            partitionPublishingOptions,
+          });
+          this._sendersMap.set(partitionId || "", sender);
+        }
 
-    const sendSpan = this._createSendSpan(options, spanContextsToLink);
-
-    try {
-      const result = await sender.send(batch, {
-        ...options,
-        partitionId,
-        partitionKey,
-        retryOptions: this._clientOptions.retryOptions,
-        tracingProperties: eventDataTracingProperties,
-      });
-      sendSpan.setStatus({ code: SpanStatusCode.OK });
-      return result;
-    } catch (error) {
-      sendSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
-      throw error;
-    } finally {
-      sendSpan.end();
-    }
+        return sender.send(batch, {
+          ...updatedOptions,
+          partitionId,
+          partitionKey,
+          retryOptions: this._clientOptions.retryOptions,
+        });
+      },
+      {
+        spanLinks: spanContextsToLink.map<TracingSpanLink>((tracingContext) => {
+          return { tracingContext };
+        }),
+        ...toSpanOptions(this._context.config, "client"),
+      }
+    );
   }
 
   /**
@@ -525,24 +523,6 @@ export class EventHubProducerClient {
       ...options,
       retryOptions: this._clientOptions.retryOptions,
     });
-  }
-
-  private _createSendSpan(
-    operationOptions: OperationOptions,
-    spanContextsToLink: SpanContext[] = []
-  ): Span {
-    const links: Link[] = spanContextsToLink.map((context) => {
-      return {
-        context,
-      };
-    });
-
-    const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
-      kind: SpanKind.CLIENT,
-      links,
-    });
-
-    return span;
   }
 }
 

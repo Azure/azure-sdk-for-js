@@ -13,6 +13,7 @@ import {
   recorderEnvSetup,
   getGenericBSU,
   getImmutableContainerName,
+  isBrowser,
 } from "./utils";
 import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
@@ -782,6 +783,24 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
+  it("exists works against blob uploaded with customer provided key", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const metadata = { a: "a" };
+    const smResp = await blobClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const result = await blobClient.exists();
+    assert.ok(result, "exists() should return true");
+  });
+
   it("exists re-throws error from getProperties", async () => {
     blobName = recorder.getUniqueName("blobCPK");
     blobClient = containerClient.getBlobClient(blobName);
@@ -797,8 +816,21 @@ describe("BlobClient", () => {
     assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     let exceptionCaught = false;
+    let anonymousBlobClient;
+
+    if (isBrowser()) {
+      const anonymousBlobServiceClient = new BlobServiceClient(
+        `https://${blobServiceClient.accountName}.blob.core.windows.net/`
+      );
+      anonymousBlobClient = anonymousBlobServiceClient
+        .getContainerClient(containerName)
+        .getBlobClient(blobName);
+    } else {
+      anonymousBlobClient = new BlobClient(blobClient.url);
+    }
+
     try {
-      await blobClient.exists();
+      await anonymousBlobClient.exists();
     } catch (err) {
       exceptionCaught = true;
     }

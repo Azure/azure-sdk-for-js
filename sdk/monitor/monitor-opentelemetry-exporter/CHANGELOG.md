@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added file access control in Windows for retriable telemetry.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -3,17 +3,11 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
 import { versionsToTest } from "@azure/test-utils";
-import { env, record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
-import { isNode } from "../utils/isNode";
-import { createRegistryClient, recorderEnvSetup, serviceVersions } from "../utils/utils";
-
-if (isNode) {
-  dotenv.config();
-}
+import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2021-07-01" }).describe("Repository and artifact tests", function () {
@@ -30,9 +24,15 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       // The recorder has some convenience methods, and we need to store a
       // reference to it so that we can `stop()` the recorder later in the
       // `afterEach` hook.
-      recorder = record(this, recorderEnvSetup);
+      recorder = new Recorder(this.currentTest);
 
-      registryClient = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT, serviceVersion);
+      await recorder.start(recorderStartOptions);
+
+      registryClient = createRegistryClient(
+        assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
+        serviceVersion,
+        recorder
+      );
       repository = registryClient.getRepository(repositoryName);
     });
 
