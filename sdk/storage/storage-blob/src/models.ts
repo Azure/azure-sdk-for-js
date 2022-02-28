@@ -324,13 +324,11 @@ export class BlobAudience {
   }
 
   public static StorageBlobAudience(): BlobAudience {
-    let blobAudience = new BlobAudience(StorageOAuthScopes);
-    return blobAudience;
+    return new BlobAudience(StorageOAuthScopes);
   }
 
   public static DiskComputeBlobAudience(): BlobAudience {
-    let blobAudience = new BlobAudience(DiskComputeOAuthScopes);
-    return blobAudience;
+    return new BlobAudience(DiskComputeOAuthScopes);
   }
 
   /**

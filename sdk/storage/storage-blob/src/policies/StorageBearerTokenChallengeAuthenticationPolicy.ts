@@ -392,7 +392,7 @@ export function storageBearerTokenChallengeAuthenticationPolicy(
             challengeScopes /* , options */
           );
 
-          const token = (
+          const tokenForChallenge = (
             await getTokenForChallenge({
               abortSignal: webResource.abortSignal,
               tracingOptions: {
@@ -403,8 +403,11 @@ export function storageBearerTokenChallengeAuthenticationPolicy(
           ).token;
 
           getToken = getTokenForChallenge;
-          webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
-          return await this._nextPolicy.sendRequest(webResource);
+          webResource.headers.set(
+            Constants.HeaderConstants.AUTHORIZATION,
+            `Bearer ${tokenForChallenge}`
+          );
+          return this._nextPolicy.sendRequest(webResource);
         }
       }
 
