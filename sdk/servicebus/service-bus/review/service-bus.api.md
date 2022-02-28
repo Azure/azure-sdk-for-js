@@ -432,15 +432,15 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
 // @public
 export interface ServiceBusReceiver {
     abandonMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
     close(): Promise<void>;
     completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
     deadLetterMessage(message: ServiceBusReceivedMessage, options?: DeadLetterOptions & {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
