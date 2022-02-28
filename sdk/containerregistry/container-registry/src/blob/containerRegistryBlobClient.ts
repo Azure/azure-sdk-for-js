@@ -1,31 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isTokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "../generated";
+import {
+  GeneratedClient,
+  OCIManifest as GeneratedOCIManifest,
+  Annotations as GeneratedAnnotations,
+} from "../generated";
 import { ContainerRegistryClientOptions } from "..";
 import { ChallengeHandler } from "../containerRegistryChallengeHandler";
 import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential";
 import { logger } from "../logger";
 import { calculateDigest } from "../utils/digest";
-import { UploadManifestOptions,
-  ContainerRegistryBlobDeleteBlobOptionalParams,
-  ContainerRegistryBlobGetBlobOptionalParams,
-  ContainerRegistryBlobGetBlobResponse,
-  ContainerRegistryDeleteManifestOptionalParams,
-  Manifest,
+import {
+  UploadManifestOptions,
   OCIManifest,
+  UploadBlobResult,
+  DownloadManifestResult,
+  DeleteBlobOptions,
+  DownloadManifestOptions,
+  DeleteManifestOptions,
+  DownloadBlobOptions,
+  DownloadBlobResult,
+  OCIAnnotations,
+  UploadManifestResult,
 } from "./models";
+import { FullOperationResponse } from "@azure/core-client";
 
 const LATEST_API_VERSION = "2021-07-01";
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+function convertGeneratedAnnotations(
+  generatedAnnotations?: GeneratedAnnotations
+): OCIAnnotations | undefined {
+  if (!generatedAnnotations) {
+    return undefined;
+  }
+
+  const {
+    created,
+    authors,
+    url,
+    documentation,
+    source,
+    version,
+    revision,
+    vendor,
+    licenses,
+    name,
+    title,
+    description,
+    ...additionalProperties
+  } = generatedAnnotations;
+
+  return {
+    createdAt: created,
+    authors,
+    url,
+    documentation,
+    source,
+    version,
+    revision,
+    vendor,
+    licenses,
+    name,
+    title,
+    description,
+    additionalProperties,
+  };
 }
 
 /**
@@ -66,34 +115,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options?: ContainerRegistryClientOptions
-  );
-
-  /**
-   * Creates an instance of a ContainerRegistryClient to interact with
-   * an Azure Container Registry that has anonymous pull access enabled.
-   * Only operations that support anonymous access are enabled. Other service
-   * methods will throw errors.
-   *
-   * Example usage:
-   * ```ts
-   * import { ContainerRegistryClient } from "@azure/container-registry";
-   *
-   * const client = new ContainerRegistryClient(
-   *    "<container registry API endpoint>",
-   * );
-   * ```
-   * @param endpoint - the URL endpoint of the container registry
-   * @param repositoryName - The name of the repository that logically groups the artifact parts.
-   * @param options - optional configuration used to send requests to the service
-   */
-  constructor(endpoint: string, repositoryName: string, options?: ContainerRegistryClientOptions);
-
-  constructor(
-    endpoint: string,
-    repositoryName: string,
-    credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
-    clientOptions: ContainerRegistryClientOptions = {}
+    options: ContainerRegistryClientOptions = {}
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -101,15 +123,6 @@ export class ContainerRegistryBlobClient {
 
     this.endpoint = endpoint;
     this.repositoryName = repositoryName;
-
-    let credential: TokenCredential | undefined;
-    let options: ContainerRegistryClientOptions | undefined;
-    if (isTokenCredential(credentialOrOptions)) {
-      credential = credentialOrOptions;
-      options = clientOptions;
-    } else {
-      options = credentialOrOptions ?? {};
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -142,65 +155,134 @@ export class ContainerRegistryBlobClient {
     );
   }
 
-  public async deleteBlob(
-    digest: string,
-    options?: ContainerRegistryBlobDeleteBlobOptionalParams
-  ): Promise<void> {
+  public async deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void> {
     await this.client.containerRegistryBlob.deleteBlob(this.repositoryName, digest, options);
   }
 
-  public async uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<void>;
+  public async uploadManifest(
+    manifest: OCIManifest,
+    options?: UploadManifestOptions
+  ): Promise<UploadManifestResult>;
 
-  public async uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<void>;
+  public async uploadManifest(
+    manifestStream: NodeJS.ReadableStream,
+    options?: UploadManifestOptions
+  ): Promise<UploadManifestResult>;
 
   public async uploadManifest(
     manifestOrManifestStream: NodeJS.ReadableStream | OCIManifest,
     options?: UploadManifestOptions
-  ): Promise<void> {
+  ): Promise<UploadManifestResult> {
+    let manifestBody: Buffer | NodeJS.ReadableStream;
 
-    const manifestBody = isReadableStream(manifestOrManifestStream) ? manifestOrManifestStream : Buffer.from(JSON.stringify(manifestOrManifestStream), "utf-8");
+    if (isReadableStream(manifestOrManifestStream)) {
+      manifestBody = manifestOrManifestStream;
+    } else {
+      const { schemaVersion, config, layers } = manifestOrManifestStream;
 
-    const tagOrDigest = options?.tag ?? await calculateDigest(manifestBody);
-    await this.client.containerRegistry.createManifest(
+      const annotations = manifestOrManifestStream.annotations && {
+        ...manifestOrManifestStream.annotations,
+
+        // Rename/re-alias properties
+        createdAt: undefined,
+        additionalProperties: undefined,
+        created: manifestOrManifestStream.annotations.createdAt,
+        ...manifestOrManifestStream.annotations.additionalProperties,
+      };
+
+      manifestBody = Buffer.from(
+        JSON.stringify({
+          schemaVersion,
+          config,
+          layers,
+          annotations,
+        })
+      );
+    }
+
+    const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
+    const { dockerContentDigest } = await this.client.containerRegistry.createManifest(
       this.repositoryName,
       tagOrDigest,
       manifestBody,
       options
     );
+
+    return { digest: dockerContentDigest };
   }
 
-  public async downloadManifest(tagOrDigest: string): Promise<Manifest> {
-    const response = await this.client.containerRegistry.getManifest(
-      this.repositoryName,
-      tagOrDigest,
+  public async downloadManifest(
+    tagOrDigest: string,
+    options?: DownloadManifestOptions
+  ): Promise<DownloadManifestResult> {
+    const rawResponse = await new Promise<FullOperationResponse>((resolve) =>
+      this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
+        onResponse: (response, flatResponse, error) => {
+          options?.onResponse?.(response, flatResponse, error);
+          resolve(response);
+        },
+        ...options,
+      })
     );
 
-    // TODO: validate digest (comes from Docker-Content-Digest header, how do we get the header?)
+    const digest = rawResponse.headers.get("Docker-Content-Digest");
+    if (!digest) {
+      throw new Error("Expected Docker-Content-Digest header in response");
+    }
 
-    return response;
+    const expectedDigest = await calculateDigest(rawResponse.readableStreamBody!);
+
+    if (digest !== expectedDigest) {
+      throw new Error("Docker-Content-Digest header does not match calculated digest");
+    }
+
+    const {
+      schemaVersion,
+      config,
+      layers,
+      annotations: generatedAnnotations,
+    } = JSON.parse(rawResponse.bodyAsText!) as GeneratedOCIManifest;
+
+    if (schemaVersion === undefined) {
+      throw new Error("schemaVersion must be defined");
+    }
+
+    const manifest: OCIManifest = {
+      schemaVersion,
+      config: {
+        ...config,
+        annotations: convertGeneratedAnnotations(config?.annotations),
+      },
+      layers: layers?.map((layer) => ({
+        ...layer,
+        annotations: convertGeneratedAnnotations(layer.annotations),
+      })),
+    };
+
+    if (generatedAnnotations) {
+      manifest.annotations = convertGeneratedAnnotations(generatedAnnotations);
+    }
+
+    return {
+      digest,
+      manifest,
+      manifestStream: rawResponse.readableStreamBody!,
+    };
   }
 
-  public async deleteManifest(
-    digest: string,
-    options?: ContainerRegistryDeleteManifestOptionalParams
-  ): Promise<void> {
+  public async deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void> {
     await this.client.containerRegistry.deleteManifest(this.repositoryName, digest, options);
   }
 
-  // TODO: investigate stream support
-  // right now: just support readablestream
-  public async uploadBlob(blob: NodeJS.ReadableStream): Promise<void> {
-
+  public async uploadBlob(blob: NodeJS.ReadableStream): Promise<UploadBlobResult> {
     const startUploadResult = await this.client.containerRegistryBlob.startUpload(
       this.repositoryName
     );
 
     if (!startUploadResult.location) {
-      // Think we just throw Error
-      // Check the guidelines for best practice
-      throw new Error(""); // TODO error
+      throw new Error("startUpload did not return a location");
     }
-    
+
     const digestCallback = calculateDigest(blob);
 
     const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
@@ -209,20 +291,42 @@ export class ContainerRegistryBlobClient {
     );
 
     if (!uploadChunkResult.location) {
-      throw undefined; // TODO error
+      throw new Error("uploadChunk did not return a location");
     }
 
     const digest = await digestCallback;
 
-    await this.client.containerRegistryBlob.completeUpload(
-      digest,
-      uploadChunkResult.location
-    );
+    const { dockerContentDigest: digestFromResponse } =
+      await this.client.containerRegistryBlob.completeUpload(digest, uploadChunkResult.location);
 
-    // TODO return?
+    if (!digestFromResponse) {
+      throw new Error("completeUpload did not provide a digest");
+    }
+
+    if (digest !== digestFromResponse) {
+      throw new Error("Digest of blob to upload does not match the digest from the server.");
+    }
+
+    return { digest };
   }
 
-  public async downloadBlob(digest: string, options?: ContainerRegistryBlobGetBlobOptionalParams): Promise<ContainerRegistryBlobGetBlobResponse> {
-    return await this.client.containerRegistryBlob.getBlob(this.repositoryName, digest, options);
+  public async downloadBlob(
+    digest: string,
+    options?: DownloadBlobOptions
+  ): Promise<DownloadBlobResult> {
+    const response = await this.client.containerRegistryBlob.getBlob(
+      this.repositoryName,
+      digest,
+      options
+    );
+
+    if (!response.dockerContentDigest || !response.readableStreamBody) {
+      throw new Error("Expected response with digest and content");
+    }
+
+    return {
+      digest: response.dockerContentDigest,
+      content: response.readableStreamBody,
+    };
   }
 }

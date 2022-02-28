@@ -14,23 +14,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface Annotations {
-    [property: string]: any;
-    authors?: string;
-    created?: Date;
-    description?: string;
-    documentation?: string;
-    licenses?: string;
-    name?: string;
-    revision?: string;
-    source?: string;
-    title?: string;
-    url?: string;
-    vendor?: string;
-    version?: string;
-}
-
-// @public
 export type ArtifactManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
@@ -78,23 +61,22 @@ export interface ArtifactTagProperties {
 // @public
 export class ContainerRegistryBlobClient {
     constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    constructor(endpoint: string, repositoryName: string, options?: ContainerRegistryClientOptions);
     // (undocumented)
-    deleteBlob(digest: string, options?: ContainerRegistryBlobDeleteBlobOptionalParams): Promise<void>;
+    deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
     // (undocumented)
-    deleteManifest(digest: string, options?: ContainerRegistryDeleteManifestOptionalParams): Promise<void>;
+    deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
     // (undocumented)
-    downloadBlob(digest: string, options?: ContainerRegistryBlobGetBlobOptionalParams): Promise<ContainerRegistryBlobGetBlobResponse>;
+    downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
     // (undocumented)
-    downloadManifest(tagOrDigest: string): Promise<Manifest>;
+    downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
     readonly endpoint: string;
     readonly repositoryName: string;
     // (undocumented)
-    uploadBlob(blob: NodeJS.ReadableStream): Promise<void>;
+    uploadBlob(blob: NodeJS.ReadableStream): Promise<UploadBlobResult>;
     // (undocumented)
-    uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<void>;
+    uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
     // (undocumented)
-    uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<void>;
+    uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -171,6 +153,14 @@ export interface ContainerRepositoryProperties {
 export interface DeleteArtifactOptions extends OperationOptions {
 }
 
+// @public (undocumented)
+export interface DeleteBlobOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DeleteManifestOptions extends OperationOptions {
+}
+
 // @public
 export interface DeleteRepositoryOptions extends OperationOptions {
 }
@@ -179,13 +169,30 @@ export interface DeleteRepositoryOptions extends OperationOptions {
 export interface DeleteTagOptions extends OperationOptions {
 }
 
-// @public
-export interface Descriptor {
-    annotations?: Annotations;
-    digest?: string;
-    mediaType?: string;
-    size?: number;
-    urls?: string[];
+// @public (undocumented)
+export interface DownloadBlobOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DownloadBlobResult {
+    // (undocumented)
+    content: NodeJS.ReadableStream;
+    // (undocumented)
+    digest: string;
+}
+
+// @public (undocumented)
+export interface DownloadManifestOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DownloadManifestResult {
+    // (undocumented)
+    digest: string;
+    // (undocumented)
+    manifest: OCIManifest;
+    // (undocumented)
+    manifestStream: NodeJS.ReadableStream;
 }
 
 // @public
@@ -267,12 +274,40 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
     continuationToken?: string;
 }
 
-// @public
-export type OCIManifest = Manifest & {
-    config?: Descriptor;
-    layers?: Descriptor[];
-    annotations?: Annotations;
-};
+// @public (undocumented)
+export interface OCIAnnotations {
+    // (undocumented)
+    additionalProperties: Record<string, unknown>;
+    authors?: string;
+    createdAt?: Date;
+    description?: string;
+    documentation?: string;
+    licenses?: string;
+    name?: string;
+    revision?: string;
+    source?: string;
+    title?: string;
+    url?: string;
+    vendor?: string;
+    version?: string;
+}
+
+// @public (undocumented)
+export interface OCIBlobDescriptor {
+    annotations?: OCIAnnotations;
+    digest?: string;
+    mediaType?: string;
+    size?: number;
+    urls?: string[];
+}
+
+// @public (undocumented)
+export interface OCIManifest {
+    annotations?: OCIAnnotations;
+    config?: OCIBlobDescriptor;
+    layers?: OCIBlobDescriptor[];
+    schemaVersion: number;
+}
 
 // @public
 export interface RegistryArtifact {
@@ -323,9 +358,21 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface UploadManifestOptions extends ContainerRegistryCreateManifestOptionalParams {
+export interface UploadBlobResult {
     // (undocumented)
-    tag?: string;
+    digest: string;
+}
+
+// @public (undocumented)
+export interface UploadManifestOptions extends OperationOptions {
+    // (undocumented)
+    tag: string;
+}
+
+// @public (undocumented)
+export interface UploadManifestResult {
+    // (undocumented)
+    digest?: string;
 }
 
 // (No @packageDocumentation comment for this package)
