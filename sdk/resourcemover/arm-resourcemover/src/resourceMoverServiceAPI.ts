@@ -54,7 +54,7 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resourcemover/2.0.0`;
+    const packageDetails = `azsdk-js-arm-resourcemover/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
