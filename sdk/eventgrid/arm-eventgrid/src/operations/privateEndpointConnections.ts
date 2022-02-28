@@ -16,16 +16,13 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
-  Enum21,
+  PrivateEndpointConnectionsParentType,
   PrivateEndpointConnectionsListByResourceNextOptionalParams,
   PrivateEndpointConnectionsListByResourceOptionalParams,
-  Enum18,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  Enum19,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
-  Enum20,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsListByResourceNextResponse
@@ -54,7 +51,7 @@ export class PrivateEndpointConnectionsImpl
    */
   public listByResource(
     resourceGroupName: string,
-    parentType: Enum21,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
@@ -84,7 +81,7 @@ export class PrivateEndpointConnectionsImpl
 
   private async *listByResourcePagingPage(
     resourceGroupName: string,
-    parentType: Enum21,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
@@ -111,7 +108,7 @@ export class PrivateEndpointConnectionsImpl
 
   private async *listByResourcePagingAll(
     resourceGroupName: string,
-    parentType: Enum21,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection> {
@@ -135,7 +132,7 @@ export class PrivateEndpointConnectionsImpl
    */
   get(
     resourceGroupName: string,
-    parentType: Enum18,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams
@@ -163,7 +160,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginUpdate(
     resourceGroupName: string,
-    parentType: Enum19,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -242,7 +239,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    parentType: Enum19,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -269,7 +266,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginDelete(
     resourceGroupName: string,
-    parentType: Enum20,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -340,7 +337,7 @@ export class PrivateEndpointConnectionsImpl
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    parentType: Enum20,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -364,7 +361,7 @@ export class PrivateEndpointConnectionsImpl
    */
   private _listByResource(
     resourceGroupName: string,
-    parentType: Enum21,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): Promise<PrivateEndpointConnectionsListByResourceResponse> {
@@ -384,7 +381,7 @@ export class PrivateEndpointConnectionsImpl
    */
   private _listByResourceNext(
     resourceGroupName: string,
-    parentType: Enum21,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     nextLink: string,
     options?: PrivateEndpointConnectionsListByResourceNextOptionalParams
@@ -445,9 +442,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.parentType,
     Parameters.parentName,
-    Parameters.privateEndpointConnectionName,
-    Parameters.parentType1
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -463,9 +460,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.parentType,
     Parameters.parentName,
-    Parameters.privateEndpointConnectionName,
-    Parameters.parentType2
+    Parameters.privateEndpointConnectionName
   ],
   serializer
 };
@@ -484,8 +481,8 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.parentName,
-    Parameters.parentType3
+    Parameters.parentType,
+    Parameters.parentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -505,8 +502,8 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.parentName,
-    Parameters.parentType3
+    Parameters.parentType,
+    Parameters.parentName
   ],
   headerParameters: [Parameters.accept],
   serializer

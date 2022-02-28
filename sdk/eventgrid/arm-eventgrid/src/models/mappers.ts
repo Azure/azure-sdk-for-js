@@ -2102,6 +2102,162 @@ export const StringContainsAdvancedFilter: coreClient.CompositeMapper = {
   }
 };
 
+export const NumberInRangeAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "NumberInRange",
+  type: {
+    name: "Composite",
+    className: "NumberInRangeAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties,
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NumberNotInRangeAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "NumberNotInRange",
+  type: {
+    name: "Composite",
+    className: "NumberNotInRangeAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties,
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const StringNotBeginsWithAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "StringNotBeginsWith",
+  type: {
+    name: "Composite",
+    className: "StringNotBeginsWithAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties,
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const StringNotEndsWithAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "StringNotEndsWith",
+  type: {
+    name: "Composite",
+    className: "StringNotEndsWithAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties,
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const StringNotContainsAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "StringNotContains",
+  type: {
+    name: "Composite",
+    className: "StringNotContainsAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties,
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IsNullOrUndefinedAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "IsNullOrUndefined",
+  type: {
+    name: "Composite",
+    className: "IsNullOrUndefinedAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties
+    }
+  }
+};
+
+export const IsNotNullAdvancedFilter: coreClient.CompositeMapper = {
+  serializedName: "IsNotNull",
+  type: {
+    name: "Composite",
+    className: "IsNotNullAdvancedFilter",
+    uberParent: "AdvancedFilter",
+    polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdvancedFilter.type.modelProperties
+    }
+  }
+};
+
 export const StorageBlobDeadLetterDestination: coreClient.CompositeMapper = {
   serializedName: "StorageBlob",
   type: {
@@ -2457,6 +2613,13 @@ export let discriminators = {
   "AdvancedFilter.StringBeginsWith": StringBeginsWithAdvancedFilter,
   "AdvancedFilter.StringEndsWith": StringEndsWithAdvancedFilter,
   "AdvancedFilter.StringContains": StringContainsAdvancedFilter,
+  "AdvancedFilter.NumberInRange": NumberInRangeAdvancedFilter,
+  "AdvancedFilter.NumberNotInRange": NumberNotInRangeAdvancedFilter,
+  "AdvancedFilter.StringNotBeginsWith": StringNotBeginsWithAdvancedFilter,
+  "AdvancedFilter.StringNotEndsWith": StringNotEndsWithAdvancedFilter,
+  "AdvancedFilter.StringNotContains": StringNotContainsAdvancedFilter,
+  "AdvancedFilter.IsNullOrUndefined": IsNullOrUndefinedAdvancedFilter,
+  "AdvancedFilter.IsNotNull": IsNotNullAdvancedFilter,
   "DeadLetterDestination.StorageBlob": StorageBlobDeadLetterDestination,
   "DeliveryAttributeMapping.Static": StaticDeliveryAttributeMapping,
   "DeliveryAttributeMapping.Dynamic": DynamicDeliveryAttributeMapping

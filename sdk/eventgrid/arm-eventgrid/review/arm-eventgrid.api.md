@@ -13,14 +13,14 @@ import { PollOperationState } from '@azure/core-lro';
 // @public
 export interface AdvancedFilter {
     key?: string;
-    operatorType: "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains";
+    operatorType: "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull";
 }
 
 // @public
 export type AdvancedFilterOperatorType = string;
 
 // @public (undocumented)
-export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
+export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter | NumberInRangeAdvancedFilter | NumberNotInRangeAdvancedFilter | StringNotBeginsWithAdvancedFilter | StringNotEndsWithAdvancedFilter | StringNotContainsAdvancedFilter | IsNullOrUndefinedAdvancedFilter | IsNotNullAdvancedFilter;
 
 // @public
 export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestination & {
@@ -303,18 +303,6 @@ export type DynamicDeliveryAttributeMapping = DeliveryAttributeMapping & {
 
 // @public
 export type EndpointType = string;
-
-// @public
-export type Enum18 = string;
-
-// @public
-export type Enum19 = string;
-
-// @public
-export type Enum20 = string;
-
-// @public
-export type Enum21 = string;
 
 // @public
 export type EventDeliverySchema = string;
@@ -760,6 +748,16 @@ export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMappin
 export type IpActionType = string;
 
 // @public
+export type IsNotNullAdvancedFilter = AdvancedFilter & {
+    operatorType: "IsNotNull";
+};
+
+// @public
+export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+    operatorType: "IsNullOrUndefined";
+};
+
+// @public
 export interface JsonField {
     sourceField?: string;
 }
@@ -786,17 +784,25 @@ export enum KnownAdvancedFilterOperatorType {
     // (undocumented)
     BoolEquals = "BoolEquals",
     // (undocumented)
+    IsNotNull = "IsNotNull",
+    // (undocumented)
+    IsNullOrUndefined = "IsNullOrUndefined",
+    // (undocumented)
     NumberGreaterThan = "NumberGreaterThan",
     // (undocumented)
     NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
     // (undocumented)
     NumberIn = "NumberIn",
     // (undocumented)
+    NumberInRange = "NumberInRange",
+    // (undocumented)
     NumberLessThan = "NumberLessThan",
     // (undocumented)
     NumberLessThanOrEquals = "NumberLessThanOrEquals",
     // (undocumented)
     NumberNotIn = "NumberNotIn",
+    // (undocumented)
+    NumberNotInRange = "NumberNotInRange",
     // (undocumented)
     StringBeginsWith = "StringBeginsWith",
     // (undocumented)
@@ -805,6 +811,12 @@ export enum KnownAdvancedFilterOperatorType {
     StringEndsWith = "StringEndsWith",
     // (undocumented)
     StringIn = "StringIn",
+    // (undocumented)
+    StringNotBeginsWith = "StringNotBeginsWith",
+    // (undocumented)
+    StringNotContains = "StringNotContains",
+    // (undocumented)
+    StringNotEndsWith = "StringNotEndsWith",
     // (undocumented)
     StringNotIn = "StringNotIn"
 }
@@ -883,38 +895,6 @@ export enum KnownEndpointType {
     StorageQueue = "StorageQueue",
     // (undocumented)
     WebHook = "WebHook"
-}
-
-// @public
-export enum KnownEnum18 {
-    // (undocumented)
-    Domains = "domains",
-    // (undocumented)
-    Topics = "topics"
-}
-
-// @public
-export enum KnownEnum19 {
-    // (undocumented)
-    Domains = "domains",
-    // (undocumented)
-    Topics = "topics"
-}
-
-// @public
-export enum KnownEnum20 {
-    // (undocumented)
-    Domains = "domains",
-    // (undocumented)
-    Topics = "topics"
-}
-
-// @public
-export enum KnownEnum21 {
-    // (undocumented)
-    Domains = "domains",
-    // (undocumented)
-    Topics = "topics"
 }
 
 // @public
@@ -997,6 +977,14 @@ export enum KnownPersistedConnectionStatus {
     Pending = "Pending",
     // (undocumented)
     Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionsParentType {
+    // (undocumented)
+    Domains = "domains",
+    // (undocumented)
+    Topics = "topics"
 }
 
 // @public
@@ -1092,6 +1080,12 @@ export type NumberInAdvancedFilter = AdvancedFilter & {
 };
 
 // @public
+export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+    operatorType: "NumberInRange";
+    values?: number[][];
+};
+
+// @public
 export type NumberLessThanAdvancedFilter = AdvancedFilter & {
     operatorType: "NumberLessThan";
     value?: number;
@@ -1107,6 +1101,12 @@ export type NumberLessThanOrEqualsAdvancedFilter = AdvancedFilter & {
 export type NumberNotInAdvancedFilter = AdvancedFilter & {
     operatorType: "NumberNotIn";
     values?: number[];
+};
+
+// @public
+export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+    operatorType: "NumberNotInRange";
+    values?: number[][];
 };
 
 // @public
@@ -1166,12 +1166,12 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, parentType: Enum20, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, parentType: Enum20, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, parentType: Enum19, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, parentType: Enum19, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
-    get(resourceGroupName: string, parentType: Enum18, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByResource(resourceGroupName: string, parentType: Enum21, parentName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    beginDelete(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
+    get(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    listByResource(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
@@ -1204,6 +1204,9 @@ export interface PrivateEndpointConnectionsListByResourceOptionalParams extends 
 
 // @public
 export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointConnectionsParentType = string;
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1345,6 +1348,24 @@ export type StringEndsWithAdvancedFilter = AdvancedFilter & {
 // @public
 export type StringInAdvancedFilter = AdvancedFilter & {
     operatorType: "StringIn";
+    values?: string[];
+};
+
+// @public
+export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+    operatorType: "StringNotBeginsWith";
+    values?: string[];
+};
+
+// @public
+export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+    operatorType: "StringNotContains";
+    values?: string[];
+};
+
+// @public
+export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+    operatorType: "StringNotEndsWith";
     values?: string[];
 };
 

@@ -10,15 +10,12 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
-  Enum21,
+  PrivateEndpointConnectionsParentType,
   PrivateEndpointConnectionsListByResourceOptionalParams,
-  Enum18,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  Enum19,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
-  Enum20,
   PrivateEndpointConnectionsDeleteOptionalParams
 } from "../models";
 
@@ -34,7 +31,7 @@ export interface PrivateEndpointConnections {
    */
   listByResource(
     resourceGroupName: string,
-    parentType: Enum21,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -48,7 +45,7 @@ export interface PrivateEndpointConnections {
    */
   get(
     resourceGroupName: string,
-    parentType: Enum18,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams
@@ -64,7 +61,7 @@ export interface PrivateEndpointConnections {
    */
   beginUpdate(
     resourceGroupName: string,
-    parentType: Enum19,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -86,7 +83,7 @@ export interface PrivateEndpointConnections {
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    parentType: Enum19,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -102,7 +99,7 @@ export interface PrivateEndpointConnections {
    */
   beginDelete(
     resourceGroupName: string,
-    parentType: Enum20,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -117,7 +114,7 @@ export interface PrivateEndpointConnections {
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    parentType: Enum20,
+    parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams

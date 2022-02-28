@@ -338,39 +338,6 @@ export const parentType1: OperationURLParameter = {
   }
 };
 
-export const parentType2: OperationURLParameter = {
-  parameterPath: "parentType",
-  mapper: {
-    serializedName: "parentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parentType3: OperationURLParameter = {
-  parameterPath: "parentType",
-  mapper: {
-    serializedName: "parentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parentType4: OperationURLParameter = {
-  parameterPath: "parentType",
-  mapper: {
-    serializedName: "parentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const privateLinkResourceName: OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {

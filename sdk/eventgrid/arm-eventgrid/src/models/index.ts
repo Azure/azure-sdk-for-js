@@ -33,7 +33,14 @@ export type AdvancedFilterUnion =
   | StringNotInAdvancedFilter
   | StringBeginsWithAdvancedFilter
   | StringEndsWithAdvancedFilter
-  | StringContainsAdvancedFilter;
+  | StringContainsAdvancedFilter
+  | NumberInRangeAdvancedFilter
+  | NumberNotInRangeAdvancedFilter
+  | StringNotBeginsWithAdvancedFilter
+  | StringNotEndsWithAdvancedFilter
+  | StringNotContainsAdvancedFilter
+  | IsNullOrUndefinedAdvancedFilter
+  | IsNotNullAdvancedFilter;
 export type DeadLetterDestinationUnion =
   | DeadLetterDestination
   | StorageBlobDeadLetterDestination;
@@ -270,7 +277,14 @@ export interface AdvancedFilter {
     | "StringNotIn"
     | "StringBeginsWith"
     | "StringEndsWith"
-    | "StringContains";
+    | "StringContains"
+    | "NumberInRange"
+    | "NumberNotInRange"
+    | "StringNotBeginsWith"
+    | "StringNotEndsWith"
+    | "StringNotContains"
+    | "IsNullOrUndefined"
+    | "IsNotNull";
   /** The field/property in the event based on which you want to filter. */
   key?: string;
 }
@@ -826,6 +840,58 @@ export type StringContainsAdvancedFilter = AdvancedFilter & {
   values?: string[];
 };
 
+/** NumberInRange Advanced Filter. */
+export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberInRange";
+  /** The set of filter values. */
+  values?: number[][];
+};
+
+/** NumberNotInRange Advanced Filter. */
+export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberNotInRange";
+  /** The set of filter values. */
+  values?: number[][];
+};
+
+/** StringNotBeginsWith Advanced Filter. */
+export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotBeginsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotEndsWith Advanced Filter. */
+export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotEndsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotContains Advanced Filter. */
+export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotContains";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** IsNullOrUndefined Advanced Filter. */
+export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNullOrUndefined";
+};
+
+/** IsNotNull Advanced Filter. */
+export type IsNotNullAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNotNull";
+};
+
 /** Information about the storage blob based dead letter destination. */
 export type StorageBlobDeadLetterDestination = DeadLetterDestination & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1259,7 +1325,14 @@ export enum KnownAdvancedFilterOperatorType {
   StringNotIn = "StringNotIn",
   StringBeginsWith = "StringBeginsWith",
   StringEndsWith = "StringEndsWith",
-  StringContains = "StringContains"
+  StringContains = "StringContains",
+  NumberInRange = "NumberInRange",
+  NumberNotInRange = "NumberNotInRange",
+  StringNotBeginsWith = "StringNotBeginsWith",
+  StringNotEndsWith = "StringNotEndsWith",
+  StringNotContains = "StringNotContains",
+  IsNullOrUndefined = "IsNullOrUndefined",
+  IsNotNull = "IsNotNull"
 }
 
 /**
@@ -1278,7 +1351,14 @@ export enum KnownAdvancedFilterOperatorType {
  * **StringNotIn** \
  * **StringBeginsWith** \
  * **StringEndsWith** \
- * **StringContains**
+ * **StringContains** \
+ * **NumberInRange** \
+ * **NumberNotInRange** \
+ * **StringNotBeginsWith** \
+ * **StringNotEndsWith** \
+ * **StringNotContains** \
+ * **IsNullOrUndefined** \
+ * **IsNotNull**
  */
 export type AdvancedFilterOperatorType = string;
 
@@ -1354,69 +1434,21 @@ export enum KnownTopicProvisioningState {
  */
 export type TopicProvisioningState = string;
 
-/** Known values of {@link Enum18} that the service accepts. */
-export enum KnownEnum18 {
+/** Known values of {@link PrivateEndpointConnectionsParentType} that the service accepts. */
+export enum KnownPrivateEndpointConnectionsParentType {
   Topics = "topics",
   Domains = "domains"
 }
 
 /**
- * Defines values for Enum18. \
- * {@link KnownEnum18} can be used interchangeably with Enum18,
+ * Defines values for PrivateEndpointConnectionsParentType. \
+ * {@link KnownPrivateEndpointConnectionsParentType} can be used interchangeably with PrivateEndpointConnectionsParentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **topics** \
  * **domains**
  */
-export type Enum18 = string;
-
-/** Known values of {@link Enum19} that the service accepts. */
-export enum KnownEnum19 {
-  Topics = "topics",
-  Domains = "domains"
-}
-
-/**
- * Defines values for Enum19. \
- * {@link KnownEnum19} can be used interchangeably with Enum19,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **topics** \
- * **domains**
- */
-export type Enum19 = string;
-
-/** Known values of {@link Enum20} that the service accepts. */
-export enum KnownEnum20 {
-  Topics = "topics",
-  Domains = "domains"
-}
-
-/**
- * Defines values for Enum20. \
- * {@link KnownEnum20} can be used interchangeably with Enum20,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **topics** \
- * **domains**
- */
-export type Enum20 = string;
-
-/** Known values of {@link Enum21} that the service accepts. */
-export enum KnownEnum21 {
-  Topics = "topics",
-  Domains = "domains"
-}
-
-/**
- * Defines values for Enum21. \
- * {@link KnownEnum21} can be used interchangeably with Enum21,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **topics** \
- * **domains**
- */
-export type Enum21 = string;
+export type PrivateEndpointConnectionsParentType = string;
 
 /** Known values of {@link ResourceRegionType} that the service accepts. */
 export enum KnownResourceRegionType {

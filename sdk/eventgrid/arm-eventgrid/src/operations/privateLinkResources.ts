@@ -201,7 +201,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentName,
-    Parameters.parentType4,
+    Parameters.parentType1,
     Parameters.privateLinkResourceName
   ],
   headerParameters: [Parameters.accept],
@@ -223,7 +223,7 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentName,
-    Parameters.parentType4
+    Parameters.parentType1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -244,7 +244,7 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.parentName,
-    Parameters.parentType4
+    Parameters.parentType1
   ],
   headerParameters: [Parameters.accept],
   serializer
