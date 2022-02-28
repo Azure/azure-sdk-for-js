@@ -1579,6 +1579,11 @@
       "packageName": "@azure/arm-dnsresolver",
       "projectFolder": "sdk/dnsresolver/arm-dnsresolver",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quantum",
+      "projectFolder": "sdk/quantum/arm-quantum",
+      "versionPolicyName": "management"
     }
   ]
 }
