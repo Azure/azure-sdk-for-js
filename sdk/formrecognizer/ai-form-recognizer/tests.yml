@@ -15,6 +15,7 @@ stages:
     parameters:
       PackageName: "@azure/ai-form-recognizer"
       ServiceDirectory: formrecognizer
+      SupportedClouds: 'Public,UsGov,China'
       Location: "${{ parameters.Location }}"
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
