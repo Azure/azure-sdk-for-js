@@ -17,6 +17,7 @@ import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CommonClientOptions } from "@azure/core-client";
 import { PollOperationState } from "@azure/core-lro";
+import { KnownFormRecognizerAudience } from "../../src/constants";
 
 export const logger = createClientLogger("ai-form-recognizer:test");
 
@@ -135,4 +136,15 @@ export async function createRecordedClient<T>(
 
 export function getRandomNumber(): number {
   return Math.ceil(Math.random() * 1000 + 10000);
+}
+
+export function getAudience(): KnownFormRecognizerAudience {
+  const endpoint = env["FORM_RECOGNIZER_ENDPOINT"];
+
+  if (endpoint?.includes(".azure.cn")) {
+    return KnownFormRecognizerAudience.AzureResourceManagerChina;
+  } else if (endpoint?.includes(".azure.us")) {
+    return KnownFormRecognizerAudience.AzureResourceManagerGovernment;
+  }
+  return KnownFormRecognizerAudience.AzureResourceManagerPublicCloud;
 }

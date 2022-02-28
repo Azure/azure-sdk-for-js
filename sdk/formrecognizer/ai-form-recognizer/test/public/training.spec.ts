@@ -13,6 +13,7 @@ import {
   makeCredential,
   createRecorder,
   getRandomNumber,
+  getAudience,
 } from "../utils/recordedClients";
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
@@ -62,11 +63,10 @@ matrix(
 
         beforeEach(function () {
           // Create a client using the current AAD/API Key configuration
-          client = new DocumentModelAdministrationClient(
-            endpoint(),
-            makeCredential(useAad),
-            recorder.configureClientOptions({})
-          );
+          client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), {
+            ...recorder.configureClientOptions({}),
+            audience: getAudience(),
+          });
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
@@ -125,11 +125,10 @@ matrix(
             let recognizerClient: DocumentAnalysisClient;
 
             beforeEach(() => {
-              recognizerClient = new DocumentAnalysisClient(
-                endpoint(),
-                makeCredential(useAad),
-                recorder.configureClientOptions({})
-              );
+              recognizerClient = new DocumentAnalysisClient(endpoint(), makeCredential(useAad), {
+                ...recorder.configureClientOptions({}),
+                audience: getAudience(),
+              });
             });
 
             it("form from url", async () => {
@@ -241,11 +240,10 @@ matrix(
       // #endregion
 
       it(`compose model (${buildMode})`, async function () {
-        const client = new DocumentModelAdministrationClient(
-          endpoint(),
-          makeCredential(useAad),
-          recorder.configureClientOptions({})
-        );
+        const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), {
+          ...recorder.configureClientOptions({}),
+          audience: getAudience(),
+        });
 
         // Helper function to train/validate single model
         async function makeModel(prefix: string): Promise<string> {
@@ -294,7 +292,10 @@ matrix(
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
-          recorder.configureClientOptions({})
+          {
+            ...recorder.configureClientOptions({}),
+            audience: getAudience(),
+          }
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
