@@ -1,14 +1,9 @@
-trigger:
-      
+trigger:   
   paths:
     include:
       - common/tools/eslint-plugin-azure-sdk
 
-pr:
-  branches:
-    include:
-      - main
-      
+pr:     
   paths:
     include:
       - common/tools/eslint-plugin-azure-sdk
