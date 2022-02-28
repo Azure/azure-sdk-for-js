@@ -1,5 +1,25 @@
 # Release History
     
+## 17.3.0 (2022-02-28)
+    
+**Features**
+
+  - Added Type Alias Architecture
+  - Added Type Alias ArchitectureTypes
+  - Added Type Alias DataAccessAuthMode
+  - Interface DiskUpdate has a new optional parameter dataAccessAuthMode
+  - Interface SnapshotUpdate has a new optional parameter dataAccessAuthMode
+  - Interface SupportedCapabilities has a new optional parameter architecture
+  - Type Alias Disk has a new parameter dataAccessAuthMode
+  - Type Alias GalleryImage has a new parameter architecture
+  - Type Alias GalleryImageUpdate has a new parameter architecture
+  - Type Alias Snapshot has a new parameter dataAccessAuthMode
+  - Type Alias VirtualMachineImage has a new parameter architecture
+  - Added Enum KnownArchitecture
+  - Added Enum KnownArchitectureTypes
+  - Added Enum KnownDataAccessAuthMode
+    
+    
 ## 17.2.0 (2022-02-14)
     
 **Features**

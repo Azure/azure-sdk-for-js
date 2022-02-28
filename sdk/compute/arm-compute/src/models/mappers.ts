@@ -6986,6 +6986,12 @@ export const SupportedCapabilities: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      architecture: {
+        serializedName: "architecture",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7409,6 +7415,12 @@ export const DiskUpdate: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      dataAccessAuthMode: {
+        serializedName: "properties.dataAccessAuthMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7582,6 +7594,12 @@ export const SnapshotUpdate: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      dataAccessAuthMode: {
+        serializedName: "properties.dataAccessAuthMode",
         type: {
           name: "String"
         }
@@ -12712,6 +12730,12 @@ export const Disk: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      dataAccessAuthMode: {
+        serializedName: "properties.dataAccessAuthMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -12874,6 +12898,12 @@ export const Snapshot: coreClient.CompositeMapper = {
         serializedName: "properties.completionPercent",
         type: {
           name: "Number"
+        }
+      },
+      dataAccessAuthMode: {
+        serializedName: "properties.dataAccessAuthMode",
+        type: {
+          name: "String"
         }
       }
     }
@@ -13146,6 +13176,12 @@ export const GalleryImage: coreClient.CompositeMapper = {
               className: "GalleryImageFeature"
             }
           }
+        }
+      },
+      architecture: {
+        serializedName: "properties.architecture",
+        type: {
+          name: "String"
         }
       }
     }
@@ -15030,6 +15066,12 @@ export const GalleryImageUpdate: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      architecture: {
+        serializedName: "properties.architecture",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -15438,6 +15480,12 @@ export const VirtualMachineImage: coreClient.CompositeMapper = {
               className: "VirtualMachineImageFeature"
             }
           }
+        }
+      },
+      architecture: {
+        serializedName: "properties.architecture",
+        type: {
+          name: "String"
         }
       }
     }
