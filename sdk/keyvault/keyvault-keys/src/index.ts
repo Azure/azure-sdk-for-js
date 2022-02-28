@@ -854,15 +854,15 @@ export class KeyClient {
    * let result = await client.getKeyRotationPolicy("myKey");
    * ```
    *
-   * @param name - The name of the key.
+   * @param keyName - The name of the key.
    * @param options - The optional parameters.
    */
   public getKeyRotationPolicy(
-    name: string,
+    keyName: string,
     options: GetKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy> {
     return withTrace("getKeyRotationPolicy", options, async () => {
-      const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, name);
+      const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, keyName);
       return keyRotationTransformations.generatedToPublic(policy);
     });
   }
@@ -877,19 +877,19 @@ export class KeyClient {
    * const setPolicy = await client.updateKeyRotationPolicy("MyKey", myPolicy);
    * ```
    *
-   * @param name - The name of the key.
+   * @param keyName - The name of the key.
    * @param policyProperties - The {@link KeyRotationPolicyProperties} for the policy.
    * @param options - The optional parameters.
    */
   public updateKeyRotationPolicy(
-    name: string,
+    keyName: string,
     policy: KeyRotationPolicyProperties,
     options: UpdateKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy> {
     return withTrace("updateKeyRotationPolicy", options, async (updatedOptions) => {
       const result = await this.client.updateKeyRotationPolicy(
         this.vaultUrl,
-        name,
+        keyName,
         keyRotationTransformations.propertiesToGenerated(policy),
         updatedOptions
       );
