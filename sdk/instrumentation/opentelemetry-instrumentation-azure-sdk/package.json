@@ -7,7 +7,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js",
-    "./dist-esm/test/public/util/setup.js": "./dist-esm/test/public/util/setup.browser.js"
+    "./dist-esm/test/public/util/tracerProvider.js": "./dist-esm/test/public/util/tracerProvider.browser.js"
   },
   "//metadata": {
     "constantPaths": [

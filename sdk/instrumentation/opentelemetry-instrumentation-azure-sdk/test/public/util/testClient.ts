@@ -17,7 +17,6 @@ import { SDK_VERSION } from "../../../src/constants";
  */
 export interface Options {
   tracingOptions?: OperationTracingOptions;
-  throw?: boolean;
 }
 
 /**
@@ -44,7 +43,7 @@ export class TestClient {
   /**
    * The entrypoint of this client, which the tests will call into
    */
-  async outer(options: Options = {}): Promise<PipelineResponse> {
+  outer(options: Options = {}): Promise<PipelineResponse> {
     return this.tracingClient.withSpan("TestClient.outer", options, (updatedOptions) =>
       this.inner(updatedOptions)
     );
@@ -59,8 +58,8 @@ export class TestClient {
           headers: createHttpHeaders(),
           method: "GET",
           requestId: "1",
-          timeout: 5000,
-          url: "https://bing.com",
+          timeout: 0,
+          url: "https://example.org",
           withCredentials: false,
           ...updatedOptions,
         });

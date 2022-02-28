@@ -28,6 +28,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     let ctx = spanOptions?.tracingContext || context.active();
 
     // COMPAT: remove when core-rest-pipeline has upgraded to core-tracing 1.0
+    // https://github.com/Azure/azure-sdk-for-js/issues/20567
     const newNamespaceKey = Symbol.for("@azure/core-tracing namespace");
     const oldNamespaceKey = Symbol.for("az.namespace");
     if (!ctx.getValue(oldNamespaceKey) && ctx.getValue(newNamespaceKey)) {
