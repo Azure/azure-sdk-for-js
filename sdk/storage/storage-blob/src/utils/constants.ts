@@ -14,6 +14,10 @@ export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
  * The OAuth scope to use with Azure Storage.
  */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
+/**
+ * The OAuth scope to use with Disk Compute.
+ */
+export const DiskComputeOAuthScopes: string | string[] = "https://disk.compute.azure.com/.default";
 
 export const URLConstants = {
   Parameters: {

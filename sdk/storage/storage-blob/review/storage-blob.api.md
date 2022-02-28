@@ -3211,6 +3211,10 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
+    // Warning: (ae-forgotten-export) The symbol "BlobAudience" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    Audience?: BlobAudience;
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;

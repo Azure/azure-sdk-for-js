@@ -10,7 +10,11 @@ import {
   CpkInfo,
   BlobDownloadResponseModel,
 } from "./generatedModels";
-import { EncryptionAlgorithmAES25 } from "./utils/constants";
+import {
+  DiskComputeOAuthScopes,
+  EncryptionAlgorithmAES25,
+  StorageOAuthScopes,
+} from "./utils/constants";
 
 /**
  * Blob tags.
@@ -310,4 +314,31 @@ export interface HttpAuthorization {
    * the credentials containing the authentication information of the user agent for the resource being requested.
    */
   value: string;
+}
+
+export class BlobAudience {
+  private _value: string | string[];
+
+  constructor(value: string | string[]) {
+    this._value = value;
+  }
+
+  public static StorageBlobAudience(): BlobAudience {
+    let blobAudience = new BlobAudience(StorageOAuthScopes);
+    return blobAudience;
+  }
+
+  public static DiskComputeBlobAudience(): BlobAudience {
+    let blobAudience = new BlobAudience(DiskComputeOAuthScopes);
+    return blobAudience;
+  }
+
+  /**
+   * Converts the given audience to a string or a string array.
+   *
+   * @returns A string or a string array which represents the BlobAudience
+   */
+  public toString(): string | string[] {
+    return this._value;
+  }
 }
