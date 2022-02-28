@@ -347,11 +347,8 @@ export type ArcSetting = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * The resource group that hosts the Arc agents, ie. Hybrid Compute Machine resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly arcInstanceResourceGroup?: string;
+  /** The resource group that hosts the Arc agents, ie. Hybrid Compute Machine resources. */
+  arcInstanceResourceGroup?: string;
   /**
    * Aggregate state of Arc agent across the nodes in this HCI cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
