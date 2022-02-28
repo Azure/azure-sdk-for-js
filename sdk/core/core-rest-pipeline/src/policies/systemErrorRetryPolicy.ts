@@ -4,6 +4,7 @@
 import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
  * Name of the {@link systemErrorRetryPolicy}
@@ -52,7 +53,7 @@ export function systemErrorRetryPolicy(
         }),
       ],
       {
-        maxRetries: options.maxRetries ?? 3,
+        maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
       }
     ).sendRequest,
   };

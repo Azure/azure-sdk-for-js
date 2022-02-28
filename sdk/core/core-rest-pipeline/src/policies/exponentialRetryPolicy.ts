@@ -4,6 +4,7 @@
 import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
@@ -48,7 +49,7 @@ export function exponentialRetryPolicy(
       }),
     ],
     {
-      maxRetries: options.maxRetries ?? 3,
+      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
     }
   );
 }

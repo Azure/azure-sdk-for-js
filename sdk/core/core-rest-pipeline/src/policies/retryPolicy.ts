@@ -9,9 +9,9 @@ import { RetryStrategy } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogger } from "@azure/logger";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
-const DEFAULT_MAX_RETRIES = 3;
 
 /**
  * The programmatic identifier of the retryPolicy.
@@ -37,7 +37,7 @@ export interface RetryPolicyOptions {
  */
 export function retryPolicy(
   strategies: RetryStrategy[],
-  options: RetryPolicyOptions = { maxRetries: DEFAULT_MAX_RETRIES }
+  options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT }
 ): PipelinePolicy {
   const logger = options.logger || retryPolicyLogger;
   return {
@@ -72,7 +72,7 @@ export function retryPolicy(
           throw abortError;
         }
 
-        if (retryCount >= (options.maxRetries ?? DEFAULT_MAX_RETRIES)) {
+        if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
           logger.info(
             `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
           );

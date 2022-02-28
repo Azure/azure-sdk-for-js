@@ -4,16 +4,12 @@
 import { PipelinePolicy } from "../pipeline";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
  * Name of the {@link throttlingRetryPolicy}
  */
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
-
-/**
- * Maximum number of retries for the throttling retry policy
- */
-export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
 
 /**
  * Options that control how to retry failed requests.
@@ -39,7 +35,7 @@ export function throttlingRetryPolicy(options: ThrottlingRetryPolicyOptions = {}
   return {
     name: throttlingRetryPolicyName,
     sendRequest: retryPolicy([throttlingRetryStrategy()], {
-      maxRetries: options.maxRetries ?? DEFAULT_CLIENT_MAX_RETRY_COUNT,
+      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
     }).sendRequest,
   };
 }
