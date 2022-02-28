@@ -77,6 +77,7 @@ export interface DefaultPerfOptions {
   "test-proxies": string;
   insecure: boolean;
   "list-transitive-dependencies": boolean;
+  cpus: number;
 }
 
 /**
@@ -129,6 +130,12 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
     description: "List all dependencies, instead of only direct ones, before test run",
     shortName: "ltd",
     defaultValue: false,
+  },
+  cpus: {
+    description:
+      "Number of CPUs to use. Parallel tests will be split evenly across CPUs. Specify 0 to use the number of logical CPUs available on the machine.",
+    shortName: "c",
+    defaultValue: 1,
   },
 };
 
