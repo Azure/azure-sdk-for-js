@@ -17,7 +17,7 @@ describe("instrumentation end-to-end tests", () => {
   // @opentelemetry/sdk-trace-web but it did not feel necessary at this time.
   describe("with a configured client", () => {
     it("works when using withSpan", async () => {
-      await new TestClient().outer();
+      await new TestClient().exampleOperation();
       const spans = inMemoryExporter.getFinishedSpans();
       assert.lengthOf(spans, 3);
       const [coreRestPipeline, inner, outer] = spans;

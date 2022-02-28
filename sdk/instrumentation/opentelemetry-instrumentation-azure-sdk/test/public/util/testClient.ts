@@ -43,13 +43,13 @@ export class TestClient {
   /**
    * The entrypoint of this client, which the tests will call into
    */
-  outer(options: Options = {}): Promise<PipelineResponse> {
+  exampleOperation(options: Options = {}): Promise<PipelineResponse> {
     return this.tracingClient.withSpan("TestClient.outer", options, (updatedOptions) =>
-      this.inner(updatedOptions)
+      this.generatedClientOperation(updatedOptions)
     );
   }
 
-  private inner(options: Options = {}): Promise<PipelineResponse> {
+  private generatedClientOperation(options: Options = {}): Promise<PipelineResponse> {
     return this.tracingClient.withSpan(
       "TestClient.inner",
       options,
@@ -58,7 +58,7 @@ export class TestClient {
           headers: createHttpHeaders(),
           method: "GET",
           requestId: "1",
-          timeout: 0,
+          timeout: 10 * 1000, // 10s
           url: "https://example.org",
           withCredentials: false,
           ...updatedOptions,
