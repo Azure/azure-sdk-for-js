@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storsimple8000series/arm-storsimple8000series) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storsimple8000series) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storsimple8000series) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storsimple8000series?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -78,7 +78,7 @@ export class StorSimple8000SeriesManagementClient extends coreClient.ServiceClie
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storsimple8000series/2.0.0`;
+    const packageDetails = `azsdk-js-arm-storsimple8000series/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
