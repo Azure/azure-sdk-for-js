@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure SynapseManagement client.
 
+> ⚠️ This package @azure/arm-synapse with versions lower than 8.0.0 are going to be deprecated in March 2022, we strongly recommend you to upgrade your dependency on it to version 8.0.0 or above as soon as possible. The deprecate means, it starts the end of support for that library. You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided. To migrate to the new version, please check [Migration Guide](https://aka.ms/js-track2-migration-guide)
+
 Azure Synapse Analytics Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/arm-synapse) |
@@ -15,6 +17,8 @@ Azure Synapse Analytics Management Client
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
