@@ -92,9 +92,9 @@ describe("BlobChangeFeedClient", async () => {
     assert.notEqual(event1.id, event.id);
 
     // fetch between time range
-    const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be ignored
-    const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded to 22:00
-    const endRounded = new Date(Date.UTC(2020, 4, 8, 22, 0, 0));
+    const start = new Date(Date.UTC(2022, 1, 21, 22, 30, 0)); // will be ignored
+    const end = new Date(Date.UTC(2022, 4, 8, 21, 10, 0)); // will be rounded to 22:00
+    const endRounded = new Date(Date.UTC(2022, 4, 8, 22, 0, 0));
     const iter2 = changeFeedClient
       .listChanges({ start, end })
       .byPage({ continuationToken: nextPage1.value.continuationToken });
