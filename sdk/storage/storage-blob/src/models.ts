@@ -10,11 +10,7 @@ import {
   CpkInfo,
   BlobDownloadResponseModel,
 } from "./generatedModels";
-import {
-  DiskComputeOAuthScopes,
-  EncryptionAlgorithmAES25,
-  StorageOAuthScopes,
-} from "./utils/constants";
+import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
 /**
  * Blob tags.
@@ -316,27 +312,18 @@ export interface HttpAuthorization {
   value: string;
 }
 
-export class BlobAudience {
-  private _value: string | string[];
-
-  constructor(value: string | string[]) {
-    this._value = value;
-  }
-
-  public static StorageBlobAudience(): BlobAudience {
-    return new BlobAudience(StorageOAuthScopes);
-  }
-
-  public static DiskComputeBlobAudience(): BlobAudience {
-    return new BlobAudience(DiskComputeOAuthScopes);
-  }
-
-  /**
-   * Converts the given audience to a string or a string array.
-   *
-   * @returns A string or a string array which represents the BlobAudience
-   */
-  public toString(): string | string[] {
-    return this._value;
-  }
+/** Known values of {@link BlobAudience} that the service accepts. */
+export const enum KnownBlobAudience {
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+  DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
 }
+
+/**
+ * Defines values for audience used to retrieve an AAD token. \
+ * {@link KnownBlobAudience} can be used interchangeably with BlobAudience,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **https://storage.azure.com/.default** \
+ * **https://disk.compute.azure.com/.default**
+ */
+export type BlobAudience = string | string[];

@@ -40,8 +40,8 @@ import {
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 import { attachCredential } from "./utils/utils.common";
-import { BlobAudience } from "./models";
 import { storageBearerTokenChallengeAuthenticationPolicy } from "./policies/StorageBearerTokenChallengeAuthenticationPolicy";
+import { BlobAudience } from "./models";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -191,7 +191,7 @@ export interface StoragePipelineOptions {
   /// <summary>
   /// The audience used to retrieve an AAD token.
   /// </summary>
-  Audience?: BlobAudience;
+  audience?: BlobAudience;
 }
 
 /**
@@ -242,7 +242,7 @@ export function newPipeline(
       ? attachCredential(
           storageBearerTokenChallengeAuthenticationPolicy(
             credential,
-            pipelineOptions.Audience ? pipelineOptions.Audience!.toString() : StorageOAuthScopes
+            pipelineOptions.audience ? pipelineOptions.audience! : StorageOAuthScopes
           ),
           credential
         )

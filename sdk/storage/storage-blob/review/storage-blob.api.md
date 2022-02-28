@@ -328,6 +328,9 @@ export interface BlobAcquireLeaseOptions extends CommonOptions {
 }
 
 // @public
+export type BlobAudience = string | string[];
+
+// @public
 export class BlobBatch {
     constructor();
     deleteBlob(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<void>;
@@ -2304,6 +2307,14 @@ export { IHttpClient }
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 // @public
+export const enum KnownBlobAudience {
+    // (undocumented)
+    DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
+    // (undocumented)
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
+
+// @public
 export interface Lease {
     date?: Date;
     errorCode?: string;
@@ -3211,10 +3222,8 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
-    // Warning: (ae-forgotten-export) The symbol "BlobAudience" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    Audience?: BlobAudience;
+    audience?: BlobAudience;
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;
