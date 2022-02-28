@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { WebPubSubServiceClient } from "../src/index";
-import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "chai";
 import ws from "ws";
@@ -70,8 +70,9 @@ function getEndSignal(): Uint8Array {
 }
 
 describe("ServiceClient to manage the connected WebSocket connections", function () {
-  it("Simple clients can receive expected messages with different content types", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  // Skipping since the test seems to be flaky, investigating as a separate issue
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/20571
+  it.skip("Simple clients can receive expected messages with different content types", async function (this: Context) {
     const hub = "SimpleClientCanReceiveMessage";
 
     const messages: SimpleWebSocketFrame[] = [];
@@ -109,8 +110,9 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[1].dataAsString, "Hi there!");
   });
 
-  it("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  // Skipping since the test seems to be flaky, investigating as a separate issue
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/20572
+  it.skip("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
     const hub = "PubSubClientCanReceiveMessage";
     const messages: PubSubWebSocketFrame[] = [];
 
