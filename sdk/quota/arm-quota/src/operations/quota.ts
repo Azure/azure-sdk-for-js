@@ -195,7 +195,7 @@ export class QuotaImpl implements Quota {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "original-uri"
     });
   }
 
@@ -308,7 +308,7 @@ export class QuotaImpl implements Quota {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "original-uri"
     });
   }
 
