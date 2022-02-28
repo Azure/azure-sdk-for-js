@@ -124,6 +124,9 @@
     "productName": "Azure Web PubSub",
     "productSlugs": [
       "azure"
+    ],
+    "skip": [
+      "managingGroups.js"
     ]
   }
 }
