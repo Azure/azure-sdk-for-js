@@ -862,6 +862,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/service-fabric",
+      "projectFolder": "sdk/servicefabric/service-fabric-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-network",
       "projectFolder": "sdk/network/arm-network",
       "versionPolicyName": "management"
