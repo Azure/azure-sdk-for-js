@@ -251,10 +251,9 @@ matrix(
       // #endregion
 
       it(`compose model (${buildMode})`, async function () {
-        const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), {
-          ...recorder.configureClientOptions({}),
-          audience: getAudience(),
-        });
+        const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), 
+          recorder.configureClientOptions({ audience: getAudience() }),
+        );
 
         // Helper function to train/validate single model
         async function makeModel(prefix: string): Promise<string> {
