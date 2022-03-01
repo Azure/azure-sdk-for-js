@@ -32,7 +32,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 
 Errors arising from authentication issues can be thrown on any service client method that makes a request to the service. This is because the token is requested from the credential on the first call to the service and on any subsequent call that needs to refresh the token.
 
-To distinguish these failures from failures in the service client, Azure Identity classes throws the `AuthenticationRequiredError` with details describing the source of the error in the error message. Depending on the application, these errors may or may not be recoverable.
+To distinguish these failures from failures in the service client, Azure Identity classes throw the `AuthenticationRequiredError`. Details describing the source of the error are provided in the error message. Depending on the application, these errors may or may not be recoverable.
 
 ```ts
 import * from "@azure/identity";
