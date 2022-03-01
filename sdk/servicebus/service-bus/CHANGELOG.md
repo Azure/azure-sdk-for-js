@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fix an issue where we don't respect user request to close the receiver if the connection is disconnected when using the `subscribe()` method. [PR #20427](https://github.com/Azure/azure-sdk-for-js/pull/20427)
+- Correct typing of `propertiesToModify` options to `abandonMessages()`, `deferMessages()`, and "deadLetterMessages()" [PR #20577](https://github.com/Azure/azure-sdk-for-js/pull/20577)
 
 ### Other Changes
 
