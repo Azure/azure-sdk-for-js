@@ -70,6 +70,11 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
   apiVersion?: FormRecognizerApiVersion;
   /**
    * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * Setting this option is only necessary
+   * - if you are using AAD/token credential
+   *   (and)
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
+   *
    * The authentication scope will be set from this audience.
    * See {@link FormRecognizerAudience} for known audience values.
    */
