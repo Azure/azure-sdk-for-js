@@ -10020,22 +10020,22 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-eKhVjC7Xvmy/vv5u/H3x92d33zRrszOVjAv0AtkGAgvhkGlGXFFKY9e28r9SDa/4bjwbiHpecrPgD90/rG545w==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-Z2PAETG9cB4D5QoMn06A6fQnvMr7WVfPTLZSgSpQyJlGjYUI+sfLGPdScWpCCUYMHRrwCrRSGFj1cvO/Uzd3ww==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1

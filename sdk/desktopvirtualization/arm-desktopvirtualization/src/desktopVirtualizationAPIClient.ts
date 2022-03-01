@@ -74,7 +74,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -97,7 +97,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-03-preview";
+    this.apiVersion = options.apiVersion || "2022-02-10-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);

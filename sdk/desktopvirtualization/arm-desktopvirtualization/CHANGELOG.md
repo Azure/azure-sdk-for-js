@@ -1,15 +1,26 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-03-01)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AgentUpdatePatchProperties
+  - Added Interface AgentUpdateProperties
+  - Added Interface MaintenanceWindowPatchProperties
+  - Added Interface MaintenanceWindowProperties
+  - Added Type Alias DayOfWeek
+  - Added Type Alias HostpoolPublicNetworkAccess
+  - Added Type Alias SessionHostComponentUpdateType
+  - Type Alias HostPool has a new parameter agentUpdate
+  - Type Alias HostPool has a new parameter privateEndpointConnections
+  - Type Alias HostPoolPatch has a new parameter agentUpdate
+  - Type Alias SessionHost has a new parameter friendlyName
+  - Type Alias SessionHostPatch has a new parameter friendlyName
+  - Type Alias Workspace has a new parameter privateEndpointConnections
+  - Added Enum KnownHostpoolPublicNetworkAccess
+  - Added Enum KnownSessionHostComponentUpdateType
+    
+    
 ## 1.0.0-beta.2 (2021-12-27)
     
 The package of @azure/arm-desktopvirtualization is using our next generation design principles since version 1.0.0-beta.2, which contains breaking changes.
