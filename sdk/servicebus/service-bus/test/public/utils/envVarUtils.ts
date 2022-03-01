@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "./isNode";
+import { isNode } from "@azure/core-util";
 
 /**
  * Enum to abstract away string values used for referencing the Environment Variable names.

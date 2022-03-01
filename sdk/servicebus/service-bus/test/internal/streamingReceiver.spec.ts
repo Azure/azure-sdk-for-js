@@ -24,7 +24,7 @@ import {
 import { getDeliveryProperty } from "./utils/misc";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import sinon from "sinon";
-import { isNode } from "../public/utils/isNode";
+import { isNode } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

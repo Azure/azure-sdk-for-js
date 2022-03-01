@@ -18,7 +18,7 @@ import {
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
 import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
-import { isNode } from "../public/utils/isNode";
+import { isNode } from "@azure/core-util";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,

@@ -23,8 +23,7 @@
     "./dist-esm/src/util/crypto.js": "./dist-esm/src/util/crypto.browser.js",
     "./dist-esm/src/util/parseUrl.js": "./dist-esm/src/util/parseUrl.browser.js",
     "buffer": "buffer",
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
-    "./dist-esm/test/public/util/isNode.js": "./dist-esm/test/public/util/isNode.browser.js"
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
   "types": "./types/latest/service-bus.d.ts",
   "typesVersions": {
@@ -114,6 +113,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/core-paging": "^1.1.1",
+    "@azure/core-util": "^1.0.0-beta.1",
     "@azure/core-xml": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "@types/is-buffer": "^2.0.0",
