@@ -204,7 +204,7 @@ These errors will be thrown by the JS Identity SDK and thus will have no error c
 |No error code| The file at the specified path doesn't contain a PEM-encoded certificate.| Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now.|
 ## Troubleshoot Managed Identity authentication issues
 
-The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts that provide managed identity. Configuring the managed identity and troubleshooting failures varies from hosts. The below table lists the Azure hosts that can be assigned a [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview), and are supported by the `ManagedIdentityCredential`. Ensure you're running your app on one of these resources and have enabled the Managed Identity on them by following the instructions at their configuration links below.
+The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts that provide [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview). Configuring the managed identity and troubleshooting failures varies from hosts. The below table lists the Azure hosts that can be assigned a managed identity, and are supported by the `ManagedIdentityCredential`. Ensure you're running your app on one of these resources and have enabled the managed identity on them by following the instructions at their configuration links below.
 
 |Host Environment|Configuration |Troubleshoot |
 |---|---|---|
