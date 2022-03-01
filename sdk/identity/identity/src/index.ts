@@ -61,7 +61,6 @@ export {
   ManagedIdentityCredentialOptions,
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
-  ManagedIdentityCredentialOptionsBase,
 } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export {

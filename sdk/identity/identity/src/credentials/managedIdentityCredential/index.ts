@@ -19,14 +19,11 @@ import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
-export interface ManagedIdentityCredentialOptionsBase extends TokenCredentialOptions {}
-
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
  * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
  */
-export interface ManagedIdentityCredentialClientIdOptions
-  extends ManagedIdentityCredentialOptionsBase {
+export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
   /**
    * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
    */
@@ -37,8 +34,7 @@ export interface ManagedIdentityCredentialClientIdOptions
  * Options to send on the {@link ManagedIdentityCredential} constructor.
  * This variation supports `resourceId` and not `clientId`, since only one of both is supported.
  */
-export interface ManagedIdentityCredentialResourceIdOptions
-  extends ManagedIdentityCredentialOptionsBase {
+export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
   /**
    * Allows specifying a custom resource Id.
    * In scenarios such as when user assigned identities are created using an ARM template,
@@ -78,7 +74,7 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(clientId: string, options?: ManagedIdentityCredentialOptionsBase);
+  constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
@@ -91,7 +87,7 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(
     clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
-    options?: ManagedIdentityCredentialOptionsBase
+    options?: TokenCredentialOptions
   ) {
     let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
