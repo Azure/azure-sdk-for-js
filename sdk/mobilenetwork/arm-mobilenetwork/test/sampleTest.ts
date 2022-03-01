@@ -13,6 +13,8 @@ import {
   Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import { ClientSecretCredential } from "@azure/identity";
+import { MobileNetworkManagementClient } from "../src/mobileNetworkManagementClient";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
