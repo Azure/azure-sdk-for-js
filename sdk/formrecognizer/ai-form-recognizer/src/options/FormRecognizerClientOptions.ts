@@ -71,7 +71,7 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
   /**
    * Gets or sets the audience to use for authentication with Azure Active Directory.
    * The authentication scope will be set from this audience.
-   * See {@link KnownFormRecognizerAudience} for known audience values.
+   * See {@link FormRecognizerAudience} for known audience values.
    */
   audience?: string;
 }

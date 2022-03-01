@@ -4,20 +4,20 @@
 /**
  * Defines known cloud audiences for Form Recognizer.
  */
-export enum KnownFormRecognizerAudience {
+export enum FormRecognizerAudience {
   /** Azure China */
-  AzureResourceManagerChina = "https://cognitiveservices.azure.cn/.default",
+  AzureChina = "https://cognitiveservices.azure.cn/.default",
   /** Azure Government */
-  AzureResourceManagerGovernment = "https://cognitiveservices.azure.us/.default",
+  AzureGovernment = "https://cognitiveservices.azure.us/.default",
   /** Azure Public Cloud */
-  AzureResourceManagerPublicCloud = "https://cognitiveservices.azure.com/.default",
+  AzurePublicCloud = "https://cognitiveservices.azure.com/.default",
 }
 
 /**
  * The default AAD permissions scope for Cognitive Services.
  * @internal
  */
-export const DEFAULT_COGNITIVE_SCOPE = KnownFormRecognizerAudience.AzureResourceManagerPublicCloud;
+export const DEFAULT_COGNITIVE_SCOPE = FormRecognizerAudience.AzurePublicCloud;
 
 /**
  * @internal

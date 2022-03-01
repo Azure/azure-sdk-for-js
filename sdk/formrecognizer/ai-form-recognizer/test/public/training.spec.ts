@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { matrix, getYieldedValue, isNode } from "@azure/test-utils";
 
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
@@ -18,6 +18,7 @@ import {
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
+import { FormRecognizerAudience } from "../../src/constants";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>
@@ -36,11 +37,21 @@ matrix(
       let recorder: Recorder;
 
       beforeEach(async function (this: Context) {
+        if (!isNode && useAad && getAudience() !== FormRecognizerAudience.AzurePublicCloud) {
+          // Skipping the browser AAD tests with non-public clouds since the Client Secret Credential fails with
+          //
+          //   AuthenticationError: invalid_request Status code: 400
+          //   More details:`AADSTS900382: Confidential Client is not supported in Cross Cloud request`
+          //
+          // Cannot automate this test since we would have to use interactive browser credentials.
+          // Skipping until we have a better way to test.
+          this.skip();
+        }
         recorder = await createRecorder(this.currentTest);
       });
 
       afterEach(async function () {
-        await recorder.stop();
+        if (recorder) await recorder.stop();
       });
 
       // #region Model Training

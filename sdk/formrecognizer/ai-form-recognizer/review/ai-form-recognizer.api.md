@@ -540,6 +540,7 @@ export const FormRecognizerApiVersion: {
 // @public
 export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
     apiVersion?: FormRecognizerApiVersion;
+    audience?: string;
 }
 
 // @public
