@@ -538,6 +538,13 @@ export const FormRecognizerApiVersion: {
 };
 
 // @public
+export enum FormRecognizerAudience {
+    AzureChina = "https://cognitiveservices.azure.cn/.default",
+    AzureGovernment = "https://cognitiveservices.azure.us/.default",
+    AzurePublicCloud = "https://cognitiveservices.azure.com/.default"
+}
+
+// @public
 export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
     apiVersion?: FormRecognizerApiVersion;
     audience?: string;

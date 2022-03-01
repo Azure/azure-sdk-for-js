@@ -59,3 +59,4 @@ export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
 export { EnglishCapitalLetter, Acronymic } from "./util";
+export { FormRecognizerAudience } from "./constants";
