@@ -12,7 +12,7 @@ import {
   ServiceClient,
   OperationOptions,
   CommonClientOptions,
-  FullOperationResponse
+  FullOperationResponse,
 } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import {
@@ -23,7 +23,7 @@ import {
   PipelineRequest,
   createPipelineRequest,
   PipelinePolicy,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { administrationLogger as logger } from "./log";
@@ -141,7 +141,7 @@ function signingPolicy(credentials: {
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const signed = await credentials.signRequest(request);
       return next(signed);
-    }
+    },
   };
 }
 
@@ -222,7 +222,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       credentials = credentialOrOptions2;
       authPolicy = bearerTokenAuthenticationPolicy({
         credential: credentials,
-        scopes: AMQPConstants.aadServiceBusScope
+        scopes: AMQPConstants.aadServiceBusScope,
       });
     } else if (isNamedKeyCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
@@ -252,8 +252,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const serviceClientOptions = createPipelineFromOptions({
       ...options,
       userAgentOptions: {
-        userAgentPrefix
-      }
+        userAgentPrefix,
+      },
     });
     serviceClientOptions.addPolicy(authPolicy);
     super({ pipeline: serviceClientOptions });
@@ -2226,7 +2226,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const request: PipelineRequest = createPipelineRequest({
         url: this.getUrl(name),
-        method: "PUT"
+        method: "PUT",
       });
       if (isUpdate) {
         request.headers.set("If-Match", "*");
@@ -2292,7 +2292,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const request = createPipelineRequest({
         url: this.getUrl(name),
-        method: "GET"
+        method: "GET",
       });
 
       const response = await executeAtomXmlOperation(this, request, serializer, updatedOptions);
@@ -2306,7 +2306,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
             code: "MessageEntityNotFoundError",
             statusCode: response.status,
             request,
-            response
+            response,
           }
         );
         throw err;
@@ -2348,7 +2348,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
       const request = createPipelineRequest({
         url: this.getUrl(name, queryParams),
-        method: "GET"
+        method: "GET",
       });
 
       return executeAtomXmlOperation(this, request, serializer, updatedOptions);
@@ -2378,7 +2378,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const request = createPipelineRequest({
         url: this.getUrl(name),
-        method: "DELETE"
+        method: "DELETE",
       });
       return executeAtomXmlOperation(this, request, serializer, updatedOptions);
     } catch (e) {
@@ -2449,7 +2449,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2488,7 +2488,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2527,7 +2527,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2552,7 +2552,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2579,7 +2579,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2618,7 +2618,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2657,7 +2657,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2681,7 +2681,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2708,7 +2708,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2744,7 +2744,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2780,7 +2780,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2807,7 +2807,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2831,7 +2831,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2870,7 +2870,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }
@@ -2895,7 +2895,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           code: RestError.PARSE_ERROR,
           statusCode: response.status,
           request: response.request,
-          response
+          response,
         }
       );
     }

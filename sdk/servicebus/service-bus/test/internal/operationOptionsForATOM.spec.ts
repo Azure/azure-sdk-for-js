@@ -218,7 +218,7 @@ describe("Operation Options", () => {
   describe("RequestOptions custom headers", () => {
     it("requestOptions.customHeaders should be populated", async () => {
       const request = createPipelineRequest({
-        url: `https://${(serviceBusAtomManagementClient as any).endpoint}/`
+        url: `https://${(serviceBusAtomManagementClient as any).endpoint}/`,
       });
       await executeAtomXmlOperation(
         serviceBusAtomManagementClient,

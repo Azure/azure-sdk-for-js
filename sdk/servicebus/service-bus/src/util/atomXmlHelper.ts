@@ -5,7 +5,7 @@ import {
   PipelineResponse,
   RestError,
   PipelineRequest,
-  TransferProgressEvent
+  TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
@@ -82,10 +82,7 @@ export async function executeAtomXmlOperation(
   if (requestObject) {
     request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });
     if (request.method === "PUT") {
-      request.headers.set(
-        "content-length",
-        Buffer.byteLength(request.body)
-      );
+      request.headers.set("content-length", Buffer.byteLength(request.body));
     }
   }
 
@@ -108,7 +105,7 @@ export async function executeAtomXmlOperation(
   try {
     if (response.bodyAsText) {
       (response as FullOperationResponse).parsedBody = await parseXML(response.bodyAsText, {
-        includeRoot: true
+        includeRoot: true,
       });
     }
   } catch (err) {
@@ -118,7 +115,7 @@ export async function executeAtomXmlOperation(
         code: RestError.PARSE_ERROR,
         statusCode: response.status,
         request: response.request,
-        response
+        response,
       }
     );
     logger.logError(err, "Error parsing response body from Service");
@@ -246,7 +243,7 @@ function parseAtomResult(response: FullOperationResponse, nameProperties: string
       code: RestError.PARSE_ERROR,
       statusCode: response.status,
       request: response.request,
-      response
+      response,
     }
   );
 }
@@ -421,7 +418,7 @@ export function buildError(response: FullOperationResponse): RestError {
         code: "ServiceError",
         statusCode: response.status,
         request: response.request,
-        response
+        response,
       }
     );
   }
@@ -449,7 +446,7 @@ export function buildError(response: FullOperationResponse): RestError {
     code: errorCode,
     statusCode: response.status,
     request: response.request,
-    response
+    response,
   });
   return error;
 }

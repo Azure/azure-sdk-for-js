@@ -10,6 +10,7 @@ import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
 import { isDefined } from "./typeGuards";
+import { HttpResponse } from "./compatibility";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -630,17 +631,14 @@ export function formatUserAgentPrefix(prefix?: string): string {
 
 /**
  * @internal
- * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
+ * Helper method which returns `HttpResponse` from an object of shape `PipelineResponse`.
  */
-export const getHttpResponseOnly = ({
-  request,
-  status,
-  headers
-}: PipelineResponse): PipelineResponse => ({
-  request,
-  status,
-  headers,
-});
+export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpResponse =>
+  toHttpResponse(pipelineResponse);
+
+function toHttpResponse(response: PipelineResponse): HttpResponse {
+  throw new Error("Not Yet Implemented");
+}
 
 /**
  * @internal
