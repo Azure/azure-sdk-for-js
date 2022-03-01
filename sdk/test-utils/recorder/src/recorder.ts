@@ -4,7 +4,6 @@
 import {
   createDefaultHttpClient,
   HttpClient,
-  Pipeline,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -27,7 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
-import { Matcher, setMatcher } from "./matcher";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
 import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
@@ -36,6 +35,7 @@ import {
   WebResourceLike,
 } from "@azure/core-http";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -204,13 +204,21 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher): Promise<void> {
+  async setMatcher(matcher: "HeaderlessMatcher" | "BodilessMatcher"): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: "CustomDefaultMatcher", options?: CustomMatcherOptions): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId, options);
     }
   }
 
@@ -228,13 +236,22 @@ export class Recorder {
 
   /**
    * For core-v2 - libraries depending on core-rest-pipeline.
-   * This method adds the recording policy to the input client's pipeline.
+   * This method adds the recording policy to the additionalPolicies in the client options.
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   *
+   * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClient(client: { pipeline: Pipeline }): void {
-    if (isLiveMode()) return;
-    client.pipeline.addPolicy(this.recorderHttpPolicy());
+  public configureClientOptions<T>(
+    options: T & { additionalPolicies?: AdditionalPolicyConfig[] }
+  ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
+    if (isLiveMode()) return options;
+    if (!options.additionalPolicies) options.additionalPolicies = [];
+    options.additionalPolicies.push({
+      policy: this.recorderHttpPolicy(),
+      position: "perRetry",
+    });
+    return options;
   }
 
   /**
@@ -243,11 +260,13 @@ export class Recorder {
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    */
-  public configureClientOptionsCoreV1<
-    T extends {
+  public configureClientOptionsCoreV1<T>(
+    options: T & {
       httpClient?: HttpClientCoreV1;
     }
-  >(options: T): T {
+  ): T & {
+    httpClient?: HttpClientCoreV1;
+  } {
     if (isLiveMode()) return options;
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
   }

@@ -6,10 +6,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable sort-imports */
 
-import { DtmiResolver, ModelParsingOption } from "./internal";
-import { SupplementalTypeCollection, ModelDict } from "./internal";
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
+import { SupplementalTypeCollection, ModelDict, ModelParsingOption } from "./internal";
 export interface ModelParser {
-  dtmiResolver?: DtmiResolver;
+  getModels?: ModelsRepositoryClient["getModels"];
   options: ModelParsingOption;
   maxDtdlVersion?: number;
   parse(jsonTexts: string[]): Promise<ModelDict>;

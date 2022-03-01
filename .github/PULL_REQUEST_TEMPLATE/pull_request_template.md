@@ -1,3 +1,4 @@
+<!-- Give your Pull Request a brief description, and answer the following questions. This helps us find the best reviewers for the PR. -->
 
 ### Packages impacted by this PR
 
@@ -17,9 +18,10 @@
 ### Provide a list of related PRs _(if any)_
 
 
-### Command used to generate this PR:**_(Applicable only to SDK release request PRs)_
+### Command used to generate this PR: _(Applicable only to SDK release request PRs)_
+
 
 ### Checklists
-- [ ] Added impacted package name to the issue description
-- [ ] Does this PR needs any fixes in the SDK Generator?** _(If so, create an Issue in the [Autorest/typescript](https://github.com/Azure/autorest.typescript) repository and link it here)_
-- [ ] Added a changelog (if necessary)
+- [ ] Added impacted package name to the issue description.
+- [ ] Does this PR need any fixes in the SDK Generator?** _(If so, create an Issue in the [Autorest/typescript](https://github.com/Azure/autorest.typescript) repository and link it here.)_
+- [ ] Added a changelog (if necessary).

@@ -113,8 +113,7 @@ describe("RemoteRendering functional tests", () => {
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);
     await recorder.start(recorderStartOptions);
-    client = createClient();
-    recorder.configureClient(client["client"]);
+    client = createClient(recorder);
   });
 
   afterEach(async function () {

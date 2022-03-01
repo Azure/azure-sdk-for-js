@@ -1,5 +1,9 @@
 # Release History
-    
+
+## 7.0.1 (Unreleased)
+
+Add generated samples from swagger examples.
+
 ## 7.0.0 (2022-01-24)
 
 The package of @azure/arm-kusto is using our next generation design principles since version 7.0.0, which contains breaking changes.

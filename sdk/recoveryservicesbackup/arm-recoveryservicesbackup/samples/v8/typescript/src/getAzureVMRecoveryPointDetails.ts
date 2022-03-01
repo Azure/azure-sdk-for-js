@@ -14,7 +14,7 @@ To know the status of the operation, call the GetProtectedItemOperationResult AP
  *
  * @summary Provides the information of the backed up data identified using RecoveryPointID. This is an asynchronous operation.
 To know the status of the operation, call the GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/RecoveryPoints_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/RecoveryPoints_Get.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

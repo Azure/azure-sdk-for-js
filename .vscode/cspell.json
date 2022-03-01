@@ -40,23 +40,7 @@
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
-    "sdk/synapse/synapse-spark/review/*.md",
-    "sdk/attestation/attestation/review/**/*.md",
-    "sdk/communication/communication-common/review/**/*.md",
-    "sdk/containerregistry/container-registry/review/**/*.md",
-    "sdk/core/core-amqp/review/**/*.md",
-    "sdk/cosmosdb/cosmos/review/**/*.md",
-    "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-    "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-    "sdk/identity/identity/review/**/*.md",
-    "sdk/iot/iot-modelsrepository/review/**/*.md",
-    "sdk/keyvault/keyvault-certificates/review/**/*.md",
-    "sdk/keyvault/keyvault-keys/review/**/*.md",
-    "sdk/monitor/monitor-query/review/**/*.md",
-    "sdk/search/search-documents/review/**/*.md",
-    "sdk/storage/storage-blob/review/**/*.md",
-    "sdk/storage/storage-file-share/review/**/*.md",
-    "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md"
+    "sdk/synapse/synapse-spark/review/*.md"
   ],
   "words": [
     "adfs",
@@ -69,6 +53,7 @@
     "devdeps",
     "DTDL",
     "dtmi",
+    "dtmis",
     "eastus",
     "ECONNRESET",
     "Eloqua",
@@ -81,6 +66,7 @@
     "lcov",
     "lcovonly",
     "Lucene",
+    "Mibps",
     "mkdir",
     "mkdirp",
     "mongodb",
@@ -107,8 +93,11 @@
     "uaecentral",
     "uksouth",
     "ukwest",
+    "Uncapitalize",
     "undelete",
+    "Unencrypted",
     "unpartitioned",
+    "Unprocessable",
     "unref",
     "usdodcentral",
     "usdodeast",
@@ -126,6 +115,165 @@
         "azuresdkartifacts",
         "policheck",
         "gdnbaselines"
+      ]
+    },
+    {
+      "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
+      "words": [
+        "abgr",
+        "Abgr",
+        "argb",
+        "Argb",
+        "bgra",
+        "Bgra",
+        "Grpc",
+        "onvif",
+        "Onvif"
+      ]
+    },
+    {
+      "filename": "sdk/storage/storage-blob/review/**/*.md",
+      "words": [
+        "RAGRS"
+      ]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/**/*.md",
+      "words": [
+        "Adls",
+        "adlsgen",
+        "bangla",
+        "Bokmaal",
+        "Decompounder",
+        "haase",
+        "koelner",
+        "kstem",
+        "kstem",
+        "lovins",
+        "nysiis",
+        "odatatype",
+        "Phonetik",
+        "Piqd",
+        "reranker",
+        "Rslp",
+        "sorani",
+        "Sorani"
+      ]
+    },
+    {
+      "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
+      "words": [
+        "ECHSM",
+        "RSAHSM",
+        "RSNULL",
+        "Rsnull"
+      ]
+    },
+    {
+      "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
+      "words": [
+        "ECHSM",
+        "ekus",
+        "RSAHSM",
+        "upns"
+      ]
+    },
+    {
+      "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
+      "words": [
+        "dtdl"
+      ]
+    },
+    {
+      "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
+      "words": [
+        "colls",
+        "Parition",
+        "pkranges",
+        "sproc",
+        "sprocs",
+        "udfs",
+        "xmax",
+        "xmin",
+        "ymax",
+        "ymin"
+      ]
+    },
+    {
+      "filename": "sdk/attestation/attestation/review/**/*.md",
+      "words": [
+        "qeidcertshash",
+        "qeidcrlhash",
+        "qeidhash",
+        "tcbinfocertshash",
+        "tcbinfocrlhash",
+        "tcbinfohash"
+      ]
+    },
+    {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
+      "words": [
+        "WDLABCD"
+      ]
+    },
+    {
+      "filename": "sdk/core/core-amqp/review/**/*.md",
+      "words": [
+        "EHOSTDOWN",
+        "ENONET",
+        "sastoken"
+      ]
+    },
+    {
+      "filename": "sdk/containerregistry/container-registry/review/**/*.md",
+      "words": [
+        "illumos",
+        "Illumos",
+        "mipsle",
+        "riscv"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-common/review/**/*.md",
+      "words": [
+        "gcch"
+      ]
+    },
+    {
+      "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
+      "words": [
+        "Dtmi",
+        "dtmis"
+      ]
+    },
+    {
+      "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
+      "words": [
+        "Uncommited"
+      ]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/search-documents.api.md",
+      "words": [
+        "Createor"
+      ]
+    },
+    {
+      "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
+      "words": [
+        "fourty"
+      ]
+    },
+    {
+      "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
+      "words": [
+        "dependecies"
+      ]
+    },
+    {
+      "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
+      "words": [
+        "Funtion"
       ]
     }
   ]

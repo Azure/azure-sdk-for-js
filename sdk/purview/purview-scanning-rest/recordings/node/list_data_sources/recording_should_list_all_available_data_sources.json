@@ -1,0 +1,57 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/datasources?api-version=2018-12-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.5.1 Node/v12.22.9 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "99cb1615-e11e-45c6-bed3-4feeca2fd0be"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2018-12-01-preview, 2021-10-01-preview",
+        "Content-Length": "636",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 12 Feb 2022 01:20:24 GMT",
+        "Request-Context": "appId=cid-v1:caaf2286-a721-4ba8-a2bd-9a1b7993b4fd",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-correlation-request-id": "011ce69f-27b7-4673-bfde-b9a067583bd2"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "endpoint": "https://joheredistorage2.blob.core.windows.net/",
+              "resourceGroup": "joheredi-test",
+              "subscriptionId": "faa080af-c1d8-40ad-9cce-e1a450ca5b57",
+              "location": "westus",
+              "resourceName": "joheredistorage2",
+              "resourceId": null,
+              "dataUseGovernance": "Disabled",
+              "createdAt": "2021-09-29T18:51:31.9201233Z",
+              "lastModifiedAt": "2021-09-29T18:51:31.9201233Z",
+              "parentCollection": null,
+              "collection": {
+                "lastModifiedAt": "2021-09-29T18:51:31.9201233Z",
+                "referenceName": "la7eio",
+                "type": "CollectionReference"
+              },
+              "dataSourceCollectionMovingState": 0
+            },
+            "kind": "AzureStorage",
+            "id": "datasources/AzureBlob-Fq7",
+            "name": "AzureBlob-Fq7"
+          }
+        ],
+        "count": 1
+      }
+    }
+  ],
+  "Variables": {}
+}

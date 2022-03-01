@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/streamanalytics/ci.mgmt.yml
+      - sdk/streamanalytics/arm-streamanalytics/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/streamanalytics/ci.mgmt.yml
+      - sdk/streamanalytics/arm-streamanalytics/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: streamanalytics
+    Artifacts:
+      - name: azure-arm-streamanalytics
+        safeName: azurearmstreamanalytics

@@ -1,7 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
-  TestProxy: false
+  TestProxy: true
 
 steps:
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml

@@ -1,0 +1,266 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/policyStore/metadataPolicies?api-version=2021-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ec14fa10-723e-4a38-8602-a812e389cf96"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2021-07-01",
+        "Content-Length": "5197",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Feb 2022 19:22:02 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-correlation-request-id": "a0636d2d-11ea-403f-8b05-541f250934a6"
+      },
+      "ResponseBody": {
+        "values": [
+          {
+            "name": "policy_newpurviewllc",
+            "id": "a4362b7c-071a-4e95-a68d-1d7ced1d3a43",
+            "version": 4,
+            "properties": {
+              "description": "",
+              "decisionRules": [
+                {
+                  "kind": "decisionrule",
+                  "effect": "Permit",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "resource.purview.collection",
+                        "attributeValueIncludes": "newpurviewllc"
+                      },
+                      {
+                        "fromRule": "permission:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "permission:newpurviewllc"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "attributeRules": [
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_purview-reader:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_purview-reader:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_purview-reader",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_purview-reader"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_data-curator:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_data-curator:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-curator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-curator"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-source-administrator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-source-administrator"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "permission:newpurviewllc",
+                  "name": "permission:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_purview-reader:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_purview-reader:newpurviewllc"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-curator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-curator:newpurviewllc"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "collection": {
+                "type": "CollectionReference",
+                "referenceName": "newpurviewllc"
+              }
+            }
+          },
+          {
+            "name": "policy_la7eio",
+            "id": "88ce2dc3-3573-4c9a-8111-14fc9bc548b4",
+            "version": 1,
+            "properties": {
+              "description": "",
+              "decisionRules": [
+                {
+                  "kind": "decisionrule",
+                  "effect": "Permit",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "resource.purview.collection",
+                        "attributeValueIncludes": "la7eio"
+                      },
+                      {
+                        "fromRule": "permission:la7eio",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "permission:la7eio"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "attributeRules": [
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_collection-administrator:la7eio",
+                  "name": "purviewmetadatarole_builtin_collection-administrator:la7eio",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "permission:la7eio",
+                  "name": "permission:la7eio",
+                  "dnfCondition": [
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator:la7eio",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:la7eio"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "permission:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "permission:newpurviewllc"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "collection": {
+                "type": "CollectionReference",
+                "referenceName": "la7eio"
+              },
+              "parentCollectionName": "newpurviewllc"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

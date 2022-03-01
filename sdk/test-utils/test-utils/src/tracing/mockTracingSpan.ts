@@ -38,6 +38,32 @@ export class MockTracingSpan implements TracingSpan {
   traceId: string;
 
   /**
+   * The value passed to {@link TracingSpan.setStatus}, if any.
+   */
+  spanStatus?: SpanStatus;
+
+  /**
+   * All attributes recorded on the span.
+   */
+  attributes: Record<string, unknown> = {};
+
+  /**
+   * Value indictating wheher {@link TracingSpan.end} was called.
+   */
+  endCalled = false;
+
+  /**
+   * The exception captured on the span, if any.
+   */
+  exception?: string | Error;
+
+  /**
+   * Value indicating whether the span is recording. Used to test any
+   * early return when the span is not recording.
+   */
+  private _isRecording: boolean;
+
+  /**
    *
    * @param name - Name of the current span
    * @param spanContext - A unique, serializable identifier for a span
@@ -49,19 +75,17 @@ export class MockTracingSpan implements TracingSpan {
     traceId: string,
     spanId: string,
     tracingContext?: TracingContext,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
+    enabled = true
   ) {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
     this.traceId = traceId;
     this.spanId = spanId;
+    this._isRecording = enabled;
   }
 
-  spanStatus?: SpanStatus;
-  attributes: Record<string, unknown> = {};
-  endCalled = false;
-  exception?: string | Error;
   setStatus(status: SpanStatus): void {
     this.spanStatus = status;
   }
@@ -75,8 +99,12 @@ export class MockTracingSpan implements TracingSpan {
     this.exception = exception;
   }
 
+  setIsRecording(isRecording: boolean): void {
+    this._isRecording = isRecording;
+  }
+
   isRecording(): boolean {
-    return true;
+    return this._isRecording;
   }
 
   parentSpan(): MockTracingSpan | undefined {

@@ -3,6 +3,7 @@
 
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { fromAccountConnectionString, getAccountConnectionString } from "./accountConnectionString";
+
 import { TableServiceClientOptions } from "../models";
 import { URL } from "./url";
 
