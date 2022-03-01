@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
+      - sdk/synapse/arm-synapse
 pr:
   branches:
     include:
@@ -22,7 +22,7 @@ pr:
   paths:
     include:
       - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
+      - sdk/synapse/arm-synapse
 
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
