@@ -75,7 +75,7 @@ Timestamp: 2022-02-04 00:28:06Z - Correlation ID: 20267531-0284-4543-93d7-cf5091
 This error contains several pieces of information:
 
 
-- **Failing Credential Type**: The type of credential that failed to authenticate. This can be helpful when diagnosing issues with chained credential types such as `DefaultAzureCredential` or `ChainedTokenCredential`.
+- **Failing Credential Type**: The type of credential that failed to authenticate. This can be helpful when diagnosing issues with chained credential types, such as `DefaultAzureCredential` or `ChainedTokenCredential`.
 
 - **STS Error Code and Message**: The error code and message returned from the Azure AD STS. This can give insight into the specific reason the request failed. In this specific case, the request failed because the provided client secret is incorrect. For more information, see [Azure AD STS error codes](https://docs.microsoft.com/azure/active-directory/develop/reference-aadsts-error-codes#aadsts-error-codes).
 
