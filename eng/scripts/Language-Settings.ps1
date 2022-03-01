@@ -253,10 +253,11 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
   return $validationOutput
 }
 
-$PackageExclusions = @{ 
+$PackageExclusions = @{
   '@azure/identity-vscode'              = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
   '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
+  '@azure/communication-react'          = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/20574';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {

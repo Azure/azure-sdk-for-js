@@ -53,6 +53,7 @@ specifiers:
   '@rush-temp/arm-devtestlabs': file:./projects/arm-devtestlabs.tgz
   '@rush-temp/arm-digitaltwins': file:./projects/arm-digitaltwins.tgz
   '@rush-temp/arm-dns': file:./projects/arm-dns.tgz
+  '@rush-temp/arm-dnsresolver': file:./projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
@@ -306,6 +307,7 @@ dependencies:
   '@rush-temp/arm-devtestlabs': file:projects/arm-devtestlabs.tgz
   '@rush-temp/arm-digitaltwins': file:projects/arm-digitaltwins.tgz
   '@rush-temp/arm-dns': file:projects/arm-dns.tgz
+  '@rush-temp/arm-dnsresolver': file:projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
@@ -1625,6 +1627,15 @@ packages:
       '@opentelemetry/api': 1.0.4
     dev: false
 
+  /@opentelemetry/context-async-hooks/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-oGCPjDlZ03gXPAdLxw5iqaQJIpL8BZFaiZhAPgF7Vj6XYmrmrA/FXVIsjfNECQTa2D+lt5p8vf0xYIkFufgceQ==}
+    engines: {node: '>=8.1.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+    dev: false
+
   /@opentelemetry/context-base/0.10.2:
     resolution: {integrity: sha512-hZNKjKOYsckoOEgBziGMnBcX0M7EtstnCmwz5jZUOUYwlZ+/xxX6z3jPu1XVO2Jivk0eLfuP9GP+vFD49CMetw==}
     engines: {node: '>=8.0.0'}
@@ -1717,6 +1728,16 @@ packages:
       '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
     dev: false
 
+  /@opentelemetry/propagator-b3/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-UQQiOpR/WXyoqIRQEkn6RuXtGfpjhBDMq/1HrVxRCRPMVn7f4e+zxZWoQSsCOvSGQTu9S+W8eAutm00sRJN7fg==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+    dev: false
+
   /@opentelemetry/propagator-jaeger/0.24.0_@opentelemetry+api@1.0.4:
     resolution: {integrity: sha512-QXCxBwuSka+vXbBZdumtF7YKO84gwTyKy3GelZV5BPlgWoge0AbLR3DfsO9Beu13pmD+4PyuwMw3LfYsgG1+3g==}
     engines: {node: '>=8.5.0'}
@@ -1725,6 +1746,16 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
+    dev: false
+
+  /@opentelemetry/propagator-jaeger/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-bzvXksBn3j0GyiFXQbx87CUSGC1UDyp4hjL+CCOrQfzIEdp6usKCLHv40Ib5WU6739hPMkyr59CPfKwzlviTtA==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
     dev: false
 
   /@opentelemetry/resources/0.22.0_@opentelemetry+api@1.0.4:
@@ -1758,6 +1789,33 @@ packages:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 1.0.1
+    dev: false
+
+  /@opentelemetry/sdk-trace-base/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-JVSAepTpW7dnqfV7XFN0zHj1jXGNd5OcvIGQl76buogqffdgJdgJWQNrOuUJaus56zrOtlzqFH+YtMA9RGEg8w==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/resources': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 1.0.1
+    dev: false
+
+  /@opentelemetry/sdk-trace-node/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-0ifT2pEI5aXy14zDDUQkl3ODzY6jjaC1plbxyAuz5BdPxGJzav9vzIJ2BhEwfXDn1LKqpQ5D1Yy+XnNRQpOo3w==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/context-async-hooks': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/propagator-b3': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/propagator-jaeger': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/sdk-trace-base': 1.0.1_@opentelemetry+api@1.0.4
+      semver: 7.3.5
     dev: false
 
   /@opentelemetry/semantic-conventions/0.22.0:
@@ -9657,7 +9715,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-STrGtnpGFgclL7s1N5GRsvljL1Uh1mSG1qbAOxBRsrtSCTC0T14g1rRQp+wKUZpQaVT/WxqGSDL8u9Yqn1stiA==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-oye2yulUr6kusYddNkMMtfCuRfT1/icYs0U1XUhaeJ1z+IDLvpOaowsVliE1WtxCNMBWtAfs0DQ0W4KxWev6LA==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
@@ -9665,24 +9723,25 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-zGLtmr4RJTq17ajNRZ20xV0XNDjikI6J+nhCa43DnCR4zJ5newFoFSIPObuJVtcFoPPer81HOd8kMbEFuNA4xA==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-b1vFT9mSxKrh2OYoHJ9mxx/0N56HfFL+QnYdIP9fvo59HvrfYClQD+GnE9ESVqL1EeP9T/ax6m+na2x/no8Wsw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -9690,18 +9749,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -9857,7 +9917,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-ysazeGstEeIGdOFX6acPvAcZn5A8j6AQCAtos+depAtZQ0z04/l+2Y+OWyuh8+uKIhY+/iz/VMqRawFRm1EY0g==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-lgN7MeI9TSULYzpb6f4OVWqNOoAfbJjWsBbnBnj2vU1imocSDx8oxtp+g3+6Kjt+E0GNXbs2KmcbIMsLmdxc2w==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -9865,18 +9925,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -10102,6 +10163,32 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-dnsresolver.tgz:
+    resolution: {integrity: sha512-Q4uxHocEjzeGd9O0RNXUqHJxoo94iyv6BIu4zBPVKNCmGIviEjplRMTwq46l29pLK2UwOTfJ5T4zpb2f9vwr6A==, tarball: file:projects/arm-dnsresolver.tgz}
+    name: '@rush-temp/arm-dnsresolver'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.1
+    transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -12617,11 +12704,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-oZDdYdSoVSS2yJpAUgYO/VXraUzDbQyrp+curzNMMAoXaQbiVSEaYzSG1E08daCx89RKfbCU2rmgwoSfMUhsGw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-Ir1GhvEF3PXYgYVqnVoET3ROfXnsDB3d3uUrNG8JDzBZbJEtX3iWDRIAC0q8S9u8SIIAWsXJeMPehYDNcAug2A==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
       '@azure/communication-identity': 1.0.0
       '@azure/communication-signaling': 1.0.0-beta.12
       '@azure/core-tracing': 1.0.0-preview.13
@@ -12669,7 +12757,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-wOnmTjckWBwZi7PF2QhrMsY051qfW2MDFsLmwlAmiJHEfS2RJ7H4REF8UF8qeLUf3bHVUoK5ts78Fxua1PFjqw==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-nZ4F/g5+8wwIhLSJRP7ADHcLgPvFZOj4U9w7MdeESveuLhdpiO/RDggXAD5hRo0bFrA5mu8Mj7PeuvBKsHdXYg==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -12715,11 +12803,12 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-k9Njp8MUIGI8StYq41q1UgvBbKfNFg1jqJrJ77p48ZxVjdNPEgqbowd33Luq48UA/jOqC6WI5vMnJcRq1byU8A==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-3KMUggy9VAdPjj9HyZeyJGz+miv2Hax+7yZPOsr5XUliBy3YKT7FlQoL9kuSEVv0kyed5WaqcwUSrAABI9OJyg==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
@@ -12762,11 +12851,12 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-bhbCuvM5C95CQmy593VELfk/WK2+DwwVxRDdPN+eU3058xMUglY/yNE1IW/6KBeab/Yi/Id8I/DrKTCUhqQNlg==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-cSn4oDnLrG4NKfWEDeps1XaSS5a9qLxDmyHebAsjlFb8MVscBbtPEiysFE3+zDWDaPaD1M6HbHYQNMDWQ0+5/Q==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
       '@azure/communication-identity': 1.0.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
@@ -12820,11 +12910,12 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-0Ss+LuPwQEr+gxKbabczU300w9i+cbNsfp40GlcP59a15TOT+VgNu0ahwGJCvHCvnfTH9WrLPqqdM9SsTuBnmA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-rRhGCLmHScAXIfu0DlqgtedWANSs00dq58UKw/quDQoboq4bKDUzBq1VEk14P7IeDdryEu3mgWLSkRAtMPwf6A==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
@@ -12867,11 +12958,12 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-mgHwx65bgeFi5MCm8V0of6PPpV1JNoJuqMg3A7xwZsBU1lUbl2godPkFuIm4DrckC8lNVGp1PPv9ud0VrmYOfg==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-XupWjB3VgESRQh1NitFSRM6RtMqOSeQTInfUlcBRkZBQV/YjtCSBstqTWW21RT4yFclbuj90IOqMc1uYdTnwuA==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
@@ -12914,11 +13006,12 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-iiXgF0X3LGg2S21TeXLAnj1QGWXhWRgU7PfAvpMpM16rZPpG8WrOwKr1yanelUdz4Jj5+RqtVvGKvIdYHfpXaA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-ZsH9N6H587yOEboYqWjx4YjkqSCjs2cDPbcchzjPZuK6aeBFP2iRs2Wqhcrhi5yVW/TNZksCYmvtEnL76MCwSw==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.4
       '@types/chai': 4.3.0
@@ -13275,7 +13368,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-kb8AlUxGYulbQUvdsIwBApht7u8v9SiLXM/KVUgTMrZG+ik2rxLpb6O66Krfn+qgOpsrgYLz7dMfMTNjf4tC2g==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-+YcfCpTuDLQvDtCOTDzkpqmMN5tGT+ckbviQm6BFAK5dTMK9EAkE+3sIgnhRlFsPuLd+GyKnCoZrNt0Im221Jw==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -14803,7 +14896,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-QpbQ27v5Vwh319CCySclHolgDDf/5uAAanlMcSlD51Mmdr6y9T+ym/8Y8KQQOy2/RlmfNxREoLkZoeTXS/eu0g==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-VBSR9nowFkwZxweaxyAfHs5845rwQss3+lKzEkswtJ6/fapsdB3/yCyCgjSk/wjFIQ+TmR0L1E7uxq2mj9kIdg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -14813,6 +14906,8 @@ packages:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/sdk-trace-base': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/sdk-trace-node': 1.0.1_@opentelemetry+api@1.0.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.43
