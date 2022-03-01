@@ -40,7 +40,7 @@ import * from "@azure/keyvault-secrets";
 
 async function main() {
   // Create a key client using the DefaultAzureCredential
-  const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
   const credential = new DefaultAzureCredential();
   const client = new KeyClient(keyVaultUrl, credential);
 
