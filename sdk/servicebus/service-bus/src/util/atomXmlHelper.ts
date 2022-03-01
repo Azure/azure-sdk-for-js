@@ -35,7 +35,10 @@ export interface AtomXmlSerializer {
   deserialize(response: FullOperationResponse): Promise<FullOperationResponse>;
 }
 
-function prepare(
+/**
+   applies options to the pipeline request.
+  */
+function applyRequestOptions(
   request: PipelineRequest,
   options: {
     headers?: Record<string, string>;
@@ -43,8 +46,9 @@ function prepare(
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
+    timeout: number;
   }
-): PipelineRequest {
+): void {
   if (options.headers) {
     const headers = options.headers;
     for (const headerName of Object.keys(headers)) {
@@ -54,10 +58,10 @@ function prepare(
   request.onDownloadProgress = options.onDownloadProgress;
   request.onUploadProgress = options.onUploadProgress;
   request.abortSignal = options.abortSignal;
+  request.timeout = options.timeout;
   if (options.tracingOptions) {
     request.tracingOptions = options.tracingOptions;
   }
-  return request;
 }
 
 /**
@@ -94,9 +98,9 @@ export async function executeAtomXmlOperation(
     abortSignal: operationOptions.abortSignal,
     tracingOptions: operationOptions.tracingOptions,
     disableJsonStringifyOnBody: true,
+    timeout: operationOptions.requestOptions?.timeout || 0,
   };
-  request = prepare(request, reqPrepareOptions);
-  request.timeout = operationOptions.requestOptions?.timeout || 0;
+  applyRequestOptions(request, reqPrepareOptions);
   const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(request);
 
   logger.verbose(`Received ATOM based HTTP response: ${response.bodyAsText}`);
