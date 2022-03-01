@@ -14,7 +14,7 @@ import {
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
 } from "../models";
 import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";

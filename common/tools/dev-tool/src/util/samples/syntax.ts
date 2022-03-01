@@ -3,7 +3,6 @@
 
 import * as ts from "typescript";
 import { createPrinter } from "../printer";
-import { isNodeBuiltin, isRelativePath } from "./transforms";
 
 const log = createPrinter("samples:syntax");
 
@@ -47,21 +46,6 @@ const SYNTAX_VIABILITY_TESTS = {
     // import("foo")
     ImportExpression: (node: ts.Node) =>
       ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword,
-    // This can't be supported without going to great lengths to emulate esModuleInterop behavior.
-    // It's a little more involved to test for. We only care about `import <name> from <specifier>`
-    // where <specifier> does not refer to a builtin or a relative module path.
-    ExternalDefaultImport: (node: ts.Node) => {
-      const isDefaultImport =
-        ts.isImportDeclaration(node) &&
-        node.importClause?.name &&
-        ts.isIdentifier(node.importClause.name);
-
-      if (!isDefaultImport) return false;
-
-      const { text: moduleSpecifier } = node.moduleSpecifier as ts.StringLiteralLike;
-
-      return isDefaultImport && !isNodeBuiltin(moduleSpecifier) && !isRelativePath(moduleSpecifier);
-    },
   },
   // Supported in Node 14+
   ES2020: {

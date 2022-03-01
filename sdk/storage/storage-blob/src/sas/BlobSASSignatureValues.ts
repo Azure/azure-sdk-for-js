@@ -387,7 +387,7 @@ function generateBlobSASQueryParameters20150405(
     blobSASSignatureValues.contentDisposition ? blobSASSignatureValues.contentDisposition : "",
     blobSASSignatureValues.contentEncoding ? blobSASSignatureValues.contentEncoding : "",
     blobSASSignatureValues.contentLanguage ? blobSASSignatureValues.contentLanguage : "",
-    blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : ""
+    blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : "",
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
@@ -493,7 +493,7 @@ function generateBlobSASQueryParameters20181109(
     blobSASSignatureValues.contentDisposition ? blobSASSignatureValues.contentDisposition : "",
     blobSASSignatureValues.contentEncoding ? blobSASSignatureValues.contentEncoding : "",
     blobSASSignatureValues.contentLanguage ? blobSASSignatureValues.contentLanguage : "",
-    blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : ""
+    blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : "",
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
@@ -600,7 +600,7 @@ function generateBlobSASQueryParameters20201206(
     blobSASSignatureValues.contentDisposition ? blobSASSignatureValues.contentDisposition : "",
     blobSASSignatureValues.contentEncoding ? blobSASSignatureValues.contentEncoding : "",
     blobSASSignatureValues.contentLanguage ? blobSASSignatureValues.contentLanguage : "",
-    blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : ""
+    blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : "",
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
@@ -715,7 +715,7 @@ function generateBlobSASQueryParametersUDK20181109(
     blobSASSignatureValues.contentDisposition,
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType
+    blobSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
@@ -829,7 +829,7 @@ function generateBlobSASQueryParametersUDK20200210(
     blobSASSignatureValues.contentDisposition,
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType
+    blobSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
@@ -946,7 +946,7 @@ function generateBlobSASQueryParametersUDK20201206(
     blobSASSignatureValues.contentDisposition,
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType
+    blobSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
@@ -1040,6 +1040,14 @@ function SASSignatureValuesSanityCheckAndAutofill(
     (blobSASSignatureValues.permissions.move || blobSASSignatureValues.permissions.execute)
   ) {
     throw RangeError("'version' must be >= '2020-02-10' when providing the 'm' or 'e' permission.");
+  }
+
+  if (
+    version < "2021-04-10" &&
+    blobSASSignatureValues.permissions &&
+    (blobSASSignatureValues.permissions as ContainerSASPermissions).filterByTags
+  ) {
+    throw RangeError("'version' must be >= '2021-04-10' when providing the 'f' permission.");
   }
 
   if (

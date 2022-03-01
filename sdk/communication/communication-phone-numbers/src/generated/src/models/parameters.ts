@@ -92,7 +92,7 @@ export const countryCode: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-07",
+    defaultValue: "2022-01-11-preview2",
     isConstant: true,
     serializedName: "api-version",
     type: {

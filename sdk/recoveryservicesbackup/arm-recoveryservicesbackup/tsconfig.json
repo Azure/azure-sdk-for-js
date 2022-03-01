@@ -3,17 +3,30 @@
     "module": "es6",
     "moduleResolution": "node",
     "strict": true,
-    "target": "es5",
+    "target": "es6",
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "declaration": true,
-    "outDir": "./esm",
-    "importHelpers": true
+    "outDir": "./dist-esm",
+    "importHelpers": true,
+    "paths": {
+      "@azure/arm-recoveryservicesbackup": [
+        "./src/index"
+      ]
+    }
   },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

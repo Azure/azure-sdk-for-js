@@ -30,16 +30,16 @@ const dtdl_model_building = {
         {
           "@type": "Property",
           name: "isAccessRestricted",
-          schema: "boolean"
-        }
-      ]
+          schema: "boolean",
+        },
+      ],
     },
     {
       "@type": "Property",
       name: "AverageTemperature",
-      schema: "double"
-    }
-  ]
+      schema: "double",
+    },
+  ],
 };
 
 const dtdl_model_floor = {
@@ -51,14 +51,14 @@ const dtdl_model_floor = {
     {
       "@type": "Relationship",
       name: "contains",
-      target: ROOM_MODEL_ID
+      target: ROOM_MODEL_ID,
     },
     {
       "@type": "Property",
       name: "AverageTemperature",
-      schema: "double"
-    }
-  ]
+      schema: "double",
+    },
+  ],
 };
 
 const dtdl_model_room = {
@@ -70,27 +70,27 @@ const dtdl_model_room = {
     {
       "@type": "Property",
       name: "Temperature",
-      schema: "double"
+      schema: "double",
     },
     {
       "@type": "Property",
       name: "IsOccupied",
-      schema: "boolean"
-    }
-  ]
+      schema: "boolean",
+    },
+  ],
 };
 
 describe("DigitalTwins Relationships - create, read, list, delete operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Mocha.Context) {
+  beforeEach(async function (this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -145,26 +145,26 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   async function createDigitalTwins(): Promise<void> {
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
-      AverageTemperature: 68
+      AverageTemperature: 68,
     };
     await client.upsertDigitalTwin(BUILDING_DIGITAL_TWIN_ID, JSON.stringify(buildingTwin));
 
     const floorTwin = {
       $metadata: {
-        $model: FLOOR_MODEL_ID
+        $model: FLOOR_MODEL_ID,
       },
-      AverageTemperature: 75
+      AverageTemperature: 75,
     };
     await client.upsertDigitalTwin(FLOOR_DIGITAL_TWIN_ID, JSON.stringify(floorTwin));
 
     const roomTwin = {
       $metadata: {
-        $model: ROOM_MODEL_ID
+        $model: ROOM_MODEL_ID,
       },
       Temperature: 80,
-      IsOccupied: true
+      IsOccupied: true,
     };
     await client.upsertDigitalTwin(ROOM_DIGITAL_TWIN_ID, JSON.stringify(roomTwin));
   }
@@ -174,7 +174,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await createDigitalTwins();
   }
 
-  it("create basic relationship", async function() {
+  it("create basic relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -183,7 +183,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $relationshipId: relationshipId,
       $sourceId: FLOOR_DIGITAL_TWIN_ID,
       $relationshipName: "contains",
-      $targetId: ROOM_DIGITAL_TWIN_ID
+      $targetId: ROOM_DIGITAL_TWIN_ID,
     };
 
     try {
@@ -222,7 +222,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("create invalid relationship - invalid twin id", async function() {
+  it("create invalid relationship - invalid twin id", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -231,7 +231,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $relationshipId: relationshipId,
       $sourceId: FLOOR_DIGITAL_TWIN_ID,
       $relationshipName: "contains",
-      $targetId: ROOM_DIGITAL_TWIN_ID
+      $targetId: ROOM_DIGITAL_TWIN_ID,
     };
 
     let errorWasThrown = false;
@@ -252,7 +252,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create invalid relationship - invalid twin target id", async function() {
+  it("create invalid relationship - invalid twin target id", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -261,7 +261,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $relationshipId: relationshipId,
       $sourceId: FLOOR_DIGITAL_TWIN_ID,
       $relationshipName: "contains",
-      $targetId: "foo"
+      $targetId: "foo",
     };
 
     let errorWasThrown = false;
@@ -282,7 +282,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create relationship conditionally", async function() {
+  it("create relationship conditionally", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -291,7 +291,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $relationshipId: relationshipId,
       $sourceId: FLOOR_DIGITAL_TWIN_ID,
       $relationshipName: "contains",
-      $targetId: ROOM_DIGITAL_TWIN_ID
+      $targetId: ROOM_DIGITAL_TWIN_ID,
     };
 
     try {
@@ -347,7 +347,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("upsert relationship", async function() {
+  it("upsert relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -357,7 +357,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -432,7 +432,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("get relationship", async function() {
+  it("get relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -442,7 +442,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -516,7 +516,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("get relationship not existing", async function() {
+  it("get relationship not existing", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -543,7 +543,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("delete relationship", async function() {
+  it("delete relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -553,7 +553,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
     try {
       const createdRelationship = await client.upsertRelationship(
@@ -610,7 +610,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("delete relationship not existing", async function() {
+  it("delete relationship not existing", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -637,7 +637,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship replace", async function() {
+  it("update relationship replace", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -647,7 +647,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -685,8 +685,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         {
           op: "replace",
           path: "/isAccessRestricted",
-          value: true
-        }
+          value: true,
+        },
       ];
       const updatedRelationship = await client.updateRelationship(
         BUILDING_DIGITAL_TWIN_ID,
@@ -723,7 +723,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship remove", async function() {
+  it("update relationship remove", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -733,7 +733,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -770,8 +770,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       const patch = [
         {
           op: "remove",
-          path: "/isAccessRestricted"
-        }
+          path: "/isAccessRestricted",
+        },
       ];
       const updatedRelationship = await client.updateRelationship(
         BUILDING_DIGITAL_TWIN_ID,
@@ -807,7 +807,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship add", async function() {
+  it("update relationship add", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -817,7 +817,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -854,8 +854,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       const remove_patch = [
         {
           op: "remove",
-          path: "/isAccessRestricted"
-        }
+          path: "/isAccessRestricted",
+        },
       ];
       await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId, remove_patch);
 
@@ -863,8 +863,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         {
           op: "add",
           path: "/isAccessRestricted",
-          value: true
-        }
+          value: true,
+        },
       ];
       const updatedRelationship = await client.updateRelationship(
         BUILDING_DIGITAL_TWIN_ID,
@@ -901,7 +901,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship multiple", async function() {
+  it("update relationship multiple", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -911,7 +911,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -949,12 +949,12 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         {
           op: "replace",
           path: "/isAccessRestricted",
-          value: true
+          value: true,
         },
         {
           op: "remove",
-          path: "/isAccessRestricted"
-        }
+          path: "/isAccessRestricted",
+        },
       ];
       const updatedRelationship = await client.updateRelationship(
         BUILDING_DIGITAL_TWIN_ID,
@@ -990,7 +990,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship invalid patch", async function() {
+  it("update relationship invalid patch", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1000,7 +1000,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -1037,8 +1037,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       const patch1 = [
         {
           op: "move",
-          path: "/isAccessRestricted"
-        }
+          path: "/isAccessRestricted",
+        },
       ];
       let errorWasThrown = false;
       try {
@@ -1052,8 +1052,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       const patch2 = [
         {
           op: "remove",
-          path: "/isAccessDoorRestricted"
-        }
+          path: "/isAccessDoorRestricted",
+        },
       ];
       errorWasThrown = false;
       try {
@@ -1069,8 +1069,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
 
       const patch3 = [
         {
-          isAccessRestricted: false
-        }
+          isAccessRestricted: false,
+        },
       ];
       errorWasThrown = false;
       try {
@@ -1101,7 +1101,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship conditionally", async function() {
+  it("update relationship conditionally", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1111,7 +1111,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -1149,8 +1149,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         {
           op: "replace",
           path: "/isAccessRestricted",
-          value: true
-        }
+          value: true,
+        },
       ];
       const options: DigitalTwinsAddRelationshipOptionalParams = {};
       options.ifNoneMatch = "*";
@@ -1190,7 +1190,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship not existing", async function() {
+  it("update relationship not existing", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1202,8 +1202,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         {
           op: "replace",
           path: "/isAccessRestricted",
-          value: true
-        }
+          value: true,
+        },
       ];
       await client.updateRelationship(BUILDING_DIGITAL_TWIN_ID, "foo", patch);
     } catch (error) {
@@ -1221,7 +1221,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("list relationships", async function() {
+  it("list relationships", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1231,7 +1231,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {
@@ -1282,7 +1282,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("list incoming relationships", async function() {
+  it("list incoming relationships", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1292,7 +1292,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
       $targetId: FLOOR_DIGITAL_TWIN_ID,
-      isAccessRestricted: false
+      isAccessRestricted: false,
     };
 
     try {

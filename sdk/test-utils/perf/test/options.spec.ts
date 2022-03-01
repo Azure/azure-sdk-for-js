@@ -20,33 +20,33 @@ interface OptionsTestOptions {
 export class OptionsTest extends PerfTest<OptionsTestOptions> {
   public options: PerfOptionDictionary<OptionsTestOptions> = {
     "non-req": {
-      description: "Non-required option"
+      description: "Non-required option",
     },
     "non-req-short": {
       description: "Non-required option with short name",
-      shortName: "nro"
+      shortName: "nro",
     },
     "non-req-default": {
       description: "Non-required option with default value",
-      defaultValue: 10
+      defaultValue: 10,
     },
     req: {
       required: true,
-      description: "Required option"
+      description: "Required option",
     },
     "req-short": {
       description: "Required option with short name",
-      shortName: "ro"
+      shortName: "ro",
     },
     "req-default": {
       description: "Required option with default value",
-      defaultValue: 10
+      defaultValue: 10,
     },
     longName: {
       description: "Option with long name specified in option body",
       longName: "long-name",
-      defaultValue: "ln"
-    }
+      defaultValue: "ln",
+    },
   };
   public minimistResult: MinimistParsedArgs;
 

@@ -5,19 +5,23 @@ import { matrix } from "@azure/test-utils";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
+import { PhoneNumberCapabilitiesRequest, PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { getPhoneNumber } from "./utils/testPhoneNumber";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function () {
-    const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
+    const purchasedPhoneNumber = getPhoneNumber();
     const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
     before(function (this: Context) {
       const skipPhoneNumbersTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
-      if (skipPhoneNumbersTests) {
+      const skipUpdateCapabilitiesLiveTests =
+        isPlaybackMode() || env.SKIP_UPDATE_CAPABILITIES_LIVE_TESTS === "true";
+
+      if (skipPhoneNumbersTests || skipUpdateCapabilitiesLiveTests) {
         this.skip();
       }
     });
@@ -40,12 +44,10 @@ matrix([[true, false]], async function (useAad) {
         update
       );
 
-      // TODO: this validation is flakey because multiple tests attempt to update the same number
-      // re-enable when we make each lang run it's own number
-      // const phoneNumber = await updatePoller.pollUntilDone();
+      const phoneNumber = await updatePoller.pollUntilDone();
       await updatePoller.pollUntilDone();
       assert.ok(updatePoller.getOperationState().isCompleted);
-      // assert.deepEqual(phoneNumber.capabilities, update);
+      assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(120000);
 
     it("update throws when phone number isn't owned", async function () {

@@ -138,7 +138,7 @@ export class AuthenticationError extends Error {
     }
 
     super(
-      `${errorResponse.error}(status code ${statusCode}).\nMore details:\n${errorResponse.errorDescription}`
+      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;

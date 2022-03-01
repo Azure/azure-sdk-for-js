@@ -6,7 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  ResourceType
+  ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request";
 import { Database } from "../Database";
@@ -65,7 +65,7 @@ export class User {
       path,
       resourceType: ResourceType.user,
       resourceId: id,
-      options
+      options,
     });
     return new UserResponse(response.result, response.headers, response.code, this);
   }
@@ -88,7 +88,7 @@ export class User {
       path,
       resourceType: ResourceType.user,
       resourceId: id,
-      options
+      options,
     });
     return new UserResponse(response.result, response.headers, response.code, this);
   }
@@ -104,7 +104,7 @@ export class User {
       path,
       resourceType: ResourceType.user,
       resourceId: id,
-      options
+      options,
     });
     return new UserResponse(response.result, response.headers, response.code, this);
   }

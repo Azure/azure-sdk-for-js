@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { SDK_VERSION } from "../../src/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";
 import { isNode } from "@azure/core-util";
 import path from "path";
 import fs from "fs";
 
-describe("Key Vault Admin's user agent (only in Node, because of fs)", function() {
-  beforeEach(function() {
+describe("Key Vault Admin's user agent (only in Node, because of fs)", function () {
+  beforeEach(function () {
     if (!isNode) {
       this.skip();
     }
   });
 
-  it("SDK_VERSION and packageVersion should match", async function() {
+  it("SDK_VERSION and packageVersion should match", async function () {
     assert.equal(SDK_VERSION, packageVersion);
   });
 
-  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function() {
+  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function () {
     let version: string;
     try {
       const fileContents = JSON.parse(

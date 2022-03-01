@@ -1,5 +1,4 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
 trigger:
   branches:
     include:
@@ -9,7 +8,9 @@ trigger:
   paths:
     include:
       - sdk/digitaltwins/
-
+    exclude:
+      - sdk/digitaltwins/ci.mgmt.yml
+      - sdk/digitaltwins/arm-digitaltwins/
 pr:
   branches:
     include:
@@ -17,10 +18,14 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/digitaltwins/
-
+    exclude:
+      - sdk/digitaltwins/ci.mgmt.yml
+      - sdk/digitaltwins/arm-digitaltwins/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -28,3 +33,5 @@ extends:
     Artifacts:
       - name: azure-digital-twins-core
         safeName: azuredigitaltwinscore
+      - name: azure-dtdl-parser
+        safeName: azuredtdlparser

@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/integrationRuntimes?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "b09343ae-8581-489b-9656-461d8fd2518d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "468",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:59:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1c17f4ef-347a-4b55-a288-f24f2903e3da",
+        "x-ms-request-id": "474465b8-70c6-4048-9d03-a422c95cbefd",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/integrationruntimes/AutoResolveIntegrationRuntime",
+            "name": "AutoResolveIntegrationRuntime",
+            "type": "Microsoft.Synapse/workspaces/integrationruntimes",
+            "properties": {
+              "type": "Managed",
+              "typeProperties": {
+                "computeProperties": {
+                  "location": "AutoResolve"
+                }
+              },
+              "provisioningState": null
+            },
+            "etag": "0a05f3ff-0000-0200-0000-61dc98c00000"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

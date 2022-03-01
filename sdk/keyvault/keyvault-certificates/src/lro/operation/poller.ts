@@ -6,7 +6,7 @@ import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions,
-  cleanState
+  cleanState,
 } from "../keyVaultCertificatePoller";
 
 export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
@@ -25,7 +25,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
       certificateName,
       operationOptions,
       intervalInMs = 2000,
-      resumeFrom
+      resumeFrom,
     } = options;
 
     let state: CertificateOperationState | undefined;
@@ -37,7 +37,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
     const operation = new CertificateOperationPollOperation(
       {
         ...state,
-        certificateName
+        certificateName,
       },
       vaultUrl,
       client,
@@ -55,7 +55,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
   public getOperationState(): CertificateOperationState {
     return {
       ...cleanState(this.operation.state),
-      certificateOperation: this.operation.state.certificateOperation
+      certificateOperation: this.operation.state.certificateOperation,
     };
   }
 }

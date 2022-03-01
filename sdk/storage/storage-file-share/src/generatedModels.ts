@@ -59,6 +59,8 @@ export {
   ListFilesAndDirectoriesSegmentResponse,
   DirectoryListFilesAndDirectoriesSegmentHeaders,
   ListHandlesResponse,
+  DirectoryRenameHeaders,
+  DirectoryRenameResponse,
   DirectoryListHandlesHeaders,
   DirectorySetMetadataHeaders,
   DirectorySetPropertiesHeaders,
@@ -68,12 +70,14 @@ export {
   FileGetPropertiesHeaders,
   FileProperty,
   FileListHandlesHeaders,
+  FileRenameHeaders,
   CorsRule,
   Metrics,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
   FileSetHttpHeadersResponse as FileSetHTTPHeadersResponse,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,
+  FileRenameResponse,
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
   ServiceGetPropertiesHeaders,
@@ -107,7 +111,7 @@ export {
   ShareFileRangeList,
   ClearRange,
   ShareAccessTier,
-  ShareRootSquash
+  ShareRootSquash,
 } from "./generated/src/models";
 
 import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";

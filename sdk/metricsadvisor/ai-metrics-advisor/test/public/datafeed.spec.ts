@@ -24,7 +24,7 @@ import {
 } from "../../src";
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "./util/matrix";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -440,10 +440,10 @@ matrix([[true, false]] as const, async (useAad) => {
               dataFeedName: "js-test-",
             },
           });
-          let result = await iterator.next();
-          assert.ok(result.value.status, "Expecting first data feed");
-          result = await iterator.next();
-          assert.ok(result.value.status, "Expecting second data feed");
+          let result = getYieldedValue(await iterator.next());
+          assert.ok(result.status, "Expecting first data feed");
+          result = getYieldedValue(await iterator.next());
+          assert.ok(result.status, "Expecting second data feed");
         });
 
         it("lists datafeed by pages", async function () {

@@ -8,7 +8,7 @@ import {
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message as RheaMessageUtil
+  message as RheaMessageUtil,
 } from "rhea-promise";
 import {
   Constants,
@@ -19,7 +19,7 @@ import {
   RetryOptions,
   delay,
   retry,
-  AmqpAnnotatedMessage
+  AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
 import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
@@ -70,7 +70,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   ) {
     super(entityPath, entityPath, connectionContext, "sender", logger, {
       address: entityPath,
-      audience: `${connectionContext.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`,
     });
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
@@ -137,12 +137,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
       target: {
-        address: this.address
+        address: this.address,
       },
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose
+      onSessionClose: this._onSessionClose,
     };
     logger.verbose(`${this.logPrefix} Creating sender with options: %O`, srOptions);
     return srOptions;
@@ -179,7 +179,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
             timeoutMessage:
               `[${this._context.connectionId}] Sender "${this.name}" ` +
               `with address "${this.address}", was not able to send the message right now, due ` +
-              `to operation timeout.`
+              `to operation timeout.`,
           });
         } catch (err) {
           const translatedError = translateServiceBusError(err);
@@ -232,7 +232,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         logger.warning(msg);
         const amqpError: AmqpError = {
           condition: ErrorNameConditionMapper.SenderBusyError,
-          description: msg
+          description: msg,
         };
         throw translateServiceBusError(amqpError);
       }
@@ -245,7 +245,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         logger.warning(desc);
         const e: AmqpError = {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
-          description: desc
+          description: desc,
         };
         throw translateServiceBusError(e);
       }
@@ -254,7 +254,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         const delivery = await this.link!.send(encodedMessage, {
           format: sendBatch ? 0x80013700 : 0,
           timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
-          abortSignal
+          abortSignal,
         });
         logger.verbose(
           "%s Sender '%s', sent message with delivery id: %d",
@@ -276,16 +276,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       connectionId: this._context.connectionId!,
       operationType: RetryOperationType.sendMessage,
       retryOptions: this._retryOptions,
-      abortSignal: abortSignal
+      abortSignal: abortSignal,
     };
 
     return retry<void>(config);
   }
 
-  protected async createRheaLink(options: AwaitableSenderOptions): Promise<AwaitableSender> {
-    const sender = await this._context.connection.createAwaitableSender(options);
-    sender.setMaxListeners(1000);
-    return sender;
+  protected createRheaLink(options: AwaitableSenderOptions): Promise<AwaitableSender> {
+    return this._context.connection.createAwaitableSender(options);
   }
 
   /**
@@ -407,7 +405,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,
       retryOptions: retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
 
     return retry(config);
@@ -417,7 +415,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     throwErrorIfConnectionClosed(this._context);
     let maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     });
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {

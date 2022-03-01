@@ -8,13 +8,246 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const LocationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Location"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Location: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Location",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      latitude: {
+        serializedName: "latitude",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      longitude: {
+        serializedName: "longitude",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Subscription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Subscription",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Warned", "PastDue", "Disabled", "Deleted"]
+        }
+      },
+      subscriptionPolicies: {
+        serializedName: "subscriptionPolicies",
+        type: {
+          name: "Composite",
+          className: "SubscriptionPolicies"
+        }
+      },
+      authorizationSource: {
+        serializedName: "authorizationSource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionPolicies: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionPolicies",
+    modelProperties: {
+      locationPlacementId: {
+        serializedName: "locationPlacementId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      quotaId: {
+        serializedName: "quotaId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      spendingLimit: {
+        serializedName: "spendingLimit",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["On", "Off", "CurrentPeriodOff"]
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Subscription"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TenantListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenantListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TenantIdDescription"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TenantIdDescription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenantIdDescription",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CanceledSubscriptionId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CanceledSubscriptionId",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      subscriptionId: {
+        serializedName: "subscriptionId",
         readOnly: true,
         type: {
           name: "String"
@@ -93,8 +326,8 @@ export const RenamedSubscriptionId: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RenamedSubscriptionId",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      subscriptionId: {
+        serializedName: "subscriptionId",
         readOnly: true,
         type: {
           name: "String"
@@ -109,8 +342,8 @@ export const EnabledSubscriptionId: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EnabledSubscriptionId",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      subscriptionId: {
+        serializedName: "subscriptionId",
         readOnly: true,
         type: {
           name: "String"
@@ -412,6 +645,12 @@ export const SubscriptionAliasResponseProperties: coreClient.CompositeMapper = {
       },
       managementGroupId: {
         serializedName: "managementGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      createdTime: {
+        serializedName: "createdTime",
         type: {
           name: "String"
         }

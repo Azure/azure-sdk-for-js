@@ -1,0 +1,103 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/$batch?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Charset": "UTF-8",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "1534",
+        "Content-Type": "multipart/mixed; boundary=batch_fakeId",
+        "DataServiceVersion": "3.0;",
+        "MaxDataServiceVersion": "3.0;NetFx",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "9268d65c-581b-4404-926f-df874392d5f1",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": "LS1iYXRjaF9mYWtlSWQNCmNvbnRlbnQtdHlwZTogbXVsdGlwYXJ0L21peGVkOyBib3VuZGFyeT1jaGFuZ2VzZXRfZmFrZUlkDQoNCg0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpQVVQgaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdG5vZGUoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nMScpIEhUVFAvMS4xDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wDQpBY2NlcHQ6IGFwcGxpY2F0aW9uL2pzb24NCg0KDQp7IlBhcnRpdGlvbktleSI6ImJhdGNoVGVzdCIsIlJvd0tleSI6IjEiLCJuYW1lIjoidXBzZXJ0ZWQifQ0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpQVVQgaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdG5vZGUoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nMicpIEhUVFAvMS4xDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wDQpBY2NlcHQ6IGFwcGxpY2F0aW9uL2pzb24NCg0KDQp7IlBhcnRpdGlvbktleSI6ImJhdGNoVGVzdCIsIlJvd0tleSI6IjIiLCJuYW1lIjoidXBzZXJ0ZWQifQ0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpQVVQgaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdG5vZGUoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nMycpIEhUVFAvMS4xDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wDQpBY2NlcHQ6IGFwcGxpY2F0aW9uL2pzb24NCg0KDQp7IlBhcnRpdGlvbktleSI6ImJhdGNoVGVzdCIsIlJvd0tleSI6IjMiLCJuYW1lIjoidXBzZXJ0ZWQifQ0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpQVVQgaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdG5vZGUoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nNCcpIEhUVFAvMS4xDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wDQpBY2NlcHQ6IGFwcGxpY2F0aW9uL2pzb24NCg0KDQp7IlBhcnRpdGlvbktleSI6ImJhdGNoVGVzdCIsIlJvd0tleSI6IjQiLCJuYW1lIjoidXBzZXJ0ZWQifQ0KLS1jaGFuZ2VzZXRfZmFrZUlkLS0NCi0tYmF0Y2hfZmFrZUlkLS0NCg==",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "multipart/mixed; boundary=batchresponse_9c6efa18-9395-438d-a090-0c78e420c08d",
+        "Date": "Tue, 01 Feb 2022 20:52:46 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "9268d65c-581b-4404-926f-df874392d5f1",
+        "x-ms-request-id": "a5ad7d23-0002-0010-17ad-17b759000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": "LS1iYXRjaHJlc3BvbnNlXzljNmVmYTE4LTkzOTUtNDM4ZC1hMDkwLTBjNzhlNDIwYzA4ZA0KQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PWNoYW5nZXNldHJlc3BvbnNlX2I3ZDcxMDhkLTQzYTUtNDFhMi04ODY4LWY4MjQ1ZGQyOGM2ZA0KDQotLWNoYW5nZXNldHJlc3BvbnNlX2I3ZDcxMDhkLTQzYTUtNDFhMi04ODY4LWY4MjQ1ZGQyOGM2ZA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCkVUYWc6IFcvImRhdGV0aW1lJzIwMjItMDItMDFUMjAlM0E1MiUzQTQ3LjMxNDYwNjJaJyINCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlX2I3ZDcxMDhkLTQzYTUtNDFhMi04ODY4LWY4MjQ1ZGQyOGM2ZA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCkVUYWc6IFcvImRhdGV0aW1lJzIwMjItMDItMDFUMjAlM0E1MiUzQTQ3LjMxNDYwNjJaJyINCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlX2I3ZDcxMDhkLTQzYTUtNDFhMi04ODY4LWY4MjQ1ZGQyOGM2ZA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCkVUYWc6IFcvImRhdGV0aW1lJzIwMjItMDItMDFUMjAlM0E1MiUzQTQ3LjMxNDYwNjJaJyINCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlX2I3ZDcxMDhkLTQzYTUtNDFhMi04ODY4LWY4MjQ1ZGQyOGM2ZA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCkVUYWc6IFcvImRhdGV0aW1lJzIwMjItMDItMDFUMjAlM0E1MiUzQTQ3LjMxNDYwNjJaJyINCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlX2I3ZDcxMDhkLTQzYTUtNDFhMi04ODY4LWY4MjQ1ZGQyOGM2ZC0tDQotLWJhdGNocmVzcG9uc2VfOWM2ZWZhMTgtOTM5NS00MzhkLWEwOTAtMGM3OGU0MjBjMDhkLS0NCg=="
+    },
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/batchTableTestnode()?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval\u0026$filter=PartitionKey eq %27batchTest%27",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "DataServiceVersion": "3.0",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "9a4549a2-f813-4720-9395-c7407662ff6a",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
+        "Date": "Tue, 01 Feb 2022 20:52:46 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "9a4549a2-f813-4720-9395-c7407662ff6a",
+        "x-ms-request-id": "a5ad7d32-0002-0010-26ad-17b759000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#batchTableTestnode",
+        "value": [
+          {
+            "odata.etag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A47.3146062Z\u0027\u0022",
+            "PartitionKey": "batchTest",
+            "RowKey": "1",
+            "Timestamp": "2022-02-01T20:52:47.3146062Z",
+            "name": "upserted"
+          },
+          {
+            "odata.etag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A47.3146062Z\u0027\u0022",
+            "PartitionKey": "batchTest",
+            "RowKey": "2",
+            "Timestamp": "2022-02-01T20:52:47.3146062Z",
+            "name": "upserted"
+          },
+          {
+            "odata.etag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A47.3146062Z\u0027\u0022",
+            "PartitionKey": "batchTest",
+            "RowKey": "3",
+            "Timestamp": "2022-02-01T20:52:47.3146062Z",
+            "name": "upserted"
+          },
+          {
+            "odata.etag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A47.3146062Z\u0027\u0022",
+            "PartitionKey": "batchTest",
+            "RowKey": "4",
+            "Timestamp": "2022-02-01T20:52:47.3146062Z",
+            "name": "upserted"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

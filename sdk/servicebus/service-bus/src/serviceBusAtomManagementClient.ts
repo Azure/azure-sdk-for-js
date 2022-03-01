@@ -6,7 +6,7 @@ import {
   TokenCredential,
   isTokenCredential,
   NamedKeyCredential,
-  isNamedKeyCredential
+  isNamedKeyCredential,
 } from "@azure/core-auth";
 import {
   ServiceClient,
@@ -30,7 +30,7 @@ import { administrationLogger as logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,
-  NamespaceResourceSerializer
+  NamespaceResourceSerializer,
 } from "./serializers/namespaceResourceSerializer";
 import {
   buildQueue,
@@ -40,7 +40,7 @@ import {
   InternalQueueOptions,
   QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeProperties
+  QueueRuntimeProperties,
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
@@ -49,7 +49,7 @@ import {
   RuleProperties,
   RuleResourceSerializer,
   SqlRuleAction,
-  SqlRuleFilter
+  SqlRuleFilter,
 } from "./serializers/ruleResourceSerializer";
 import {
   buildSubscription,
@@ -59,7 +59,7 @@ import {
   InternalSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeProperties
+  SubscriptionRuntimeProperties,
 } from "./serializers/subscriptionResourceSerializer";
 import {
   buildTopic,
@@ -69,7 +69,7 @@ import {
   InternalTopicOptions,
   TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeProperties
+  TopicRuntimeProperties,
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
@@ -82,7 +82,7 @@ import {
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject,
-  ServiceBusAtomAPIVersion
+  ServiceBusAtomAPIVersion,
 } from "./util/utils";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -243,7 +243,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       credentials = new SasServiceClientCredentials({
         key: connectionStringObj.SharedAccessKey,
-        name: connectionStringObj.SharedAccessKeyName
+        name: connectionStringObj.SharedAccessKeyName,
       });
       authPolicy = signingPolicy(credentials);
     }
@@ -294,7 +294,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -343,7 +343,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -386,7 +386,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -430,7 +430,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -470,7 +470,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -487,7 +487,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getQueues({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -533,9 +533,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -573,7 +573,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -590,7 +590,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getQueuesRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -640,9 +640,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesRuntimePropertiesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -703,7 +703,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -746,7 +746,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -778,7 +778,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -827,7 +827,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -870,7 +870,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -914,7 +914,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -954,7 +954,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -971,7 +971,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getTopics({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1018,9 +1018,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1058,7 +1058,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1075,7 +1075,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getTopicsRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1128,9 +1128,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsRuntimePropertiesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1191,7 +1191,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1234,7 +1234,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1266,7 +1266,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1317,7 +1317,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1364,7 +1364,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1410,7 +1410,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1454,7 +1454,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1472,7 +1472,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getSubscriptions(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1525,9 +1525,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1566,7 +1566,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1584,7 +1584,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getSubscriptionsRuntimeProperties(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1643,9 +1643,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsRuntimePropertiesPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1712,7 +1712,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1759,7 +1759,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1797,7 +1797,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1896,7 +1896,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1941,7 +1941,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1980,7 +1980,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1999,7 +1999,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getRules(topicName, subscriptionName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -2050,9 +2050,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -2114,7 +2114,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2160,7 +2160,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2197,7 +2197,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2255,9 +2255,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
           request.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
           if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
-              queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-            );
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo =
+              this.endpointWithProtocol.concat(
+                queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+              );
           }
         }
       }
@@ -2268,7 +2269,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2314,7 +2315,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2354,7 +2355,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2383,7 +2384,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2474,7 +2475,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queues,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listQueuesResponse.continuationToken = nextMarker;
@@ -2513,7 +2514,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queues,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listQueuesResponse.continuationToken = nextMarker;
@@ -2539,7 +2540,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queue || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return queueResponse;
@@ -2566,7 +2567,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queue || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return queueResponse;
@@ -2604,7 +2605,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topics,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listTopicsResponse.continuationToken = nextMarker;
@@ -2643,7 +2644,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topics,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listTopicsResponse.continuationToken = nextMarker;
@@ -2668,7 +2669,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topic || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return topicResponse;
@@ -2695,7 +2696,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topic || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return topicResponse;
@@ -2729,13 +2730,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.defineProperty(
-        subscriptions,
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> =
+        Object.defineProperty(subscriptions, "_response", {
+          value: getHttpResponseOnly(response),
+        });
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
@@ -2768,13 +2766,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
-        subscriptions,
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> =
+        Object.defineProperty(subscriptions, "_response", {
+          value: getHttpResponseOnly(response),
+        });
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
@@ -2800,7 +2795,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         subscription || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return subscriptionResponse;
@@ -2823,13 +2818,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<SubscriptionRuntimeProperties> {
     try {
       const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
-      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
-        subscription || {},
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> =
+        Object.defineProperty(subscription || {}, "_response", {
+          value: getHttpResponseOnly(response),
+        });
       return subscriptionResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2865,7 +2857,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rules,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listRulesResponse.continuationToken = nextMarker;
@@ -2891,7 +2883,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rule || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return ruleResponse;

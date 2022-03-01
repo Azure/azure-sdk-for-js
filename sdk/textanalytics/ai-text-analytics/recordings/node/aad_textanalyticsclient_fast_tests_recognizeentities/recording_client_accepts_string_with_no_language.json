@@ -1,0 +1,160 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/general?stringIndexType=Utf16CodeUnit",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "494",
+        "Content-Type": "application/json",
+        "traceparent": "00-00000000000000000000000000000353-0000000000000722-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "77d1ddf8-7237-4d8d-adf4-517b0fb8e436"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+            "language": "en"
+          },
+          {
+            "id": "1",
+            "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+            "language": "en"
+          },
+          {
+            "id": "3",
+            "text": "I didn\u0027t like the last book I read at all.",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "27cd0c0a-d8e3-407a-af00-bf1b9e06a03f",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+        "Date": "Fri, 18 Feb 2022 19:04:13 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "49"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "0",
+            "entities": [
+              {
+                "text": "trip",
+                "category": "Event",
+                "offset": 18,
+                "length": 4,
+                "confidenceScore": 0.61
+              },
+              {
+                "text": "Seattle",
+                "category": "Location",
+                "subcategory": "GPE",
+                "offset": 26,
+                "length": 7,
+                "confidenceScore": 1.0
+              },
+              {
+                "text": "last week",
+                "category": "DateTime",
+                "subcategory": "DateRange",
+                "offset": 34,
+                "length": 9,
+                "confidenceScore": 0.8
+              },
+              {
+                "text": "Space Needle",
+                "category": "Location",
+                "offset": 65,
+                "length": 12,
+                "confidenceScore": 0.96
+              },
+              {
+                "text": "2",
+                "category": "Quantity",
+                "subcategory": "Number",
+                "offset": 78,
+                "length": 1,
+                "confidenceScore": 0.8
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "1",
+            "entities": [
+              {
+                "text": "trip",
+                "category": "Event",
+                "offset": 42,
+                "length": 4,
+                "confidenceScore": 0.82
+              },
+              {
+                "text": "Seattle",
+                "category": "Location",
+                "subcategory": "GPE",
+                "offset": 50,
+                "length": 7,
+                "confidenceScore": 1.0
+              },
+              {
+                "text": "Space Needle",
+                "category": "Location",
+                "offset": 90,
+                "length": 12,
+                "confidenceScore": 0.92
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "entities": [
+              {
+                "text": "Saturday",
+                "category": "DateTime",
+                "subcategory": "Date",
+                "offset": 25,
+                "length": 8,
+                "confidenceScore": 0.8
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "entities": [
+              {
+                "text": "book",
+                "category": "Product",
+                "offset": 23,
+                "length": 4,
+                "confidenceScore": 0.92
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-06-01"
+      }
+    }
+  ],
+  "Variables": {}
+}

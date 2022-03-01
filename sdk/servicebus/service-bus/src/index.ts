@@ -10,7 +10,7 @@ export {
   RetryOptions,
   RetryMode,
   TokenType,
-  WebSocketOptions
+  WebSocketOptions,
 } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-client";
@@ -26,7 +26,7 @@ export {
   ReceiveMessagesOptions,
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
-  SubscribeOptions
+  SubscribeOptions,
 } from "./models";
 export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
@@ -36,35 +36,35 @@ export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   CreateQueueOptions,
   QueueProperties,
-  QueueRuntimeProperties
+  QueueRuntimeProperties,
 } from "./serializers/queueResourceSerializer";
 export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
-  SubscriptionRuntimeProperties
+  SubscriptionRuntimeProperties,
 } from "./serializers/subscriptionResourceSerializer";
 export {
   CreateTopicOptions,
   TopicProperties,
-  TopicRuntimeProperties
+  TopicRuntimeProperties,
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
   ServiceBusAdministrationClient,
   WithResponse,
-  ServiceBusAdministrationClientOptions
+  ServiceBusAdministrationClientOptions,
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {
   DeadLetterOptions,
   ServiceBusMessage,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 export {
   parseServiceBusConnectionString,
-  ServiceBusConnectionStringProperties
+  ServiceBusConnectionStringProperties,
 } from "./util/connectionStringUtils";
 export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";

@@ -53,6 +53,10 @@ Rush provides many benefits:
 
 Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json). Packages not managed by Rush can still be managed using `npm`.
 
+Check out our [wiki page on using rush](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
+- running `rush update` command
+- How to update to a newer version of Rush or PNPM.
+
 ## Setting up your environment
 
 Want to get started hacking on the code? Great! Keep reading.
@@ -145,6 +149,12 @@ By default, these npm scripts run previously recorded tests. The recordings have
 #### Recorded tests
 
 Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
+
+At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`.
+Currently, version `2.x.y` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
+Eventually, all the tests will be migrated to depend on the `2.x.y` version of the recorder that depends on the language-agnostic [test proxy server].
+
+To record and playback the tests that depend on version `2.x.y` of `@azure-tools/test-recorder`, [docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
 #### Live tests
 
@@ -299,6 +309,10 @@ nodeResolve({
 
 For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
 
+### Core Client libraries
+
+Our packages depends on a set of [Azure Core Client libraries](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core), which provide common functionality for interacting with Azure services.
+
 ### Dev Packages
 
 The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
@@ -307,3 +321,5 @@ The daily dev packages are considered volatile and taking dependencies on a dev 
 
 [buildtools]: https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019
 [python39windows]: https://www.microsoft.com/p/python-39/9p7qfqmjrfp7
+[test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
+[docker]: https://docker.com/

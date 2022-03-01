@@ -3,28 +3,24 @@
 
 import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
 import { Context } from "mocha";
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiExclude from "chai-exclude";
-chai.use(chaiExclude);
+import { assert } from "@azure/test-utils";
 import sinon from "sinon";
 import {
   CryptographyClient,
   DecryptParameters,
   EncryptParameters,
   KeyClient,
-  KeyVaultKey
+  KeyVaultKey,
 } from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
-import { stringToUint8Array } from "../utils/crypto";
+import { stringToUint8Array } from "../public/utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
-    getToken: () => Promise.resolve(null)
+    getToken: () => Promise.resolve(null),
   };
 
   describe("with a Key identifier", () => {
@@ -60,13 +56,13 @@ describe("internal crypto tests", () => {
         id: "https://azure_keyvault.vault.azure.net/keys/keyId/v1",
         properties: {
           name: "key",
-          vaultUrl: "foo"
-        }
+          vaultUrl: "foo",
+        },
       };
     });
 
     describe("checkKeyValidity", () => {
-      it("Checking that the key's notBefore is respected", async function() {
+      it("Checking that the key's notBefore is respected", async function () {
         const notBefore = new Date(Date.now() + 60 * 1000 * 60 * 24); // Now + 24h
         key.properties.notBefore = notBefore;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
@@ -76,7 +72,7 @@ describe("internal crypto tests", () => {
         );
       });
 
-      it("Checking that the key's expires is respected", async function() {
+      it("Checking that the key's expires is respected", async function () {
         const expiresOn = new Date(Date.now() - 60 * 1000 * 60 * 24); // Now - 24h
         key.properties.expiresOn = expiresOn;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
@@ -137,7 +133,7 @@ describe("internal crypto tests", () => {
     });
   });
 
-  describe("Parameter passing to encrypt / decrypt", function() {
+  describe("Parameter passing to encrypt / decrypt", function () {
     let client: CryptographyClient;
     let cryptoProvider: CryptographyProvider;
     let encryptStub: sinon.SinonStub;
@@ -147,7 +143,7 @@ describe("internal crypto tests", () => {
       const key = {
         id: "https://my.vault.azure.net/keys/keyId/v1",
         name: "fake key",
-        properties: { name: "fake key", vaultUrl: "https://keyvault.vault.azure.net" }
+        properties: { name: "fake key", vaultUrl: "https://keyvault.vault.azure.net" },
       };
       client = new CryptographyClient(key, tokenCredential);
       cryptoProvider = new RemoteCryptographyProvider(key, tokenCredential);
@@ -165,8 +161,8 @@ describe("internal crypto tests", () => {
       sinon.restore();
     });
 
-    describe("Encrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", async function(this: Context) {
+    describe("Encrypt parameter mapping", async function () {
+      it("maps parameters correctly when using the previous API", async function (this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
@@ -175,12 +171,12 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: {}
+            tracingOptions: {},
           })
         );
       });
 
-      it("maps parameters correctly when using the current API", async function(this: Context) {
+      it("maps parameters correctly when using the current API", async function (this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.encrypt(
@@ -193,14 +189,14 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: {}
+            tracingOptions: {},
           })
         );
       });
     });
 
-    describe("Decrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", async function(this: Context) {
+    describe("Decrypt parameter mapping", async function () {
+      it("maps parameters correctly when using the previous API", async function (this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
@@ -209,12 +205,12 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: {}
+            tracingOptions: {},
           })
         );
       });
 
-      it("maps parameters correctly when using the current API", async function(this: Context) {
+      it("maps parameters correctly when using the current API", async function (this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.decrypt(
@@ -227,15 +223,15 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: {}
+            tracingOptions: {},
           })
         );
       });
     });
   });
 
-  describe("RSA local cryptography tests", function() {
-    it("throws a validation error when the key is invalid", function(this: Context) {
+  describe("RSA local cryptography tests", function () {
+    it("throws a validation error when the key is invalid", function (this: Context) {
       if (!isNode) {
         // Local cryptography is not supported in the browser
         this.skip();
@@ -247,7 +243,7 @@ describe("internal crypto tests", () => {
       );
     });
 
-    it("uses the browser replacement when running in the browser", function(this: Context) {
+    it("uses the browser replacement when running in the browser", function (this: Context) {
       if (isNode) {
         this.skip();
       }
@@ -259,7 +255,7 @@ describe("internal crypto tests", () => {
     });
   });
 
-  describe("cryptography client error handling", function() {
+  describe("cryptography client error handling", function () {
     let cryptoClient: CryptographyClient;
     let localProvider: RsaCryptographyProvider;
 
@@ -274,7 +270,7 @@ describe("internal crypto tests", () => {
         "unwrapKey",
         "signData",
         "verify",
-        "verifyData"
+        "verifyData",
       ]) {
         sinon
           .stub(localProvider, operation as keyof RsaCryptographyProvider)
@@ -282,11 +278,11 @@ describe("internal crypto tests", () => {
       }
     });
 
-    afterEach(function() {
+    afterEach(function () {
       sinon.reset();
     });
 
-    describe("hybrid mode", function() {
+    describe("hybrid mode", function () {
       let remoteProvider: RemoteCryptographyProvider;
 
       beforeEach(() => {
@@ -296,11 +292,11 @@ describe("internal crypto tests", () => {
           properties: {
             name: "key",
             vaultUrl: "http://my_keyvault.vault.azure.net",
-            id: "https://my_keyvault.vault.azure.net/keys/id/version"
+            id: "https://my_keyvault.vault.azure.net/keys/id/version",
           },
           key: {
-            kid: "https://my_keyvault.vault.azure.net/keys/id/version"
-          }
+            kid: "https://my_keyvault.vault.azure.net/keys/id/version",
+          },
         };
 
         remoteProvider = new RemoteCryptographyProvider(key, tokenCredential);
@@ -311,31 +307,31 @@ describe("internal crypto tests", () => {
         cryptoClient["remoteProvider"] = remoteProvider;
       });
 
-      describe("when a local provider errors", function() {
-        it("remotes the encrypt operation", async function() {
+      describe("when a local provider errors", function () {
+        it("remotes the encrypt operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "encrypt");
 
           const parameters: EncryptParameters = {
             algorithm: "RSA-OAEP",
-            plaintext: stringToUint8Array("text")
+            plaintext: stringToUint8Array("text"),
           };
 
           await cryptoClient.encrypt(parameters);
           assert.isTrue(remoteStub.calledOnceWith(parameters));
         });
 
-        it("remotes the decrypt operation", async function() {
+        it("remotes the decrypt operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "decrypt");
 
           const parameters: DecryptParameters = {
             algorithm: "RSA-OAEP",
-            ciphertext: stringToUint8Array("text")
+            ciphertext: stringToUint8Array("text"),
           };
           await cryptoClient.decrypt(parameters);
           assert.isTrue(remoteStub.calledOnceWith(parameters));
         });
 
-        it("remotes the wrapKey operation", async function() {
+        it("remotes the wrapKey operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "wrapKey");
 
           const keyToWrap = stringToUint8Array("myKey");
@@ -343,7 +339,7 @@ describe("internal crypto tests", () => {
           assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", keyToWrap));
         });
 
-        it("remotes the unwrapKey operation", async function() {
+        it("remotes the unwrapKey operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "unwrapKey");
 
           const wrappedKey = stringToUint8Array("myKey");
@@ -351,7 +347,7 @@ describe("internal crypto tests", () => {
           assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", wrappedKey));
         });
 
-        it("remotes the sign operation", async function() {
+        it("remotes the sign operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "sign");
 
           const data = stringToUint8Array("myKey");
@@ -359,7 +355,7 @@ describe("internal crypto tests", () => {
           assert.isTrue(remoteStub.calledOnceWith("PS256", data));
         });
 
-        it("remotes the signData operation", async function() {
+        it("remotes the signData operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "signData");
 
           const data = stringToUint8Array("myKey");
@@ -367,7 +363,7 @@ describe("internal crypto tests", () => {
           assert.isTrue(remoteStub.calledOnceWith("PS256", data));
         });
 
-        it("remotes the verify operation", async function() {
+        it("remotes the verify operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "verify");
 
           const data = stringToUint8Array("myKey");
@@ -376,7 +372,7 @@ describe("internal crypto tests", () => {
           assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
         });
 
-        it("remotes the verifyData operation", async function() {
+        it("remotes the verifyData operation", async function () {
           const remoteStub = sinon.stub(remoteProvider, "verifyData");
 
           const data = stringToUint8Array("myKey");
@@ -387,7 +383,7 @@ describe("internal crypto tests", () => {
       });
     });
 
-    describe("local only mode", function() {
+    describe("local only mode", function () {
       beforeEach(() => {
         const jwk: JsonWebKey = {};
         localProvider = new RsaCryptographyProvider(jwk);
@@ -399,38 +395,38 @@ describe("internal crypto tests", () => {
         cryptoClient["providers"] = [localProvider];
       });
 
-      describe("when a local provider errors", function() {
-        it("throws the original encrypt exception", async function() {
+      describe("when a local provider errors", function () {
+        it("throws the original encrypt exception", async function () {
           await assert.isRejected(
             cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") })
           );
         });
 
-        it("throws the original decrypt exception", async function() {
+        it("throws the original decrypt exception", async function () {
           await assert.isRejected(
             cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") })
           );
         });
 
-        it("throws the original wrapKey exception", async function() {
+        it("throws the original wrapKey exception", async function () {
           await assert.isRejected(cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array("myKey")));
         });
 
-        it("throws the original unwrapKey exception", async function() {
+        it("throws the original unwrapKey exception", async function () {
           await assert.isRejected(cryptoClient.unwrapKey("RSA-OAEP", stringToUint8Array("myKey")));
         });
-        it("throws the original sign exception", async function() {
+        it("throws the original sign exception", async function () {
           await assert.isRejected(cryptoClient.sign("PS256", stringToUint8Array("data")));
         });
-        it("throws the original signData exception", async function() {
+        it("throws the original signData exception", async function () {
           await assert.isRejected(cryptoClient.signData("PS256", stringToUint8Array("data")));
         });
-        it("throws the original verify exception", async function() {
+        it("throws the original verify exception", async function () {
           await assert.isRejected(
             cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
           );
         });
-        it("throws the original verifyData exception", async function() {
+        it("throws the original verifyData exception", async function () {
           await assert.isRejected(
             cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
           );
@@ -458,7 +454,7 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
     delete actualOptions.tracingOptions?.tracingContext;
 
     assert.deepEqualExcludingEvery(actualOptions, expectedPropagatedOptions, [
-      "spanOptions"
+      "spanOptions",
     ] as any);
     return true;
   });

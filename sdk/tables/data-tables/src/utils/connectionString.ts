@@ -3,6 +3,7 @@
 
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { fromAccountConnectionString, getAccountConnectionString } from "./accountConnectionString";
+
 import { TableServiceClientOptions } from "../models";
 import { URL } from "./url";
 
@@ -33,7 +34,7 @@ export function getClientParamsFromConnectionString(
   } else if (extractedCreds.kind === "SASConnString") {
     return {
       url: `${extractedCreds.url}?${extractedCreds.accountSas}`,
-      options
+      options,
     };
   } else {
     throw new Error(

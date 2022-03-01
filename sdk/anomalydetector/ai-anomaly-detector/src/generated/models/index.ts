@@ -8,6 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
+/** The request of entire or last anomaly detection. */
 export interface DetectRequest {
   /** Time series data points. Points should be sorted by timestamp in ascending order to match the anomaly detection result. If the data is not sorted correctly or there is duplicated timestamp, the API will not work. In such case, an error message will be returned. */
   series: TimeSeriesPoint[];
@@ -21,8 +22,13 @@ export interface DetectRequest {
   maxAnomalyRatio?: number;
   /** Optional argument, advanced model parameter, between 0-99, the lower the value is, the larger the margin value will be which means less anomalies will be accepted. */
   sensitivity?: number;
+  /** Used to specify how to deal with missing values in the input series, it's used when granularity is not "none". */
+  imputeMode?: ImputeMode;
+  /** Used to specify the value to fill, it's used when granularity is not "none" and imputeMode is "fixed". */
+  imputeFixedValue?: number;
 }
 
+/** The definition of input timeseries points. */
 export interface TimeSeriesPoint {
   /** Optional argument, timestamp of a data point (ISO8601 format). */
   timestamp?: Date;
@@ -30,6 +36,7 @@ export interface TimeSeriesPoint {
   value: number;
 }
 
+/** The response of entire anomaly detection. */
 export interface DetectEntireResponse {
   /** Frequency extracted from the series, zero means no recurrent pattern has been found. */
   period: number;
@@ -45,6 +52,8 @@ export interface DetectEntireResponse {
   isNegativeAnomaly: boolean[];
   /** IsPositiveAnomaly contain anomaly status in positive direction for each input point. True means a positive anomaly has been detected. A positive anomaly means the point is detected as an anomaly and its real value is larger than the expected one. The index of the array is consistent with the input series. */
   isPositiveAnomaly: boolean[];
+  /** The severity score for each input point. The larger the value is, the more sever the anomaly is. For normal points, the "severity" is always 0. */
+  severity?: number[];
 }
 
 /** Error information returned by the API. */
@@ -55,6 +64,7 @@ export interface AnomalyDetectorError {
   message?: string;
 }
 
+/** The response of last anomaly detection. */
 export interface DetectLastPointResponse {
   /** Frequency extracted from the series, zero means no recurrent pattern has been found. */
   period: number;
@@ -72,8 +82,11 @@ export interface DetectLastPointResponse {
   isNegativeAnomaly: boolean;
   /** Anomaly status in positive direction of the latest point. True means the latest point is an anomaly and its real value is larger than the expected one. */
   isPositiveAnomaly: boolean;
+  /** The severity score for the last input point. The larger the value is, the more sever the anomaly is. For normal points, the "severity" is always 0. */
+  severity?: number;
 }
 
+/** The request of change point detection. */
 export interface DetectChangePointRequest {
   /** Time series data points. Points should be sorted by timestamp in ascending order to match the change point detection result. */
   series: TimeSeriesPoint[];
@@ -89,6 +102,7 @@ export interface DetectChangePointRequest {
   threshold?: number;
 }
 
+/** The response of change point detection. */
 export interface DetectChangePointResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
@@ -103,17 +117,16 @@ export interface DetectChangePointResponse {
 
 /** Train result of a model including status, errors and diagnose info for model and variables. */
 export interface ModelInfo {
-  /** An optional field, indicates how many history points will be used to determine the anomaly score of one subsequent point. */
+  /** An optional field, indicating how many previous points will be used to compute the anomaly score of the subsequent point. */
   slidingWindow?: number;
-  /** An optional field, since those multivariate need to be aligned in the same timestamp before starting the detection. */
   alignPolicy?: AlignPolicy;
-  /** source file link of the input variables, each variable will be a csv with two columns, the first column will be timestamp, the second column will be value.Besides these variable csv files, an extra meta.json can be included in th zip file if you would like to rename a variable.Be default, the file name of the variable will be used as the variable name. */
+  /** Source link to the input variables. Each variable should be a csv file with two columns, `timestamp` and `value`. By default, the file name of the variable will be used as its variable name. */
   source: string;
-  /** require field, start time of data be used for generating multivariate anomaly detection model, should be data-time */
+  /** A required field, indicating the start time of training data. Should be date-time. */
   startTime: Date;
-  /** require field, end time of data be used for generating multivariate anomaly detection model, should be data-time */
+  /** A required field, indicating the end time of training data. Should be date-time. */
   endTime: Date;
-  /** optional field, name of the model */
+  /** An optional field. The name of the model whose maximum length is 24. */
   displayName?: string;
   /**
    * Model training status.
@@ -121,30 +134,27 @@ export interface ModelInfo {
    */
   readonly status?: ModelStatus;
   /**
-   * Error message when fails to create a model.
+   * Error messages when failed to create a model.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: ErrorResponse[];
-  /**
-   * Used for deep analysis model and variables
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly diagnosticsInfo?: DiagnosticsInfo;
 }
 
 export interface AlignPolicy {
-  /** An optional field, indicates how we align different variables into the same time-range which is required by the model.{Inner, Outer} */
+  /** An optional field, indicating how we align different variables to the same time-range. Either Inner or Outer. */
   alignMode?: AlignMode;
-  /** An optional field, indicates how missed values will be filled with. Can not be set to NotFill, when alignMode is Outer.{Previous, Subsequent, Linear, Zero, Fix, NotFill} */
+  /** An optional field, indicating how missing values will be filled. One of Previous, Subsequent, Linear, Zero, Fixed, and NotFill. Cannot be set to NotFill, when the alignMode is Outer. */
   fillNAMethod?: FillNAMethod;
-  /** optional field, only be useful if FillNAMethod is set to Pad. */
+  /** An optional field. Required when fillNAMethod is Fixed. */
   paddingValue?: number;
 }
 
 export interface ErrorResponse {
-  /** The error Code */
+  /** The error code. */
   code: string;
-  /** A message explaining the error reported by the service. */
+  /** The message explaining the error reported by the service. */
   message: string;
 }
 
@@ -164,19 +174,17 @@ export interface ModelState {
 export interface VariableState {
   /** Variable name. */
   variable?: string;
-  /** Merged NA ratio of a variable. */
+  /** Proportion of NaN values filled of the variable. */
   filledNARatio?: number;
-  /** Effective time-series points count. */
+  /** Number of effective points counted. */
   effectiveCount?: number;
-  /** Start time of a variable */
+  /** Start time of the variable. */
   startTime?: Date;
-  /** End time of a variable */
+  /** End time of the variable. */
   endTime?: Date;
-  /** Error message when parse variable */
-  errors?: ErrorResponse[];
 }
 
-/** Response of get model. */
+/** Response of getting a model. */
 export interface Model {
   /** Model identifier. */
   modelId: string;
@@ -184,36 +192,35 @@ export interface Model {
   createdTime: Date;
   /** Date and time (UTC) when the model was last updated. */
   lastUpdatedTime: Date;
-  /** Training Status of the model. */
+  /** Train result of a model including status, errors and diagnose info for model and variables. */
   modelInfo?: ModelInfo;
 }
 
-/** Request to submit a detection. */
+/** Detection request. */
 export interface DetectionRequest {
-  /** source file link of the input variables, each variable will be a csv with two columns, the first column will be timestamp, the second column will be value.Besides these variable csv files, a extra meta.json can be included in th zip file if you would like to rename a variable.Be default, the file name of the variable will be used as the variable name. The variables used in detection should be consistent with variables in the model used for detection. */
+  /** Source link to the input variables. Each variable should be a csv with two columns, `timestamp` and `value`. The file name of the variable will be used as its name. The variables used in detection should be exactly the same with those used in the training phase. */
   source: string;
-  /** A require field, start time of data be used for detection, should be date-time. */
+  /** A required field, indicating the start time of data for detection. Should be date-time. */
   startTime: Date;
-  /** A require field, end time of data be used for detection, should be date-time. */
+  /** A required field, indicating the end time of data for detection. Should be date-time. */
   endTime: Date;
 }
 
-/** Anomaly Response of one detection corresponds to a resultId. */
+/** Response of the given resultId. */
 export interface DetectionResult {
   resultId: string;
-  /** Multivariate anomaly detection status */
   summary: DetectionResultSummary;
-  /** anomaly status of each timestamp */
+  /** Detection result for each timestamp. */
   results: AnomalyState[];
 }
 
 export interface DetectionResultSummary {
-  /** Multivariate anomaly detection status */
+  /** Status of detection results. One of CREATED, RUNNING, READY, and FAILED. */
   status: DetectionStatus;
-  /** Error message when creating or training model fails. */
+  /** Error message when detection is failed. */
   errors?: ErrorResponse[];
   variableStates?: VariableState[];
-  /** Request when creating the model. */
+  /** Detection request. */
   setupInfo: DetectionRequest;
 }
 
@@ -221,29 +228,61 @@ export interface AnomalyState {
   /** timestamp */
   timestamp: Date;
   value?: AnomalyValue;
-  /** Error message when inference this timestamp */
+  /** Error message for the current timestamp */
   errors?: ErrorResponse[];
 }
 
 export interface AnomalyValue {
-  /** If current timestamp is an anomaly, contributors will show potential root cause for thus anomaly. Contributors can help us understand why current timestamp has been detected as an anomaly. */
-  contributors?: AnomalyContributor[];
-  /** To indicate whether current timestamp is anomaly or not */
+  /** True if an anomaly is detected at the current timestamp. */
   isAnomaly: boolean;
-  /** anomaly score of the current timestamp, the more significant an anomaly is, the higher the score will be */
+  /** Indicates the significance of the anomaly. The higher the severity, the more significant the anomaly. */
   severity: number;
-  /** anomaly score of the current timestamp, the more significant an anomaly is, the higher the score will be, score measures global significance */
-  score?: number;
+  /** Raw score from the model. */
+  score: number;
+  interpretation?: AnomalyInterpretation[];
 }
 
-export interface AnomalyContributor {
-  /** The higher the contribution score is, the more likely the variable to be the root cause of a anomaly. */
-  contributionScore?: number;
-  /** Variable name of a contributor */
+export interface AnomalyInterpretation {
   variable?: string;
+  contributionScore?: number;
+  correlationChanges?: CorrelationChanges;
 }
 
-/** Response to the list models operation. */
+export interface CorrelationChanges {
+  /** correlated variables */
+  changedVariables?: string[];
+  /** changes in correlation */
+  changedValues?: number[];
+}
+
+export interface LastDetectionRequest {
+  /** variables */
+  variables: VariableValues[];
+  /** number of timestamps on which the model detects */
+  detectingPoints: number;
+}
+
+export interface VariableValues {
+  /** variable name */
+  name: string;
+  /** timestamps */
+  timestamps: string[];
+  /** values */
+  values: number[];
+}
+
+export interface LastDetectionResult {
+  variableStates?: VariableState[];
+  results?: AnomalyState[];
+}
+
+/** Defines headers for AnomalyDetector_detectEntireSeries operation. */
+export interface AnomalyDetectorDetectEntireSeriesExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Response of listing models. */
 export interface ModelList {
   /** List of models */
   models: ModelSnapshot[];
@@ -251,7 +290,7 @@ export interface ModelList {
   currentCount: number;
   /** Max number of models that can be trained for this subscription. */
   maxCount: number;
-  /** next link to fetch more models */
+  /** The link to fetch more models. */
   nextLink?: string;
 }
 
@@ -268,26 +307,20 @@ export interface ModelSnapshot {
    */
   readonly status: ModelStatus;
   displayName?: string;
-  /** Count of variables */
+  /** Total number of variables. */
   variablesCount: number;
 }
 
 /** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
 export interface AnomalyDetectorTrainMultivariateModelHeaders {
-  /** Location and ID of the model being saved. */
+  /** Location and ID of the model. */
   location?: string;
 }
 
 /** Defines headers for AnomalyDetector_detectAnomaly operation. */
 export interface AnomalyDetectorDetectAnomalyHeaders {
-  /** Location and ID of the detection result being saved. */
+  /** Location and ID of the detection result. */
   location?: string;
-}
-
-/** Defines headers for AnomalyDetector_exportModel operation. */
-export interface AnomalyDetectorExportModelHeaders {
-  /** application/zip */
-  contentType?: string;
 }
 
 /** Known values of {@link AnomalyDetectorErrorCodes} that the service accepts. */
@@ -300,14 +333,16 @@ export const enum KnownAnomalyDetectorErrorCodes {
   InvalidSeries = "InvalidSeries",
   InvalidJsonFormat = "InvalidJsonFormat",
   RequiredGranularity = "RequiredGranularity",
-  RequiredSeries = "RequiredSeries"
+  RequiredSeries = "RequiredSeries",
+  InvalidImputeMode = "InvalidImputeMode",
+  InvalidImputeFixedValue = "InvalidImputeFixedValue"
 }
 
 /**
  * Defines values for AnomalyDetectorErrorCodes. \
  * {@link KnownAnomalyDetectorErrorCodes} can be used interchangeably with AnomalyDetectorErrorCodes,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **InvalidCustomInterval** \
  * **BadArgument** \
  * **InvalidGranularity** \
@@ -316,7 +351,9 @@ export const enum KnownAnomalyDetectorErrorCodes {
  * **InvalidSeries** \
  * **InvalidJsonFormat** \
  * **RequiredGranularity** \
- * **RequiredSeries**
+ * **RequiredSeries** \
+ * **InvalidImputeMode** \
+ * **InvalidImputeFixedValue**
  */
 export type AnomalyDetectorErrorCodes = string;
 /** Defines values for TimeGranularity. */
@@ -332,14 +369,29 @@ export type TimeGranularity =
   | "none";
 /** Defines values for AlignMode. */
 export type AlignMode = "Inner" | "Outer";
-/** Defines values for FillNAMethod. */
-export type FillNAMethod =
-  | "Previous"
-  | "Subsequent"
-  | "Linear"
-  | "Zero"
-  | "Pad"
-  | "NotFill";
+/** Known values of {@link FillNAMethod} that the service accepts. */
+export const enum KnownFillNAMethod {
+  Previous = "Previous",
+  Subsequent = "Subsequent",
+  Linear = "Linear",
+  Zero = "Zero",
+  Fixed = "Fixed",
+  NotFill = "NotFill"
+}
+
+/**
+ * Defines values for FillNAMethod. \
+ * {@link KnownFillNAMethod} can be used interchangeably with FillNAMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Previous** \
+ * **Subsequent** \
+ * **Linear** \
+ * **Zero** \
+ * **Fixed** \
+ * **NotFill**
+ */
+export type FillNAMethod = string;
 /** Defines values for ModelStatus. */
 export type ModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 /** Defines values for DetectionStatus. */
@@ -424,7 +476,7 @@ export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
 };
 
 /** Contains response data for the exportModel operation. */
-export type AnomalyDetectorExportModelResponse = AnomalyDetectorExportModelHeaders & {
+export type AnomalyDetectorExportModelResponse = {
   /**
    * BROWSER ONLY
    *
@@ -441,10 +493,7 @@ export type AnomalyDetectorExportModelResponse = AnomalyDetectorExportModelHeade
   readableStreamBody?: NodeJS.ReadableStream;
 
   /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: AnomalyDetectorExportModelHeaders;
-  };
+  _response: coreHttp.HttpResponse;
 };
 
 /** Optional parameters. */
@@ -465,6 +514,18 @@ export type AnomalyDetectorListMultivariateModelResponse = ModelList & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: ModelList;
+  };
+};
+
+/** Contains response data for the lastDetectAnomaly operation. */
+export type AnomalyDetectorLastDetectAnomalyResponse = LastDetectionResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: LastDetectionResult;
   };
 };
 
@@ -492,6 +553,137 @@ export type AnomalyDetectorListMultivariateModelNextResponse = ModelList & {
 /** Optional parameters. */
 export interface AnomalyDetectorOptionalParams
   extends coreHttp.ServiceClientOptions {
+  /** Anomaly Detector API version (for example, v1.0). */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
+
+/** Known values of {@link ImputeMode} that the service accepts. */
+export const enum KnownImputeMode {
+  Auto = "auto",
+  Previous = "previous",
+  Linear = "linear",
+  Fixed = "fixed",
+  Zero = "zero",
+  NotFill = "notFill"
+}
+
+/**
+ * Defines values for ImputeMode. \
+ * {@link KnownImputeMode} can be used interchangeably with ImputeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **auto** \
+ * **previous** \
+ * **linear** \
+ * **fixed** \
+ * **zero** \
+ * **notFill**
+ */
+export type ImputeMode = string;
+
+/** Defines headers for AnomalyDetector_detectLastPoint operation. */
+export interface AnomalyDetectorDetectLastPointExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_detectChangePoint operation. */
+export interface AnomalyDetectorDetectChangePointExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
+export interface AnomalyDetectorTrainMultivariateModelExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_listMultivariateModel operation. */
+export interface AnomalyDetectorListMultivariateModelExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_getMultivariateModel operation. */
+export interface AnomalyDetectorGetMultivariateModelExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_deleteMultivariateModel operation. */
+export interface AnomalyDetectorDeleteMultivariateModelExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_detectAnomaly operation. */
+export interface AnomalyDetectorDetectAnomalyExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_getDetectionResult operation. */
+export interface AnomalyDetectorGetDetectionResultExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+/** Defines headers for AnomalyDetector_exportModel operation. */
+export interface AnomalyDetectorExportModelExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_lastDetectAnomaly operation. */
+export interface AnomalyDetectorLastDetectAnomalyExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for AnomalyDetector_listMultivariateModelNext operation. */
+export interface AnomalyDetectorListMultivariateModelNextExceptionHeaders {
+  /** error code */
+  xMsErrorCode?: string;
+}
+
+/** Optional parameters. */
+export interface AnomalyDetectorDetectEntireSeriesOptionalParams
+  extends coreHttp.OperationOptions {}
+  
+/** Optional parameters. */
+export interface AnomalyDetectorDetectLastPointOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorDetectChangePointOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorTrainMultivariateModelOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorGetMultivariateModelOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorDeleteMultivariateModelOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorDetectAnomalyOptionalParams
+  extends coreHttp.OperationOptions {}
+  
+/** Optional parameters. */
+export interface AnomalyDetectorGetDetectionResultOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorExportModelOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface AnomalyDetectorLastDetectAnomalyOptionalParams
+  extends coreHttp.OperationOptions {}

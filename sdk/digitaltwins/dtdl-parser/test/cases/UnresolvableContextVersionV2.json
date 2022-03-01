@@ -1,0 +1,34 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@context": "dtmi:dtdl:extension:historization;100",
+          "@id": "dtmi:test:aProperty;1",
+          "@type": [ "Property", "Historized" ],
+          "name": "expectedDistance",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;2"
+        },
+        "supplementalTypes": [ ],
+        "supplementalProperties": {}
+      }
+    ]
+  }
+}

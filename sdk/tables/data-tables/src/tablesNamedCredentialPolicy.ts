@@ -5,7 +5,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "./utils/constants";
 import { NamedKeyCredential } from "@azure/core-auth";
@@ -31,7 +31,7 @@ export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): 
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       signRequest(request);
       return next(request);
-    }
+    },
   };
 }
 
@@ -56,7 +56,7 @@ export function getAuthorizationHeader(
 
   const stringToSign: string = [
     dateHeader,
-    getCanonicalizedResourceString(request, credential)
+    getCanonicalizedResourceString(request, credential),
   ].join("\n");
 
   const signature = computeHMACSHA256(stringToSign, credential.key);

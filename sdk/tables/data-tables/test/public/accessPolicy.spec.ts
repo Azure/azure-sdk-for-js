@@ -1,57 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
-import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { Context } from "mocha";
 import { TableClient } from "../../src";
 import { assert } from "chai";
+import { createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
 describe(`Access Policy operations`, () => {
   let client: TableClient;
+  let unrecordedClient: TableClient;
   let recorder: Recorder;
   const tableName = `AccessPolicy`;
 
-  beforeEach(async function(this: Context) {
-    recorder = record(this, recordedEnvironmentSetup);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = await createTableClient(tableName, "AccountKey", recorder);
+  });
 
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  before(async function (this: Context) {
     if (!isNode) {
       this.skip();
     }
 
-    client = createTableClient(tableName, "AccountKey");
-
-    try {
-      if (!isPlaybackMode()) {
-        await client.createTable();
-      }
-    } catch {
-      console.warn("Table already exists");
+    if (!isPlaybackMode()) {
+      unrecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unrecordedClient.createTable();
     }
-  });
-
-  afterEach(async function() {
-    await recorder.stop();
   });
 
   after(async () => {
-    try {
-      if (!isPlaybackMode()) {
-        await client.deleteTable();
-      }
-    } catch {
-      console.warn("Table was not deleted");
+    if (!isPlaybackMode() && isNode) {
+      await unrecordedClient.deleteTable();
     }
   });
 
-  it("should send a null AP", async function() {
+  it("should send a null AP", async function () {
     const date = new Date("2021-07-08T09:10:09Z");
     await client.setAccessPolicy([
       { id: "null" },
       { id: "empty", accessPolicy: {} },
       { id: "partial", accessPolicy: { permission: "r" } },
-      { id: "full", accessPolicy: { start: date, expiry: date, permission: "r" } }
+      { id: "full", accessPolicy: { start: date, expiry: date, permission: "r" } },
     ]);
 
     const acl = await client.getAccessPolicy();

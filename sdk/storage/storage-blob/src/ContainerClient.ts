@@ -8,7 +8,7 @@ import {
   isNode,
   isTokenCredential,
   TokenCredential,
-  URLBuilder
+  URLBuilder,
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -23,24 +23,28 @@ import {
   ContainerCreateResponse,
   ContainerDeleteResponse,
   ContainerEncryptionScope,
+  ContainerFilterBlobsHeaders,
   ContainerGetAccessPolicyHeaders,
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,
   ContainerSetAccessPolicyResponse,
   ContainerSetMetadataResponse,
+  FilterBlobItem,
+  FilterBlobSegment,
+  FilterBlobSegmentModel,
   LeaseAccessConditions,
   ListBlobsFlatSegmentResponseModel,
   ListBlobsHierarchySegmentResponseModel,
   PublicAccessType,
-  SignedIdentifierModel
+  SignedIdentifierModel,
 } from "./generatedModels";
 import {
   Metadata,
   ObjectReplicationPolicy,
   Tags,
   ContainerRequestConditions,
-  ModifiedAccessConditions
+  ModifiedAccessConditions,
 } from "./models";
 import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
@@ -57,7 +61,7 @@ import {
   ProcessBlobItems,
   ProcessBlobPrefixes,
   toTags,
-  truncatedISO8061Date
+  truncatedISO8061Date,
 } from "./utils/utils.common";
 import { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
 import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
@@ -69,7 +73,7 @@ import {
   BlockBlobClient,
   BlockBlobUploadOptions,
   CommonGenerateSasUrlOptions,
-  PageBlobClient
+  PageBlobClient,
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { ListBlobsIncludeItem } from "./generated/src";
@@ -567,6 +571,64 @@ export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
 }
 
 /**
+ * Options to configure the {@link ContainerClient.findBlobsByTagsSegment} operation.
+ */
+interface ContainerFindBlobsByTagsSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies the maximum number of blobs
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export interface ContainerFindBlobByTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export type ContainerFindBlobsByTagsSegmentResponse = FilterBlobSegment &
+  ContainerFilterBlobsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerFilterBlobsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FilterBlobSegmentModel;
+    };
+  };
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  */
 export class ContainerClient extends StorageClient {
@@ -683,7 +745,11 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -730,12 +796,12 @@ export class ContainerClient extends StorageClient {
       // this will filter out unwanted properties from the response object into result object
       return await this.containerContext.create({
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -759,24 +825,25 @@ export class ContainerClient extends StorageClient {
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a container only if it does not already exist."
+          message:
+            "Expected exception when creating a container only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -798,20 +865,20 @@ export class ContainerClient extends StorageClient {
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking container existence"
+          message: "Expected exception when checking container existence",
         });
         return false;
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -899,12 +966,12 @@ export class ContainerClient extends StorageClient {
       return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -932,12 +999,12 @@ export class ContainerClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -962,23 +1029,23 @@ export class ContainerClient extends StorageClient {
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a container only if it exists."
+          message: "Expected exception when deleting a container only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1020,12 +1087,12 @@ export class ContainerClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         metadata,
         modifiedAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1057,7 +1124,7 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const res: ContainerGetAccessPolicyResponse = {
@@ -1070,14 +1137,14 @@ export class ContainerClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         signedIdentifiers: [],
-        version: response.version
+        version: response.version,
       };
 
       for (const identifier of response) {
         let accessPolicy: any = undefined;
         if (identifier.accessPolicy) {
           accessPolicy = {
-            permissions: identifier.accessPolicy.permissions
+            permissions: identifier.accessPolicy.permissions,
           };
 
           if (identifier.accessPolicy.expiresOn) {
@@ -1091,7 +1158,7 @@ export class ContainerClient extends StorageClient {
 
         res.signedIdentifiers.push({
           accessPolicy,
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
@@ -1099,7 +1166,7 @@ export class ContainerClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1142,9 +1209,9 @@ export class ContainerClient extends StorageClient {
             permissions: identifier.accessPolicy.permissions,
             startsOn: identifier.accessPolicy.startsOn
               ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
-              : ""
+              : "",
           },
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
@@ -1154,12 +1221,12 @@ export class ContainerClient extends StorageClient {
         containerAcl: acl,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1211,12 +1278,12 @@ export class ContainerClient extends StorageClient {
       const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
       return {
         blockBlobClient,
-        response
+        response,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1249,7 +1316,7 @@ export class ContainerClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1276,7 +1343,7 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       response.segment.blobItems = [];
@@ -1288,7 +1355,7 @@ export class ContainerClient extends StorageClient {
         ...response,
         _response: {
           ...response._response,
-          parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody)
+          parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody),
         }, // _response is made non-enumerable
         segment: {
           ...response.segment,
@@ -1299,17 +1366,17 @@ export class ContainerClient extends StorageClient {
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata
-              )
+              ),
             };
             return blobItem;
-          })
-        }
+          }),
+        },
       };
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1341,7 +1408,7 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       response.segment.blobItems = [];
@@ -1358,7 +1425,7 @@ export class ContainerClient extends StorageClient {
         ...response,
         _response: {
           ...response._response,
-          parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody)
+          parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody),
         }, // _response is made non-enumerable
         segment: {
           ...response.segment,
@@ -1369,23 +1436,23 @@ export class ContainerClient extends StorageClient {
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata
-              )
+              ),
             };
             return blobItem;
           }),
           blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
             const blobPrefix: BlobPrefix = {
-              name: BlobNameToString(blobPrefixInternal.name)
+              name: BlobNameToString(blobPrefixInternal.name),
             };
             return blobPrefix;
-          })
-        }
+          }),
+        },
       };
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1543,7 +1610,7 @@ export class ContainerClient extends StorageClient {
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include: include } : {})
+      ...(include.length > 0 ? { include: include } : {}),
     };
 
     // AsyncIterableIterator to iterate over blobs
@@ -1567,9 +1634,9 @@ export class ContainerClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
     };
   }
 
@@ -1626,7 +1693,7 @@ export class ContainerClient extends StorageClient {
         for (const prefix of segment.blobPrefixes) {
           yield {
             kind: "prefix",
-            ...prefix
+            ...prefix,
           };
         }
       }
@@ -1762,7 +1829,7 @@ export class ContainerClient extends StorageClient {
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include: include } : {})
+      ...(include.length > 0 ? { include: include } : {}),
     };
     // AsyncIterableIterator to iterate over blob prefixes and blobs
     const iter = this.listItemsByHierarchy(delimiter, updatedOptions);
@@ -1785,9 +1852,232 @@ export class ContainerClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
+    };
+  }
+
+  /**
+   * The Filter Blobs operation enables callers to list blobs in the container whose tags
+   * match a given search expression.
+   *
+   * @param tagFilterSqlExpression - The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                        The given expression must evaluate to true for a blob to be returned in the results.
+   *                                        The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                        however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param marker - A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the continuationToken value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The continuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to find blobs by tags.
+   */
+  private async findBlobsByTagsSegment(
+    tagFilterSqlExpression: string,
+    marker?: string,
+    options: ContainerFindBlobsByTagsSegmentOptions = {}
+  ): Promise<ContainerFindBlobsByTagsSegmentResponse> {
+    const { span, updatedOptions } = createSpan("ContainerClient-findBlobsByTagsSegment", options);
+
+    try {
+      const response = await this.containerContext.filterBlobs({
+        abortSignal: options.abortSignal,
+        where: tagFilterSqlExpression,
+        marker,
+        maxPageSize: options.maxPageSize,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+
+      const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable
+        blobs: response.blobs.map((blob) => {
+          let tagValue = "";
+          if (blob.tags?.blobTagSet.length === 1) {
+            tagValue = blob.tags.blobTagSet[0].value;
+          }
+          return { ...blob, tags: toTags(blob.tags), tagValue };
+        }),
+      };
+      return wrappedResponse;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ContainerFindBlobsByTagsSegmentResponse.
+   *
+   * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param marker - A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the continuationToken value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The continuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to find blobs by tags.
+   */
+  private async *findBlobsByTagsSegments(
+    tagFilterSqlExpression: string,
+    marker?: string,
+    options: ContainerFindBlobsByTagsSegmentOptions = {}
+  ): AsyncIterableIterator<ContainerFindBlobsByTagsSegmentResponse> {
+    let response;
+    if (!!marker || marker === undefined) {
+      do {
+        response = await this.findBlobsByTagsSegment(tagFilterSqlExpression, marker, options);
+        response.blobs = response.blobs || [];
+        marker = response.continuationToken;
+        yield response;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for blobs.
+   *
+   * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param options - Options to findBlobsByTagsItems.
+   */
+  private async *findBlobsByTagsItems(
+    tagFilterSqlExpression: string,
+    options: ContainerFindBlobsByTagsSegmentOptions = {}
+  ): AsyncIterableIterator<FilterBlobItem> {
+    let marker: string | undefined;
+    for await (const segment of this.findBlobsByTagsSegments(
+      tagFilterSqlExpression,
+      marker,
+      options
+    )) {
+      yield* segment.blobs;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to find all blobs with specified tag
+   * under the specified container.
+   *
+   * .byPage() returns an async iterable iterator to list the blobs in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * let i = 1;
+   * for await (const blob of containerClient.findBlobsByTags("tagkey='tagvalue'")) {
+   *   console.log(`Blob ${i++}: ${blob.name}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * const iter = containerClient.findBlobsByTags("tagkey='tagvalue'");
+   * let blobItem = await iter.next();
+   * while (!blobItem.done) {
+   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *   blobItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of containerClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 20 })) {
+   *   if (response.blobs) {
+   *     for (const blob of response.blobs) {
+   *       console.log(`Blob ${i++}: ${blob.name}`);
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = containerClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 blob names
+   * if (response.blobs) {
+   *   for (const blob of response.blobs) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = containerClient
+   *   .findBlobsByTags("tagkey='tagvalue'")
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints blob names
+   * if (response.blobs) {
+   *   for (const blob of response.blobs) {
+   *      console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
+   * ```
+   *
+   * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param options - Options to find blobs by tags.
+   */
+  public findBlobsByTags(
+    tagFilterSqlExpression: string,
+    options: ContainerFindBlobByTagsOptions = {}
+  ): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse> {
+    // AsyncIterableIterator to iterate over blobs
+    const listSegmentOptions: ContainerFindBlobsByTagsSegmentOptions = {
+      ...options,
+    };
+
+    const iter = this.findBlobsByTagsItems(tagFilterSqlExpression, listSegmentOptions);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.findBlobsByTagsSegments(tagFilterSqlExpression, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...listSegmentOptions,
+        });
+      },
     };
   }
 
@@ -1853,7 +2143,7 @@ export class ContainerClient extends StorageClient {
       const sas = generateBlobSASQueryParameters(
         {
           containerName: this._containerName,
-          ...options
+          ...options,
         },
         this.credential
       ).toString();

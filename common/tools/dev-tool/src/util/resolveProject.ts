@@ -27,6 +27,8 @@ declare global {
     name: string;
     version: string;
     description: string;
+    main: string;
+    module?: string;
     bin?: Record<string, string>;
     files: string[];
     scripts: Record<string, string>;

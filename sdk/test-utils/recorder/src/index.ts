@@ -1,18 +1,16 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-export { record, Recorder, TestContext, TestContextInterface, TestContextTest } from "./recorder";
+export { Recorder } from "./recorder";
+export { relativeRecordingsPath } from "./utils/relativePathCalculator";
 export {
-  env,
-  delay,
+  SanitizerOptions,
+  RecorderStartOptions,
+  isLiveMode,
   isPlaybackMode,
   isRecordMode,
-  isLiveMode,
-  isSoftRecordMode,
-  RecorderEnvironmentSetup
-} from "./utils";
-export { pluginForIdentitySDK, pluginForClientSecretCredentialTests } from "./utils/msalAuth.node";
-export { jsonRecordingFilterFunction } from "./basekarma.conf";
-export { generateTestRecordingFilePath } from "./utils/recordingPath";
-export { findRecordingsFolderPath } from "./utils/recordings";
-export { setEnvironmentVariables } from "./baseRecorder";
+  assertEnvironmentVariable,
+} from "./utils/utils";
+export { env } from "./utils/env";
+export { delay } from "./utils/delay";
+export { CustomMatcherOptions } from "./matcher";

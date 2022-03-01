@@ -14,8 +14,8 @@ import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/commo
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
 
-describe("New session token", function() {
-  it("preserves tokens", async function() {
+describe("New session token", function () {
+  it("preserves tokens", async function () {
     let response: Response<any>;
     let rqContext: RequestContext;
     const plugins: PluginConfig[] = [
@@ -25,21 +25,21 @@ describe("New session token", function() {
           rqContext = context;
           response = await next(context);
           return response;
-        }
-      }
+        },
+      },
     ];
     const sessionClient = new CosmosClient({
       endpoint,
       key: masterKey,
       consistencyLevel: ConsistencyLevel.Session,
       connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-      plugins
+      plugins,
     });
     const containerId = "sessionTestColl";
 
     const containerDefinition = {
       id: containerId,
-      partitionKey: { paths: ["/id"] }
+      partitionKey: { paths: ["/id"] },
     };
     const containerOptions = { offerThroughput: 25100 };
 
@@ -63,7 +63,7 @@ describe("New session token", function() {
       operationType: OperationType.Create,
       resourceAddress: container.url,
       resourceType: ResourceType.item,
-      resourceId: "1"
+      resourceId: "1",
     });
     assert.equal(responseToken, token);
     assert.equal(responseToken, rqContext?.headers["x-ms-session-token"]);
@@ -71,17 +71,17 @@ describe("New session token", function() {
 });
 
 // For some reason this test does not pass against the emulator. Skipping it for now
-describe.skip("Session Token", function(this: Suite) {
-  beforeEach(async function() {
+describe.skip("Session Token", function (this: Suite) {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("retries session not found successfully", async function() {
+  it("retries session not found successfully", async function () {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
       consistencyLevel: ConsistencyLevel.Session,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
     // Create a second client with a plugin that simulates "Session Not Found" error
     const clientB = new CosmosClient({
@@ -100,9 +100,9 @@ describe.skip("Session Token", function(this: Suite) {
             }
             const response = await next(context);
             return response;
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     const dbId = addEntropy("sessionTestDB");
@@ -110,10 +110,10 @@ describe.skip("Session Token", function(this: Suite) {
 
     // Create Database and Container
     const { database } = await clientA.databases.createIfNotExists({
-      id: dbId
+      id: dbId,
     });
     const { container } = await database.containers.createIfNotExists({
-      id: containerId
+      id: containerId,
     });
 
     // Create items using both clients so they each establish a session with the backend
@@ -131,9 +131,9 @@ describe.skip("Session Token", function(this: Suite) {
 
 async function createItem(container: Container) {
   const {
-    resource: { id }
+    resource: { id },
   } = await container.items.create({
-    id: (Math.random() + 1).toString(36).substring(7)
+    id: (Math.random() + 1).toString(36).substring(7),
   });
   return id;
 }

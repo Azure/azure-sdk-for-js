@@ -10,7 +10,7 @@ import { TestClientType } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
-  ServiceBusTestHelpers
+  ServiceBusTestHelpers,
 } from "../public/utils/testutils2";
 const assert = chai.assert;
 
@@ -42,7 +42,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
-          body: "Hello"
+          body: "Hello",
         });
 
         await sender.close();
@@ -51,16 +51,16 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
 
         if (entities.queue) {
           receiver = client.createReceiver(entities.queue!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         } else {
           receiver = client.createReceiver(entities.topic!, entities.subscription!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         }
 
         const messages = await receiver.receiveMessages(1, {
-          maxWaitTimeInMs: 10 * 1000
+          maxWaitTimeInMs: 10 * 1000,
         });
 
         await receiver.close();
@@ -79,7 +79,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
-          body: "Hello"
+          body: "Hello",
         });
 
         await sender.close();
@@ -88,16 +88,16 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
 
         if (entities.queue) {
           receiver = client.createReceiver(entities.queue!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         } else {
           receiver = client.createReceiver(entities.topic!, entities.subscription!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         }
 
         const messages = await receiver.receiveMessages(1, {
-          maxWaitTimeInMs: 10 * 1000
+          maxWaitTimeInMs: 10 * 1000,
         });
 
         await receiver.close();
@@ -142,7 +142,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
-          body: "Hello"
+          body: "Hello",
         });
 
         await sender.close();
@@ -151,16 +151,16 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
 
         if (entities.queue) {
           receiver = client.createReceiver(entities.queue!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         } else {
           receiver = client.createReceiver(entities.topic!, entities.subscription!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         }
 
         const messages = await receiver.receiveMessages(1, {
-          maxWaitTimeInMs: 10 * 1000
+          maxWaitTimeInMs: 10 * 1000,
         });
 
         await receiver.close();
@@ -179,7 +179,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
-          body: "Hello"
+          body: "Hello",
         });
 
         await sender.close();
@@ -188,16 +188,16 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
 
         if (entities.queue) {
           receiver = client.createReceiver(entities.queue!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         } else {
           receiver = client.createReceiver(entities.topic!, entities.subscription!, {
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         }
 
         const messages = await receiver.receiveMessages(1, {
-          maxWaitTimeInMs: 10 * 1000
+          maxWaitTimeInMs: 10 * 1000,
         });
 
         await receiver.close();

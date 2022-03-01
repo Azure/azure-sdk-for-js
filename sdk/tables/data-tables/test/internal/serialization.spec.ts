@@ -5,8 +5,9 @@ import {
   deserialize,
   deserializeSignedIdentifier,
   serialize,
-  serializeSignedIdentifiers
+  serializeSignedIdentifiers,
 } from "../../src/serialization";
+
 import { Edm } from "../../src";
 import { assert } from "chai";
 import { isNode8 } from "@azure/test-utils";
@@ -35,7 +36,7 @@ describe("Serializer", () => {
     const boolValue = true;
     const serialized: any = serialize({
       boolProp: boolValue,
-      boolObjProp: { value: boolValue, type: "Boolean" }
+      boolObjProp: { value: boolValue, type: "Boolean" },
     });
     assert.strictEqual(serialized.boolProp, boolValue);
     assert.strictEqual(serialized.boolObjProp, boolValue);
@@ -45,7 +46,7 @@ describe("Serializer", () => {
   it("should serialize null and undefined values", () => {
     const serialized: any = serialize({
       nullProp: null,
-      undefinedProp: undefined
+      undefinedProp: undefined,
     });
     assert.strictEqual(serialized.nullProp, null);
     assert.strictEqual(serialized.undefinedProp, undefined);
@@ -55,7 +56,7 @@ describe("Serializer", () => {
     const strValue = "Test String";
     const serialized: any = serialize({
       strProp: strValue,
-      strObjProp: { value: strValue, type: "String" }
+      strObjProp: { value: strValue, type: "String" },
     });
     assert.strictEqual(serialized.strProp, strValue);
     assert.strictEqual(serialized.strObjProp, strValue);
@@ -66,7 +67,7 @@ describe("Serializer", () => {
     const doubleValue = 3.1415;
     const serialized: any = serialize({
       doubleProp: doubleValue,
-      doubleObjProp: { value: doubleValue, type: "Double" }
+      doubleObjProp: { value: doubleValue, type: "Double" },
     });
     assert.strictEqual(serialized.doubleProp, doubleValue);
     assert.strictEqual(serialized.doubleObjProp, doubleValue);
@@ -77,7 +78,7 @@ describe("Serializer", () => {
     const int32Value = 123;
     const serialized: any = serialize({
       int32Prop: int32Value,
-      int32ObjProp: { value: int32Value, type: "Int32" }
+      int32ObjProp: { value: int32Value, type: "Int32" },
     });
     assert.strictEqual(serialized.int32Prop, int32Value);
     assert.strictEqual(serialized.int32ObjProp, int32Value);
@@ -87,7 +88,7 @@ describe("Serializer", () => {
   it("should serialize an Int64 value", () => {
     const int64Value = "12345678910";
     const serialized: any = serialize({
-      int64ObjProp: { value: int64Value, type: "Int64" }
+      int64ObjProp: { value: int64Value, type: "Int64" },
     });
     assert.strictEqual(serialized.int64ObjProp, int64Value);
     assert.strictEqual(serialized["int64ObjProp@odata.type"], "Edm.Int64");
@@ -97,7 +98,7 @@ describe("Serializer", () => {
     const dateValue = new Date();
     const serialized: any = serialize({
       dateProp: dateValue,
-      dateObjProp: { value: dateValue, type: "DateTime" }
+      dateObjProp: { value: dateValue, type: "DateTime" },
     });
     assert.strictEqual(serialized.dateProp, dateValue);
     assert.strictEqual(serialized.dateObjProp, dateValue);
@@ -107,7 +108,7 @@ describe("Serializer", () => {
   it("should serialize a Guid value", () => {
     const guidValue = "123e4567-e89b-12d3-a456-426614174000";
     const serialized: any = serialize({
-      guidObjProp: { value: guidValue, type: "Guid" }
+      guidObjProp: { value: guidValue, type: "Guid" },
     });
     assert.strictEqual(serialized.guidObjProp, guidValue);
     assert.strictEqual(serialized["guidObjProp@odata.type"], "Edm.Guid");
@@ -118,7 +119,7 @@ describe("Serializer", () => {
     const base64Encoded = "VGVzdDEyMw==";
     const serialized: any = serialize({
       binProp: binValue,
-      binObjProp: { value: base64Encoded, type: "Binary" }
+      binObjProp: { value: base64Encoded, type: "Binary" },
     });
     assert.strictEqual(serialized.binProp, base64Encoded);
     assert.strictEqual(serialized.binObjProp, base64Encoded);
@@ -130,7 +131,7 @@ describe("Deserializer", () => {
   it("should deserialize a null and undefined values", () => {
     const deserialized: Entity = deserialize<Entity>({
       nullProp: null,
-      undefinedProp: undefined
+      undefinedProp: undefined,
     });
     assert.strictEqual(deserialized.nullProp, null);
     assert.strictEqual(deserialized.undefinedProp, undefined);
@@ -139,7 +140,7 @@ describe("Deserializer", () => {
   it("should deserialize a Boolean value", () => {
     const boolValue = true;
     const deserialized: Entity = deserialize<Entity>({
-      boolProp: boolValue
+      boolProp: boolValue,
     });
     assert.strictEqual(deserialized.boolProp, boolValue);
   });
@@ -147,7 +148,7 @@ describe("Deserializer", () => {
   it("should deserialize a String value", () => {
     const strValue = "Test String";
     const deserialized: Entity = deserialize<Entity>({
-      strProp: strValue
+      strProp: strValue,
     });
     assert.strictEqual(deserialized.strProp, strValue);
   });
@@ -155,7 +156,7 @@ describe("Deserializer", () => {
   it("should deserialize a Double value", () => {
     const doubleValue = 3.1415;
     const deserialized: Entity = deserialize<Entity>({
-      doubleProp: doubleValue
+      doubleProp: doubleValue,
     });
     assert.strictEqual(deserialized.doubleProp, doubleValue);
   });
@@ -163,19 +164,19 @@ describe("Deserializer", () => {
   it("should deserialize an Int32 value", () => {
     const int32Value = 123;
     const deserialized: Entity = deserialize<Entity>({
-      int32Prop: int32Value
+      int32Prop: int32Value,
     });
     assert.strictEqual(deserialized.int32Prop, int32Value);
   });
 
-  it("should deserialize an Int64 value to bigint", function(this: Mocha.Context) {
+  it("should deserialize an Int64 value to bigint", function (this: Mocha.Context) {
     if (isNode8) {
       this.skip();
     }
     const int64Value = "12345678910";
     const deserialized = deserialize({
       int64ObjProp: int64Value,
-      "int64ObjProp@odata.type": "Edm.Int64"
+      "int64ObjProp@odata.type": "Edm.Int64",
     });
     assert.strictEqual(deserialized.int64ObjProp, BigInt(int64Value));
   });
@@ -185,7 +186,7 @@ describe("Deserializer", () => {
     const deserialized = deserialize(
       {
         int64ObjProp: int64Value,
-        "int64ObjProp@odata.type": "Edm.Int64"
+        "int64ObjProp@odata.type": "Edm.Int64",
       },
       true
     );
@@ -197,7 +198,7 @@ describe("Deserializer", () => {
     const intValue = 123;
     const deserialized = deserialize(
       {
-        intValue: intValue
+        intValue: intValue,
       },
       true
     );
@@ -209,7 +210,7 @@ describe("Deserializer", () => {
     const boolValue = true;
     const deserialized = deserialize(
       {
-        boolValue
+        boolValue,
       },
       true
     );
@@ -223,7 +224,7 @@ describe("Deserializer", () => {
     const stringValue = "foo";
     const deserialized = deserialize(
       {
-        stringValue
+        stringValue,
       },
       true
     );
@@ -237,7 +238,7 @@ describe("Deserializer", () => {
     const doubleValue = 123.0;
     const deserialized = deserialize(
       {
-        intValue: doubleValue
+        intValue: doubleValue,
       },
       true
     );
@@ -251,7 +252,7 @@ describe("Deserializer", () => {
     const doubleValue = 123.01;
     const deserialized = deserialize(
       {
-        intValue: doubleValue
+        intValue: doubleValue,
       },
       true
     );
@@ -263,7 +264,7 @@ describe("Deserializer", () => {
     const intValue = 123;
     const deserialized = deserialize(
       {
-        intValue: intValue
+        intValue: intValue,
       },
       false
     );
@@ -274,7 +275,7 @@ describe("Deserializer", () => {
     const decimalValue = 123.0;
     const deserialized = deserialize(
       {
-        intValue: decimalValue
+        intValue: decimalValue,
       },
       false
     );
@@ -285,7 +286,7 @@ describe("Deserializer", () => {
     const dateValue = new Date();
     const deserialized = deserialize({
       dateProp: dateValue.toJSON(),
-      "dateProp@odata.type": "Edm.DateTime"
+      "dateProp@odata.type": "Edm.DateTime",
     });
     assert.deepEqual(deserialized.dateProp, dateValue);
   });
@@ -295,7 +296,7 @@ describe("Deserializer", () => {
     const deserialized = deserialize<{ dateProp: Edm<"DateTime"> }>(
       {
         dateProp: dateValue.toJSON(),
-        "dateProp@odata.type": "Edm.DateTime"
+        "dateProp@odata.type": "Edm.DateTime",
       },
       true
     );
@@ -306,7 +307,7 @@ describe("Deserializer", () => {
     const guidValue = "123e4567-e89b-12d3-a456-426614174000";
     const deserialized: Entity = deserialize<Entity>({
       guidObjProp: guidValue,
-      "guidObjProp@odata.type": "Edm.Guid"
+      "guidObjProp@odata.type": "Edm.Guid",
     });
     assert.strictEqual(deserialized.guidObjProp?.value, guidValue);
     assert.strictEqual(deserialized.guidObjProp?.type, "Guid");
@@ -317,7 +318,7 @@ describe("Deserializer", () => {
     const base64Encoded = "VGVzdDEyMw==";
     const deserialized: Entity = deserialize<Entity>({
       binProp: base64Encoded,
-      "binProp@odata.type": "Edm.Binary"
+      "binProp@odata.type": "Edm.Binary",
     });
     assert.deepEqual(deserialized.binProp, binValue);
   });
@@ -329,7 +330,7 @@ describe("SignedIdentifier serialization", () => {
     const expectedDate = "2021-06-09T16:34:29Z";
 
     const serialized = serializeSignedIdentifiers([
-      { id: "test", accessPolicy: { start: date, expiry: date } }
+      { id: "test", accessPolicy: { start: date, expiry: date } },
     ]);
 
     assert.lengthOf(serialized, 1);
@@ -342,7 +343,7 @@ describe("SignedIdentifier serialization", () => {
     const date = "2021-06-09T16:34:29Z";
 
     const serialized = deserializeSignedIdentifier([
-      { id: "test", accessPolicy: { start: date, expiry: date } }
+      { id: "test", accessPolicy: { start: date, expiry: date } },
     ]);
 
     assert.lengthOf(serialized, 1);

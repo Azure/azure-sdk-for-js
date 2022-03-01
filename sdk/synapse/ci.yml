@@ -9,7 +9,9 @@ trigger:
   paths:
     include:
       - sdk/synapse/
-
+    exclude:
+      - sdk/synapse/ci.mgmt.yml
+      - sdk/synapse/arm-synapse/
 pr:
   branches:
     include:
@@ -17,10 +19,14 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/synapse/
-
+    exclude:
+      - sdk/synapse/ci.mgmt.yml
+      - sdk/synapse/arm-synapse/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

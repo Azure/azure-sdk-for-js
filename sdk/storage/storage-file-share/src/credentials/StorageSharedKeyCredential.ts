@@ -53,8 +53,6 @@ export class StorageSharedKeyCredential extends Credential {
    * @param stringToSign -
    */
   public computeHMACSHA256(stringToSign: string): string {
-    return createHmac("sha256", this.accountKey)
-      .update(stringToSign, "utf8")
-      .digest("base64");
+    return createHmac("sha256", this.accountKey).update(stringToSign, "utf8").digest("base64");
   }
 }

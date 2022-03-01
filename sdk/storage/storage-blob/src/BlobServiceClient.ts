@@ -5,7 +5,7 @@ import {
   isTokenCredential,
   isNode,
   HttpResponse,
-  getDefaultProxySettings
+  getDefaultProxySettings,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -25,20 +25,22 @@ import {
   FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
   ContainerRenameResponse,
-  LeaseAccessConditions
+  LeaseAccessConditions,
+  FilterBlobSegment,
+  FilterBlobItem,
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
 import {
   ContainerClient,
   ContainerCreateOptions,
-  ContainerDeleteMethodOptions
+  ContainerDeleteMethodOptions,
 } from "./ContainerClient";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
-  toTags
+  toTags,
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -48,7 +50,6 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { Tags } from "./models";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
@@ -203,43 +204,6 @@ export interface ServiceFindBlobByTagsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
-}
-
-/**
- * Blob info from a {@link BlobServiceClient.findBlobsByTags}
- */
-export interface FilterBlobItem {
-  /**
-   * Blob Name.
-   */
-  name: string;
-
-  /**
-   * Container Name.
-   */
-  containerName: string;
-
-  /**
-   * Blob Tags.
-   */
-  tags?: Tags;
-
-  /**
-   * Tag value.
-   *
-   * @deprecated The service no longer returns this value. Use {@link tags} to fetch all matching Blob Tags.
-   */
-  tagValue: string;
-}
-
-/**
- * Segment response of {@link BlobServiceClient.findBlobsByTags} operation.
- */
-export interface FilterBlobSegment {
-  serviceEndpoint: string;
-  where: string;
-  blobs: FilterBlobItem[];
-  continuationToken?: string;
 }
 
 /**
@@ -426,7 +390,11 @@ export class BlobServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+        if (!options.proxyOptions) {
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        }
+
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new BlobServiceClient(extractedCreds.url, pipeline);
       } else {
@@ -560,12 +528,12 @@ export class BlobServiceClient extends StorageClient {
       const containerCreateResponse = await containerClient.create(updatedOptions);
       return {
         containerClient,
-        containerCreateResponse
+        containerCreateResponse,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -591,7 +559,7 @@ export class BlobServiceClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -626,13 +594,13 @@ export class BlobServiceClient extends StorageClient {
       const containerUndeleteResponse = await containerContext.restore({
         deletedContainerName,
         deletedContainerVersion,
-        ...updatedOptions
+        ...updatedOptions,
       });
       return { containerClient, containerUndeleteResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -664,13 +632,13 @@ export class BlobServiceClient extends StorageClient {
       const containerContext = new Container(containerClient["storageClientContext"]);
       const containerRenameResponse = await containerContext.rename(sourceContainerName, {
         ...updatedOptions,
-        sourceLeaseId: options.sourceCondition?.leaseId
+        sourceLeaseId: options.sourceCondition?.leaseId,
       });
       return { containerClient, containerRenameResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -693,12 +661,12 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -723,12 +691,12 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -752,12 +720,12 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -782,12 +750,12 @@ export class BlobServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -821,12 +789,12 @@ export class BlobServiceClient extends StorageClient {
         marker,
         ...options,
         include: typeof options.include === "string" ? [options.include] : options.include,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -868,7 +836,7 @@ export class BlobServiceClient extends StorageClient {
         where: tagFilterSqlExpression,
         marker,
         maxPageSize: options.maxPageSize,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
@@ -880,13 +848,13 @@ export class BlobServiceClient extends StorageClient {
             tagValue = blob.tags.blobTagSet[0].value;
           }
           return { ...blob, tags: toTags(blob.tags), tagValue };
-        })
+        }),
       };
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1034,7 +1002,7 @@ export class BlobServiceClient extends StorageClient {
   ): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse> {
     // AsyncIterableIterator to iterate over blobs
     const listSegmentOptions: ServiceFindBlobsByTagsSegmentOptions = {
-      ...options
+      ...options,
     };
 
     const iter = this.findBlobsByTagsItems(tagFilterSqlExpression, listSegmentOptions);
@@ -1057,9 +1025,9 @@ export class BlobServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.findBlobsByTagsSegments(tagFilterSqlExpression, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...listSegmentOptions
+          ...listSegmentOptions,
         });
-      }
+      },
     };
   }
 
@@ -1200,7 +1168,7 @@ export class BlobServiceClient extends StorageClient {
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include } : {})
+      ...(include.length > 0 ? { include } : {}),
     };
 
     const iter = this.listItems(listSegmentOptions);
@@ -1223,9 +1191,9 @@ export class BlobServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...listSegmentOptions
+          ...listSegmentOptions,
         });
-      }
+      },
     };
   }
 
@@ -1250,11 +1218,11 @@ export class BlobServiceClient extends StorageClient {
       const response = await this.serviceContext.getUserDelegationKey(
         {
           startsOn: truncatedISO8061Date(startsOn, false),
-          expiresOn: truncatedISO8061Date(expiresOn, false)
+          expiresOn: truncatedISO8061Date(expiresOn, false),
         },
         {
           abortSignal: options.abortSignal,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
 
@@ -1265,7 +1233,7 @@ export class BlobServiceClient extends StorageClient {
         signedExpiresOn: new Date(response.signedExpiresOn),
         signedService: response.signedService,
         signedVersion: response.signedVersion,
-        value: response.value
+        value: response.value,
       };
 
       const res: ServiceGetUserDelegationKeyResponse = {
@@ -1275,14 +1243,14 @@ export class BlobServiceClient extends StorageClient {
         version: response.version,
         date: response.date,
         errorCode: response.errorCode,
-        ...userDelegationKey
+        ...userDelegationKey,
       };
 
       return res;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1338,7 +1306,7 @@ export class BlobServiceClient extends StorageClient {
         expiresOn,
         resourceTypes,
         services: AccountSASServices.parse("b").toString(),
-        ...options
+        ...options,
       },
       this.credential
     ).toString();

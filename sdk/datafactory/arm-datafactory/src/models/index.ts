@@ -79,6 +79,10 @@ export type LinkedServiceUnion =
   | SapOpenHubLinkedService
   | RestServiceLinkedService
   | AmazonS3LinkedService
+  | TeamDeskLinkedService
+  | QuickbaseLinkedService
+  | SmartsheetLinkedService
+  | ZendeskLinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -429,6 +433,7 @@ export type ControlActivityUnion =
   | SwitchActivity
   | ForEachActivity
   | WaitActivity
+  | FailActivity
   | UntilActivity
   | ValidationActivity
   | FilterActivity
@@ -459,7 +464,8 @@ export type ExecutionActivityUnion =
   | DatabricksSparkJarActivity
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
-  | ExecuteDataFlowActivity;
+  | ExecuteDataFlowActivity
+  | ScriptActivity;
 export type MultiplePipelineTriggerUnion =
   | MultiplePipelineTrigger
   | ScheduleTrigger
@@ -1273,6 +1279,10 @@ export interface LinkedService {
     | "SapOpenHub"
     | "RestService"
     | "AmazonS3"
+    | "TeamDesk"
+    | "Quickbase"
+    | "Smartsheet"
+    | "Zendesk"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -1532,6 +1542,7 @@ export interface Activity {
     | "AzureMLExecutePipeline"
     | "DataLakeAnalyticsU-SQL"
     | "Wait"
+    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -1543,7 +1554,8 @@ export interface Activity {
     | "AzureFunctionActivity"
     | "WebHook"
     | "ExecuteDataFlow"
-    | "ExecuteWranglingDataflow";
+    | "ExecuteWranglingDataflow"
+    | "Script";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Activity name. */
@@ -3500,6 +3512,38 @@ export interface PowerQuerySinkMapping {
   dataflowSinks?: PowerQuerySink[];
 }
 
+/** Script block of scripts. */
+export interface ScriptActivityScriptBlock {
+  /** The query text. Type: string (or Expression with resultType string). */
+  text: Record<string, unknown>;
+  /** The type of the query. Type: string. */
+  type: ScriptType;
+  /** Array of script parameters. Type: array. */
+  parameters?: ScriptActivityParameter[];
+}
+
+/** Parameters of a script block. */
+export interface ScriptActivityParameter {
+  /** The name of the parameter. Type: string (or Expression with resultType string). */
+  name?: Record<string, unknown>;
+  /** The type of the parameter. */
+  type?: ScriptActivityParameterType;
+  /** The value of the parameter. */
+  value?: Record<string, unknown>;
+  /** The direction of the parameter. */
+  direction?: ScriptActivityParameterDirection;
+  /** The size of the output direction parameter. */
+  size?: number;
+}
+
+/** Log settings of script activity. */
+export interface ScriptActivityTypePropertiesLogSettings {
+  /** The destination of logs. Type: string. */
+  logDestination: ScriptActivityLogDestination;
+  /** Log location settings customer needs to provide when enabling log. */
+  logLocationSettings?: LogLocationSettings;
+}
+
 /** The workflow trigger recurrence. */
 export interface ScheduleTriggerRecurrence {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -4109,6 +4153,8 @@ export type CosmosDbLinkedService = LinkedService & {
   connectionMode?: CosmosDbConnectionMode;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 };
 
 /** Dynamics linked service. */
@@ -4139,6 +4185,8 @@ export type DynamicsLinkedService = LinkedService & {
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 };
 
 /** Dynamics CRM linked service. */
@@ -4705,6 +4753,10 @@ export type AzureBlobFSLinkedService = LinkedService & {
   encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: Record<string, unknown>;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
 };
 
 /** Office365 linked service. */
@@ -4863,6 +4915,64 @@ export type AmazonS3LinkedService = LinkedService & {
   serviceUrl?: Record<string, unknown>;
   /** The session token for the S3 temporary security credential. */
   sessionToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for TeamDesk. */
+export type TeamDeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TeamDesk";
+  /** The authentication type to use. */
+  authenticationType: TeamDeskAuthenticationType;
+  /** The url to connect TeamDesk source. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
+  /** The username of the TeamDesk source. Type: string (or Expression with resultType string). */
+  userName?: Record<string, unknown>;
+  /** The password of the TeamDesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the TeamDesk source. */
+  apiToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Quickbase. */
+export type QuickbaseLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Quickbase";
+  /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
+  /** The user token for the Quickbase source. */
+  userToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Smartsheet. */
+export type SmartsheetLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Smartsheet";
+  /** The api token for the Smartsheet source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Zendesk. */
+export type ZendeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Zendesk";
+  /** The authentication type to use. */
+  authenticationType: ZendeskAuthenticationType;
+  /** The url to connect Zendesk source. Type: string (or Expression with resultType string). */
+  url: Record<string, unknown>;
+  /** The username of the Zendesk source. Type: string (or Expression with resultType string). */
+  userName?: Record<string, unknown>;
+  /** The password of the Zendesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the Zendesk source. */
+  apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
 };
@@ -5814,6 +5924,10 @@ export type AzureDatabricksDeltaLakeLinkedService = LinkedService & {
   clusterId?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+  /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
+  workspaceResourceId?: Record<string, unknown>;
 };
 
 /** Responsys linked service. */
@@ -5878,12 +5992,14 @@ export type OracleServiceCloudLinkedService = LinkedService & {
 export type GoogleAdWordsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
+  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
+  connectionProperties?: Record<string, unknown>;
   /** The Client customer ID of the AdWords account that you want to fetch report data for. */
-  clientCustomerID: Record<string, unknown>;
+  clientCustomerID?: Record<string, unknown>;
   /** The developer token associated with the manager account that you use to grant access to the AdWords API. */
-  developerToken: SecretBaseUnion;
+  developerToken?: SecretBaseUnion;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
-  authenticationType: GoogleAdWordsAuthenticationType;
+  authenticationType?: GoogleAdWordsAuthenticationType;
   /** The refresh token obtained from Google for authorizing access to AdWords for UserAuthentication. */
   refreshToken?: SecretBaseUnion;
   /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
@@ -6993,6 +7109,7 @@ export type ControlActivity = Activity & {
     | "Switch"
     | "ForEach"
     | "Wait"
+    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -7028,7 +7145,8 @@ export type ExecutionActivity = Activity & {
     | "DatabricksSparkJar"
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
-    | "ExecuteDataFlow";
+    | "ExecuteDataFlow"
+    | "Script";
   /** Linked service reference. */
   linkedServiceName?: LinkedServiceReference;
   /** Activity policy. */
@@ -7456,6 +7574,8 @@ export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntime
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
   resourceId: string;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 };
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
@@ -9091,6 +9211,16 @@ export type WaitActivity = ControlActivity & {
   waitTimeInSeconds: Record<string, unknown>;
 };
 
+/** This activity will fail within its own scope and output a custom error message and error code. The error message and code can provided either as a string literal or as an expression that can be evaluated to a string at runtime. The activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is contained in it. */
+export type FailActivity = ControlActivity & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Fail";
+  /** The error message that surfaced in the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
+  message: Record<string, unknown>;
+  /** The error code that categorizes the error type of the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
+  errorCode: Record<string, unknown>;
+};
+
 /** This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier. */
 export type UntilActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9599,6 +9729,16 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+};
+
+/** Script activity type. */
+export type ScriptActivity = ExecutionActivity & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Script";
+  /** Array of script blocks. Type: array. */
+  scripts?: ScriptActivityScriptBlock[];
+  /** Log settings of script activity. */
+  logSettings?: ScriptActivityTypePropertiesLogSettings;
 };
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -11023,6 +11163,38 @@ export enum KnownRestServiceAuthenticationType {
  */
 export type RestServiceAuthenticationType = string;
 
+/** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
+export enum KnownTeamDeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for TeamDeskAuthenticationType. \
+ * {@link KnownTeamDeskAuthenticationType} can be used interchangeably with TeamDeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type TeamDeskAuthenticationType = string;
+
+/** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
+export enum KnownZendeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for ZendeskAuthenticationType. \
+ * {@link KnownZendeskAuthenticationType} can be used interchangeably with ZendeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type ZendeskAuthenticationType = string;
+
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {
   Basic = "Basic",
@@ -11586,6 +11758,92 @@ export enum KnownWebHookActivityMethod {
  * **POST**
  */
 export type WebHookActivityMethod = string;
+
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  Query = "Query",
+  NonQuery = "NonQuery"
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
+/** Known values of {@link ScriptActivityParameterType} that the service accepts. */
+export enum KnownScriptActivityParameterType {
+  Boolean = "Boolean",
+  DateTime = "DateTime",
+  DateTimeOffset = "DateTimeOffset",
+  Decimal = "Decimal",
+  Double = "Double",
+  Guid = "Guid",
+  Int16 = "Int16",
+  Int32 = "Int32",
+  Int64 = "Int64",
+  Single = "Single",
+  String = "String",
+  Timespan = "Timespan"
+}
+
+/**
+ * Defines values for ScriptActivityParameterType. \
+ * {@link KnownScriptActivityParameterType} can be used interchangeably with ScriptActivityParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Boolean** \
+ * **DateTime** \
+ * **DateTimeOffset** \
+ * **Decimal** \
+ * **Double** \
+ * **Guid** \
+ * **Int16** \
+ * **Int32** \
+ * **Int64** \
+ * **Single** \
+ * **String** \
+ * **Timespan**
+ */
+export type ScriptActivityParameterType = string;
+
+/** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
+export enum KnownScriptActivityParameterDirection {
+  Input = "Input",
+  Output = "Output",
+  InputOutput = "InputOutput"
+}
+
+/**
+ * Defines values for ScriptActivityParameterDirection. \
+ * {@link KnownScriptActivityParameterDirection} can be used interchangeably with ScriptActivityParameterDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Input** \
+ * **Output** \
+ * **InputOutput**
+ */
+export type ScriptActivityParameterDirection = string;
+
+/** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
+export enum KnownScriptActivityLogDestination {
+  ActivityOutput = "ActivityOutput",
+  ExternalStore = "ExternalStore"
+}
+
+/**
+ * Defines values for ScriptActivityLogDestination. \
+ * {@link KnownScriptActivityLogDestination} can be used interchangeably with ScriptActivityLogDestination,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActivityOutput** \
+ * **ExternalStore**
+ */
+export type ScriptActivityLogDestination = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {

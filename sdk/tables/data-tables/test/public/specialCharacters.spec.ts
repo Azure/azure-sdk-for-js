@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isLiveMode, record } from "@azure-tools/test-recorder";
 import { TableClient, TableEntityResult, TransactionAction, odata } from "../../src";
-import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
+
 import { Context } from "mocha";
 import { assert } from "chai";
+import { createTableClient } from "./utils/recordedClient";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/test-utils";
 
-describe("SpecialCharacters", function() {
-  before(function(this: Context) {
+describe("SpecialCharacters", function () {
+  before(function (this: Context) {
     if (!isLiveMode()) {
-      // Currently the recorder is having issues with the encoding of single qoutes in the
-      // query request and generates invalid JS code. Disabling this test on playback mode
-      // while these issues are resolved. #18534
+      // Only run in live tests to avoid unecessary extra time in CI
       this.skip();
     }
   });
   let client: TableClient;
-  let recorder: Recorder;
   const suffix = isNode ? "Node" : "Browser";
   const tableName = `SpecialCharacterTest${suffix}`;
   const specialCharacters = [
@@ -42,17 +40,12 @@ describe("SpecialCharacters", function() {
     { char: `^`, name: "hat" },
     { char: `!`, name: "bang" },
     { char: `%`, name: "percentage" },
-    { char: `*`, name: "star" }
+    { char: `*`, name: "star" },
   ];
 
   describe("Single operations", () => {
-    beforeEach(function(this: Context) {
-      recorder = record(this, recordedEnvironmentSetup);
-      client = createTableClient(tableName, "TokenCredential");
-    });
-
-    afterEach(async function() {
-      await recorder.stop();
+    beforeEach(async function (this: Context) {
+      client = await createTableClient(tableName, "TokenCredential");
     });
 
     specialCharacters.forEach(({ char, name }) => {
@@ -97,7 +90,7 @@ describe("SpecialCharacters", function() {
 
         it("should filter entity by partition key", async () => {
           const entities = client.listEntities({
-            queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+            queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
           });
 
           for await (const entity of entities) {
@@ -109,7 +102,7 @@ describe("SpecialCharacters", function() {
 
         it("should filter entity by row key", async () => {
           const entities = client.listEntities({
-            queryOptions: { filter: odata`RowKey eq ${rowKey}` }
+            queryOptions: { filter: odata`RowKey eq ${rowKey}` },
           });
 
           for await (const entity of entities) {
@@ -132,14 +125,10 @@ describe("SpecialCharacters", function() {
   });
 
   describe("Batch", () => {
-    beforeEach(function(this: Context) {
-      recorder = record(this, recordedEnvironmentSetup);
-      client = createTableClient(`${tableName}Batch`, "TokenCredential");
+    beforeEach(async function (this: Context) {
+      client = await createTableClient(`${tableName}Batch`, "TokenCredential");
     });
 
-    afterEach(async function() {
-      await recorder.stop();
-    });
     const partitionKey = `foo'`;
     it("should create entity with single quote in the partitionKey and rowKey", async () => {
       await client.createTable();
@@ -199,7 +188,7 @@ describe("SpecialCharacters", function() {
 
     it(`should filter entity by partition key`, async () => {
       const entities = client.listEntities({
-        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
       });
 
       const results = [];
@@ -224,7 +213,7 @@ describe("SpecialCharacters", function() {
 
       it(`should filter entity by row key with ${name}`, async () => {
         const entities = client.listEntities({
-          queryOptions: { filter: odata`RowKey eq ${rowKey}` }
+          queryOptions: { filter: odata`RowKey eq ${rowKey}` },
         });
 
         const results: TableEntityResult<Record<string, unknown>>[] = [];

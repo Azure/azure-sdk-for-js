@@ -23,8 +23,8 @@ export = {
           node: node,
           message: "`window` should not be used, please use `self` instead.",
           fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-            fixer.replaceTextRange([node.range[0], node.range[0] + "window".length], "self")
+            fixer.replaceTextRange([node.range[0], node.range[0] + "window".length], "self"),
         });
-      }
-    } as Rule.RuleListener)
+      },
+    } as Rule.RuleListener),
 };

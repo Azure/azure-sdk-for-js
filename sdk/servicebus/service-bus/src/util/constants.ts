@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.5.0-beta.1"
+  version: "7.5.1",
 };
 
 /**
@@ -359,5 +359,5 @@ export const HttpResponseCodes = {
   502: "BadGateway",
   503: "ServiceUnavailable",
   504: "GatewayTimeout",
-  505: "HttpVersionNotSupported"
+  505: "HttpVersionNotSupported",
 };

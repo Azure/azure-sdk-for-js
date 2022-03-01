@@ -1,39 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  ServiceClient,
-  OperationRequest,
-  createSerializer,
+  CompositeMapper,
   DictionaryMapper,
-  QueryCollectionFormat,
-  ParameterPath,
+  FullOperationResponse,
+  Mapper,
   MapperTypeNames,
   OperationArguments,
-  Mapper,
-  CompositeMapper,
-  OperationSpec,
-  serializationPolicy,
-  FullOperationResponse,
   OperationQueryParameter,
+  OperationRequest,
+  OperationSpec,
+  ParameterPath,
+  QueryCollectionFormat,
+  ServiceClient,
+  createSerializer,
+  serializationPolicy,
 } from "../src";
 import {
-  createHttpHeaders,
-  createEmptyPipeline,
   HttpClient,
-  createPipelineRequest,
+  PipelinePolicy,
   PipelineRequest,
+  RestError,
+  SendRequest,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
 } from "../src/operationHelpers";
-import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assert } from "chai";
 import { assertServiceClientResponse } from "./utils/serviceClient";
+import { deserializationPolicy } from "../src/deserializationPolicy";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {
@@ -256,7 +258,7 @@ describe("ServiceClient", function () {
     assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
-  it("should call rawResponseCallback with the full response", async function () {
+  it("should call onResponse with the full response", async function () {
     let request: OperationRequest;
     const client = new ServiceClient({
       httpClient: {
@@ -292,6 +294,66 @@ describe("ServiceClient", function () {
     assert.strictEqual(rawResponse?.status, 200);
     assert.strictEqual(rawResponse?.request, request!);
     assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");
+  });
+
+  it("should call onResponse with the full response when encountering an unknown status", async function () {
+    let request: OperationRequest;
+
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy());
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({
+            request,
+            status: 500,
+            headers: createHttpHeaders(),
+          });
+        },
+      },
+      pipeline,
+    });
+
+    let rawResponse: FullOperationResponse | undefined;
+    let requestFailed = false;
+    let caughtError: RestError | undefined;
+    let flatResponse: any;
+    let onResponseError: unknown;
+
+    try {
+      await client.sendOperationRequest(
+        {
+          options: {
+            onResponse: (response, flat, error) => {
+              rawResponse = response;
+              flatResponse = flat;
+              onResponseError = error;
+            },
+          },
+        },
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          headerParameters: [],
+          responses: {
+            200: {},
+          },
+        }
+      );
+    } catch (e: any) {
+      caughtError = e;
+      requestFailed = true;
+      assert.strictEqual(e.name, "RestError");
+    }
+
+    assert(requestFailed, "Request should fail with unknown status");
+    assert(request!);
+    assert.strictEqual(rawResponse?.status, 500);
+    assert.strictEqual(rawResponse?.request, request!);
+    assert.deepStrictEqual(flatResponse, { body: undefined });
+    assert.strictEqual(caughtError, onResponseError);
   });
 
   it("should serialize collection:csv query parameters", async function () {
@@ -1422,6 +1484,36 @@ describe("ServiceClient", function () {
     });
     await client.sendOperationRequest<string>({ options: { top: 10 } as any }, operationSpec);
     assert.equal(request!.url, "https://example.com/path?$skip=10&$top=10");
+  });
+
+  it("should insert policies in the correct pipeline position", async function () {
+    const pipeline = createEmptyPipeline();
+    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
+    const retryPolicy: PipelinePolicy = {
+      name: "retry",
+      sendRequest,
+    };
+    pipeline.addPolicy(retryPolicy, { phase: "Retry" });
+    const policy1: PipelinePolicy = {
+      name: "policy1",
+      sendRequest,
+    };
+    const policy2: PipelinePolicy = {
+      name: "policy2",
+      sendRequest,
+    };
+
+    const client = new ServiceClient({
+      pipeline,
+      additionalPolicies: [
+        { policy: policy1, position: "perRetry" },
+        { policy: policy2, position: "perCall" },
+      ],
+    });
+
+    assert(client);
+    const policies = pipeline.getOrderedPolicies();
+    assert.deepStrictEqual(policies, [policy2, retryPolicy, policy1]);
   });
 });
 

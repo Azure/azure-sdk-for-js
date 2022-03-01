@@ -5,183 +5,111 @@
 ```ts
 
 // @public
-export interface Context {
-    deleteValue(key: symbol): Context;
-    getValue(key: symbol): unknown;
-    setValue(key: symbol, value: unknown): Context;
+export function createTracingClient(options: TracingClientOptions): TracingClient;
+
+// @public
+export interface Instrumenter {
+    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+    startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
+        span: TracingSpan;
+        tracingContext: TracingContext;
+    };
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
 }
 
 // @public
-const context_2: ContextAPI;
-export { context_2 as context }
-
-// @public
-export interface ContextAPI {
-    active(): Context;
-}
-
-// @public
-export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
-    tracingOptions?: OperationTracingOptions | undefined;
-}>(operationName: string, operationOptions?: T | undefined, startSpanOptions?: SpanOptions | undefined) => {
-    span: Span;
-    updatedOptions: T;
-};
-
-// @public
-export interface CreateSpanFunctionArgs {
-    namespace: string;
-    packagePrefix: string;
-}
-
-// @public
-export type Exception = ExceptionWithCode | ExceptionWithMessage | ExceptionWithName | string;
-
-// @public
-export interface ExceptionWithCode {
-    code: string | number;
-    message?: string;
-    name?: string;
-    stack?: string;
-}
-
-// @public
-export interface ExceptionWithMessage {
-    code?: string | number;
-    message: string;
-    name?: string;
-    stack?: string;
-}
-
-// @public
-export interface ExceptionWithName {
-    code?: string | number;
-    message?: string;
-    name: string;
-    stack?: string;
-}
-
-// @public
-export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
-
-// @public
-export function getSpan(context: Context): Span | undefined;
-
-// @public
-export function getSpanContext(context: Context): SpanContext | undefined;
-
-// @public
-export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
-
-// @public
-export function getTracer(): Tracer;
-
-// @public
-export function getTracer(name: string, version?: string): Tracer;
-
-// @public
-export type HrTime = [number, number];
-
-// @public
-export function isSpanContextValid(context: SpanContext): boolean;
-
-// @public
-export interface Link {
-    attributes?: SpanAttributes;
-    context: SpanContext;
+export interface InstrumenterSpanOptions extends TracingSpanOptions {
+    packageName: string;
+    packageVersion?: string;
+    tracingContext?: TracingContext;
 }
 
 // @public
 export interface OperationTracingOptions {
-    tracingContext?: Context;
+    tracingContext?: TracingContext;
 }
 
 // @public
-export function setSpan(context: Context, span: Span): Context;
+export type Resolved<T> = T extends {
+    then(onfulfilled: infer F): any;
+} ? F extends (value: infer V) => any ? Resolved<V> : never : T;
 
 // @public
-export function setSpanContext(context: Context, spanContext: SpanContext): Context;
+export type SpanStatus = SpanStatusSuccess | SpanStatusError;
 
 // @public
-export interface Span {
-    addEvent(name: string, attributesOrStartTime?: SpanAttributes | TimeInput, startTime?: TimeInput): this;
-    end(endTime?: TimeInput): void;
+export type SpanStatusError = {
+    status: "error";
+    error?: Error | string;
+};
+
+// @public
+export type SpanStatusSuccess = {
+    status: "success";
+};
+
+// @public
+export interface TracingClient {
+    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+    startSpan<Options extends {
+        tracingOptions?: OperationTracingOptions;
+    }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
+        span: TracingSpan;
+        updatedOptions: Options;
+    };
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+    withSpan<Options extends {
+        tracingOptions?: OperationTracingOptions;
+    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions): Promise<Resolved<ReturnType<Callback>>>;
+}
+
+// @public
+export interface TracingClientOptions {
+    namespace: string;
+    packageName: string;
+    packageVersion?: string;
+}
+
+// @public
+export interface TracingContext {
+    deleteValue(key: symbol): TracingContext;
+    getValue(key: symbol): unknown;
+    setValue(key: symbol, value: unknown): TracingContext;
+}
+
+// @public
+export interface TracingSpan {
+    end(): void;
     isRecording(): boolean;
-    recordException(exception: Exception, time?: TimeInput): void;
-    setAttribute(key: string, value: SpanAttributeValue): this;
-    setAttributes(attributes: SpanAttributes): this;
-    setStatus(status: SpanStatus): this;
-    spanContext(): SpanContext;
-    updateName(name: string): this;
+    recordException(exception: Error | string): void;
+    setAttribute(name: string, value: unknown): void;
+    setStatus(status: SpanStatus): void;
 }
 
 // @public
-export interface SpanAttributes {
-    [attributeKey: string]: SpanAttributeValue | undefined;
+export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
+
+// @public
+export interface TracingSpanLink {
+    attributes?: {
+        [key: string]: unknown;
+    };
+    tracingContext: TracingContext;
 }
 
 // @public
-export type SpanAttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
-
-// @public
-export interface SpanContext {
-    spanId: string;
-    traceFlags: number;
-    traceId: string;
-    traceState?: TraceState;
+export interface TracingSpanOptions {
+    spanAttributes?: {
+        [key: string]: unknown;
+    };
+    spanKind?: TracingSpanKind;
+    spanLinks?: TracingSpanLink[];
 }
 
 // @public
-export enum SpanKind {
-    CLIENT = 2,
-    CONSUMER = 4,
-    INTERNAL = 0,
-    PRODUCER = 3,
-    SERVER = 1
-}
-
-// @public
-export interface SpanOptions {
-    attributes?: SpanAttributes;
-    kind?: SpanKind;
-    links?: Link[];
-    startTime?: TimeInput;
-}
-
-// @public
-export interface SpanStatus {
-    code: SpanStatusCode;
-    message?: string;
-}
-
-// @public
-export enum SpanStatusCode {
-    ERROR = 2,
-    OK = 1,
-    UNSET = 0
-}
-
-// @public
-export type TimeInput = HrTime | number | Date;
-
-// @public
-export const enum TraceFlags {
-    NONE = 0,
-    SAMPLED = 1
-}
-
-// @public
-export interface Tracer {
-    startSpan(name: string, options?: SpanOptions, context?: Context): Span;
-}
-
-// @public
-export interface TraceState {
-    get(key: string): string | undefined;
-    serialize(): string;
-    set(key: string, value: string): TraceState;
-    unset(key: string): TraceState;
-}
+export function useInstrumenter(instrumenter: Instrumenter): void;
 
 // (No @packageDocumentation comment for this package)
 

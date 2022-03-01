@@ -8,6 +8,9 @@ trigger:
   paths:
     include:
       - sdk/search/
+    exclude:
+      - sdk/search/ci.mgmt.yml
+      - sdk/search/arm-search/
 pr:
   branches:
     include:
@@ -20,12 +23,13 @@ pr:
   paths:
     include:
       - sdk/search/
+    exclude:
+      - sdk/search/ci.mgmt.yml
+      - sdk/search/arm-search/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: search
+    ServiceDirectory: search    
     Artifacts:
       - name: azure-search-documents
         safeName: azuresearchdocuments
-      - name: azure-arm-search
-        safeName: azurearmsearch

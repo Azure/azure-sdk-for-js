@@ -14,7 +14,7 @@ export class NoOpCredential implements TokenCredential {
   getToken(): Promise<AccessToken> {
     return Promise.resolve({
       token: "SecretPlaceholder",
-      expiresOnTimestamp: Date.now() + 86400 * 1000
+      expiresOnTimestamp: Date.now() + 86400 * 1000,
     });
   }
 }
