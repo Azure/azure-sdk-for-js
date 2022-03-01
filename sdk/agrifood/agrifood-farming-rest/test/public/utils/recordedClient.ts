@@ -51,7 +51,7 @@ export function createClient(options?: ClientOptions): FarmBeatsRestClient {
     env.AZURE_CLIENT_SECRET,
     { httpClient }
   );
-  
+
   return FarmBeats(env.FARMBEATS_ENDPOINT, credential, { ...options, httpClient });
 }
 
