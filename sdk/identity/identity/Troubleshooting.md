@@ -63,6 +63,27 @@ The `CredentialUnavailableError` is used to indicate that the credential can't a
 
 The `AuthenticationError` is used to indicate a failure to authenticate with Azure Active Directory (Azure AD). The `errorResponse` field contains more details about the specific failure.
 
+```ts
+import * from "@azure/identity";
+import * from "@azure/keyvault-secrets";
+
+async function main() {
+  // Create a key client using the DefaultAzureCredential
+  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+  const credential = new DefaultAzureCredential();
+  const client = new KeyClient(keyVaultUrl, credential);
+
+  try {
+    // Retrieving the properties of the existing keys in that specific Key Vault.
+    console.log(await client.listPropertiesOfKeys().next());
+  } catch (error) {
+    console.log("Azure Active Directory service response with error", error.errorResponse);
+  }
+}
+
+main();
+```
+
 ## Find relevant information in error messages
 
 `AuthenticationRequiredError` is thrown when unexpected errors occurred while a credential is authenticating. This can include errors received from requests to the Azure AD Security Token Service (STS) and often contains information helpful to diagnosis. Consider the following `AuthenticationRequiredError` message:
@@ -315,9 +336,7 @@ az account get-access-token --output json --resource https://management.core.win
 | Error Message |Description| Mitigation |
 |---|---|---|
 |PowerShell isn't installed.|No local installation of PowerShell was found.|Ensure that PowerShell is properly installed on the machine. Instructions for installing PowerShell can be found [here](https://docs.microsoft.com/powershell/scripting/install/installing-powershell).|
-|Az.Account module >= 2.2.0 isn’t installed.|The `Az.Account` module needed for authentication in Azure PowerShell isn't installed.|Install the latest `Az.Account` module. Installation instructions can be found [here](https://docs.microsoft.com/powershell/azure/install-az-ps). To use the Azure PowerShell credential, install the Azure Az PowerShell module:```powershell
-Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
-```|
+|Az.Account module >= 2.2.0 isn’t installed.|The `Az.Account` module needed for authentication in Azure PowerShell isn't installed.|Install the latest `Az.Account` module. Installation instructions can be found [here](https://docs.microsoft.com/powershell/azure/install-az-ps). To use the Azure PowerShell credential, install the Azure Az PowerShell module: Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force|
 |Please run 'Connect-AzAccount' to set up account.|No account is currently logged into Azure PowerShell.|<ul><li>Login to Azure PowerShell using the `Connect-AzAccount` command. More instructions for authenticating Azure PowerShell can be found [here](https://docs.microsoft.com/powershell/azure/authenticate-azureps)</li><li>Validate that Azure PowerShell can obtain tokens. See [below](#verify-azure-powershell-can-obtain-tokens) for instructions.</li></ul>|
 
 #### Verify Azure PowerShell can obtain tokens
