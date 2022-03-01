@@ -20,7 +20,8 @@ import {
   PrivateLinkResourcesImpl,
   DataConnectionsImpl,
   OperationsImpl,
-  OperationsResultsImpl
+  OperationsResultsImpl,
+  OperationsResultsLocationImpl
 } from "./operations";
 import {
   Clusters,
@@ -34,7 +35,8 @@ import {
   PrivateLinkResources,
   DataConnections,
   Operations,
-  OperationsResults
+  OperationsResults,
+  OperationsResultsLocation
 } from "./operationsInterfaces";
 import { KustoManagementClientOptionalParams } from "./models";
 
@@ -71,7 +73,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.0.1`;
+    const packageDetails = `azsdk-js-arm-kusto/7.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -94,7 +96,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-27";
+    this.apiVersion = options.apiVersion || "2022-02-01";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
@@ -113,6 +115,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     this.dataConnections = new DataConnectionsImpl(this);
     this.operations = new OperationsImpl(this);
     this.operationsResults = new OperationsResultsImpl(this);
+    this.operationsResultsLocation = new OperationsResultsLocationImpl(this);
   }
 
   clusters: Clusters;
@@ -127,4 +130,5 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   dataConnections: DataConnections;
   operations: Operations;
   operationsResults: OperationsResults;
+  operationsResultsLocation: OperationsResultsLocation;
 }

@@ -12,7 +12,7 @@
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDataConnectionValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionValidationAsync.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -20,11 +20,22 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function kustoDataConnectionValidation() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const parameters = {
-    dataConnectionName: "DataConnections8",
-    properties: { kind: "EventHub" },
+    dataConnectionName: "dataConnectionTest",
+    properties: {
+      compression: "None",
+      consumerGroup: "testConsumerGroup1",
+      dataFormat: "JSON",
+      eventHubResourceId:
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
+      kind: "EventHub",
+      managedIdentityResourceId:
+        "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
+      mappingRuleName: "TestMapping",
+      tableName: "TestTable",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);

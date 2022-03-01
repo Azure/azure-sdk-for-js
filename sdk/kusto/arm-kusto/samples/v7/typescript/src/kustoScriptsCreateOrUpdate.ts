@@ -12,7 +12,7 @@
  * This sample demonstrates how to Creates a Kusto database script.
  *
  * @summary Creates a Kusto database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoScriptsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoScriptsCreateOrUpdate.json
  */
 import { Script, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,9 +20,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoScriptsCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
-  const scriptName = "kustoScript1";
+  const scriptName = "kustoScript";
   const parameters: Script = {
     continueOnErrors: true,
     forceUpdateTag: "2bcf3c21-ffd1-4444-b9dd-e52e00ee53fe",

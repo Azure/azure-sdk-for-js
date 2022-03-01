@@ -12,7 +12,7 @@
  * This sample demonstrates how to Lists available operations for the Microsoft.Kusto provider.
  *
  * @summary Lists available operations for the Microsoft.Kusto provider.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoOperationsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoOperationsList.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");

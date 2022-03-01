@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import { join } from "path";
 import { tmpdir } from "os";
+import { GetTokenOptions } from "@azure/core-auth";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
@@ -91,6 +92,30 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request with an unmodified resource name", async () => {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["someResource"],
+      credential: new ManagedIdentityCredential(),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    // The first request is the IMDS ping.
+    // The second one tries to authenticate against IMDS once we know the endpoint is available.
+    const authRequest = authDetails.requests[1];
+
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(query.get("client_id"), undefined);
+    assert.equal(decodeURIComponent(query.get("resource")!), "someResource");
+  });
+
+  it("sends an authorization request with tenantId on getToken", async () => {
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["someResource"],
+      getTokenOptions: { tenantId: "TENANT-ID" } as GetTokenOptions,
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
