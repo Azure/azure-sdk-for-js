@@ -5,6 +5,8 @@
 
 import Sinon from "sinon";
 import { assert } from "chai";
+import { env } from "@azure-tools/test-recorder";
+import { GetTokenOptions } from "@azure/core-auth";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { EnvironmentCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -45,6 +47,14 @@ describe("EnvironmentCredential (internal)", function () {
     assert.strictEqual(firstToken, secondToken);
     assert.equal(getTokenSilentSpy.callCount, 2);
 
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  it("Authenticates with tenantId on getToken", async function () {
+    const credential = new EnvironmentCredential();
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 });

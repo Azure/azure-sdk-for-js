@@ -1576,6 +1576,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/arm-dnsresolver",
+      "projectFolder": "sdk/dnsresolver/arm-dnsresolver",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-mobilenetwork",
       "projectFolder": "sdk/mobilenetwork/arm-mobilenetwork",
       "versionPolicyName": "management"
