@@ -12,7 +12,7 @@
  * This sample demonstrates how to Remove a list of language extensions that can run within KQL queries.
  *
  * @summary Remove a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoClusterRemoveLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClusterRemoveLanguageExtensions.json
  */
 import {
   LanguageExtensionsList,
@@ -23,7 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoClusterRemoveLanguageExtensions() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const languageExtensionsToRemove: LanguageExtensionsList = {
     value: [{ languageExtensionName: "PYTHON" }, { languageExtensionName: "R" }]
   };

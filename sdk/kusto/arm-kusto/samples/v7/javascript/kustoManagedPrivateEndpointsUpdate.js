@@ -12,7 +12,7 @@
  * This sample demonstrates how to Updates a managed private endpoint.
  *
  * @summary Updates a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoManagedPrivateEndpointsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoManagedPrivateEndpointsUpdate.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -20,8 +20,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function kustoManagedPrivateEndpointsUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
-  const managedPrivateEndpointName = "kustoManagedPrivateEndpoint1";
+  const clusterName = "kustoCluster";
+  const managedPrivateEndpointName = "managedPrivateEndpointTest";
   const parameters = {
     groupId: "blob",
     privateLinkResourceId:

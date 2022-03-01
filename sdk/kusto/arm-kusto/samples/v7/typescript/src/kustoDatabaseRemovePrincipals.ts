@@ -12,7 +12,7 @@
  * This sample demonstrates how to Remove Database principals permissions.
  *
  * @summary Remove Database principals permissions.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDatabaseRemovePrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDatabaseRemovePrincipals.json
  */
 import {
   DatabasePrincipalListRequest,
@@ -23,7 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoDatabaseRemovePrincipals() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const databasePrincipalsToRemove: DatabasePrincipalListRequest = {
     value: [
