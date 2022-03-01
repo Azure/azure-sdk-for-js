@@ -810,7 +810,6 @@ export interface IdentityProviders {
     facebook?: Facebook;
     gitHub?: GitHub;
     google?: Google;
-    legacyMicrosoftAccount?: LegacyMicrosoftAccount;
     twitter?: Twitter;
 }
 
@@ -1049,14 +1048,6 @@ export enum KnownUnauthenticatedClientAction {
     Return401 = "Return401",
     // (undocumented)
     Return403 = "Return403"
-}
-
-// @public
-export interface LegacyMicrosoftAccount {
-    login?: LoginScopes;
-    registration?: ClientRegistration;
-    state?: IdentityProviderState;
-    validation?: AllowedAudiencesValidation;
 }
 
 // @public

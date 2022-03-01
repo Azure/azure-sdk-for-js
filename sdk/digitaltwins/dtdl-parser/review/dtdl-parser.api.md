@@ -4,6 +4,8 @@
 
 ```ts
 
+import { ModelsRepositoryClient } from '@azure/iot-modelsrepository';
+
 // @public (undocumented)
 export interface ArrayInfo extends ComplexSchemaInfo {
     // (undocumented)
@@ -94,9 +96,6 @@ export interface DoubleInfo extends NumericSchemaInfo {
     // (undocumented)
     entityKind: "double";
 }
-
-// @public (undocumented)
-export type DtmiResolver = (identifiers: string[]) => Promise<string[] | null>;
 
 // @public (undocumented)
 export interface DurationInfo extends TemporalSchemaInfo {
@@ -274,7 +273,7 @@ export type ModelDict = {
 // @public (undocumented)
 export interface ModelParser {
     // (undocumented)
-    dtmiResolver?: DtmiResolver;
+    getModels?: ModelsRepositoryClient["getModels"];
     // (undocumented)
     getSupplementalTypeCollection(): SupplementalTypeCollection;
     // (undocumented)

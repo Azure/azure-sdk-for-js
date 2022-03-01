@@ -1887,13 +1887,6 @@ export const IdentityProviders: coreClient.CompositeMapper = {
           className: "Google"
         }
       },
-      legacyMicrosoftAccount: {
-        serializedName: "legacyMicrosoftAccount",
-        type: {
-          name: "Composite",
-          className: "LegacyMicrosoftAccount"
-        }
-      },
       twitter: {
         serializedName: "twitter",
         type: {
@@ -2234,42 +2227,6 @@ export const AllowedAudiencesValidation: coreClient.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const LegacyMicrosoftAccount: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LegacyMicrosoftAccount",
-    modelProperties: {
-      state: {
-        serializedName: "state",
-        type: {
-          name: "String"
-        }
-      },
-      registration: {
-        serializedName: "registration",
-        type: {
-          name: "Composite",
-          className: "ClientRegistration"
-        }
-      },
-      login: {
-        serializedName: "login",
-        type: {
-          name: "Composite",
-          className: "LoginScopes"
-        }
-      },
-      validation: {
-        serializedName: "validation",
-        type: {
-          name: "Composite",
-          className: "AllowedAudiencesValidation"
         }
       }
     }

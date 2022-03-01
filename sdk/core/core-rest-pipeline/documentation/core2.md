@@ -12,14 +12,15 @@ In ancient times (~5 years ago), Microsoft provided SDKs for NodeJS developers w
 
 Another package `ms-rest-azure` was created to house Azure-specific components and authetication code that worked with a variety of credentials like Service Principal, Device Token, and Managed Identity. At this point, support for TypeScript came in the form of hand-authored type declaration files.
 
-Later, there emerged a desire for isomorphic packages, packages that worked in both the browser as well as Node. This required a new runtime, code generator and repo. As part of this effort, 
+Later, there emerged a desire for isomorphic packages, packages that worked in both the browser as well as Node. This required a new runtime, code generator and repo. As part of this effort,
+
 - `ms-rest` became `@azure/ms-rest-js` to provide the same capabilities in both Node.js and browser
 - The authentication pieces from `ms-rest-azure` were put into `@azure/ms-rest-nodeauth` and an equivalent package was created for the browser called `@azure/ms-rest-browserauth`.
 - All remaining parts of `ms-rest-azure` were placed into `@azure/ms-rest-azure-js`.
 - The new code generator (`autorest.typescript`) that generated code in TypeScript and used the newer runtimes mentioned above replaced the existing one (`autorest.nodejs`) that generated JavaScript code.
 - The packages thus generated got a new home in the repo `azure-sdk-for-js`. The older packages lived in `azure-sdk-for-node` repo.
 
-A year or so later, the new Azure SDK team was formed in Nov 2018 that then came up with guidelines on how to write an Azure SDK in TypeScript. To follow these guidelines, we needed yet another runtime. This was the new `@azure/core-http` package built over the existing  `@azure/ms-rest-js`. At the time we chose to do so as making slight changes and improvements to a tried and tested solution was preferred over investing time in a solution that had to be written from scratch.
+A year or so later, the new Azure SDK team was formed in Nov 2018 that then came up with guidelines on how to write an Azure SDK in TypeScript. To follow these guidelines, we needed yet another runtime. This was the new `@azure/core-http` package built over the existing `@azure/ms-rest-js`. At the time we chose to do so as making slight changes and improvements to a tried and tested solution was preferred over investing time in a solution that had to be written from scratch.
 
 The downside is that much of the code had evolved organically over time, experienced incomplete upgrades to various layers, and had dead code that wasn't really needed anymore. We mitigated this during the 1.0 GA timeframe in Nov 2020 by manually declaring cleaner public interfaces (e.g. `OperationOptions` over `RequestOptionsBase`) but many of the internal interfaces were still messy, loosely typed, or confusing.
 
@@ -46,7 +47,7 @@ The first package, `@azure/core-rest-pipeline` will not be AutoRest-specific and
 
 A major weakness of the existing JS Core was that the request pipeline system was difficult to customize at the library level. This placed an undue burden on authors of libraries and increased support costs. As other languages had better support for customizing the request pipeline, we had a desire to provide a simple and flexible way to add and order policies that could affect both HTTP requests and responses.
 
-The [New Pipeline Design](https://github.com/Azure/azure-sdk-for-js/issues/8461) solves these concerns by providing a new abstraction that is able to reliably apply ordered policies with minimal configuration.
+The [New Pipeline Design](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/pipeline.md) solves these concerns by providing a new abstraction that is able to reliably apply ordered policies with minimal configuration.
 
 ### Dropping legacy browser support
 

@@ -734,8 +734,6 @@ export interface IdentityProviders {
   gitHub?: GitHub;
   /** The configuration settings of the Google provider. */
   google?: Google;
-  /** The configuration settings of the legacy Microsoft Account provider. */
-  legacyMicrosoftAccount?: LegacyMicrosoftAccount;
   /** The configuration settings of the Twitter provider. */
   twitter?: Twitter;
   /** The configuration settings of the Apple provider. */
@@ -875,18 +873,6 @@ export interface Google {
 export interface AllowedAudiencesValidation {
   /** The configuration settings of the allowed list of audiences from which to validate the JWT token. */
   allowedAudiences?: string[];
-}
-
-/** The configuration settings of the legacy Microsoft Account provider. */
-export interface LegacyMicrosoftAccount {
-  /** <code>Disabled</code> if the legacy Microsoft Account provider should not be enabled despite the set registration; otherwise, <code>Enabled</code>. */
-  state?: IdentityProviderState;
-  /** The configuration settings of the app registration for the legacy Microsoft Account provider. */
-  registration?: ClientRegistration;
-  /** The configuration settings of the login flow. */
-  login?: LoginScopes;
-  /** The configuration settings of the legacy Microsoft Account provider token validation flow. */
-  validation?: AllowedAudiencesValidation;
 }
 
 /** The configuration settings of the Twitter provider. */
