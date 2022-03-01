@@ -127,6 +127,7 @@ Thumbs.db
 
 # docs #
 docs/
+!eng/scripts/docs
 main.conf.json
 child.conf.json
 
