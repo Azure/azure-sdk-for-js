@@ -44,7 +44,7 @@ matrix(
           //   More details:`AADSTS900382: Confidential Client is not supported in Cross Cloud request`
           //
           // Cannot automate this test since we would have to use interactive browser credentials.
-          // Skipping until we have a better way to test.
+          // Skipping the AAD tests in browser for non-public clouds until we have a better way to test.
           this.skip();
         }
         recorder = await createRecorder(this.currentTest);
