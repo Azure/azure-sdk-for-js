@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Apps } from "../operationsInterfaces";
+import { ConfigurationServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,35 +15,28 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  AppResource,
-  AppsListNextOptionalParams,
-  AppsListOptionalParams,
-  AppsGetOptionalParams,
-  AppsGetResponse,
-  AppsCreateOrUpdateOptionalParams,
-  AppsCreateOrUpdateResponse,
-  AppsDeleteOptionalParams,
-  AppsUpdateOptionalParams,
-  AppsUpdateResponse,
-  AppsListResponse,
-  AppsGetResourceUploadUrlOptionalParams,
-  AppsGetResourceUploadUrlResponse,
-  ActiveDeploymentCollection,
-  AppsSetActiveDeploymentsOptionalParams,
-  AppsSetActiveDeploymentsResponse,
-  CustomDomainValidatePayload,
-  AppsValidateDomainOptionalParams,
-  AppsValidateDomainResponse,
-  AppsListNextResponse
+  ConfigurationServiceResource,
+  ConfigurationServicesListNextOptionalParams,
+  ConfigurationServicesListOptionalParams,
+  ConfigurationServicesGetOptionalParams,
+  ConfigurationServicesGetResponse,
+  ConfigurationServicesCreateOrUpdateOptionalParams,
+  ConfigurationServicesCreateOrUpdateResponse,
+  ConfigurationServicesDeleteOptionalParams,
+  ConfigurationServicesListResponse,
+  ConfigurationServiceSettings,
+  ConfigurationServicesValidateOptionalParams,
+  ConfigurationServicesValidateResponse,
+  ConfigurationServicesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Apps operations. */
-export class AppsImpl implements Apps {
+/** Class containing ConfigurationServices operations. */
+export class ConfigurationServicesImpl implements ConfigurationServices {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class Apps class.
+   * Initialize a new instance of the class ConfigurationServices class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -60,8 +53,8 @@ export class AppsImpl implements Apps {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
-  ): PagedAsyncIterableIterator<AppResource> {
+    options?: ConfigurationServicesListOptionalParams
+  ): PagedAsyncIterableIterator<ConfigurationServiceResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
@@ -79,8 +72,8 @@ export class AppsImpl implements Apps {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
-  ): AsyncIterableIterator<AppResource[]> {
+    options?: ConfigurationServicesListOptionalParams
+  ): AsyncIterableIterator<ConfigurationServiceResource[]> {
     let result = await this._list(resourceGroupName, serviceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -99,8 +92,8 @@ export class AppsImpl implements Apps {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
-  ): AsyncIterableIterator<AppResource> {
+    options?: ConfigurationServicesListOptionalParams
+  ): AsyncIterableIterator<ConfigurationServiceResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
@@ -111,50 +104,51 @@ export class AppsImpl implements Apps {
   }
 
   /**
-   * Get an App and its properties.
+   * Get the Application Configuration Service and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
+   * @param configurationServiceName The name of Application Configuration Service.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    options?: AppsGetOptionalParams
-  ): Promise<AppsGetResponse> {
+    configurationServiceName: string,
+    options?: ConfigurationServicesGetOptionalParams
+  ): Promise<ConfigurationServicesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, appName, options },
+      { resourceGroupName, serviceName, configurationServiceName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a new App or update an exiting App.
+   * Create the default Application Configuration Service or update the existing Application
+   * Configuration Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param appResource Parameters for the create or update operation
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param configurationServiceResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    appResource: AppResource,
-    options?: AppsCreateOrUpdateOptionalParams
+    configurationServiceName: string,
+    configurationServiceResource: ConfigurationServiceResource,
+    options?: ConfigurationServicesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AppsCreateOrUpdateResponse>,
-      AppsCreateOrUpdateResponse
+      PollOperationState<ConfigurationServicesCreateOrUpdateResponse>,
+      ConfigurationServicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AppsCreateOrUpdateResponse> => {
+    ): Promise<ConfigurationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -192,7 +186,13 @@ export class AppsImpl implements Apps {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, appName, appResource, options },
+      {
+        resourceGroupName,
+        serviceName,
+        configurationServiceName,
+        configurationServiceResource,
+        options
+      },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -203,44 +203,45 @@ export class AppsImpl implements Apps {
   }
 
   /**
-   * Create a new App or update an exiting App.
+   * Create the default Application Configuration Service or update the existing Application
+   * Configuration Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param appResource Parameters for the create or update operation
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param configurationServiceResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    appResource: AppResource,
-    options?: AppsCreateOrUpdateOptionalParams
-  ): Promise<AppsCreateOrUpdateResponse> {
+    configurationServiceName: string,
+    configurationServiceResource: ConfigurationServiceResource,
+    options?: ConfigurationServicesCreateOrUpdateOptionalParams
+  ): Promise<ConfigurationServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      appName,
-      appResource,
+      configurationServiceName,
+      configurationServiceResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Operation to delete an App.
+   * Disable the default Application Configuration Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
+   * @param configurationServiceName The name of Application Configuration Service.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    options?: AppsDeleteOptionalParams
+    configurationServiceName: string,
+    options?: ConfigurationServicesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -283,7 +284,7 @@ export class AppsImpl implements Apps {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, serviceName, appName, options },
+      { resourceGroupName, serviceName, configurationServiceName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -294,118 +295,23 @@ export class AppsImpl implements Apps {
   }
 
   /**
-   * Operation to delete an App.
+   * Disable the default Application Configuration Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
+   * @param configurationServiceName The name of Application Configuration Service.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    options?: AppsDeleteOptionalParams
+    configurationServiceName: string,
+    options?: ConfigurationServicesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      appName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Operation to update an exiting App.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param appResource Parameters for the update operation
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    appResource: AppResource,
-    options?: AppsUpdateOptionalParams
-  ): Promise<
-    PollerLike<PollOperationState<AppsUpdateResponse>, AppsUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<AppsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, appName, appResource, options },
-      updateOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-  }
-
-  /**
-   * Operation to update an exiting App.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param appResource Parameters for the update operation
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    appResource: AppResource,
-    options?: AppsUpdateOptionalParams
-  ): Promise<AppsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      serviceName,
-      appName,
-      appResource,
+      configurationServiceName,
       options
     );
     return poller.pollUntilDone();
@@ -421,8 +327,8 @@ export class AppsImpl implements Apps {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
-  ): Promise<AppsListResponse> {
+    options?: ConfigurationServicesListOptionalParams
+  ): Promise<ConfigurationServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listOperationSpec
@@ -430,50 +336,30 @@ export class AppsImpl implements Apps {
   }
 
   /**
-   * Get an resource upload URL for an App, which may be artifacts or source archive.
+   * Check if the Application Configuration Service settings are valid.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param settings Application Configuration Service settings to be validated
    * @param options The options parameters.
    */
-  getResourceUploadUrl(
+  async beginValidate(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    options?: AppsGetResourceUploadUrlOptionalParams
-  ): Promise<AppsGetResourceUploadUrlResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, appName, options },
-      getResourceUploadUrlOperationSpec
-    );
-  }
-
-  /**
-   * Set existing Deployment under the app as active
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param activeDeploymentCollection A list of Deployment name to be active.
-   * @param options The options parameters.
-   */
-  async beginSetActiveDeployments(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    activeDeploymentCollection: ActiveDeploymentCollection,
-    options?: AppsSetActiveDeploymentsOptionalParams
+    configurationServiceName: string,
+    settings: ConfigurationServiceSettings,
+    options?: ConfigurationServicesValidateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AppsSetActiveDeploymentsResponse>,
-      AppsSetActiveDeploymentsResponse
+      PollOperationState<ConfigurationServicesValidateResponse>,
+      ConfigurationServicesValidateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AppsSetActiveDeploymentsResponse> => {
+    ): Promise<ConfigurationServicesValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -514,65 +400,43 @@ export class AppsImpl implements Apps {
       {
         resourceGroupName,
         serviceName,
-        appName,
-        activeDeploymentCollection,
+        configurationServiceName,
+        settings,
         options
       },
-      setActiveDeploymentsOperationSpec
+      validateOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "location"
     });
   }
 
   /**
-   * Set existing Deployment under the app as active
+   * Check if the Application Configuration Service settings are valid.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param activeDeploymentCollection A list of Deployment name to be active.
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param settings Application Configuration Service settings to be validated
    * @param options The options parameters.
    */
-  async beginSetActiveDeploymentsAndWait(
+  async beginValidateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    appName: string,
-    activeDeploymentCollection: ActiveDeploymentCollection,
-    options?: AppsSetActiveDeploymentsOptionalParams
-  ): Promise<AppsSetActiveDeploymentsResponse> {
-    const poller = await this.beginSetActiveDeployments(
+    configurationServiceName: string,
+    settings: ConfigurationServiceSettings,
+    options?: ConfigurationServicesValidateOptionalParams
+  ): Promise<ConfigurationServicesValidateResponse> {
+    const poller = await this.beginValidate(
       resourceGroupName,
       serviceName,
-      appName,
-      activeDeploymentCollection,
+      configurationServiceName,
+      settings,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Check the resource name is valid as well as not in use.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param validatePayload Custom domain payload to be validated
-   * @param options The options parameters.
-   */
-  validateDomain(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    validatePayload: CustomDomainValidatePayload,
-    options?: AppsValidateDomainOptionalParams
-  ): Promise<AppsValidateDomainResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, appName, validatePayload, options },
-      validateDomainOperationSpec
-    );
   }
 
   /**
@@ -587,8 +451,8 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: AppsListNextOptionalParams
-  ): Promise<AppsListNextResponse> {
+    options?: ConfigurationServicesListNextOptionalParams
+  ): Promise<ConfigurationServicesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
@@ -600,56 +464,56 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.ConfigurationServiceResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.syncStatus],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppResource
-    },
-    201: {
-      bodyMapper: Mappers.AppResource
-    },
-    202: {
-      bodyMapper: Mappers.AppResource
-    },
-    204: {
-      bodyMapper: Mappers.AppResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.appResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.configurationServiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationServiceResource
+    },
+    201: {
+      bodyMapper: Mappers.ConfigurationServiceResource
+    },
+    202: {
+      bodyMapper: Mappers.ConfigurationServiceResource
+    },
+    204: {
+      bodyMapper: Mappers.ConfigurationServiceResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.configurationServiceResource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.configurationServiceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -657,7 +521,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -674,52 +538,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
+    Parameters.configurationServiceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppResource
-    },
-    201: {
-      bodyMapper: Mappers.AppResource
-    },
-    202: {
-      bodyMapper: Mappers.AppResource
-    },
-    204: {
-      bodyMapper: Mappers.AppResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.appResource,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResourceCollection
+      bodyMapper: Mappers.ConfigurationServiceResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -735,83 +565,35 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
+const validateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/getResourceUploadUrl",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUploadDefinition
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const setActiveDeploymentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
     },
     201: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
     },
     202: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
     },
     204: {
-      bodyMapper: Mappers.AppResource
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.activeDeploymentCollection,
+  requestBody: Parameters.settings,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.appName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const validateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/validateDomain",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomDomainValidateResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.validatePayload,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName
+    Parameters.configurationServiceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -822,7 +604,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppResourceCollection
+      bodyMapper: Mappers.ConfigurationServiceResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
