@@ -12,7 +12,7 @@
  * This sample demonstrates how to Returns a list of database principals of the given Kusto cluster and database.
  *
  * @summary Returns a list of database principals of the given Kusto cluster and database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDatabaseListPrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDatabaseListPrincipals.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -20,7 +20,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function kustoDatabaseListPrincipals() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);

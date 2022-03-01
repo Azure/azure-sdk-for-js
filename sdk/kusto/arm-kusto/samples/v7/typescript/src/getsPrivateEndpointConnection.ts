@@ -12,7 +12,7 @@
  * This sample demonstrates how to Gets a private link resource.
  *
  * @summary Gets a private link resource.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoPrivateLinkResourcesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoPrivateLinkResourcesGet.json
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsPrivateEndpointConnection() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const privateLinkResourceName = "cluster";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);

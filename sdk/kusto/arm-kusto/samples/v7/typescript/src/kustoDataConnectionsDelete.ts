@@ -12,7 +12,7 @@
  * This sample demonstrates how to Deletes the data connection with the given name.
  *
  * @summary Deletes the data connection with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDataConnectionsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsDelete.json
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,9 +20,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoDataConnectionsDelete() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
-  const dataConnectionName = "kustoeventhubconnection1";
+  const dataConnectionName = "dataConnectionTest";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.dataConnections.beginDeleteAndWait(

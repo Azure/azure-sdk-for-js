@@ -12,7 +12,7 @@
  * This sample demonstrates how to Deletes a Kusto cluster principalAssignment.
  *
  * @summary Deletes a Kusto cluster principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoClusterPrincipalAssignmentsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClusterPrincipalAssignmentsDelete.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -20,7 +20,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function kustoClusterPrincipalAssignmentsDelete() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const principalAssignmentName = "kustoprincipal1";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);

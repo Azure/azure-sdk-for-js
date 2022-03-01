@@ -12,7 +12,7 @@
  * This sample demonstrates how to Returns an attached database configuration.
  *
  * @summary Returns an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoAttachedDatabaseConfigurationsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsGet.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -20,8 +20,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function attachedDatabaseConfigurationsGet() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
-  const attachedDatabaseConfigurationName = "attachedDatabaseConfigurations1";
+  const clusterName = "kustoCluster2";
+  const attachedDatabaseConfigurationName = "attachedDatabaseConfigurationsTest";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.attachedDatabaseConfigurations.get(
