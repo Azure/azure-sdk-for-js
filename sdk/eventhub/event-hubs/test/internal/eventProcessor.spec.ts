@@ -760,6 +760,9 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     it("should support start after stopping", async function (): Promise<void> {
+      console.log("************************************************")
+      console.log("***********Testing ***********")
+      console.log("************************************************")
       const partitionIds = await producerClient.getPartitionIds();
 
       // ensure we have at least 2 partitions
@@ -799,7 +802,13 @@ testWithServiceTypes((serviceVersion) => {
       loggerForTest(`Starting processor again`);
       subscriptionEventHandler.clear();
 
+      console.log("************************************************")
+      console.log("***********Testing processor begining***********")
+      console.log("************************************************")
       processor.start();
+      console.log("************************************************")
+      console.log("***********Testing processor begining***********")
+      console.log("************************************************")
 
       await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
@@ -1655,8 +1664,7 @@ testWithServiceTypes((serviceVersion) => {
             const claimedPartitions = claimedPartitionsMap[eventProcessorId];
             claimedPartitions.delete(partitionId);
             loggerForTest(
-              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
-                context.partitionId
+              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${context.partitionId
               }`
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
@@ -1820,8 +1828,7 @@ testWithServiceTypes((serviceVersion) => {
             const claimedPartitions = claimedPartitionsMap[eventProcessorId];
             claimedPartitions.delete(partitionId);
             loggerForTest(
-              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
-                context.partitionId
+              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${context.partitionId
               }`
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
