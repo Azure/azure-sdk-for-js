@@ -40,20 +40,18 @@ If you are not seeing subsequent exceptions from the Key Vault SDKs, authenticat
 You may see an error similar to:
 
 ```text
-
-RestError: Service request failed.
-Status: 401 (Unauthorized)
-Content:
-{"error":{"code":"Unauthorized","message":"AKV10032: Invalid issuer. Expected one of https://sts.windows.net/{tenant 1}/, found https://sts.windows.net/{tenant 2}/."}}
-
+RestError: AKV10032: Invalid issuer. Expected one of https://sts.windows.net/{tenant 1}/, found https://sts.windows.net/{tenant 2}/.
+{
+  "name": "RestError",
+  "code": "Unauthorized",
+  "statusCode": 401
+  ...
+}
 ```
 
 This is most often caused by being logged into a different tenant than the Key Vault authenticates.
 
-See our [DefaultAzureCredential] documentation to see the order credentials are read. You may be logged into a different
-
-tenant for one credential that gets read before another credential. For example, you might be logged into Visual Studio
-
+See our [DefaultAzureCredential] documentation to see the order credentials are read. You may be logged into a different tenant for one credential that gets read before another credential. For example, you might be logged into Visual Studio
 under the wrong tenant even though you're logged into the Azure CLI under the right tenant.
 
 Automatic tenant discovery support has been added when referencing package `@azure/identity` version
@@ -61,17 +59,16 @@ Automatic tenant discovery support has been added when referencing package `@azu
 
 Package | Minimum Version
 --- | ---
-
 `@azure/keyvault-admin` | 4.2.0
 `@azure/keyvault-certificates` | 4.4.0
 `@azure/keyvault-keys` | 4.4.0
 `@azure/keyvault-secrets` | 4.4.0
 
-Upgrading to the package versions should resolve any "Invalid Issuer" errors as long as the application or user is a member of the resource's tenant.
+Upgrading to these package versions should resolve any "Invalid Issuer" errors as long as the application or user is a member of the resource's tenant.
 
 #### Other Authentication Issues
 
-If you are using the `@azure/identity` package - which contains [DefaultAzureCredential] - to authenticate requests to Azure Key Vault, please see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/Azure.Identity/Troubleshooting.md).
+If you are using the `@azure/identity` package - which contains [DefaultAzureCredential] - to authenticate requests to Azure Key Vault, please see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
 
 ### HTTP 403 Errors
 
@@ -82,17 +79,16 @@ HTTP 403 errors indicate the user is not authorized to perform a specific operat
 You may see an error similar to:
 
 ```text
-
-RestError: Service request failed.
-Status: 403 (Forbidden)
-
-Content:
-
-{"error":{"code":"Forbidden","message":"Operation decrypt is not permitted on this key.","innererror":{"code":"KeyOperationForbidden"}}}
-
+RestError: Operation decrypt is not permitted on this key.
+{
+  "name": "RestError",
+  "code": "Forbidden",
+  "statusCode": 403
+  ...
+}
 ```
 
-The operation and inner `code` may vary, but the rest of the text will indicate which operation is not permitted.
+The message and inner `code` may vary, but the rest of the text will indicate which operation is not permitted.
 
 This error indicates that the authenticated application or user does not have permissions to perform that operation, though the cause may vary.
 
@@ -114,7 +110,7 @@ Possible solutions include:
 
 1. Use a singleton for any `CertificateClient`, `KeyClient`, or `SecretClient` in your application for a single Key Vault.
 2. Use a single instance of [DefaultAzureCredential] or other credential you use to authenticate your clients for each Key Vault or Managed HSM endpoint you need to access.
-3. Use Azure App Configuration for storing non-secrets and references to Key Vault secrets. Storing all app configuration in Key Vault will increase the likelihood of requests being throttled as more application instances are started. See [our @azure/app-configuration](https://github.com/Azure/azure-sdk-for-js/blob/main/appconfiguration/app-configuration/README.md) for more information.
+3. Use Azure App Configuration for storing non-secrets and references to Key Vault secrets. Storing all app configuration in Key Vault will increase the likelihood of requests being throttled as more application instances are started. See [our @azure/app-configuration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/README.md) for more information.
 4. If you are performing encryption or decryption operations, consider using wrap and unwrap operations for a symmetric key which may also improve application throughput.
 
 See our [Azure Key Vault throttling guide](https://docs.microsoft.com/azure/key-vault/general/overview-throttling) for more information.
