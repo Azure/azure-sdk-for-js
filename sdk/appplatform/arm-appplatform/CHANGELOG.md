@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0-beta.3 (2022-02-23)
+## 2.0.0-beta.3 (2022-03-02)
 
 The package of @azure/arm-appplatform is using our next generation design principles since version 2.0.0-beta.3, which contains breaking changes.
 
