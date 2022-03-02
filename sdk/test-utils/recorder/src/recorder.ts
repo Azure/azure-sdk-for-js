@@ -113,7 +113,6 @@ export class Recorder {
    * (If you want this to be applied only in a specific mode(either "record" or "playback"), check the mode yourself and add the call accordingly.)
    */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
-    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
     if (
       !isLiveMode() &&
       ensureExistence(this.httpClient, "this.httpClient") &&
