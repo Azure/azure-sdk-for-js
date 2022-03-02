@@ -246,8 +246,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         );
       });
 
-      // Skip until X-MS-Client-Id header is ignored
-      it.skip("ClientIdTransform", async () => {
+      it("ClientIdTransform", async () => {
         await recorder.start({ envSetupForPlayback: {} });
         await recorder.addTransform({ type: "ClientIdTransform" });
 
