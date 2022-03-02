@@ -15,20 +15,22 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                           | **Description**                                                                            |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| [analyzeDocumentByModelId.ts][analyzedocumentbymodelid] | analyze a document using a model by ID                                                     |
-| [extractLayout.ts][extractlayout]                       | use the prebuilt layout model to extract basic document elements only                      |
-| [extractGenericDocument.ts][extractgenericdocument]     | use the prebuilt (generic) document model to extract key-value pairs and entities          |
+| [composeModel.ts][composemodel]                         | create a composed model from several individual labeled models                             |
 | [analyzeBusinessCard.ts][analyzebusinesscard]           | extract data from a business card document                                                 |
+| [analyzeDocumentByModelId.ts][analyzedocumentbymodelid] | analyze a document using a model by ID                                                     |
 | [analyzeIdentityDocument.ts][analyzeidentitydocument]   | extract data from an identity document                                                     |
 | [analyzeInvoice.ts][analyzeinvoice]                     | extract data from an invoice document                                                      |
 | [analyzeReceipt.ts][analyzereceipt]                     | extract data from a receipt document                                                       |
 | [analyzeReceiptByModelId.ts][analyzereceiptbymodelid]   | use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed) |
+| [analyzeW2TaxForm.ts][analyzew2taxform]                 | extract data from a United States W2 tax document                                          |
 | [buildModel.ts][buildmodel]                             | build a model with a single document type from a training data set                         |
-| [composeModel.ts][composemodel]                         | create a composed model from several individual labeled models                             |
 | [copyModel.ts][copymodel]                               | copy a model from one resource to another                                                  |
+| [extractGeneralDocument.ts][extractgeneraldocument]     | use the prebuilt (general) document model to extract key-value pairs and entities          |
+| [extractLayout.ts][extractlayout]                       | use the prebuilt layout model to extract basic document elements only                      |
 | [getInfo.ts][getinfo]                                   | get information about the count and limit of custom models in the resource                 |
 | [getModel.ts][getmodel]                                 | get information about a model by its ID                                                    |
 | [listModels.ts][listmodels]                             | iterate over the models in a resource                                                      |
+| [readDocument.ts][readdocument]                         | use the prebuilt "read" model to extract information about the text content of a document  |
 
 ## Prerequisites
 
@@ -69,13 +71,13 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/analyzeDocumentByModelId.js
+node dist/composeModel.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNIZER_API_KEY="<form recognizer api key>" FORM_RECOGNIZER_CUSTOM_MODEL_ID="<model ID>" node dist/analyzeDocumentByModelId.js
+npx cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNIZER_API_KEY="<form recognizer api key>" PURCHASE_ORDER_SUPPLIES_SAS_URL="<purchase order supplies sas url>" PURCHASE_ORDER_EQUIPMENT_SAS_URL="<purchase order equipment sas url>" PURCHASE_ORDER_FURNITURE_SAS_URL="<purchase order furniture sas url>" PURCHASE_ORDER_CLEANING_SUPPLIES_SAS_URL="<purchase order cleaning supplies sas url>" node dist/composeModel.js
 ```
 
 ## Next Steps
@@ -89,13 +91,15 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [analyzeinvoice]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeInvoice.ts
 [analyzereceipt]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeReceipt.ts
 [analyzereceiptbymodelid]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeReceiptByModelId.ts
+[analyzew2taxform]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/analyzeW2TaxForm.ts
 [buildmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/buildModel.ts
 [copymodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/copyModel.ts
-[extractgenericdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGenericDocument.ts
+[extractgeneraldocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts
 [extractlayout]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractLayout.ts
 [getinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/getInfo.ts
 [getmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/getModel.ts
 [listmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/listModels.ts
+[readdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/readDocument.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

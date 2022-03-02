@@ -12,7 +12,7 @@
  * This sample demonstrates how to Delete Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Delete Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

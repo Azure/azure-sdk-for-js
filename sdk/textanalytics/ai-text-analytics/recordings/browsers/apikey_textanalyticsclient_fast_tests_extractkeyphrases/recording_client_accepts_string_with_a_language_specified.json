@@ -1,26 +1,103 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/keyPhrases",
-   "query": {},
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"wonderful trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\",\"Saturday\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"last book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
-   "responseHeaders": {
-    "apim-request-id": "179d6987-9342-495c-8340-1753c1e4cceb",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Sat, 23 Oct 2021 00:50:09 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "25"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "87d3297b8831a7187e4fc0b3fbb0c461"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/keyPhrases",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "Content-Length": "494",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000022-0000000000000044-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "69e85826-51fe-4548-a89a-2383005b0db3",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+            "language": "en"
+          },
+          {
+            "id": "1",
+            "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+            "language": "en"
+          },
+          {
+            "id": "3",
+            "text": "I didn\u0027t like the last book I read at all.",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "a63219ca-b168-40ff-b949-fc2cce2d162e",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+        "Date": "Fri, 18 Feb 2022 19:10:24 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "16"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "0",
+            "keyPhrases": [
+              "wonderful trip",
+              "Space Needle",
+              "Seattle"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "1",
+            "keyPhrases": [
+              "entire trip",
+              "Space Needle",
+              "Seattle"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "keyPhrases": [
+              "movie",
+              "Saturday"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "keyPhrases": [
+              "last book"
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-06-01"
+      }
+    }
+  ],
+  "Variables": {}
 }

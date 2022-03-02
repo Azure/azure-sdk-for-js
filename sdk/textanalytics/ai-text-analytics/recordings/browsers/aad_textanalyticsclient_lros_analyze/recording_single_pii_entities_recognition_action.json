@@ -1,144 +1,423 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:58:01 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12171.14 - NCUS ProdSlices",
-    "x-ms-request-id": "24c7983b-38a5-4cd2-b81e-a66863f60300"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
-   "query": {},
-   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"My SSN is 859-98-0987.\"},{\"id\":\"2\",\"text\":\"Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.\"},{\"id\":\"3\",\"text\":\"Is 998.214.865-68 your Brazilian CPF number?\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
-   "status": 202,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "94a31501-1dde-424b-b8c3-d5b008957b1f",
-    "date": "Sat, 23 Oct 2021 00:58:02 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/73911151-3222-4bce-a333-2150b43f83a7",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "351"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/73911151-3222-4bce-a333-2150b43f83a7",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"73911151-3222-4bce-a333-2150b43f83a7\",\"lastUpdateDateTime\":\"2021-10-23T00:58:03Z\",\"createdDateTime\":\"2021-10-23T00:58:02Z\",\"expirationDateTime\":\"2021-10-24T00:58:02Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "c98028c9-a6d4-42b4-817c-18de0c1b35d0",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:58:02 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/73911151-3222-4bce-a333-2150b43f83a7",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"73911151-3222-4bce-a333-2150b43f83a7\",\"lastUpdateDateTime\":\"2021-10-23T00:58:03Z\",\"createdDateTime\":\"2021-10-23T00:58:02Z\",\"expirationDateTime\":\"2021-10-24T00:58:02Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "e48762f2-57d0-45bb-aeb3-1967eff8b0a7",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:58:02 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/73911151-3222-4bce-a333-2150b43f83a7",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"73911151-3222-4bce-a333-2150b43f83a7\",\"lastUpdateDateTime\":\"2021-10-23T00:58:03Z\",\"createdDateTime\":\"2021-10-23T00:58:02Z\",\"expirationDateTime\":\"2021-10-24T00:58:02Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "298e2526-f56c-4a08-920f-efab30feca98",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:58:04 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/73911151-3222-4bce-a333-2150b43f83a7",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"73911151-3222-4bce-a333-2150b43f83a7\",\"lastUpdateDateTime\":\"2021-10-23T00:58:06Z\",\"createdDateTime\":\"2021-10-23T00:58:02Z\",\"expirationDateTime\":\"2021-10-24T00:58:02Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:58:06.0799739Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is ***********.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[{\"text\":\"111000025\",\"category\":\"PhoneNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"111000025\",\"category\":\"ABARoutingNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.75},{\"text\":\"111000025\",\"category\":\"NZSocialWelfareNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Is 998.214.865-68 your Brazilian CPF number?\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "cca10fbe-21e7-4482-99f3-1695f6e8b97f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:58:06 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "91"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/73911151-3222-4bce-a333-2150b43f83a7",
-   "query": {
-    "$top": "20",
-    "$skip": "0"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"73911151-3222-4bce-a333-2150b43f83a7\",\"lastUpdateDateTime\":\"2021-10-23T00:58:06Z\",\"createdDateTime\":\"2021-10-23T00:58:02Z\",\"expirationDateTime\":\"2021-10-24T00:58:02Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:58:06.0799739Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"redactedText\":\"My SSN is ***********.\",\"id\":\"1\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.\",\"id\":\"2\",\"entities\":[{\"text\":\"111000025\",\"category\":\"PhoneNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"111000025\",\"category\":\"ABARoutingNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.75},{\"text\":\"111000025\",\"category\":\"NZSocialWelfareNumber\",\"offset\":18,\"length\":9,\"confidenceScore\":0.65}],\"warnings\":[]},{\"redactedText\":\"Is 998.214.865-68 your Brazilian CPF number?\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "55850b19-5915-41a1-90cc-e5c6858ccda0",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 23 Oct 2021 00:58:06 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "127"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "25cccf03b57f9bc577c4293caeb25808"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "383",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000444-0000000000001036-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "1e72fc40-3654-470c-bd63-5dc3879f052b",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "My SSN is 859-98-0987."
+            },
+            {
+              "id": "2",
+              "text": "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+            },
+            {
+              "id": "3",
+              "text": "Is 998.214.865-68 your Brazilian CPF number?"
+            }
+          ]
+        },
+        "tasks": {
+          "entityRecognitionPiiTasks": [
+            {
+              "parameters": {
+                "model-version": "latest",
+                "stringIndexType": "Utf16CodeUnit"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "c7728052-c02e-43c6-ac38-61617d754847",
+        "Date": "Fri, 18 Feb 2022 19:16:16 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/ae18a652-8ab3-4b53-8d83-bae98b92076b",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "143"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/ae18a652-8ab3-4b53-8d83-bae98b92076b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000445-0000000000001038-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "0ff1c116-9503-4c86-a8cb-db70f861d379",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e137bdda-ba70-49d2-b998-1e0dbe9a4199",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:18 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "ae18a652-8ab3-4b53-8d83-bae98b92076b",
+        "lastUpdateDateTime": "2022-02-18T19:16:17Z",
+        "createdDateTime": "2022-02-18T19:16:17Z",
+        "expirationDateTime": "2022-02-19T19:16:17Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/ae18a652-8ab3-4b53-8d83-bae98b92076b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000446-0000000000001040-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "a3bd8496-b69d-44c6-9702-852fdfa448f7",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5c4f8578-5672-4068-b2a1-fd0ced034505",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:18 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "ae18a652-8ab3-4b53-8d83-bae98b92076b",
+        "lastUpdateDateTime": "2022-02-18T19:16:17Z",
+        "createdDateTime": "2022-02-18T19:16:17Z",
+        "expirationDateTime": "2022-02-19T19:16:17Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/ae18a652-8ab3-4b53-8d83-bae98b92076b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000447-0000000000001042-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "3f12e97c-c619-410f-a7cd-73612ee0e9d6",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "e619fb89-178c-4264-bd29-e4d6b2ba8553",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:20 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "ae18a652-8ab3-4b53-8d83-bae98b92076b",
+        "lastUpdateDateTime": "2022-02-18T19:16:18Z",
+        "createdDateTime": "2022-02-18T19:16:17Z",
+        "expirationDateTime": "2022-02-19T19:16:17Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/ae18a652-8ab3-4b53-8d83-bae98b92076b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000448-0000000000001044-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "210c34e3-2f15-47b7-af69-3a5b592ce2ae",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "a22156cb-fe0e-4705-a79b-e56b3559b7ba",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:22 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "73"
+      },
+      "ResponseBody": {
+        "jobId": "ae18a652-8ab3-4b53-8d83-bae98b92076b",
+        "lastUpdateDateTime": "2022-02-18T19:16:21Z",
+        "createdDateTime": "2022-02-18T19:16:17Z",
+        "expirationDateTime": "2022-02-19T19:16:17Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "entityRecognitionPiiTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:16:21.208675Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "My SSN is ***********.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "859-98-0987",
+                        "category": "USSocialSecurityNumber",
+                        "offset": 10,
+                        "length": 11,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.",
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "111000025",
+                        "category": "PhoneNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "ABARoutingNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.75
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "NZSocialWelfareNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Is 998.214.865-68 your Brazilian CPF number?",
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/ae18a652-8ab3-4b53-8d83-bae98b92076b?$top=20\u0026$skip=0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000449-0000000000001046-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "e7fe9f4d-928c-419f-aba1-0e293c207bff",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "a57df2d8-d971-4280-8bec-aec89aa0608b",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 19:16:22 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "77"
+      },
+      "ResponseBody": {
+        "jobId": "ae18a652-8ab3-4b53-8d83-bae98b92076b",
+        "lastUpdateDateTime": "2022-02-18T19:16:21Z",
+        "createdDateTime": "2022-02-18T19:16:17Z",
+        "expirationDateTime": "2022-02-19T19:16:17Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "entityRecognitionPiiTasks": [
+            {
+              "lastUpdateDateTime": "2022-02-18T19:16:21.208675Z",
+              "state": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "redactedText": "My SSN is ***********.",
+                    "id": "1",
+                    "entities": [
+                      {
+                        "text": "859-98-0987",
+                        "category": "USSocialSecurityNumber",
+                        "offset": 10,
+                        "length": 11,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.",
+                    "id": "2",
+                    "entities": [
+                      {
+                        "text": "111000025",
+                        "category": "PhoneNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.8
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "ABARoutingNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.75
+                      },
+                      {
+                        "text": "111000025",
+                        "category": "NZSocialWelfareNumber",
+                        "offset": 18,
+                        "length": 9,
+                        "confidenceScore": 0.65
+                      }
+                    ],
+                    "warnings": []
+                  },
+                  {
+                    "redactedText": "Is 998.214.865-68 your Brazilian CPF number?",
+                    "id": "3",
+                    "entities": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

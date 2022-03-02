@@ -12,7 +12,7 @@
  * This sample demonstrates how to Create Intent for Enabling backup of an item. This is a synchronous operation.
  *
  * @summary Create Intent for Enabling backup of an item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

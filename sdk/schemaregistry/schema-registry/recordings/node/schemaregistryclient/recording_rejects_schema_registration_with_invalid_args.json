@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=null",
-        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "c23ad4cf-9fcc-4b6d-affd-5d442eb723cf"
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "9265d83c-ac8d-40d7-93fc-cff59f5b420b"
       },
       "RequestBody": {
         "type": "record",
@@ -31,12 +31,18 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 05 Jan 2022 18:00:53 GMT",
+        "Date": "Mon, 14 Feb 2022 23:07:55 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
-        "Transfer-Encoding": "chunked"
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "InvalidSchemaType"
       },
-      "ResponseBody": "{\u0022Code\u0022:415,\u0022Detail\u0022:\u0022Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:d97650a7-10a5-4c5b-bfa9-3225d1433703_G29, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2022-01-05T18:00:53\u0022}"
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidSchemaType",
+          "message": "Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:3eed76d6-f9aa-43ef-a1c9-c7bc23dc1d74_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-02-14T23:07:55"
+        }
+      }
     },
     {
       "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
@@ -48,8 +54,8 @@
         "Connection": "keep-alive",
         "Content-Length": "160",
         "Content-Type": "application/json; serialization=not-valid",
-        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "17e22285-a83a-44c6-ad54-6de19a2f460e"
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "cec92791-8ac2-4c2b-a53e-4270a56206cd"
       },
       "RequestBody": {
         "type": "record",
@@ -69,12 +75,18 @@
       "StatusCode": 415,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 05 Jan 2022 18:00:53 GMT",
+        "Date": "Mon, 14 Feb 2022 23:07:55 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000",
-        "Transfer-Encoding": "chunked"
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "InvalidSchemaType"
       },
-      "ResponseBody": "{\u0022Code\u0022:415,\u0022Detail\u0022:\u0022Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:130e288c-6b20-4da5-bd60-c35cdf3fe7a9_G29, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2022-01-05T18:00:53\u0022}"
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidSchemaType",
+          "message": "Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:0a43df8f-1327-42b8-96cd-0e58be70f757_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2022-02-14T23:07:55"
+        }
+      }
     }
   ],
   "Variables": {}

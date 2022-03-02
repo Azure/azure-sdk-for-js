@@ -2,12 +2,19 @@
 
 ## 2.0.0 (Unreleased)
 
-## 2022-02-11
+## 2022-03-01
 
 - Add support for `addTransform`, which allows for transforms to be applied to saved recordings in playback mode. The following transforms are supported:
   - `ApiVersionTransform`: During playback mode, echoes back the `api-version` header provided by the request
   - `ClientIdTransform`, `StorageRequestIdTransform`: these echo back the `X-MS-Client-Id` and the `X-MS-Client-Request-Id` headers respectively
   - `HeaderTransform`: adds an arbitrary header and value to the returned request. These are provided by the `key` and `value` parameters to `addTransform`.
+
+## 2022-02-15
+
+- Bug Fix - Fixed the bug where the `recordingId` was being ignored in the add-sanitizer requests which led the test level sanitizers to be treated as session level sanitizers.
+  [#20393](https://github.com/Azure/azure-sdk-for-js/pull/20393)
+- `CustomDefaultMatcher`- exposes the default matcher in a customizable way. Currently, this includes enabling/disabling body match, adding additional excluded headers, and enable/disable matching the order of query params in the requests.
+  [#20404](https://github.com/Azure/azure-sdk-for-js/pull/20404)
 
 ## 2022-02-04
 
