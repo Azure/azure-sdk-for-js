@@ -76,6 +76,7 @@ import { v4 as generateUuid } from "uuid";
             path: `/sample_response/${currentValue}`,
             body: currentValue,
             method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { val: "I am the answer!" }
         );

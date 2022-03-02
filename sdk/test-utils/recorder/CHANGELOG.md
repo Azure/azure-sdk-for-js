@@ -10,6 +10,12 @@
   - If the `recorder.addSanitizers()` call is used instead, the sanitizers will be added in both the "record" and "playback" modes.
   - "live" mode has no impact as usual.
   - If you want even more granularity, say you want sanitizers to be added in "playback" mode only (in some rare case), add an if-check to verify the mode before calling `recorder.addSanitizers()` method.
+## 2022-03-01
+
+- Add support for `addTransform`, which allows for transforms to be applied to saved recordings in playback mode. The following transforms are supported:
+  - `ApiVersionTransform`: During playback mode, echoes back the `api-version` header provided by the request
+  - `ClientIdTransform`, `StorageRequestIdTransform`: these echo back the `X-MS-Client-Id` and the `X-MS-Client-Request-Id` headers respectively
+  - `HeaderTransform`: adds an arbitrary header and value to the returned request. These are provided by the `key` and `value` parameters to `addTransform`.
 
 ## 2022-02-15
 

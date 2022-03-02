@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/appplatform/ci.mgmt.yml
-      - sdk/appplatform/arm-appplatform/
+      - sdk/appplatform/arm-appplatform
 pr:
   branches:
     include:
@@ -22,7 +22,7 @@ pr:
   paths:
     include:
       - sdk/appplatform/ci.mgmt.yml
-      - sdk/appplatform/arm-appplatform/
+      - sdk/appplatform/arm-appplatform
       
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
