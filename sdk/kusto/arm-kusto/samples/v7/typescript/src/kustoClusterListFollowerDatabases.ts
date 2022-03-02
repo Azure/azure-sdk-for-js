@@ -12,7 +12,7 @@
  * This sample demonstrates how to Returns a list of databases that are owned by this cluster and were followed by another cluster.
  *
  * @summary Returns a list of databases that are owned by this cluster and were followed by another cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoClusterListFollowerDatabases.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClusterListFollowerDatabases.json
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoClusterListFollowerDatabases() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
