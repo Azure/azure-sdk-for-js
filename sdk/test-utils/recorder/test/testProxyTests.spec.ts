@@ -235,7 +235,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response`,
             body: "body",
-            method: "GET",
+            method: "POST",
             headers: [
               { headerName: "Content-Type", value: "text/plain" },
               { headerName: "api-version", value: "myapiversion" },
@@ -255,7 +255,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response`,
             body: "body",
-            method: "GET",
+            method: "POST",
             headers: [
               { headerName: "Content-Type", value: "text/plain" },
               { headerName: "x-ms-client-id", value: "myclientid" },
@@ -278,7 +278,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response`,
             body: "body",
-            method: "GET",
+            method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { val: "abc" },
@@ -295,7 +295,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           {
             path: `/sample_response`,
             body: "body",
-            method: "GET",
+            method: "POST",
             headers: [
               { headerName: "Content-Type", value: "text/plain" },
               { headerName: "x-ms-client-request-id", value: "requestid" },
