@@ -83,7 +83,7 @@ async function makeRequest(uri: string, requestOptions: RequestOptions): Promise
 async function getImageTag() {
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
   // Example content:
-  // 
+  //
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   try {
