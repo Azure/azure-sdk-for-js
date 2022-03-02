@@ -32,6 +32,7 @@ import {
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels";
+import { createEnforceAbsoluteNextLinkPolicy } from "./utils/customPipelinePolicies";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -111,6 +112,7 @@ export class PhoneNumbersClient {
     });
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(createEnforceAbsoluteNextLinkPolicy(url));
   }
 
   /**
