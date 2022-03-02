@@ -18,9 +18,7 @@ jobs:
         parameters:
           SkipDefaultCheckout: true
           Paths:
-            - ci-configs/packages-latest.json
-            - ci-configs/packages-preview.json
-            - ci-configs/packages-legacy.json
+            - ci-configs/
             - metadata/
             - docs-ref-mapping/
           Repositories:
