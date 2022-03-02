@@ -8797,7 +8797,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-YLgo9eIKQgbm757lEvizbQpwH1LlH6lD/aUMdWnJUI6jJT/c8O8/0wBH+x4VJNrPr5s30+9VmvEDyJSgRBKZvg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-WkOPi4KrjmrSJOBZKum4E3Fu6mh41Dj6+gpvcvjeiVan9iaNjcfx1/GqQPD6W0/CfXfralQNK6yB+OYYT5eGOQ==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -12491,7 +12491,7 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-nY3TC3x2FgogISWghoQLFLWHN5McEdVO8zim6Wfig/3Axn19aMcyoRybU3WiVL+nB5tzR7rEm7uKOK1nR6io5g==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-A7kWeiEqm59Nmd0W/I+ugfVi0uROSW06Mg8bgteuOedYKEWSn58hp+CBatd7fuYoXJNUh//RTwSgbHXbn3zQUA==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
@@ -12500,18 +12500,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -16530,7 +16531,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-BRjdrldgLNJTlYmBSyQSQxRcKJ7+RI1mJjGtO4fs+pJ3LwGhuMJlcZZ5o/SWZHA9EDkMubsoiQcqzVPlWR8xnQ==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-xnF25ju9piSj1kanKGYIAGU0KI1SqDEIVFP3nb3yRic1O7z4XoI6Gl8sGyAMUg3ialaLPrCHTuaqrXlXNcQMqA==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -16691,7 +16692,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-efIo+Gtc9RgodqY4b1HNsFCmA2eTKls6HBle4D2W6uBE85QVLZOqleJnO7pKyF3n4jMGifJXhIdtmyxfT/Fs7Q==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-Tm3Eutn4zqT2OJJmJqPEnX01mzaQd42aWvYxN+UXsjpfQh8mH9mpXoo3UIoDF6xDnusHAa8SAci45JqXWtRIeQ==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -16758,7 +16759,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-YQrZG6MkISEYxq+XYeXWtIWgGPtDF3Rbgix3d5YW6vpCPmXABDiBcIx1M+0AWBa5CDaVPvWIjFtFJJCNWtcG+A==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-Ssz6nuW4Asy1xOLLsZgpMlWGlGMOBFP3ov30Vxbm08NTP2wW/gPo7xUc/sP2xL9tvkiEc7+Mgmmr4htp1oyE/g==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
