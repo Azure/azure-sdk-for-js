@@ -12,7 +12,7 @@
  * This sample demonstrates how to Gets a Kusto cluster database principalAssignment.
  *
  * @summary Gets a Kusto cluster database principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDatabasePrincipalAssignmentsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDatabasePrincipalAssignmentsGet.json
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoDatabasePrincipalAssignmentsGet() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "Kustodatabase8";
   const principalAssignmentName = "kustoprincipal1";
   const credential = new DefaultAzureCredential();

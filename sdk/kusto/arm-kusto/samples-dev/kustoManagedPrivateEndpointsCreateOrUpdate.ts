@@ -12,7 +12,7 @@
  * This sample demonstrates how to Creates a managed private endpoint.
  *
  * @summary Creates a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
  */
 import {
   ManagedPrivateEndpoint,
@@ -23,8 +23,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoManagedPrivateEndpointsCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
-  const managedPrivateEndpointName = "kustoManagedPrivateEndpoint1";
+  const clusterName = "kustoCluster";
+  const managedPrivateEndpointName = "managedPrivateEndpointTest";
   const parameters: ManagedPrivateEndpoint = {
     groupId: "blob",
     privateLinkResourceId:

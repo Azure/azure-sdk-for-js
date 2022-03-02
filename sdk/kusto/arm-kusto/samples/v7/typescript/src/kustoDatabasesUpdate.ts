@@ -12,7 +12,7 @@
  * This sample demonstrates how to Updates a database.
  *
  * @summary Updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDatabasesUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDatabasesUpdate.json
  */
 import { ReadWriteDatabase, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,12 +20,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoDatabasesUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const parameters: ReadWriteDatabase = {
     hotCachePeriod: "P1D",
-    kind: "ReadWrite",
-    location: "westus"
+    kind: "ReadWrite"
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
