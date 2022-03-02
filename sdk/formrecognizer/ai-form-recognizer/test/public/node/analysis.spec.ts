@@ -49,10 +49,11 @@ matrix([[true, false]] as const, async (useAad) => {
     beforeEach(async function (this: Context) {
       recorder = await createRecorder(this.currentTest);
       await recorder.setMatcher("BodilessMatcher");
-      client = new DocumentAnalysisClient(endpoint(), makeCredential(useAad), {
-        ...recorder.configureClientOptions({}),
-        audience: getAudience(),
-      });
+      client = new DocumentAnalysisClient(
+        endpoint(),
+        makeCredential(useAad),
+        recorder.configureClientOptions({ audience: getAudience() })
+      );
     });
 
     afterEach(async function () {
@@ -240,10 +241,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
             makeCredential(useAad),
-            {
-              ...recorder.configureClientOptions({}),
-              audience: getAudience(),
-            }
+            recorder.configureClientOptions({ audience: getAudience() })
           );
           modelName = recorder.variable(
             "customFormModelName",

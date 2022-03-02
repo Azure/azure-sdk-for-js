@@ -2,22 +2,14 @@
 // Licensed under the MIT license.
 
 /**
- * Defines known cloud audiences for Form Recognizer.
+ * Defines the known cloud audiences for Form Recognizer.
  *
- * --- More about national clouds ---
- * 
- * National clouds are physically isolated instances of Azure.
- * These regions of Azure are designed to make sure that data residency, sovereignty, and compliance requirements are honored within geographical boundaries.
- * 
- * For more information, refer https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud.
- * 
- * As of now, FormRecognizer supports the following audiences.
- * 
- * -------
- * 
- * For authentication with Azure Active Directory, use this as "audience" as part of the constructor client options.
- * 
- * You should only need this to be set as "audience" if you are using AAD/token credential and if you are using a cloud other than the `AzurePublicCloud`(default).
+ * To authenticate with Azure Active Directory (using a `TokenCredential`) in a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud)
+ * environment, provide the appropriate value below as the `audience` option when creating a
+ * `DocumentAnalysisClient` or `DocumentModelAdministrationClient`.
+ *
+ * The default value is suitable for Form Recognizer resources created in the Azure Public Cloud, so this value
+ * is only required to use Form Recognizer in a different cloud environment.
  */
 export enum FormRecognizerAudience {
   /** Azure China */

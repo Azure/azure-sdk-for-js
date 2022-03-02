@@ -38,6 +38,7 @@ matrix(
 
       beforeEach(async function (this: Context) {
         if (!isNode && useAad && getAudience() !== FormRecognizerAudience.AzurePublicCloud) {
+          // TODO:
           // Skipping the browser AAD tests with non-public clouds since the Client Secret Credential fails with
           //
           //   AuthenticationError: invalid_request Status code: 400
@@ -74,10 +75,11 @@ matrix(
 
         beforeEach(function () {
           // Create a client using the current AAD/API Key configuration
-          client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), {
-            ...recorder.configureClientOptions({}),
-            audience: getAudience(),
-          });
+          client = new DocumentModelAdministrationClient(
+            endpoint(),
+            makeCredential(useAad),
+            recorder.configureClientOptions({ audience: getAudience() })
+          );
         });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
@@ -251,8 +253,10 @@ matrix(
       // #endregion
 
       it(`compose model (${buildMode})`, async function () {
-        const client = new DocumentModelAdministrationClient(endpoint(), makeCredential(useAad), 
-          recorder.configureClientOptions({ audience: getAudience() }),
+        const client = new DocumentModelAdministrationClient(
+          endpoint(),
+          makeCredential(useAad),
+          recorder.configureClientOptions({ audience: getAudience() })
         );
 
         // Helper function to train/validate single model
@@ -302,10 +306,7 @@ matrix(
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
-          {
-            ...recorder.configureClientOptions({}),
-            audience: getAudience(),
-          }
+          recorder.configureClientOptions({ audience: getAudience() })
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
