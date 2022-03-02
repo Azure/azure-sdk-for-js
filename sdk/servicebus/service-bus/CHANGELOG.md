@@ -1,6 +1,6 @@
 # Release History
 
-## 7.5.1 (Unreleased)
+## 7.6.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -11,6 +11,8 @@
 - Fix an issue where we don't respect user request to close the receiver if the connection is disconnected when using the `subscribe()` method. [PR #20427](https://github.com/Azure/azure-sdk-for-js/pull/20427)
 
 ### Other Changes
+
+- Migrate to depend on newer version of Core libraries core-client and core-rest-pipeline which bring better maintainability and performance. [PR #19587](https://github.com/Azure/azure-sdk-for-js/pull/19587)
 
 ## 7.5.0 (2022-02-14)
 
