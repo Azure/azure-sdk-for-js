@@ -12,7 +12,7 @@
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDataConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsCreateOrUpdate.json
  */
 import {
   EventHubDataConnection,
@@ -23,9 +23,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoDataConnectionsCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
-  const dataConnectionName = "DataConnections8";
+  const dataConnectionName = "dataConnectionTest";
   const parameters: EventHubDataConnection = {
     consumerGroup: "testConsumerGroup1",
     eventHubResourceId:

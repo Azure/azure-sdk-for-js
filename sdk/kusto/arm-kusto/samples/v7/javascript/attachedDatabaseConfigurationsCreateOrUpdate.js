@@ -12,7 +12,7 @@
  * This sample demonstrates how to Creates or updates an attached database configuration.
  *
  * @summary Creates or updates an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -20,11 +20,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function attachedDatabaseConfigurationsCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
-  const attachedDatabaseConfigurationName = "attachedDatabaseConfigurations1";
+  const clusterName = "kustoCluster2";
+  const attachedDatabaseConfigurationName = "attachedDatabaseConfigurationsTest";
   const parameters = {
     clusterResourceId:
-      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterLeader",
+      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster2",
     databaseName: "kustodatabase",
     defaultPrincipalsModificationKind: "Union",
     location: "westus",

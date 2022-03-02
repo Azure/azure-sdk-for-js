@@ -6,6 +6,7 @@
 import Sinon from "sinon";
 import { assert } from "chai";
 import { Context } from "mocha";
+import { GetTokenOptions } from "@azure/core-auth";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { UsernamePasswordCredential } from "../../../src";
@@ -116,6 +117,23 @@ describe("UsernamePasswordCredential (internal)", function () {
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 2);
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  it("Authenticates with tenantId on getToken", async function (this: Context) {
+    // These tests should not run live because this credential requires user interaction.
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const credential = new UsernamePasswordCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_USERNAME,
+      env.AZURE_PASSWORD
+    );
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 });

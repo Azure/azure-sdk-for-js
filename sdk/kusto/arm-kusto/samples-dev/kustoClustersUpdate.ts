@@ -12,18 +12,22 @@
  * This sample demonstrates how to Update a Kusto cluster.
  *
  * @summary Update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoClustersUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersUpdate.json
  */
-import { ClusterUpdate, KustoManagementClient } from "@azure/arm-kusto";
+import {
+  ClusterUpdate,
+  ClustersUpdateOptionalParams,
+  KustoManagementClient
+} from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function kustoClustersUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
+  const clusterName = "kustoCluster2";
   const ifMatch = "*";
   const parameters: ClusterUpdate = { location: "westus" };
-  const options = { ifMatch: ifMatch };
+  const options: ClustersUpdateOptionalParams = { ifMatch };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginUpdateAndWait(
