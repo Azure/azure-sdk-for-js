@@ -68,7 +68,7 @@ Upgrading to these package versions should resolve any "Invalid Issuer" errors a
 
 #### Other Authentication Issues
 
-If you are using the `@azure/identity` package - which contains [DefaultAzureCredential] - to authenticate requests to Azure Key Vault, please see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+If you are using the `@azure/identity` package - which contains [DefaultAzureCredential] - to authenticate requests to Azure Key Vault, please see our [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
 
 ### HTTP 403 Errors
 
