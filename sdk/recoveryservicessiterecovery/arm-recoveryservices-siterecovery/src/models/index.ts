@@ -7698,15 +7698,15 @@ export type VMwareCbtContainerMappingInput = ReplicationProviderSpecificContaine
   /** Polymorphic discriminator, which specifies the different types this object can be */
   instanceType: "VMwareCbt";
   /** The target key vault ARM Id. */
-  keyVaultId: string;
+  keyVaultId?: string;
   /** The target key vault URL. */
-  keyVaultUri: string;
+  keyVaultUri?: string;
   /** The storage account ARM Id. */
   storageAccountId: string;
   /** The secret name of the storage account. */
-  storageAccountSasSecretName: string;
+  storageAccountSasSecretName?: string;
   /** The secret name of the service bus connection string. */
-  serviceBusConnectionStringSecretName: string;
+  serviceBusConnectionStringSecretName?: string;
   /** The target location. */
   targetLocation: string;
 };

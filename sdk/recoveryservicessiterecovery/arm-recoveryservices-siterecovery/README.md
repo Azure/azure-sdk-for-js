@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservices-siterecovery) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

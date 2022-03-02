@@ -6918,11 +6918,11 @@ export type VMwareCbtContainerCreationInput = ReplicationProviderSpecificContain
 // @public
 export type VMwareCbtContainerMappingInput = ReplicationProviderSpecificContainerMappingInput & {
     instanceType: "VMwareCbt";
-    keyVaultId: string;
-    keyVaultUri: string;
+    keyVaultId?: string;
+    keyVaultUri?: string;
     storageAccountId: string;
-    storageAccountSasSecretName: string;
-    serviceBusConnectionStringSecretName: string;
+    storageAccountSasSecretName?: string;
+    serviceBusConnectionStringSecretName?: string;
     targetLocation: string;
 };
 

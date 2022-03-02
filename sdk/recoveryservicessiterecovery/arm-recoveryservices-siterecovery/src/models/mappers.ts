@@ -19014,14 +19014,12 @@ export const VMwareCbtContainerMappingInput: coreClient.CompositeMapper = {
       ...ReplicationProviderSpecificContainerMappingInput.type.modelProperties,
       keyVaultId: {
         serializedName: "keyVaultId",
-        required: true,
         type: {
           name: "String"
         }
       },
       keyVaultUri: {
         serializedName: "keyVaultUri",
-        required: true,
         type: {
           name: "String"
         }
@@ -19035,14 +19033,12 @@ export const VMwareCbtContainerMappingInput: coreClient.CompositeMapper = {
       },
       storageAccountSasSecretName: {
         serializedName: "storageAccountSasSecretName",
-        required: true,
         type: {
           name: "String"
         }
       },
       serviceBusConnectionStringSecretName: {
         serializedName: "serviceBusConnectionStringSecretName",
-        required: true,
         type: {
           name: "String"
         }
