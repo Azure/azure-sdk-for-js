@@ -19,3 +19,4 @@ export * from "./accountBackups";
 export * from "./backupPolicies";
 export * from "./vaults";
 export * from "./volumeGroups";
+export * from "./subvolumes";

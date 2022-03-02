@@ -9,44 +9,45 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  Snapshot,
-  SnapshotsListOptionalParams,
-  SnapshotsGetOptionalParams,
-  SnapshotsGetResponse,
-  SnapshotsCreateOptionalParams,
-  SnapshotsCreateResponse,
-  SnapshotsUpdateOptionalParams,
-  SnapshotsUpdateResponse,
-  SnapshotsDeleteOptionalParams,
-  SnapshotRestoreFiles,
-  SnapshotsRestoreFilesOptionalParams
+  SubvolumeInfo,
+  SubvolumesListByVolumeOptionalParams,
+  SubvolumesGetOptionalParams,
+  SubvolumesGetResponse,
+  SubvolumesCreateOptionalParams,
+  SubvolumesCreateResponse,
+  SubvolumePatchRequest,
+  SubvolumesUpdateOptionalParams,
+  SubvolumesUpdateResponse,
+  SubvolumesDeleteOptionalParams,
+  SubvolumesGetMetadataOptionalParams,
+  SubvolumesGetMetadataResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Snapshots. */
-export interface Snapshots {
+/** Interface representing a Subvolumes. */
+export interface Subvolumes {
   /**
-   * List all snapshots associated with the volume
+   * Returns a list of the subvolumes in the volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  list(
+  listByVolume(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SnapshotsListOptionalParams
-  ): PagedAsyncIterableIterator<Snapshot>;
+    options?: SubvolumesListByVolumeOptionalParams
+  ): PagedAsyncIterableIterator<SubvolumeInfo>;
   /**
-   * Get details of the specified snapshot
+   * Returns the path associated with the subvolumeName provided
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
   get(
@@ -54,17 +55,17 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    options?: SnapshotsGetOptionalParams
-  ): Promise<SnapshotsGetResponse>;
+    subvolumeName: string,
+    options?: SubvolumesGetOptionalParams
+  ): Promise<SubvolumesGetResponse>;
   /**
-   * Create the specified snapshot within the given volume
+   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Snapshot object supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   beginCreate(
@@ -72,23 +73,23 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    body: Snapshot,
-    options?: SnapshotsCreateOptionalParams
+    subvolumeName: string,
+    body: SubvolumeInfo,
+    options?: SubvolumesCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SnapshotsCreateResponse>,
-      SnapshotsCreateResponse
+      PollOperationState<SubvolumesCreateResponse>,
+      SubvolumesCreateResponse
     >
   >;
   /**
-   * Create the specified snapshot within the given volume
+   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Snapshot object supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   beginCreateAndWait(
@@ -96,18 +97,18 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    body: Snapshot,
-    options?: SnapshotsCreateOptionalParams
-  ): Promise<SnapshotsCreateResponse>;
+    subvolumeName: string,
+    body: SubvolumeInfo,
+    options?: SubvolumesCreateOptionalParams
+  ): Promise<SubvolumesCreateResponse>;
   /**
-   * Patch a snapshot
+   * Patch a subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Snapshot object supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -115,23 +116,23 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    body: Record<string, unknown>,
-    options?: SnapshotsUpdateOptionalParams
+    subvolumeName: string,
+    body: SubvolumePatchRequest,
+    options?: SubvolumesUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SnapshotsUpdateResponse>,
-      SnapshotsUpdateResponse
+      PollOperationState<SubvolumesUpdateResponse>,
+      SubvolumesUpdateResponse
     >
   >;
   /**
-   * Patch a snapshot
+   * Patch a subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Snapshot object supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -139,17 +140,17 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    body: Record<string, unknown>,
-    options?: SnapshotsUpdateOptionalParams
-  ): Promise<SnapshotsUpdateResponse>;
+    subvolumeName: string,
+    body: SubvolumePatchRequest,
+    options?: SubvolumesUpdateOptionalParams
+  ): Promise<SubvolumesUpdateResponse>;
   /**
-   * Delete snapshot
+   * Delete subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
   beginDelete(
@@ -157,16 +158,16 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    options?: SnapshotsDeleteOptionalParams
+    subvolumeName: string,
+    options?: SubvolumesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete snapshot
+   * Delete subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -174,45 +175,46 @@ export interface Snapshots {
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    options?: SnapshotsDeleteOptionalParams
+    subvolumeName: string,
+    options?: SubvolumesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Restore the specified files from the specified snapshot to the active filesystem
+   * Get details of the specified subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Restore payload supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
-  beginRestoreFiles(
+  beginGetMetadata(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    body: SnapshotRestoreFiles,
-    options?: SnapshotsRestoreFilesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    subvolumeName: string,
+    options?: SubvolumesGetMetadataOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SubvolumesGetMetadataResponse>,
+      SubvolumesGetMetadataResponse
+    >
+  >;
   /**
-   * Restore the specified files from the specified snapshot to the active filesystem
+   * Get details of the specified subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Restore payload supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
-  beginRestoreFilesAndWait(
+  beginGetMetadataAndWait(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    snapshotName: string,
-    body: SnapshotRestoreFiles,
-    options?: SnapshotsRestoreFilesOptionalParams
-  ): Promise<void>;
+    subvolumeName: string,
+    options?: SubvolumesGetMetadataOptionalParams
+  ): Promise<SubvolumesGetMetadataResponse>;
 }

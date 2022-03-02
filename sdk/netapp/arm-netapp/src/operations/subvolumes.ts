@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Backups } from "../operationsInterfaces";
+import { Subvolumes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,29 +15,30 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Backup,
-  BackupsListOptionalParams,
-  BackupsGetStatusOptionalParams,
-  BackupsGetStatusResponse,
-  BackupsGetVolumeRestoreStatusOptionalParams,
-  BackupsGetVolumeRestoreStatusResponse,
-  BackupsListResponse,
-  BackupsGetOptionalParams,
-  BackupsGetResponse,
-  BackupsCreateOptionalParams,
-  BackupsCreateResponse,
-  BackupsUpdateOptionalParams,
-  BackupsUpdateResponse,
-  BackupsDeleteOptionalParams
+  SubvolumeInfo,
+  SubvolumesListByVolumeNextOptionalParams,
+  SubvolumesListByVolumeOptionalParams,
+  SubvolumesListByVolumeResponse,
+  SubvolumesGetOptionalParams,
+  SubvolumesGetResponse,
+  SubvolumesCreateOptionalParams,
+  SubvolumesCreateResponse,
+  SubvolumePatchRequest,
+  SubvolumesUpdateOptionalParams,
+  SubvolumesUpdateResponse,
+  SubvolumesDeleteOptionalParams,
+  SubvolumesGetMetadataOptionalParams,
+  SubvolumesGetMetadataResponse,
+  SubvolumesListByVolumeNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Backups operations. */
-export class BackupsImpl implements Backups {
+/** Class containing Subvolumes operations. */
+export class SubvolumesImpl implements Subvolumes {
   private readonly client: NetAppManagementClient;
 
   /**
-   * Initialize a new instance of the class Backups class.
+   * Initialize a new instance of the class Subvolumes class.
    * @param client Reference to the service client
    */
   constructor(client: NetAppManagementClient) {
@@ -45,21 +46,21 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * List all backups for a volume
+   * Returns a list of the subvolumes in the volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  public list(
+  public listByVolume(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsListOptionalParams
-  ): PagedAsyncIterableIterator<Backup> {
-    const iter = this.listPagingAll(
+    options?: SubvolumesListByVolumeOptionalParams
+  ): PagedAsyncIterableIterator<SubvolumeInfo> {
+    const iter = this.listByVolumePagingAll(
       resourceGroupName,
       accountName,
       poolName,
@@ -74,7 +75,7 @@ export class BackupsImpl implements Backups {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(
+        return this.listByVolumePagingPage(
           resourceGroupName,
           accountName,
           poolName,
@@ -85,14 +86,14 @@ export class BackupsImpl implements Backups {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByVolumePagingPage(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsListOptionalParams
-  ): AsyncIterableIterator<Backup[]> {
-    let result = await this._list(
+    options?: SubvolumesListByVolumeOptionalParams
+  ): AsyncIterableIterator<SubvolumeInfo[]> {
+    let result = await this._listByVolume(
       resourceGroupName,
       accountName,
       poolName,
@@ -100,16 +101,29 @@ export class BackupsImpl implements Backups {
       options
     );
     yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listByVolumeNext(
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
   }
 
-  private async *listPagingAll(
+  private async *listByVolumePagingAll(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsListOptionalParams
-  ): AsyncIterableIterator<Backup> {
-    for await (const page of this.listPagingPage(
+    options?: SubvolumesListByVolumeOptionalParams
+  ): AsyncIterableIterator<SubvolumeInfo> {
+    for await (const page of this.listByVolumePagingPage(
       resourceGroupName,
       accountName,
       poolName,
@@ -121,75 +135,33 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Get the status of the backup for a volume
+   * Returns a list of the subvolumes in the volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  getStatus(
+  private _listByVolume(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetStatusOptionalParams
-  ): Promise<BackupsGetStatusResponse> {
+    options?: SubvolumesListByVolumeOptionalParams
+  ): Promise<SubvolumesListByVolumeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      getStatusOperationSpec
+      listByVolumeOperationSpec
     );
   }
 
   /**
-   * Get the status of the restore for a volume
+   * Returns the path associated with the subvolumeName provided
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  getVolumeRestoreStatus(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: BackupsGetVolumeRestoreStatusOptionalParams
-  ): Promise<BackupsGetVolumeRestoreStatusResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, poolName, volumeName, options },
-      getVolumeRestoreStatusOperationSpec
-    );
-  }
-
-  /**
-   * List all backups for a volume
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: BackupsListOptionalParams
-  ): Promise<BackupsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, poolName, volumeName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Gets the specified backup of the volume
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param backupName The name of the backup
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
   get(
@@ -197,16 +169,16 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    options?: BackupsGetOptionalParams
-  ): Promise<BackupsGetResponse> {
+    subvolumeName: string,
+    options?: SubvolumesGetOptionalParams
+  ): Promise<SubvolumesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         poolName,
         volumeName,
-        backupName,
+        subvolumeName,
         options
       },
       getOperationSpec
@@ -214,13 +186,13 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Create a backup for the volume
+   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param backupName The name of the backup
-   * @param body Backup object supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -228,16 +200,19 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    body: Backup,
-    options?: BackupsCreateOptionalParams
+    subvolumeName: string,
+    body: SubvolumeInfo,
+    options?: SubvolumesCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<BackupsCreateResponse>, BackupsCreateResponse>
+    PollerLike<
+      PollOperationState<SubvolumesCreateResponse>,
+      SubvolumesCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BackupsCreateResponse> => {
+    ): Promise<SubvolumesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -280,7 +255,7 @@ export class BackupsImpl implements Backups {
         accountName,
         poolName,
         volumeName,
-        backupName,
+        subvolumeName,
         body,
         options
       },
@@ -289,18 +264,18 @@ export class BackupsImpl implements Backups {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
   }
 
   /**
-   * Create a backup for the volume
+   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param backupName The name of the backup
-   * @param body Backup object supplied in the body of the operation.
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -308,16 +283,16 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    body: Backup,
-    options?: BackupsCreateOptionalParams
-  ): Promise<BackupsCreateResponse> {
+    subvolumeName: string,
+    body: SubvolumeInfo,
+    options?: SubvolumesCreateOptionalParams
+  ): Promise<SubvolumesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      backupName,
+      subvolumeName,
       body,
       options
     );
@@ -325,12 +300,13 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Patch a backup for the volume
+   * Patch a subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param backupName The name of the backup
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -338,15 +314,19 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    options?: BackupsUpdateOptionalParams
+    subvolumeName: string,
+    body: SubvolumePatchRequest,
+    options?: SubvolumesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<BackupsUpdateResponse>, BackupsUpdateResponse>
+    PollerLike<
+      PollOperationState<SubvolumesUpdateResponse>,
+      SubvolumesUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BackupsUpdateResponse> => {
+    ): Promise<SubvolumesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -389,7 +369,8 @@ export class BackupsImpl implements Backups {
         accountName,
         poolName,
         volumeName,
-        backupName,
+        subvolumeName,
+        body,
         options
       },
       updateOperationSpec
@@ -397,17 +378,18 @@ export class BackupsImpl implements Backups {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
   }
 
   /**
-   * Patch a backup for the volume
+   * Patch a subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param backupName The name of the backup
+   * @param subvolumeName The name of the subvolume.
+   * @param body Subvolume object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -415,27 +397,29 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    options?: BackupsUpdateOptionalParams
-  ): Promise<BackupsUpdateResponse> {
+    subvolumeName: string,
+    body: SubvolumePatchRequest,
+    options?: SubvolumesUpdateOptionalParams
+  ): Promise<SubvolumesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      backupName,
+      subvolumeName,
+      body,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a backup of the volume
+   * Delete subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param backupName The name of the backup
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -443,8 +427,8 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    options?: BackupsDeleteOptionalParams
+    subvolumeName: string,
+    options?: SubvolumesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -492,7 +476,7 @@ export class BackupsImpl implements Backups {
         accountName,
         poolName,
         volumeName,
-        backupName,
+        subvolumeName,
         options
       },
       deleteOperationSpec
@@ -500,17 +484,17 @@ export class BackupsImpl implements Backups {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
   }
 
   /**
-   * Delete a backup of the volume
+   * Delete subvolume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param backupName The name of the backup
+   * @param subvolumeName The name of the subvolume.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -518,74 +502,168 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    backupName: string,
-    options?: BackupsDeleteOptionalParams
+    subvolumeName: string,
+    options?: SubvolumesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      backupName,
+      subvolumeName,
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Get details of the specified subvolume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param subvolumeName The name of the subvolume.
+   * @param options The options parameters.
+   */
+  async beginGetMetadata(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    subvolumeName: string,
+    options?: SubvolumesGetMetadataOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SubvolumesGetMetadataResponse>,
+      SubvolumesGetMetadataResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SubvolumesGetMetadataResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        subvolumeName,
+        options
+      },
+      getMetadataOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+  }
+
+  /**
+   * Get details of the specified subvolume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param subvolumeName The name of the subvolume.
+   * @param options The options parameters.
+   */
+  async beginGetMetadataAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    subvolumeName: string,
+    options?: SubvolumesGetMetadataOptionalParams
+  ): Promise<SubvolumesGetMetadataResponse> {
+    const poller = await this.beginGetMetadata(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      subvolumeName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListByVolumeNext
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param nextLink The nextLink from the previous successful call to the ListByVolume method.
+   * @param options The options parameters.
+   */
+  private _listByVolumeNext(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    nextLink: string,
+    options?: SubvolumesListByVolumeNextOptionalParams
+  ): Promise<SubvolumesListByVolumeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        nextLink,
+        options
+      },
+      listByVolumeNextOperationSpec
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getStatusOperationSpec: coreClient.OperationSpec = {
+const listByVolumeOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backupStatus",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupStatus
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVolumeRestoreStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/restoreStatus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestoreStatus
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupsList
+      bodyMapper: Mappers.SubvolumesList
     },
     default: {}
   },
@@ -603,11 +681,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     default: {}
   },
@@ -619,31 +697,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.backupName
+    Parameters.subvolumeName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     201: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     202: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     204: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     default: {}
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -652,7 +730,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.backupName
+    Parameters.subvolumeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -660,24 +738,24 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     201: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     202: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     204: {
-      bodyMapper: Mappers.Backup
+      bodyMapper: Mappers.SubvolumeInfo
     },
     default: {}
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -686,7 +764,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.backupName
+    Parameters.subvolumeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -694,7 +772,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -705,7 +783,61 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.backupName
+    Parameters.subvolumeName
   ],
+  serializer
+};
+const getMetadataOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}/getMetadata",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubvolumeModel
+    },
+    201: {
+      bodyMapper: Mappers.SubvolumeModel
+    },
+    202: {
+      bodyMapper: Mappers.SubvolumeModel
+    },
+    204: {
+      bodyMapper: Mappers.SubvolumeModel
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+    Parameters.subvolumeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByVolumeNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubvolumesList
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.nextLink,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
