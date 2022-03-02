@@ -34,6 +34,7 @@ import {
   WebResource,
   WebResourceLike,
 } from "@azure/core-http";
+import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
@@ -116,6 +117,16 @@ export class Recorder {
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
       return addSanitizers(this.httpClient, this.url, this.recordingId, options);
+    }
+  }
+
+  async addTransform(transform: Transform): Promise<void> {
+    if (
+      isPlaybackMode() &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
+      await addTransform(this.url, this.httpClient, transform, this.recordingId);
     }
   }
 
