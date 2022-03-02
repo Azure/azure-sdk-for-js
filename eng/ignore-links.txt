@@ -10,3 +10,4 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-cha
 https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/how-to-manage-routes.md
 https://docs.microsoft.com/javascript/api/@azure/arm-dnsresolver?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview
+https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview
