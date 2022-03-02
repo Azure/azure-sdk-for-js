@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken } from "@azure/core-auth";
 import jwtDecode from "jwt-decode";
-import { AccessToken } from "@azure/core-http";
 
 interface JwtToken {
   exp: number;

@@ -807,6 +807,10 @@ sdk/securityinsights/arm-securityinsights @qiaozha @dw511214992 @MaryGao
 sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 /sdk/oep/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
+# PRLabel: %Mgmt
+sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
+sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger

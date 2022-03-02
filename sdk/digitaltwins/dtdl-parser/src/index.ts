@@ -6,7 +6,6 @@ export {
   ValueConstraint,
   TraversalStatus,
   ModelParsingOption,
-  DtmiResolver,
   ParsingError,
   LanguageStringType
 } from "./parser";
