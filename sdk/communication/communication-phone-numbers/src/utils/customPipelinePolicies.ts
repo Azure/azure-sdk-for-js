@@ -9,9 +9,9 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 
-export function createEnforceAbsoluteNextLinkPolicy(host: string): PipelinePolicy {
+export function createPhoneNumbersPagingPolicy(host: string): PipelinePolicy {
   return {
-    name: "enforceAbsoluteNextLinkPolicy",
+    name: "phoneNumbersPagingPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response: FullOperationResponse = await next(request);
       const nextLink: string = response?.parsedBody?.nextLink;
@@ -25,3 +25,17 @@ export function createEnforceAbsoluteNextLinkPolicy(host: string): PipelinePolic
     },
   };
 }
+
+export const phoneNumbersLroPolicy: PipelinePolicy = {
+  name: "phoneNumbersLroPolicy",
+  async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+    const response = await next(request);
+
+    const operationLocation = response.headers?.get("operation-location");
+    if (operationLocation) {
+      response.headers.set("azure-asyncoperation", operationLocation);
+    }
+
+    return response;
+  },
+};
