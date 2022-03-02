@@ -36,6 +36,7 @@
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "^7.18.11",
     "@azure-tools/test-recorder": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@azure/identity": "^2.0.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",

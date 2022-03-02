@@ -12,7 +12,7 @@
  * This sample demonstrates how to Checks that the cluster name is valid and is not already in use.
  *
  * @summary Checks that the cluster name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoClustersCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersCheckNameAvailability.json
  */
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -21,7 +21,7 @@ async function kustoClustersCheckNameAvailability() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const location = "westus";
   const clusterName = {
-    name: "kustoclusterrptest4",
+    name: "kustoCluster",
     type: "Microsoft.Kusto/clusters",
   };
   const credential = new DefaultAzureCredential();

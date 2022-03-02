@@ -12,7 +12,7 @@
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2021-08-27/examples/KustoDatabaseReadonlyUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDatabaseReadonlyUpdate.json
  */
 import {
   ReadOnlyFollowingDatabase,
@@ -23,8 +23,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function kustoReadOnlyDatabaseUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = "kustorptest";
-  const clusterName = "kustoclusterrptest4";
-  const databaseName = "KustoreadOnlyDatabase";
+  const clusterName = "kustoCluster";
+  const databaseName = "kustoReadOnlyDatabase";
   const parameters: ReadOnlyFollowingDatabase = {
     hotCachePeriod: "P1D",
     kind: "ReadOnlyFollowing",
