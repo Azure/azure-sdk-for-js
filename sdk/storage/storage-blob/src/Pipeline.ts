@@ -242,7 +242,7 @@ export function newPipeline(
       ? attachCredential(
           storageBearerTokenChallengeAuthenticationPolicy(
             credential,
-            pipelineOptions.audience ? pipelineOptions.audience! : StorageOAuthScopes
+            pipelineOptions.audience ?? StorageOAuthScopes
           ),
           credential
         )

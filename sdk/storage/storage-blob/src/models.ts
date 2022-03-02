@@ -319,11 +319,11 @@ export const enum KnownBlobAudience {
 }
 
 /**
- * Defines values for audience used to retrieve an AAD token. \
+ * Defines values for audience used to retrieve an AAD token.
  * {@link KnownBlobAudience} can be used interchangeably with BlobAudience,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **https://storage.azure.com/.default** \
+ * **https://storage.azure.com/.default**
  * **https://disk.compute.azure.com/.default**
  */
 export type BlobAudience = string | string[];

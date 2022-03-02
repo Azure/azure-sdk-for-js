@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added ability to specify Disk Compute AAD Audience in BlobClientOptions.
+
 ### Breaking Changes
 
 ### Bugs Fixed

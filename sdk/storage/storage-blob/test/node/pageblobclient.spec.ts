@@ -20,12 +20,14 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   BlobServiceClient,
+  KnownBlobAudience,
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;
@@ -51,6 +53,35 @@ describe("PageBlobClient Node.js only", () => {
   afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
+  });
+
+  it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const diskBlobClient = new PageBlobClient(
+      "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
+      new DefaultAzureCredential()
+    );
+
+    const result = await diskBlobClient.getProperties();
+    assert.ok(result.contentLength);
+  });
+
+  it("fetch a blob for disk with Bearer token", async function (this: Context): Promise<void> {
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const diskBlobClient = new PageBlobClient(
+      "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
+      new DefaultAzureCredential(),
+      {
+        audience: KnownBlobAudience.DiskComputeOAuthScopes,
+      }
+    );
+
+    const result = await diskBlobClient.getProperties();
+    assert.ok(result.contentLength);
   });
 
   it("startCopyIncremental", async () => {
