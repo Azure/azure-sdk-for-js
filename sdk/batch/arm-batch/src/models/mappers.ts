@@ -1013,6 +1013,33 @@ export const CertificateBaseProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const DetectorListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetectorListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetectorResponse"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ListPrivateLinkResourcesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1686,6 +1713,13 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         serializedName: "subnetId",
         type: {
           name: "String"
+        }
+      },
+      dynamicVNetAssignmentScope: {
+        serializedName: "dynamicVNetAssignmentScope",
+        type: {
+          name: "Enum",
+          allowedValues: ["none", "job"]
         }
       },
       endpointConfiguration: {
@@ -2927,6 +2961,22 @@ export const CertificateCreateOrUpdateParameters: coreClient.CompositeMapper = {
       },
       password: {
         serializedName: "properties.password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DetectorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetectorResponse",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      value: {
+        serializedName: "properties.value",
         type: {
           name: "String"
         }
