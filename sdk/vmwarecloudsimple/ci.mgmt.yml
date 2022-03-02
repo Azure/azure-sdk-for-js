@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/vmwarecloudsimple/ci.mgmt.yml
       - sdk/vmwarecloudsimple/arm-vmwarecloudsimple/
+      - sdk/vmwarecloudsimple/arm-vmwarecloudsimple
 pr:
   branches:
     include:
@@ -23,7 +24,7 @@ pr:
     include:
       - sdk/vmwarecloudsimple/ci.mgmt.yml
       - sdk/vmwarecloudsimple/arm-vmwarecloudsimple/
-
+      - sdk/vmwarecloudsimple/arm-vmwarecloudsimple
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

@@ -6,7 +6,7 @@ Description of the new service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-vmwarecloudsimple) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
