@@ -632,6 +632,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("supports tracing", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await supportsTracing(
       async (tracingOptions) => {
