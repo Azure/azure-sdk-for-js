@@ -2,78 +2,14 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpMethods, ProxySettings } from "@azure/core-rest-pipeline";
-
-/**
- * An individual header within a HttpHeaders collection.
- */
-export interface HttpHeader {
-  /**
-   * The name of the header.
-   */
-  name: string;
-
-  /**
-   * The value of the header.
-   */
-  value: string;
-}
-
-/**
- * A HttpHeaders collection represented as a simple JSON object.
- */
-export type RawHttpHeaders = { [headerName: string]: string };
-
-export interface HttpHeadersLike {
-  /**
-   * Set a header in this collection with the provided name and value. The name is
-   * case-insensitive.
-   * @param headerName - The name of the header to set. This value is case-insensitive.
-   * @param headerValue - The value of the header to set.
-   */
-  set(headerName: string, headerValue: string | number): void;
-  /**
-   * Get the header value for the provided header name, or undefined if no header exists in this
-   * collection with the provided name.
-   * @param headerName - The name of the header.
-   */
-  get(headerName: string): string | undefined;
-  /**
-   * Get whether or not this header collection contains a header entry for the provided header name.
-   */
-  contains(headerName: string): boolean;
-  /**
-   * Remove the header with the provided headerName. Return whether or not the header existed and
-   * was removed.
-   * @param headerName - The name of the header to remove.
-   */
-  remove(headerName: string): boolean;
-  /**
-   * Get the headers that are contained this collection as an object.
-   */
-  rawHeaders(): RawHttpHeaders;
-  /**
-   * Get the headers that are contained in this collection as an array.
-   */
-  headersArray(): HttpHeader[];
-  /**
-   * Get the header names that are contained in this collection.
-   */
-  headerNames(): string[];
-  /**
-   * Get the header values that are contained in this collection.
-   */
-  headerValues(): string[];
-  /**
-   * Create a deep clone/copy of this HttpHeaders collection.
-   */
-  clone(): HttpHeadersLike;
-  /**
-   * Get the JSON object representation of this HTTP header collection.
-   * The result is the same as `rawHeaders()`.
-   */
-  toJson(options?: { preserveCase?: boolean }): RawHttpHeaders;
-}
+import {
+  HttpHeaders,
+  HttpMethods,
+  PipelineRequest,
+  PipelineResponse,
+  ProxySettings,
+} from "@azure/core-rest-pipeline";
+import { HttpHeadersLike, HttpHeaders as HttpHeadersV1 } from "./httpHeaders";
 
 /**
  * Fired in response to upload or download progress.
@@ -180,4 +116,30 @@ export interface HttpResponse {
    * The HTTP response headers.
    */
   headers: HttpHeadersLike;
+}
+
+function toHttpHeaderLike(headers: HttpHeaders): HttpHeadersLike {
+  return new HttpHeadersV1(headers.toJSON({ preserveCase: true }));
+}
+
+function toWebResourceLike(request: PipelineRequest): WebResourceLike {
+  return {
+    url: request.url,
+    method: request.method,
+    headers: toHttpHeaderLike(request.headers),
+    withCredentials: request.withCredentials,
+    timeout: request.timeout,
+    requestId: request.headers.get("x-ms-client-request-id") || "",
+  };
+}
+
+/**
+ * Helper to transform PipelineResponse to slimmed-down HttpResponse used in Service Bus.
+ */
+export function toHttpResponse(response: PipelineResponse): HttpResponse {
+  return {
+    request: toWebResourceLike(response.request),
+    status: response.status,
+    headers: toHttpHeaderLike(response.headers),
+  };
 }

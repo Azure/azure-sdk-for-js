@@ -68,3 +68,11 @@ export {
   ServiceBusConnectionStringProperties,
 } from "./util/connectionStringUtils";
 export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
+export {
+  HttpResponse,
+  HttpHeader,
+  RawHttpHeaders,
+  HttpHeadersLike,
+  TransferProgressEvent,
+  WebResourceLike,
+} from "./util/compat";

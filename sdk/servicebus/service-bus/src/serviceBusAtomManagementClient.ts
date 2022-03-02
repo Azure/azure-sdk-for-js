@@ -85,6 +85,7 @@ import {
   ServiceBusAtomAPIVersion,
 } from "./util/utils";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { HttpResponse } from "./util/compat";
 
 /**
  * Request options for list<entity-type>() operations
@@ -109,7 +110,7 @@ export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
    */
-  // TODO:_response: HttpResponse;
+  _response: HttpResponse;
 };
 
 /**

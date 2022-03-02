@@ -6,10 +6,12 @@
 
 /// <reference types="node" />
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
+import { HttpMethods } from '@azure/core-rest-pipeline';
 import { default as Long_2 } from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
@@ -17,6 +19,7 @@ import { OperationOptions } from '@azure/core-client';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
@@ -145,6 +148,35 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
+}
+
+// @public
+export interface HttpResponse {
+    headers: HttpHeadersLike;
+    request: WebResourceLike;
+    status: number;
+}
+
+// @public
 export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
@@ -223,6 +255,11 @@ export interface QueueRuntimeProperties {
     transferDeadLetterMessageCount: number;
     transferMessageCount: number;
 }
+
+// @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
 
 // @public
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
@@ -582,10 +619,39 @@ export interface TopicRuntimeProperties {
 }
 
 // @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
+
+// @public
 export interface TryAddOptions {
     // @deprecated (undocumented)
     parentSpan?: Span | SpanContext | null;
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    body?: any;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    withCredentials: boolean;
 }
 
 export { WebSocketImpl }
@@ -593,7 +659,9 @@ export { WebSocketImpl }
 export { WebSocketOptions }
 
 // @public
-export type WithResponse<T extends object> = T & {};
+export type WithResponse<T extends object> = T & {
+    _response: HttpResponse;
+};
 
 // (No @packageDocumentation comment for this package)
 
