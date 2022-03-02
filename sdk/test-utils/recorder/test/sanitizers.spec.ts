@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { isPlaybackMode, Recorder } from "../src";
+import { env, isPlaybackMode, Recorder } from "../src";
 import { TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { v4 as generateUuid } from "uuid";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -335,6 +336,38 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBodyAfterReset }
+        );
+      });
+    });
+
+    describe("Sanitizers in playback mode", () => {
+      it("GeneralRegexSanitizer", async () => {
+        await recorder.start({
+          envSetupForPlayback: {},
+        });
+        // currentValue is dynamic
+        currentValue = generateUuid() + `-${env.TEST_MODE}`;
+
+        // In record mode, the proxy tool santizes the value 'generateUuid() + `-${env.TEST_MODE}`' as fakeSecretValue
+        // In playback mode, the proxy tool santizes the value before matching the request to fakeSecretValue and hence the request matches with what's in the recording
+        await recorder.addSanitizers({
+          generalSanitizers: [
+            {
+              regex: true,
+              target: `[0-9a-z-]+-${env.TEST_MODE}`,
+              value: fakeSecretValue,
+            },
+          ],
+        });
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/${currentValue}`, // Request goes with this dynamic value in both the path and the body
+            body: currentValue,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "I am the answer!" }
         );
       });
     });
