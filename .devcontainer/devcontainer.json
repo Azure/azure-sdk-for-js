@@ -37,7 +37,7 @@
     "MS-vsliveshare.vsliveshare",
     "VisualStudioExptTeam.vscodeintellicode"
   ],
-  "postCreateCommand": "npm install -g @microsoft/rush" // Disable Oryx build which runs npm install and creates a phantom node_modules folder
+  "postCreateCommand": "npm install -g @microsoft/rush" // This both overrides Oryx build which will run npm install and create a phantom node_modules directory and ensures that rush is available for use.
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
