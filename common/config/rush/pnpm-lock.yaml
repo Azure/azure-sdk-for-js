@@ -2380,6 +2380,12 @@ packages:
       '@types/node': 17.0.15
     dev: false
 
+  /@types/mdast/3.0.10:
+    resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
+    dependencies:
+      '@types/unist': 2.0.6
+    dev: false
+
   /@types/mime/1.3.2:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==}
     dev: false
@@ -2516,6 +2522,10 @@ packages:
 
   /@types/underscore/1.11.4:
     resolution: {integrity: sha512-uO4CD2ELOjw8tasUrAhvnn2W4A0ZECOvMjCivJr4gA9pGgjv+qxKWY9GLTMVEK8ej85BxQOocUyE7hImmSQYcg==}
+    dev: false
+
+  /@types/unist/2.0.6:
+    resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
 
   /@types/uuid/8.3.4:
@@ -3217,6 +3227,18 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+    dev: false
+
+  /character-entities-legacy/1.1.4:
+    resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}
+    dev: false
+
+  /character-entities/1.2.4:
+    resolution: {integrity: sha512-iBMyeEHxfVnIakwOuDXpVkc54HijNgCyQB2w0VfGQThle6NXn50zU6V/u+LDhxHcDUPojn6Kpga3PTAD8W1bQw==}
+    dev: false
+
+  /character-reference-invalid/1.1.4:
+    resolution: {integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==}
     dev: false
 
   /charenc/0.0.2:
@@ -3961,6 +3983,18 @@ packages:
       object.values: 1.1.5
       resolve: 1.22.0
       tsconfig-paths: 3.12.0
+    dev: false
+
+  /eslint-plugin-markdown/2.2.1_eslint@7.32.0:
+    resolution: {integrity: sha512-FgWp4iyYvTFxPwfbxofTvXxgzPsDuSKHQy2S+a8Ve6savbujey+lgrFFbXQA0HPygISpRYWYBjooPzhYSF81iA==}
+    engines: {node: ^8.10.0 || ^10.12.0 || >= 12.0.0}
+    peerDependencies:
+      eslint: '>=6.0.0'
+    dependencies:
+      eslint: 7.32.0
+      mdast-util-from-markdown: 0.8.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /eslint-plugin-no-only-tests/2.6.0:
@@ -4983,6 +5017,17 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
+  /is-alphabetical/1.0.4:
+    resolution: {integrity: sha512-DwzsA04LQ10FHTZuL0/grVDk4rFoVH1pjAToYwBrHSxcrBIGQuXrQMtD5U1b0U2XVgKZCTLLP8u2Qxqhy3l2Vg==}
+    dev: false
+
+  /is-alphanumerical/1.0.4:
+    resolution: {integrity: sha512-UzoZUr+XfVz3t3v4KyGEniVL9BDRoQtY7tOyrRybkVNjDFWyo1yhXNGrrBTQxp3ib9BLAWs7k2YKBQsFRkZG9A==}
+    dependencies:
+      is-alphabetical: 1.0.4
+      is-decimal: 1.0.4
+    dev: false
+
   /is-arguments/1.1.1:
     resolution: {integrity: sha512-8Q7EARjzEnKpt/PCD7e1cgUS0a6X8u5tdSiMqXhojOdoV9TsMsiO+9VLC5vAmO8N7/GmXn7yjR8qnA6bVAEzfA==}
     engines: {node: '>= 0.4'}
@@ -5050,6 +5095,10 @@ packages:
       has-tostringtag: 1.0.0
     dev: false
 
+  /is-decimal/1.0.4:
+    resolution: {integrity: sha512-RGdriMmQQvZ2aqaQq3awNA6dCGtKpiDFcOzrTWrDAT2MiWrKQVPmxLGHl7Y2nNu6led0kEyoX0enY0qXYsv9zw==}
+    dev: false
+
   /is-docker/2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
     engines: {node: '>=8'}
@@ -5097,6 +5146,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       is-extglob: 2.1.1
+    dev: false
+
+  /is-hexadecimal/1.0.4:
+    resolution: {integrity: sha512-gyPJuv83bHMpocVYoqof5VDiZveEoGoFL8m3BXNb2VW8Xs+rz9kqO8LOQ5DH6EsuvilT1ApazU0pyl+ytbPtlw==}
     dev: false
 
   /is-module/1.0.0:
@@ -5933,6 +5986,22 @@ packages:
       is-buffer: 1.1.6
     dev: false
 
+  /mdast-util-from-markdown/0.8.5:
+    resolution: {integrity: sha512-2hkTXtYYnr+NubD/g6KGBS/0mFmBcifAsI0yIWRiRo0PjVs6SSOSOdtzbp6kSGnShDN6G5aWZpKQ2lWRy27mWQ==}
+    dependencies:
+      '@types/mdast': 3.0.10
+      mdast-util-to-string: 2.0.0
+      micromark: 2.11.4
+      parse-entities: 2.0.0
+      unist-util-stringify-position: 2.0.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /mdast-util-to-string/2.0.0:
+    resolution: {integrity: sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==}
+    dev: false
+
   /media-typer/0.3.0:
     resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
@@ -5965,6 +6034,15 @@ packages:
   /methods/1.1.2:
     resolution: {integrity: sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /micromark/2.11.4:
+    resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}
+    dependencies:
+      debug: 4.3.3
+      parse-entities: 2.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /micromatch/4.0.4:
@@ -6596,6 +6674,17 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       callsites: 3.1.0
+    dev: false
+
+  /parse-entities/2.0.0:
+    resolution: {integrity: sha512-kkywGpCcRYhqQIchaWqZ875wzpS/bMKhz5HnN3p7wveJTkTtyAB/AlnS0f8DFSqYW1T82t6yEAkEcB+A1I3MbQ==}
+    dependencies:
+      character-entities: 1.2.4
+      character-entities-legacy: 1.1.4
+      character-reference-invalid: 1.1.4
+      is-alphanumerical: 1.0.4
+      is-decimal: 1.0.4
+      is-hexadecimal: 1.0.4
     dev: false
 
   /parse-json/4.0.0:
@@ -8289,6 +8378,12 @@ packages:
     resolution: {integrity: sha512-ekY1NhRzq0B08g4bGuX4wd2jZx5GnKz6mKSqFL4nqBlfyMGiG10gDFhDTMEfYmDL6Jy0FUIZp7wiRB+0BP7J2g==}
     dev: false
 
+  /unist-util-stringify-position/2.0.3:
+    resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
+    dependencies:
+      '@types/unist': 2.0.6
+    dev: false
+
   /universal-user-agent/6.0.0:
     resolution: {integrity: sha512-isyNax3wXoKaulPDZWHQqbmIx1k2tb9fb3GGDBRxCscfYV2Ch7WxPArBsFEG8s/safwXTT7H4QGhaIkTp9447w==}
     dev: false
@@ -9278,7 +9373,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-ECOKsotP708k026QbI6wNYY1izdev3hPgoHvcECOSEim3/c1PHMxUIRxNnNRAHApFRdxq8YVEIcHQ0Hti3Eh4A==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-Fd8bWxZRa2mOi+u6ZiEzhy6rwYt95XG9iNapiSjYxQYnIo2eWq2f2P5o1n8goQ8hqYGkN73HR/e2tfchlVts2A==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -9287,18 +9382,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -9702,27 +9798,28 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-PMofmK9xvJaGzycv50HnFTu0lXAvJgFo0S1E7RrcPpzCPjhvKRxE5VyqDhxDi5pLPpobNGbyfuifoelcT5a39g==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-SXG1OOPxmuDjfmHhCOcG31GII1K7GgOEgaWBJ1ljPTcUIHkI9dVHelhX9hgUh5GOlGLpQlC6UYp6PKlJE4JVXA==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11412,27 +11509,28 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-ovCe7gK7PTpM+0vh0odxrCi8yCeEAS3DHjkyeG9VryTXs3PlWdAjdxCR1L+Je0veUslcb2DIxv4B6dekCPCFvg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-BxqmyPJTZGmcXiuya10kSyUifo4nWfNo6MiuleBAIEzMHzb4/9hXmv7h/n4y8AAE7lRRGDWrYGJaIBZyjb2gyw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -12492,7 +12590,7 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-nY3TC3x2FgogISWghoQLFLWHN5McEdVO8zim6Wfig/3Axn19aMcyoRybU3WiVL+nB5tzR7rEm7uKOK1nR6io5g==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-A7kWeiEqm59Nmd0W/I+ugfVi0uROSW06Mg8bgteuOedYKEWSn58hp+CBatd7fuYoXJNUh//RTwSgbHXbn3zQUA==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
@@ -12501,18 +12599,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -14349,7 +14448,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-b9jZ8mqW0mbkStNGNjwmVGtkT7iLTX59lFCOuKzl+KH/VvKLStoNCs19xf1HEXO2WrMLkzOj5c9K0WMXusvvmQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-TbTRI/L8IaCaN0rhK1Emy5igUmmHz+tbrsvfWTVvwOW9h43KzUxrJf2QtCWgHmJtS9P8zQTlt/bumJz7kbeNBA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -14368,6 +14467,7 @@ packages:
       eslint: 7.32.0
       eslint-config-prettier: 7.2.0_eslint@7.32.0
       eslint-plugin-import: 2.25.4_eslint@7.32.0
+      eslint-plugin-markdown: 2.2.1_eslint@7.32.0
       eslint-plugin-no-only-tests: 2.6.0
       eslint-plugin-promise: 6.0.0_eslint@7.32.0
       eslint-plugin-tsdoc: 0.2.14
