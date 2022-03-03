@@ -1,5 +1,11 @@
 # Release History
 
+## 1.2.0-beta.2 (Unreleased)
+
+### Features Added
+
+- Upgraded the package to use the latest version of Azure Core, bringing several improvements to the package's HTTP pipeline architecture.
+
 ## 1.2.0-beta.1 (2022-01-24)
 
 - Users can now purchase United Kingdom (GB) toll free and geographic phone numbers for PSTN Calling
