@@ -351,15 +351,18 @@ import { v4 as generateUuid } from "uuid";
 
         // In record mode, the proxy tool santizes the value 'generateUuid() + `-${env.TEST_MODE}`' as fakeSecretValue
         // In playback mode, the proxy tool santizes the value before matching the request to fakeSecretValue and hence the request matches with what's in the recording
-        await recorder.addSanitizers({
-          generalSanitizers: [
-            {
-              regex: true,
-              target: `[0-9a-z-]+-${env.TEST_MODE}`,
-              value: fakeSecretValue,
-            },
-          ],
-        });
+        await recorder.addSanitizers(
+          {
+            generalSanitizers: [
+              {
+                regex: true,
+                target: `[0-9a-z-]+-${env.TEST_MODE}`,
+                value: fakeSecretValue,
+              },
+            ],
+          },
+          ["record", "playback"]
+        );
         await makeRequestAndVerifyResponse(
           client,
           {
