@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   KqlScriptsImpl,
@@ -55,10 +56,11 @@ import {
   TriggerRunOperations,
   WorkspaceOperations
 } from "./operationsInterfaces";
-import { ArtifactsClientContext } from "./artifactsClientContext";
 import { ArtifactsClientOptionalParams } from "./models";
 
-export class ArtifactsClient extends ArtifactsClientContext {
+export class ArtifactsClient extends coreClient.ServiceClient {
+  endpoint: string;
+
   /**
    * Initializes a new instance of the ArtifactsClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -71,7 +73,42 @@ export class ArtifactsClient extends ArtifactsClientContext {
     endpoint: string,
     options?: ArtifactsClientOptionalParams
   ) {
-    super(credentials, endpoint, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ArtifactsClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.9`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://dev.azuresynapse.net/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
