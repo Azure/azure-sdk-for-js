@@ -109,13 +109,18 @@ export class Recorder {
    *
    * Takes SanitizerOptions as the input, passes on to the proxy-tool.
    *
-   * Applied in both record and playback modes.
+   * By default, it applies only to record mode.
    *
-   * (If you want this to be applied only in a specific mode(either "record" or "playback"), check the mode yourself and add the call accordingly.)
+   * If you want this to be applied in a specific mode or in a combination of modes, use the "mode" argument.
    */
-  async addSanitizers(options: SanitizerOptions): Promise<void> {
+  async addSanitizers(
+    options: SanitizerOptions,
+    mode: "record" | "playback" | ["record", "playback"] = "record"
+  ): Promise<void> {
+    if (isLiveMode()) return;
+    const actualTestMode = getTestMode() as "record" | "playback";
     if (
-      !isLiveMode() &&
+      ((Array.isArray(mode) && mode.includes(actualTestMode)) || mode === actualTestMode) &&
       ensureExistence(this.httpClient, "this.httpClient") &&
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
