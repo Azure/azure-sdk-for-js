@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.3 (Unreleased)
+## 12.9.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,20 @@
 
 ### Bugs Fixed
 
-- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
 
 ### Other Changes
+
+## 12.9.0-beta.3 (2022-02-11)
+
+### Features Added
+
+- Added support for service version 2021-04-10.
+- Added support for finding blobs by tags in a container.
+
+### Bugs Fixed
+
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
 
 ## 12.9.0-beta.2 (2021-12-03)
 

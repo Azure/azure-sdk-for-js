@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer";
+
 import { ConnectionString } from "../../src/utils/internalModels";
 import { Context } from "mocha";
 import { assert } from "chai";

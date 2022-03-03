@@ -1,19 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { TokenCredential, ClientSecretCredential } from "@azure/identity";
-
-import { SparkClient, SparkClientOptionalParams } from "../../../src";
 import "./env";
+
+import { ClientSecretCredential, TokenCredential } from "@azure/identity";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isLiveMode,
+  record,
+} from "@azure-tools/test-recorder";
+import { SparkClient, SparkClientOptionalParams } from "../../../src";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
+
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  ENDPOINT: "https://testaccount.dev.azuresynapse.net"
+  ENDPOINT: "https://testaccount.dev.azuresynapse.net",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -31,21 +38,23 @@ export const environmentSetup: RecorderEnvironmentSetup = {
         "testaccount.dev.azuresynapse.net"
       );
       return replaced;
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createClient(pool: string, options?: SparkClientOptionalParams): SparkClient {
   let credential: TokenCredential;
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
   credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    { httpClient }
   );
 
-  return new SparkClient(credential, env.ENDPOINT, pool, options);
+  return new SparkClient(credential, env.ENDPOINT, pool, { ...options, httpClient });
 }
 
 /**

@@ -1,53 +1,100 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/98123456-7614-3456-5678-789980112547/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1321",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 01:11:37 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.16 - SCUS ProdSlices",
-    "x-ms-request-id": "770285e2-7d99-4468-a076-227be5a1e600"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
-   "query": {},
-   "requestBody": "{\"query\":\"datatable (s: string, i: long) [ \\\"a\\\", 1, \\\"b\\\", 2, \\\"c\\\", 3 ] | render columnchart with (title=\\\"the chart title\\\", xtitle=\\\"the x axis title\\\")\",\"timespan\":\"P1D\"}",
-   "status": 200,
-   "response": "{\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"s\",\"type\":\"string\"},{\"name\":\"i\",\"type\":\"long\"}],\"rows\":[[\"a\",1],[\"b\",2],[\"c\",3]]}],\"render\":{\"visualization\":\"columnchart\",\"title\":\"the chart title\",\"accumulate\":false,\"isQuerySorted\":false,\"kind\":null,\"legend\":null,\"series\":null,\"yMin\":\"NaN\",\"yMax\":\"NaN\",\"xAxis\":null,\"xColumn\":null,\"xTitle\":\"the x axis title\",\"yAxis\":null,\"yColumns\":null,\"ySplit\":null,\"yTitle\":null,\"anomalyColumns\":null}}",
-   "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
-    "age": "109",
-    "content-encoding": "gzip",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 01:11:37 GMT",
-    "strict-transport-security": "max-age=15724800; includeSubDomains",
-    "vary": "Accept-Encoding, Accept-Encoding",
-    "via": "1.1 draft-oms-65975698db-js2k4",
-    "x-content-type-options": "nosniff"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "39476be1c9e7c0c99a5cfd2c7d4ff075"
+  "Entries": [
+    {
+      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "175",
+        "Content-Type": "application/json",
+        "prefer": "include-render=true",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "f2ebebab-de23-475b-9e46-23cc1a8905c3",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "query": "datatable (s: string, i: long) [ \u0022a\u0022, 1, \u0022b\u0022, 2, \u0022c\u0022, 3 ] | render columnchart with (title=\u0022the chart title\u0022, xtitle=\u0022the x axis title\u0022)",
+        "timespan": "P1D"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 11 Feb 2022 23:21:13 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
+        "Via": "1.1 draft-oms-5565f6c877-6c2qh",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "tables": [
+          {
+            "name": "PrimaryResult",
+            "columns": [
+              {
+                "name": "s",
+                "type": "string"
+              },
+              {
+                "name": "i",
+                "type": "long"
+              }
+            ],
+            "rows": [
+              [
+                "a",
+                1
+              ],
+              [
+                "b",
+                2
+              ],
+              [
+                "c",
+                3
+              ]
+            ]
+          }
+        ],
+        "render": {
+          "visualization": "columnchart",
+          "title": "the chart title",
+          "accumulate": false,
+          "isQuerySorted": false,
+          "kind": null,
+          "legend": null,
+          "series": null,
+          "yMin": "NaN",
+          "yMax": "NaN",
+          "xAxis": null,
+          "xColumn": null,
+          "xTitle": "the x axis title",
+          "yAxis": null,
+          "yColumns": null,
+          "ySplit": null,
+          "yTitle": null,
+          "anomalyColumns": null
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

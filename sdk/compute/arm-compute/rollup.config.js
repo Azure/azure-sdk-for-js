@@ -17,11 +17,11 @@ import nodeBuiltins from "builtin-modules";
 // #region Warning Handler
 
 /**
- * A function that can determine whether a rollupwarning should be ignored. If
+ * A function that can determine whether a rollup warning should be ignored. If
  * the function returns `true`, then the warning will not be displayed.
  */
 
-function ignoreNiseSinonEvalWarnings(warning) {
+function ignoreNiseSinonEval(warning) {
   return (
     warning.code === "EVAL" &&
     warning.id &&
@@ -30,17 +30,14 @@ function ignoreNiseSinonEvalWarnings(warning) {
   );
 }
 
-function ignoreChaiCircularDependencyWarnings(warning) {
+function ignoreChaiCircularDependency(warning) {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
     warning.importer && warning.importer.includes("node_modules/chai") === true
   );
 }
 
-const warningInhibitors = [
-  ignoreChaiCircularDependencyWarnings,
-  ignoreNiseSinonEvalWarnings
-];
+const warningInhibitors = [ignoreChaiCircularDependency, ignoreNiseSinonEval];
 
 /**
  * Construct a warning handler for the shared rollup configuration
@@ -110,7 +107,7 @@ export function makeConfig(pkg, options) {
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
-    plugins: [sourcemaps(), nodeResolve(), cjs()]
+    plugins: [sourcemaps(), nodeResolve()]
   };
 
   const config = [baseConfig];

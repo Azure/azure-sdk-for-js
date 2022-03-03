@@ -103,7 +103,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-02-12",
+    defaultValue: "2021-04-10",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -777,8 +777,7 @@ export const encryptionKeySha256: OperationParameter = {
 export const encryptionAlgorithm: OperationParameter = {
   parameterPath: ["options", "encryptionAlgorithm"],
   mapper: {
-    defaultValue: "AES256",
-    isConstant: true,
+    isConstant: false,
     serializedName: "x-ms-encryption-algorithm",
     type: {
       name: "String"

@@ -26,7 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
-import { Matcher, setMatcher } from "./matcher";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
 import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
@@ -34,6 +34,7 @@ import {
   WebResource,
   WebResourceLike,
 } from "@azure/core-http";
+import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
@@ -116,6 +117,16 @@ export class Recorder {
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
       return addSanitizers(this.httpClient, this.url, this.recordingId, options);
+    }
+  }
+
+  async addTransform(transform: Transform): Promise<void> {
+    if (
+      isPlaybackMode() &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
+      await addTransform(this.url, this.httpClient, transform, this.recordingId);
     }
   }
 
@@ -204,13 +215,21 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher): Promise<void> {
+  async setMatcher(matcher: "HeaderlessMatcher" | "BodilessMatcher"): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: "CustomDefaultMatcher", options?: CustomMatcherOptions): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId, options);
     }
   }
 

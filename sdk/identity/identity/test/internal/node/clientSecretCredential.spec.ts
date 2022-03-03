@@ -5,6 +5,7 @@
 
 import Sinon from "sinon";
 import { assert } from "chai";
+import { GetTokenOptions } from "@azure/core-auth";
 import { AbortController } from "@azure/abort-controller";
 import { env, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
@@ -82,6 +83,18 @@ describe("ClientSecretCredential (internal)", function () {
     assert.strictEqual(firstToken, secondToken);
     assert.equal(getTokenSilentSpy.callCount, 2);
 
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  it("Authenticates with tenantId on getToken", async function () {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
