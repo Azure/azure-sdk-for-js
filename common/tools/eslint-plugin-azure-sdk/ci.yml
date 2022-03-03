@@ -1,11 +1,23 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - common/tools/eslint-plugin-azure-sdk/
+
 pr:
   branches:
     include:
       - main
+      - feature/*
+      - hotfix/*
       
   paths:
     include:
-      - common/tools/eslint-plugin-azure-sdk
+      - common/tools/eslint-plugin-azure-sdk/
 
 jobs:
   - job: 'RunESLint'
