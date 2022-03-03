@@ -11,7 +11,7 @@
   - `FormRecognizerAudience.AzureGovernment` (`"https://cognitiveservices.azure.us/.default"`),
   - `FormRecognizerAudience.AzurePublicCloud` (`"https://cognitiveservices.azure.com/.default"`),
 
-  If `audience` is undefined, the default value is suitable for the Azure Public Cloud (`"https://cognitiveservices.azure.com/.default"`)
+  If `audience` is undefined, the default value is suitable for the Azure Public Cloud `https://cognitiveservices.azure.com/.default`.
 
 ### Breaking Changes
 
