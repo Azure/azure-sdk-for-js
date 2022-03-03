@@ -11,7 +11,6 @@ trigger:
       - sdk/containerregistry/
     exclude:
       - sdk/containerregistry/ci.mgmt.yml
-      - sdk/containerregistry/arm-containerregistry/
       - sdk/containerregistry/arm-containerregistry
 pr:
   branches:
@@ -27,7 +26,6 @@ pr:
       - sdk/containerregistry/
     exclude:
       - sdk/containerregistry/ci.mgmt.yml
-      - sdk/containerregistry/arm-containerregistry/
       - sdk/containerregistry/arm-containerregistry
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
