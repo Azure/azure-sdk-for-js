@@ -5,6 +5,7 @@
 
 import Sinon from "sinon";
 import { assert } from "chai";
+import { GetTokenOptions } from "@azure/core-auth";
 import { PublicClientApplication } from "@azure/msal-node";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { DeviceCodeCredential } from "../../../src";
@@ -60,5 +61,20 @@ describe("DeviceCodeCredential (internal)", function () {
       1,
       "doGetTokenSpy.callCount should have been 1 (2nd time)"
     );
+  });
+
+  it("Authenticates with tenantId on getToken", async function (this: Context) {
+    // These tests should not run live because this credential requires user interaction.
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID,
+    });
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1, "getTokenSilentSpy.callCount should have been 1");
+    assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1");
   });
 });
