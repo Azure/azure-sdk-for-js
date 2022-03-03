@@ -312,18 +312,16 @@ export interface HttpAuthorization {
   value: string;
 }
 
-/** Known values of {@link BlobAudience} that the service accepts. */
-export const enum KnownBlobAudience {
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageBlobAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
   StorageOAuthScopes = "https://storage.azure.com/.default",
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Disk.
+   */
   DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
 }
-
-/**
- * Defines values for audience used to retrieve an AAD token.
- * {@link KnownBlobAudience} can be used interchangeably with BlobAudience,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **https://storage.azure.com/.default**
- * **https://disk.compute.azure.com/.default**
- */
-export type BlobAudience = string | string[];

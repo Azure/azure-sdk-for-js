@@ -41,7 +41,6 @@ import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 import { attachCredential } from "./utils/utils.common";
 import { storageBearerTokenChallengeAuthenticationPolicy } from "./policies/StorageBearerTokenChallengeAuthenticationPolicy";
-import { BlobAudience } from "./models";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -191,7 +190,7 @@ export interface StoragePipelineOptions {
   /// <summary>
   /// The audience used to retrieve an AAD token.
   /// </summary>
-  audience?: BlobAudience;
+  audience?: string | string[];
 }
 
 /**

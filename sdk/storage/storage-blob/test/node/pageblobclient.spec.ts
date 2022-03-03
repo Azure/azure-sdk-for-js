@@ -20,7 +20,7 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   BlobServiceClient,
-  KnownBlobAudience,
+  StorageBlobAudience,
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -76,7 +76,7 @@ describe("PageBlobClient Node.js only", () => {
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
       new DefaultAzureCredential(),
       {
-        audience: KnownBlobAudience.DiskComputeOAuthScopes,
+        audience: StorageBlobAudience.DiskComputeOAuthScopes,
       }
     );
 

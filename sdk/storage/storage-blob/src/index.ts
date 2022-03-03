@@ -25,7 +25,6 @@ export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./sas/SasIPRange";
 export { Range } from "./Range";
 export {
-  BlobAudience,
   BlockBlobTier,
   PremiumPageBlobTier,
   Tags,
@@ -37,7 +36,7 @@ export {
   BlobQueryArrowField,
   BlobQueryArrowFieldType,
   HttpAuthorization,
-  KnownBlobAudience,
+  StorageBlobAudience,
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
