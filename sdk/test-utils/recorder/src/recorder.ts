@@ -115,12 +115,12 @@ export class Recorder {
    */
   async addSanitizers(
     options: SanitizerOptions,
-    mode: "record" | "playback" | ["record", "playback"] = "record"
+    mode: ("record" | "playback")[] = ["record"]
   ): Promise<void> {
     if (isLiveMode()) return;
     const actualTestMode = getTestMode() as "record" | "playback";
     if (
-      ((Array.isArray(mode) && mode.includes(actualTestMode)) || mode === actualTestMode) &&
+      mode.includes(actualTestMode) &&
       ensureExistence(this.httpClient, "this.httpClient") &&
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
