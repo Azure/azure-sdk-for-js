@@ -9,6 +9,14 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 
+/**
+ * Creates a `PipelinePolicy` that converts relative URL values in the `nextLink` property to absolute URLs.
+ *
+ * This is necessary because the Core V2 library does not support paging with relative links at time of writing.
+ *
+ * @param host - The base URL of the resource.
+ * @returns the `PipelinePolicy` that addresses the issue.
+ */
 export function createPhoneNumbersPagingPolicy(host: string): PipelinePolicy {
   return {
     name: "phoneNumbersPagingPolicy",
@@ -26,6 +34,16 @@ export function createPhoneNumbersPagingPolicy(host: string): PipelinePolicy {
   };
 }
 
+/**
+ * A `PipelinePolicy` that adds the `azure-asyncoperation` header to the request with the
+ * same value as the `operation-location` header, if it exists.
+ *
+ * This is used because the phone-numbers API uses LROs with status monitors, but
+ * the Core V2 LRO implementation only supports this pattern if the legacy
+ * `azure-asyncoperation` header is present.
+ *
+ * For more information on the LRO guidelines, refer to: https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#long-running-operations-with-status-monitor
+ */
 export const phoneNumbersLroPolicy: PipelinePolicy = {
   name: "phoneNumbersLroPolicy",
   async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {

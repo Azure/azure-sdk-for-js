@@ -115,6 +115,8 @@ export class PhoneNumbersClient {
     });
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
+
+    // These policies are temporary workarounds to address compatibility issues with Azure Core V2.
     this.client.pipeline.addPolicy(phoneNumbersLroPolicy);
     this.client.pipeline.addPolicy(createPhoneNumbersPagingPolicy(url));
   }
