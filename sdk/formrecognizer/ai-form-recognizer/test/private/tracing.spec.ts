@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DocumentAnalysisClient } from "../../src/documentAnalysisClient";
 import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient";
