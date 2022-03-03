@@ -37,7 +37,6 @@ describe("Operation Options", () => {
         assert.fail();
       } catch (err) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
       }
     }
 
