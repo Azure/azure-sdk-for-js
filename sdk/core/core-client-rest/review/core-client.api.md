@@ -4,12 +4,16 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
+import { KeyObject } from 'tls';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PxfObject } from 'tls';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
@@ -23,8 +27,11 @@ export interface AdditionalPolicyConfig {
 
 // @public
 export interface CertificateCredential {
-    cert: string;
-    certKey: string;
+    ca?: string | Buffer | Array<string | Buffer> | undefined;
+    cert?: string | Buffer | Array<string | Buffer> | undefined;
+    certKey?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+    passphrase?: string | undefined;
+    pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
 }
 
 // @public
@@ -55,6 +62,9 @@ export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+
+// @public
+export function getClientCertificatePolicy(certificate?: CertificateCredential): PipelinePolicy;
 
 // @public
 export type HttpResponse = {

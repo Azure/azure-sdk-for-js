@@ -4,6 +4,7 @@
 
 ```ts
 
+import { CertificateCredential } from '@azure-rest/core-client';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -13332,7 +13333,7 @@ export interface ServiceEventOutputBase extends FabricEventOutputBase {
 }
 
 // @public (undocumented)
-function ServiceFabric(credentials: TokenCredential, options?: ClientOptions): ServiceFabricLike;
+function ServiceFabric(credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ServiceFabricLike;
 export default ServiceFabric;
 
 // @public (undocumented)

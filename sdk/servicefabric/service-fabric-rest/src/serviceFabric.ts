@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import {
+  getClient,
+  ClientOptions,
+  CertificateCredential,
+  isCertificateCredential,
+  getClientCertificatePolicy,
+} from "@azure-rest/core-client";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ServiceFabricLike } from "./clientDefinitions";
 
 export default function ServiceFabric(
-  credentials: TokenCredential,
+  credentials: TokenCredential | CertificateCredential,
   options: ClientOptions = {}
 ): ServiceFabricLike {
   const baseUrl = options.baseUrl ?? "http://localhost:19080/";
@@ -18,7 +24,13 @@ export default function ServiceFabric(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as ServiceFabricLike;
+  const credential = isTokenCredential(credentials) ? credentials : undefined;
+
+  const client = getClient(baseUrl, credential, options) as ServiceFabricLike;
+
+  if (isCertificateCredential(credentials)) {
+    client.pipeline.addPolicy(getClientCertificatePolicy(credentials));
+  }
 
   return {
     ...client,

@@ -6,7 +6,11 @@
  * @packageDocumentation
  */
 
-export { CertificateCredential, isCertificateCredential } from "./certificateCredential";
+export {
+  CertificateCredential,
+  getClientCertificatePolicy,
+} from "./helpers/clientCertificatePolicy";
+export { isCertificateCredential } from "./helpers/isCertificateCredential";
 export { createRestError } from "./restError";
 export * from "./getClient";
 export * from "./common";
