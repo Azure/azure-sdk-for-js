@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
+
 ### Other Changes
 
 ## 12.9.0-beta.3 (2022-02-11)
