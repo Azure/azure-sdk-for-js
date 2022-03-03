@@ -1,6 +1,6 @@
 # Release History
 
-## 4.4.0-beta.3 (Unreleased)
+## 4.4.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- This release updates `SecretClient` to support service version 7.3 by default.
 
 ## 4.4.0-beta.2 (2021-11-09)
 

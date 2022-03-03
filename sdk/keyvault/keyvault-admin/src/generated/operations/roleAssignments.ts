@@ -10,7 +10,7 @@ import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultClientContext } from "../keyVaultClientContext";
+import { KeyVaultClient } from "../keyVaultClient";
 import {
   RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentCreateParameters,
@@ -24,15 +24,15 @@ import {
   RoleAssignmentsListForScopeNextResponse
 } from "../models";
 
-/** Class representing a RoleAssignments. */
+/** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {
-  private readonly client: KeyVaultClientContext;
+  private readonly client: KeyVaultClient;
 
   /**
    * Initialize a new instance of the class RoleAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultClientContext) {
+  constructor(client: KeyVaultClient) {
     this.client = client;
   }
 

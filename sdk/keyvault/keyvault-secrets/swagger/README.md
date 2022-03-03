@@ -14,9 +14,9 @@ azure-arm: false
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a42f16c75e5005c59b75fe7f0888c1103294d43/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.3-preview/secrets.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b1d0d6d2aa9bcfce71544d32ef007d8e7805a19/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/secrets.json
 output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
-package-version: 4.4.0-beta.3
+package-version: 4.4.0
 ```

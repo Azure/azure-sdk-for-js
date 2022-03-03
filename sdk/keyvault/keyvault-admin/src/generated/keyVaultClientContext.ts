@@ -7,12 +7,12 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { ApiVersion73Preview, KeyVaultClientOptionalParams } from "./models";
+import { ApiVersion73, KeyVaultClientOptionalParams } from "./models";
 
-export const packageVersion = "4.2.0-beta.3";
+export const packageVersion = "4.2.0";
 
 export class KeyVaultClientContext extends coreClient.ServiceClient {
-  apiVersion: ApiVersion73Preview;
+  apiVersion: ApiVersion73;
 
   /**
    * Initializes a new instance of the KeyVaultClientContext class.
@@ -20,7 +20,7 @@ export class KeyVaultClientContext extends coreClient.ServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion73,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
