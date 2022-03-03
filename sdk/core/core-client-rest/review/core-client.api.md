@@ -29,7 +29,7 @@ export interface AdditionalPolicyConfig {
 export interface CertificateCredential {
     ca?: string | Buffer | Array<string | Buffer> | undefined;
     cert?: string | Buffer | Array<string | Buffer> | undefined;
-    certKey?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+    key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
     passphrase?: string | undefined;
     pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
 }

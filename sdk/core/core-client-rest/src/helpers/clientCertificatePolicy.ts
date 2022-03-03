@@ -37,7 +37,7 @@ export interface CertificateCredential {
    * object.passphrase is optional. Encrypted keys will be decrypted with
    * object.passphrase if provided, or options.passphrase if it is not.
    */
-  certKey?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
   /**
    * Shared passphrase used for a single private key and/or a PFX.
    */
@@ -66,8 +66,7 @@ export function getClientCertificatePolicy(certificate?: CertificateCredential):
         return next(req);
       }
 
-      const { cert, certKey: key, pfx, ca, passphrase } = certificate;
-      const agent = new Agent({ cert, key, pfx, ca, passphrase });
+      const agent = new Agent(certificate);
       req.agent = agent;
 
       return next(req);
