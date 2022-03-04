@@ -59,14 +59,15 @@ import {
   nonretryerrorPutasyncRetryFailedOperationResults400,
   patchAsync202200,
   patchAsyncOperationresults123,
+  postAsyncDoubleHeadersFinalLocationGet,
   postDoubleHeadersFinalAzureHeaderGet,
   postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl,
   postDoubleHeadersFinalAzureHeaderGetDefault,
   postDoubleHeadersFinalAzureHeaderGetLocation,
-  postAsyncDoubleHeadersFinalLocationGet,
   postDoubleHeadersFinalLocationGetAsyncOperationUrl,
   postDoubleHeadersFinalLocationGetLocation,
   postList,
+  postOperationDoubleHeadersFinalLocationGet,
   postPayload200,
   put200Succeeded,
   put201Succeeded,
@@ -85,7 +86,6 @@ import {
   putSubresourceasyncOperationresults123,
   putasyncNoheader201200,
   putasyncNoheaderOperationresults123,
-  postOperationDoubleHeadersFinalLocationGet,
 } from "./routesProcesses";
 
 interface LroRoute {
