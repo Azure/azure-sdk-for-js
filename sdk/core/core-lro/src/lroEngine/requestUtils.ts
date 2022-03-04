@@ -30,6 +30,25 @@ function getAzureAsyncOperation(rawResponse: RawResponse): string | undefined {
   return rawResponse.headers["azure-asyncoperation"];
 }
 
+function findResourceLocation(
+  requestMethod: string,
+  rawResponse: RawResponse,
+  requestPath: string
+): string | undefined {
+  switch (requestMethod) {
+    case "PUT": {
+      return requestPath;
+    }
+    case "POST":
+    case "PATCH": {
+      return getLocation(rawResponse);
+    }
+    default: {
+      return undefined;
+    }
+  }
+}
+
 export function inferLroMode(
   requestPath: string,
   requestMethod: string,
@@ -43,11 +62,7 @@ export function inferLroMode(
       mode: "Location",
       resourceLocation:
         hasAzureAsync || hasOpLocation
-          ? requestMethod === "PUT"
-            ? requestPath
-            : requestMethod === "POST" || requestMethod === "PATCH"
-            ? getLocation(rawResponse)
-            : undefined
+          ? findResourceLocation(requestMethod, rawResponse, requestPath)
           : undefined,
     };
   } else if (["PUT", "PATCH"].includes(requestMethod)) {

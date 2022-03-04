@@ -13,16 +13,12 @@ import {
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
-function getResponseStatus(rawResponse: RawResponse): string {
-  const { status } = (rawResponse.body as LroBody) ?? {};
-  return typeof status === "string" ? status.toLowerCase() : "succeeded";
-}
-
 function isPollingDone(rawResponse: RawResponse): boolean {
   if (isUnexpectedPollingResponse(rawResponse) || rawResponse.statusCode === 202) {
     return false;
   }
-  const state = getResponseStatus(rawResponse);
+  const { status } = (rawResponse.body as LroBody) ?? {};
+  const state = typeof status === "string" ? status.toLowerCase() : "succeeded";
   if (isUnexpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
     throw new Error(`The long running operation has failed. The provisioning state: ${state}.`);
   }
