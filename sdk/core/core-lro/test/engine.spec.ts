@@ -154,9 +154,28 @@ describe("Lro Engine", function () {
     });
 
     it("should handle postOperationDoubleHeadersFinalLocationGet", async () => {
-      const result = await runMockedLro("POST", "/LROPostOperationDoubleHeadersFinalLocationGet");
+      const result = await runMockedLro("POST", "/LROPostLocationDoubleHeadersFinalLocationGet");
       assert.equal(result.id, "100");
       assert.equal(result.name, "foo");
+    });
+
+    it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
+      const result = await runMockedLro(
+        "POST",
+        "/LROLocationPostDoubleHeadersFinalAzureHeaderGet",
+        undefined,
+        "azure-async-operation"
+      );
+      assert.equal(result.id, "100");
+    });
+
+    it("should handle postDoubleHeadersFinalAzureHeaderGetDefault", async () => {
+      const result = await runMockedLro(
+        "POST",
+        "/LROLocationPostDoubleHeadersFinalAzureHeaderGetDefault"
+      );
+      assert.equal(result.id, "100");
+      assert.equal(result.statusCode, 200);
     });
   });
 

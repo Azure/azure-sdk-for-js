@@ -77,29 +77,26 @@ export function delete204Succeeded(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 204);
 }
 
-export function postAsyncDoubleHeadersFinalLocationGet(request: PipelineRequest): PipelineResponse {
-  return {
-    request: request,
-    status: 202,
-    headers: createHttpHeaders({
-      "Azure-AsyncOperation": `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`,
+function postDoubleHeadersFinalLocationGet(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  return function (request: PipelineRequest): PipelineResponse {
+    const headers = createHttpHeaders({
       Location: `/LROPostDoubleHeadersFinalLocationGet/location`,
-    }),
+    });
+    headers.set(headerName, `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`);
+    return {
+      request: request,
+      status: 202,
+      headers: headers,
+    };
   };
 }
 
-export function postOperationDoubleHeadersFinalLocationGet(
-  request: PipelineRequest
-): PipelineResponse {
-  return {
-    request: request,
-    status: 202,
-    headers: createHttpHeaders({
-      "Operation-Location": `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`,
-      Location: `/LROPostDoubleHeadersFinalLocationGet/location`,
-    }),
-  };
-}
+export const postAsyncDoubleHeadersFinalLocationGet =
+  postDoubleHeadersFinalLocationGet("Azure-AsyncOperation");
+export const postLocationDoubleHeadersFinalLocationGet =
+  postDoubleHeadersFinalLocationGet("Operation-Location");
 
 export function postDoubleHeadersFinalLocationGetAsyncOperationUrl(
   request: PipelineRequest
@@ -113,17 +110,22 @@ export function postDoubleHeadersFinalLocationGetLocation(
   return buildResponse(request, 200, `{ "id": "100", "name": "foo" }`);
 }
 
-export function postDoubleHeadersFinalAzureHeaderGet(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    "",
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`,
-      Location: `/LROPostDoubleHeadersFinalAzureHeaderGet/location`,
-    })
-  );
+function postDoubleHeadersFinalAzureHeaderGet(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `/LROPostDoubleHeadersFinalAzureHeaderGet/location`,
+  });
+  headers.set(headerName, `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`);
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, "", headers);
+  };
 }
+
+export const postAsyncDoubleHeadersFinalAzureHeaderGet =
+  postDoubleHeadersFinalAzureHeaderGet("Azure-AsyncOperation");
+export const postLocationDoubleHeadersFinalAzureHeaderGet =
+  postDoubleHeadersFinalAzureHeaderGet("Operation-Location");
 
 export function postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl(
   request: PipelineRequest
@@ -152,19 +154,22 @@ export function getPayload200(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 200, `{"id":"1", "name":"product"}`);
 }
 
-export function postDoubleHeadersFinalAzureHeaderGetDefault(
-  request: PipelineRequest
-): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    "",
-    createHttpHeaders({
-      Location: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location",
-      "Azure-AsyncOperation": "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl",
-    })
-  );
+function postDoubleHeadersFinalAzureHeaderGetDefault(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location",
+  });
+  headers.set(headerName, "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl");
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, "", headers);
+  };
 }
+
+export const postAsyncDoubleHeadersFinalAzureHeaderGetDefault =
+  postDoubleHeadersFinalAzureHeaderGetDefault("Azure-AsyncOperation");
+export const postLocationDoubleHeadersFinalAzureHeaderGetDefault =
+  postDoubleHeadersFinalAzureHeaderGetDefault("Operation-Location");
 
 export function getDoubleHeadersFinalAzureHeaderGetDefaultAsyncOperationUrl(
   request: PipelineRequest

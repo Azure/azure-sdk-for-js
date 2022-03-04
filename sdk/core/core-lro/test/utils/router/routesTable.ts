@@ -59,15 +59,17 @@ import {
   nonretryerrorPutasyncRetryFailedOperationResults400,
   patchAsync202200,
   patchAsyncOperationresults123,
+  postAsyncDoubleHeadersFinalAzureHeaderGet,
+  postAsyncDoubleHeadersFinalAzureHeaderGetDefault,
   postAsyncDoubleHeadersFinalLocationGet,
-  postDoubleHeadersFinalAzureHeaderGet,
   postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl,
-  postDoubleHeadersFinalAzureHeaderGetDefault,
   postDoubleHeadersFinalAzureHeaderGetLocation,
   postDoubleHeadersFinalLocationGetAsyncOperationUrl,
   postDoubleHeadersFinalLocationGetLocation,
   postList,
-  postOperationDoubleHeadersFinalLocationGet,
+  postLocationDoubleHeadersFinalAzureHeaderGet,
+  postLocationDoubleHeadersFinalAzureHeaderGetDefault,
+  postLocationDoubleHeadersFinalLocationGet,
   postPayload200,
   put200Succeeded,
   put201Succeeded,
@@ -132,8 +134,8 @@ export const routes: LroRoute[] = [
   },
   {
     method: "POST",
-    path: "/LROPostOperationDoubleHeadersFinalLocationGet",
-    process: postOperationDoubleHeadersFinalLocationGet,
+    path: "/LROPostLocationDoubleHeadersFinalLocationGet",
+    process: postLocationDoubleHeadersFinalLocationGet,
   },
   {
     method: "GET",
@@ -148,7 +150,12 @@ export const routes: LroRoute[] = [
   {
     method: "POST",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGet",
-    process: postDoubleHeadersFinalAzureHeaderGet,
+    process: postAsyncDoubleHeadersFinalAzureHeaderGet,
+  },
+  {
+    method: "POST",
+    path: "/LROLocationPostDoubleHeadersFinalAzureHeaderGet",
+    process: postLocationDoubleHeadersFinalAzureHeaderGet,
   },
   {
     method: "GET",
@@ -165,7 +172,12 @@ export const routes: LroRoute[] = [
   {
     method: "POST",
     path: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault",
-    process: postDoubleHeadersFinalAzureHeaderGetDefault,
+    process: postAsyncDoubleHeadersFinalAzureHeaderGetDefault,
+  },
+  {
+    method: "POST",
+    path: "/LROLocationPostDoubleHeadersFinalAzureHeaderGetDefault",
+    process: postLocationDoubleHeadersFinalAzureHeaderGetDefault,
   },
   {
     method: "GET",
