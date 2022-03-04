@@ -86,6 +86,7 @@ import {
   SearchIndexerKnowledgeStore,
   SearchIndexerCache,
   SemanticSettings,
+  SearchAlias,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -206,6 +207,46 @@ export type CreateIndexOptions = OperationOptions;
  * Options for create skillset operation.
  */
 export type CreateSkillsetOptions = OperationOptions;
+
+/**
+ * Options for create alias operation.
+ */
+export type CreateAliasOptions = OperationOptions;
+
+/**
+ * Options for create or update alias operation.
+ */
+export interface CreateOrUpdateAliasOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Options for delete alias operation.
+ */
+export interface DeleteAliasOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Options for get alias operation.
+ */
+export type GetAliasOptions = OperationOptions;
+
+/**
+ * Options for list aliases operation.
+ */
+export type ListAliasesOptions = OperationOptions;
+
+/**
+ * Search Alias object.
+ */
+export type SearchIndexerAlias = SearchAlias;
 
 /**
  * Options for create synonymmap operation.

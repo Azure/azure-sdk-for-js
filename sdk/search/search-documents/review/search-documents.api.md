@@ -274,6 +274,9 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
+export type CreateAliasOptions = OperationOptions;
+
+// @public
 export type CreateDataSourceConnectionOptions = OperationOptions;
 
 // @public
@@ -281,6 +284,11 @@ export type CreateIndexerOptions = OperationOptions;
 
 // @public
 export type CreateIndexOptions = OperationOptions;
+
+// @public
+export interface CreateOrUpdateAliasOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
@@ -395,6 +403,11 @@ export const DEFAULT_RETRY_COUNT: number;
 export type DefaultCognitiveServicesAccount = BaseCognitiveServicesAccount & {
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 };
+
+// @public
+export interface DeleteAliasOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface DeleteDataSourceConnectionOptions extends OperationOptions {
@@ -556,6 +569,9 @@ export class GeographyPoint {
     longitude: number;
     toJSON(): Record<string, unknown>;
 }
+
+// @public
+export type GetAliasOptions = OperationOptions;
 
 // @public
 export type GetDataSourceConnectionOptions = OperationOptions;
@@ -1542,6 +1558,9 @@ export type LimitTokenFilter = BaseTokenFilter & {
 export type LineEnding = string;
 
 // @public
+export type ListAliasesOptions = OperationOptions;
+
+// @public
 export type ListDataSourceConnectionsOptions = OperationOptions;
 
 // @public
@@ -1810,6 +1829,13 @@ export interface ScoringProfile {
 export type ScoringStatistics = "local" | "global";
 
 // @public
+export interface SearchAlias {
+    etag?: string;
+    indexes: string[];
+    name: string;
+}
+
+// @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
@@ -1889,18 +1915,23 @@ export class SearchIndexClient {
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     // @deprecated
     readonly apiVersion: string;
+    createAlias(alias: SearchIndexerAlias, options?: CreateAliasOptions): Promise<SearchIndexerAlias>;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
+    createOrUpdateAlias(alias: SearchIndexerAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexerAlias>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    deleteAlias(alias: string | SearchIndexerAlias, options?: DeleteAliasOptions): Promise<void>;
     deleteIndex(index: string | SearchIndex, options?: DeleteIndexOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
+    getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexerAlias>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
     getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listAliases(options?: ListAliasesOptions): Promise<Array<SearchIndexerAlias>>;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
@@ -1931,6 +1962,9 @@ export interface SearchIndexer {
     skillsetName?: string;
     targetIndexName: string;
 }
+
+// @public
+export type SearchIndexerAlias = SearchAlias;
 
 // @public (undocumented)
 export interface SearchIndexerCache {
@@ -2291,6 +2325,7 @@ export type SentimentSkillV3 = BaseSearchIndexerSkill & {
 
 // @public
 export interface ServiceCounters {
+    aliasCounter?: ResourceCounter;
     dataSourceCounter: ResourceCounter;
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
