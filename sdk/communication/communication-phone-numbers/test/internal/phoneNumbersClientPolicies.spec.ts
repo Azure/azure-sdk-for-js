@@ -7,7 +7,7 @@ import {
   mockSearchHttpClient,
 } from "../public/utils/mockHttpClients";
 
-describe.only("PhoneNumbersClient - custom policies ", function () {
+describe("PhoneNumbersClient - custom policies ", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client: PhoneNumbersClient;
