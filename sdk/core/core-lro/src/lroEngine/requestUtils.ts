@@ -54,16 +54,17 @@ export function inferLroMode(
   requestMethod: string,
   rawResponse: RawResponse
 ): LroConfig {
-  const hasAzureAsync = getAzureAsyncOperation(rawResponse) !== undefined;
-  const hasLocation = getLocation(rawResponse) !== undefined;
-  const hasOpLocation = getOperationLocation(rawResponse) !== undefined;
-  if (hasAzureAsync || hasLocation || hasOpLocation) {
+  if (
+    getAzureAsyncOperation(rawResponse) !== undefined ||
+    getOperationLocation(rawResponse) !== undefined
+  ) {
     return {
       mode: "Location",
-      resourceLocation:
-        hasAzureAsync || hasOpLocation
-          ? findResourceLocation(requestMethod, rawResponse, requestPath)
-          : undefined,
+      resourceLocation: findResourceLocation(requestMethod, rawResponse, requestPath),
+    };
+  } else if (getLocation(rawResponse) !== undefined) {
+    return {
+      mode: "Location",
     };
   } else if (["PUT", "PATCH"].includes(requestMethod)) {
     return {
