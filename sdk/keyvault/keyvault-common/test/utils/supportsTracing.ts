@@ -1,4 +1,3 @@
-import { delay } from "@azure/core-http";
 import { setSpan, context as otContext, OperationTracingOptions } from "@azure/core-tracing";
 import { setTracer, assert } from "@azure/test-utils";
 
@@ -9,11 +8,8 @@ export async function supportsTracing(
   children: string[]
 ): Promise<void> {
   const tracer = setTracer();
-  delay(10000)
   const rootSpan = tracer.startSpan("root");
-  delay(10000)
   const tracingContext = setSpan(otContext.active(), rootSpan);
-  delay(10000)
 
   try {
     await callback({ tracingContext });
@@ -22,16 +18,9 @@ export async function supportsTracing(
   }
 
   // Ensure any spans created by KeyVault are parented correctly
-  console.log("*******************************")
-  console.log(tracer)
-  console.log("*******************************")
   let rootSpans = tracer
     .getRootSpans()
     .filter((span) => span.name.startsWith(prefix) || span.name === "root");
-
-  console.log("*******************************")
-  console.log(rootSpans)
-  console.log("*******************************")
 
   assert.equal(rootSpans.length, 1, "Should only have one root span.");
   assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
