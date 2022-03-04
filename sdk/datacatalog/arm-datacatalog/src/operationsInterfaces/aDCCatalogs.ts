@@ -39,11 +39,13 @@ export interface ADCCatalogs {
    * updated and any immutable properties will remain unchanged.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param properties Properties supplied to the Create or Update a data catalog.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    catalogName: string,
     properties: ADCCatalog,
     options?: ADCCatalogsCreateOrUpdateOptionalParams
   ): Promise<ADCCatalogsCreateOrUpdateResponse>;
@@ -51,30 +53,36 @@ export interface ADCCatalogs {
    * The Get Azure Data Catalog Service operation retrieves a json representation of the data catalog.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    catalogName: string,
     options?: ADCCatalogsGetOptionalParams
   ): Promise<ADCCatalogsGetResponse>;
   /**
    * The Delete Azure Data Catalog Service operation deletes an existing data catalog.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
+    catalogName: string,
     options?: ADCCatalogsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * The Delete Azure Data Catalog Service operation deletes an existing data catalog.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
+    catalogName: string,
     options?: ADCCatalogsDeleteOptionalParams
   ): Promise<void>;
   /**
@@ -82,11 +90,13 @@ export interface ADCCatalogs {
    * update call only supports the properties listed in the PATCH body.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param catalogName The name of the data catalog in the specified subscription and resource group.
    * @param properties Properties supplied to the Update a data catalog.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
+    catalogName: string,
     properties: ADCCatalog,
     options?: ADCCatalogsUpdateOptionalParams
   ): Promise<ADCCatalogsUpdateResponse>;

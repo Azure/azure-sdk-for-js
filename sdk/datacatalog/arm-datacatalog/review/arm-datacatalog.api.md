@@ -21,12 +21,12 @@ export type ADCCatalog = Resource & {
 
 // @public
 export interface ADCCatalogs {
-    beginDelete(resourceGroupName: string, options?: ADCCatalogsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, options?: ADCCatalogsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, properties: ADCCatalog, options?: ADCCatalogsCreateOrUpdateOptionalParams): Promise<ADCCatalogsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, options?: ADCCatalogsGetOptionalParams): Promise<ADCCatalogsGetResponse>;
+    beginDelete(resourceGroupName: string, catalogName: string, options?: ADCCatalogsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, catalogName: string, options?: ADCCatalogsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, catalogName: string, properties: ADCCatalog, options?: ADCCatalogsCreateOrUpdateOptionalParams): Promise<ADCCatalogsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, catalogName: string, options?: ADCCatalogsGetOptionalParams): Promise<ADCCatalogsGetResponse>;
     listtByResourceGroup(resourceGroupName: string, options?: ADCCatalogsListtByResourceGroupOptionalParams): Promise<ADCCatalogsListtByResourceGroupResponse>;
-    update(resourceGroupName: string, properties: ADCCatalog, options?: ADCCatalogsUpdateOptionalParams): Promise<ADCCatalogsUpdateResponse>;
+    update(resourceGroupName: string, catalogName: string, properties: ADCCatalog, options?: ADCCatalogsUpdateOptionalParams): Promise<ADCCatalogsUpdateResponse>;
 }
 
 // @public
@@ -84,15 +84,13 @@ export type ADCOperationsListResponse = OperationEntityListResult;
 export class DataCatalogRestClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, catalogName: string, options?: DataCatalogRestClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataCatalogRestClientOptionalParams);
     // (undocumented)
     aDCCatalogs: ADCCatalogs;
     // (undocumented)
     aDCOperations: ADCOperations;
     // (undocumented)
     apiVersion: string;
-    // (undocumented)
-    catalogName: string;
     // (undocumented)
     subscriptionId: string;
 }
