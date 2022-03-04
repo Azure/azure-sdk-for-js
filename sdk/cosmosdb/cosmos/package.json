@@ -56,8 +56,8 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "check:src:strict": "tsc --pretty --project tsconfig.strict.json",
-    "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
+    "check:src:strict": "tsc --project tsconfig.strict.json",
+    "build:src": "echo Using TypeScript && tsc --version && tsc -b",
     "build:test": "tsc",
     "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
     "build": "npm run clean && npm run extract-api && npm run build:types && npm run bundle",

@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "module": "esnext",
-    "strict": false,
+    "strict": true,
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
