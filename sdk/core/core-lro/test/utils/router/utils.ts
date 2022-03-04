@@ -44,7 +44,7 @@ export function applyScenarios(
   scenarios: Processor[]
 ): PipelineResponse | undefined {
   for (const scenario of scenarios) {
-    const response = scenario.processor(request);
+    const response = scenario.process(request);
     if (response) {
       return response;
     }

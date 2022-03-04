@@ -5,14 +5,14 @@ import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/cor
 import { buildResponse, getPascalCase, parseUri } from "./utils";
 
 export interface Processor {
-  processor: (request: PipelineRequest) => PipelineResponse | undefined;
+  process: (request: PipelineRequest) => PipelineResponse | undefined;
 }
 
 function createPutBody(): Processor {
   return {
-    processor,
+    process,
   };
-  function processor(request: PipelineRequest): PipelineResponse | undefined {
+  function process(request: PipelineRequest): PipelineResponse | undefined {
     function isValidRequest(
       initialCode: number,
       initialState: string,
@@ -76,9 +76,9 @@ function createPutBody(): Processor {
 
 function createRetries(): Processor {
   return {
-    processor,
+    process,
   };
-  function processor(request: PipelineRequest): PipelineResponse | undefined {
+  function process(request: PipelineRequest): PipelineResponse | undefined {
     function isValidRequest(initialCode: number, retry: string, finalCode: number): boolean {
       return (
         (initialCode === 202 && retry === "retry" && finalCode === 200) ||
@@ -137,9 +137,9 @@ function createRetries(): Processor {
 
 function createDeleteProvisioning(): Processor {
   return {
-    processor,
+    process,
   };
-  function processor(request: PipelineRequest): PipelineResponse | undefined {
+  function process(request: PipelineRequest): PipelineResponse | undefined {
     function isValidRequest(
       initialCode: number,
       initialState: string,
@@ -197,9 +197,9 @@ function createDeleteProvisioning(): Processor {
 function createDeleteAsyncRetry(): Processor {
   let internalCounter = 1;
   return {
-    processor,
+    process,
   };
-  function processor(request: PipelineRequest): PipelineResponse | undefined {
+  function process(request: PipelineRequest): PipelineResponse | undefined {
     function isValidRequest(retry: string, finalState: string): boolean {
       return (
         (retry === "retry" || retry === "noretry") &&
@@ -251,9 +251,9 @@ function createDeleteAsyncRetry(): Processor {
 function createPutAsyncRetry(): Processor {
   let internalCounter = 1;
   return {
-    processor,
+    process,
   };
-  function processor(request: PipelineRequest): PipelineResponse | undefined {
+  function process(request: PipelineRequest): PipelineResponse | undefined {
     function isValidRequest(retry: string, finalState: string): boolean {
       return (
         (retry === "retry" || retry === "noretry") &&
@@ -321,9 +321,9 @@ function createPutAsyncRetry(): Processor {
 function createPostasyncRetry(): Processor {
   let internalCounter = 1;
   return {
-    processor,
+    process,
   };
-  function processor(request: PipelineRequest): PipelineResponse | undefined {
+  function process(request: PipelineRequest): PipelineResponse | undefined {
     function isValidRequest(retry: string, finalState: string): boolean {
       return (
         (retry === "retry" || retry === "noretry") &&
