@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { SearchAvailablePhoneNumbersRequest } from "../../src/models";
