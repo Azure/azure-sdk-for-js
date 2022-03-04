@@ -9813,7 +9813,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-okUIINibMfByOcF/XtlGLbDsZYz05n1qBM0dA/a+Eo5/KabGmUsCDe+/Ycn2GigMHSPojpuMLGsAnhRaCqe1Rw==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-SXG1OOPxmuDjfmHhCOcG31GII1K7GgOEgaWBJ1ljPTcUIHkI9dVHelhX9hgUh5GOlGLpQlC6UYp6PKlJE4JVXA==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -10790,7 +10790,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-rIvsXQJShRtBz5RlLlvfoBOrrvb868mMeR8rLaiV16gm2S6qWYfsMXPdZ8NQ4fTvw3k5oiKZ5t/3XgcJfd2fZA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-kyj4FpY8IBE52Ojym8PqCldNoyZMUgbMZDUTT7hn7Rd7WF3N843VdO2uiLxTz+CCpZfvC2WDGY+H+wiCQeCcHQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -14463,7 +14463,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-b9jZ8mqW0mbkStNGNjwmVGtkT7iLTX59lFCOuKzl+KH/VvKLStoNCs19xf1HEXO2WrMLkzOj5c9K0WMXusvvmQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-TbTRI/L8IaCaN0rhK1Emy5igUmmHz+tbrsvfWTVvwOW9h43KzUxrJf2QtCWgHmJtS9P8zQTlt/bumJz7kbeNBA==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -14805,7 +14805,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-rbjSAE0K+z3lOIyAO8LLyQH9NqNRMlHktxHdIQpKYOUWcleAd0BdRv/K3NWAoRbSq9ESgXXTwt0xS4T6MFoI2Q==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-LeCn6IxiMBBfYJIUtgWsKx+ks1T0qhcMn0C2TkHOCcLk7GyeLQmgl2arVp96ZP2OQh5V7/QMuob++qg8dyFO3w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
