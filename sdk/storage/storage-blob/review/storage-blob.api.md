@@ -3217,7 +3217,6 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
-    // (undocumented)
     audience?: string | string[];
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;

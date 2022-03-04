@@ -181,15 +181,13 @@ export interface StoragePipelineOptions {
    * Keep alive configurations. Default keep-alive is enabled.
    */
   keepAliveOptions?: KeepAliveOptions;
-
   /**
    * Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
-
-  /// <summary>
-  /// The audience used to retrieve an AAD token.
-  /// </summary>
+  /**
+   * The audience used to retrieve an AAD token.
+   */
   audience?: string | string[];
 }
 
