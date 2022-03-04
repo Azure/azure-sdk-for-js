@@ -8,7 +8,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CommonClientOptions } from '@azure/core-client';
-import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
@@ -80,26 +79,6 @@ export class ContainerRegistryBlobClient {
 }
 
 // @public
-export interface ContainerRegistryBlobDeleteBlobOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ContainerRegistryBlobGetBlobHeaders {
-    contentLength?: number;
-    dockerContentDigest?: string;
-}
-
-// @public
-export interface ContainerRegistryBlobGetBlobOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
 export class ContainerRegistryClient {
     constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     constructor(endpoint: string, options?: ContainerRegistryClientOptions);
@@ -114,14 +93,6 @@ export class ContainerRegistryClient {
 export interface ContainerRegistryClientOptions extends CommonClientOptions {
     audience?: string;
     serviceVersion?: "2021-07-01";
-}
-
-// @public
-export interface ContainerRegistryCreateManifestOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ContainerRegistryDeleteManifestOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -265,11 +236,6 @@ export interface ListTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface Manifest {
-    schemaVersion?: number;
-}
-
-// @public
 export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
     continuationToken?: string;
 }
@@ -372,7 +338,7 @@ export interface UploadManifestOptions extends OperationOptions {
 // @public (undocumented)
 export interface UploadManifestResult {
     // (undocumented)
-    digest?: string;
+    digest: string;
 }
 
 // (No @packageDocumentation comment for this package)
