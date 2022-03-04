@@ -20,8 +20,8 @@ export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
  * @hidden
  */
 export function parseLink(resourcePath: string): {
-  type: ResourceType;
-  objectBody: {
+  type?: ResourceType;
+  objectBody?: {
     id: string;
     self: string;
   };
@@ -271,7 +271,8 @@ export function validateResourceId(resourceId: string): boolean {
 /**
  * @hidden
  */
-export function getResourceIdFromPath(resourcePath: string): string {
+export function getResourceIdFromPath(resourcePath: string): string | null {
+
   if (!resourcePath || typeof resourcePath !== "string") {
     return null;
   }

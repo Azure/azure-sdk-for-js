@@ -12,7 +12,6 @@
     "src/documents/DatabaseAccount.ts",
     "src/documents/IndexingPolicy.ts",
     "src/plugins/Plugin.ts",
-    "src/common/helper.ts",
     "src/common/uriFactory.ts",
     "src/client/Conflict/Conflict.ts",
     "src/client/Conflict/ConflictDefinition.ts",
