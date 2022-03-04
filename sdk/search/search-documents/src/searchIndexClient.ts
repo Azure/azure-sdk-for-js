@@ -33,11 +33,12 @@ import {
   SearchIndexStatistics,
   SearchServiceStatistics,
   CreateAliasOptions,
-  SearchIndexerAlias,
+  SearchIndexAlias,
   CreateOrUpdateAliasOptions,
   DeleteAliasOptions,
   GetAliasOptions,
   ListAliasesOptions,
+  AliasIterator,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -227,6 +228,52 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesPage(options);
+      },
+    };
+  }
+
+  private async *listAliasesPage(
+    options: ListAliasesOptions = {}
+  ): AsyncIterableIterator<SearchIndexAlias[]> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
+    try {
+      const result = await this.client.aliases.list(updatedOptions);
+      yield result.aliases;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listAliasesAll(
+    options: ListAliasesOptions = {}
+  ): AsyncIterableIterator<SearchIndexAlias> {
+    for await (const page of this.listAliasesPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all aliases available for a search service.
+   * @param options - The options parameters.
+   */
+  public listAliases(options: ListAliasesOptions = {}): AliasIterator {
+    const iter = this.listAliasesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAliasesPage(options);
       },
     };
   }
@@ -562,9 +609,9 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async createOrUpdateAlias(
-    alias: SearchIndexerAlias,
+    alias: SearchIndexAlias,
     options: CreateOrUpdateAliasOptions = {}
-  ): Promise<SearchIndexerAlias> {
+  ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
     try {
       const etag = options.onlyIfUnchanged ? alias.etag : undefined;
@@ -591,9 +638,9 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async createAlias(
-    alias: SearchIndexerAlias,
+    alias: SearchIndexAlias,
     options: CreateAliasOptions = {}
-  ): Promise<SearchIndexerAlias> {
+  ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createAlias", options);
     try {
       const result = await this.client.aliases.create(alias, updatedOptions);
@@ -616,7 +663,7 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async deleteAlias(
-    alias: string | SearchIndexerAlias,
+    alias: string | SearchIndexAlias,
     options: DeleteAliasOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
@@ -648,31 +695,11 @@ export class SearchIndexClient {
   public async getAlias(
     aliasName: string,
     options: GetAliasOptions = {}
-  ): Promise<SearchIndexerAlias> {
+  ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getAlias", options);
     try {
       const result = await this.client.aliases.get(aliasName, updatedOptions);
       return result;
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Lists all aliases available for a search service.
-   * @param options - The options parameters.
-   */
-  public async listAliases(options: ListAliasesOptions = {}): Promise<Array<SearchIndexerAlias>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
-    try {
-      const result = await this.client.aliases.list(updatedOptions);
-      return result.aliases;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

@@ -115,12 +115,13 @@ export {
   SearchIndexerDataIdentity,
   ResetDocumentsOptions,
   ResetSkillsOptions,
-  SearchIndexerAlias,
+  SearchIndexAlias,
   CreateAliasOptions,
   CreateOrUpdateAliasOptions,
   DeleteAliasOptions,
   GetAliasOptions,
   ListAliasesOptions,
+  AliasIterator,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

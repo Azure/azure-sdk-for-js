@@ -246,7 +246,7 @@ export type ListAliasesOptions = OperationOptions;
 /**
  * Search Alias object.
  */
-export type SearchIndexerAlias = SearchAlias;
+export type SearchIndexAlias = SearchAlias;
 
 /**
  * Options for create synonymmap operation.
@@ -975,6 +975,14 @@ export interface SynonymMap {
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
+
+/**
+ * An iterator for listing the aliases that exist in the Search service. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 /**
  * An iterator for listing the indexes that exist in the Search service. Will make requests
