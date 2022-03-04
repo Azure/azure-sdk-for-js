@@ -10,11 +10,11 @@ export interface UploadBlobResult {
 
 export interface DownloadManifestResult {
   digest: string;
-  manifest: OCIManifest;
+  manifest: OciManifest;
   manifestStream: NodeJS.ReadableStream;
 }
 
-export interface OCIBlobDescriptor {
+export interface OciBlobDescriptor {
   /** Layer media type */
   mediaType?: string;
   /** Layer size */
@@ -24,21 +24,21 @@ export interface OCIBlobDescriptor {
   /** Specifies a list of URIs from which this object may be downloaded. */
   urls?: string[];
   /** Additional information provided through arbitrary metadata. */
-  annotations?: OCIAnnotations;
+  annotations?: OciAnnotations;
 }
 
-export interface OCIManifest {
+export interface OciManifest {
   /** Schema version */
   schemaVersion: number;
   /** V2 image config descriptor */
-  config?: OCIBlobDescriptor;
+  config?: OciBlobDescriptor;
   /** List of V2 image layer information */
-  layers?: OCIBlobDescriptor[];
+  layers?: OciBlobDescriptor[];
   /** Additional information provided through arbitrary metadata. */
-  annotations?: OCIAnnotations;
+  annotations?: OciAnnotations;
 }
 
-export interface OCIAnnotations {
+export interface OciAnnotations {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
   createdAt?: Date;
   /** Contact details of the people or organization responsible for the image. */

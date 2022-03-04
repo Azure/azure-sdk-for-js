@@ -8,7 +8,7 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import {
   GeneratedClient,
-  OCIManifest as GeneratedOCIManifest,
+  OCIManifest as GeneratedOciManifest,
   Annotations as GeneratedAnnotations,
 } from "../generated";
 import { ContainerRegistryClientOptions } from "..";
@@ -18,7 +18,7 @@ import { logger } from "../logger";
 import { calculateDigest } from "../utils/digest";
 import {
   UploadManifestOptions,
-  OCIManifest,
+  OciManifest,
   UploadBlobResult,
   DownloadManifestResult,
   DeleteBlobOptions,
@@ -26,7 +26,7 @@ import {
   DeleteManifestOptions,
   DownloadBlobOptions,
   DownloadBlobResult,
-  OCIAnnotations,
+  OciAnnotations,
   UploadManifestResult,
 } from "./models";
 import { FullOperationResponse } from "@azure/core-client";
@@ -39,7 +39,7 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 
 function convertGeneratedAnnotations(
   generatedAnnotations?: GeneratedAnnotations
-): OCIAnnotations | undefined {
+): OciAnnotations | undefined {
   if (!generatedAnnotations) {
     return undefined;
   }
@@ -160,7 +160,7 @@ export class ContainerRegistryBlobClient {
   }
 
   public async uploadManifest(
-    manifest: OCIManifest,
+    manifest: OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult>;
 
@@ -170,7 +170,7 @@ export class ContainerRegistryBlobClient {
   ): Promise<UploadManifestResult>;
 
   public async uploadManifest(
-    manifestOrManifestStream: NodeJS.ReadableStream | OCIManifest,
+    manifestOrManifestStream: NodeJS.ReadableStream | OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult> {
     let manifestBody: Buffer | NodeJS.ReadableStream;
@@ -245,13 +245,13 @@ export class ContainerRegistryBlobClient {
       config,
       layers,
       annotations: generatedAnnotations,
-    } = JSON.parse(rawResponse.bodyAsText!) as GeneratedOCIManifest;
+    } = JSON.parse(rawResponse.bodyAsText!) as GeneratedOciManifest;
 
     if (schemaVersion === undefined) {
       throw new Error("schemaVersion must be defined");
     }
 
-    const manifest: OCIManifest = {
+    const manifest: OciManifest = {
       schemaVersion,
       config: {
         ...config,
