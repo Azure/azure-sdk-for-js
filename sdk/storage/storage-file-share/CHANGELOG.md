@@ -1,16 +1,11 @@
 # Release History
 
-## 12.9.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 12.9.0-beta.4 (2022-03-04)
 
 ### Bugs Fixed
 
+- Fixed bug where ShareFileClient.startCopyFromURL() was not sending the ignoreReadonly parameter correctly.
 - Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
-
-### Other Changes
 
 ## 12.9.0-beta.3 (2022-02-11)
 

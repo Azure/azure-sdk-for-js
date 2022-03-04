@@ -777,7 +777,8 @@ export const encryptionKeySha256: OperationParameter = {
 export const encryptionAlgorithm: OperationParameter = {
   parameterPath: ["options", "encryptionAlgorithm"],
   mapper: {
-    isConstant: false,
+    defaultValue: "AES256",
+    isConstant: true,
     serializedName: "x-ms-encryption-algorithm",
     type: {
       name: "String"
