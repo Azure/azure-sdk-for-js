@@ -558,8 +558,8 @@ export class SearchIndexClient {
 
   /**
    * Creates a new search alias or updates an alias if it already exists.
-   * @param alias The definition of the alias to create or update.
-   * @param options The options parameters.
+   * @param alias - The definition of the alias to create or update.
+   * @param options - The options parameters.
    */
   public async createOrUpdateAlias(
     alias: SearchIndexerAlias,
@@ -587,8 +587,8 @@ export class SearchIndexClient {
 
   /**
    * Creates a new search alias.
-   * @param alias The definition of the alias to create.
-   * @param options The options parameters.
+   * @param alias - The definition of the alias to create.
+   * @param options - The options parameters.
    */
   public async createAlias(
     alias: SearchIndexerAlias,
@@ -612,8 +612,8 @@ export class SearchIndexClient {
   /**
    * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
    * recovery option. The mapped index is untouched by this operation.
-   * @param alias Alias/Name name of the alias to delete.
-   * @param options The options parameters.
+   * @param alias - Alias/Name name of the alias to delete.
+   * @param options - The options parameters.
    */
   public async deleteAlias(
     alias: string | SearchIndexerAlias,
@@ -642,8 +642,8 @@ export class SearchIndexClient {
 
   /**
    * Retrieves an alias definition.
-   * @param aliasName The name of the alias to retrieve.
-   * @param options The options parameters.
+   * @param aliasName - The name of the alias to retrieve.
+   * @param options - The options parameters.
    */
   public async getAlias(
     aliasName: string,
@@ -666,7 +666,7 @@ export class SearchIndexClient {
 
   /**
    * Lists all aliases available for a search service.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public async listAliases(options: ListAliasesOptions = {}): Promise<Array<SearchIndexerAlias>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
