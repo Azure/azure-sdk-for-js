@@ -18,7 +18,6 @@ import {
   isNode,
   TokenCredential,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   tracingPolicy,
   logPolicy,
   ProxyOptions,
@@ -41,6 +40,7 @@ import {
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 import { attachCredential } from "./utils/utils.common";
+import { storageBearerTokenChallengeAuthenticationPolicy } from "./policies/StorageBearerTokenChallengeAuthenticationPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -181,11 +181,14 @@ export interface StoragePipelineOptions {
    * Keep alive configurations. Default keep-alive is enabled.
    */
   keepAliveOptions?: KeepAliveOptions;
-
   /**
    * Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
+  /**
+   * The audience used to retrieve an AAD token.
+   */
+  audience?: string | string[];
 }
 
 /**
@@ -234,7 +237,10 @@ export function newPipeline(
   factories.push(
     isTokenCredential(credential)
       ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          storageBearerTokenChallengeAuthenticationPolicy(
+            credential,
+            pipelineOptions.audience ?? StorageOAuthScopes
+          ),
           credential
         )
       : credential
