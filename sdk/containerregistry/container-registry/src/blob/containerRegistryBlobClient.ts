@@ -208,6 +208,10 @@ export class ContainerRegistryBlobClient {
       options
     );
 
+    if (!dockerContentDigest) {
+      throw new Error("Digest not provided");
+    }
+
     return { digest: dockerContentDigest };
   }
 

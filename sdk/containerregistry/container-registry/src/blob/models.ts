@@ -1,13 +1,3 @@
-export {
-  ContainerRegistryCreateManifestOptionalParams,
-  ContainerRegistryBlobDeleteBlobOptionalParams,
-  ContainerRegistryBlobGetBlobOptionalParams,
-  ContainerRegistryDeleteManifestOptionalParams,
-  ContainerRegistryBlobGetBlobResponse,
-  ContainerRegistryBlobGetBlobHeaders,
-  Manifest,
-} from "../generated";
-
 import { OperationOptions } from "@azure/core-client";
 
 export interface UploadManifestOptions extends OperationOptions {
@@ -91,5 +81,5 @@ export interface DownloadBlobResult {
 }
 
 export interface UploadManifestResult {
-  digest?: string;
+  digest: string;
 }
