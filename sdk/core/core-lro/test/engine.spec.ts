@@ -152,6 +152,12 @@ describe("Lro Engine", function () {
       const result = await runMockedLro("DELETE", "/delete/provisioning/202/deleting/200/canceled");
       assert.equal(result.properties?.provisioningState, "Canceled");
     });
+
+    it("should handle postOperationDoubleHeadersFinalLocationGet", async () => {
+      const result = await runMockedLro("POST", "/LROPostOperationDoubleHeadersFinalLocationGet");
+      assert.equal(result.id, "100");
+      assert.equal(result.name, "foo");
+    });
   });
 
   describe("Passthrough strategy", () => {
@@ -162,7 +168,7 @@ describe("Lro Engine", function () {
   });
 
   describe("Azure Async Operation Strategy", () => {
-    it("should handle postDoubleHeadersFinalLocationGet", async () => {
+    it("should handle postAsyncDoubleHeadersFinalLocationGet", async () => {
       const result = await runMockedLro("POST", "/LROPostDoubleHeadersFinalLocationGet");
       assert.equal(result.id, "100");
       assert.equal(result.name, "foo");

@@ -12,8 +12,8 @@ import { LroConfig, RawResponse } from "./models";
 export function getPollingUrl(rawResponse: RawResponse, defaultPath: string): string {
   return (
     getAzureAsyncOperation(rawResponse) ??
-    getLocation(rawResponse) ??
     getOperationLocation(rawResponse) ??
+    getLocation(rawResponse) ??
     defaultPath
   );
 }
@@ -35,22 +35,20 @@ export function inferLroMode(
   requestMethod: string,
   rawResponse: RawResponse
 ): LroConfig {
-  if (getAzureAsyncOperation(rawResponse) !== undefined) {
-    return {
-      mode: "AzureAsync",
-      resourceLocation:
-        requestMethod === "PUT"
-          ? requestPath
-          : requestMethod === "POST" || requestMethod === "PATCH"
-          ? getLocation(rawResponse)
-          : undefined,
-    };
-  } else if (
-    getLocation(rawResponse) !== undefined ||
-    getOperationLocation(rawResponse) !== undefined
-  ) {
+  const hasAzureAsync = getAzureAsyncOperation(rawResponse) !== undefined;
+  const hasLocation = getLocation(rawResponse) !== undefined;
+  const hasOpLocation = getOperationLocation(rawResponse) !== undefined;
+  if (hasAzureAsync || hasLocation || hasOpLocation) {
     return {
       mode: "Location",
+      resourceLocation:
+        hasAzureAsync || hasOpLocation
+          ? requestMethod === "PUT"
+            ? requestPath
+            : requestMethod === "POST" || requestMethod === "PATCH"
+            ? getLocation(rawResponse)
+            : undefined
+          : undefined,
     };
   } else if (["PUT", "PATCH"].includes(requestMethod)) {
     return {

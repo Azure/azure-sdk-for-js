@@ -14,7 +14,6 @@ import {
 import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
 import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
 import { logger } from "./logger";
-import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
 import { processLocationPollingOperationResult } from "./locationPolling";
 import { processPassthroughOperationResult } from "./passthrough";
 
@@ -27,15 +26,12 @@ export function createGetLroStatusFromResponse<TResult>(
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): GetLroStatusFromResponse<TResult> {
   switch (config.mode) {
-    case "AzureAsync": {
-      return processAzureAsyncOperationResult(
+    case "Location": {
+      return processLocationPollingOperationResult(
         lroPrimitives,
         config.resourceLocation,
         lroResourceLocationConfig
       );
-    }
-    case "Location": {
-      return processLocationPollingOperationResult;
     }
     case "Body": {
       return processBodyPollingOperationResult;

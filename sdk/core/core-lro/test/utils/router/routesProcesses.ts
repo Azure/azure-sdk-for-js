@@ -77,12 +77,25 @@ export function delete204Succeeded(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 204);
 }
 
-export function postDoubleHeadersFinalLocationGet(request: PipelineRequest): PipelineResponse {
+export function postAsyncDoubleHeadersFinalLocationGet(request: PipelineRequest): PipelineResponse {
   return {
     request: request,
     status: 202,
     headers: createHttpHeaders({
       "Azure-AsyncOperation": `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`,
+      Location: `/LROPostDoubleHeadersFinalLocationGet/location`,
+    }),
+  };
+}
+
+export function postOperationDoubleHeadersFinalLocationGet(
+  request: PipelineRequest
+): PipelineResponse {
+  return {
+    request: request,
+    status: 202,
+    headers: createHttpHeaders({
+      "Operation-Location": `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`,
       Location: `/LROPostDoubleHeadersFinalLocationGet/location`,
     }),
   };

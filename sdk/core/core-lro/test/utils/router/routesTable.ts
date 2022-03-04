@@ -63,7 +63,7 @@ import {
   postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl,
   postDoubleHeadersFinalAzureHeaderGetDefault,
   postDoubleHeadersFinalAzureHeaderGetLocation,
-  postDoubleHeadersFinalLocationGet,
+  postAsyncDoubleHeadersFinalLocationGet,
   postDoubleHeadersFinalLocationGetAsyncOperationUrl,
   postDoubleHeadersFinalLocationGetLocation,
   postList,
@@ -85,6 +85,7 @@ import {
   putSubresourceasyncOperationresults123,
   putasyncNoheader201200,
   putasyncNoheaderOperationresults123,
+  postOperationDoubleHeadersFinalLocationGet,
 } from "./routesProcesses";
 
 interface LroRoute {
@@ -127,7 +128,12 @@ export const routes: LroRoute[] = [
   {
     method: "POST",
     path: "/LROPostDoubleHeadersFinalLocationGet",
-    process: postDoubleHeadersFinalLocationGet,
+    process: postAsyncDoubleHeadersFinalLocationGet,
+  },
+  {
+    method: "POST",
+    path: "/LROPostOperationDoubleHeadersFinalLocationGet",
+    process: postOperationDoubleHeadersFinalLocationGet,
   },
   {
     method: "GET",
