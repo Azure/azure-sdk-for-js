@@ -19,7 +19,7 @@ import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope } from "../utils/spanUtils";
 
 /**
- * Azure Monitor OpenTelemetry Trace Exporter. 
+ * Azure Monitor OpenTelemetry Trace Exporter.
  */
 export class AzureMonitorTraceExporter implements SpanExporter {
   private readonly _persister: PersistentStorage;
@@ -68,9 +68,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk."),
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
