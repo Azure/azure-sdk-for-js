@@ -12,7 +12,7 @@ import { InternalPipelineOptions, PipelineOptions } from "@azure/core-rest-pipel
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { SDK_VERSION, createSpan, logger } from "./utils";
+import { createSpan, logger } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
   PhoneNumberCapabilitiesRequest,
@@ -88,17 +88,6 @@ export class PhoneNumbersClient {
     const options = isPhoneNumbersClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-phone-numbers/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -117,8 +106,9 @@ export class PhoneNumbersClient {
     this.client.pipeline.addPolicy(authPolicy);
 
     // These policies are temporary workarounds to address compatibility issues with Azure Core V2.
+    const phoneNumbersPagingPolicy = createPhoneNumbersPagingPolicy(url);
+    this.client.pipeline.addPolicy(phoneNumbersPagingPolicy);
     this.client.pipeline.addPolicy(phoneNumbersLroPolicy);
-    this.client.pipeline.addPolicy(createPhoneNumbersPagingPolicy(url));
   }
 
   /**

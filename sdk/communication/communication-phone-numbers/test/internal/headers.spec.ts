@@ -44,7 +44,7 @@ describe("PhoneNumbersClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-azure-communication-phone-numbers/${SDK_VERSION}`, "g")
     );
   });
 
@@ -112,7 +112,7 @@ describe("PhoneNumbersClient - headers", function () {
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(
-        `phonenumbersclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`,
+        `phonenumbersclient-headers-test azsdk-js-azure-communication-phone-numbers/${SDK_VERSION}`,
         "g"
       )
     );

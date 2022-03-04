@@ -22,10 +22,11 @@ export function createPhoneNumbersPagingPolicy(host: string): PipelinePolicy {
     name: "phoneNumbersPagingPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response: FullOperationResponse = await next(request);
-      const nextLink: string = response?.parsedBody?.nextLink;
+      let nextLink: string = response?.parsedBody?.nextLink;
 
       if (nextLink && !nextLink.startsWith(host)) {
-        const absolutePath = host.endsWith("/") ? host + nextLink.substring(1) : host + nextLink;
+        nextLink = host.endsWith("/") ? nextLink.substring(1) : nextLink;
+        const absolutePath = `${host}${nextLink}`;
         response.parsedBody.nextLink = absolutePath;
       }
 

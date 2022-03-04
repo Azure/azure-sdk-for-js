@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Upgraded the package to use the latest version of Azure Core, bringing several improvements to the package's HTTP pipeline architecture.
+- Upgraded the package to use the Azure Core V2, bringing several improvements to the package's HTTP pipeline architecture.
 
 ## 1.2.0-beta.1 (2022-01-24)
 

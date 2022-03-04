@@ -110,6 +110,22 @@
     "sinon": "^9.0.2",
     "typescript": "~4.2.0"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/src/phoneNumbersClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "productName": "Azure Communication Services - Phone Numbers",
     "productSlugs": [
