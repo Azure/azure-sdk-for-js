@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.9 (2022-03-05)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+Added more supported types in `LinkedServiceOperations`
 
 ### Other Changes
+
+Upgrade `ArtifactsClient` to CoreV2 client
 
 ## 1.0.0-beta.8 (2022-01-12)
 
