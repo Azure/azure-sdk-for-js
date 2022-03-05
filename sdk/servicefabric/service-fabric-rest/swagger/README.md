@@ -36,3 +36,31 @@ directive:
       from: NetworkResourcePropertiesBase
       to: NetworkResourcePropertiesParent
 ```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      $["Endpoint"] = {
+        "name": "endpoint",
+        "description": "The endpoint of your ServiceFabric.",
+        "x-ms-parameter-location": "client",
+        "required": true,
+        "type": "string",
+        "in": "path",
+        "x-ms-skip-url-encoding": true
+      }
+  - from: swagger-document
+    where: $
+    transform: >
+      $["x-ms-parameterized-host"] = {
+        "hostTemplate": "{endpoint}",
+        "useSchemePrefix": false,
+        "parameters": [
+          {
+            "$ref": "#/parameters/Endpoint"
+          }
+        ]
+      }
+```

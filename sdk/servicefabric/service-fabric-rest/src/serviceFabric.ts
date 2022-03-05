@@ -12,10 +12,11 @@ import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ServiceFabricLike } from "./clientDefinitions";
 
 export default function ServiceFabric(
+  endpoint: string,
   credentials: TokenCredential | CertificateCredential,
   options: ClientOptions = {}
 ): ServiceFabricLike {
-  const baseUrl = options.baseUrl ?? "http://localhost:19080/";
+  const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "8.1";
   options = {
     ...options,

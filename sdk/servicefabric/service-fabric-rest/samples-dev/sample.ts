@@ -12,6 +12,8 @@ import ServiceFabric from "../src";
 import { promises as fs } from "fs";
 
 dotenv.config();
+const endpoint = process.env["SERVICE_FABRIC_ENDPOINT"];
+const pfxPath = process.env["SERVICE_FABRIC_PFX_PATH"];
 
 async function main() {
   // If you are using a self signed certificate make sure to
@@ -19,8 +21,8 @@ async function main() {
   // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
   console.log("== Service Fabric Sample ==");
 
-  const pfx = await fs.readFile("<PATH TO CERTIFICATE>");
-  const serviceFabric = ServiceFabric({ pfx });
+  const pfx = await fs.readFile(pfxPath);
+  const serviceFabric = ServiceFabric(endpoint, { pfx });
 
   const clusterHealth = await serviceFabric.getClusterHealth();
 
