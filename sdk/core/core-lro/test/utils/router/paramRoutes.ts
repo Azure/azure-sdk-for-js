@@ -8,6 +8,11 @@ export interface Processor {
   process: (request: PipelineRequest) => PipelineResponse | undefined;
 }
 
+interface Options {
+  headerName: string;
+  rootPrefix: string;
+}
+
 function createPutBody(): Processor {
   return {
     process,
@@ -194,7 +199,7 @@ function createDeleteProvisioning(): Processor {
   }
 }
 
-function createDeleteAsyncRetry(): Processor {
+function createDeleteAsyncRetry(options: Options): Processor {
   let internalCounter = 1;
   return {
     process,
@@ -206,19 +211,20 @@ function createDeleteAsyncRetry(): Processor {
         (finalState === "succeeded" || finalState === "canceled" || finalState === "failed")
       );
     }
+    const root = `delete${options.rootPrefix}`;
     const pieces = parseUri(request.url);
-    if (pieces[0] !== "deleteasync") {
+    if (pieces[0] !== root) {
       return undefined;
     }
     const retry = pieces[1];
     const finalState = pieces[2];
     if (!isValidRequest(retry, finalState)) return undefined;
     if (pieces.length === 3) {
-      const pollingUri = `/deleteasync/${retry}/${finalState.toLowerCase()}/operationResults/200/`;
+      const pollingUri = `/${root}/${retry}/${finalState.toLowerCase()}/operationResults/200/`;
       const headers = createHttpHeaders({
-        "Azure-AsyncOperation": pollingUri,
         Location: pollingUri,
       });
+      headers.set(options.headerName, pollingUri);
       if (retry === "retry") {
         headers.set("Retry-After", "0");
       }
@@ -230,11 +236,11 @@ function createDeleteAsyncRetry(): Processor {
           return buildResponse(request, finalCode, `{ "status": "${getPascalCase(finalState)}"}`);
         } else {
           --internalCounter;
-          const pollingUri = `/deleteasync/${retry}/${finalState.toLowerCase()}/operationResults/${finalCode}`;
+          const pollingUri = `/${root}/${retry}/${finalState.toLowerCase()}/operationResults/${finalCode}`;
           const headers = createHttpHeaders({
-            "Azure-AsyncOperation": pollingUri,
             Location: pollingUri,
           });
+          headers.set(options.headerName, pollingUri);
           if (retry === "retry") {
             headers.set("Retry-After", "0");
           }
@@ -248,7 +254,7 @@ function createDeleteAsyncRetry(): Processor {
   }
 }
 
-function createPutAsyncRetry(): Processor {
+function createPutAsyncRetry(options: Options): Processor {
   let internalCounter = 1;
   return {
     process,
@@ -261,7 +267,8 @@ function createPutAsyncRetry(): Processor {
       );
     }
     const pieces = parseUri(request.url);
-    if (pieces[0] !== "putasync") {
+    const root = `put${options.rootPrefix}`;
+    if (pieces[0] !== root) {
       return undefined;
     }
     const retry = pieces[1];
@@ -278,11 +285,11 @@ function createPutAsyncRetry(): Processor {
           )}"}, "id": "100", "name": "foo" }`
         );
       } else if (method === "PUT") {
-        const pollingUri = `/putasync/${retry}/${finalState.toLowerCase()}/operationResults/200/`;
+        const pollingUri = `/${root}/${retry}/${finalState.toLowerCase()}/operationResults/200/`;
         const headers = createHttpHeaders({
-          "Azure-AsyncOperation": pollingUri,
           Location: pollingUri,
         });
+        headers.set(options.headerName, pollingUri);
         if (retry === "retry") {
           headers.set("Retry-After", "0");
         }
@@ -300,11 +307,11 @@ function createPutAsyncRetry(): Processor {
           return buildResponse(request, finalCode, `{ "status": "${getPascalCase(finalState)}"}`);
         } else {
           --internalCounter;
-          const pollingUri = `/putasync/${retry}/${finalState.toLowerCase()}/operationResults/${finalCode}`;
+          const pollingUri = `/${root}/${retry}/${finalState.toLowerCase()}/operationResults/${finalCode}`;
           const headers = createHttpHeaders({
-            "Azure-AsyncOperation": pollingUri,
             Location: pollingUri,
           });
+          headers.set(options.headerName, pollingUri);
           if (retry === "retry") {
             headers.set("Retry-After", "0");
           }
@@ -318,7 +325,7 @@ function createPutAsyncRetry(): Processor {
   }
 }
 
-function createPostasyncRetry(): Processor {
+function createPostasyncRetry(options: Options): Processor {
   let internalCounter = 1;
   return {
     process,
@@ -331,7 +338,8 @@ function createPostasyncRetry(): Processor {
       );
     }
     const pieces = parseUri(request.url);
-    if (pieces[0] !== "postasync") {
+    const root = `post${options.rootPrefix}`;
+    if (pieces[0] !== root) {
       return undefined;
     }
     const retry = pieces[1];
@@ -349,9 +357,12 @@ function createPostasyncRetry(): Processor {
         );
       } else if (method === "POST") {
         const headers = createHttpHeaders({
-          "Azure-AsyncOperation": `/postasync/${retry}/${finalState.toLowerCase()}/operationResults/200/`,
-          Location: `/postasync/${retry}/succeeded/operationResults/foo/200/`,
+          Location: `/${root}/${retry}/succeeded/operationResults/foo/200/`,
         });
+        headers.set(
+          options.headerName,
+          `/${root}/${retry}/${finalState.toLowerCase()}/operationResults/200/`
+        );
         if (retry === "retry") {
           headers.set("Retry-After", "0");
         }
@@ -379,9 +390,12 @@ function createPostasyncRetry(): Processor {
         } else {
           --internalCounter;
           const headers = createHttpHeaders({
-            "Azure-AsyncOperation": `/postasync/${retry}/${finalState.toLowerCase()}/operationResults/foo/${finalCode}`,
-            Location: `/postasync/${retry}/succeeded/operationResults/foo/200/`,
+            Location: `/${root}/${retry}/succeeded/operationResults/foo/200/`,
           });
+          headers.set(
+            options.headerName,
+            `/${root}/${retry}/${finalState.toLowerCase()}/operationResults/foo/${finalCode}`
+          );
           if (retry === "retry") {
             headers.set("Retry-After", "0");
           }
@@ -395,11 +409,22 @@ function createPostasyncRetry(): Processor {
   }
 }
 
+const asyncOptions = {
+  headerName: "Azure-AsyncOperation",
+  rootPrefix: "async",
+};
+const locationsOptions = {
+  headerName: "Operation-Location",
+  rootPrefix: "location",
+};
 export const paramRoutes = [
   createPutBody(),
   createRetries(),
   createDeleteProvisioning(),
-  createDeleteAsyncRetry(),
-  createPutAsyncRetry(),
-  createPostasyncRetry(),
+  createDeleteAsyncRetry(asyncOptions),
+  createPutAsyncRetry(asyncOptions),
+  createPostasyncRetry(asyncOptions),
+  createDeleteAsyncRetry(locationsOptions),
+  createPutAsyncRetry(locationsOptions),
+  createPostasyncRetry(locationsOptions),
 ];
