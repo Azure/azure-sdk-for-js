@@ -258,7 +258,7 @@ export const patchAsyncOperationresults123 = buildProcessMultipleRequests(
   (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
 );
 
-export function createPutasyncNoheader201200(
+function createPutasyncNoheader201200(
   headerName: string
 ): (request: PipelineRequest) => PipelineResponse {
   const headers = createHttpHeaders({
