@@ -8,7 +8,7 @@ Added more supported types in `LinkedServiceOperations`
 
 ### Other Changes
 
-Upgrade `ArtifactsClient` to CoreV2 client
+Taking latest codegen changes which include merging Client and ClientContext classes
 
 ## 1.0.0-beta.8 (2022-01-12)
 
