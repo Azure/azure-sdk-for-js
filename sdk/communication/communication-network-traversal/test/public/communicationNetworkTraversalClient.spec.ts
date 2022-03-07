@@ -196,7 +196,6 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(5000);
 
     it("successfully gets a turn credential with routeType and ttl", async function () {
-
       const turnCredentialResponse = await client.getRelayConfiguration("nearest", 5000);
       assert.isNotNull(turnCredentialResponse);
 
@@ -217,8 +216,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(5000);
 
     it("successfully gets a turn credential with ttl", async function () {
-
-      const turnCredentialResponse = await client.getRelayConfiguration( 5000);
+      const turnCredentialResponse = await client.getRelayConfiguration(5000);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -235,6 +233,5 @@ matrix([[true, false]], async function (useAad) {
         assert.isNotNull(iceServer.routeType);
       }
     }).timeout(5000);
-
   });
 });
