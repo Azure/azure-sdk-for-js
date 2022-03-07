@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix polling so that resources created in a different URL will be retrieved once polling is done. [PR #20656](https://github.com/Azure/azure-sdk-for-js/pull/20656)
+
 ### Other Changes
 
 ## 2.2.3 (2022-01-06)

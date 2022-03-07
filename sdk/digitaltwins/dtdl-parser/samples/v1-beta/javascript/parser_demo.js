@@ -11,7 +11,8 @@ const fs = require("fs");
 const { createParser, ModelParsingOption } = require("@azure/dtdl-parser");
 
 async function main() {
-  const rawDtdlDigest = fs.readFileSync("./samples-dev/InterfaceContentsEmbeddedV2.json", "utf-8");
+  console.log(`accessing DTDL ${__dirname}/InterfaceContentsEmbeddedV2.json`);
+  const rawDtdlDigest = fs.readFileSync(`${__dirname}/InterfaceContentsEmbeddedV2.json`, "utf-8");
   const modelParser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
   modelParser.options = ModelParsingOption.PermitAnyTopLevelElement;
   const modelDict = await modelParser.parse([rawDtdlDigest]);

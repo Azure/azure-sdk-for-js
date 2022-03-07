@@ -1,16 +1,10 @@
 # Release History
 
-## 7.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 7.5.1 (2022-03-08)
 
 ### Bugs Fixed
 
 - Fix an issue where we don't respect user request to close the receiver if the connection is disconnected when using the `subscribe()` method. [PR #20427](https://github.com/Azure/azure-sdk-for-js/pull/20427)
-
-### Other Changes
 
 ## 7.5.0 (2022-02-14)
 

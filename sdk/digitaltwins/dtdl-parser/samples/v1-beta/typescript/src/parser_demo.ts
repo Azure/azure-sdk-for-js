@@ -11,8 +11,9 @@ import * as fs from "fs";
 import { createParser, ModelParsingOption } from "@azure/dtdl-parser";
 
 async function main() {
+  console.log(`accessing DTDL ${__dirname}/InterfaceContentsEmbeddedV2.json`)
   const rawDtdlDigest: string = fs.readFileSync(
-    "./samples-dev/InterfaceContentsEmbeddedV2.json",
+    `${__dirname}/InterfaceContentsEmbeddedV2.json`,
     "utf-8"
   );
   const modelParser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
