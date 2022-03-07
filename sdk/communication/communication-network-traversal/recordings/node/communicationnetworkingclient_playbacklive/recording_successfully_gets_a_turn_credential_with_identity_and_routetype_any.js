@@ -15,7 +15,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '0Ro54FAds0a2D3nxU790gg.0',
+  'sR5b4sCvlk+flMN+0tU+2A.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -27,9 +27,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0UUkmYgAAAABxkWMj84aASJC9+KiBfLOQV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0t4MmYgAAAAAG2VeDN17/RYIWgEUyOMhJV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Mon, 07 Mar 2022 18:05:05 GMT'
+  'Mon, 07 Mar 2022 22:14:15 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -43,7 +43,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '7VJoNLMQh0+/EfxOV4zhEw.0',
+  'UFVoTgIXeEyIt/fLm4pP3g.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -51,11 +51,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2021-02-22-preview1, 2021-06-21-preview, 2021-10-08-preview, 2022-03-01-preview',
   'X-Processing-Time',
-  '44ms',
+  '23ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0UUkmYgAAAACeafZEg27bSI2tptUEKuoQV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0t4MmYgAAAACizXdWZNAWRJ3cHWs1oRAKV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Mon, 07 Mar 2022 18:05:05 GMT'
+  'Mon, 07 Mar 2022 22:14:14 GMT'
 ]);

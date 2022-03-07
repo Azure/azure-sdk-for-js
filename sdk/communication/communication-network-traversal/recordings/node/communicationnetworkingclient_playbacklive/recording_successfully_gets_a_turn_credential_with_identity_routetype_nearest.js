@@ -15,7 +15,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '1JhE8V6baUiyUTfbjotfkw.0',
+  'z6mbVVrIFkWTwLj0eaMvug.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -23,13 +23,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01',
   'X-Processing-Time',
-  '24ms',
+  '27ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0UUkmYgAAAADTolF+PkUgSqlHiiw1PpuiV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0t4MmYgAAAACrxxXKynsDT7gA/fkTyG+IV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Mon, 07 Mar 2022 18:05:05 GMT'
+  'Mon, 07 Mar 2022 22:14:15 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -37,13 +37,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"iceServers":[{"routeType":"nearest","urls":["turn.skype.com"],"username":"sanitized_username","credential":"sanitized_credential"}],"expiresOn":"2022-05-18T12:00:00.00+00:00"}, [
   'Content-Length',
-  '304',
+  '305',
   'Content-Type',
   'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  '1y62pzH5y0C6sZEmRvtqHQ.0',
+  'TmLRvO0cGkSf/z1oQkPe/Q.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -51,11 +51,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2021-02-22-preview1, 2021-06-21-preview, 2021-10-08-preview, 2022-03-01-preview',
   'X-Processing-Time',
-  '23ms',
+  '26ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0UUkmYgAAAAB/vKHntLU0QKycUPpc2FDuV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0t4MmYgAAAACGqksY2EDUT40QP+72/mYhV1NURURHRTA4MDYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Mon, 07 Mar 2022 18:05:05 GMT'
+  'Mon, 07 Mar 2022 22:14:15 GMT'
 ]);

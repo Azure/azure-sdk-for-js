@@ -1,6 +1,6 @@
 # Release History
 
-## package-2022-03-01-preview (2022-03-08)
+## 1.1.0-beta.1 (2022-03-08)
 
 ### Features Added
 
