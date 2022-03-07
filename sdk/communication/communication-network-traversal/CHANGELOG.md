@@ -1,5 +1,14 @@
 # Release History
 
+## package-2022-03-01-preview (2022-03-08)
+
+### Features Added
+
+- Adding optional parameter to GetRelayConfiguration to choose credential Time-To-Live in seconds of max 48 hours.
+  The default value will be used if given value exceeds it.
+
+### Breaking Changes
+
 ## 1.0.0 (2022-02-04) (Deprecated)
 
 ### Other Changes

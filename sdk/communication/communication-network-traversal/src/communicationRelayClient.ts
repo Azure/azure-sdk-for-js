@@ -141,13 +141,39 @@ export class CommunicationRelayClient {
   /**
    * Gets a TURN credential for a user
    *
+   * @param ttl - The specified Time to live for the relay credential
+   * @param options - Additional options for the request.
+   */
+     public async getRelayConfiguration(
+      ttl: number,
+      options?: GetRelayConfigurationOptions
+    ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param routeType - The specified routeType for the relay request
+   * @param ttl - The specified Time to live for the relay credential
+   * @param options - Additional options for the request.
+   */
+     public async getRelayConfiguration(
+      routeType: RouteType,
+      ttl?: number,
+      options?: GetRelayConfigurationOptions
+    ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
    * @param user - The user for whom to issue a token
    * @param routeType - The specified routeType for the relay request
+   * @param ttl - The specified Time to live for the relay credential
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
     user: CommunicationUserIdentifier,
     routeType?: RouteType,
+    ttl?: number,
     options?: GetRelayConfigurationOptions
   ): Promise<CommunicationRelayConfiguration>;
 
@@ -155,12 +181,27 @@ export class CommunicationRelayClient {
    * Gets a TURN credential for a user
    *
    * @param user - The user for whom to issue a token
+   * @param ttl - The specified Time to live for the relay credential
+   * @param options - Additional options for the request.
+   */
+     public async getRelayConfiguration(
+      user: CommunicationUserIdentifier,
+      ttl?: number,
+      options?: GetRelayConfigurationOptions
+    ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param user - The user for whom to issue a token
    * @param routeType - The specified routeType for the relay request
+   * @param ttl - The specified Time to live for the relay credential
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    paramOne?: CommunicationUserIdentifier | RouteType | GetRelayConfigurationOptions,
-    paramTwo?: RouteType | GetRelayConfigurationOptions,
+    paramOne?: CommunicationUserIdentifier | RouteType | GetRelayConfigurationOptions | number,
+    paramTwo?: RouteType | GetRelayConfigurationOptions | number,
+    paramThree?: number | GetRelayConfigurationOptions,
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
@@ -169,22 +210,43 @@ export class CommunicationRelayClient {
     if (
       typeof paramOne !== "undefined" &&
       typeof paramOne !== "string" &&
+      typeof paramOne !== "number" &&
       "communicationUserId" in paramOne
     ) {
       requestOptions.body = { id: paramOne.communicationUserId };
       if (typeof paramTwo !== "undefined" && typeof paramTwo === "string") {
         requestOptions.body["routeType"] = paramTwo;
       }
+      if (typeof paramTwo !== "undefined" && typeof paramTwo === "number") {
+        requestOptions.body["ttl"] = paramTwo;
+      }
+      if (typeof paramThree !== "undefined" && typeof paramThree === "number") {
+        requestOptions.body["ttl"] = paramThree;
+      }
     } else if (typeof paramOne !== "undefined" && typeof paramOne === "string") {
       requestOptions.body = { routeType: paramOne };
-      if (
+      if (typeof paramTwo !== "undefined" && typeof paramTwo === "number") {
+        requestOptions.body["ttl"] = paramTwo;
+      }
+      else if (
         typeof paramTwo !== "undefined" &&
         typeof paramTwo !== "string" &&
         "requestOptions" in paramTwo
       ) {
         requestOptions = paramTwo;
       }
-    } else if (typeof paramOne !== "undefined" && "requestOptions" in paramOne) {
+    } else if (typeof paramOne !== "undefined" && typeof paramOne === "number") {
+      requestOptions.body = { ttl: paramOne };
+      if (
+        typeof paramTwo !== "undefined" &&
+        typeof paramTwo !== "string" &&
+        typeof paramTwo !== "number" &&
+        "requestOptions" in paramTwo
+      ) {
+        requestOptions = paramTwo;
+      }
+    }
+      else if (typeof paramOne !== "undefined" && "requestOptions" in paramOne) {
       requestOptions = paramOne;
     }
 
