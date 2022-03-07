@@ -114,7 +114,7 @@
     "constantPaths": [
       {
         "path": "src/generated/src/phoneNumbersClientContext.ts",
-        "prefix": "packageVersion"
+        "prefix": "packageDetails"
       },
       {
         "path": "src/utils/constants.ts",
