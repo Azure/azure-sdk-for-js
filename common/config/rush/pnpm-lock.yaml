@@ -93,6 +93,7 @@ specifiers:
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
   '@rush-temp/arm-msi': file:./projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
+  '@rush-temp/arm-mysql-flexible': file:./projects/arm-mysql-flexible.tgz
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
@@ -348,6 +349,7 @@ dependencies:
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
   '@rush-temp/arm-msi': file:projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
+  '@rush-temp/arm-mysql-flexible': file:projects/arm-mysql-flexible.tgz
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
@@ -11481,6 +11483,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-mysql-flexible.tgz:
+    resolution: {integrity: sha512-7dz1sOIEgy/j6qjWFtCMnkekBN2Xz+HHQybIHJzH/RAXGf2vLrRizJQh8xUnDnYa8NRtQS+J+kxCP6R02AcOag==, tarball: file:projects/arm-mysql-flexible.tgz}
+    name: '@rush-temp/arm-mysql-flexible'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-mysql.tgz:
     resolution: {integrity: sha512-psJ2m8pZpeuY9jsNHKyNZ33dKfzuniaGHINsCu1FpIrGu8OMgeZ/j5ihinew0A9g6W7YZZCvrtrmFR/MmAoXyA==, tarball: file:projects/arm-mysql.tgz}
     name: '@rush-temp/arm-mysql'
@@ -13950,7 +13980,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-HBOLfQKGgGh53OwwMxd12xQyT0PfH3r+ajH/UmdsJ7+9MV2Z2QjFoZcrJVq/2Vpjolvfj8eLOhh43BujCaXpxA==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-ewaXXxQnfcoQb9H1pkXNur7L86VeTvVvxx4s4BkJARNGh9tdf8ADHKGMDsmwh76hwWQQvM75cCxOAwURhOkgLw==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -15762,7 +15792,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-AgXMuGJhPrpPiIQTYpATvq2ZEyH/zDApKB1hUCr6PR+w5SAXk7fAjTEafBvPHdtKgIJ4mGjQGvjbiqKeisbCUA==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-fDGQFcgVitwZW22LuRwj1sHE0wCl34WzYcSfeZAnr+k/lf9LCZKPxmDkCejI+PV5N2MY1bnoKw873zzOma8Adw==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
