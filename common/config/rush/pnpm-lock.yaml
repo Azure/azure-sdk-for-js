@@ -12077,7 +12077,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-6h8nQYrJ5TBrSiaJm7IcD//um6u3ebp6VBNRO/F736DPPr1nZoPFEQiLa5JYGSujqiqu4dY+CUqklTYXvx3dWQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-lRPMNQ6X2zNGHkn4+nUXsiXRde6JISO5YjFzhycdJL/3NCg9F4m94x+VbYyNtbvW5a7oVbGmyu4lW+I8qlqszQ==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -12086,18 +12086,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13950,7 +13951,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-HBOLfQKGgGh53OwwMxd12xQyT0PfH3r+ajH/UmdsJ7+9MV2Z2QjFoZcrJVq/2Vpjolvfj8eLOhh43BujCaXpxA==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-ewaXXxQnfcoQb9H1pkXNur7L86VeTvVvxx4s4BkJARNGh9tdf8ADHKGMDsmwh76hwWQQvM75cCxOAwURhOkgLw==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -15762,7 +15763,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-AgXMuGJhPrpPiIQTYpATvq2ZEyH/zDApKB1hUCr6PR+w5SAXk7fAjTEafBvPHdtKgIJ4mGjQGvjbiqKeisbCUA==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-fDGQFcgVitwZW22LuRwj1sHE0wCl34WzYcSfeZAnr+k/lf9LCZKPxmDkCejI+PV5N2MY1bnoKw873zzOma8Adw==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
