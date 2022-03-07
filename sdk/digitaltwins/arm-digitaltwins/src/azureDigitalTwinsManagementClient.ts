@@ -13,14 +13,16 @@ import {
   DigitalTwinsEndpointImpl,
   OperationsImpl,
   PrivateLinkResourcesImpl,
-  PrivateEndpointConnectionsImpl
+  PrivateEndpointConnectionsImpl,
+  TimeSeriesDatabaseConnectionsImpl
 } from "./operations";
 import {
   DigitalTwins,
   DigitalTwinsEndpoint,
   Operations,
   PrivateLinkResources,
-  PrivateEndpointConnections
+  PrivateEndpointConnections,
+  TimeSeriesDatabaseConnections
 } from "./operationsInterfaces";
 import { AzureDigitalTwinsManagementClientOptionalParams } from "./models";
 
@@ -56,7 +58,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-digitaltwins/3.0.0`;
+    const packageDetails = `azsdk-js-arm-digitaltwins/3.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -79,12 +81,15 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-12-01";
+    this.apiVersion = options.apiVersion || "2021-06-30-preview";
     this.digitalTwins = new DigitalTwinsImpl(this);
     this.digitalTwinsEndpoint = new DigitalTwinsEndpointImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.timeSeriesDatabaseConnections = new TimeSeriesDatabaseConnectionsImpl(
+      this
+    );
   }
 
   digitalTwins: DigitalTwins;
@@ -92,4 +97,5 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
+  timeSeriesDatabaseConnections: TimeSeriesDatabaseConnections;
 }

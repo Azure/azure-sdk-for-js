@@ -1,15 +1,40 @@
 # Release History
+    
+## 3.1.0-beta.1 (2022-03-02)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group TimeSeriesDatabaseConnections
+  - Added Interface GroupIdInformationProperties
+  - Added Interface SystemData
+  - Added Interface TimeSeriesDatabaseConnectionListResult
+  - Added Interface TimeSeriesDatabaseConnectionProperties
+  - Added Interface TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
+  - Added Interface TimeSeriesDatabaseConnectionsDeleteOptionalParams
+  - Added Interface TimeSeriesDatabaseConnectionsGetOptionalParams
+  - Added Interface TimeSeriesDatabaseConnectionsListNextOptionalParams
+  - Added Interface TimeSeriesDatabaseConnectionsListOptionalParams
+  - Added Type Alias AzureDataExplorerConnectionProperties
+  - Added Type Alias ConnectionType_2
+  - Added Type Alias CreatedByType
+  - Added Type Alias TimeSeriesDatabaseConnection
+  - Added Type Alias TimeSeriesDatabaseConnectionPropertiesUnion
+  - Added Type Alias TimeSeriesDatabaseConnectionsCreateOrUpdateResponse
+  - Added Type Alias TimeSeriesDatabaseConnectionsDeleteResponse
+  - Added Type Alias TimeSeriesDatabaseConnectionsGetResponse
+  - Added Type Alias TimeSeriesDatabaseConnectionsListNextResponse
+  - Added Type Alias TimeSeriesDatabaseConnectionsListResponse
+  - Added Type Alias TimeSeriesDatabaseConnectionState
+  - Interface DigitalTwinsResource has a new optional parameter systemData
+  - Interface ExternalResource has a new optional parameter systemData
+  - Interface Operation has a new optional parameter properties
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Class AzureDigitalTwinsManagementClient has a new parameter timeSeriesDatabaseConnections
+  - Added Enum KnownConnectionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownTimeSeriesDatabaseConnectionState
+    
+    
 ## 3.0.0 (2022-01-13)
 
 The package of @azure/arm-digitaltwins is using our next generation design principles since version 3.0.0, which contains breaking changes.
