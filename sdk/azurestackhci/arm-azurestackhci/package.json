@@ -106,5 +106,13 @@
       }
     ]
   },
-  "autoPublish": true
+  "autoPublish": true,
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview"
+  }
 }
