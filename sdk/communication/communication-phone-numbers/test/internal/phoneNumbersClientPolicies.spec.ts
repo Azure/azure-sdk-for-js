@@ -4,15 +4,12 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import {
-  mockListPhoneNumbersHttpClient,
-} from "../public/utils/mockHttpClients";
+import { mockListPhoneNumbersHttpClient } from "../public/utils/mockHttpClients";
 
 describe("PhoneNumbersClient - custom policies ", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client: PhoneNumbersClient;
-
 
   it("applies the phoneNumbersPagingPolicy", async function () {
     client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {

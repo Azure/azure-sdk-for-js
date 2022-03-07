@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { FullOperationResponse } from "@azure/core-client";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 import { createPhoneNumbersPagingPolicy } from "../../src/utils/customPipelinePolicies";
 
