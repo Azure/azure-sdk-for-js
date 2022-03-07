@@ -25,7 +25,10 @@ export class CommunicationRelayClient {
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
     getRelayConfiguration(options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
     getRelayConfiguration(routeType: RouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
-    getRelayConfiguration(user: CommunicationUserIdentifier, routeType?: RouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(ttl: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(routeType: RouteType, ttl?: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(user: CommunicationUserIdentifier, routeType?: RouteType, ttl?: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(user: CommunicationUserIdentifier, ttl?: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public
