@@ -2,18 +2,27 @@
 // Licensed under the MIT license.
 
 import { testGroup, testSchema, testSchemaObject } from "./dummies";
-import { SchemaRegistry } from "@azure/schema-registry";
 import { AvroEncoder } from "../../src/schemaRegistryAvroEncoder";
+import { AvroEncoderOptions } from "../../src/models";
+import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./mockedRegistryClient";
 
-export async function createTestEncoder(
-  autoRegisterSchemas = true,
-  registry = createTestRegistry()
-): Promise<AvroEncoder> {
-  if (!autoRegisterSchemas) {
+export interface CreateTestEncoderOptions<T> {
+  encoderOptions?: AvroEncoderOptions<T>;
+  registry?: SchemaRegistry;
+}
+
+export async function createTestEncoder<T>(
+  options: CreateTestEncoderOptions<T> = {}
+): Promise<AvroEncoder<T>> {
+  const {
+    encoderOptions = { autoRegisterSchemas: true, groupName: testGroup },
+    registry = createTestRegistry(),
+  } = options;
+  if (!encoderOptions.autoRegisterSchemas) {
     await registerTestSchema(registry);
   }
-  return new AvroEncoder(registry, { autoRegisterSchemas, groupName: testGroup });
+  return new AvroEncoder(registry, encoderOptions);
 }
 
 export async function registerTestSchema(registry: SchemaRegistry): Promise<string> {

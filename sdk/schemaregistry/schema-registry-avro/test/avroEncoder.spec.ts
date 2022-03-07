@@ -1,13 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  CreateTestEncoderOptions,
+  createTestEncoder,
+  registerTestSchema,
+} from "./utils/mockedEncoder";
 import { assert, use as chaiUse } from "chai";
-import { createTestEncoder, registerTestSchema } from "./utils/mockedEncoder";
 import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 chaiUse(chaiPromises);
+
+const noAutoRegisterOptions: CreateTestEncoderOptions<any> = {
+  encoderOptions: { autoRegisterSchemas: false, groupName: testGroup },
+};
 
 describe("AvroEncoder", function () {
   it("rejects invalid format", async () => {
@@ -29,7 +37,10 @@ describe("AvroEncoder", function () {
 
   it("rejects a schema with different format", async () => {
     const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
-    const encoder = await createTestEncoder(false, registry);
+    const encoder = await createTestEncoder({
+      ...noAutoRegisterOptions,
+      registry,
+    });
     const schema = await registry.registerSchema({
       name: "_",
       definition: "_",
@@ -47,7 +58,7 @@ describe("AvroEncoder", function () {
   });
 
   it("rejects encoding when schema is not found", async () => {
-    const encoder = await createTestEncoder(false);
+    const encoder = await createTestEncoder(noAutoRegisterOptions);
     const schema = JSON.stringify({
       type: "record",
       name: "NeverRegistered",
@@ -58,7 +69,7 @@ describe("AvroEncoder", function () {
   });
 
   it("rejects decoding when schema is not found", async () => {
-    const encoder = await createTestEncoder(false);
+    const encoder = await createTestEncoder(noAutoRegisterOptions);
     const payload = testAvroType.toBuffer(testValue);
     await assert.isRejected(
       encoder.decodeMessageData({
@@ -72,7 +83,7 @@ describe("AvroEncoder", function () {
   it("encodes to the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const encoder = await createTestEncoder(false, registry);
+    const encoder = await createTestEncoder({ ...noAutoRegisterOptions, registry });
     const message = await encoder.encodeMessageData(testValue, testSchema);
     assert.isUndefined((message.body as Buffer).readBigInt64BE);
     const buffer = Buffer.from(message.body);
@@ -90,7 +101,7 @@ describe("AvroEncoder", function () {
   it("decodes from the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const encoder = await createTestEncoder(false, registry);
+    const encoder = await createTestEncoder({ ...noAutoRegisterOptions, registry });
     const payload = testAvroType.toBuffer(testValue);
     assert.deepStrictEqual(
       await encoder.decodeMessageData({
@@ -111,11 +122,11 @@ describe("AvroEncoder", function () {
     assert.deepStrictEqual(await encoder.decodeMessageData(message), testValue);
 
     // throw away encoder for cache miss coverage on decodeMessageData
-    encoder = await createTestEncoder(false);
+    encoder = await createTestEncoder(noAutoRegisterOptions);
     assert.deepStrictEqual(await encoder.decodeMessageData(message), testValue);
 
     // throw away encoder again and cover getSchemaProperties instead of registerSchema
-    encoder = await createTestEncoder(false);
+    encoder = await createTestEncoder(noAutoRegisterOptions);
     assert.deepStrictEqual(await encoder.encodeMessageData(testValue, testSchema), message);
   });
 
@@ -200,7 +211,7 @@ describe("AvroEncoder", function () {
   it("decodes from the old format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const encoder = await createTestEncoder(false, registry);
+    const encoder = await createTestEncoder({ ...noAutoRegisterOptions, registry });
     const payload = testAvroType.toBuffer(testValue);
     const buffer = Buffer.alloc(36 + payload.length);
 
@@ -226,7 +237,7 @@ describe("AvroEncoder", function () {
     }
 
     const registry = createTestRegistry();
-    const encoder = await createTestEncoder(true, registry);
+    const encoder = await createTestEncoder({ registry });
     const entriesMaxCount = encoder["cacheById"].max;
     const itersCount = 2 * entriesMaxCount;
     assert.isAtLeast(itersCount, entriesMaxCount + 1);

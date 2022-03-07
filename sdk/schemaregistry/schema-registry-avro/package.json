@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/utils/buffer.js": "./dist-esm/src/utils/buffer.browser.js"
+    "./dist-esm/src/utils/buffer.js": "./dist-esm/src/utils/buffer.browser.js",
+    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
   },
   "types": "types/schema-registry-avro.shims.d.ts",
   "scripts": {

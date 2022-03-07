@@ -58,6 +58,9 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "SCHEMA_REGISTRY_ENDPOINT",
+      "EVENTHUB_CONNECTION_STRING",
+      "EVENTHUB_NAME",
+      "CONSUMER_GROUP_NAME",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
