@@ -78,7 +78,7 @@ function convertGeneratedAnnotations(
 }
 
 /**
- * Blob client
+ * The Azure Container Registry blob client, responsible for uploading and downloading blobs and manifests, the building blocks of artifacts.
  */
 export class ContainerRegistryBlobClient {
   /**
@@ -94,7 +94,7 @@ export class ContainerRegistryBlobClient {
   private client: GeneratedClient;
 
   /**
-   * Creates an instance of a ContainerRegistryClient.
+   * Creates an instance of a ContainerRegistryBlobClient for managing container images and artifacts.
    *
    * Example usage:
    * ```ts
@@ -107,7 +107,7 @@ export class ContainerRegistryBlobClient {
    * );
    * ```
    * @param endpoint - the URL endpoint of the container registry
-   * @param repositoryName - The name of the repository that logically groups the artifact parts.
+   * @param repositoryName - the name of the repository that logically groups the artifact parts
    * @param credential - used to authenticate requests to the service
    * @param options - optional configuration used to send requests to the service
    */
@@ -155,15 +155,32 @@ export class ContainerRegistryBlobClient {
     );
   }
 
+  /**
+   * Delete a blob.
+   * @param digest - the digest of the blob to delete
+   * @param options - optional configuration used to send requests to the service
+   */
   public async deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void> {
     await this.client.containerRegistryBlob.deleteBlob(this.repositoryName, digest, options);
   }
 
+  /**
+   * Upload a manifest for an OCI artifact.
+   *
+   * @param manifest - the manifest to upload
+   * @param options - optional configuration used to send requests to the service
+   */
   public async uploadManifest(
     manifest: OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult>;
 
+  /**
+   * Upload a manifest for an OCI artifact.
+   *
+   * @param manifestStream - the raw manifest as a stream
+   * @param options - optional configuration used to send requests to the service
+   */
   public async uploadManifest(
     manifestStream: NodeJS.ReadableStream,
     options?: UploadManifestOptions
@@ -215,6 +232,12 @@ export class ContainerRegistryBlobClient {
     return { digest: dockerContentDigest };
   }
 
+  /**
+   * Downloads the manifest for an OCI artifact
+   *
+   * @param tagOrDigest - a tag or digest that identifies the artifact
+   * @returns - the downloaded manifest
+   */
   public async downloadManifest(
     tagOrDigest: string,
     options?: DownloadManifestOptions
@@ -274,10 +297,21 @@ export class ContainerRegistryBlobClient {
     };
   }
 
+  /**
+   * Delete a manifest. Doing so effectively deletes an artifact from the registry.
+   *
+   * @param digest - the digest of the manifest to delete
+   * @param options - optional configuration used to send requests to the service
+   */
   public async deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void> {
     await this.client.containerRegistry.deleteManifest(this.repositoryName, digest, options);
   }
 
+  /**
+   * Upload an artifact blob.
+   *
+   * @param blob - the stream containing the blob data.
+   */
   public async uploadBlob(blob: NodeJS.ReadableStream): Promise<UploadBlobResult> {
     const startUploadResult = await this.client.containerRegistryBlob.startUpload(
       this.repositoryName
@@ -314,6 +348,13 @@ export class ContainerRegistryBlobClient {
     return { digest };
   }
 
+  /**
+   * Download a blob that is part of an artifact.
+   *
+   * @param digest - the digest of the blob to download
+   * @param options - optional configuration used to send requests to the service
+   * @returns - the downloaded blob
+   */
   public async downloadBlob(
     digest: string,
     options?: DownloadBlobOptions

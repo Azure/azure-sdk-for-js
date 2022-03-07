@@ -60,21 +60,14 @@ export interface ArtifactTagProperties {
 // @public
 export class ContainerRegistryBlobClient {
     constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    // (undocumented)
     deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
-    // (undocumented)
     deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
-    // (undocumented)
     downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
-    // (undocumented)
     downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
     readonly endpoint: string;
     readonly repositoryName: string;
-    // (undocumented)
     uploadBlob(blob: NodeJS.ReadableStream): Promise<UploadBlobResult>;
-    // (undocumented)
-    uploadManifest(manifest: OCIManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
-    // (undocumented)
+    uploadManifest(manifest: OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
     uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
@@ -124,11 +117,11 @@ export interface ContainerRepositoryProperties {
 export interface DeleteArtifactOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteBlobOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteManifestOptions extends OperationOptions {
 }
 
@@ -140,29 +133,24 @@ export interface DeleteRepositoryOptions extends OperationOptions {
 export interface DeleteTagOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DownloadBlobOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DownloadBlobResult {
-    // (undocumented)
     content: NodeJS.ReadableStream;
-    // (undocumented)
     digest: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DownloadManifestOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DownloadManifestResult {
-    // (undocumented)
     digest: string;
-    // (undocumented)
-    manifest: OCIManifest;
-    // (undocumented)
+    manifest: OciManifest;
     manifestStream: NodeJS.ReadableStream;
 }
 
@@ -240,9 +228,8 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
     continuationToken?: string;
 }
 
-// @public (undocumented)
-export interface OCIAnnotations {
-    // (undocumented)
+// @public
+export interface OciAnnotations {
     additionalProperties: Record<string, unknown>;
     authors?: string;
     createdAt?: Date;
@@ -258,20 +245,20 @@ export interface OCIAnnotations {
     version?: string;
 }
 
-// @public (undocumented)
-export interface OCIBlobDescriptor {
-    annotations?: OCIAnnotations;
+// @public
+export interface OciBlobDescriptor {
+    annotations?: OciAnnotations;
     digest?: string;
     mediaType?: string;
     size?: number;
     urls?: string[];
 }
 
-// @public (undocumented)
-export interface OCIManifest {
-    annotations?: OCIAnnotations;
-    config?: OCIBlobDescriptor;
-    layers?: OCIBlobDescriptor[];
+// @public
+export interface OciManifest {
+    annotations?: OciAnnotations;
+    config?: OciBlobDescriptor;
+    layers?: OciBlobDescriptor[];
     schemaVersion: number;
 }
 
@@ -323,21 +310,18 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
     canWrite?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadBlobResult {
-    // (undocumented)
     digest: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadManifestOptions extends OperationOptions {
-    // (undocumented)
     tag: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadManifestResult {
-    // (undocumented)
     digest: string;
 }
 
