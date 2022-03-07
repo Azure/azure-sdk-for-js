@@ -92,19 +92,19 @@ const user = await client.createUser();
 Use the `getConfigurationRelay` method to get new TURN credentials providing a user
 
 ```typescript
-const config = relayClient.getRelayConfiguration(user);
+const config = await relayClient.getRelayConfiguration(user);
 ```
 
 Also you can call the `getConfigurationRelay` method without providing a user
 
 ```typescript
-const config = relayClient.getRelayConfiguration();
+const config = await relayClient.getRelayConfiguration();
 ```
 
 You can specify a RouteType when calling `getConfigurationRelay`
 
 ```typescript
-const config = relayClient.getRelayConfiguration(user, "nearest");
+const config = await relayClient.getRelayConfiguration(user, "nearest");
 ```
 
 ## Troubleshooting
