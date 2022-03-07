@@ -4,7 +4,7 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { SearchAvailablePhoneNumbersRequest } from "../../src/models";
-import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../src/phoneNumbersClient";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
 import {
   mockListPhoneNumbersHttpClient,
   mockSearchHttpClient,
@@ -18,7 +18,7 @@ describe("PhoneNumbersClient - custom policies ", function () {
   it("applies the phoneNumbersLroPolicy", async function () {
     client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
       httpClient: mockSearchHttpClient,
-    } as PhoneNumbersClientOptions);
+    });
 
     const searchRequest: SearchAvailablePhoneNumbersRequest = {
       countryCode: "US",
@@ -47,7 +47,7 @@ describe("PhoneNumbersClient - custom policies ", function () {
   it("applies the phoneNumbersPagingPolicy", async function () {
     client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
       httpClient: mockListPhoneNumbersHttpClient,
-    } as PhoneNumbersClientOptions);
+    });
 
     await client
       .listPurchasedPhoneNumbers({

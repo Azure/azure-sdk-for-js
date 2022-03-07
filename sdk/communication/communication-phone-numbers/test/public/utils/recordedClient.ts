@@ -12,7 +12,7 @@ import {
   isPlaybackMode,
   record,
 } from "@azure-tools/test-recorder";
-import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
+import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
@@ -58,7 +58,7 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   return {
     client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
       httpClient,
-    } as PhoneNumbersClientOptions),
+    }),
     recorder,
   };
 }
@@ -86,7 +86,7 @@ export function createRecordedClientWithToken(
     return {
       client: new PhoneNumbersClient(endpoint, credential, {
         httpClient,
-      } as PhoneNumbersClientOptions),
+      }),
       recorder,
     };
   }
@@ -106,7 +106,7 @@ export function createRecordedClientWithToken(
   return {
     client: new PhoneNumbersClient(endpoint, credential, {
       httpClient,
-    } as PhoneNumbersClientOptions),
+    }),
     recorder,
   };
 }

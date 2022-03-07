@@ -6,7 +6,7 @@ import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
-import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../src/phoneNumbersClient";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
@@ -18,7 +18,7 @@ describe("PhoneNumbersClient - headers", function () {
   const accessKey = "banana";
   let client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: getPhoneNumberHttpClient,
-  } as PhoneNumbersClientOptions);
+  });
   let request: PipelineRequest;
 
   afterEach(function () {
@@ -64,7 +64,7 @@ describe("PhoneNumbersClient - headers", function () {
   it("sets signed authorization header with connection string", async function () {
     client = new PhoneNumbersClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: getPhoneNumberHttpClient,
-    } as PhoneNumbersClientOptions);
+    });
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
@@ -83,7 +83,7 @@ describe("PhoneNumbersClient - headers", function () {
 
     client = new PhoneNumbersClient(endpoint, credential, {
       httpClient: getPhoneNumberHttpClient,
-    } as PhoneNumbersClientOptions);
+    });
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
@@ -100,7 +100,7 @@ describe("PhoneNumbersClient - headers", function () {
       userAgentOptions: {
         userAgentPrefix: "phonenumbersclient-headers-test",
       },
-    } as PhoneNumbersClientOptions);
+    });
 
     const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");

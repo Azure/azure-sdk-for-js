@@ -8,7 +8,7 @@ import {
   parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions, PipelineOptions } from "@azure/core-rest-pipeline";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -36,11 +36,12 @@ import {
   createPhoneNumbersPagingPolicy,
   phoneNumbersLroPolicy,
 } from "./utils/customPipelinePolicies";
+import { CommonClientOptions } from "@azure/core-client";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
  */
-export interface PhoneNumbersClientOptions extends PipelineOptions {}
+export interface PhoneNumbersClientOptions extends CommonClientOptions {}
 
 const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
