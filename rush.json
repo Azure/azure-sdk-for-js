@@ -1584,6 +1584,11 @@
       "packageName": "@azure/arm-mobilenetwork",
       "projectFolder": "sdk/mobilenetwork/arm-mobilenetwork",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dashboard",
+      "projectFolder": "sdk/dashboard/arm-dashboard",
+      "versionPolicyName": "management"
     }
   ]
 }
