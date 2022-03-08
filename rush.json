@@ -1591,6 +1591,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-dns-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/dns/arm-dns-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-locks-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/locks/arm-locks-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"

@@ -13,3 +13,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-no
 https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview
 https://docs.microsoft.com/javascript/api/@azure/arm-resources-profile-2020-09-01-hybrid
 https://docs.microsoft.com/javascript/api/@azure/arm-locks-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-dns-profile-2020-09-01-hybrid
