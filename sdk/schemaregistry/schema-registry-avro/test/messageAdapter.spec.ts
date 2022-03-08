@@ -1,10 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, createEventDataAdapter, EventDataAdapterParameters } from "@azure/event-hubs";
-import { matrix } from "@azure/test-utils";
+import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
+import { testGroup, testSchema, testValue } from "./utils/dummies";
 import { MessageAdapter } from "../src/models";
+import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
+import { createEventHubsClient } from "./clients/eventHubs";
+import { createMockedMessagingClient } from "./clients/mocked";
+import { createTestEncoder } from "./utils/mockedEncoder";
+import { env } from "./utils/env";
+import { matrix } from "@azure/test-utils";
 
 /**
  * A type predicate to check whether two record types have the same keys
@@ -32,20 +38,20 @@ const dummyUint8Array = Uint8Array.from([0]);
  */
 interface AdapterTestInfo<T> {
   adapterFactory: MessageAdapter<T>;
-  nonUint8ArrayMessage: T;
   adapterFactoryName: string;
+  client: MessagingTestClient<T>;
 }
 
-const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
-  adapterFactory: createEventDataAdapter(),
-  nonUint8ArrayMessage: {
-    body: "",
-    contentType: "",
-  },
-  adapterFactoryName: createEventDataAdapter.name,
-};
-
 describe("Message Adapters", function () {
+  const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
+  const eventHubName = env.EVENTHUB_NAME || "";
+  const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
+    adapterFactory: createEventDataAdapter(),
+    adapterFactoryName: createEventDataAdapter.name,
+    client: createMockedMessagingClient(() =>
+      createEventHubsClient(eventHubsConnectionString, eventHubName)
+    ),
+  };
   describe("Input types for message adapter factories are sound", function () {
     it("EventDataAdapterParameters", function () {
       const areEqual: AssertEqualKeys<
@@ -64,10 +70,14 @@ describe("Message Adapters", function () {
       it("implements MessageAdapter", async () => {
         assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
       });
-      it("consumeMessage rejects non-Uint8Array body", async () => {
+      it("consumeMessage rejects undefined body", async () => {
         assert.throws(
-          () => adapter.consumeMessage(adapterTestInfo.nonUint8ArrayMessage),
-          /Expected the body field to be defined and have a Uint8Array/
+          () =>
+            adapter.consumeMessage({
+              body: undefined,
+              contentType: "",
+            }),
+          /Expected the body field to be defined/
         );
       });
       it("consumeMessage rejects messages with no contentType", async () => {
@@ -78,6 +88,21 @@ describe("Message Adapters", function () {
             }),
           /Expected the contentType field to be defined/
         );
+      });
+      it("round-tripping with the messaging client", async () => {
+        const encoder = await createTestEncoder({
+          encoderOptions: {
+            autoRegisterSchemas: false,
+            groupName: testGroup,
+            messageAdapter: createEventDataAdapter(),
+          },
+        });
+        const message = encoder.encodeMessageData(testValue, testSchema);
+        await adapterTestInfo.client.send(message);
+        const receivedMessage = await adapterTestInfo.client.receive();
+        await adapterTestInfo.client.cleanup();
+        const decodedValue = await encoder.decodeMessageData(receivedMessage);
+        assert.deepStrictEqual(decodedValue, testValue);
       });
     });
   });

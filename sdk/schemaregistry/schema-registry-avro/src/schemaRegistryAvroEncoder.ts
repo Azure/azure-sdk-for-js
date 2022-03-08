@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import * as avro from "avsc";
-import LRUCache from "lru-cache";
-import LRUCacheOptions = LRUCache.Options;
 import {
+  AvroEncoderOptions,
   DecodeMessageDataOptions,
   MessageAdapter,
   MessageWithMetadata,
-  AvroEncoderOptions,
 } from "./models";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
+import LRUCache from "lru-cache";
+import LRUCacheOptions = LRUCache.Options;
 import { isMessageWithMetadata } from "./utility";
 
 type AVSCEncoder = avro.Type;
