@@ -98,6 +98,13 @@ export function msalNodeTestSetup(
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_USERNAME: "azure_username",
       AZURE_PASSWORD: "azure_password",
+      AZURE_IDENTITY_TEST_TENANTID: "",
+      AZURE_IDENTITY_TEST_USERNAME: "",
+      AZURE_IDENTITY_TEST_PASSWORD: "",
+      IDENTITY_SP_CLIENT_ID: "",
+      IDENTITY_SP_TENANT_ID: "",
+      IDENTITY_SP_CLIENT_SECRET: "",
+      IDENTITY_SP_CERT_PEM: "",
     },
     customizationsOnRecordings: [
       (recording: string): string =>
