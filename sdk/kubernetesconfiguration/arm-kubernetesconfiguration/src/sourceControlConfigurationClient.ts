@@ -9,10 +9,6 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ClusterExtensionTypeImpl,
-  ClusterExtensionTypesImpl,
-  ExtensionTypeVersionsImpl,
-  LocationExtensionTypesImpl,
   ExtensionsImpl,
   OperationStatusImpl,
   FluxConfigurationsImpl,
@@ -21,10 +17,6 @@ import {
   OperationsImpl
 } from "./operations";
 import {
-  ClusterExtensionType,
-  ClusterExtensionTypes,
-  ExtensionTypeVersions,
-  LocationExtensionTypes,
   Extensions,
   OperationStatus,
   FluxConfigurations,
@@ -66,7 +58,7 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kubernetesconfiguration/5.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-kubernetesconfiguration/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -89,11 +81,7 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01-preview";
-    this.clusterExtensionType = new ClusterExtensionTypeImpl(this);
-    this.clusterExtensionTypes = new ClusterExtensionTypesImpl(this);
-    this.extensionTypeVersions = new ExtensionTypeVersionsImpl(this);
-    this.locationExtensionTypes = new LocationExtensionTypesImpl(this);
+    this.apiVersion = options.apiVersion || "2022-03-01";
     this.extensions = new ExtensionsImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
     this.fluxConfigurations = new FluxConfigurationsImpl(this);
@@ -104,10 +92,6 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
   }
 
-  clusterExtensionType: ClusterExtensionType;
-  clusterExtensionTypes: ClusterExtensionTypes;
-  extensionTypeVersions: ExtensionTypeVersions;
-  locationExtensionTypes: LocationExtensionTypes;
   extensions: Extensions;
   operationStatus: OperationStatus;
   fluxConfigurations: FluxConfigurations;

@@ -9,8 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   OperationStatusResult,
-  Enum0,
-  Enum1,
   OperationStatusListOptionalParams,
   OperationStatusGetOptionalParams,
   OperationStatusGetResponse
@@ -22,27 +20,27 @@ export interface OperationStatus {
   /**
    * List Async Operations, currently in progress, in a cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     options?: OperationStatusListOptionalParams
   ): PagedAsyncIterableIterator<OperationStatusResult>;
   /**
    * Get Async Operation status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS clusters) or
-   *                  Microsoft.Kubernetes (for OnPrem K8S clusters).
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for AKS
-   *                            clusters) or connectedClusters (for OnPrem K8S clusters).
+   * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
+   *                  Microsoft.HybridContainerService.
+   * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
+   *                            connectedClusters, provisionedClusters.
    * @param clusterName The name of the kubernetes cluster.
    * @param extensionName Name of the Extension.
    * @param operationId operation Id
@@ -50,8 +48,8 @@ export interface OperationStatus {
    */
   get(
     resourceGroupName: string,
-    clusterRp: Enum0,
-    clusterResourceName: Enum1,
+    clusterRp: string,
+    clusterResourceName: string,
     clusterName: string,
     extensionName: string,
     operationId: string,
