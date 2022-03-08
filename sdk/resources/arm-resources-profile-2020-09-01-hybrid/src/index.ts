@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./deployments";
-export * from "./providers";
-export * from "./resources";
-export * from "./resourceGroups";
-export * from "./tagsOperations";
-export * from "./deploymentOperations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ResourceManagementClient } from "./resourceManagementClient";
+export * from "./operationsInterfaces";
