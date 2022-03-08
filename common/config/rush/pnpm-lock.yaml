@@ -14735,7 +14735,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-CFe0WI1XTobXicxBDPvW8D0nMFKHIPTT0NE9vNTAu3E4CvmlbV18hO8jCcBliXOCECbaFdRP3Db+D5L1y6Pr8g==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-anoTJSdLWlMRnsEyAPcf5QTrgsL7ygzuJqg2fthRyOqGH+39KwhzcRFIaizSw+Gl6W5XDgdiV+2re8jT/fsKrA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -14765,13 +14765,12 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-waXLJDSljrQ37B3H/5aGu0N/TUxtDw5uE+Hnh4OqZZQmOOlukfMDSNOpI/wvnGzUulNOQXPbeS1t3HCRRlQ0UQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-EpZ7EmKn18I2tgVk+rIP8ZX5hstVdZJ8RvDzYyd+oCWXrCgKcl4+/oI//GH1O6Z3QuRbpd0wL4OzrfSe6Pzwtw==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -14799,7 +14798,6 @@ packages:
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false

@@ -106,52 +106,20 @@ export async function msalNodeTestSetup(
           key: "User-Agent",
           value: "User-Agent",
         },
-      ],
-      bodyKeySanitizers: [
         {
-          jsonPath: "$.access_token",
-          value: "access_token",
-        },
-        {
-          jsonPath: "$.refresh_token",
-          value: "refresh_token",
-        },
-        {
-          jsonPath: "$.client-request-id",
-          value: playbackValues.correlationId,
-        },
-        {
-          jsonPath: "$.client_assertion",
-          value: "client_assertion",
-        },
-        {
-          jsonPath: "$.esctx",
-          value: "esctx",
-        },
-        {
-          jsonPath: "$.fpc",
-          value: "fpc",
-        },
-        {
-          jsonPath: "$.user_code",
-          value: "USER_CODE",
-        },
-        {
-          jsonPath: "$.interval",
-          value: "0",
-        },
-        {
-          jsonPath: "$.id_token",
-          value:
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz",
-        },
-        {
-          jsonPath: "$.client_info",
-          value:
-            "eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K",
+          key: "Set-Cookie",
+          regex: true,
+          target: `(fpc|esctx)=(?<secret_cookie>[^;]+)`,
+          value: "secret_cookie",
+          groupForReplace: "secret_cookie",
         },
       ],
       generalSanitizers: [
+        {
+          regex: true,
+          target: `client_assertion=[a-zA-Z0-9-._]*`,
+          value: "client_assertion=client_assertion",
+        },
         {
           regex: true,
           target: `enter the code [A-Z0-9]* to authenticate`,
@@ -179,6 +147,50 @@ export async function msalNodeTestSetup(
           regex: true,
           target: `x-client-CPU=[a-zA-Z0-9]+`,
           value: `x-client-CPU=x-client-CPU`,
+        },
+      ],
+      bodyKeySanitizers: [
+        {
+          jsonPath: "$.device_code",
+          value: "DEVICE_CODE",
+        },
+        {
+          jsonPath: "$.bodyProvided.device_code",
+          value: "DEVICE_CODE",
+        },
+        {
+          jsonPath: "$.interval",
+          value: "0",
+        },
+        {
+          jsonPath: "$.client-request-id",
+          value: playbackValues.correlationId,
+        },
+        {
+          jsonPath: "$.access_token",
+          value: "access_token",
+        },
+        {
+          jsonPath: "$.bodyProvided.access_token",
+          value: "access_token",
+        },
+        {
+          jsonPath: "$.refresh_token",
+          value: "refresh_token",
+        },
+        {
+          jsonPath: "$.bodyProvided.refresh_token",
+          value: "refresh_token",
+        },
+        {
+          jsonPath: "$.id_token",
+          value:
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz",
+        },
+        {
+          jsonPath: "$.client_info",
+          value:
+            "eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K",
         },
       ],
     },
