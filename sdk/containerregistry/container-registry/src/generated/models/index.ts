@@ -577,7 +577,7 @@ export type OCIManifest = Manifest & {
   /** V2 image config descriptor */
   config?: Descriptor;
   /** List of V2 image layer information */
-  layers?: Descriptor[];
+  layers: Descriptor[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: Annotations;
 };
@@ -741,7 +741,7 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
 /** Known values of {@link ApiVersion20210701} that the service accepts. */
 export enum KnownApiVersion20210701 {
   /** Api Version '2021-07-01' */
-  TwoThousandTwentyOne0701 = "2021-07-01"
+  TwoThousandTwentyOne0701 = "2021-07-01",
 }
 
 /**
@@ -780,7 +780,7 @@ export enum KnownArtifactArchitecture {
   /** s390x */
   S390X = "s390x",
   /** Wasm */
-  Wasm = "wasm"
+  Wasm = "wasm",
 }
 
 /**
@@ -819,7 +819,7 @@ export enum KnownArtifactOperatingSystem {
   OpenBsd = "openbsd",
   Plan9 = "plan9",
   Solaris = "solaris",
-  Windows = "windows"
+  Windows = "windows",
 }
 
 /**
@@ -848,7 +848,7 @@ export type ArtifactOperatingSystem = string;
 export enum KnownPostContentSchemaGrantType {
   AccessTokenRefreshToken = "access_token_refresh_token",
   AccessToken = "access_token",
-  RefreshToken = "refresh_token"
+  RefreshToken = "refresh_token",
 }
 
 /**
@@ -873,8 +873,7 @@ export interface ContainerRegistryCheckDockerV2SupportOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ContainerRegistryGetManifestOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerRegistryGetManifestOptionalParams extends coreClient.OperationOptions {
   /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
   accept?: string;
 }
@@ -910,8 +909,7 @@ export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepos
   Repositories;
 
 /** Optional parameters. */
-export interface ContainerRegistryGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerRegistryGetPropertiesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProperties operation. */
 export type ContainerRegistryGetPropertiesResponse = ContainerRepositoryProperties;
@@ -931,8 +929,7 @@ export interface ContainerRegistryUpdatePropertiesOptionalParams
 export type ContainerRegistryUpdatePropertiesResponse = ContainerRepositoryProperties;
 
 /** Optional parameters. */
-export interface ContainerRegistryGetTagsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerRegistryGetTagsOptionalParams extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -944,8 +941,7 @@ export interface ContainerRegistryGetTagsOptionalParams
 }
 
 /** Contains response data for the getTags operation. */
-export type ContainerRegistryGetTagsResponse = ContainerRegistryGetTagsHeaders &
-  TagList;
+export type ContainerRegistryGetTagsResponse = ContainerRegistryGetTagsHeaders & TagList;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetTagPropertiesOptionalParams
@@ -965,12 +961,10 @@ export interface ContainerRegistryUpdateTagAttributesOptionalParams
 export type ContainerRegistryUpdateTagAttributesResponse = ArtifactTagProperties;
 
 /** Optional parameters. */
-export interface ContainerRegistryDeleteTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerRegistryDeleteTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ContainerRegistryGetManifestsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerRegistryGetManifestsOptionalParams extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -1010,12 +1004,11 @@ export interface ContainerRegistryGetRepositoriesNextOptionalParams
 }
 
 /** Contains response data for the getRepositoriesNext operation. */
-export type ContainerRegistryGetRepositoriesNextResponse = ContainerRegistryGetRepositoriesNextHeaders &
-  Repositories;
+export type ContainerRegistryGetRepositoriesNextResponse =
+  ContainerRegistryGetRepositoriesNextHeaders & Repositories;
 
 /** Optional parameters. */
-export interface ContainerRegistryGetTagsNextOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContainerRegistryGetTagsNextOptionalParams extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -1027,8 +1020,7 @@ export interface ContainerRegistryGetTagsNextOptionalParams
 }
 
 /** Contains response data for the getTagsNext operation. */
-export type ContainerRegistryGetTagsNextResponse = ContainerRegistryGetTagsNextHeaders &
-  TagList;
+export type ContainerRegistryGetTagsNextResponse = ContainerRegistryGetTagsNextHeaders & TagList;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetManifestsNextOptionalParams
@@ -1046,8 +1038,7 @@ export type ContainerRegistryGetManifestsNextResponse = ContainerRegistryGetMani
   AcrManifests;
 
 /** Optional parameters. */
-export interface ContainerRegistryBlobGetBlobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerRegistryBlobGetBlobOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBlob operation. */
 export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {
@@ -1072,7 +1063,8 @@ export interface ContainerRegistryBlobCheckBlobExistsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkBlobExists operation. */
-export type ContainerRegistryBlobCheckBlobExistsResponse = ContainerRegistryBlobCheckBlobExistsHeaders;
+export type ContainerRegistryBlobCheckBlobExistsResponse =
+  ContainerRegistryBlobCheckBlobExistsHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistryBlobDeleteBlobOptionalParams
@@ -1097,8 +1089,7 @@ export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDelet
 };
 
 /** Optional parameters. */
-export interface ContainerRegistryBlobMountBlobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerRegistryBlobMountBlobOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the mountBlob operation. */
 export type ContainerRegistryBlobMountBlobResponse = ContainerRegistryBlobMountBlobHeaders;
@@ -1108,7 +1099,8 @@ export interface ContainerRegistryBlobGetUploadStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUploadStatus operation. */
-export type ContainerRegistryBlobGetUploadStatusResponse = ContainerRegistryBlobGetUploadStatusHeaders;
+export type ContainerRegistryBlobGetUploadStatusResponse =
+  ContainerRegistryBlobGetUploadStatusHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistryBlobUploadChunkOptionalParams
@@ -1125,7 +1117,8 @@ export interface ContainerRegistryBlobCompleteUploadOptionalParams
 }
 
 /** Contains response data for the completeUpload operation. */
-export type ContainerRegistryBlobCompleteUploadResponse = ContainerRegistryBlobCompleteUploadHeaders;
+export type ContainerRegistryBlobCompleteUploadResponse =
+  ContainerRegistryBlobCompleteUploadHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistryBlobCancelUploadOptionalParams
@@ -1139,8 +1132,7 @@ export interface ContainerRegistryBlobStartUploadOptionalParams
 export type ContainerRegistryBlobStartUploadResponse = ContainerRegistryBlobStartUploadHeaders;
 
 /** Optional parameters. */
-export interface ContainerRegistryBlobGetChunkOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContainerRegistryBlobGetChunkOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getChunk operation. */
 export type ContainerRegistryBlobGetChunkResponse = ContainerRegistryBlobGetChunkHeaders & {
@@ -1165,7 +1157,8 @@ export interface ContainerRegistryBlobCheckChunkExistsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkChunkExists operation. */
-export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlobCheckChunkExistsHeaders;
+export type ContainerRegistryBlobCheckChunkExistsResponse =
+  ContainerRegistryBlobCheckChunkExistsHeaders;
 
 /** Optional parameters. */
 export interface AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
@@ -1189,8 +1182,7 @@ export interface AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalP
 export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = AcrAccessToken;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

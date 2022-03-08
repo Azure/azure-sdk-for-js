@@ -4,7 +4,11 @@
 import { AzureAuthorityHosts } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { env, isLiveMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
+import {
+  ContainerRegistryBlobClient,
+  ContainerRegistryClient,
+  KnownContainerRegistryAudience,
+} from "../../src";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 // When the recorder observes the values of these environment variables in any
@@ -111,6 +115,37 @@ export function createRegistryClient(
 
   return new ContainerRegistryClient(
     endpoint,
+    credential,
+    recorder.configureClientOptions(clientOptions)
+  );
+}
+
+export function createBlobClient(
+  endpoint: string,
+  repositoryName: string,
+  serviceVersion: string,
+  recorder: Recorder
+): ContainerRegistryBlobClient {
+  const authorityHost = getAuthority(endpoint);
+  const audience = getAudience(authorityHost);
+  const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
+  const clientOptions = {
+    audience,
+    serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
+  };
+
+  const credential = createTestCredential(
+    { ...tokenCredentialOptions },
+    {
+      tenantId: env.CONTAINERREGISTRY_TENANT_ID,
+      clientId: env.CONTAINERREGISTRY_CLIENT_ID,
+      clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
+    }
+  );
+
+  return new ContainerRegistryBlobClient(
+    endpoint,
+    repositoryName,
     credential,
     recorder.configureClientOptions(clientOptions)
   );
