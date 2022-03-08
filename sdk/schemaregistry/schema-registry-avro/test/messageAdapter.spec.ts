@@ -8,7 +8,7 @@ import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
-import { createTestEncoder } from "./utils/mockedEncoder";
+import { createTestSerializer } from "./utils/mockedSerializer";
 import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
 
@@ -90,19 +90,19 @@ describe("Message Adapters", function () {
         );
       });
       it("round-tripping with the messaging client", async () => {
-        const encoder = await createTestEncoder({
-          encoderOptions: {
+        const serializer = await createTestSerializer({
+          serializerOptions: {
             autoRegisterSchemas: false,
             groupName: testGroup,
             messageAdapter: createEventDataAdapter(),
           },
         });
-        const message = encoder.encodeMessageData(testValue, testSchema);
+        const message = serializer.serializeMessageData(testValue, testSchema);
         await adapterTestInfo.client.send(message);
         const receivedMessage = await adapterTestInfo.client.receive();
         await adapterTestInfo.client.cleanup();
-        const decodedValue = await encoder.decodeMessageData(receivedMessage);
-        assert.deepStrictEqual(decodedValue, testValue);
+        const deserializedValue = await serializer.deserializeMessageData(receivedMessage);
+        assert.deepStrictEqual(deserializedValue, testValue);
       });
     });
   });
