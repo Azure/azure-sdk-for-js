@@ -13,16 +13,15 @@ import { delay } from "@azure-tools/test-recorder";
 
 export function createEventHubsClient(
   eventHubsConnectionString: string,
-  eventHubName: string,
-  consumerGroup: string
+  eventHubName: string
 ): MessagingTestClient<EventData> {
-  const producer = new EventHubBufferedProducerClient(eventHubsConnectionString, {
+  const producer = new EventHubBufferedProducerClient(eventHubsConnectionString, eventHubName, {
     onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
       throw ctx.error;
     },
   });
   const consumer = new EventHubConsumerClient(
-    consumerGroup,
+    EventHubConsumerClient.defaultConsumerGroupName,
     eventHubsConnectionString,
     eventHubName
   );

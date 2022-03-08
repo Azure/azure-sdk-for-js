@@ -42,16 +42,16 @@ interface AdapterTestInfo<T> {
   client: MessagingTestClient<T>;
 }
 
-const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
-const eventHubName = env.EVENTHUB_NAME || "";
-const consumerGroup = env.CONSUMER_GROUP_NAME || "";
-const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
-  adapterFactory: createEventDataAdapter(),
-  adapterFactoryName: createEventDataAdapter.name,
-  client: createEventHubsClient(eventHubsConnectionString, eventHubName, consumerGroup),
-};
-
 describe("Message Adapters", function () {
+  const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
+  const eventHubName = env.EVENTHUB_NAME || "";
+  const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
+    adapterFactory: createEventDataAdapter(),
+    adapterFactoryName: createEventDataAdapter.name,
+    client: createMockedMessagingClient(() =>
+      createEventHubsClient(eventHubsConnectionString, eventHubName)
+    ),
+  };
   describe("Input types for message adapter factories are sound", function () {
     it("EventDataAdapterParameters", function () {
       const areEqual: AssertEqualKeys<
@@ -64,54 +64,46 @@ describe("Message Adapters", function () {
       );
     });
   });
-  matrix(
-    [
-      [eventDataAdapterTestInfo].map(({ client, ...rest }) => ({
-        client: createMockedMessagingClient(client),
-        ...rest,
-      })),
-    ] as const,
-    async (adapterTestInfo: AdapterTestInfo<any>) => {
-      describe(adapterTestInfo.adapterFactoryName, function () {
-        const adapter = adapterTestInfo.adapterFactory;
-        it("implements MessageAdapter", async () => {
-          assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
-        });
-        it("consumeMessage rejects undefined body", async () => {
-          assert.throws(
-            () =>
-              adapter.consumeMessage({
-                body: undefined,
-                contentType: "",
-              }),
-            /Expected the body field to be defined/
-          );
-        });
-        it("consumeMessage rejects messages with no contentType", async () => {
-          assert.throws(
-            () =>
-              adapter.consumeMessage({
-                body: dummyUint8Array,
-              }),
-            /Expected the contentType field to be defined/
-          );
-        });
-        it("round-tripping with the messaging client", async () => {
-          const encoder = await createTestEncoder({
-            encoderOptions: {
-              autoRegisterSchemas: false,
-              groupName: testGroup,
-              messageAdapter: createEventDataAdapter(),
-            },
-          });
-          const message = encoder.encodeMessageData(testValue, testSchema);
-          await adapterTestInfo.client.send(message);
-          const receivedMessage = await adapterTestInfo.client.receive();
-          await adapterTestInfo.client.cleanup();
-          const decodedValue = await encoder.decodeMessageData(receivedMessage);
-          assert.deepStrictEqual(decodedValue, testValue);
-        });
+  matrix([[eventDataAdapterTestInfo]] as const, async (adapterTestInfo: AdapterTestInfo<any>) => {
+    describe(adapterTestInfo.adapterFactoryName, function () {
+      const adapter = adapterTestInfo.adapterFactory;
+      it("implements MessageAdapter", async () => {
+        assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
       });
-    }
-  );
+      it("consumeMessage rejects undefined body", async () => {
+        assert.throws(
+          () =>
+            adapter.consumeMessage({
+              body: undefined,
+              contentType: "",
+            }),
+          /Expected the body field to be defined/
+        );
+      });
+      it("consumeMessage rejects messages with no contentType", async () => {
+        assert.throws(
+          () =>
+            adapter.consumeMessage({
+              body: dummyUint8Array,
+            }),
+          /Expected the contentType field to be defined/
+        );
+      });
+      it("round-tripping with the messaging client", async () => {
+        const encoder = await createTestEncoder({
+          encoderOptions: {
+            autoRegisterSchemas: false,
+            groupName: testGroup,
+            messageAdapter: createEventDataAdapter(),
+          },
+        });
+        const message = encoder.encodeMessageData(testValue, testSchema);
+        await adapterTestInfo.client.send(message);
+        const receivedMessage = await adapterTestInfo.client.receive();
+        await adapterTestInfo.client.cleanup();
+        const decodedValue = await encoder.decodeMessageData(receivedMessage);
+        assert.deepStrictEqual(decodedValue, testValue);
+      });
+    });
+  });
 });

@@ -6,14 +6,14 @@ import { env } from "../utils/env";
 
 /**
  * Returns a mocked messaging client that can work in both live and playback modes.
- * @param client a live client
+ * @param client - a live client
  * @returns a client that can work in both live and playback modes
  */
 export function createMockedMessagingClient<MessageT>(
-  client: MessagingTestClient<MessageT>
+  createLiveClient: () => MessagingTestClient<MessageT>
 ): MessagingTestClient<MessageT> {
-  if (env.TEST_MODE !== "playback") {
-    return client;
+  if (env.TEST_MODE === "live") {
+    return createLiveClient();
   }
   let message: MessageT;
   return {

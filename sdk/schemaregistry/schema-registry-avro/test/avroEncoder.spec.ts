@@ -76,7 +76,7 @@ describe("AvroEncoder", function () {
         body: payload,
         contentType: `avro/binary+${testSchemaIds[1]}`,
       }),
-      /not found/
+      /does not exist/
     );
   });
 
@@ -238,9 +238,15 @@ describe("AvroEncoder", function () {
 
     const registry = createTestRegistry();
     const encoder = await createTestEncoder({ registry });
-    const entriesMaxCount = encoder["cacheById"].max;
-    const itersCount = 2 * entriesMaxCount;
-    assert.isAtLeast(itersCount, entriesMaxCount + 1);
+    /**
+     * The standard tier resource supports registering up to 25 schemas per a schema group.
+     */
+    const maxSchemaCount = 25;
+    const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2 - 1);
+    encoder["cacheById"].max = maxCacheEntriesCount;
+    encoder["cacheBySchemaDefinition"].max = maxCacheEntriesCount;
+    const itersCount = 2 * maxCacheEntriesCount;
+    assert.isAtLeast(itersCount, maxCacheEntriesCount + 1);
     let i = 0;
     for (; i < itersCount; ++i) {
       const field1 = makeRndStr(10);
@@ -262,12 +268,12 @@ describe("AvroEncoder", function () {
         ],
       });
       await encoder.encodeMessageData(valueToBeEncoded, schemaToEncodeWith);
-      if (i < entriesMaxCount) {
+      if (i < maxCacheEntriesCount) {
         assert.equal(encoder["cacheById"].length, i + 1);
         assert.equal(encoder["cacheBySchemaDefinition"].length, i + 1);
       } else {
-        assert.equal(encoder["cacheById"].length, entriesMaxCount);
-        assert.equal(encoder["cacheBySchemaDefinition"].length, entriesMaxCount);
+        assert.equal(encoder["cacheById"].length, maxCacheEntriesCount);
+        assert.equal(encoder["cacheBySchemaDefinition"].length, maxCacheEntriesCount);
       }
     }
   });

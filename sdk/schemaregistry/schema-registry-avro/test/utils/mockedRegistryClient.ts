@@ -74,7 +74,7 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
   async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema> {
     const storedSchema = mapById.get(id);
     if (!storedSchema) {
-      throw new Error(`Schema not found: ${JSON.stringify(id)}`);
+      throw new Error(`Schema does not exist: ${JSON.stringify(id)}`);
     }
     return storedSchema;
   }
