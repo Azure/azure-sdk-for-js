@@ -13950,7 +13950,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-HBOLfQKGgGh53OwwMxd12xQyT0PfH3r+ajH/UmdsJ7+9MV2Z2QjFoZcrJVq/2Vpjolvfj8eLOhh43BujCaXpxA==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-ewaXXxQnfcoQb9H1pkXNur7L86VeTvVvxx4s4BkJARNGh9tdf8ADHKGMDsmwh76hwWQQvM75cCxOAwURhOkgLw==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -15762,7 +15762,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-AgXMuGJhPrpPiIQTYpATvq2ZEyH/zDApKB1hUCr6PR+w5SAXk7fAjTEafBvPHdtKgIJ4mGjQGvjbiqKeisbCUA==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-fDGQFcgVitwZW22LuRwj1sHE0wCl34WzYcSfeZAnr+k/lf9LCZKPxmDkCejI+PV5N2MY1bnoKw873zzOma8Adw==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -16082,7 +16082,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-gjjp4lhVU73M9lsBqrNAmnbtIZ9yfPr1AHqmSu9vlarUVzhw2wui2Rrpl0M2SVJh+UTReqcakVshsZ9Rc9z/Gw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-3pFu5WCRIYC936B6r3CSe5LhKzmLEyFPW1urICs+So0pVHaQB9sIGR6XDrMHJs6tj5gCprZu4myMiNPl6xfzBQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -16124,6 +16124,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
       prettier: 2.5.1
+      process: 0.11.10
       rimraf: 3.0.2
       rollup: 2.67.1
       rollup-plugin-shim: 1.0.0
