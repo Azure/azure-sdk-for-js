@@ -8,8 +8,10 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/deviceupdate/ci.mgmt.yml
-      - sdk/deviceupdate/iot-device-update-rest/
+      - sdk/monitor/
+    exclude:
+      - sdk/monitor/ci.mgmt.yml
+      - sdk/monitor/arm-monitor/
 pr:
   branches:
     include:
@@ -21,14 +23,18 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/deviceupdate/ci.mgmt.yml
-      - sdk/deviceupdate/iot-device-update-rest/
-
+      - sdk/monitor/
+    exclude:
+      - sdk/monitor/ci.mgmt.yml
+      - sdk/monitor/arm-monitor/
+      
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: deviceupdate
-    IncludeRelease: true
+    ServiceDirectory: monitor
+    RunUnitTests: true
     Artifacts:
-      - name: azure-rest-iot-device-update
-        safeName: azurerestiotdeviceupdate       
+      - name: azure-monitor-opentelemetry-exporter
+        safeName: azuremonitoropentelemetryexporter
+      - name: azure-monitor-query
+        safeName: azuremonitorquery
