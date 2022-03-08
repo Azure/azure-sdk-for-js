@@ -112,6 +112,10 @@
   "//metadata": {
     "constantPaths": [
       {
+        "path": "src/artifactsClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
         "path": "swagger/README.md",
         "prefix": "package-version"
       }
