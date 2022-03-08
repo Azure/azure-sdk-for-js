@@ -1599,6 +1599,11 @@
       "packageName": "@azure/arm-locks-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/locks/arm-locks-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policy-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/policy/arm-policy-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
