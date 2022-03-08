@@ -16,7 +16,7 @@ export interface TelemetryItem {
   name: string;
   /** Event date time when telemetry item was created. This is the wall clock time on the client when the event was generated. There is no guarantee that the client's time is accurate. This field must be formatted in UTC ISO 8601 format, with a trailing 'Z' character, as described publicly on https://en.wikipedia.org/wiki/ISO_8601#UTC. Note: the number of decimal seconds digits provided are variable (and unspecified). Consumers should handle this, i.e. managed code consumers should not use format 'O' for parsing as it specifies a fixed length. Example: 2009-06-15T13:45:30.0000000Z. */
   time: Date;
-  /** Sampling rate used in application. This telemetry item represents 1 / sampleRate actual telemetry items. */
+  /** Sampling rate used in application. This telemetry item represents 100 / sampleRate actual telemetry items. */
   sampleRate?: number;
   /** Sequence field used to track absolute order of uploaded events. */
   sequence?: string;
@@ -376,11 +376,10 @@ export enum KnownContextTagKeys {
 export type ContextTagKeys = string;
 
 /** Optional parameters. */
-export interface ApplicationInsightsClientTrackOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TrackOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the track operation. */
-export type ApplicationInsightsClientTrackResponse = TrackResponse;
+export type TrackOperationResponse = TrackResponse;
 
 /** Optional parameters. */
 export interface ApplicationInsightsClientOptionalParams
