@@ -3,6 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable sort-imports */
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
