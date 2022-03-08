@@ -71,6 +71,7 @@
     }
   },
   "dependencies": {
+    "@azure/logger": "^1.0.0",
     "@azure/schema-registry": "1.0.2",
     "avsc": "^5.5.1",
     "lru-cache": "^6.0.0",

@@ -12,6 +12,7 @@ import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import LRUCache from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { isMessageWithMetadata } from "./utility";
+import { logger } from "./logger";
 
 type AVSCSerializer = avro.Type;
 
@@ -52,7 +53,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
   private readonly messageAdapter?: MessageAdapter<MessageT>;
   private readonly cacheBySchemaDefinition = new LRUCache<string, CacheEntry>(cacheOptions);
   private readonly cacheById = new LRUCache<string, AVSCSerializer>(cacheOptions);
-
+  private cacheSize: number = 0;
   /**
    * serializes the value parameter according to the input schema and creates a message
    * with the serialized data.
@@ -182,6 +183,9 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     const entry = { id, serializer };
     this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, serializer);
+    logger.verbose(
+      `The cumulative length of all schemas in the cache is ${(this.cacheSize += schema.length)}`
+    );
     return entry;
   }
 }
