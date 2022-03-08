@@ -184,7 +184,9 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, serializer);
     logger.verbose(
-      `The cumulative length of all schemas in the cache is ${(this.cacheSize += schema.length)}`
+      `Cache entry added or updated. Total number of entries: ${
+        this.cacheBySchemaDefinition.length
+      }; Total schema length ${(this.cacheSize += schema.length)}`
     );
     return entry;
   }
