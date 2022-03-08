@@ -49,7 +49,7 @@ describe("ShortCodesClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-azure-communication-short-codes/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-short-codes/${SDK_VERSION}`, "g")
     );
   });
 
@@ -117,7 +117,7 @@ describe("ShortCodesClient - headers", function () {
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(
-        `shortcodesclient-headers-test azsdk-js-azure-communication-short-codes/${SDK_VERSION}`,
+        `shortcodesclient-headers-test azsdk-js-communication-short-codes/${SDK_VERSION}`,
         "g"
       )
     );
