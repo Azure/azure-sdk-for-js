@@ -162,6 +162,8 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private async runTests(iterationIndex: number, title: "warmup" | "test"): Promise<void> {
+    console.log("=== Starting the perf test ===");
+
     const stage = performStage(title);
 
     this.lastCompleted = 0;

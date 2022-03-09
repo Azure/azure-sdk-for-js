@@ -4,8 +4,4 @@
 import { createPerfProgram } from "../src";
 import { allTestClasses } from "./declareTests";
 
-console.log("=== Starting the perf test ===");
-
-const perfProgram = createPerfProgram(allTestClasses);
-
-perfProgram.run();
+createPerfProgram(allTestClasses).run();
