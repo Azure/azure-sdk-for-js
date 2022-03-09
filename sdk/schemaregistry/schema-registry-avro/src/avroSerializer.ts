@@ -27,6 +27,9 @@ interface CacheEntry {
 const avroMimeType = "avro/binary";
 const cacheOptions: LRUCacheOptions<string, any> = {
   max: 128,
+  sizeCalculation: (_value: any, key: string) => {
+    return key.length;
+  }
 };
 
 /**
@@ -53,7 +56,6 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
   private readonly messageAdapter?: MessageAdapter<MessageT>;
   private readonly cacheBySchemaDefinition = new LRUCache<string, CacheEntry>(cacheOptions);
   private readonly cacheById = new LRUCache<string, AVSCSerializer>(cacheOptions);
-  private cacheSize: number = 0;
   /**
    * serializes the value parameter according to the input schema and creates a message
    * with the serialized data.
@@ -185,8 +187,8 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     this.cacheById.set(id, serializer);
     logger.verbose(
       `Cache entry added or updated. Total number of entries: ${
-        this.cacheBySchemaDefinition.length
-      }; Total schema length ${(this.cacheSize += schema.length)}`
+        this.cacheBySchemaDefinition.size
+      }; Total schema length ${(this.cacheBySchemaDefinition.calculatedSize)}`
     );
     return entry;
   }
