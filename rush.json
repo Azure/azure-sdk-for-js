@@ -1604,6 +1604,11 @@
       "packageName": "@azure/arm-policy-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/policy/arm-policy-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
