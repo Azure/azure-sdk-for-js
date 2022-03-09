@@ -8,6 +8,9 @@ trigger:
   paths:
     include:
       - sdk/purview/
+    exclude:
+      - sdk/purview/ci.mgmt.yml
+      - sdk/purview/arm-purview/
 pr:
   branches:
     include:
@@ -20,6 +23,9 @@ pr:
   paths:
     include:
       - sdk/purview/
+    exclude:
+      - sdk/purview/ci.mgmt.yml
+      - sdk/purview/arm-purview/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -29,9 +35,5 @@ extends:
         safeName: azurerestpurviewcatalog
       - name: azure-rest-purview-scanning
         safeName: azurerestpurviewscanning
-      - name: azure-rest-purview-account
-        safeName: azurerestpurviewaccount
       - name: azure-rest-purview-administration
         safeName: azurerestpurviewadministration
-      - name: azure-arm-purview
-        safeName: azurearmpurview

@@ -115,6 +115,13 @@ export {
   SearchIndexerDataIdentity,
   ResetDocumentsOptions,
   ResetSkillsOptions,
+  SearchIndexAlias,
+  CreateAliasOptions,
+  CreateOrUpdateAliasOptions,
+  DeleteAliasOptions,
+  GetAliasOptions,
+  ListAliasesOptions,
+  AliasIterator,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -228,6 +235,7 @@ export {
   SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   SentimentSkillLanguage,
   KnownSentimentSkillLanguage,
   SplitSkillLanguage,
@@ -330,6 +338,7 @@ export {
   SemanticConfiguration,
   PrioritizedFields,
   SemanticField,
+  SearchAlias,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

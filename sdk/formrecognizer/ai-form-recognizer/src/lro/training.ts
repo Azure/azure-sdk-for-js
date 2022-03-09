@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { OperationOptions } from "../../../../core/core-client/types/latest/core-client";
+import { OperationOptions } from "@azure/core-client";
 import { FormRecognizerError } from "../error";
 import { GetOperationResponse, ModelInfo, OperationStatus } from "../generated";
 import { PollerOptions } from "../options/PollerOptions";
@@ -23,6 +23,11 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
   status: OperationStatus;
 
   /**
+   * The API version used to train this model.
+   */
+  apiVersion?: string;
+
+  /**
    * The unique ID of this operation.
    */
   operationId: string;
@@ -41,6 +46,11 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
    * The date & time that the operation state was last modified.
    */
   lastUpdatedOn: Date;
+
+  /**
+   * Additional, user-defined key-value pairs associated with the model as metadata.
+   */
+  tags?: Record<string, string>;
 }
 
 /**
@@ -53,14 +63,16 @@ export async function toTrainingPollOperationState(
   return {
     operationId: response.operationId,
     status: response.status,
+    apiVersion: response.apiVersion,
     percentCompleted: response.percentCompleted ?? 0,
     lastUpdatedOn: response.lastUpdatedDateTime,
     createdOn: response.createdDateTime,
-    result: response.result,
+    result: response.result as ModelInfo | undefined,
     error: response.error && new FormRecognizerError(response.error),
     isCancelled: response.status === "canceled",
     isCompleted: response.status === "succeeded",
     isStarted: response.status !== "notStarted",
+    tags: response.tags,
   };
 }
 

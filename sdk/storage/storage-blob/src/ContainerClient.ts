@@ -23,12 +23,16 @@ import {
   ContainerCreateResponse,
   ContainerDeleteResponse,
   ContainerEncryptionScope,
+  ContainerFilterBlobsHeaders,
   ContainerGetAccessPolicyHeaders,
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,
   ContainerSetAccessPolicyResponse,
   ContainerSetMetadataResponse,
+  FilterBlobItem,
+  FilterBlobSegment,
+  FilterBlobSegmentModel,
   LeaseAccessConditions,
   ListBlobsFlatSegmentResponseModel,
   ListBlobsHierarchySegmentResponseModel,
@@ -567,6 +571,64 @@ export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
 }
 
 /**
+ * Options to configure the {@link ContainerClient.findBlobsByTagsSegment} operation.
+ */
+interface ContainerFindBlobsByTagsSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies the maximum number of blobs
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export interface ContainerFindBlobByTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export type ContainerFindBlobsByTagsSegmentResponse = FilterBlobSegment &
+  ContainerFilterBlobsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerFilterBlobsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FilterBlobSegmentModel;
+    };
+  };
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  */
 export class ContainerClient extends StorageClient {
@@ -683,7 +745,11 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -1787,6 +1853,229 @@ export class ContainerClient extends StorageClient {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...updatedOptions,
+        });
+      },
+    };
+  }
+
+  /**
+   * The Filter Blobs operation enables callers to list blobs in the container whose tags
+   * match a given search expression.
+   *
+   * @param tagFilterSqlExpression - The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                        The given expression must evaluate to true for a blob to be returned in the results.
+   *                                        The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                        however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param marker - A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the continuationToken value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The continuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to find blobs by tags.
+   */
+  private async findBlobsByTagsSegment(
+    tagFilterSqlExpression: string,
+    marker?: string,
+    options: ContainerFindBlobsByTagsSegmentOptions = {}
+  ): Promise<ContainerFindBlobsByTagsSegmentResponse> {
+    const { span, updatedOptions } = createSpan("ContainerClient-findBlobsByTagsSegment", options);
+
+    try {
+      const response = await this.containerContext.filterBlobs({
+        abortSignal: options.abortSignal,
+        where: tagFilterSqlExpression,
+        marker,
+        maxPageSize: options.maxPageSize,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+
+      const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable
+        blobs: response.blobs.map((blob) => {
+          let tagValue = "";
+          if (blob.tags?.blobTagSet.length === 1) {
+            tagValue = blob.tags.blobTagSet[0].value;
+          }
+          return { ...blob, tags: toTags(blob.tags), tagValue };
+        }),
+      };
+      return wrappedResponse;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for ContainerFindBlobsByTagsSegmentResponse.
+   *
+   * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param marker - A string value that identifies the portion of
+   *                          the list of blobs to be returned with the next listing operation. The
+   *                          operation returns the continuationToken value within the response body if the
+   *                          listing operation did not return all blobs remaining to be listed
+   *                          with the current page. The continuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of list
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to find blobs by tags.
+   */
+  private async *findBlobsByTagsSegments(
+    tagFilterSqlExpression: string,
+    marker?: string,
+    options: ContainerFindBlobsByTagsSegmentOptions = {}
+  ): AsyncIterableIterator<ContainerFindBlobsByTagsSegmentResponse> {
+    let response;
+    if (!!marker || marker === undefined) {
+      do {
+        response = await this.findBlobsByTagsSegment(tagFilterSqlExpression, marker, options);
+        response.blobs = response.blobs || [];
+        marker = response.continuationToken;
+        yield response;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for blobs.
+   *
+   * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param options - Options to findBlobsByTagsItems.
+   */
+  private async *findBlobsByTagsItems(
+    tagFilterSqlExpression: string,
+    options: ContainerFindBlobsByTagsSegmentOptions = {}
+  ): AsyncIterableIterator<FilterBlobItem> {
+    let marker: string | undefined;
+    for await (const segment of this.findBlobsByTagsSegments(
+      tagFilterSqlExpression,
+      marker,
+      options
+    )) {
+      yield* segment.blobs;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to find all blobs with specified tag
+   * under the specified container.
+   *
+   * .byPage() returns an async iterable iterator to list the blobs in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * let i = 1;
+   * for await (const blob of containerClient.findBlobsByTags("tagkey='tagvalue'")) {
+   *   console.log(`Blob ${i++}: ${blob.name}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * const iter = containerClient.findBlobsByTags("tagkey='tagvalue'");
+   * let blobItem = await iter.next();
+   * while (!blobItem.done) {
+   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *   blobItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of containerClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 20 })) {
+   *   if (response.blobs) {
+   *     for (const blob of response.blobs) {
+   *       console.log(`Blob ${i++}: ${blob.name}`);
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = containerClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 blob names
+   * if (response.blobs) {
+   *   for (const blob of response.blobs) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = containerClient
+   *   .findBlobsByTags("tagkey='tagvalue'")
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints blob names
+   * if (response.blobs) {
+   *   for (const blob of response.blobs) {
+   *      console.log(`Blob ${i++}: ${blob.name}`);
+   *   }
+   * }
+   * ```
+   *
+   * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+   *                                         The given expression must evaluate to true for a blob to be returned in the results.
+   *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+   *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+   * @param options - Options to find blobs by tags.
+   */
+  public findBlobsByTags(
+    tagFilterSqlExpression: string,
+    options: ContainerFindBlobByTagsOptions = {}
+  ): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse> {
+    // AsyncIterableIterator to iterate over blobs
+    const listSegmentOptions: ContainerFindBlobsByTagsSegmentOptions = {
+      ...options,
+    };
+
+    const iter = this.findBlobsByTagsItems(tagFilterSqlExpression, listSegmentOptions);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.findBlobsByTagsSegments(tagFilterSqlExpression, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...listSegmentOptions,
         });
       },
     };

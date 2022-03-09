@@ -553,7 +553,7 @@ export type EventGridPublisherClientOptions = CommonClientOptions;
 export interface EventHubCaptureFileCreatedEventData {
     eventCount: number;
     fileType: string;
-    fileurl: string;
+    fileUrl: string;
     firstEnqueueTime: string;
     firstSequenceNumber: number;
     lastEnqueueTime: string;
@@ -838,10 +838,10 @@ export interface MediaJobError {
 }
 
 // @public
-export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content";
+export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content" | "Account";
 
 // @public
-export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported";
+export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported" | "IdentityUnsupported";
 
 // @public
 export interface MediaJobErrorDetail {
@@ -1410,7 +1410,7 @@ export interface StorageDirectoryDeletedEventData {
     api: string;
     clientRequestId: string;
     identity: string;
-    recursive: boolean;
+    recursive: string;
     requestId: string;
     sequencer: string;
     storageDiagnostics: any;

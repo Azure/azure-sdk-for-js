@@ -1,5 +1,15 @@
 # Release History
     
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0 (2022-01-24)
 
 The package of @azure/arm-storageimportexport is using our next generation design principles since version 2.0.0, which contains breaking changes.

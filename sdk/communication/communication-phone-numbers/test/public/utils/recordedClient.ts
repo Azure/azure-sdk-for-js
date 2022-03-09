@@ -5,27 +5,23 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import {
-  env,
   Recorder,
-  record,
   RecorderEnvironmentSetup,
+  env,
+  isLiveMode,
   isPlaybackMode,
+  record,
 } from "@azure-tools/test-recorder";
-import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  isNode,
-  TokenCredential,
-  WebResourceLike,
-} from "@azure/core-http";
-import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
+import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 if (isNode) {
   dotenv.config();
 }
+
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedClient<T> {
   client: T;
@@ -35,6 +31,7 @@ export interface RecordedClient<T> {
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
+  SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -60,8 +57,8 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient(),
-    } as PhoneNumbersClientOptions),
+      httpClient,
+    }),
     recorder,
   };
 }
@@ -88,8 +85,8 @@ export function createRecordedClientWithToken(
     // casting is a workaround to enable min-max testing
     return {
       client: new PhoneNumbersClient(endpoint, credential, {
-        httpClient: createTestHttpClient(),
-      } as PhoneNumbersClientOptions),
+        httpClient,
+      }),
       recorder,
     };
   }
@@ -100,15 +97,16 @@ export function createRecordedClientWithToken(
     credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      env.AZURE_CLIENT_SECRET,
+      { httpClient }
     );
   }
 
   // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(endpoint, credential, {
-      httpClient: createTestHttpClient(),
-    } as PhoneNumbersClientOptions),
+      httpClient,
+    }),
     recorder,
   };
 }
@@ -116,24 +114,3 @@ export function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
-
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
-}

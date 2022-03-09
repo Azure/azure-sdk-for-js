@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
@@ -9,11 +9,11 @@ import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
-import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
+import { authenticate } from "./utils/testAuthentication";
+import TestClient from "./utils/testClient";
+import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "../utils/utils.common";
+import { getServiceVersion } from "./utils/common";
 import { isNode } from "@azure/core-http";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {

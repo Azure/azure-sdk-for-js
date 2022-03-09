@@ -32,7 +32,7 @@ import {
   recorderEnvSetup,
   sleep,
 } from "../utils";
-import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
+import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 
@@ -80,10 +80,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -224,11 +220,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work with encryption scope", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -319,11 +310,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work with encryption scope for container", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -482,11 +468,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -526,11 +507,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work with encryption scope for blob", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -769,11 +745,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob snapshot with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -1167,10 +1138,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -1235,10 +1202,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("GenerateUserDelegationSAS should work with encryption scope for blob", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -1382,10 +1345,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("GenerateUserDelegationSAS should work with permanentDelete permission for blob snapshot", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -1491,11 +1450,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work for blob version delete with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     // create versions
     const containerName = recorder.getUniqueName("container");
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1582,10 +1536,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob version delete with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     // create versions
     const containerName = recorder.getUniqueName("container");
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -2005,11 +1955,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSasUrl with encryption scope", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
-
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -2051,10 +1996,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSasUrl with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -2120,10 +2061,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("ContainerClient.generateSasUrl with encryption scope", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -2157,6 +2094,48 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await appendBlobClient.create({
       encryptionScope: encryptionScopeName,
     });
+
+    await containerClient.delete();
+  });
+
+  it("ContainerClient.generateSasUrl should work with filtertag permission", async function (this: Context) {
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2",
+    };
+
+    const appendBlobName = recorder.getUniqueName("appendblob");
+    const appendBlobClient = containerClient.getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create({ tags: tags });
+
+    // Wait for indexing tags
+    await sleep(2);
+
+    const sasURL = await containerClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: ContainerSASPermissions.parse("racwdlf"),
+      protocol: SASProtocol.HttpsAndHttp,
+    });
+
+    const containerClientWithSAS = new ContainerClient(sasURL);
+
+    const expectedTags1: Tags = {
+      tag1: "val1",
+    };
+
+    for await (const blob of containerClientWithSAS.findBlobsByTags(`tag1='val1'`)) {
+      assert.deepStrictEqual(blob.name, appendBlobName);
+      assert.deepStrictEqual(blob.tags, expectedTags1);
+      assert.deepStrictEqual(blob.tagValue, "val1");
+    }
 
     await containerClient.delete();
   });
@@ -2205,10 +2184,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work with encryption scope for blob", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -2246,10 +2221,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work with permanentDelete permission for blob", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -2367,10 +2338,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work for blob snapshot with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -2418,10 +2385,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work for blob version with permanentDelete permission", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this test case util it's supported in production environment. -- STG79
-      this.skip();
-    }
     // create versions
     const containerName = recorder.getUniqueName("container");
     const containerClient = blobServiceClient.getContainerClient(containerName);

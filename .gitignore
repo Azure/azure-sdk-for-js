@@ -120,12 +120,14 @@ Thumbs.db
 *.pfx
 *.pem
 *.key
+*.srl
 
 # WebStorm #
 .idea/
 
 # docs #
 docs/
+!eng/scripts/docs
 main.conf.json
 child.conf.json
 

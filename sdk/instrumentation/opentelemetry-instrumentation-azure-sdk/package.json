@@ -1,12 +1,13 @@
 {
   "name": "@azure/opentelemetry-instrumentation-azure-sdk",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js"
+    "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js",
+    "./dist-esm/test/public/util/tracerProvider.js": "./dist-esm/test/public/util/tracerProvider.browser.js"
   },
   "//metadata": {
     "constantPaths": [
@@ -27,9 +28,9 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
@@ -45,7 +46,7 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
@@ -79,16 +80,19 @@
   "dependencies": {
     "@azure/core-tracing": "1.0.0-preview.14",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^1.0.3",
-    "@opentelemetry/core": "^1.0.1",
+    "@opentelemetry/api": "~1.0.3",
+    "@opentelemetry/core": "~1.0.1",
     "@opentelemetry/instrumentation": "^0.27.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure-tools/test-recorder": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.5.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.18.11",
+    "@opentelemetry/sdk-trace-base": "^1.0.1",
+    "@opentelemetry/sdk-trace-node": "^1.0.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -117,7 +121,6 @@
     "nyc": "^14.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "sinon": "^12.0.1",
     "source-map-support": "^0.5.9",
     "typedoc": "0.15.2",

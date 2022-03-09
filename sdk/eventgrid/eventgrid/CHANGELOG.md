@@ -1,6 +1,6 @@
 # Release History
 
-## 4.6.1 (Unreleased)
+## 4.8.1 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,26 @@
 
 ### Other Changes
 
+## 4.8.0 (2022-03-08)
+
+### Features Added
+
+- Added new value `IdentityUnsupported` to `MediaJobErrorCode` and `Account` to `MediaJobErrorCategory` for `Microsoft.Media` events.
+
+## 4.7.0 (2022-02-08)
+
+### Key Bug Fixes
+
+- The TypeScript typings for two events have had small changes to accurately reflect the data sent by Azure.
+  - `Microsoft.EventHub.CaptureFileCreated`'s `fileurl` property is now correctly cased as `fileUrl`
+  - `Microsoft.Storage.DirectoryDeleted`'s `recursive` property has been changed from `boolean` to `string`. The service sets this property to the string `"true"` or `"false"`.
+
 ## 4.6.0 (2022-01-11)
 
 ### Features Added
 
 - Added a new property to `AcsRecordingChunkInfo` (for the `Microsoft.Communication.RecordingFileStatusUpdated` system event):
-  
+
   - `deleteLocation`
 
 - Added new properties to `ContainerRegistryArtifactEventData` and `ContainerRegistryEventData` (for the `Microsoft.ContainerRegistry.{ChartDeleted|ChartPushed|ImagePushed|ImageDeleted}` system events):

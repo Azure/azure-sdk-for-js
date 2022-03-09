@@ -1,15 +1,46 @@
 # Release History
+    
+## 17.1.0 (2022-02-14)
+    
+**Features**
 
-## 17.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group LocalUsersOperations
+  - Added Interface LocalUserKeys
+  - Added Interface LocalUserRegeneratePasswordResult
+  - Added Interface LocalUsers
+  - Added Interface LocalUsersCreateOrUpdateOptionalParams
+  - Added Interface LocalUsersDeleteOptionalParams
+  - Added Interface LocalUsersGetOptionalParams
+  - Added Interface LocalUsersListKeysOptionalParams
+  - Added Interface LocalUsersListOptionalParams
+  - Added Interface LocalUsersRegeneratePasswordOptionalParams
+  - Added Interface PermissionScope
+  - Added Interface SshPublicKey
+  - Added Type Alias ActiveDirectoryPropertiesAccountType
+  - Added Type Alias AllowedCopyScope
+  - Added Type Alias LocalUser
+  - Added Type Alias LocalUsersCreateOrUpdateResponse
+  - Added Type Alias LocalUsersGetResponse
+  - Added Type Alias LocalUsersListKeysResponse
+  - Added Type Alias LocalUsersListResponse
+  - Added Type Alias LocalUsersRegeneratePasswordResponse
+  - Interface ActiveDirectoryProperties has a new optional parameter accountType
+  - Interface ActiveDirectoryProperties has a new optional parameter samAccountName
+  - Interface EncryptionIdentity has a new optional parameter encryptionFederatedIdentityClientId
+  - Interface StorageAccountCreateParameters has a new optional parameter allowedCopyScope
+  - Interface StorageAccountCreateParameters has a new optional parameter isLocalUserEnabled
+  - Interface StorageAccountCreateParameters has a new optional parameter isSftpEnabled
+  - Interface StorageAccountUpdateParameters has a new optional parameter allowedCopyScope
+  - Interface StorageAccountUpdateParameters has a new optional parameter isLocalUserEnabled
+  - Interface StorageAccountUpdateParameters has a new optional parameter isSftpEnabled
+  - Class StorageManagementClient has a new parameter localUsersOperations
+  - Type Alias StorageAccount has a new parameter isSftpEnabled
+  - Type Alias StorageAccount has a new parameter isLocalUserEnabled
+  - Type Alias StorageAccount has a new parameter allowedCopyScope
+  - Added Enum KnownActiveDirectoryPropertiesAccountType
+  - Added Enum KnownAllowedCopyScope
+    
+    
 ## 17.0.0 (2021-12-06)
 
 The package of @azure/arm-storage is using our next generation design principles since version 17.0.0, which contains breaking changes.

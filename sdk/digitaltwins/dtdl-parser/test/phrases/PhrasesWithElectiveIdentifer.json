@@ -1,0 +1,62 @@
+[
+  {
+    "description": "blank node identifier",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "_:b1" },
+    "expect": "Top-level element has illegal type."
+  },
+  {
+    "description": "a non-DTMI IRI",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "http://foo/bar" },
+    "expect": "Top-level element 'http://foo/bar' has illegal type."
+  },
+  {
+    "description": "an invalid DTMI",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:1notLegal:_foo;1" },
+    "expect": "Top-level element 'dtmi:test:1notLegal:_foo;1' has illegal type."
+  },
+  {
+    "description": "a user ID",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:mySelf;1" },
+    "expect": "Top-level element dtmi:test:mySelf;1 has illegal type."
+  },
+  {
+    "description": "one auto-genned singular ID",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:myParent:_schema;1" },
+    "expect": "Top-level element has illegal type."
+  },
+  {
+    "description": "one auto-genned plural ID",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:myParent:_contents:__child;1" },
+    "expect": "Top-level element has illegal type."
+  },
+  {
+    "description": "two auto-genned singular IDs",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:myGrandparent:_schema:_elementSchema;1" },
+    "expect": "Top-level element has illegal type."
+  },
+  {
+    "description": "two auto-genned plural IDs",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:myGrandparent:_contents:__child:_path:__grandchild;1" },
+    "expect": "Top-level element has illegal type."
+  },
+  {
+    "description": "auto-genned singular then plural IDs",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:myGrandparent:_schema:_path:__grandchild;1" },
+    "expect": "Top-level element has illegal type."
+  },
+  {
+    "description": "auto-genned plural then singular IDs",
+    "phrase": "Top-level element{id:e} has illegal type.",
+    "install": { "id": "dtmi:test:myGrandparent:_contents:__child:_elementSchema;1" },
+    "expect": "Top-level element has illegal type."
+  }
+]

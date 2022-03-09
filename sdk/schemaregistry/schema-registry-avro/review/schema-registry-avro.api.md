@@ -4,21 +4,37 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export class SchemaRegistryAvroSerializer {
-    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions);
-    deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
-    serialize(value: unknown, schema: string): Promise<Uint8Array>;
+export class AvroSerializer<MessageT = MessageWithMetadata> {
+    constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
+    deserializeMessageData(message: MessageT, options?: DeserializeMessageDataOptions): Promise<unknown>;
+    serializeMessageData(value: unknown, schema: string): Promise<MessageT>;
 }
 
 // @public
-export interface SchemaRegistryAvroSerializerOptions {
+export interface AvroSerializerOptions<MessageT> {
     autoRegisterSchemas?: boolean;
     groupName?: string;
+    messageAdapter?: MessageAdapter<MessageT>;
+}
+
+// @public
+export interface DeserializeMessageDataOptions {
+    schema?: string;
+}
+
+// @public
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
 }
 
 // (No @packageDocumentation comment for this package)

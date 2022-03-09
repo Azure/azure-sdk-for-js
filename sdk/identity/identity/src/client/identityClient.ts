@@ -78,7 +78,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.0.2`;
+    const packageDetails = `azsdk-js-identity/2.1.0-beta.2`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -90,6 +90,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     super({
       requestContentType: "application/json; charset=utf-8",
+      retryOptions: {
+        maxRetries: 3,
+      },
       ...options,
       userAgentOptions: {
         userAgentPrefix,

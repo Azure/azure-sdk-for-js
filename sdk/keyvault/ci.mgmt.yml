@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/keyvault/ci.mgmt.yml
+      - sdk/keyvault/arm-keyvault/
+      - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/keyvault/ci.mgmt.yml
+      - sdk/keyvault/arm-keyvault/
+      - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: keyvault
+    Artifacts:
+      - name: azure-arm-keyvault
+        safeName: azurearmkeyvault
+      - name: azure-arm-keyvault-profile-2020-09-01-hybrid
+        safeName: azurearmkeyvaultprofile20200901hybrid

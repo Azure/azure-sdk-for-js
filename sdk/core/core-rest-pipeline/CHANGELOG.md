@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.6.1 (Unreleased)
 
 ### Features Added
 
@@ -8,10 +8,27 @@
 
 ### Bugs Fixed
 
-- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
-  - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
+### Other Changes
+
+## 1.6.0 (2022-03-03)
 
 ### Other Changes
+
+- Add "WWW-Authenticate" to the allowed logged header list. [#20288](https://github.com/Azure/azure-sdk-for-js/pull/20288)
+
+- Switch browser transport to fetch. [#20201](https://github.com/Azure/azure-sdk-for-js/pull/20201)
+
+## 1.5.0 (2022-02-03)
+
+### Features Added
+
+- Added new phase "Sign" for policies that sign the request for security purposes. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
+
+### Bugs Fixed
+
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+- New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
+- Addressed an issue where policy order might change in cases where there are no policies inside a phase specified by an "afterPhase" constraint. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
 
 ## 1.4.0 (2022-01-06)
 

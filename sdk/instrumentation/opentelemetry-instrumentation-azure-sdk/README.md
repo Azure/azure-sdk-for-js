@@ -34,10 +34,6 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 - The **createAzureSdkInstrumentation** function is the main hook exported by this library which provides a way to create an Azure SDK Instrumentation object to be registered with OpenTelemetry.
 
-### Compatibility with existing Client Libraries
-
-- TODO, we should describe what versions of core-tracing are compatible here...
-
 ## Examples
 
 ### Enable OpenTelemetry instrumentation
@@ -73,10 +69,6 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
-## Next steps
-
-- TODO: no samples yet, so the link verification fails. Add link to samples...
 
 ## Contributing
 

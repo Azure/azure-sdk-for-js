@@ -190,17 +190,20 @@ describe("ServiceBusClient live tests", () => {
       await sbClient.test.after();
     });
 
-    const testError = (err: Error | ServiceBusError, entityPath: string): void => {
+    const testError = (err: Error | ServiceBusError, entityPath?: string): void => {
       if (!isServiceBusError(err)) {
         should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
         should.equal(err.code, "MessagingEntityNotFound", "Error code is different than expected");
-        should.equal(
-          err.message.includes(
-            `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
-          ),
-          true
-        );
+        if (entityPath) {
+          should.equal(
+            err.message.includes(
+              `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
+            ),
+            true,
+            `Expecting error message to contain "The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found." but got ${err.message}`
+          );
+        }
         errorWasThrown = true;
       }
     };
@@ -212,11 +215,32 @@ describe("ServiceBusClient live tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("throws error when receiving batch data from a non existing subscription", async function (): Promise<void> {
+    it("throws error when receiving batch data from a non existing topic", async function (): Promise<void> {
       const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name");
       await receiver
         .receiveMessages(1)
         .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
+
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    });
+
+    it("throws error when receiving batch data from a non existing subscription", async function (): Promise<void> {
+      const entityNames = await sbClient.test.createTestEntities(TestClientType.PartitionedTopic);
+      if (!entityNames.topic) {
+        throw new Error("Expecting valid topic name");
+      }
+      const receiver = sbClient.createReceiver(entityNames.topic, "some-subscription-name");
+      await receiver.receiveMessages(1).catch((err) => {
+        testError(err);
+        console.log(err.message);
+        const namespace = sbClient.fullyQualifiedNamespace.split(".")[0];
+        const entityPattern = `The messaging entity '${namespace}:topic:${entityNames.topic}.*|some-subscription-name`;
+        should.equal(
+          new RegExp(entityPattern).test(err.message),
+          true,
+          `Expect error message to contain pattern "${entityPattern}" but got ${err.message}`
+        );
+      });
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
@@ -254,7 +278,7 @@ describe("ServiceBusClient live tests", () => {
       await receiver.close();
     });
 
-    it("throws error when receiving streaming data from a non existing subscription", async function (): Promise<void> {
+    it("throws error when receiving streaming data from a non existing topic", async function (): Promise<void> {
       const receiver = sbClient.createReceiver(
         "some-topic-name",
         "some-subscription-name"
@@ -263,7 +287,7 @@ describe("ServiceBusClient live tests", () => {
 
       receiver.subscribe({
         async processMessage() {
-          throw "processMessage should not have been called when receive call is made from a non existing namespace";
+          throw "processMessage should not have been called when subscribing to a non existing topic";
         },
         async processError(args) {
           const expected: Omit<ProcessErrorArgs, "error"> = {
@@ -294,6 +318,58 @@ describe("ServiceBusClient live tests", () => {
 
       await receiver.close();
     });
+
+    it("throws error when receiving streaming data from a non existing subscription", async function (): Promise<void> {
+      const entityNames = await sbClient.test.createTestEntities(TestClientType.PartitionedTopic);
+      if (!entityNames.topic) {
+        throw new Error("Expecting valid topic name");
+      }
+      const receiver = sbClient.createReceiver(
+        entityNames.topic,
+        "some-subscription-name"
+      ) as ServiceBusReceiverImpl;
+      reduceRetries(receiver);
+
+      receiver.subscribe({
+        async processMessage() {
+          throw "processMessage should not have been called when receive call when subscribing to a non existing subscription";
+        },
+        async processError(args) {
+          const expected: Omit<ProcessErrorArgs, "error"> = {
+            errorSource: args.errorSource,
+            entityPath: args.entityPath,
+            fullyQualifiedNamespace: args.fullyQualifiedNamespace,
+          };
+
+          expected.should.deep.equal({
+            errorSource: "receive",
+            entityPath: receiver.entityPath,
+            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
+          } as Omit<ProcessErrorArgs, "error">);
+
+          testError(args.error);
+          const namespace = sbClient.fullyQualifiedNamespace.split(".")[0];
+          const entityPattern = `The messaging entity '${namespace}:topic:${entityNames.topic}.*|some-subscription-name`;
+          should.equal(
+            new RegExp(entityPattern).test(args.error.message),
+            true,
+            `Expect error message to contain pattern "${entityPattern}" but got ${args.error.message}`
+          );
+        },
+      });
+
+      should.equal(
+        await checkWithTimeout(
+          () => errorWasThrown === true,
+          1000,
+          CoreAmqpConstants.defaultOperationTimeoutInMs * 2 // arbitrary, just don't want it to be too short.
+        ),
+        true,
+        "Error thrown flag must be true"
+      );
+
+      await receiver.close();
+    });
   });
 
   describe("Test ServiceBusClient with TokenCredentials", function (): void {
@@ -301,7 +377,7 @@ describe("ServiceBusClient live tests", () => {
 
     const env = getEnvVars();
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.windows.net)"
+      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))"
     ) || "")[1];
 
     /**

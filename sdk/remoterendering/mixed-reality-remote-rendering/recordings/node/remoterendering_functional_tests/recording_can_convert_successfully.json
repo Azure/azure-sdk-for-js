@@ -1,0 +1,1710 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "356",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f46d17bf-63ba-490c-8e7a-48b360549a6a"
+      },
+      "RequestBody": {
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "storageContainerReadListSas": "arr_sas_token",
+            "blobPrefix": "Input",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "storageContainerWriteSas": "arr_sas_token",
+            "blobPrefix": "Output"
+          }
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Content-Length": "416",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:19:30 GMT",
+        "MS-CV": "aA6T/6SD/E25uz/5sgDHOA.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "NotStarted"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2d6325f7-9ecf-4fd1-8763-03079fbaa672"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "416",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:19:30 GMT",
+        "MS-CV": "3Y8QWz7y/kONRQah6I5JuA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "NotStarted"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a221aa1f-f48f-4890-880f-a3028f6e3cb7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "416",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:19:31 GMT",
+        "MS-CV": "HL4wuRq4T0O7pRDem9/8lQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "NotStarted"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "77b46c83-0713-442f-a153-bb1ab31c45e6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:19:32 GMT",
+        "MS-CV": "Qj1/C\u002BYEhkyIoJ7GYbzs3g.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0182f9eb-8a7a-41cd-8539-da94a2c935a8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:19:42 GMT",
+        "MS-CV": "YC\u002BVlImrekewP343kSrMCQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8b6c1b6d-7bb0-4faa-801c-f1d0217804aa"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:19:52 GMT",
+        "MS-CV": "ziS5NzQtnEy6qPx12UpElQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f8d14d92-7eff-47d2-be69-8f49c2a8268d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:20:03 GMT",
+        "MS-CV": "q\u002BBbod1wk0\u002BB1G0i4n1YgA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5be65c48-fd66-464a-a0bb-67df40c00f0f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:20:13 GMT",
+        "MS-CV": "X\u002BIHIFujTUe68j2DZuYoSg.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "709d5f16-7dad-452b-a2a8-faee48b90600"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:20:23 GMT",
+        "MS-CV": "egF8PUCGb0SVPuJypTeSFQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "3c877251-fd21-4938-bc41-ff0a30660ca7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:20:33 GMT",
+        "MS-CV": "RfMJHpcdBUywjESxuyhWQg.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4649ee14-8321-4c12-aee9-d15732d32bc3"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:20:44 GMT",
+        "MS-CV": "kAGSer\u002B7t0GiWG2jqbuTbQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "58fe5aab-a6be-487c-b956-25f1271d560f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:20:54 GMT",
+        "MS-CV": "hAXEdKVZjU2ivTW6IYIwJA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e6da19bc-cbc1-4411-a75d-7af1df6dfe74"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:21:04 GMT",
+        "MS-CV": "lh3L5o\u002BMnUq7VeAcybF6pA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "08b5c35d-db2e-47e6-8bd5-d7aca9d86475"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:21:14 GMT",
+        "MS-CV": "uCE2xbDEK0Sf1eQTPUObHw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6cc0b845-5890-4198-9938-13ee41d88ded"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:21:24 GMT",
+        "MS-CV": "W3uLkBl/0EuAJXPSiWl4cA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "56da9c35-6766-41ea-a6ec-0839ac481e07"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:21:35 GMT",
+        "MS-CV": "tBmLg7ZN0EGGGZa3qsDltw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "569cc006-0b48-4179-adc8-5e51fc2633c0"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:21:45 GMT",
+        "MS-CV": "zfuYvwny9UewLOHBJhEz6w.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "88a3ced6-e361-4b3d-a987-d0df5b5c0b82"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:21:55 GMT",
+        "MS-CV": "2Lyx\u002BAcLvEeJ49gKjtfQwQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "72787ee2-8cbe-4a2a-ac7c-ffb0c0451b04"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:22:06 GMT",
+        "MS-CV": "SdcYhs3Alkq6vUugbJueLQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "71400684-f585-4cfe-a288-ccd84b515c63"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:22:16 GMT",
+        "MS-CV": "FseQdyu/SkatWucJ402ZYg.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1e0c624d-817b-460f-a116-a3411633aa5f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:22:26 GMT",
+        "MS-CV": "CXDTsDbii0in/EyfOQ31aw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "416b46c1-398e-4f59-a163-2bf8a6704ce1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:22:36 GMT",
+        "MS-CV": "T/miUUyHAk\u002Be1\u002BNi6VN9cA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "832bfaac-d464-471a-a290-ee17a630422b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:22:46 GMT",
+        "MS-CV": "SEaniveUN0Olfwkv\u002B4LTgA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "98acf0a8-2aa8-445e-9792-2cf94ce31a6a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:22:57 GMT",
+        "MS-CV": "rgHdQMtTyESQg/Huoafvpg.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f040cd86-cb94-4e11-a5ea-0cce2d5560c8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:23:07 GMT",
+        "MS-CV": "9I3LOdoPHEmtYDt7\u002BrkVIQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "dd738345-9cd8-42b8-ad3c-171e7dd8d837"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:23:17 GMT",
+        "MS-CV": "qc7Hy4WJeEe\u002BBhvNdPpw8Q.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "69e86d14-4f9c-4cdd-9220-f1539a0b5829"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:23:27 GMT",
+        "MS-CV": "LZ\u002BClAOjikiuNV6k7YS5\u002BQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "8f2ca093-af39-41b8-917b-c1fd8bdfe58d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:23:38 GMT",
+        "MS-CV": "H1cAOWL5WUy1TdXRvB73VA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e69b751f-04d3-48c7-b365-4aacfb0b30be"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:23:48 GMT",
+        "MS-CV": "JeCiPx7KV0S\u002BHULq4W8tNA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a23945cd-e0b7-4aab-bcd5-e405b48f00d7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:23:58 GMT",
+        "MS-CV": "5MH\u002BGrOTv0\u002BMcjAO84pqAA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6d868a36-c3f7-4a7f-b689-64279e3c5095"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:24:09 GMT",
+        "MS-CV": "Sh7AxbiA0U6\u002BipGYYcWXHQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "25f42130-305a-401e-8936-5867f13d8987"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:24:19 GMT",
+        "MS-CV": "XqIeuuXHIEeY5/MoN2yuuQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ad4f08e1-8e67-4764-81c5-89e48f8514fc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:24:29 GMT",
+        "MS-CV": "krfdt7t/J0KueQyoyjEQ4Q.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1ebe8145-e58c-4400-a745-422e9ed1bcfc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:24:39 GMT",
+        "MS-CV": "xOTpStAqMkyB0iYwFIN0Vw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "9708bd1f-e061-4e8d-940d-79ddf22321c1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "413",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:24:50 GMT",
+        "MS-CV": "cxel0fybf06sN2etPE95mw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "error": null,
+        "status": "Running"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId-8663?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "31f528fe-159f-4b4e-a9d9-f5436637bc18"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "512",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:25:00 GMT",
+        "MS-CV": "d43ncnV3g0ayM5zuioDz8A.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "conversionId-8663",
+        "creationTime": "2022-02-02T00:19:31.3965511Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Input/",
+            "relativeInputAssetPath": "testBox.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+            "blobPrefix": "Output/",
+            "outputAssetFilename": "testBox.arrAsset"
+          }
+        },
+        "output": {
+          "outputAssetUri": "https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"
+        },
+        "error": null,
+        "status": "Succeeded"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5390c9d7-2fee-4796-94e6-dc827f4bbf3c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Content-Length": "3732",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:25:00 GMT",
+        "MS-CV": "HLveUJNJbEixfEIrsqr7sQ.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "conversions": [
+          {
+            "id": "conversionId-8495",
+            "creationTime": "2022-01-31T23:20:32.7372363Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "testBox.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "testBox.arrAsset"
+              }
+            },
+            "output": {
+              "outputAssetUri": "https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"
+            },
+            "error": null,
+            "status": "Succeeded"
+          },
+          {
+            "id": "conversionId-4710",
+            "creationTime": "2022-01-31T23:26:30.300761Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "boxWhichDoesNotExist.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "boxWhichDoesNotExist.arrAsset"
+              }
+            },
+            "error": {
+              "code": "ConversionProcessFailed",
+              "message": "Invalid input provided. Check logs in output container for details."
+            },
+            "status": "Failed"
+          },
+          {
+            "id": "conversionId-3705",
+            "creationTime": "2022-02-01T00:37:28.0934557Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "testBox.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "testBox.arrAsset"
+              }
+            },
+            "output": {
+              "outputAssetUri": "https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"
+            },
+            "error": null,
+            "status": "Succeeded"
+          },
+          {
+            "id": "conversionId-4621",
+            "creationTime": "2022-02-01T00:44:24.0913217Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "boxWhichDoesNotExist.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "boxWhichDoesNotExist.arrAsset"
+              }
+            },
+            "error": {
+              "code": "ConversionProcessFailed",
+              "message": "Invalid input provided. Check logs in output container for details."
+            },
+            "status": "Failed"
+          },
+          {
+            "id": "conversionId-1143",
+            "creationTime": "2022-02-01T23:49:54.3941923Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "testBox.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "testBox.arrAsset"
+              }
+            },
+            "output": {
+              "outputAssetUri": "https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"
+            },
+            "error": null,
+            "status": "Succeeded"
+          },
+          {
+            "id": "conversionId-6340",
+            "creationTime": "2022-02-01T23:56:16.8955142Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "boxWhichDoesNotExist.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "boxWhichDoesNotExist.arrAsset"
+              }
+            },
+            "error": {
+              "code": "ConversionProcessFailed",
+              "message": "Invalid input provided. Check logs in output container for details."
+            },
+            "status": "Failed"
+          },
+          {
+            "id": "conversionId-8663",
+            "creationTime": "2022-02-02T00:19:31.3965511Z",
+            "settings": {
+              "inputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Input/",
+                "relativeInputAssetPath": "testBox.fbx"
+              },
+              "outputLocation": {
+                "storageContainerUri": "https://sdktest.blob.core.windows.net/test",
+                "blobPrefix": "Output/",
+                "outputAssetFilename": "testBox.arrAsset"
+              }
+            },
+            "output": {
+              "outputAssetUri": "https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"
+            },
+            "error": null,
+            "status": "Succeeded"
+          }
+        ],
+        "@nextLink": null
+      }
+    }
+  ],
+  "Variables": {
+    "conversionId": "conversionId-8663"
+  }
+}

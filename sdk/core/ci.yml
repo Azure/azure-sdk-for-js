@@ -35,7 +35,6 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: core
-    TestProxy: true
     Artifacts:
       - name: azure-abort-controller
         safeName: azureabortcontroller
@@ -49,10 +48,6 @@ extends:
         safeName: azurecoreclient
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
-      - name: azure-rest-core-client-paging
-        safeName: azurerestcoreclientpaging
-      - name: azure-rest-core-client-lro
-        safeName: azurerestcoreclientlro
       - name: azure-core-crypto
         safeName: azurecorecrypto
       - name: azure-core-http
@@ -71,3 +66,5 @@ extends:
         safeName: azurecoreutil
       - name: azure-logger
         safeName: azurelogger
+      - name: azure-core-http-compat
+        safeName: azurecorehttpcompat

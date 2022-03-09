@@ -44,7 +44,8 @@ provider.register();
 
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
-  instrumentationKey: "ikey"
+  connectionString:
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
 });
 
 // Add the exporter to the provider
@@ -79,15 +80,12 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 You can enable debug logging by changing the logging level of your provider.
 
 ```js
-const provider = new NodeTracerProvider({
-  logLevel: LogLevel.DEBUG,
-  plugins: {
-    https: {
-      // Ignore Application Insights Ingestion Server
-      ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)]
-    }
-  }
-});
+const { diag, DiagConsoleLogger, DiagLogLevel } = require("@opentelemetry/api");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+
+const provider = new NodeTracerProvider();
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.ALL);
+provider.register();
 ```
 
 ## Next steps

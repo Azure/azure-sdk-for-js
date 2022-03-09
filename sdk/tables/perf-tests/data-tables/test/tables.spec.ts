@@ -7,8 +7,10 @@ export abstract class TablesTest<TOptions = Record<string, unknown>> extends Per
   constructor(tableName: string) {
     super();
     const connectionString = getEnvVar("SAS_CONNECTION_STRING");
-    this.client = this.configureClient(
-      TableClient.fromConnectionString(connectionString, tableName)
+    this.client = TableClient.fromConnectionString(
+      connectionString,
+      tableName,
+      this.configureClientOptions({})
     );
   }
 

@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/network/ci.mgmt.yml
+      - sdk/network/arm-network/
+      - sdk/network/arm-network-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/network/ci.mgmt.yml
+      - sdk/network/arm-network/
+      - sdk/network/arm-network-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: network
+    Artifacts:
+      - name: azure-arm-network
+        safeName: azurearmnetwork
+      - name: azure-arm-network-profile-2020-09-01-hybrid
+        safeName: azurearmnetworkprofile20200901hybrid

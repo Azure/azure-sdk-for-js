@@ -1758,6 +1758,7 @@ export class ContainerClient extends StorageClient {
     deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
+    findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
@@ -1854,6 +1855,28 @@ export interface ContainerEncryptionScope {
 export interface ContainerExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export interface ContainerFilterBlobsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ContainerFindBlobByTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ContainerFindBlobsByTagsSegmentResponse = FilterBlobSegment & ContainerFilterBlobsHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: ContainerFilterBlobsHeaders;
+        bodyAsText: string;
+        parsedBody: FilterBlobSegmentModel;
+    };
+};
 
 // @public
 export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
@@ -2062,6 +2085,7 @@ export class ContainerSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    filterByTags: boolean;
     static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions;
     list: boolean;
     move: boolean;
@@ -2081,6 +2105,7 @@ export interface ContainerSASPermissionsLike {
     delete?: boolean;
     deleteVersion?: boolean;
     execute?: boolean;
+    filterByTags?: boolean;
     list?: boolean;
     move?: boolean;
     permanentDelete?: boolean;
@@ -3171,6 +3196,12 @@ export interface StaticWebsite {
 }
 
 // @public
+export enum StorageBlobAudience {
+    DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
+
+// @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
@@ -3186,6 +3217,7 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
+    audience?: string | string[];
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;

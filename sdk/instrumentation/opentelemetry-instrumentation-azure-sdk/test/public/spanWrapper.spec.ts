@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SpanStatusCode, trace } from "@opentelemetry/api";
+
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
-import { SpanStatusCode } from "@opentelemetry/api";
-import { TestSpan } from "./util/testSpan";
-import { TestTracer } from "./util/testTracer";
 import { assert } from "chai";
+import { getExportedSpan } from "./util/testHelpers";
+import { inMemoryExporter } from "./util/setup";
 
 describe("OpenTelemetrySpanWrapper", () => {
-  let otSpan: TestSpan;
   let span: OpenTelemetrySpanWrapper;
 
   beforeEach(() => {
-    otSpan = new TestTracer().startSpan("test");
-    span = new OpenTelemetrySpanWrapper(otSpan);
+    span = new OpenTelemetrySpanWrapper(trace.getTracer("test").startSpan("test-span"));
+    inMemoryExporter.reset();
   });
 
   describe("#setStatus", () => {
     describe("with a successful status", () => {
       it("sets the status on the span", () => {
         span.setStatus({ status: "success" });
-
+        const otSpan = getExportedSpan(span);
         assert.deepEqual(otSpan.status, { code: SpanStatusCode.OK });
       });
     });
@@ -28,7 +28,7 @@ describe("OpenTelemetrySpanWrapper", () => {
     describe("with an error", () => {
       it("sets the failed status on the span", () => {
         span.setStatus({ status: "error" });
-
+        const otSpan = getExportedSpan(span);
         assert.deepEqual(otSpan.status, { code: SpanStatusCode.ERROR });
       });
 
@@ -36,7 +36,11 @@ describe("OpenTelemetrySpanWrapper", () => {
         const error = new Error("test");
         span.setStatus({ status: "error", error });
 
-        assert.deepEqual(otSpan.exception, error);
+        const otSpan = getExportedSpan(span);
+        assert.lengthOf(otSpan.events, 1);
+        const exception = otSpan.events[0];
+        assert.equal(exception.name, "exception");
+        assert.equal(exception.attributes!["exception.message"], error.message);
       });
     });
   });
@@ -46,27 +50,22 @@ describe("OpenTelemetrySpanWrapper", () => {
       span.setAttribute("test", "value");
       span.setAttribute("array", ["value"]);
 
+      const otSpan = getExportedSpan(span);
       assert.deepEqual(otSpan.attributes, { test: "value", array: ["value"] });
     });
 
     it("ignores null", () => {
       span.setAttribute("test", null);
 
+      const otSpan = getExportedSpan(span);
       assert.isEmpty(otSpan.attributes);
     });
 
     it("ignores undefined", () => {
       span.setAttribute("test", undefined);
 
+      const otSpan = getExportedSpan(span);
       assert.isEmpty(otSpan.attributes);
-    });
-  });
-
-  describe("#end", () => {
-    it("ends the wrapped span", () => {
-      span.end();
-
-      assert.isTrue(otSpan.endCalled);
     });
   });
 
@@ -75,19 +74,18 @@ describe("OpenTelemetrySpanWrapper", () => {
       const error = new Error("test");
       span.recordException(error);
 
-      assert.deepEqual(otSpan.exception, error);
-    });
-    it("does not change the status", () => {
-      const error = "test";
-      span.recordException(error);
-
-      assert.deepEqual(otSpan.status, { code: SpanStatusCode.UNSET });
+      const otSpan = getExportedSpan(span);
+      assert.lengthOf(otSpan.events, 1);
+      const exception = otSpan.events[0];
+      assert.equal(exception.name, "exception");
+      assert.equal(exception.attributes!["exception.message"], error.message);
     });
   });
 
   describe("#isRecording", () => {
     it("returns the value of the wrapped span", () => {
-      assert.equal(span.isRecording(), otSpan.isRecording());
+      // Our setup creates recording spans
+      assert.isTrue(span.isRecording());
     });
   });
 });

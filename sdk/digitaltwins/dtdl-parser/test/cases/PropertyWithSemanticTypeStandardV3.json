@@ -1,0 +1,52 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": [
+        "Property",
+        "Velocity"
+      ],
+      "name": "expectedSpeed",
+      "schema": "double",
+      "unit": "kilometrePerSecond"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedSpeed",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        },
+        "supplementalTypes": [
+          "dtmi:standard:class:Velocity;3"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:property:unit;3": "dtmi:standard:unit:kilometrePerSecond;3"
+        }
+      },
+      {
+        "id": "dtmi:standard:unit:kilometrePerSecond;3",
+        "type": "Unit",
+        "properties": {
+        },
+        "supplementalTypes": [
+          "dtmi:standard:class:VelocityUnit;3",
+          "dtmi:standard:class:DecimalUnit;3",
+          "dtmi:standard:class:RatioUnit;3"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:property:baseUnit;3": "dtmi:standard:unit:metrePerSecond;3",
+          "dtmi:dtdl:property:prefix;3": "dtmi:standard:unitprefix:kilo;3",
+          "dtmi:dtdl:property:topUnit;3": "dtmi:standard:unit:kilometre;3",
+          "dtmi:dtdl:property:bottomUnit;3": "dtmi:standard:unit:second;3"
+        }
+      }
+    ]
+  }
+}

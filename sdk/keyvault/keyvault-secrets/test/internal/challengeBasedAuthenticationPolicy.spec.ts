@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { createSandbox } from "sinon";
@@ -13,11 +13,11 @@ import {
   challengeBasedAuthenticationPolicy,
 } from "../../../keyvault-common/src";
 import { SecretClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { authenticate } from "../public/utils/testAuthentication";
+import TestClient from "../public/utils/testClient";
 import { ClientSecretCredential } from "@azure/identity";
 import { WebResource } from "@azure/core-http";
-import { getServiceVersion } from "../utils/utils.common";
+import { getServiceVersion } from "../public/utils/common";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).

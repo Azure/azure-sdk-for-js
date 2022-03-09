@@ -3,8 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
 import Sinon from "sinon";
+import { assert } from "chai";
+import { GetTokenOptions } from "@azure/core-auth";
 import { AzurePowerShellCredential } from "../../../src";
 import {
   formatCommand,
@@ -191,6 +192,30 @@ describe("AzurePowerShellCredential", function () {
     const credential = new AzurePowerShellCredential();
 
     const token = await credential.getToken(scope);
+    assert.equal(token?.token, tokenResponse.Token);
+    assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
+
+    sandbox.restore();
+  });
+
+  it("authenticates with tenantId on getToken", async function () {
+    const sandbox = Sinon.createSandbox();
+
+    const tokenResponse = {
+      Token: "token",
+      ExpiresOn: "2021-04-21T20:52:16+00:00",
+      TenantId: "tenant-id",
+      Type: "Bearer",
+    };
+
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
+    stub.onCall(1).returns(Promise.resolve("This one we ignore."));
+    stub.onCall(2).returns(Promise.resolve(JSON.stringify(tokenResponse)));
+
+    const credential = new AzurePowerShellCredential();
+
+    const token = await credential.getToken(scope, { tenantId: "TENANT-ID" } as GetTokenOptions);
     assert.equal(token?.token, tokenResponse.Token);
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
 

@@ -1,0 +1,50 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "expect": {
+    "elementCount": 8,
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentSpeed",
+          "schema": "dtmi:dtdl:instance:Schema:double;2"
+        },
+        "supplementalTypes": [
+          "dtmi:standard:class:Velocity;2"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:property:unit;2": "dtmi:standard:unit:kilometrePerSecond;2"
+        }
+      },
+      {
+        "id": "dtmi:standard:unit:kilometrePerSecond;2",
+        "type": "Unit",
+        "properties": {
+        },
+        "supplementalTypes": [
+          "dtmi:standard:class:VelocityUnit;2",
+          "dtmi:standard:class:DecimalUnit;2",
+          "dtmi:standard:class:RatioUnit;2"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:property:baseUnit;2": "dtmi:standard:unit:metrePerSecond;2",
+          "dtmi:dtdl:property:prefix;2": "dtmi:standard:unitprefix:kilo;2",
+          "dtmi:dtdl:property:topUnit;2": "dtmi:standard:unit:kilometre;2",
+          "dtmi:dtdl:property:bottomUnit;2": "dtmi:standard:unit:second;2"
+        }
+      }
+    ]
+  },
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [ "Telemetry", "Velocity" ],
+      "name": "currentSpeed",
+      "schema": "double",
+      "unit": "kilometrePerSecond"
+    }
+  ]
+}

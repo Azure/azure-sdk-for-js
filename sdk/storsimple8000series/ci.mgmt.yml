@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/storsimple8000series/ci.mgmt.yml
+      - sdk/storsimple8000series/arm-storsimple8000series/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/storsimple8000series/ci.mgmt.yml
+      - sdk/storsimple8000series/arm-storsimple8000series/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: storsimple8000series
+    Artifacts:
+      - name: azure-arm-storsimple8000series
+        safeName: azurearmstorsimple8000series
