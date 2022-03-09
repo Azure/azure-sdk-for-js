@@ -5,7 +5,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
@@ -56,23 +56,17 @@ describe("EnvironmentCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it.skip("authenticates with a client certificate on the environment variables", async function (this: Context) {
+  it("authenticates with a client certificate on the environment variables", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
     }
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
-    }
-
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-    process.env.AZURE_CLIENT_CERTIFICATE_PATH = cachedValues.AZURE_CLIENT_CERTIFICATE_PATH;
+    process.env.AZURE_CLIENT_CERTIFICATE_PATH =
+      cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
 
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
@@ -136,15 +130,9 @@ describe("EnvironmentCredential", function () {
     })
   );
 
-  it.skip("supports tracing with environment client certificate", async function (this: Context) {
+  it("supports tracing with environment client certificate", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
       this.skip();
     }
     await testTracing({
@@ -153,7 +141,8 @@ describe("EnvironmentCredential", function () {
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-        process.env.AZURE_CLIENT_CERTIFICATE_PATH = cachedValues.AZURE_CLIENT_CERTIFICATE_PATH;
+        process.env.AZURE_CLIENT_CERTIFICATE_PATH =
+          cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
 
         const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 

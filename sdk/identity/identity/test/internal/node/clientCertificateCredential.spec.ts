@@ -146,6 +146,7 @@ describe("ClientCertificateCredential (internal)", function () {
     );
   });
 
+  // TODO:
   // This is not the way to test persistence with acquireTokenByClientCredential,
   // since acquireTokenByClientCredential caches at the method level, and not with the same cache used for acquireTokenSilent.
   // I'm leaving this here so I can remember about this in the future.

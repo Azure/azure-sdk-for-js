@@ -99,6 +99,7 @@ export async function msalNodeTestSetup(
       AZURE_USERNAME: "azure_username",
       AZURE_PASSWORD: "azure_password",
       AZURE_CAE_MANAGEMENT_ENDPOINT: "https://management.azure.com/",
+      AZURE_CLIENT_CERTIFICATE_PATH: "assets/fake-cert.pem",
     },
     sanitizerOptions: {
       headerSanitizers: [
@@ -117,11 +118,6 @@ export async function msalNodeTestSetup(
       generalSanitizers: [
         {
           regex: true,
-          target: `client_assertion=[a-zA-Z0-9-._]*`,
-          value: "client_assertion=client_assertion",
-        },
-        {
-          regex: true,
           target: `enter the code [A-Z0-9]* to authenticate`,
           value: `enter the code USER_CODE to authenticate`,
         },
@@ -133,6 +129,11 @@ export async function msalNodeTestSetup(
   await recorder.addSanitizers(
     {
       bodySanitizers: [
+        {
+          regex: true,
+          target: `client_assertion=[a-zA-Z0-9-._]*`,
+          value: "client_assertion=client_assertion",
+        },
         {
           regex: true,
           target: 'device_code=[^&"]+',
@@ -147,6 +148,11 @@ export async function msalNodeTestSetup(
           regex: true,
           target: `x-client-CPU=[a-zA-Z0-9]+`,
           value: `x-client-CPU=x-client-CPU`,
+        },
+        {
+          regex: true,
+          target: `x-client-VER=[a-zA-Z0-9.-]+`,
+          value: `x-client-VER=identity-client-version`,
         },
       ],
       bodyKeySanitizers: [
