@@ -6,6 +6,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "0",
@@ -27,14 +28,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Mar 2022 09:04:23 GMT",
-        "MS-CV": "oEYX1cgLVUqvHlaB4Zgn8w.0",
+        "Date": "Wed, 09 Mar 2022 12:37:59 GMT",
+        "MS-CV": "IVDjzkGaYE2YI/pMpX6ksg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0l20oYgAAAADguwzdQi\u002BBQLnGyOuB7PP9UFJHMDFFREdFMDYxMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0p58oYgAAAAAt0IKmQRzrT7UFDHfFmtwhUFJHMDFFREdFMDcxMwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "22ms"
+        "X-Processing-Time": "24ms"
       },
       "ResponseBody": {
         "identity": {

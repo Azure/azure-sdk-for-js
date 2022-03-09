@@ -3,14 +3,13 @@
 
 import {
   Recorder,
+  RecorderStartOptions,
   SanitizerOptions,
   env,
   isPlaybackMode,
-  RecorderStartOptions,
 } from "@azure-tools/test-recorder";
-
+import { Context, Test } from "mocha";
 import { CommunicationIdentityClient } from "../../../src";
-import { Context } from "mocha";
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { parseConnectionString } from "@azure/communication-common";
@@ -43,7 +42,6 @@ const sanitizerOptions: SanitizerOptions = {
       fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"],
     },
   ],
-  removeHeaderSanitizer: { headersForRemoval: ["Accept-Language"] },
   uriSanitizers: [
     {
       regex: true,
@@ -77,11 +75,22 @@ const recorderOptions: RecorderStartOptions = {
   sanitizerOptions: sanitizerOptions,
 };
 
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
+}
+
 export async function createRecordedCommunicationIdentityClient(
   context: Context
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
-  const recorder = new Recorder(context.currentTest);
-  await recorder.start(recorderOptions);
+  const recorder = await createRecorder(context.currentTest);
 
   const client = new CommunicationIdentityClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
@@ -98,8 +107,7 @@ export async function createRecordedCommunicationIdentityClient(
 export async function createRecordedCommunicationIdentityClientWithToken(
   context: Context
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
-  const recorder = new Recorder(context.currentTest);
-  await recorder.start(recorderOptions);
+  const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
