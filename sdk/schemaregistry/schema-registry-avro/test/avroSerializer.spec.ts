@@ -89,12 +89,12 @@ describe("AvroSerializer", function () {
     const buffer = Buffer.from(message.body);
     assert.strictEqual(`avro/binary+${schemaId}`, message.contentType);
     assert.deepStrictEqual(testAvroType.fromBuffer(buffer), testValue);
-    assert.equal(serializer["cacheById"].length, 1);
+    assert.equal(serializer["cacheById"].size, 1);
     assert.equal(
       serializer["cacheById"].peek(schemaId)?.name,
       "com.azure.schemaregistry.samples.AvroUser"
     );
-    assert.equal(serializer["cacheBySchemaDefinition"].length, 1);
+    assert.equal(serializer["cacheBySchemaDefinition"].size, 1);
     assert.equal(serializer["cacheBySchemaDefinition"].peek(testSchema)?.id, schemaId);
   });
 
@@ -269,11 +269,11 @@ describe("AvroSerializer", function () {
       });
       await serializer.serializeMessageData(valueToBeSerialized, schemaToSerializeWith);
       if (i < maxCacheEntriesCount) {
-        assert.equal(serializer["cacheById"].length, i + 1);
-        assert.equal(serializer["cacheBySchemaDefinition"].length, i + 1);
+        assert.equal(serializer["cacheById"].size, i + 1);
+        assert.equal(serializer["cacheBySchemaDefinition"].size, i + 1);
       } else {
-        assert.equal(serializer["cacheById"].length, maxCacheEntriesCount);
-        assert.equal(serializer["cacheBySchemaDefinition"].length, maxCacheEntriesCount);
+        assert.equal(serializer["cacheById"].size, maxCacheEntriesCount);
+        assert.equal(serializer["cacheBySchemaDefinition"].size, maxCacheEntriesCount);
       }
     }
   });
