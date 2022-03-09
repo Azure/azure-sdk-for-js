@@ -7,30 +7,30 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ObjectReplicationPoliciesOperations } from "../operationsInterfaces";
+import { BlobInventoryPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { StorageManagementClient } from "../storageManagementClient";
 import {
-  ObjectReplicationPolicy,
-  ObjectReplicationPoliciesListOptionalParams,
-  ObjectReplicationPoliciesListResponse,
-  ObjectReplicationPoliciesGetOptionalParams,
-  ObjectReplicationPoliciesGetResponse,
-  ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
-  ObjectReplicationPoliciesCreateOrUpdateResponse,
-  ObjectReplicationPoliciesDeleteOptionalParams
+  BlobInventoryPolicy,
+  BlobInventoryPoliciesListOptionalParams,
+  BlobInventoryPolicyName,
+  BlobInventoryPoliciesGetOptionalParams,
+  BlobInventoryPoliciesGetResponse,
+  BlobInventoryPoliciesCreateOrUpdateOptionalParams,
+  BlobInventoryPoliciesCreateOrUpdateResponse,
+  BlobInventoryPoliciesDeleteOptionalParams,
+  BlobInventoryPoliciesListResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ObjectReplicationPoliciesOperations operations. */
-export class ObjectReplicationPoliciesOperationsImpl
-  implements ObjectReplicationPoliciesOperations {
+/** Class containing BlobInventoryPolicies operations. */
+export class BlobInventoryPoliciesImpl implements BlobInventoryPolicies {
   private readonly client: StorageManagementClient;
 
   /**
-   * Initialize a new instance of the class ObjectReplicationPoliciesOperations class.
+   * Initialize a new instance of the class BlobInventoryPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: StorageManagementClient) {
@@ -38,7 +38,7 @@ export class ObjectReplicationPoliciesOperationsImpl
   }
 
   /**
-   * List the object replication policies associated with the storage account.
+   * Gets the blob inventory policy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -49,8 +49,8 @@ export class ObjectReplicationPoliciesOperationsImpl
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
-  ): PagedAsyncIterableIterator<ObjectReplicationPolicy> {
+    options?: BlobInventoryPoliciesListOptionalParams
+  ): PagedAsyncIterableIterator<BlobInventoryPolicy> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
@@ -68,8 +68,8 @@ export class ObjectReplicationPoliciesOperationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
-  ): AsyncIterableIterator<ObjectReplicationPolicy[]> {
+    options?: BlobInventoryPoliciesListOptionalParams
+  ): AsyncIterableIterator<BlobInventoryPolicy[]> {
     let result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
   }
@@ -77,8 +77,8 @@ export class ObjectReplicationPoliciesOperationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
-  ): AsyncIterableIterator<ObjectReplicationPolicy> {
+    options?: BlobInventoryPoliciesListOptionalParams
+  ): AsyncIterableIterator<BlobInventoryPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
@@ -89,7 +89,84 @@ export class ObjectReplicationPoliciesOperationsImpl
   }
 
   /**
-   * List the object replication policies associated with the storage account.
+   * Gets the blob inventory policy associated with the specified storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param blobInventoryPolicyName The name of the storage account blob inventory policy. It should
+   *                                always be 'default'
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    blobInventoryPolicyName: BlobInventoryPolicyName,
+    options?: BlobInventoryPoliciesGetOptionalParams
+  ): Promise<BlobInventoryPoliciesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, blobInventoryPolicyName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Sets the blob inventory policy to the specified storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param blobInventoryPolicyName The name of the storage account blob inventory policy. It should
+   *                                always be 'default'
+   * @param properties The blob inventory policy set to a storage account.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    blobInventoryPolicyName: BlobInventoryPolicyName,
+    properties: BlobInventoryPolicy,
+    options?: BlobInventoryPoliciesCreateOrUpdateOptionalParams
+  ): Promise<BlobInventoryPoliciesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        blobInventoryPolicyName,
+        properties,
+        options
+      },
+      createOrUpdateOperationSpec
+    );
+  }
+
+  /**
+   * Deletes the blob inventory policy associated with the specified storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param blobInventoryPolicyName The name of the storage account blob inventory policy. It should
+   *                                always be 'default'
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    accountName: string,
+    blobInventoryPolicyName: BlobInventoryPolicyName,
+    options?: BlobInventoryPoliciesDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, blobInventoryPolicyName, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
+   * Gets the blob inventory policy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -100,124 +177,24 @@ export class ObjectReplicationPoliciesOperationsImpl
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesListOptionalParams
-  ): Promise<ObjectReplicationPoliciesListResponse> {
+    options?: BlobInventoryPoliciesListOptionalParams
+  ): Promise<BlobInventoryPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listOperationSpec
-    );
-  }
-
-  /**
-   * Get the object replication policy of the storage account by policy ID.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID
-   *                                  is unknown.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesGetOptionalParams
-  ): Promise<ObjectReplicationPoliciesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, objectReplicationPolicyId, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Create or update the object replication policy of the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID
-   *                                  is unknown.
-   * @param properties The object replication policy set to a storage account. A unique policy ID will be
-   *                   created if absent.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    objectReplicationPolicyId: string,
-    properties: ObjectReplicationPolicy,
-    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams
-  ): Promise<ObjectReplicationPoliciesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        objectReplicationPolicyId,
-        properties,
-        options
-      },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Deletes the object replication policy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID
-   *                                  is unknown.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    accountName: string,
-    objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, objectReplicationPolicyId, options },
-      deleteOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ObjectReplicationPolicies
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ObjectReplicationPolicy
+      bodyMapper: Mappers.BlobInventoryPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -229,31 +206,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName1,
-    Parameters.objectReplicationPolicyId
+    Parameters.blobInventoryPolicyName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ObjectReplicationPolicy
+      bodyMapper: Mappers.BlobInventoryPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.properties3,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName1,
-    Parameters.objectReplicationPolicyId
+    Parameters.blobInventoryPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -261,7 +238,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -276,7 +253,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName1,
-    Parameters.objectReplicationPolicyId
+    Parameters.blobInventoryPolicyName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListBlobInventoryPolicy
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1
   ],
   headerParameters: [Parameters.accept],
   serializer

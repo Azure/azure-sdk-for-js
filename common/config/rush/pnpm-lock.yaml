@@ -139,6 +139,7 @@ specifiers:
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
+  '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
@@ -399,6 +400,7 @@ dependencies:
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
+  '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
@@ -12539,6 +12541,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-storage-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-v7E2jtmHj2/W/Jj2ErWzqPqZJrhgjlbW2QS8gYLbHKvePTjJvE9BbhZhNa0Xmx2JBibNXIOF1tQWuxKuipuGKg==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-storage-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-storage.tgz:
     resolution: {integrity: sha512-0WFSWibkdzYPyWFt+vCkVn+t285g6gni3TeLolJSQ7ClIBTBwiWPMKq2eSSOa1hzrSletN5QchvcsAgArsQP/A==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
@@ -14652,7 +14682,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-tFOZJXqQG0aWr7V8/OdK64HeqRQiokRWE9OsBZeoG809e0yooFJ3qb7pgBb/cwYtMTx5fpwb/SUOIwseiBIaVQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-Wu82qdfR48RutCq2D4p+KavTGmEOjyN310+4Icpux/1lp9T4OoZQFtKgPrKr+e1LVe2wUr4rMJiJqrDGu+7odA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -14689,7 +14719,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-AE+l57LwOGlKDqPX+zzuQiqIy4HxrrGnR+IPJI8vUrPHgIukZisT/UYI1vgpDc/0/h/jxWXPNLlLaMwdv5BebQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-TNas20f7WYNZmAmRFFGI8Q+lX/B8jpY0gPCASb7aC8jRgPqRbmM9jlAOpKwaPGQSaMWVqU8kC7wpr8ael9MBmQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -14718,7 +14748,6 @@ packages:
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
-      - debug
       - encoding
       - supports-color
       - utf-8-validate
