@@ -92,6 +92,7 @@
     "build:test": "tsc -p . && dev-tool run bundle",
     "build": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "generate:client": "autorest --typescript ./swagger/README.md",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "lint": "echo skipped",
@@ -111,7 +112,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/artifactsClientContext.ts",
+        "path": "src/artifactsClient.ts",
         "prefix": "packageDetails"
       },
       {
