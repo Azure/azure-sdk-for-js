@@ -17,7 +17,7 @@ import { AdditionalPolicyConfig } from "@azure/core-client";
  */
 export abstract class BatchPerfTest<
   TOptions = Record<string, unknown>,
-  TGlobals = void
+  TGlobals = unknown
 > extends PerfTestBase<TOptions, TGlobals> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
