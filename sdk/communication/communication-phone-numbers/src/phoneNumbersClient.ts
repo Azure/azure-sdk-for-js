@@ -32,10 +32,7 @@ import {
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels";
-import {
-  createPhoneNumbersPagingPolicy,
-  phoneNumbersLroPolicy,
-} from "./utils/customPipelinePolicies";
+import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import { CommonClientOptions } from "@azure/core-client";
 
 /**
@@ -106,10 +103,9 @@ export class PhoneNumbersClient {
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
 
-    // These policies are temporary workarounds to address compatibility issues with Azure Core V2.
+    // This policy is temporary workarounds to address compatibility issues with Azure Core V2.
     const phoneNumbersPagingPolicy = createPhoneNumbersPagingPolicy(url);
     this.client.pipeline.addPolicy(phoneNumbersPagingPolicy);
-    this.client.pipeline.addPolicy(phoneNumbersLroPolicy);
   }
 
   /**

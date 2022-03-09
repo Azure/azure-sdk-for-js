@@ -6,7 +6,6 @@ import {
   HttpHeaders,
   PipelineRequest,
   PipelineResponse,
-  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { PurchasedPhoneNumber } from "../../../src";
 import { PurchasedPhoneNumbers } from "../../../src/generated/src/models";
@@ -47,26 +46,6 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Purchas
       billingFrequency: "monthly",
     },
   }
-);
-
-function createMockSearchResponseHeaders(): HttpHeaders {
-  const headers = createHttpHeaders();
-  headers.set(
-    "Operation-Location",
-    "/phoneNumbers/operations/search_378ddf60-81be-452a-ba4f-613198ea6c28"
-  );
-  headers.set(
-    "Location",
-    "/availablePhoneNumbers/searchResults/378ddf60-81be-452a-ba4f-613198ea6c28"
-  );
-  headers.set("operation-id", "search_378ddf60-81be-452a-ba4f-613198ea6c28");
-  headers.set("search-id", "378ddf60-81be-452a-ba4f-613198ea6c28");
-  return headers;
-}
-export const mockSearchHttpClient = createMockHttpClient(
-  202,
-  null,
-  createMockSearchResponseHeaders()
 );
 
 export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhoneNumbers>(200, {
