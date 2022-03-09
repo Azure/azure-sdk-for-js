@@ -5,7 +5,7 @@ import {
   WorkerToManagerMessage,
   WorkerToManagerMessageWithId,
 } from "./messages";
-import { DefaultPerfOptions, PerfOptionDictionary } from "./options";
+import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
 
 // debug, delete
 const inspect =
@@ -23,7 +23,7 @@ export type WorkerLike = workerThreads.Worker | ChildProcess;
 export interface WorkerData {
   testClassName: string;
   assignedParallels: number;
-  options: PerfOptionDictionary<DefaultPerfOptions>;
+  options: ParsedPerfOptions<DefaultPerfOptions>;
 }
 
 type MessageFilter<T> = (message: T) => boolean;

@@ -7,12 +7,7 @@ import {
   WorkerToManagerMessageWithId,
 } from "./messages";
 import { ManagerMulticoreUtils, multicoreUtils } from "./multicore";
-import {
-  defaultPerfOptions,
-  DefaultPerfOptions,
-  parsePerfOption,
-  PerfOptionDictionary,
-} from "./options";
+import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
 import { PerfParallel } from "./parallel";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
@@ -40,11 +35,11 @@ import { formatDuration } from "./utils";
  */
 export class ManagerPerfProgram implements PerfProgram {
   private testName: string;
-  private parsedDefaultOptions: Required<PerfOptionDictionary<DefaultPerfOptions>>;
   private parallelNumber: number;
   private lastCompleted: number = 0;
   private startMillis: number = 0;
   private managerUtils: ManagerMulticoreUtils;
+  private parsedOptions: ParsedPerfOptions<DefaultPerfOptions>;
 
   /** Dummy instance of the test class used for global setup and cleanup. */
   private testInstanceForGlobalSetup: PerfTestBase;
@@ -65,10 +60,9 @@ export class ManagerPerfProgram implements PerfProgram {
     this.managerUtils = multicoreUtils;
 
     this.testName = testClass.name;
-    this.parsedDefaultOptions = parsePerfOption(defaultPerfOptions);
-    this.parallelNumber = Number(this.parsedDefaultOptions.parallel.value);
-
     this.testInstanceForGlobalSetup = new testClass();
+    this.parsedOptions = this.testInstanceForGlobalSetup.parsedOptions;
+    this.parallelNumber = Number(this.parsedOptions.parallel.value);
   }
 
   private getCompletedOperations(parallels: PerfParallel[]): number {
@@ -143,10 +137,10 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private createWorkers(): void {
-    const cpuOption = this.parsedDefaultOptions.cpus.value ?? 1;
+    const cpuOption = this.parsedOptions.cpus.value ?? 1;
     const cpus = cpuOption === 0 ? os.cpus.length : cpuOption;
 
-    const parallels = this.parsedDefaultOptions.parallel.value ?? 1;
+    const parallels = this.parsedOptions.parallel.value ?? 1;
 
     const baseParallelsPerCpu = Math.floor(parallels / cpus);
     const remainder = parallels % cpus;
@@ -162,7 +156,7 @@ export class ManagerPerfProgram implements PerfProgram {
       this.managerUtils.createWorker({
         testClassName: this.testName,
         assignedParallels: alloc,
-        options: this.parsedDefaultOptions,
+        options: this.parsedOptions,
       });
     }
   }
@@ -176,7 +170,7 @@ export class ManagerPerfProgram implements PerfProgram {
     // This is how we customize how frequently we log how many completed operations have been executed.
     // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
     // of operations running.
-    const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
+    const millisecondsToLog = Number(this.parsedOptions["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
         millisecondsToLog / 1000
@@ -245,14 +239,14 @@ export class ManagerPerfProgram implements PerfProgram {
   public async run(): Promise<void> {
     // There should be no test execution if the help option is passed.
     // --help, or -h
-    if (this.parsedDefaultOptions.help.value) {
+    if (this.parsedOptions.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
       console.table(this.testInstanceForGlobalSetup.parsedOptions);
       return;
     }
 
     await this.logPackageVersions(
-      this.parsedDefaultOptions["list-transitive-dependencies"].value ?? false
+      this.parsedOptions["list-transitive-dependencies"].value ?? false
     );
 
     const options = this.testInstanceForGlobalSetup.parsedOptions;
