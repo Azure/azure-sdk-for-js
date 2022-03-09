@@ -7,18 +7,18 @@
 ```yaml
 v3: true
 package-name: "@azure/ai-metrics-advisor"
-title: AnomalyDectectorClient
-description: AnomalyDectector Client
+title: MetricsAdvisorClient
+description: Metrics Advisor Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 # openapi v2 in PR
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/08f5e391f2153a99580b458cc71ef88e45dd0531/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c8a9d7277a795543e2960ed58963769f95945096/specification/cognitiveservices/data-plane/MetricsAdvisor/stable/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "latest"
 disable-async-iterators: true
 hide-clients: true
 package-version: 1.0.1
