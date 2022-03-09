@@ -53,13 +53,13 @@ module.exports = function (config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "RECORDINGS_RELATIVE_PATH"
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit",],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory

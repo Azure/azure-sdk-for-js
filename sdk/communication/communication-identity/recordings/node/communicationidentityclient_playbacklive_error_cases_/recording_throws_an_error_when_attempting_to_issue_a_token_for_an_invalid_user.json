@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://joheredicoms.communication.azure.com/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
+      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "26",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.9 OS/(x64-Linux-5.4.0-1067-azure)",
+        "User-Agent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.10 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "EqW/vFkRi/EMVlRLG6\u002Bkt0X27SowO7NytIh/miHOZlY=",
-        "x-ms-date": "Thu, 24 Feb 2022 20:44:06 GMT"
+        "x-ms-date": "Wed, 09 Mar 2022 09:04:11 GMT"
       },
       "RequestBody": {
         "scopes": [
@@ -25,15 +25,15 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Thu, 24 Feb 2022 20:44:06 GMT",
-        "MS-CV": "U//NFyY8tE\u002BAF6dZwGMRCw.0",
+        "Date": "Wed, 09 Mar 2022 09:04:11 GMT",
+        "MS-CV": "kOQ4rJW9rEaHWi\u002B8R20WMw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Fu4XYgAAAACGReSv9AXcTbi4nlFkIwN5Qk4zRURHRTExMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0i20oYgAAAACRRvGSUXO3Sp7ItXkz/aSuUFJHMDFFREdFMDYxMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "16ms"
+        "X-Processing-Time": "22ms"
       },
       "ResponseBody": {
         "error": {

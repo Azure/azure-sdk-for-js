@@ -1,12 +1,11 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://joheredicoms.communication.azure.com/identities?api-version=2021-10-31-preview",
+      "RequestUri": "https://endpoint/identities?api-version=2021-10-31-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "34",
@@ -18,11 +17,11 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
-        "x-ms-date": "Thu, 24 Feb 2022 20:42:54 GMT",
-        "x-ms-useragent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "x-ms-date": "Wed, 09 Mar 2022 09:04:29 GMT",
+        "x-ms-useragent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
       },
       "RequestBody": {
         "createTokenWithScopes": [
@@ -34,14 +33,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "115",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 24 Feb 2022 20:42:54 GMT",
-        "MS-CV": "YJFD1Iow502bIJPjQ/heRA.0",
+        "Date": "Wed, 09 Mar 2022 09:04:29 GMT",
+        "MS-CV": "dhlXFP52W0KB3OZMBoNuVg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0zu0XYgAAAAAQ6ERHbofSQLCGdT22dj\u002BGQk4zRURHRTExMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0nW0oYgAAAAASQjpsqz8DT65OY866n73RUFJHMDFFREdFMDYxMABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "224ms"
+        "X-Processing-Time": "43ms"
       },
       "ResponseBody": {
         "identity": {
@@ -49,7 +48,7 @@
         },
         "accessToken": {
           "token": "sanitized",
-          "expiresOn": "2022-02-25T20:42:55.0664655\u002B00:00"
+          "expiresOn": "2022-03-10T09:04:29.9349256\u002B00:00"
         }
       }
     }
