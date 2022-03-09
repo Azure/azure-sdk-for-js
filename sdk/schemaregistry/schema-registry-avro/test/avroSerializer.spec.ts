@@ -243,8 +243,8 @@ describe("AvroSerializer", function () {
      */
     const maxSchemaCount = 25;
     const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2 - 1);
-    serializer["cacheById"].max = maxCacheEntriesCount;
-    serializer["cacheBySchemaDefinition"].max = maxCacheEntriesCount;
+    (serializer["cacheById"] as any).max = maxCacheEntriesCount;
+    (serializer["cacheBySchemaDefinition"] as any).max = maxCacheEntriesCount;
     const itersCount = 2 * maxCacheEntriesCount;
     assert.isAtLeast(itersCount, maxCacheEntriesCount + 1);
     let i = 0;
