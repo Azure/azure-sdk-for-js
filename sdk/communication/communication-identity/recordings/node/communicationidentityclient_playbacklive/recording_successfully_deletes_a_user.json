@@ -13,7 +13,7 @@
         "User-Agent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.10 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 09 Mar 2022 12:54:59 GMT"
+        "x-ms-date": "Wed, 09 Mar 2022 19:59:59 GMT"
       },
       "RequestBody": null,
       "StatusCode": 201,
@@ -21,14 +21,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Mar 2022 12:54:59 GMT",
-        "MS-CV": "ng2U8UiemkyvoMm9dKsJ8g.0",
+        "Date": "Wed, 09 Mar 2022 20:00:00 GMT",
+        "MS-CV": "9DSy8ECcIEqjXa5XWCkofA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0o6MoYgAAAABwBhO235lZSJ\u002BZBmZzGVTzUFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0QAcpYgAAAACpoHyozeD5RYN06AFDTdYwUFJHMDFFREdFMDcwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "28ms"
+        "X-Processing-Time": "25ms"
       },
       "ResponseBody": {
         "identity": {
@@ -47,20 +47,20 @@
         "User-Agent": "azsdk-js-azure-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 Node/v12.22.10 OS/(x64-Windows_NT-10.0.22000)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 09 Mar 2022 12:55:00 GMT"
+        "x-ms-date": "Wed, 09 Mar 2022 20:00:00 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
-        "Date": "Wed, 09 Mar 2022 12:54:59 GMT",
-        "MS-CV": "UryXgVRjv0yb7byPo46MQA.0",
+        "Date": "Wed, 09 Mar 2022 20:00:00 GMT",
+        "MS-CV": "ZfLzaMWMvEWESdL8sW6wWw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0o6MoYgAAAAA6E59/mvi2T6eBHyfznUl0UFJHMDFFREdFMDcwNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0QAcpYgAAAAAP8rvMaZDuTadT47nbBovSUFJHMDFFREdFMDcwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "156ms"
+        "X-Processing-Time": "158ms"
       },
       "ResponseBody": null
     }

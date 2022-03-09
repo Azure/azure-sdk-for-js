@@ -57,14 +57,7 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   generalSanitizers: [
-    { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
     { regex: true, target: `"token"\\s?:\\s?"[^"]*"`, value: `"token":"sanitized"` },
-    { regex: true, target: `"id_token"\\s?:\\s?"[^"]*"`, value: `"id_token":"sanitized"` },
-    {
-      regex: true,
-      target: `"refresh_token"\\s?:\\s?"[^"]*"`,
-      value: `"refresh_token":"sanitized"`,
-    },
     { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
     {
       regex: true,
