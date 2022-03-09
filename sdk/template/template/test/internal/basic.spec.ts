@@ -3,8 +3,7 @@
 
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.
-// For convenience, we export an instance of Chai that comes pre-loaded with often-used plugins.
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 
 // Import the internal function to be tested using the normal relative import
 // syntax.

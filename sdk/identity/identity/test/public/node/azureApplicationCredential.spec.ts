@@ -20,8 +20,8 @@ describe.skip("AzureApplicationCredential", function () {
   const environmentVariableNames = ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET"];
   const cachedValues: Record<string, string | undefined> = {};
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(function (this: Context) {
+    const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {
       cachedValues[name] = process.env[name];

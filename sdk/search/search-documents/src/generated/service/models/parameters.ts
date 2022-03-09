@@ -19,8 +19,7 @@ import {
   SkillNames as SkillNamesMapper,
   SynonymMap as SynonymMapMapper,
   SearchIndex as SearchIndexMapper,
-  AnalyzeRequest as AnalyzeRequestMapper,
-  SearchAlias as SearchAliasMapper
+  AnalyzeRequest as AnalyzeRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -256,20 +255,4 @@ export const allowIndexDowntime: OperationQueryParameter = {
 export const request: OperationParameter = {
   parameterPath: "request",
   mapper: AnalyzeRequestMapper
-};
-
-export const alias: OperationParameter = {
-  parameterPath: "alias",
-  mapper: SearchAliasMapper
-};
-
-export const aliasName: OperationURLParameter = {
-  parameterPath: "aliasName",
-  mapper: {
-    serializedName: "aliasName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

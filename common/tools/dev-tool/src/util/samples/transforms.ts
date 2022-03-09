@@ -16,15 +16,10 @@ import nodeBuiltins from "builtin-modules";
  * @param context - the compiler API context
  * @returns a visitor that performs the transform to CommonJS
  */
-export const createToCommonJsTransform: (
-  getPackage: (moduleSpecifier: string) => unknown
-) => ts.TransformerFactory<ts.SourceFile> = (getPackage) => (context) => (sourceFile) => {
+export const toCommonJs: ts.TransformerFactory<ts.SourceFile> = (context) => (sourceFile) => {
   const visitor: ts.Visitor = (node) => {
     if (ts.isImportDeclaration(node)) {
-      return ts.visitNode(
-        importDeclarationToCommonJs(node, getPackage, context.factory, sourceFile),
-        visitor
-      );
+      return ts.visitNode(importDeclarationToCommonJs(node, context.factory, sourceFile), visitor);
     } else if (ts.isExportDeclaration(node) || ts.isExportAssignment(node)) {
       // TypeScript can choose to emit `export {}` in some cases, so we will remove any export declarations.
       return context.factory.createEmptyStatement();
@@ -35,10 +30,6 @@ export const createToCommonJsTransform: (
 
   return ts.visitNode(sourceFile, visitor);
 };
-
-interface TranspiledModule {
-  __esModule?: boolean;
-}
 
 /**
  * Convert an ImportDeclaration into a require call.
@@ -63,7 +54,6 @@ interface TranspiledModule {
  */
 export function importDeclarationToCommonJs(
   decl: ts.ImportDeclaration,
-  requireInScope: (moduleSpecifier: string) => unknown,
   nodeFactory?: ts.NodeFactory,
   sourceFile?: ts.SourceFile
 ): ts.Statement {
@@ -103,17 +93,10 @@ export function importDeclarationToCommonJs(
 
   const isDefaultImport =
     ts.isIdentifier(primaryBinding) &&
-    // Node builtins are never treated as default imports.
+    // We only allow default imports on relative modules and node builtins, but on node builtins they are actually
+    // just namespace imports in disguise. This is because of esModuleInterop compatibility in our tsconfig.json.
     !isNodeBuiltin(moduleSpecifierText) &&
-    // If this is a namespace import, then it's not a default import.
-    !(namedBindings && ts.isNamespaceImport(namedBindings)) &&
-    // @azure imports are treated as defaults
-    (/^@azure(-[a-z0-9]*)?\//.test(moduleSpecifierText) ||
-      // Relative imports are treated as defaults
-      isRelativePath(moduleSpecifierText) ||
-      // Ultimately, if the module has an `__esModule` field, we treat it as a default import. This mimics the behavior
-      // of runtime `esModuleInterop`
-      (requireInScope(moduleSpecifierText) as TranspiledModule).__esModule);
+    (!namedBindings || !ts.isNamespaceImport(namedBindings));
 
   // The declaration will usually only contain one item, and it will be something like:
   //

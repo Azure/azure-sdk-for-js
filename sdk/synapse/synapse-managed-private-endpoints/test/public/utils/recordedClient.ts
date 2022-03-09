@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "./env";
+import { Context } from "mocha";
 
-import { ClientSecretCredential, TokenCredential } from "@azure/identity";
+import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { TokenCredential, ClientSecretCredential } from "@azure/identity";
+
 import {
   ManagedPrivateEndpointsClient,
-  ManagedPrivateEndpointsClientOptionalParams,
+  ManagedPrivateEndpointsClientOptionalParams
 } from "../../../src";
-import {
-  Recorder,
-  RecorderEnvironmentSetup,
-  env,
-  isLiveMode,
-  record,
-} from "@azure-tools/test-recorder";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
-
-import { Context } from "mocha";
+import "./env";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  ENDPOINT: "https://testaccount.dev.azuresynapse.net",
+  ENDPOINT: "https://testaccount.dev.azuresynapse.net"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -41,25 +34,23 @@ export const environmentSetup: RecorderEnvironmentSetup = {
         "testaccount.dev.azuresynapse.net"
       );
       return replaced;
-    },
+    }
   ],
-  queryParametersToSkip: [],
+  queryParametersToSkip: []
 };
 
 export function createClient(
   options?: ManagedPrivateEndpointsClientOptionalParams
 ): ManagedPrivateEndpointsClient {
   let credential: TokenCredential;
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
   credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
-    { httpClient }
+    env.AZURE_CLIENT_SECRET
   );
 
-  return new ManagedPrivateEndpointsClient(credential, env.ENDPOINT, { ...options, httpClient });
+  return new ManagedPrivateEndpointsClient(credential, env.ENDPOINT, options);
 }
 
 /**

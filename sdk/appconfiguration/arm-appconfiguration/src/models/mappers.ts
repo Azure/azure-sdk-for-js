@@ -436,12 +436,6 @@ export const ConfigurationStoreUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      enablePurgeProtection: {
-        serializedName: "properties.enablePurgeProtection",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -1138,106 +1132,6 @@ export const KeyValue: coreClient.CompositeMapper = {
   }
 };
 
-export const DeletedConfigurationStoreListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeletedConfigurationStoreListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeletedConfigurationStore"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedConfigurationStore: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeletedConfigurationStore",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      configurationStoreId: {
-        serializedName: "properties.configurationStoreId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "properties.location",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      deletionDate: {
-        serializedName: "properties.deletionDate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      scheduledPurgeDate: {
-        serializedName: "properties.scheduledPurgeDate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      tags: {
-        serializedName: "properties.tags",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      purgeProtectionEnabled: {
-        serializedName: "properties.purgeProtectionEnabled",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1337,31 +1231,9 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
         }
       },
       disableLocalAuth: {
-        defaultValue: false,
         serializedName: "properties.disableLocalAuth",
         type: {
           name: "Boolean"
-        }
-      },
-      softDeleteRetentionInDays: {
-        defaultValue: 7,
-        serializedName: "properties.softDeleteRetentionInDays",
-        type: {
-          name: "Number"
-        }
-      },
-      enablePurgeProtection: {
-        defaultValue: false,
-        serializedName: "properties.enablePurgeProtection",
-        type: {
-          name: "Boolean"
-        }
-      },
-      createMode: {
-        serializedName: "properties.createMode",
-        type: {
-          name: "Enum",
-          allowedValues: ["Recover", "Default"]
         }
       }
     }

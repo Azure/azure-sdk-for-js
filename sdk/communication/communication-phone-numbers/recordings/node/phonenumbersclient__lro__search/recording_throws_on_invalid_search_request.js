@@ -15,17 +15,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'BcYJItJiu0iaozCcJ2pGfw.0',
-  'Strict-Transport-Security',
-  'max-age=2592000',
+  'Fz7PzG5jIEu7HTVvmtFotQ.0',
   'api-supported-versions',
   '2021-03-07, 2022-01-11-preview2',
   'X-Processing-Time',
-  '1496ms',
+  '1445ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0f98fYgAAAAANXOvHQshUToQVuyKK1xj6TEFYMzExMDAwMTA4MDI5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==',
+  '01ATeYQAAAADomwafJplWSawXDhphZZDYUklPMDFFREdFMDUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 02 Mar 2022 21:20:00 GMT'
+  'Tue, 11 Jan 2022 22:29:41 GMT'
 ]);

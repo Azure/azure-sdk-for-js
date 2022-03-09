@@ -25,10 +25,7 @@ import {
   TableResourcesMigrateTableToAutoscaleOptionalParams,
   TableResourcesMigrateTableToAutoscaleResponse,
   TableResourcesMigrateTableToManualThroughputOptionalParams,
-  TableResourcesMigrateTableToManualThroughputResponse,
-  ContinuousBackupRestoreLocation,
-  TableResourcesRetrieveContinuousBackupInformationOptionalParams,
-  TableResourcesRetrieveContinuousBackupInformationResponse
+  TableResourcesMigrateTableToManualThroughputResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -232,41 +229,4 @@ export interface TableResources {
     tableName: string,
     options?: TableResourcesMigrateTableToManualThroughputOptionalParams
   ): Promise<TableResourcesMigrateTableToManualThroughputResponse>;
-  /**
-   * Retrieves continuous backup information for a table.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param tableName Cosmos DB table name.
-   * @param location The name of the continuous backup restore location.
-   * @param options The options parameters.
-   */
-  beginRetrieveContinuousBackupInformation(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        TableResourcesRetrieveContinuousBackupInformationResponse
-      >,
-      TableResourcesRetrieveContinuousBackupInformationResponse
-    >
-  >;
-  /**
-   * Retrieves continuous backup information for a table.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param tableName Cosmos DB table name.
-   * @param location The name of the continuous backup restore location.
-   * @param options The options parameters.
-   */
-  beginRetrieveContinuousBackupInformationAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
-  ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse>;
 }

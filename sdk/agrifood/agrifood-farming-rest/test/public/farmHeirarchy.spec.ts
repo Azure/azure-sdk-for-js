@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsRestClient, getLongRunningPoller } from "../../src";
+import { FarmBeatsRestClient, getPoller } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-util";
 
@@ -108,7 +108,7 @@ describe("Farmer Operations", () => {
       throw initialResponse.body.error;
     }
 
-    const poller = getLongRunningPoller(client, initialResponse);
+    const poller = getPoller(client, initialResponse);
     const result = await poller.pollUntilDone();
 
     assert.equal(result.body.boundaryId, boundaryId);

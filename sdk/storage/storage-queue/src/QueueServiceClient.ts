@@ -186,9 +186,7 @@ export class QueueServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        if (!options.proxyOptions) {
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        }
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new QueueServiceClient(extractedCreds.url, pipeline);
       } else {

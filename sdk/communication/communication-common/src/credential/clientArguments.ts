@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { URLBuilder } from "@azure/core-http";
 import { parseConnectionString } from "./connectionString";
 
 const isValidEndpoint = (host: string): boolean => {
-  const url = new URL(host);
+  const url = URLBuilder.parse(host);
 
   return (
-    !!url.protocol?.match(/^http[s]?/) &&
-    url.host !== undefined &&
-    url.host !== "" &&
-    (url.pathname === undefined || url.pathname === "" || url.pathname === "/")
+    !!url.getScheme()?.match(/^http[s]?/) &&
+    url.getHost() !== undefined &&
+    url.getHost() !== "" &&
+    (url.getPath() === undefined || url.getPath() === "" || url.getPath() === "/")
   );
 };
 

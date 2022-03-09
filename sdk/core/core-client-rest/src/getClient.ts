@@ -3,7 +3,7 @@
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isCertificateCredential } from "./certificateCredential";
-import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
+import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
 import { Client, ClientOptions, HttpResponse, RequestParameters } from "./common";
 import { sendRequest } from "./sendRequest";
@@ -41,18 +41,7 @@ export function getClient(
   }
 
   const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
-  if (clientOptions.additionalPolicies?.length) {
-    for (const { policy, position } of clientOptions.additionalPolicies) {
-      // Sign happens after Retry and is commonly needed to occur
-      // before policies that intercept post-retry.
-      const afterPhase = position === "perRetry" ? "Sign" : undefined;
-      pipeline.addPolicy(policy, {
-        afterPhase,
-      });
-    }
-  }
-
-  const { allowInsecureConnection, httpClient } = clientOptions;
+  const { allowInsecureConnection } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
     return {
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -62,8 +51,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       post: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -73,8 +61,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       put: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -84,8 +71,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       patch: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -95,8 +81,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       delete: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -106,8 +91,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       head: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -117,8 +101,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       options: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -128,8 +111,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
       trace: (options: RequestParameters = {}): Promise<HttpResponse> => {
@@ -139,8 +121,7 @@ export function getClient(
           path,
           pipeline,
           { allowInsecureConnection, ...options },
-          args,
-          httpClient
+          args
         );
       },
     };
@@ -159,12 +140,11 @@ function buildSendRequest(
   path: string,
   pipeline: Pipeline,
   requestOptions: RequestParameters = {},
-  args: string[] = [],
-  httpClient?: HttpClient
+  args: string[] = []
 ): Promise<HttpResponse> {
   // If the client has an api-version and the request doesn't specify one, inject the one in the client options
   const url = buildRequestUrl(baseUrl, path, args, requestOptions);
-  return sendRequest(method, url, pipeline, requestOptions, httpClient);
+  return sendRequest(method, url, pipeline, requestOptions);
 }
 
 function isCredential(

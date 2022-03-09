@@ -16,9 +16,7 @@ export {
   BoundingRegion,
   ContentType,
   CopyAuthorization,
-  CurrencyValue,
   DocTypeInfo,
-  DocumentBuildMode,
   DocumentEntity,
   DocumentFieldSchema,
   DocumentFieldType,
@@ -27,7 +25,6 @@ export {
   DocumentSelectionMark,
   DocumentSignatureType,
   DocumentSpan,
-  DocumentLanguage,
   DocumentStyle,
   DocumentTable,
   DocumentTableCell,
@@ -43,11 +40,13 @@ export {
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
   SelectionMarkState,
+  // This and its child DocumentField are part of the DocumentModel<Result> type, and can be removed if we hide it
+  Document as GeneratedDocument,
+  DocumentField as GeneratedDocumentField,
 } from "./generated";
 export {
   AnalysisPoller,
   AnalyzeResult,
-  AnalyzeResultCommon,
   DocumentPage,
   DocumentLine,
   DocumentAnalysisPollOperationState,
@@ -58,4 +57,3 @@ export { TrainingPoller, TrainingPollOperationState } from "./lro/training";
 export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
-export { EnglishCapitalLetter, Acronymic } from "./util";

@@ -5,7 +5,6 @@ import { spawn } from "child_process";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
 import fs from "fs-extra";
-import os from "os";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
 
@@ -26,25 +25,6 @@ export async function startProxyTool(): Promise<void> {
   subprocess.stderr.pipe(out);
 
   log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
-
-  await new Promise<void>((resolve, reject) => {
-    subprocess.on("exit", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        fs.readFile(`./${outFileName}`, (_err, data) => {
-          const lines = data.toString().split(os.EOL);
-          reject(
-            new Error(
-              `Could not start test proxy. Below is the last 10 lines of output. See ${outFileName} for the full output.\n${lines
-                .slice(-10)
-                .join("\n")}`
-            )
-          );
-        });
-      }
-    });
-  });
 }
 
 export async function stopProxyTool(): Promise<void> {
@@ -81,18 +61,17 @@ async function makeRequest(uri: string, requestOptions: RequestOptions): Promise
 }
 
 async function getImageTag() {
-  // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
-  // Example content:
+  // Grab the tag from the `/eng/common/testproxy/docker-start-proxy.ps1` file [..is used to run the proxy-tool in the CI]
   //
-  // 1.0.0-dev.20220224.2
+  // $SELECTED_IMAGE_TAG = "1147815";
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInVersionFile = await fs.readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+    const contentInPWSHScript = await fs.readFile(
+      `${path.join(await resolveRoot(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
       "utf-8"
     );
 
-    const tag = contentInVersionFile.trim();
+    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG = "(.*)"/)?.[1];
     if (tag === undefined) {
       throw new Error();
     }

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Tags } from ".";
 import { BlobTags, BlobPropertiesInternal as BlobProperties } from "./generated/src/models";
 
 export {
@@ -72,7 +71,6 @@ export {
   ContainerCreateResponse,
   ContainerDeleteHeaders,
   ContainerDeleteResponse,
-  ContainerFilterBlobsHeaders,
   ContainerGetAccessPolicyHeaders,
   ContainerGetPropertiesHeaders,
   ContainerBreakLeaseOptionalParams,
@@ -211,41 +209,4 @@ export interface BlobItemInternal {
   objectReplicationMetadata?: { [propertyName: string]: string };
   /** Inactive root blobs which have any versions would have such tag with value true. */
   hasVersionsOnly?: boolean;
-}
-
-/**
- * Blob info from a {@link BlobServiceClient.findBlobsByTags}
- */
-export interface FilterBlobItem {
-  /**
-   * Blob Name.
-   */
-  name: string;
-
-  /**
-   * Container Name.
-   */
-  containerName: string;
-
-  /**
-   * Blob Tags.
-   */
-  tags?: Tags;
-
-  /**
-   * Tag value.
-   *
-   * @deprecated The service no longer returns this value. Use {@link tags} to fetch all matching Blob Tags.
-   */
-  tagValue: string;
-}
-
-/**
- * Segment response of {@link BlobServiceClient.findBlobsByTags} operation.
- */
-export interface FilterBlobSegment {
-  serviceEndpoint: string;
-  where: string;
-  blobs: FilterBlobItem[];
-  continuationToken?: string;
 }

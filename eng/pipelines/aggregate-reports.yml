@@ -45,7 +45,7 @@ stages:
             displayName: 'Install tool dependencies'
 
           - script: |
-              node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"
+              node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/data.js"
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
             displayName: 'Validate dependencies'
 
@@ -53,27 +53,15 @@ stages:
               copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
             displayName: 'Copy static file'
 
-          - task: AzureFileCopy@4
-            displayName: 'Upload Dependency Report'
+          - task: AzureFileCopy@3
+            displayName: 'Upload dependency report'
             inputs:
-              sourcePath: '$(Build.ArtifactStagingDirectory)/*'
+              sourcePath: '$(Build.ArtifactStagingDirectory)'
               azureSubscription: 'Azure SDK Artifacts'
               destination: AzureBlob
               storage: azuresdkartifacts
               containerName: 'azure-sdk-for-js'
               blobPrefix: dependencies
-              AdditionalArgumentsForBlobCopy: '--exclude-pattern=*data.js*'
-
-          - task: AzureFileCopy@4
-            displayName: 'Upload Dependency Graph'
-            inputs:
-              sourcePath: '$(Build.ArtifactStagingDirectory)/*'
-              azureSubscription: 'Azure SDK Artifacts'
-              destination: AzureBlob
-              storage: azuresdkartifacts
-              containerName: 'azure-sdk-for-js'
-              blobPrefix: dependencies/dependencyGraph
-              AdditionalArgumentsForBlobCopy: '--include-pattern=*data.js*'
 
           - task: PowerShell@2
             displayName: "Verify Repository Resource Refs"
@@ -95,9 +83,25 @@ stages:
               ExclusionDataBaseFileName: "JavaScriptPoliCheckExclusion"
               PublishAnalysisLogs: false
 
-          - template: /eng/common/pipelines/templates/steps/credscan.yml
-            parameters:
-              BaselineFilePath: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
+            displayName: 'Run CredScan'
+            condition: succeededOrFailed()
+            inputs:
+              suppressionsFile: 'eng\CredScanSuppression.json'
+
+          - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
+            displayName: 'Post Analysis (CredScan)'
+            inputs:
+              GdnBreakAllTools: false
+              GdnBreakGdnToolCredScan: true
+              GdnBreakGdnToolCredScanSeverity: Error
+              # Specify baseline file input to scan tool
+              # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+              GdnBreakBaselines: baseline  
+              # Used for generating baseline file.
+              # GdnBreakOutputBaselineFile: js
+              # GdnBreakOutputBaseline: baseline
+            continueOnError: true
 
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
             displayName: 'Publish Security Analysis Logs'

@@ -9,9 +9,9 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix, getYieldedValue } from "@azure/test-utils";
-import { assertEnvironmentVariable, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
-import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
+import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
@@ -48,9 +48,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     let getId: () => string;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
-      client = createClient({ authMethod, recorder });
+    beforeEach(function (this: Context) {
+      recorder = createRecorder(this);
+      client = createClient(authMethod);
       let nextId = 0;
       getId = function () {
         nextId += 1;
@@ -950,12 +950,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeCustomEntitiesActions: [
                 {
-                  projectName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME"
-                  ),
-                  deploymentName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME"
-                  ),
+                  projectName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME,
                 },
               ],
             },
@@ -1005,12 +1001,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               singleCategoryClassifyActions: [
                 {
-                  projectName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME"
-                  ),
-                  deploymentName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME"
-                  ),
+                  projectName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME,
                 },
               ],
             },
@@ -1059,12 +1051,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               multiCategoryClassifyActions: [
                 {
-                  projectName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME"
-                  ),
-                  deploymentName: assertEnvironmentVariable(
-                    "TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME"
-                  ),
+                  projectName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME,
                 },
               ],
             },

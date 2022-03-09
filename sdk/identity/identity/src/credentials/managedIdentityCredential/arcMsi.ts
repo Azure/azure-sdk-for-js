@@ -21,11 +21,7 @@ const logger = credentialLogger(msiName);
 /**
  * Generates the options used on the request for an access token.
  */
-function prepareRequestOptions(
-  scopes: string | string[],
-  clientId?: string,
-  resourceId?: string
-): PipelineRequestOptions {
+function prepareRequestOptions(scopes: string | string[]): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
@@ -35,19 +31,12 @@ function prepareRequestOptions(
     "api-version": azureArcAPIVersion,
   };
 
-  if (clientId) {
-    queryParameters.client_id = clientId;
-  }
-  if (resourceId) {
-    queryParameters.msi_res_id = resourceId;
-  }
+  const query = new URLSearchParams(queryParameters);
 
   // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
   if (!process.env.IDENTITY_ENDPOINT) {
     throw new Error(`${msiName}: Missing environment variable: IDENTITY_ENDPOINT`);
   }
-
-  const query = new URLSearchParams(queryParameters);
 
   return createPipelineRequest({
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
@@ -107,7 +96,7 @@ async function filePathRequest(
  * Defines how to determine whether the Azure Arc MSI is available, and also how to retrieve a token from the Azure Arc MSI.
  */
 export const arcMsi: MSI = {
-  async isAvailable({ scopes }): Promise<boolean> {
+  async isAvailable(scopes): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -125,26 +114,21 @@ export const arcMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId, resourceId } = configuration;
-
-    if (clientId) {
-      logger.warning(
-        `${msiName}: user-assigned identities not supported. The argument clientId might be ignored by the service.`
-      );
-    }
-    if (resourceId) {
-      logger.warning(
-        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId will be ignored.`
-      );
-    }
+    const { identityClient, scopes, clientId } = configuration;
 
     logger.info(`${msiName}: Authenticating.`);
+
+    if (clientId) {
+      throw new Error(
+        `${msiName}: User assigned identity is not supported by the Azure Arc Managed Identity Endpoint. To authenticate with the system assigned identity, omit the client id when constructing the ManagedIdentityCredential, or if authenticating with the DefaultAzureCredential ensure the AZURE_CLIENT_ID environment variable is not set.`
+      );
+    }
 
     const requestOptions = {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId, resourceId),
+      ...prepareRequestOptions(scopes),
       allowInsecureConnection: true,
     };
 

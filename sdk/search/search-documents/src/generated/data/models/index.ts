@@ -82,7 +82,7 @@ export interface AnswerResult {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /**
-   * The score value represents how relevant the answer is to the query relative to other answers returned for the query.
+   * The score value represents how relevant the answer is to the the query relative to other answers returned for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly score: number;
@@ -532,9 +532,9 @@ export enum KnownQueryLanguage {
   ArJo = "ar-jo",
   /** Query language value for Danish (Denmark). */
   DaDk = "da-dk",
-  /** Query language value for Norwegian (Norway). */
+  /** Query language value for Norwegian (Normway). */
   NoNo = "no-no",
-  /** Query language value for Bulgarian (Bulgaria). */
+  /** Query language value for Bulgarian (Bulgary). */
   BgBg = "bg-bg",
   /** Query language value for Croatian (Croatia). */
   HrHr = "hr-hr",
@@ -650,8 +650,8 @@ export enum KnownQueryLanguage {
  * **ar-kw**: Query language value for Arabic (Kuwait). \
  * **ar-jo**: Query language value for Arabic (Jordan). \
  * **da-dk**: Query language value for Danish (Denmark). \
- * **no-no**: Query language value for Norwegian (Norway). \
- * **bg-bg**: Query language value for Bulgarian (Bulgaria). \
+ * **no-no**: Query language value for Norwegian (Normway). \
+ * **bg-bg**: Query language value for Bulgarian (Bulgary). \
  * **hr-hr**: Query language value for Croatian (Croatia). \
  * **hr-ba**: Query language value for Croatian (Bosnia and Herzegovina). \
  * **ms-my**: Query language value for Malay (Malaysia). \

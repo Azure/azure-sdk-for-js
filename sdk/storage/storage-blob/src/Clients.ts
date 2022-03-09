@@ -98,7 +98,6 @@ import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
-  BlobUsesCustomerSpecifiedEncryptionMsg,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
@@ -987,10 +986,7 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -1276,16 +1272,12 @@ export class BlobClient extends StorageClient {
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
-        // Expected exception when checking blob existence
+        span.setStatus({
+          code: SpanStatusCode.ERROR,
+          message: "Expected exception when checking blob existence",
+        });
         return false;
-      } else if (
-        e.statusCode === 409 &&
-        e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg
-      ) {
-        // Expected exception when checking blob existence
-        return true;
       }
-
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2653,11 +2645,7 @@ export class AppendBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -3661,11 +3649,7 @@ export class BlockBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -4909,11 +4893,7 @@ export class PageBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

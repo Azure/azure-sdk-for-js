@@ -174,6 +174,21 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
 /**
  * @internal
  */
+export function isAnalyzeDone(response: unknown): boolean {
+  const castResponse = response as GeneratedClientAnalyzeStatusResponse;
+  switch (castResponse.status) {
+    case "notStarted":
+    case "running":
+      return false;
+    default: {
+      return true;
+    }
+  }
+}
+
+/**
+ * @internal
+ */
 export function processAnalyzeResult(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,

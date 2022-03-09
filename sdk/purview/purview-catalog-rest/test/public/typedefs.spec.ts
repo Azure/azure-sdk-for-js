@@ -7,16 +7,16 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
 describe("purview catalog test", () => {
   let recorder: Recorder;
   let client: PurviewCatalogRestClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    client = await createClient(recorder);
+  beforeEach(function (this: Context) {
+    recorder = createRecorder(this);
+    client = createClient();
   });
 
   afterEach(async function () {

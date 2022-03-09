@@ -7,7 +7,6 @@ import * as path from "path";
 import { diag } from "@opentelemetry/api";
 import { PersistentStorage } from "../../../types";
 import { DEFAULT_EXPORTER_CONFIG, AzureExporterInternalConfig } from "../../../config";
-import { FileAccessControl } from "./fileAccessControl";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
 import { promisify } from "util";
 
@@ -30,71 +29,47 @@ export class FileSystemPersist implements PersistentStorage {
   cleanupTimeOut = 60 * 60 * 1000; // 1 hour
   maxBytesOnDisk: number = 50_000_000; // ~50MB
 
-  private _enabled: boolean;
-  private _tempDirectory: string = "";
+  private _tempDirectory: string;
   private _fileCleanupTimer: NodeJS.Timer | null = null;
 
   private readonly _options: AzureExporterInternalConfig;
 
   constructor(options: Partial<AzureExporterInternalConfig> = {}) {
     this._options = { ...DEFAULT_EXPORTER_CONFIG, ...options };
-    this._enabled = true;
-    FileAccessControl.checkFileProtection();
-
-    if (!FileAccessControl.OS_PROVIDES_FILE_PROTECTION) {
-      this._enabled = false;
-      diag.error(
-        "Sufficient file protection capabilities were not detected. Files will not be persisted"
-      );
-    }
-
     if (!this._options.instrumentationKey) {
-      this._enabled = false;
       diag.error(
-        `No instrumentation key was provided to FileSystemPersister. Files will not be persisted`
+        `No instrumentation key was provided to FileSystemPersister. Files may not be properly persisted`
       );
     }
-    if (this._enabled) {
-      this._tempDirectory = path.join(
-        os.tmpdir(),
-        FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey
-      );
-      // Starts file cleanup task
-      if (!this._fileCleanupTimer) {
-        this._fileCleanupTimer = setTimeout(() => {
-          this._fileCleanupTask();
-        }, this.cleanupTimeOut);
-        this._fileCleanupTimer.unref();
-      }
+    this._tempDirectory = path.join(
+      os.tmpdir(),
+      FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey
+    );
+    // Starts file cleanup task
+    if (!this._fileCleanupTimer) {
+      this._fileCleanupTimer = setTimeout(() => {
+        this._fileCleanupTask();
+      }, this.cleanupTimeOut);
+      this._fileCleanupTimer.unref();
     }
   }
 
   push(value: unknown[]): Promise<boolean> {
-    if (this._enabled) {
-      diag.debug("Pushing value to persistent storage", value.toString());
-      return this._storeToDisk(JSON.stringify(value));
-    }
-    return new Promise((resolve) => {
-      resolve(false);
-    });
+    diag.debug("Pushing value to persistent storage", value.toString());
+    return this._storeToDisk(JSON.stringify(value));
   }
 
   async shift(): Promise<unknown> {
-    if (this._enabled) {
-      diag.debug("Searching for filesystem persisted files");
-      try {
-        const buffer = await this._getFirstFileOnDisk();
-        if (buffer) {
-          return JSON.parse(buffer.toString("utf8"));
-        }
-      } catch (e) {
-        diag.debug("Failed to read persisted file", e);
+    diag.debug("Searching for filesystem persisted files");
+    try {
+      const buffer = await this._getFirstFileOnDisk();
+      if (buffer) {
+        return JSON.parse(buffer.toString("utf8"));
       }
-      return null;
+    } catch (e) {
+      diag.debug("Failed to read persisted file", e);
     }
-    return new Promise((resolve) => {
-      resolve(null);
-    });
+    return null;
   }
 
   /**

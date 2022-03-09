@@ -14,7 +14,7 @@ operation can be fetched using GetProtectionPolicyOperationResult API.
  *
  * @summary Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
 operation can be fetched using GetProtectionPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

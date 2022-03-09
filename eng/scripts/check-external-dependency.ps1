@@ -13,7 +13,6 @@ param (
 # This script will reset the repo and any changes in tracked files will be lost.
 
 $dependencyUpgradeLabel = "dependency-upgrade-required"
-$deprecatedDependency = "Deprecated-Dependency"
 $dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
@@ -40,24 +39,17 @@ function Get-GithubIssue($IssueTitle) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of $pkgName. "  
-  $labels = $dependencyUpgradeLabel
+  $issueDesc = "We have identified a dependency on $pkgName ($($Package.OldVersion)). "
+
   if ($Package.IsDeprecated) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
-    $labels += ",$deprecatedDependency"
   }
-  $issueDesc += "A new version ($($Package.NewVersion)) is available for upgrade.`n`nFollowing are the steps to upgrade package dependency.`n
-  1. Understand the breaking changes between the version being used and the version you want to upgrade to.`n
-  2. Identify all packages that take a dependency on this package.`n
-  3. Go to the root folder for each such package (/sdk/service-name/package-name) and update package.json to have the new version.`n
-  4. Run rush update to ensure the new version is pulled in.`n
-  5. Make relevant changes to absorb the breaking changes.`n
-  6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package."
+  $issueDesc += "A new version ($($Package.NewVersion)) is available now."
 
   $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
     if ($issue.body -ne $issueDesc) {
-      $oldIssue = Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc -Labels $labels
+      $oldIssue = Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc
       Write-Host "Updated existing issue $($oldIssue.number)"      
     }
     else {
@@ -68,7 +60,7 @@ function Set-GitHubIssue($Package) {
     write-Host "Creating issue for $pkgName"
     $newIssue = New-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Title $issueTitle -Description $issueDesc  
     if ($newIssue) {
-      $out = Add-GitHubIssueLabels -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Labels $labels -IssueNumber $newIssue.number
+      $out = Add-GitHubIssueLabels -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Labels $dependencyUpgradeLabel -IssueNumber $newIssue.number
     }
   }
 }

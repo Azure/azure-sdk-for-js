@@ -64,7 +64,7 @@ testWithServiceTypes((serviceVersion) => {
        */
       it("send works after disconnect", async () => {
         const context = createConnectionContext(service.connectionString, service.path);
-        const sender = EventHubSender.create(context, { enableIdempotentProducer: false });
+        const sender = EventHubSender.create(context);
 
         // Create the sender link via getMaxMessageSize() so we can check when 'send' is about to be called on it.
         await sender.getMaxMessageSize();
@@ -112,8 +112,8 @@ testWithServiceTypes((serviceVersion) => {
           );
 
           // Add 2 senders.
-          const sender1 = new EventHubSender(context, { enableIdempotentProducer: false });
-          const sender2 = new EventHubSender(context, { enableIdempotentProducer: false });
+          const sender1 = new EventHubSender(context);
+          const sender2 = new EventHubSender(context);
 
           // Initialize sender links
           await sender1["_getLink"]();
@@ -172,8 +172,8 @@ testWithServiceTypes((serviceVersion) => {
           );
 
           // Add 2 senders.
-          const sender1 = new EventHubSender(context, { enableIdempotentProducer: false });
-          const sender2 = new EventHubSender(context, { enableIdempotentProducer: false });
+          const sender1 = new EventHubSender(context);
+          const sender2 = new EventHubSender(context);
 
           // Initialize sender links
           await sender1["_getLink"]();

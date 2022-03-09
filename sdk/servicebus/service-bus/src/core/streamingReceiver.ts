@@ -203,12 +203,6 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
         );
-        this._messageHandlers().processError({
-          error: sbError,
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host,
-        });
       }
     };
 
@@ -220,12 +214,6 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'session_error' event occurred. The associated error is`
         );
-        this._messageHandlers().processError({
-          error: sbError,
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host,
-        });
       }
     };
 
@@ -442,7 +430,6 @@ export class StreamingReceiver extends MessageReceiver {
     });
 
     try {
-      this._receiverHelper.resume();
       return await this._subscribeImpl("subscribe");
     } catch (err) {
       // callers aren't going to be in a good position to forward this error properly
@@ -537,6 +524,10 @@ export class StreamingReceiver extends MessageReceiver {
    */
   private async _subscribeImpl(caller: "detach" | "subscribe"): Promise<void> {
     try {
+      // this allows external callers (ie: ServiceBusReceiver) to prevent concurrent `subscribe` calls
+      // by not starting new receiving options while this one has started.
+      this._receiverHelper.resume();
+
       // we don't expect to ever get an error from retryForever but bugs
       // do happen.
       return await this._retryForeverFn({
@@ -576,23 +567,17 @@ export class StreamingReceiver extends MessageReceiver {
    * @param catchAndReportError - A function and reports an error but does not throw it.
    */
   private async _initAndAddCreditOperation(caller: "detach" | "subscribe"): Promise<void> {
-    if (this._receiverHelper.isSuspended()) {
-      // user has suspended us while we were initializing
-      // the connection. Abort this attempt - if they attempt
-      // resubscribe we'll just reinitialize.
-      // This checks should happen before throwErrorIfConnectionClosed(); otherwise
-      // we won't be able to break out of the retry-for-ever loops when user suspend us.
-      throw new AbortError("Receiver was suspended during initialization.");
-    }
-
     throwErrorIfConnectionClosed(this._context);
 
     await this._messageHandlers().preInitialize();
 
     if (this._receiverHelper.isSuspended()) {
-      // Need to check again as user can suspend us in preInitialize()
+      // user has suspended us while we were initializing
+      // the connection. Abort this attempt - if they attempt
+      // resubscribe we'll just reinitialize.
       throw new AbortError("Receiver was suspended during initialization.");
     }
+
     await this._init(
       this._createReceiverOptions(caller === "detach", this._getHandlers()),
       this._subscribeOptions?.abortSignal

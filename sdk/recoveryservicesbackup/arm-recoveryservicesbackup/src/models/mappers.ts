@@ -3588,66 +3588,6 @@ export const HourlySchedule: coreClient.CompositeMapper = {
   }
 };
 
-export const DailySchedule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DailySchedule",
-    modelProperties: {
-      scheduleRunTimes: {
-        serializedName: "scheduleRunTimes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "DateTime"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const WeeklySchedule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WeeklySchedule",
-    modelProperties: {
-      scheduleRunDays: {
-        serializedName: "scheduleRunDays",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday"
-              ]
-            }
-          }
-        }
-      },
-      scheduleRunTimes: {
-        serializedName: "scheduleRunTimes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "DateTime"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const IdentityBasedRestoreDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6856,12 +6796,6 @@ export const AzureIaaSVMProtectionPolicy: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      policyType: {
-        serializedName: "policyType",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -8262,46 +8196,6 @@ export const SimpleSchedulePolicy: coreClient.CompositeMapper = {
   }
 };
 
-export const SimpleSchedulePolicyV2: coreClient.CompositeMapper = {
-  serializedName: "SimpleSchedulePolicyV2",
-  type: {
-    name: "Composite",
-    className: "SimpleSchedulePolicyV2",
-    uberParent: "SchedulePolicy",
-    polymorphicDiscriminator: SchedulePolicy.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SchedulePolicy.type.modelProperties,
-      scheduleRunFrequency: {
-        serializedName: "scheduleRunFrequency",
-        type: {
-          name: "String"
-        }
-      },
-      hourlySchedule: {
-        serializedName: "hourlySchedule",
-        type: {
-          name: "Composite",
-          className: "HourlySchedule"
-        }
-      },
-      dailySchedule: {
-        serializedName: "dailySchedule",
-        type: {
-          name: "Composite",
-          className: "DailySchedule"
-        }
-      },
-      weeklySchedule: {
-        serializedName: "weeklySchedule",
-        type: {
-          name: "Composite",
-          className: "WeeklySchedule"
-        }
-      }
-    }
-  }
-};
-
 export const LongTermRetentionPolicy: coreClient.CompositeMapper = {
   serializedName: "LongTermRetentionPolicy",
   type: {
@@ -9159,7 +9053,6 @@ export let discriminators = {
   "SchedulePolicy.LogSchedulePolicy": LogSchedulePolicy,
   "SchedulePolicy.LongTermSchedulePolicy": LongTermSchedulePolicy,
   "SchedulePolicy.SimpleSchedulePolicy": SimpleSchedulePolicy,
-  "SchedulePolicy.SimpleSchedulePolicyV2": SimpleSchedulePolicyV2,
   "RetentionPolicy.LongTermRetentionPolicy": LongTermRetentionPolicy,
   "RetentionPolicy.SimpleRetentionPolicy": SimpleRetentionPolicy,
   "ProtectionIntent.AzureWorkloadAutoProtectionIntent": AzureWorkloadAutoProtectionIntent,

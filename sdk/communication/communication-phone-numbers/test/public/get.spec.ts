@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
-import { getPhoneNumber } from "./utils/testPhoneNumber";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function () {
@@ -27,7 +26,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can get a purchased phone number", async function (this: Context) {
-      const purchasedPhoneNumber = getPhoneNumber();
+      const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
       const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
       assert.strictEqual(purchasedPhoneNumber, phoneNumber);
@@ -37,7 +36,7 @@ matrix([[true, false]], async function (useAad) {
       const fake = "+14155550100";
       try {
         await client.getPurchasedPhoneNumber(fake);
-      } catch (error: any) {
+      } catch (error) {
         assert.strictEqual(error.code, "NotFound");
         assert.strictEqual(error.message, "Input phoneNumber +14155550100 cannot be found.");
       }

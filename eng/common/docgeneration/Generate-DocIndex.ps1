@@ -119,9 +119,7 @@ function GenerateDocfxTocContent([Hashtable]$tocContent, [String]$lang, [String]
         $serviceName = $serviceMapping.Value[0]
         $displayName = $serviceMapping.Value[1]
 
-        # handle spaces in service name, EG "Confidential Ledger"
-        # handle / in service name, EG "Database for MySQL/PostgreSQL". Leaving a "/" present will generate a bad link location.
-        $fileName = ($serviceName -replace '\s', '').Replace("/","").ToLower().Trim()
+        $fileName = ($serviceName -replace '\s', '').ToLower().Trim()
         if ($visitedService.ContainsKey($serviceName)) {
             if ($displayName) {
                 Add-Content -Path "$($YmlPath)/${fileName}.md" -Value "#### $artifact`n##### ($displayName)"

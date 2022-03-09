@@ -290,9 +290,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.DedicatedHostGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters4,
@@ -314,9 +311,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters5,
@@ -335,13 +329,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -349,7 +337,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.hostGroupName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -359,9 +346,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand1],
@@ -381,9 +365,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostGroupListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -402,9 +383,6 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostGroupListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -418,9 +396,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostGroupListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -439,9 +414,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostGroupListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],

@@ -7,9 +7,6 @@ trigger:
   paths:
     include:
       - sdk/web-pubsub/
-    exclude:
-      - sdk/web-pubsub/ci.mgmt.yml
-      - sdk/web-pubsub/arm-webpubsub/
 pr:
   branches:
     include:
@@ -22,9 +19,6 @@ pr:
   paths:
     include:
       - sdk/web-pubsub/
-    exclude:
-      - sdk/web-pubsub/ci.mgmt.yml
-      - sdk/web-pubsub/arm-webpubsub/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +28,5 @@ extends:
         safeName: webpubsub
       - name: azure-web-pubsub-express
         safeName: webpubsubexpress
+      - name: azure-arm-webpubsub
+        safeName: azurearmwebpubsub

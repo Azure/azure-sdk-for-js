@@ -1,23 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "../public/utils/testUtils";
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest,
+} from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
+  OperationOptions,
   ReceivedEventData,
   SendBatchOptions,
+  TryAddOptions,
 } from "../../src";
-import { assert } from "@azure/test-utils";
+import { SpanGraph, TestSpan } from "@azure/test-utils";
+import { context, setSpan } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
+import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
 import debugModule from "debug";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { EventDataBatchImpl } from "../../src/eventDataBatch";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -312,26 +320,59 @@ testWithServiceTypes((serviceVersion) => {
       });
 
       it("can be manually traced", async function (): Promise<void> {
+        const { tracer, resetTracer } = setTracerForTest();
+
+        const rootSpan = tracer.startSpan("root");
+
         const list = [{ name: "Albert" }, { name: "Marie" }];
 
-        await assert.supportsTracing(
-          async (options) => {
-            const eventDataBatch = await producerClient.createBatch({
-              partitionId: "0",
-              tracingOptions: options.tracingOptions,
-            });
+        const eventDataBatch = await producerClient.createBatch({
+          partitionId: "0",
+        });
 
-            for (let i = 0; i < 2; i++) {
-              eventDataBatch.tryAdd({ body: `${list[i].name}` }, options);
+        for (let i = 0; i < 2; i++) {
+          eventDataBatch.tryAdd(
+            { body: `${list[i].name}` },
+            {
+              tracingOptions: {
+                tracingContext: setSpan(context.active(), rootSpan),
+              },
             }
-            return producerClient.sendBatch(eventDataBatch, options);
-          },
-          ["message", "EventHubProducerClient.sendBatch"]
-        );
+          );
+        }
+        await producerClient.sendBatch(eventDataBatch);
+        rootSpan.end();
+
+        const rootSpans = tracer.getRootSpans();
+        rootSpans.length.should.equal(2, "Should only have two root spans.");
+        rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+        const expectedGraph: SpanGraph = {
+          roots: [
+            {
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        };
+
+        tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+        tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+        resetTracer();
       });
 
       it("doesn't create empty spans when tracing is disabled", async () => {
         const events: EventData[] = [{ body: "foo" }, { body: "bar" }];
+
         const eventDataBatch = await producerClient.createBatch();
 
         for (const event of events) {
@@ -340,44 +381,145 @@ testWithServiceTypes((serviceVersion) => {
 
         should.equal(eventDataBatch.count, 2, "Unexpected number of events in batch.");
         should.equal(
-          (eventDataBatch as EventDataBatchImpl)._messageSpanContexts.length,
+          eventDataBatch["_messageSpanContexts"].length,
           0,
           "Unexpected number of span contexts in batch."
         );
       });
 
-      it("supports tracing", async () => {
-        const list = [{ name: "Albert" }, { name: "Marie" }];
-        const eventDataBatch = await producerClient.createBatch({
-          partitionId: "0",
-        });
+      function legacyOptionsUsingSpanContext(
+        rootSpan: TestSpan
+      ): Pick<TryAddOptions, "parentSpan"> {
+        return {
+          parentSpan: rootSpan.spanContext(),
+        };
+      }
 
-        await assert.supportsTracing(
-          (options) => {
-            for (let i = 0; i < 2; i++) {
-              eventDataBatch.tryAdd({ body: `${list[i].name}` }, options);
-            }
-            return producerClient.sendBatch(eventDataBatch, options);
+      function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
+        return {
+          parentSpan: rootSpan,
+        };
+      }
+
+      function modernOptions(rootSpan: TestSpan): OperationOptions {
+        return {
+          tracingOptions: {
+            tracingContext: setSpan(context.active(), rootSpan),
           },
-          ["message", "EventHubProducerClient.sendBatch"]
-        );
-      });
+        };
+      }
 
-      it("supports tracing multiple events", async () => {
-        const events: EventData[] = [];
-        for (let i = 0; i < 5; i++) {
-          events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      [legacyOptionsUsingSpan, legacyOptionsUsingSpanContext, modernOptions].forEach(
+        (optionsFn) => {
+          describe(`tracing (${optionsFn.name})`, () => {
+            it("will not instrument already instrumented events", async function (): Promise<void> {
+              const { tracer, resetTracer } = setTracerForTest();
+
+              const rootSpan = tracer.startSpan("test");
+
+              const list = [
+                { name: "Albert" },
+                {
+                  name: "Marie",
+                  properties: {
+                    [TRACEPARENT_PROPERTY]: "foo",
+                  },
+                },
+              ];
+
+              const eventDataBatch = await producerClient.createBatch({
+                partitionId: "0",
+              });
+
+              for (let i = 0; i < 2; i++) {
+                eventDataBatch.tryAdd(
+                  { body: `${list[i].name}`, properties: list[i].properties },
+                  optionsFn(rootSpan)
+                );
+              }
+              await producerClient.sendBatch(eventDataBatch);
+              rootSpan.end();
+
+              const rootSpans = tracer.getRootSpans();
+              rootSpans.length.should.equal(2, "Should only have two root spans.");
+              rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+              const expectedGraph: SpanGraph = {
+                roots: [
+                  {
+                    name: rootSpan.name,
+                    children: [
+                      {
+                        name: "Azure.EventHubs.message",
+                        children: [],
+                      },
+                    ],
+                  },
+                ],
+              };
+
+              tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+              tracer
+                .getActiveSpans()
+                .length.should.equal(0, "All spans should have had end called.");
+              resetTracer();
+            });
+
+            it("will support tracing batch and send", async function (): Promise<void> {
+              const { tracer, resetTracer } = setTracerForTest();
+
+              const rootSpan = tracer.startSpan("root");
+
+              const list = [{ name: "Albert" }, { name: "Marie" }];
+
+              const eventDataBatch = await producerClient.createBatch({
+                partitionId: "0",
+              });
+              for (let i = 0; i < 2; i++) {
+                eventDataBatch.tryAdd({ body: `${list[i].name}` }, optionsFn(rootSpan));
+              }
+              await producerClient.sendBatch(eventDataBatch, {
+                tracingOptions: {
+                  tracingContext: setSpan(context.active(), rootSpan),
+                },
+              });
+              rootSpan.end();
+
+              const rootSpans = tracer.getRootSpans();
+              rootSpans.length.should.equal(1, "Should only have one root span.");
+              rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+              const expectedGraph: SpanGraph = {
+                roots: [
+                  {
+                    name: rootSpan.name,
+                    children: [
+                      {
+                        name: "Azure.EventHubs.message",
+                        children: [],
+                      },
+                      {
+                        name: "Azure.EventHubs.message",
+                        children: [],
+                      },
+                      {
+                        name: "Azure.EventHubs.send",
+                        children: [],
+                      },
+                    ],
+                  },
+                ],
+              };
+
+              tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+              tracer
+                .getActiveSpans()
+                .length.should.equal(0, "All spans should have had end called.");
+              resetTracer();
+            });
+          });
         }
-
-        await assert.supportsTracing(
-          (options) =>
-            producerClient.sendBatch(events, {
-              partitionId: "0",
-              tracingOptions: options.tracingOptions,
-            }),
-          ["message", "EventHubProducerClient.sendBatch"]
-        );
-      });
+      );
 
       it("with partition key should be sent successfully.", async function (): Promise<void> {
         const eventDataBatch = await producerClient.createBatch({ partitionKey: "1" });
@@ -505,379 +647,623 @@ testWithServiceTypes((serviceVersion) => {
         debug("Sent the message successfully on the same link..");
       });
 
-      describe("Array of events", function () {
-        it("should be sent successfully", async () => {
-          const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
-          const receivedEvents: ReceivedEventData[] = [];
-          let receivingResolver: (value?: unknown) => void;
+      it("can be manually traced", async function (): Promise<void> {
+        const { tracer, resetTracer } = setTracerForTest();
 
-          const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
-          const subscription = consumerClient.subscribe(
-            {
-              async processError() {
-                /* no-op */
-              },
-              async processEvents(events) {
-                receivedEvents.push(...events);
-                receivingResolver();
-              },
-            },
-            {
-              startPosition,
-              maxBatchSize: data.length,
-            }
-          );
+        const rootSpan = tracer.startSpan("root");
 
-          await producerClient.sendBatch(data);
-
-          await receivingPromise;
-          await subscription.close();
-
-          receivedEvents.length.should.equal(data.length);
-          receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+        const events = [];
+        for (let i = 0; i < 5; i++) {
+          events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+        }
+        await producerClient.sendBatch(events, {
+          partitionId: "0",
+          tracingOptions: {
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
         });
+        rootSpan.end();
 
-        it("should be sent successfully with partitionKey", async () => {
-          const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
-          const receivedEvents: ReceivedEventData[] = [];
-          let receivingResolver: (value?: unknown) => void;
-          const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
-          const subscription = consumerClient.subscribe(
+        const rootSpans = tracer.getRootSpans();
+        rootSpans.length.should.equal(1, "Should only have one root spans.");
+        rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+        const expectedGraph: SpanGraph = {
+          roots: [
             {
-              async processError() {
-                /* no-op */
-              },
-              async processEvents(events) {
-                receivedEvents.push(...events);
-                receivingResolver();
-              },
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.send",
+                  children: [],
+                },
+              ],
             },
+          ],
+        };
+
+        tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+        tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+        resetTracer();
+      });
+
+      it("skips already instrumented events when manually traced", async function (): Promise<void> {
+        const { tracer, resetTracer } = setTracerForTest();
+
+        const rootSpan = tracer.startSpan("root");
+
+        const events: EventData[] = [];
+        for (let i = 0; i < 5; i++) {
+          events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+        }
+        events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+        await producerClient.sendBatch(events, {
+          partitionId: "0",
+          tracingOptions: {
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
+        });
+        rootSpan.end();
+
+        const rootSpans = tracer.getRootSpans();
+        rootSpans.length.should.equal(1, "Should only have one root spans.");
+        rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+        const expectedGraph: SpanGraph = {
+          roots: [
             {
-              startPosition,
-              maxBatchSize: data.length,
-            }
-          );
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.send",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        };
 
-          await producerClient.sendBatch(data, { partitionKey: "foo" });
+        tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+        tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
-          await receivingPromise;
-          await subscription.close();
+        resetTracer();
+      });
+    });
 
-          receivedEvents.length.should.equal(data.length);
-          receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
-          for (let i = 0; i < receivedEvents.length; i++) {
-            receivedEvents[i].body.should.equal(data[i].body);
+    describe("Array of events", function () {
+      it("should be sent successfully", async () => {
+        const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+        const receivedEvents: ReceivedEventData[] = [];
+        let receivingResolver: (value?: unknown) => void;
+
+        const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
+        const subscription = consumerClient.subscribe(
+          {
+            async processError() {
+              /* no-op */
+            },
+            async processEvents(events) {
+              receivedEvents.push(...events);
+              receivingResolver();
+            },
+          },
+          {
+            startPosition,
+            maxBatchSize: data.length,
           }
-        });
+        );
 
-        it("should be sent successfully with partitionId", async () => {
-          const partitionId = "0";
-          const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
-          const receivedEvents: ReceivedEventData[] = [];
-          let receivingResolver: (value?: unknown) => void;
-          const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
-          const subscription = consumerClient.subscribe(
-            partitionId,
-            {
-              async processError() {
-                /* no-op */
-              },
-              async processEvents(events) {
-                receivedEvents.push(...events);
-                receivingResolver();
-              },
+        await producerClient.sendBatch(data);
+
+        await receivingPromise;
+        await subscription.close();
+
+        receivedEvents.length.should.equal(data.length);
+        receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+      });
+
+      it("should be sent successfully with partitionKey", async () => {
+        const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+        const receivedEvents: ReceivedEventData[] = [];
+        let receivingResolver: (value?: unknown) => void;
+        const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
+        const subscription = consumerClient.subscribe(
+          {
+            async processError() {
+              /* no-op */
             },
-            {
-              startPosition,
-              maxBatchSize: data.length,
-            }
-          );
-
-          await producerClient.sendBatch(data, { partitionId });
-
-          await receivingPromise;
-          await subscription.close();
-
-          receivedEvents.length.should.equal(data.length);
-          receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
-          for (let i = 0; i < receivedEvents.length; i++) {
-            receivedEvents[i].body.should.equal(data[i].body);
+            async processEvents(events) {
+              receivedEvents.push(...events);
+              receivingResolver();
+            },
+          },
+          {
+            startPosition,
+            maxBatchSize: data.length,
           }
-        });
+        );
 
-        it("should throw when partitionId and partitionKey are provided", async function (): Promise<void> {
+        await producerClient.sendBatch(data, { partitionKey: "foo" });
+
+        await receivingPromise;
+        await subscription.close();
+
+        receivedEvents.length.should.equal(data.length);
+        receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+        for (let i = 0; i < receivedEvents.length; i++) {
+          receivedEvents[i].body.should.equal(data[i].body);
+        }
+      });
+
+      it("should be sent successfully with partitionId", async () => {
+        const partitionId = "0";
+        const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+        const receivedEvents: ReceivedEventData[] = [];
+        let receivingResolver: (value?: unknown) => void;
+        const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
+        const subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            async processError() {
+              /* no-op */
+            },
+            async processEvents(events) {
+              receivedEvents.push(...events);
+              receivingResolver();
+            },
+          },
+          {
+            startPosition,
+            maxBatchSize: data.length,
+          }
+        );
+
+        await producerClient.sendBatch(data, { partitionId });
+
+        await receivingPromise;
+        await subscription.close();
+
+        receivedEvents.length.should.equal(data.length);
+        receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+        for (let i = 0; i < receivedEvents.length; i++) {
+          receivedEvents[i].body.should.equal(data[i].body);
+        }
+      });
+
+      it("can be manually traced", async function (): Promise<void> {
+        const { tracer, resetTracer } = setTracerForTest();
+
+        const rootSpan = tracer.startSpan("root");
+
+        const events = [];
+        for (let i = 0; i < 5; i++) {
+          events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+        }
+        await producerClient.sendBatch(events, {
+          tracingOptions: {
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
+        });
+        rootSpan.end();
+
+        const rootSpans = tracer.getRootSpans();
+        rootSpans.length.should.equal(1, "Should only have one root spans.");
+        rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+        const expectedGraph: SpanGraph = {
+          roots: [
+            {
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.send",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        };
+
+        tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+        tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+        const knownSendSpans = tracer
+          .getKnownSpans()
+          .filter((span: TestSpan) => span.name === "Azure.EventHubs.send");
+        knownSendSpans.length.should.equal(1, "There should have been one send span.");
+        knownSendSpans[0].attributes.should.deep.equal({
+          "az.namespace": "Microsoft.EventHub",
+          "message_bus.destination": producerClient.eventHubName,
+          "peer.address": producerClient.fullyQualifiedNamespace,
+        });
+        resetTracer();
+      });
+
+      it("skips already instrumented events when manually traced", async function (): Promise<void> {
+        const { tracer, resetTracer } = setTracerForTest();
+
+        const rootSpan = tracer.startSpan("root");
+
+        const events: EventData[] = [];
+        for (let i = 0; i < 5; i++) {
+          events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+        }
+        events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+        await producerClient.sendBatch(events, {
+          tracingOptions: {
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
+        });
+        rootSpan.end();
+
+        const rootSpans = tracer.getRootSpans();
+        rootSpans.length.should.equal(1, "Should only have one root spans.");
+        rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+        const expectedGraph: SpanGraph = {
+          roots: [
+            {
+              name: rootSpan.name,
+              children: [
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.message",
+                  children: [],
+                },
+                {
+                  name: "Azure.EventHubs.send",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        };
+
+        tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+        tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+        resetTracer();
+      });
+
+      it("should throw when partitionId and partitionKey are provided", async function (): Promise<void> {
+        try {
+          const data: EventData[] = [
+            {
+              body: "Sender paritition id and partition key",
+            },
+          ];
+          await producerClient.sendBatch(data, { partitionKey: "1", partitionId: "0" });
+          throw new Error("Test Failure");
+        } catch (err) {
+          err.message.should.equal(
+            "The partitionId (0) and partitionKey (1) cannot both be specified."
+          );
+        }
+      });
+    });
+
+    describe("Validation", function () {
+      describe("createBatch", function () {
+        it("throws an error if partitionId and partitionKey are set", async () => {
           try {
-            const data: EventData[] = [
-              {
-                body: "Sender paritition id and partition key",
-              },
-            ];
-            await producerClient.sendBatch(data, { partitionKey: "1", partitionId: "0" });
-            throw new Error("Test Failure");
-          } catch (err) {
-            err.message.should.equal(
-              "The partitionId (0) and partitionKey (1) cannot both be specified."
+            await producerClient.createBatch({ partitionId: "0", partitionKey: "boo" });
+            throw new Error("Test failure");
+          } catch (error) {
+            error.message.should.equal(
+              "partitionId and partitionKey cannot both be set when creating a batch"
             );
           }
         });
-      });
 
-      describe("Validation", function () {
-        describe("createBatch", function () {
-          it("throws an error if partitionId and partitionKey are set", async () => {
-            try {
-              await producerClient.createBatch({ partitionId: "0", partitionKey: "boo" });
-              throw new Error("Test failure");
-            } catch (error) {
-              error.message.should.equal(
-                "The partitionId (0) and partitionKey (boo) cannot both be specified."
-              );
-            }
-          });
-
-          it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async () => {
-            try {
-              await producerClient.createBatch({
-                // @ts-expect-error Testing the value 0 is not ignored.
-                partitionId: 0,
-                partitionKey: "boo",
-              });
-              throw new Error("Test failure");
-            } catch (error) {
-              error.message.should.equal(
-                "The partitionId (0) and partitionKey (boo) cannot both be specified."
-              );
-            }
-          });
-
-          it("throws an error if partitionId and partitionKey are set and partitionKey is 0 i.e. falsy", async () => {
-            try {
-              await producerClient.createBatch({
-                partitionId: "1",
-                // @ts-expect-error Testing the value 0 is not ignored.
-                partitionKey: 0,
-              });
-              throw new Error("Test failure");
-            } catch (error) {
-              error.message.should.equal(
-                "The partitionId (1) and partitionKey (0) cannot both be specified."
-              );
-            }
-          });
-
-          it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function (): Promise<void> {
-            try {
-              await producerClient.createBatch({ maxSizeInBytes: 2046528 });
-              throw new Error("Test Failure");
-            } catch (err) {
-              err.message.should.match(
-                /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
-              );
-            }
-          });
-        });
-        describe("sendBatch with EventDataBatch", function () {
-          it("works if partitionKeys match", async () => {
-            const misconfiguredOptions: SendBatchOptions = {
-              partitionKey: "foo",
-            };
-            const batch = await producerClient.createBatch({ partitionKey: "foo" });
-            await producerClient.sendBatch(batch, misconfiguredOptions);
-          });
-          it("works if partitionIds match", async () => {
-            const misconfiguredOptions: SendBatchOptions = {
-              partitionId: "0",
-            };
-            const batch = await producerClient.createBatch({ partitionId: "0" });
-            await producerClient.sendBatch(batch, misconfiguredOptions);
-          });
-          it("throws an error if partitionKeys don't match", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionKey: "bar",
-            };
-            const batch = await producerClient.createBatch({ partitionKey: "foo" });
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
-              );
-            }
-          });
-          it("throws an error if partitionKeys don't match (undefined)", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionKey: "bar",
-            };
-            const batch = await producerClient.createBatch();
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
-              );
-            }
-          });
-          it("throws an error if partitionIds don't match", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionId: "0",
-            };
-            const batch = await producerClient.createBatch({ partitionId: "1" });
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
-              );
-            }
-          });
-          it("throws an error if partitionIds don't match (undefined)", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionId: "0",
-            };
-            const batch = await producerClient.createBatch();
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
-              );
-            }
-          });
-          it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionKey: "foo",
-            };
-            const batch = await producerClient.createBatch({ partitionId: "0" });
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.not.equal("Test failure");
-            }
-          });
-          it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionId: "0",
-            };
-            const batch = await producerClient.createBatch({ partitionKey: "foo" });
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.not.equal("Test failure");
-            }
-          });
-          it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionKey: "foo",
-              partitionId: "0",
-            };
-            const batch = await producerClient.createBatch();
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.not.equal("Test failure");
-            }
-          });
-        });
-
-        describe("sendBatch with EventDataBatch with events array", function () {
-          it("throws an error if partitionId and partitionKey are set", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionKey: "foo",
-              partitionId: "0",
-            };
-            const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionId (0) and partitionKey (foo) cannot both be specified."
-              );
-            }
-          });
-          it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async () => {
-            const badOptions: SendBatchOptions = {
-              partitionKey: "foo",
+        it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async () => {
+          try {
+            await producerClient.createBatch({
               // @ts-expect-error Testing the value 0 is not ignored.
               partitionId: 0,
-            };
-            const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionId (0) and partitionKey (foo) cannot both be specified."
-              );
-            }
-          });
-          it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async () => {
-            const badOptions: SendBatchOptions = {
-              // @ts-expect-error Testing the value 0 is not ignored.
-              partitionKey: 0,
-              partitionId: "0",
-            };
-            const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
-            try {
-              await producerClient.sendBatch(batch, badOptions);
-              throw new Error("Test failure");
-            } catch (err) {
-              err.message.should.equal(
-                "The partitionId (0) and partitionKey (0) cannot both be specified."
-              );
-            }
-          });
-        });
-      });
-
-      describe("Negative scenarios", function (): void {
-        it("a message greater than 1 MB should fail.", async function (): Promise<void> {
-          const data: EventData = {
-            body: Buffer.from("Z".repeat(1300000)),
-          };
-          try {
-            await producerClient.sendBatch([data]);
+              partitionKey: "boo",
+            });
             throw new Error("Test failure");
-          } catch (err) {
-            debug(err);
-            should.exist(err);
-            should.equal(err.code, "MessageTooLargeError");
-            err.message.should.match(
-              /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
+          } catch (error) {
+            error.message.should.equal(
+              "partitionId and partitionKey cannot both be set when creating a batch"
             );
           }
         });
 
-        describe("on invalid partition ids like", function (): void {
-          // tslint:disable-next-line: no-null-keyword
-          const invalidIds = ["XYZ", "-1", "1000", "-"];
-          invalidIds.forEach(function (id: string | null): void {
-            it(`"${id}" should throw an error`, async function (): Promise<void> {
-              try {
-                debug("Created sender and will be sending a message to partition id ...", id);
-                await producerClient.sendBatch([{ body: "Hello world!" }], {
-                  partitionId: id as any,
-                });
-                debug("sent the message.");
-                throw new Error("Test failure");
-              } catch (err) {
-                debug(`>>>> Received error for invalid partition id "${id}" - `, err);
-                should.exist(err);
-                err.message.should.match(
-                  /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
-                );
-              }
+        it("throws an error if partitionId and partitionKey are set and partitionKey is 0 i.e. falsy", async () => {
+          try {
+            await producerClient.createBatch({
+              partitionId: "1",
+              // @ts-expect-error Testing the value 0 is not ignored.
+              partitionKey: 0,
             });
+            throw new Error("Test failure");
+          } catch (error) {
+            error.message.should.equal(
+              "partitionId and partitionKey cannot both be set when creating a batch"
+            );
+          }
+        });
+
+        it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function (): Promise<void> {
+          try {
+            await producerClient.createBatch({ maxSizeInBytes: 2046528 });
+            throw new Error("Test Failure");
+          } catch (err) {
+            err.message.should.match(
+              /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
+            );
+          }
+        });
+      });
+      describe("sendBatch with EventDataBatch", function () {
+        it("works if partitionKeys match", async () => {
+          const misconfiguredOptions: SendBatchOptions = {
+            partitionKey: "foo",
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          await producerClient.sendBatch(batch, misconfiguredOptions);
+        });
+        it("works if partitionIds match", async () => {
+          const misconfiguredOptions: SendBatchOptions = {
+            partitionId: "0",
+          };
+          const batch = await producerClient.createBatch({ partitionId: "0" });
+          await producerClient.sendBatch(batch, misconfiguredOptions);
+        });
+        it("throws an error if partitionKeys don't match", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "bar",
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionKeys don't match (undefined)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "bar",
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionIds don't match", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0",
+          };
+          const batch = await producerClient.createBatch({ partitionId: "1" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionIds don't match (undefined)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0",
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+          };
+          const batch = await producerClient.createBatch({ partitionId: "0" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0",
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            partitionId: "0",
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+      });
+
+      describe("sendBatch with EventDataBatch with events array", function () {
+        it("throws an error if partitionId and partitionKey are set", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            partitionId: "0",
+          };
+          const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) and partitionKey (foo) cannot both be specified."
+            );
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            // @ts-expect-error Testing the value 0 is not ignored.
+            partitionId: 0,
+          };
+          const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) and partitionKey (foo) cannot both be specified."
+            );
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async () => {
+          const badOptions: SendBatchOptions = {
+            // @ts-expect-error Testing the value 0 is not ignored.
+            partitionKey: 0,
+            partitionId: "0",
+          };
+          const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) and partitionKey (0) cannot both be specified."
+            );
+          }
+        });
+      });
+    });
+
+    describe("Negative scenarios", function (): void {
+      it("a message greater than 1 MB should fail.", async function (): Promise<void> {
+        const data: EventData = {
+          body: Buffer.from("Z".repeat(1300000)),
+        };
+        try {
+          await producerClient.sendBatch([data]);
+          throw new Error("Test failure");
+        } catch (err) {
+          debug(err);
+          should.exist(err);
+          should.equal(err.code, "MessageTooLargeError");
+          err.message.should.match(
+            /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
+          );
+        }
+      });
+
+      describe("on invalid partition ids like", function (): void {
+        // tslint:disable-next-line: no-null-keyword
+        const invalidIds = ["XYZ", "-1", "1000", "-"];
+        invalidIds.forEach(function (id: string | null): void {
+          it(`"${id}" should throw an error`, async function (): Promise<void> {
+            try {
+              debug("Created sender and will be sending a message to partition id ...", id);
+              await producerClient.sendBatch([{ body: "Hello world!" }], {
+                partitionId: id as any,
+              });
+              debug("sent the message.");
+              throw new Error("Test failure");
+            } catch (err) {
+              debug(`>>>> Received error for invalid partition id "${id}" - `, err);
+              should.exist(err);
+              err.message.should.match(
+                /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
+              );
+            }
           });
         });
       });
-    }).timeout(20000);
-  });
+    });
+  }).timeout(20000);
 });

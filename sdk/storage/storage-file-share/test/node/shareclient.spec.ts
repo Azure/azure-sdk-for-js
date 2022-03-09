@@ -2,12 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Context } from "mocha";
-
+import { newPipeline, ShareClient, StorageSharedKeyCredential, SignedIdentifier } from "../../src";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "./../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-
-import { newPipeline, ShareClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import { Context } from "mocha";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;

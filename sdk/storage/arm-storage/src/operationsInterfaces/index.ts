@@ -16,7 +16,6 @@ export * from "./blobInventoryPolicies";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./objectReplicationPoliciesOperations";
-export * from "./localUsersOperations";
 export * from "./encryptionScopes";
 export * from "./blobServices";
 export * from "./blobContainers";

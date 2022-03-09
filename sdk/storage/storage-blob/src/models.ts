@@ -311,17 +311,3 @@ export interface HttpAuthorization {
    */
   value: string;
 }
-
-/**
- * Defines the known cloud audiences for Storage.
- */
-export enum StorageBlobAudience {
-  /**
-   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
-   */
-  StorageOAuthScopes = "https://storage.azure.com/.default",
-  /**
-   * The OAuth scope to use to retrieve an AAD token for Azure Disk.
-   */
-  DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
-}

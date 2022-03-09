@@ -8,9 +8,6 @@ trigger:
   paths:
     include:
       - sdk/videoanalyzer/
-    exclude:
-      - sdk/videoanalyzer/ci.mgmt.yml
-      - sdk/videoanalyzer/arm-videoanalyzer/
 pr:
   branches:
     include:
@@ -23,9 +20,6 @@ pr:
   paths:
     include:
       - sdk/videoanalyzer/
-    exclude:
-      - sdk/videoanalyzer/ci.mgmt.yml
-      - sdk/videoanalyzer/arm-videoanalyzer/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,3 +27,5 @@ extends:
     Artifacts:
       - name: azure-video-analyzer-edge
         safeName: azurevideoanalyzeredge
+      - name: azure-arm-videoanalyzer
+        safeName: azurearmvideoanalyzer

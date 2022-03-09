@@ -63,7 +63,6 @@ const defaultAllowedHeaderNames = [
   "Server",
   "Transfer-Encoding",
   "User-Agent",
-  "WWW-Authenticate",
 ];
 
 const defaultAllowedQueryParameters: string[] = ["api-version"];

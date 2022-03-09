@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import chai, { assert } from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import { createChallengeCallbacks } from "../../src/challengeAuthenticationCallbacks";
 import {
   AuthorizeRequestOptions,

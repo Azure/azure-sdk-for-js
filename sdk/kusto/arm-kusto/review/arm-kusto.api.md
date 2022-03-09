@@ -173,9 +173,6 @@ export type Cluster = TrackedResource & {
     enableAutoStop?: boolean;
     restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
     allowedFqdnList?: string[];
-    publicIPType?: PublicIPType;
-    virtualClusterGraduationProperties?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
@@ -201,7 +198,6 @@ export type ClusterPrincipalAssignment = ProxyResource & {
     readonly tenantName?: string;
     readonly principalName?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly aadObjectId?: string;
 };
 
 // @public
@@ -423,11 +419,6 @@ export interface ClustersStopOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export interface ClustersUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -466,9 +457,6 @@ export type ClusterUpdate = Resource & {
     enableAutoStop?: boolean;
     restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
     allowedFqdnList?: string[];
-    publicIPType?: PublicIPType;
-    virtualClusterGraduationProperties?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public (undocumented)
@@ -514,7 +502,6 @@ export type DatabasePrincipalAssignment = ProxyResource & {
     readonly tenantName?: string;
     readonly principalName?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly aadObjectId?: string;
 };
 
 // @public
@@ -592,9 +579,6 @@ export type DatabasePrincipalRole = string;
 export type DatabasePrincipalType = string;
 
 // @public
-export type DatabaseRouting = string;
-
-// @public
 export interface Databases {
     addPrincipals(resourceGroupName: string, clusterName: string, databaseName: string, databasePrincipalsToAdd: DatabasePrincipalListRequest, options?: DatabasesAddPrincipalsOptionalParams): Promise<DatabasesAddPrincipalsResponse>;
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateOrUpdateResponse>, DatabasesCreateOrUpdateResponse>>;
@@ -670,11 +654,6 @@ export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult;
 // @public
 export interface DatabaseStatistics {
     size?: number;
-}
-
-// @public
-export interface DatabasesUpdateHeaders {
-    azureAsyncOperation?: string;
 }
 
 // @public
@@ -770,11 +749,6 @@ export interface DataConnectionsListByDatabaseOptionalParams extends coreClient.
 export type DataConnectionsListByDatabaseResponse = DataConnectionListResult;
 
 // @public
-export interface DataConnectionsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface DataConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -827,7 +801,6 @@ export type EngineType = string;
 // @public
 export type EventGridDataConnection = DataConnection & {
     storageAccountResourceId?: string;
-    eventGridResourceId?: string;
     eventHubResourceId?: string;
     consumerGroup?: string;
     tableName?: string;
@@ -835,9 +808,6 @@ export type EventGridDataConnection = DataConnection & {
     dataFormat?: EventGridDataFormat;
     ignoreFirstRecord?: boolean;
     blobStorageEventType?: BlobStorageEventType;
-    managedIdentityResourceId?: string;
-    readonly managedIdentityObjectId?: string;
-    databaseRouting?: DatabaseRouting;
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -855,8 +825,6 @@ export type EventHubDataConnection = DataConnection & {
     compression?: Compression;
     readonly provisioningState?: ProvisioningState;
     managedIdentityResourceId?: string;
-    readonly managedIdentityObjectId?: string;
-    databaseRouting?: DatabaseRouting;
 };
 
 // @public
@@ -896,7 +864,6 @@ export type IotHubDataConnection = DataConnection & {
     dataFormat?: IotHubDataFormat;
     eventSystemProperties?: string[];
     sharedAccessPolicyName?: string;
-    databaseRouting?: DatabaseRouting;
     readonly provisioningState?: ProvisioningState;
 };
 
@@ -939,12 +906,6 @@ export enum KnownAzureSkuName {
     // (undocumented)
     StandardD14V2 = "Standard_D14_v2",
     // (undocumented)
-    StandardD16DV5 = "Standard_D16d_v5",
-    // (undocumented)
-    StandardD32DV4 = "Standard_D32d_v4",
-    // (undocumented)
-    StandardD32DV5 = "Standard_D32d_v5",
-    // (undocumented)
     StandardDS13V21TBPS = "Standard_DS13_v2+1TB_PS",
     // (undocumented)
     StandardDS13V22TBPS = "Standard_DS13_v2+2TB_PS",
@@ -953,31 +914,13 @@ export enum KnownAzureSkuName {
     // (undocumented)
     StandardDS14V24TBPS = "Standard_DS14_v2+4TB_PS",
     // (undocumented)
-    StandardE16AdsV5 = "Standard_E16ads_v5",
-    // (undocumented)
     StandardE16AsV43TBPS = "Standard_E16as_v4+3TB_PS",
     // (undocumented)
     StandardE16AsV44TBPS = "Standard_E16as_v4+4TB_PS",
     // (undocumented)
-    StandardE16AsV53TBPS = "Standard_E16as_v5+3TB_PS",
-    // (undocumented)
-    StandardE16AsV54TBPS = "Standard_E16as_v5+4TB_PS",
-    // (undocumented)
     StandardE16AV4 = "Standard_E16a_v4",
     // (undocumented)
-    StandardE16SV43TBPS = "Standard_E16s_v4+3TB_PS",
-    // (undocumented)
-    StandardE16SV44TBPS = "Standard_E16s_v4+4TB_PS",
-    // (undocumented)
-    StandardE16SV53TBPS = "Standard_E16s_v5+3TB_PS",
-    // (undocumented)
-    StandardE16SV54TBPS = "Standard_E16s_v5+4TB_PS",
-    // (undocumented)
-    StandardE2AdsV5 = "Standard_E2ads_v5",
-    // (undocumented)
     StandardE2AV4 = "Standard_E2a_v4",
-    // (undocumented)
-    StandardE4AdsV5 = "Standard_E4ads_v5",
     // (undocumented)
     StandardE4AV4 = "Standard_E4a_v4",
     // (undocumented)
@@ -985,25 +928,11 @@ export enum KnownAzureSkuName {
     // (undocumented)
     StandardE80IdsV4 = "Standard_E80ids_v4",
     // (undocumented)
-    StandardE8AdsV5 = "Standard_E8ads_v5",
-    // (undocumented)
     StandardE8AsV41TBPS = "Standard_E8as_v4+1TB_PS",
     // (undocumented)
     StandardE8AsV42TBPS = "Standard_E8as_v4+2TB_PS",
     // (undocumented)
-    StandardE8AsV51TBPS = "Standard_E8as_v5+1TB_PS",
-    // (undocumented)
-    StandardE8AsV52TBPS = "Standard_E8as_v5+2TB_PS",
-    // (undocumented)
     StandardE8AV4 = "Standard_E8a_v4",
-    // (undocumented)
-    StandardE8SV41TBPS = "Standard_E8s_v4+1TB_PS",
-    // (undocumented)
-    StandardE8SV42TBPS = "Standard_E8s_v4+2TB_PS",
-    // (undocumented)
-    StandardE8SV51TBPS = "Standard_E8s_v5+1TB_PS",
-    // (undocumented)
-    StandardE8SV52TBPS = "Standard_E8s_v5+2TB_PS",
     // (undocumented)
     StandardL16S = "Standard_L16s",
     // (undocumented)
@@ -1092,14 +1021,6 @@ export enum KnownDatabasePrincipalType {
     Group = "Group",
     // (undocumented)
     User = "User"
-}
-
-// @public
-export enum KnownDatabaseRouting {
-    // (undocumented)
-    Multi = "Multi",
-    // (undocumented)
-    Single = "Single"
 }
 
 // @public
@@ -1303,14 +1224,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownPublicIPType {
-    // (undocumented)
-    DualStack = "DualStack",
-    // (undocumented)
-    IPv4 = "IPv4"
-}
-
-// @public
 export enum KnownPublicNetworkAccess {
     // (undocumented)
     Disabled = "Disabled",
@@ -1385,8 +1298,6 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     operations: Operations;
     // (undocumented)
     operationsResults: OperationsResults;
-    // (undocumented)
-    operationsResultsLocation: OperationsResultsLocation;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -1493,11 +1404,6 @@ export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.Op
 export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResult;
 
 // @public
-export interface ManagedPrivateEndpointsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface ManagedPrivateEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1538,7 +1444,6 @@ export interface OperationResult {
     operationKind?: string;
     operationState?: string;
     percentComplete?: number;
-    readonly provisioningState?: ProvisioningState;
     startTime?: Date;
     readonly status?: Status;
 }
@@ -1573,15 +1478,6 @@ export interface OperationsResultsGetOptionalParams extends coreClient.Operation
 
 // @public
 export type OperationsResultsGetResponse = OperationResult;
-
-// @public
-export interface OperationsResultsLocation {
-    get(location: string, operationId: string, options?: OperationsResultsLocationGetOptionalParams): Promise<void>;
-}
-
-// @public
-export interface OperationsResultsLocationGetOptionalParams extends coreClient.OperationOptions {
-}
 
 // @public
 export interface OptimizedAutoscale {
@@ -1716,9 +1612,6 @@ export type ProvisioningState = string;
 export type ProxyResource = Resource & {};
 
 // @public
-export type PublicIPType = string;
-
-// @public
 export type PublicNetworkAccess = string;
 
 // @public
@@ -1756,7 +1649,6 @@ export type Script = ProxyResource & {
     readonly systemData?: SystemData;
     scriptUrl?: string;
     scriptUrlSasToken?: string;
-    scriptContent?: string;
     forceUpdateTag?: string;
     continueOnErrors?: boolean;
     readonly provisioningState?: ProvisioningState;
@@ -1821,11 +1713,6 @@ export interface ScriptsListByDatabaseOptionalParams extends coreClient.Operatio
 
 // @public
 export type ScriptsListByDatabaseResponse = ScriptListResult;
-
-// @public
-export interface ScriptsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
 
 // @public
 export interface ScriptsUpdateOptionalParams extends coreClient.OperationOptions {

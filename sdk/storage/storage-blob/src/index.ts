@@ -36,7 +36,6 @@ export {
   BlobQueryArrowField,
   BlobQueryArrowFieldType,
   HttpAuthorization,
-  StorageBlobAudience,
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

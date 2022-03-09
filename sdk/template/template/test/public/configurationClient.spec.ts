@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
@@ -28,16 +28,15 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
   // This function returns the special NoOpCredential in playback mode, which
   // is a special TokenCredential implementation that does not make any requests
   // to AAD.
-  const client = new ConfigurationClient(
+
+  // recorder.configureClientOptionsCoreV1 mixes in the necessary options that
+  // need to be passed to the corev1 ConfigurationClient for the recorder to
+  // capture requests.
+  return new ConfigurationClient(
     endpoint,
     createTestCredential(),
-    // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
-    // redirect the requests to reach the proxy tool in record/playback modes instead of
-    // hitting the live service.
-    recorder.configureClientOptions({})
+    recorder.configureClientOptionsCoreV1({})
   );
-
-  return client;
 }
 
 // You want to give the test suite a descriptive name. Here, I add [AAD] to
@@ -70,36 +69,17 @@ describe("[AAD] ConfigurationClient functional tests", function () {
     await recorder.stop();
   });
 
-  describe("#getConfigurationSetting", () => {
-    it("predetermined setting has expected value", async () => {
-      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
-      const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
+  it("predetermined setting has expected value", async () => {
+    const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+    const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
 
-      const setting = await client.getConfigurationSetting(key);
+    const setting = await client.getConfigurationSetting(key);
 
-      // Make sure the key returned is the same as the key we asked for
-      assert.equal(key, setting.key);
+    // Make sure the key returned is the same as the key we asked for
+    assert.equal(key, setting.key);
 
-      // Make sure the value of the setting is the same as the value we entered
-      // on the environment
-      assert.equal(expectedValue, setting.value);
-    });
-
-    // The supportsTracing assertion from chaiAzure can be used to verify that
-    // the `getConfigurationSetting` method is being traced correctly, that the
-    // tracing span is properly parented and closed.
-    it("supports tracing", async () => {
-      // Playback fails in the browser without the "HeaderlessMatcher"
-      //
-      // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers
-      // Proxy tool doesn't treat these headers differently, tries to match them with the headers in the recording, and fails.
-      // More details here - https://github.com/Azure/azure-sdk-tools/issues/2674
-      await recorder.setMatcher("HeaderlessMatcher");
-      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
-      await assert.supportsTracing(
-        (options) => client.getConfigurationSetting(key, options),
-        ["ConfigurationClient.getConfigurationSetting"]
-      );
-    });
+    // Make sure the value of the setting is the same as the value we entered
+    // on the environment
+    assert.equal(expectedValue, setting.value);
   });
 });

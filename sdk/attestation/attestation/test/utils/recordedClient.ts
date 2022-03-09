@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Context } from "mocha";
+
+import { ClientSecretCredential } from "@azure/identity";
 import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
   env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+
 import {
-  AttestationAdministrationClient,
   AttestationClient,
   AttestationClientOptions,
+  AttestationAdministrationClient,
 } from "../../src/";
 import "./env";
 import { pemFromBase64 } from "../utils/helpers";
 
-const envSetupForPlayback: { [k: string]: string } = {
+const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
@@ -31,19 +34,38 @@ const envSetupForPlayback: { [k: string]: string } = {
   ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key",
 };
 
-export const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+const environmentSetup: RecorderEnvironmentSetup = {
+  replaceableVariables,
+  customizationsOnRecordings: [
+    (recording: string): string =>
+      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
+    // If we put ENDPOINT in replaceableVariables above, it will not capture
+    // the endpoint string used with nock, which will be expanded to
+    // https://<endpoint>:443/ and therefore will not match, so we have to do
+    // this instead.
+    (recording: string): string => {
+      const replaced = recording
+        .replace("aad_attestation_url:443", "aad_attestation_url")
+        .replace("isolated_attestation_url:443", "isolated_attestation_url");
+      return replaced;
+    },
+  ],
+  queryParametersToSkip: [],
 };
+
+export function createRecorder(context: Context): Recorder {
+  return record(context, environmentSetup);
+}
 
 export type EndpointType = "AAD" | "Isolated" | "Shared";
 
 export function getAttestationUri(endpointType: EndpointType): string {
   switch (endpointType) {
     case "AAD": {
-      return assertEnvironmentVariable("ATTESTATION_AAD_URL");
+      return env.ATTESTATION_AAD_URL;
     }
     case "Isolated": {
-      return assertEnvironmentVariable("ATTESTATION_ISOLATED_URL");
+      return env.ATTESTATION_ISOLATED_URL;
     }
     case "Shared": {
       return (
@@ -61,11 +83,11 @@ export function getAttestationUri(endpointType: EndpointType): string {
 }
 
 export function getIsolatedSigningKey(): { privateKey: string; certificate: string } {
-  const signingCert = assertEnvironmentVariable("ATTESTATION_ISOLATED_SIGNING_CERTIFICATE");
+  const signingCert = env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
 
   const pemCert = pemFromBase64(signingCert, "CERTIFICATE");
 
-  const signingKey = assertEnvironmentVariable("ATTESTATION_ISOLATED_SIGNING_KEY");
+  const signingKey = env.ATTESTATION_ISOLATED_SIGNING_KEY;
   const pemKey = pemFromBase64(signingKey, "PRIVATE KEY");
 
   return { privateKey: pemKey, certificate: pemCert };
@@ -73,7 +95,6 @@ export function getIsolatedSigningKey(): { privateKey: string; certificate: stri
 
 // Note that the AttestationClient does not require authentication.
 export function createRecordedClient(
-  recorder: Recorder,
   endpointType: EndpointType,
   authenticatedClient?: boolean,
   options?: AttestationClientOptions
@@ -92,26 +113,27 @@ export function createRecordedClient(
       },
     };
   }
-  if (authenticatedClient) {
-    const attClient = new AttestationClient(
-      getAttestationUri(endpointType),
-      createTestCredential(),
-      recorder.configureClientOptions(options)
+  if (authenticatedClient !== undefined && authenticatedClient) {
+    const credentials = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
     );
-    return attClient;
+    return new AttestationClient(getAttestationUri(endpointType), credentials, options);
   }
-  const attClient = new AttestationClient(
-    getAttestationUri(endpointType),
-    recorder.configureClientOptions(options)
-  );
-  return attClient;
+  return new AttestationClient(getAttestationUri(endpointType), options);
 }
 
 export function createRecordedAdminClient(
-  recorder: Recorder,
   endpointType: EndpointType,
   options?: AttestationClientOptions
 ): AttestationAdministrationClient {
+  const credential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
+
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
   if (options === undefined) {
@@ -126,10 +148,5 @@ export function createRecordedAdminClient(
       },
     };
   }
-  const adminClient = new AttestationAdministrationClient(
-    getAttestationUri(endpointType),
-    createTestCredential(),
-    recorder.configureClientOptions(options)
-  );
-  return adminClient;
+  return new AttestationAdministrationClient(getAttestationUri(endpointType), credential, options);
 }

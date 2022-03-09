@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.4.1 (Unreleased)
 
 ### Features Added
 
@@ -8,17 +8,9 @@
 
 ### Bugs Fixed
 
-### Other Changes
-
-## 1.5.0 (2022-02-03)
-
-### Features Added
-
-- Added new `CommonClientOptions` member `additionalPolicies` to allow passing custom pipeline policies to client constructors. [PR #19920](https://github.com/Azure/azure-sdk-for-js/pull/19920)
-
-### Bugs Fixed
-
 - Addressed an issue where the `onResponse` callback wouldn't be called in certain cases where an unexpected response was received from the service. [PR #19702](https://github.com/Azure/azure-sdk-for-js/pull/19702)
+
+### Other Changes
 
 ## 1.4.0 (2022-01-06)
 

@@ -9,9 +9,6 @@ trigger:
   paths:
     include:
       - sdk/mixedreality/
-    exclude:
-      - sdk/migrate/ci.mgmt.yml
-      - sdk/mixedreality/arm-migrate/
 pr:
   branches:
     include:
@@ -24,9 +21,6 @@ pr:
   paths:
     include:
       - sdk/mixedreality/
-    exclude:
-      - sdk/migrate/ci.mgmt.yml
-      - sdk/mixedreality/arm-migrate/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +28,5 @@ extends:
     Artifacts:
       - name: azure-mixed-reality-authentication
         safeName: azuremixedrealityauthentication
+      - name: azure-arm-mixedreality
+        safeName: azurearmmixedreality

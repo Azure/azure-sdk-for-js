@@ -12,18 +12,18 @@ import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
+import { ArtifactsClientContext } from "../artifactsClientContext";
 import { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models";
 
 /** Class containing WorkspaceOperations operations. */
 export class WorkspaceOperationsImpl implements WorkspaceOperations {
-  private readonly client: ArtifactsClient;
+  private readonly client: ArtifactsClientContext;
 
   /**
    * Initialize a new instance of the class WorkspaceOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClient) {
+  constructor(client: ArtifactsClientContext) {
     this.client = client;
   }
 

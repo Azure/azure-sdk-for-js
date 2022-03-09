@@ -26,6 +26,7 @@ extends:
   parameters:
     ServiceDirectory: test-utils
     IncludeRelease: false
+    TestProxy: true
     Artifacts:
       - name: azure-tools-test-recorder
         safeName: azuretoolstestrecorder

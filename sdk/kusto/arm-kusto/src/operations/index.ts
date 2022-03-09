@@ -18,4 +18,3 @@ export * from "./privateLinkResources";
 export * from "./dataConnections";
 export * from "./operations";
 export * from "./operationsResults";
-export * from "./operationsResultsLocation";

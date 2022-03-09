@@ -6,30 +6,35 @@ import { Suite, Context } from "mocha";
 
 import { Recorder } from "@azure-tools/test-recorder";
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, testEnv } from "./utils/recordedClient";
 
 import { resetTracer, setTracer } from "@azure/test-utils";
 
-import { EventGridPublisherClient } from "../../src";
+import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
 
+import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { setSpan, context } from "@azure/core-tracing";
-import { getRandomNumber } from "./utils/testUtils";
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
+  let res: FullOperationResponse | undefined;
 
   this.timeout(10000);
+
+  beforeEach(function () {
+    res = undefined;
+  });
 
   describe("#send (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
-        "EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT",
+    beforeEach(function (this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
         "EventGrid",
-        "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY"
+        new AzureKeyCredential(testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY)
       ));
     });
 
@@ -38,13 +43,11 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     it("sends a single event", async () => {
-      let status: number | undefined;
-
       await client.send(
         [
           {
-            eventTime: new Date(recorder.variable("singleEventDate", new Date().toString())),
-            id: recorder.variable("singleEventId", `singleEventId${getRandomNumber()}`),
+            eventTime: recorder.newDate("singleEventDate"),
+            id: recorder.getUniqueName("singleEventId"),
             eventType: "Azure.Sdk.TestEvent1",
             subject: "Single 1",
             dataVersion: "1.0",
@@ -53,20 +56,18 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (res = response) }
       );
 
-      assert.strictEqual(status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("sends multiple events", async () => {
-      let status: number | undefined;
-
       await client.send(
         [
           {
-            eventTime: new Date(recorder.variable("multiEventDate1", new Date().toString())),
-            id: recorder.variable("multiEventId1", `multiEventId1${getRandomNumber()}`),
+            eventTime: recorder.newDate("multiEventDate1"),
+            id: recorder.getUniqueName("multiEventId1"),
             eventType: "Azure.Sdk.TestEvent1",
             subject: "Multiple 1",
             dataVersion: "1.0",
@@ -75,8 +76,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
           {
-            eventTime: new Date(recorder.variable("multiEventDate2", new Date().toString())),
-            id: recorder.variable("multiEventId2", `multiEventId2${getRandomNumber()}`),
+            eventTime: recorder.newDate("multiEventDate2"),
+            id: recorder.getUniqueName("multiEventId2"),
             eventType: "Azure.Sdk.TestEvent1",
             subject: "Multiple 2",
             dataVersion: "1.0",
@@ -85,23 +86,22 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (res = response) }
       );
 
-      assert.strictEqual(status, 200);
+      assert.equal(res?.status, 200);
     });
   });
 
   describe("#send error cases (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
-        "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
+    beforeEach(function (this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
         "EventGrid",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
-        true
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
       ));
     });
 
@@ -115,8 +115,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
       try {
         await client.send([
           {
-            eventTime: new Date(recorder.variable("singleEventDate", new Date().toString())),
-            id: recorder.variable("singleEventId", `singleEventId${getRandomNumber()}`),
+            eventTime: recorder.newDate("singleEventDate"),
+            id: recorder.getUniqueName("singleEventId"),
             eventType: "Azure.Sdk.TestEvent1",
             subject: "Single 1",
             dataVersion: "1.0",
@@ -138,14 +138,13 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send (CloudEvent schema)", function () {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
+    beforeEach(function (this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
         "CloudEvent",
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY"
+        new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
       ));
-      await recorder.setMatcher("HeaderlessMatcher");
     });
 
     afterEach(async function () {
@@ -153,35 +152,31 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     it("sends a single event", async () => {
-      let status: number | undefined;
-
       await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudSingleEventId", `cloudSingleEventId${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudSingleEventDate", new Date().toString())),
+            id: recorder.getUniqueName("cloudSingleEventId"),
+            time: recorder.newDate("cloudSingleEventDate"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             data: {
               hello: "world",
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (res = response) }
       );
 
-      assert.strictEqual(status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("sends multiple events", async () => {
-      let status: number | undefined;
-
       await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudMultiEventId1", `cloudMultiEventId1${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudMultiEventDate1", new Date().toString())),
+            id: recorder.getUniqueName("cloudMultiEventId1"),
+            time: recorder.newDate("cloudMultiEventDate1"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             subject: "Multiple 1",
             data: {
@@ -190,8 +185,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
           },
           {
             type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudMultiEventId2", `cloudMultiEventId2${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudMultiEventDate2", new Date().toString())),
+            id: recorder.getUniqueName("cloudMultiEventId2"),
+            time: recorder.newDate("cloudMultiEventDate2"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             subject: "Multiple 2",
             data: {
@@ -199,23 +194,21 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (res = response) }
       );
 
-      assert.strictEqual(status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("enriches events with distributed tracing information", async () => {
-      let requestBody: string | undefined;
-
       const tracer = setTracer();
       const rootSpan = tracer.startSpan("root");
       await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudTracingEventId", `cloudTracingEventId${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
+            id: recorder.getUniqueName("cloudTracingEventId"),
+            time: recorder.newDate("cloudTracingEventDate"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             subject: "Single with Trace Parent",
             data: {
@@ -227,13 +220,13 @@ describe("EventGridPublisherClient", function (this: Suite) {
           tracingOptions: {
             tracingContext: setSpan(context.active(), rootSpan),
           },
-          onResponse: (response) => (requestBody = response.request.body as string),
+          onResponse: (response) => (res = response),
         }
       );
 
       rootSpan.end();
 
-      const parsedBody = JSON.parse(requestBody || "");
+      const parsedBody = JSON.parse(res?.request.body as string);
 
       assert.isArray(parsedBody);
       assert.equal(
@@ -254,13 +247,12 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send error cases (CloudEvent schema)", function () {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
+    beforeEach(function (this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
         "CloudEvent",
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
-        true
+        new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
       ));
     });
 
@@ -275,8 +267,8 @@ describe("EventGridPublisherClient", function (this: Suite) {
         await client.send([
           {
             type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudSingleEventId", `cloudSingleEventId${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudSingleEventDate", new Date().toString())),
+            id: recorder.getUniqueName("cloudSingleEventId"),
+            time: recorder.newDate("cloudSingleEventDate"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             data: {
               hello: "world",
@@ -295,12 +287,12 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send (Custom Event Schema)", function () {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
-        "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
+    beforeEach(function (this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
         "Custom",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY"
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
       ));
     });
 
@@ -309,8 +301,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
 
     it("sends a single event", async () => {
-      let status: number | undefined;
-
       await client.send(
         [
           {
@@ -322,15 +312,13 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (res = response) }
       );
 
-      assert.strictEqual(status, 200);
+      assert.equal(res?.status, 200);
     });
 
     it("sends multiple events", async () => {
-      let status: number | undefined;
-
       await client.send(
         [
           {
@@ -350,23 +338,22 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (res = response) }
       );
 
-      assert.strictEqual(status, 200);
+      assert.equal(res?.status, 200);
     });
   });
 
   describe("#send error cases (Custom Event Schema)", function () {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
-        "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
+    beforeEach(function (this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
         "Custom",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
-        true
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
       ));
     });
 
@@ -398,3 +385,13 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
   });
 });
+
+function removeApiEventsSuffix(endpoint: string): string {
+  const suffix = "/api/events";
+
+  if (!endpoint.endsWith(suffix)) {
+    throw new Error(`${endpoint} does not end with ${suffix}`);
+  }
+
+  return endpoint.substring(0, endpoint.length - suffix.length);
+}

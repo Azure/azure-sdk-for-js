@@ -26,7 +26,7 @@ param (
     [string] $SubscriptionId,
 
     [Parameter()]
-    [ValidateRange(1, 7*24)]
+    [ValidateRange(1, [int]::MaxValue)]
     [int] $DeleteAfterHours = 48
 )
 

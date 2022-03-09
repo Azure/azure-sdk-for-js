@@ -9,14 +9,13 @@ import { isNode } from "@azure/core-util";
 import sinon from "sinon";
 import { CommunicationIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
-import { CommunicationUserToken } from "@azure/communication-identity";
 
 describe("ChatClient", function () {
   let threadId: string | undefined;
   let recorder: Recorder;
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
-  let communicationUserToken: CommunicationUserToken;
+
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
 
@@ -27,22 +26,23 @@ describe("ChatClient", function () {
   });
 
   describe("Chat Operations", function () {
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
-      await recorder.setMatcher("HeaderlessMatcher");
-      if (!communicationUserToken) {
-        communicationUserToken = await createTestUser(recorder);
-      }
-      chatClient = createChatClient(communicationUserToken.token, recorder);
+    beforeEach(function (this: Context) {
+      recorder = createRecorder(this);
     });
 
-    afterEach(async function () {
-      await recorder.stop();
+    afterEach(async function (this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
     });
 
     it("successfully creates a thread", async function () {
+      const communicationUserToken = await createTestUser();
+
       testUser = communicationUserToken.user;
-      testUser2 = (await createTestUser(recorder)).user;
+      chatClient = createChatClient(communicationUserToken.token);
+
+      testUser2 = (await createTestUser()).user;
 
       const request = { topic: "test topic" };
       const options = {
@@ -61,7 +61,7 @@ describe("ChatClient", function () {
     }).timeout(8000);
 
     it("successfully retrieves a thread client", async function () {
-      chatThreadClient = chatClient.getChatThreadClient(threadId!);
+      chatThreadClient = await chatClient.getChatThreadClient(threadId!);
       assert.isNotNull(chatThreadClient);
       assert.equal(chatThreadClient.threadId, threadId);
     });

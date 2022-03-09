@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { GeneralDocumentResult } from "./GeneralDocumentResult";
+export { GenericDocumentResult } from "./GenericDocumentResult";
 export { LayoutResult } from "./LayoutResult";
-export { ReadResult } from "./ReadResult";
 
 export {
   DocumentPhoneNumberField,
@@ -19,6 +18,5 @@ export {
   DocumentValueField,
   DocumentSelectionMarkField,
   DocumentSignatureField,
-  DocumentCurrencyField,
   DocumentField,
 } from "./fields";

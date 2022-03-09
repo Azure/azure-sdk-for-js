@@ -7,7 +7,6 @@ import {
   serialize,
   serializeSignedIdentifiers,
 } from "../../src/serialization";
-
 import { Edm } from "../../src";
 import { assert } from "chai";
 import { isNode8 } from "@azure/test-utils";

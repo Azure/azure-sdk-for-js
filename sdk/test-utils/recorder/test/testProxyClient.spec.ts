@@ -9,7 +9,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env, Recorder } from "../src";
-import { createRecordingRequest } from "../src/utils/createRecordingRequest";
 import { getTestMode, isLiveMode, RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 const testRedirectedRequest = (
@@ -276,13 +275,10 @@ describe("TestProxyClient functions", () => {
     });
   });
 
-  describe("createRecordingRequest", () => {
-    it("createRecordingRequest adds the recording-file and recording-id headers", () => {
-      const returnedRequest = createRecordingRequest(
-        initialRequest.url,
-        client["sessionFile"],
-        client.recordingId
-      );
+  describe("_createRecordingRequest", () => {
+    it("_createRecordingRequest adds the recording-file and recording-id headers", () => {
+      client.recordingId = "dummy-recording-id";
+      const returnedRequest = client["_createRecordingRequest"](initialRequest.url);
       expect(returnedRequest.url).to.equal(initialRequest.url);
       expect(returnedRequest.method).to.equal("POST");
       expect(returnedRequest.body).not.to.be.undefined;

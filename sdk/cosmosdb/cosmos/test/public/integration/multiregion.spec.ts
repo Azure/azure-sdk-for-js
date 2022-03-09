@@ -3,7 +3,7 @@
 import assert from "assert";
 import { Suite } from "mocha";
 
-import { CosmosClient, RequestContext } from "../../../src";
+import { CosmosClient } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
 
@@ -127,11 +127,9 @@ describe("Multi-region tests", function (this: Suite) {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context: RequestContext) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
-          if (context.endpoint) {
-            lastEndpointCalled = context.endpoint;
-          }
+          lastEndpointCalled = context.endpoint;
           requestIndex++;
           if (response.code > 400) {
             throw response;
@@ -170,11 +168,9 @@ describe("Multi-region tests", function (this: Suite) {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context: RequestContext) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
-          if (context.endpoint) {
-            lastEndpointCalled = context.endpoint;
-          }
+          lastEndpointCalled = context.endpoint;
           requestIndex++;
           if (response.code > 400) {
             throw response;

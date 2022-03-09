@@ -7,7 +7,6 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
-import { HttpHeaders } from "@azure/core-rest-pipeline";
 
 import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
 import { Context } from "mocha";
@@ -15,17 +14,6 @@ import { Context } from "mocha";
 const options = {
   onResponse: (rawResponse: { status: number }) => {
     assert.equal(rawResponse.status, 204);
-  },
-};
-
-let xMsErrorCodeHeader: string | undefined = undefined;
-const errorOptions = {
-  onResponse: (rawResponse: { headers: HttpHeaders }) => {
-    const curr = rawResponse.headers.get("x-ms-error-code");
-    if (curr === undefined) {
-      assert.fail(`Expected header x-ms-error-code to be part of the respond but it is not found`);
-    }
-    xMsErrorCodeHeader = curr;
   },
 };
 
@@ -44,32 +32,29 @@ function assertIsValidSchema(schema: Schema, expectedSerializationType = "Avro")
 
 async function isRejected<T>(
   promise: Promise<T>,
-  expectations: {
-    messagePattern?: RegExp;
-    statusCode?: number;
-    errorCode?: string;
-  }
+  expectedStatusCode: number | undefined,
+  expectedMessage: RegExp
 ): Promise<void> {
   try {
     await promise;
   } catch (e) {
-    const { messagePattern, errorCode, statusCode } = expectations;
-    if (messagePattern !== undefined) {
-      assert.match(e.message, messagePattern);
-    } else {
-      // should not happen ever
-      assert.isUndefined(e.message);
-    }
-    if (statusCode !== undefined) {
-      assert.equal(e.statusCode, statusCode);
-    } else {
-      assert.isUndefined(e.statusCode);
-    }
-    if (errorCode !== undefined) {
-      assert.equal(e.code, errorCode);
-      assert.equal(xMsErrorCodeHeader, errorCode);
-    } else {
-      assert.isUndefined(e.code);
+    assert.equal(e.statusCode, expectedStatusCode);
+    assert.match(e.message, expectedMessage);
+    /**
+     * The SDK does not currently parse the error response body because it
+     * does not have a compliant error codes yet. The SDK will start to parse
+     * them once the codes become compliant text that follows:
+     *
+     * "Unlocalized string which can be used to programmatically identify the
+     * error.The code should be Pascal-cased, and should serve to uniquely
+     * identify a particular class of error, for example "BadArgument"."
+     *
+     * Right now, the service returns the response status code in the Code field.
+     */
+    assert.isUndefined(e.code);
+    assert.isUndefined(e.Code);
+    if (expectedStatusCode !== undefined) {
+      assert.equal(JSON.parse(e.message).Code, e.statusCode);
     }
   }
 }
@@ -118,23 +103,11 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("rejects schema registration with invalid args", async () => {
-    await isRejected(client.registerSchema({ ...schema, name: null! }), { messagePattern: /null/ });
-    await isRejected(client.registerSchema({ ...schema, groupName: null! }), {
-      messagePattern: /null/,
-    });
-    await isRejected(client.registerSchema({ ...schema, definition: null! }), {
-      messagePattern: /null/,
-    });
-    await isRejected(client.registerSchema({ ...schema, format: null! }, errorOptions), {
-      messagePattern: /null/,
-      statusCode: 415,
-      errorCode: "InvalidSchemaType",
-    });
-    await isRejected(client.registerSchema({ ...schema, format: "not-valid" }, errorOptions), {
-      statusCode: 415,
-      messagePattern: /not-valid/,
-      errorCode: "InvalidSchemaType",
-    });
+    await isRejected(client.registerSchema({ ...schema, name: null! }), undefined, /null/);
+    await isRejected(client.registerSchema({ ...schema, groupName: null! }), undefined, /null/);
+    await isRejected(client.registerSchema({ ...schema, definition: null! }), undefined, /null/);
+    await isRejected(client.registerSchema({ ...schema, format: null! }), 415, /null/);
+    await isRejected(client.registerSchema({ ...schema, format: "not-valid" }), 415, /not-valid/);
   });
 
   it("registers schema", async () => {
@@ -143,35 +116,30 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("fails to get schema ID when given invalid args", async () => {
-    await isRejected(client.getSchemaProperties({ ...schema, name: null! }), {
-      messagePattern: /null/,
-    });
-    await isRejected(client.getSchemaProperties({ ...schema, groupName: null! }), {
-      messagePattern: /null/,
-    });
-    await isRejected(client.getSchemaProperties({ ...schema, definition: null! }), {
-      messagePattern: /null/,
-    });
-    await isRejected(client.getSchemaProperties({ ...schema, format: null! }, errorOptions), {
-      statusCode: 415,
-      messagePattern: /null/,
-      errorCode: "InvalidSchemaType",
-    });
-    await isRejected(client.getSchemaProperties({ ...schema, format: "not-valid" }, errorOptions), {
-      statusCode: 415,
-      messagePattern: /not-valid/,
-      errorCode: "InvalidSchemaType",
-    });
+    await isRejected(client.getSchemaProperties({ ...schema, name: null! }), undefined, /null/);
+    await isRejected(
+      client.getSchemaProperties({ ...schema, groupName: null! }),
+      undefined,
+      /null/
+    );
+    await isRejected(
+      client.getSchemaProperties({ ...schema, definition: null! }),
+      undefined,
+      /null/
+    );
+    await isRejected(client.getSchemaProperties({ ...schema, format: null! }), 415, /null/);
+    await isRejected(
+      client.getSchemaProperties({ ...schema, format: "not-valid" }),
+      415,
+      /not-valid/
+    );
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
     await isRejected(
-      client.getSchemaProperties({ ...schema, name: "never-registered" }, errorOptions),
-      {
-        statusCode: 404,
-        messagePattern: /does not exist/,
-        errorCode: "ItemNotFound",
-      }
+      client.getSchemaProperties({ ...schema, name: "never-registered" }),
+      404,
+      /does not exist/
     );
   });
 
@@ -186,15 +154,11 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("fails to get schema by ID when given invalid ID", async () => {
-    await isRejected(client.getSchema(null!), { messagePattern: /null/ });
+    await isRejected(client.getSchema(null!), undefined, /null/);
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    await isRejected(client.getSchema("ffffffffffffffffffffffffffffffff", errorOptions), {
-      statusCode: 404,
-      messagePattern: /does not exist/,
-      errorCode: "ItemNotFound",
-    });
+    await isRejected(client.getSchema("ffffffffffffffffffffffffffffffff"), 404, /does not exist/);
   });
 
   it("gets schema by ID", async () => {

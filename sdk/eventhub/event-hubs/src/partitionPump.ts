@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
+import { Link, Span, SpanKind, SpanStatusCode } from "@azure/core-tracing";
 import { logErrorStackTrace, logger } from "./log";
 import { AbortController } from "@azure/abort-controller";
 import { CloseReason } from "./models/public";
@@ -11,9 +11,10 @@ import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
+import { OperationOptions } from "./util/operationOptions";
 import { PartitionProcessor } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
+import { createEventHubSpan } from "./diagnostics/tracing";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 
 /**
@@ -130,12 +131,13 @@ export class PartitionPump {
           lastSeenSequenceNumber = receivedEvents[receivedEvents.length - 1].sequenceNumber;
         }
 
-        await tracingClient.withSpan(
-          "PartitionPump.process",
-          {},
-          () => this._partitionProcessor.processEvents(receivedEvents),
-          toProcessingSpanOptions(receivedEvents, this._context.config)
+        const span = createProcessingSpan(
+          receivedEvents,
+          this._context.config,
+          this._processorOptions
         );
+
+        await trace(() => this._partitionProcessor.processEvents(receivedEvents), span);
       } catch (err) {
         // check if this pump is still receiving
         // it may not be if the EventProcessor was stopped during processEvents
@@ -206,25 +208,50 @@ export class PartitionPump {
 /**
  * @internal
  */
-export function toProcessingSpanOptions(
+export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">
-): TracingSpanOptions {
-  const spanLinks: TracingSpanLink[] = [];
+  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">,
+  options?: OperationOptions
+): Span {
+  const links: Link[] = [];
+
   for (const receivedEvent of receivedEvents) {
-    const tracingContext = extractSpanContextFromEventData(receivedEvent);
-    if (tracingContext) {
-      spanLinks.push({
-        tracingContext,
-        attributes: {
-          enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime(),
-        },
-      });
+    const spanContext = extractSpanContextFromEventData(receivedEvent);
+
+    if (spanContext == null) {
+      continue;
     }
+
+    links.push({
+      context: spanContext,
+      attributes: {
+        enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime(),
+      },
+    });
   }
-  return {
-    spanLinks,
-    spanKind: "consumer",
-    ...toSpanOptions(eventHubProperties),
-  };
+
+  const { span } = createEventHubSpan("process", options, eventHubProperties, {
+    kind: SpanKind.CONSUMER,
+    links,
+  });
+
+  return span;
+}
+
+/**
+ * @internal
+ */
+export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
+  try {
+    await fn();
+    span.setStatus({ code: SpanStatusCode.OK });
+  } catch (err) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: err.message,
+    });
+    throw err;
+  } finally {
+    span.end();
+  }
 }

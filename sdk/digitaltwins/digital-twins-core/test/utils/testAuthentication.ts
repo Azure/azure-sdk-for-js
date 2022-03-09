@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ClientSecretCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
-import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function authenticate(that: Mocha.Context): Promise<any> {
   const keySuffix = uniqueString();
@@ -25,7 +25,11 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
     queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
-  const credential = createTestCredential();
+  const credential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
   const AZURE_DIGITALTWINS_URL = env.AZURE_DIGITALTWINS_URL;
   const client = new DigitalTwinsClient(AZURE_DIGITALTWINS_URL, credential);
   const testClient = new TestClient(client);

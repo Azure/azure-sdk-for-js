@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/564d0137d08defea63d9de2413ef5336fbfe2e6d/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/60723d13309c8f8060d020a7f3dd9d6e380f0bbd/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-02-12/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.9.0-beta.5
+package-version: 12.9.0-beta.3
 ```
 
 ## Customizations for Track 2 Generator

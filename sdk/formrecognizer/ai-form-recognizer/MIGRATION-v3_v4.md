@@ -263,7 +263,7 @@ The previous `FormRecognizerClient` class and new `DocumentAnalysisClient` class
   - `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl`
   - `beginRecognizeIdentityDocuments` and `beginRecognizeIdentityDocumentsFromUrl`
 - `beginExtractLayout`, which replaces `beginRecognizeContent` and `beginRecognizeContentFromUrl`
-- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts), as it is not quite the same as using an unlabeled custom model.
+- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGenericDocument.ts), as it is not quite the same as using an unlabeled custom model.
 
 All of these methods produce `AnalyzeResult`, `LayoutResult`, and `GenericDocumentResult` types respectively. Please see the section above about these types for more information.
 

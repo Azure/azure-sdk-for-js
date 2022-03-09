@@ -413,7 +413,7 @@ export const StorageDirectoryDeletedEventData: coreClient.CompositeMapper = {
         serializedName: "recursive",
         required: true,
         type: {
-          name: "String"
+          name: "Boolean"
         }
       },
       sequencer: {
@@ -859,8 +859,8 @@ export const EventHubCaptureFileCreatedEventData: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EventHubCaptureFileCreatedEventData",
     modelProperties: {
-      fileUrl: {
-        serializedName: "fileUrl",
+      fileurl: {
+        serializedName: "fileurl",
         required: true,
         type: {
           name: "String"
@@ -2734,8 +2734,7 @@ export const MediaJobError: coreClient.CompositeMapper = {
             "UploadTransientError",
             "ConfigurationUnsupported",
             "ContentMalformed",
-            "ContentUnsupported",
-            "IdentityUnsupported"
+            "ContentUnsupported"
           ]
         }
       },
@@ -2758,8 +2757,7 @@ export const MediaJobError: coreClient.CompositeMapper = {
             "Download",
             "Upload",
             "Configuration",
-            "Content",
-            "Account"
+            "Content"
           ]
         }
       },

@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
@@ -215,7 +215,18 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, secretValue, {
       enabled: false,
     });
-    await assert.isRejected(client.getSecret(secretName), /not allowed on a disabled secret/);
+    let error;
+    try {
+      await client.getSecret(secretName);
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(
+      error.message,
+      "Operation get is not allowed on a disabled secret.",
+      "Unexpected error after trying to get a disabled secret"
+    );
   });
 
   it("can retrieve the latest version of a secret value", async function (this: Context) {

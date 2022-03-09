@@ -27,13 +27,12 @@ export interface BreezeResponse {
  */
 export function isRetriable(statusCode: number): boolean {
   return (
-    statusCode === 206 || // Partial Accept
-    statusCode === 401 || // Unauthorized
-    statusCode === 403 || // Forbidden
+    statusCode === 206 || // Retriable
     statusCode === 408 || // Timeout
-    statusCode === 429 || // Too many requests
+    statusCode === 429 || // Throttle
+    statusCode === 439 || // Quota
     statusCode === 500 || // Server Error
-    statusCode === 503 // Server Unavailable
+    statusCode === 503 // Server Unavilable
   );
 }
 

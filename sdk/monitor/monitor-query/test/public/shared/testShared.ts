@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { createTestCredential } from "@azure-tools/test-credential";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { ClientSecretCredential } from "@azure/identity";
+import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
@@ -9,17 +9,13 @@ import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 
-const envSetupForPlayback: Record<string, string> = {
+const replaceableVariables: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "workspace-id",
   METRICS_RESOURCE_ID: "metrics-arm-resource-id",
   MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
   AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-};
-
-const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
@@ -31,43 +27,65 @@ export interface RecorderAndMetricsClient {
   recorder: Recorder;
 }
 
-export const testEnv = new Proxy(envSetupForPlayback, {
+export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
   },
 });
 
-export async function createRecorderAndMetricsClient(
-  recorder: Recorder
-): Promise<RecorderAndMetricsClient> {
-  await recorder.start(recorderOptions);
+export const environmentSetup: RecorderEnvironmentSetup = {
+  // == Recorder Environment Setup == Add the replaceable variables from
+  // above
+  replaceableVariables,
 
-  const client = new MetricsQueryClient(
-    createTestCredential(),
-    recorder.configureClientOptions({})
-  );
+  // We don't use this in the template, but if we had any query parameters
+  // we wished to discard, we could add them here
+  queryParametersToSkip: [],
 
+  // Finally, we need to remove the AAD `access_token` from any requests.
+  // This is very important, as it cannot be removed using environment
+  // variable or query parameter replacement.  The
+  // `customizationsOnRecordings` field allows us to make arbitrary
+  // replacements within recordings.
+  customizationsOnRecordings: [
+    (recording: string): any =>
+      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+  ],
+};
+
+export function createRecorderAndMetricsClient(context: Context): RecorderAndMetricsClient {
+  const recorder = record(context, environmentSetup);
   return {
-    client: client,
-    recorder: recorder,
+    client: new MetricsQueryClient(createTestClientSecretCredential()),
+    recorder,
   };
 }
 
-export async function createRecorderAndLogsClient(
-  recorder: Recorder,
+export function createRecorderAndLogsClient(
+  context: Context,
   retryOptions?: ExponentialRetryPolicyOptions
-): Promise<RecorderAndLogsClient> {
-  await recorder.start(recorderOptions);
-
-  const client = new LogsQueryClient(
-    createTestCredential(),
-    recorder.configureClientOptions({ retryOptions })
-  );
-
+): RecorderAndLogsClient {
+  const recorder = record(context, environmentSetup);
   return {
-    client,
+    client: new LogsQueryClient(createTestClientSecretCredential(), {
+      retryOptions,
+    }),
     recorder,
   };
+}
+
+export function createTestClientSecretCredential(): ClientSecretCredential {
+  if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
+    throw new Error(
+      "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be set to run live tests"
+    );
+  }
+
+  return new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
 }
 
 export function getMonitorWorkspaceId(mochaContext: Pick<Context, "skip">): string {
@@ -99,18 +117,14 @@ export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip
 }
 
 function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: string): string {
-  const envVar = env[variableName];
-
-  if (!envVar) {
+  if (!env[variableName]) {
     console.log(
       `TODO: live tests skipped until test-resources + data population is set up (missing ${variableName} env var).`
     );
     mochaContext.skip();
-
-    throw new Error(`Missing ${variableName} env var`);
   }
 
-  return envVar ?? "";
+  return env[variableName];
 }
 
 export function printLogQueryTables(tables: LogsTable[]): void {

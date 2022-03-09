@@ -1,1 +1,0 @@
-This is the folder for all of the Node.js tests for the `parser` folder.

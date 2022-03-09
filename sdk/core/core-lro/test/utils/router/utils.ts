@@ -7,7 +7,6 @@ import {
   PipelineResponse,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { Processor } from "./paramRoutes";
 
 export function buildResponse(
   request: PipelineRequest,
@@ -41,10 +40,10 @@ export function buildProcessMultipleRequests(
 
 export function applyScenarios(
   request: PipelineRequest,
-  scenarios: Processor[]
+  scenarios: ((request: PipelineRequest) => PipelineResponse | undefined)[]
 ): PipelineResponse | undefined {
   for (const scenario of scenarios) {
-    const response = scenario.process(request);
+    const response = scenario(request);
     if (response) {
       return response;
     }

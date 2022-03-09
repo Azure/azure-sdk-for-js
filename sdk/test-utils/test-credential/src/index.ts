@@ -5,12 +5,6 @@ import { ClientSecretCredential, TokenCredentialOptions } from "@azure/identity"
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
 
-export interface CreateTestCredentialOptions {
-  tenantId?: string;
-  clientId?: string;
-  clientSecret?: string;
-}
-
 /**
  * ## Credential to be used in the tests.
  *
@@ -21,17 +15,14 @@ export interface CreateTestCredentialOptions {
  *  - returns the ClientSecretCredential (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
  *  - AAD traffic won't be recorded if this credential is used.
  */
-export function createTestCredential(
-  tokenCredentialOptions?: TokenCredentialOptions,
-  createTestCredentialOptions?: CreateTestCredentialOptions
-) {
+export function createTestCredential(options?: TokenCredentialOptions) {
   return isPlaybackMode()
     ? new NoOpCredential()
     : new ClientSecretCredential(
-        createTestCredentialOptions?.tenantId ?? env["AZURE_TENANT_ID"],
-        createTestCredentialOptions?.clientId ?? env["AZURE_CLIENT_ID"],
-        createTestCredentialOptions?.clientSecret ?? env["AZURE_CLIENT_SECRET"],
-        tokenCredentialOptions
+        env["AZURE_TENANT_ID"],
+        env["AZURE_CLIENT_ID"],
+        env["AZURE_CLIENT_SECRET"],
+        options
       );
 }
 

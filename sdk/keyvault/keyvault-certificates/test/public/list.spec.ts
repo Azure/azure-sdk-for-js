@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import chai from "chai";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
+import TestClient from "../utils/testClient";
+
+const { expect } = chai;
 
 describe("Certificates client - list certificates in various ways", () => {
   const prefix = `list${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -232,7 +235,7 @@ describe("Certificates client - list certificates in various ways", () => {
     results.sort(comp);
     versions.sort(comp);
 
-    assert.deepEqual(results, versions);
+    expect(results).to.deep.equal(versions);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers only

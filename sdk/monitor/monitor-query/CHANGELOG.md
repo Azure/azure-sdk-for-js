@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.1 (Unreleased)
 
 ### Features Added
 
@@ -8,13 +8,9 @@
 
 ### Bugs Fixed
 
-### Other Changes
-
-## 1.0.1 (2022-02-10)
-
-### Bugs Fixed
-
 - Fixed the `timeInterval` field of `MetricsQueryResult` object to correctly return all the fields of `QueryTimeInterval`.
+
+### Other Changes
 
 ## 1.0.0 (2021-10-07)
 

@@ -277,18 +277,6 @@ export interface ActiveDirectory {
   allowLocalNfsUsersWithLdap?: boolean;
   /** If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted. */
   encryptDCConnections?: boolean;
-  /** LDAP Search scope options */
-  ldapSearchScope?: LdapSearchScopeOpt;
-}
-
-/** LDAP search scope */
-export interface LdapSearchScopeOpt {
-  /** This specifies the user DN, which overrides the base DN for user lookups. */
-  userDN?: string;
-  /** This specifies the group DN, which overrides the base DN for group lookups. */
-  groupDN?: string;
-  /** This specifies the custom LDAP search filter to be used when looking up group membership from LDAP server. */
-  groupMembershipFilter?: string;
 }
 
 /** Encryption settings */
@@ -378,16 +366,11 @@ export interface CapacityPool {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
   /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
    * UUID v4 used to identify the Pool
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly poolId?: string;
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 4398046511104). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104). */
   size: number;
   /** The service level of the file system */
   serviceLevel: ServiceLevel;
@@ -435,7 +418,7 @@ export interface CapacityPoolPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 4398046511104). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104). */
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
@@ -475,11 +458,6 @@ export interface Volume {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * Unique FileSystem Identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -570,11 +548,6 @@ export interface Volume {
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
   defaultGroupQuotaInKiBs?: number;
   /**
-   * Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumNumberOfFiles?: number;
-  /**
    * Volume Group Name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -592,8 +565,6 @@ export interface Volume {
   volumeSpecName?: string;
   /** Application specific placement rules for the particular volume */
   placementRules?: PlacementKeyValuePairs[];
-  /** Flag indicating whether subvolume operations are enabled on the volume */
-  enableSubvolumes?: EnableSubvolumes;
 }
 
 /** Set of export policy rules */
@@ -741,8 +712,6 @@ export interface VolumePatch {
   defaultUserQuotaInKiBs?: number;
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
   defaultGroupQuotaInKiBs?: number;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string;
 }
 
 /** Set of export policy rules */
@@ -839,14 +808,6 @@ export interface Snapshot {
   readonly provisioningState?: string;
 }
 
-/** Restore payload for Single File Snapshot Restore */
-export interface SnapshotRestoreFiles {
-  /** List of files to be restored */
-  filePaths: string[];
-  /** Destination folder where the files will be restored */
-  destinationPath?: string;
-}
-
 /** List of Snapshot Policies */
 export interface SnapshotPoliciesList {
   /** A list of snapshot policies */
@@ -879,11 +840,6 @@ export interface SnapshotPolicy {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Schedule for hourly snapshots */
   hourlySchedule?: HourlySchedule;
   /** Schedule for daily snapshots */
@@ -1217,11 +1173,6 @@ export interface BackupPolicy {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
   /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
    * Backup Policy Resource ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1534,11 +1485,6 @@ export interface VolumeGroupVolumeProperties {
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
   defaultGroupQuotaInKiBs?: number;
   /**
-   * Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumNumberOfFiles?: number;
-  /**
    * Volume Group Name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1556,63 +1502,6 @@ export interface VolumeGroupVolumeProperties {
   volumeSpecName?: string;
   /** Application specific placement rules for the particular volume */
   placementRules?: PlacementKeyValuePairs[];
-  /** Flag indicating whether subvolume operations are enabled on the volume */
-  enableSubvolumes?: EnableSubvolumes;
-}
-
-/** List of Subvolumes */
-export interface SubvolumesList {
-  /** A list of Subvolumes */
-  value?: SubvolumeInfo[];
-  /** URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** Subvolume Patch Request properties */
-export interface SubvolumePatchRequest {
-  /** Truncate subvolume to the provided size in bytes */
-  size?: number;
-  /** path to the subvolume */
-  path?: string;
-}
-
-/** Result of the post subvolume and action is to get metadata of the subvolume. */
-export interface SubvolumeModel {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Path to the subvolume */
-  path?: string;
-  /** Path to the parent subvolume */
-  parentPath?: string;
-  /** Size of subvolume */
-  size?: number;
-  /** Bytes used */
-  bytesUsed?: number;
-  /** Permissions of the subvolume */
-  permissions?: string;
-  /** Creation time and date */
-  creationTimeStamp?: Date;
-  /** Most recent access time and date */
-  accessedTimeStamp?: Date;
-  /** Most recent modification time and date */
-  modifiedTimeStamp?: Date;
-  /** Most recent change time and date */
-  changedTimeStamp?: Date;
-  /** Azure lifecycle management */
-  provisioningState?: string;
 }
 
 /** Identity for the resource. */
@@ -1777,26 +1666,6 @@ export type SubscriptionQuotaItem = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly default?: number;
-};
-
-/** Subvolume Information properties */
-export type SubvolumeInfo = ProxyResource & {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Path to the subvolume */
-  path?: string;
-  /** Truncate subvolume to the provided size in bytes */
-  size?: number;
-  /** parent path to the subvolume */
-  parentPath?: string;
-  /**
-   * Azure lifecycle management
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
 };
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
@@ -2099,24 +1968,6 @@ export enum KnownAvsDataStore {
  */
 export type AvsDataStore = string;
 
-/** Known values of {@link EnableSubvolumes} that the service accepts. */
-export enum KnownEnableSubvolumes {
-  /** subvolumes are enabled */
-  Enabled = "Enabled",
-  /** subvolumes are not enabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for EnableSubvolumes. \
- * {@link KnownEnableSubvolumes} can be used interchangeably with EnableSubvolumes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: subvolumes are enabled \
- * **Disabled**: subvolumes are not enabled
- */
-export type EnableSubvolumes = string;
-
 /** Known values of {@link RelationshipStatus} that the service accepts. */
 export enum KnownRelationshipStatus {
   Idle = "Idle",
@@ -2383,8 +2234,6 @@ export type VolumesUpdateResponse = Volume;
 /** Optional parameters. */
 export interface VolumesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** An option to force delete the volume. Will cleanup resources connected to the particular volume */
-  forceDelete?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2510,15 +2359,6 @@ export type SnapshotsUpdateResponse = Snapshot;
 
 /** Optional parameters. */
 export interface SnapshotsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SnapshotsRestoreFilesOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2747,72 +2587,6 @@ export interface VolumeGroupsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface SubvolumesListByVolumeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByVolume operation. */
-export type SubvolumesListByVolumeResponse = SubvolumesList;
-
-/** Optional parameters. */
-export interface SubvolumesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SubvolumesGetResponse = SubvolumeInfo;
-
-/** Optional parameters. */
-export interface SubvolumesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type SubvolumesCreateResponse = SubvolumeInfo;
-
-/** Optional parameters. */
-export interface SubvolumesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type SubvolumesUpdateResponse = SubvolumeInfo;
-
-/** Optional parameters. */
-export interface SubvolumesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SubvolumesGetMetadataOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the getMetadata operation. */
-export type SubvolumesGetMetadataResponse = SubvolumeModel;
-
-/** Optional parameters. */
-export interface SubvolumesListByVolumeNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByVolumeNext operation. */
-export type SubvolumesListByVolumeNextResponse = SubvolumesList;
 
 /** Optional parameters. */
 export interface NetAppManagementClientOptionalParams

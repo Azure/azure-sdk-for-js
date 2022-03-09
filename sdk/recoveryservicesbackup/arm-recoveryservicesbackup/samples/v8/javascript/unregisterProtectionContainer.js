@@ -14,7 +14,7 @@ whether the backend service has finished processing the request, call Get Contai
  *
  * @summary Unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
 whether the backend service has finished processing the request, call Get Container Operation Result API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureWorkload/ProtectionContainers_Unregister.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureWorkload/ProtectionContainers_Unregister.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

@@ -7,9 +7,6 @@ trigger:
   paths:
     include:
       - sdk/communication/
-    exclude:
-      - sdk/communication/ci.mgmt.yml
-      - sdk/communication/arm-communication
 pr:
   branches:
     include:
@@ -22,10 +19,6 @@ pr:
   paths:
     include:
       - sdk/communication/
-    exclude:
-      - sdk/communication/ci.mgmt.yml
-      - sdk/communication/arm-communication
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -45,3 +38,5 @@ extends:
         safeName: azurecommunicationnetworktraversal
       - name: azure-tools-communication-short-codes
         safeName: azuretoolscommunicationshortcodes
+      - name: azure-arm-communication
+        safeName: azurearmcommunication

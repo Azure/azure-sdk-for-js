@@ -1,4 +1,8 @@
 {
-  "Entries": [],
-  "Variables": {}
+ "recordings": [],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "67de71eb416e0c43fe8450efc48278fb"
 }

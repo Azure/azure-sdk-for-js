@@ -420,7 +420,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.privateEndpointConnectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

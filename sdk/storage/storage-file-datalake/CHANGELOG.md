@@ -8,9 +8,6 @@
 
 ### Bugs Fixed
 
-- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `DataLakeServiceClient` with connection string.
-- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
-
 ### Other Changes
 
 ## 12.8.0-beta.1 (2021-11-09)

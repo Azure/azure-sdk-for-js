@@ -135,28 +135,6 @@ export interface AcceptedAudiences {
   value?: string;
 }
 
-/** Private endpoint which the connection belongs to. */
-export interface PrivateEndpointProperty {
-  /**
-   * Resource id of the private endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Connection State of the Private Endpoint Connection. */
-export interface PrivateLinkServiceConnectionStateProperty {
-  /** The private link service connection status. */
-  status?: string;
-  /** The private link service connection description. */
-  description?: string;
-  /**
-   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionsRequired?: string;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -432,6 +410,28 @@ export interface PrivateEndpointConnectionListResult {
   value?: PrivateEndpointConnection[];
 }
 
+/** Private endpoint which the connection belongs to. */
+export interface PrivateEndpointProperty {
+  /**
+   * Resource id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Connection State of the Private Endpoint Connection. */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /** The private link service connection status. */
+  status?: string;
+  /** The private link service connection description. */
+  description?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionsRequired?: string;
+}
+
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
@@ -588,11 +588,6 @@ export interface OperationResult {
   message?: string;
   /** The kind of the operation. */
   operationKind?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
   /** The state of the operation. */
   operationState?: string;
 }
@@ -602,9 +597,6 @@ export interface DatabaseStatistics {
   /** The database size - the total size of compressed data and index in bytes. */
   size?: number;
 }
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -684,16 +676,10 @@ export type ClusterUpdate = Resource & {
   restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
   allowedFqdnList?: string[];
-  /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
-  publicIPType?: PublicIPType;
-  /** Virtual Cluster graduation properties */
-  virtualClusterGraduationProperties?: string;
-  /**
-   * A list of private endpoint connections.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
 
 /** A private link resource */
 export type PrivateLinkResource = Resource & {
@@ -717,200 +703,6 @@ export type PrivateLinkResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
-};
-
-/** A private endpoint connection */
-export type PrivateEndpointConnection = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Private endpoint which the connection belongs to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpoint?: PrivateEndpointProperty;
-  /** Connection State of the Private Endpoint Connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * Group id of the private endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * Provisioning state of the private endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-};
-
-/** Class representing a cluster principal assignment. */
-export type ClusterPrincipalAssignment = ProxyResource & {
-  /** The principal ID assigned to the cluster principal. It can be a user email, application ID, or security group name. */
-  principalId?: string;
-  /** Cluster principal role. */
-  role?: ClusterPrincipalRole;
-  /** The tenant id of the principal */
-  tenantId?: string;
-  /** Principal type. */
-  principalType?: PrincipalType;
-  /**
-   * The tenant name of the principal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantName?: string;
-  /**
-   * The principal name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The service principal object id in AAD (Azure active directory)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aadObjectId?: string;
-};
-
-/** Class representing a Kusto database. */
-export type Database = ProxyResource & {
-  /** Resource location. */
-  location?: string;
-  /** Kind of the database */
-  kind: Kind;
-};
-
-/** Class representing a database principal assignment. */
-export type DatabasePrincipalAssignment = ProxyResource & {
-  /** The principal ID assigned to the database principal. It can be a user email, application ID, or security group name. */
-  principalId?: string;
-  /** Database principal role. */
-  role?: DatabasePrincipalRole;
-  /** The tenant id of the principal */
-  tenantId?: string;
-  /** Principal type. */
-  principalType?: PrincipalType;
-  /**
-   * The tenant name of the principal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantName?: string;
-  /**
-   * The principal name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The service principal object id in AAD (Azure active directory)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aadObjectId?: string;
-};
-
-/** Class representing a database script. */
-export type Script = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The url to the KQL script blob file. Must not be used together with scriptContent property */
-  scriptUrl?: string;
-  /** The SaS token that provide read access to the file which contain the script. Must be provided when using scriptUrl property. */
-  scriptUrlSasToken?: string;
-  /** The script content. This property should be used when the script is provide inline and not through file in a SA. Must not be used together with scriptUrl and scriptUrlSasToken properties. */
-  scriptContent?: string;
-  /** A unique string. If changed the script will be applied again. */
-  forceUpdateTag?: string;
-  /** Flag that indicates whether to continue if one of the command fails. */
-  continueOnErrors?: boolean;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Class representing a managed private endpoint. */
-export type ManagedPrivateEndpoint = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The ARM resource ID of the resource for which the managed private endpoint is created. */
-  privateLinkResourceId?: string;
-  /** The region of the resource to which the managed private endpoint is created. */
-  privateLinkResourceRegion?: string;
-  /** The groupId in which the managed private endpoint is created. */
-  groupId?: string;
-  /** The user request message. */
-  requestMessage?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to. */
-export type OutboundNetworkDependenciesEndpoint = ProxyResource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
-  category?: string;
-  /** The endpoints that the Kusto Service Environment reaches the service at. */
-  endpoints?: EndpointDependency[];
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Class representing an attached database configuration. */
-export type AttachedDatabaseConfiguration = ProxyResource & {
-  /** Resource location. */
-  location?: string;
-  /**
-   * The provisioned state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The name of the database which you would like to attach, use * if you want to follow all current and future databases. */
-  databaseName?: string;
-  /** The resource id of the cluster where the databases you would like to attach reside. */
-  clusterResourceId?: string;
-  /**
-   * The list of databases from the clusterResourceId which are currently attached to the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly attachedDatabaseNames?: string[];
-  /** The default principals modification kind */
-  defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
-  /** Table level sharing specifications */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
-};
-
-/** Class representing an data connection. */
-export type DataConnection = ProxyResource & {
-  /** Resource location. */
-  location?: string;
-  /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
 };
 
 /** Class representing a Kusto cluster. */
@@ -991,15 +783,188 @@ export type Cluster = TrackedResource & {
   restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
   allowedFqdnList?: string[];
-  /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
-  publicIPType?: PublicIPType;
-  /** Virtual Cluster graduation properties */
-  virtualClusterGraduationProperties?: string;
+};
+
+/** Class representing a cluster principal assignment. */
+export type ClusterPrincipalAssignment = ProxyResource & {
+  /** The principal ID assigned to the cluster principal. It can be a user email, application ID, or security group name. */
+  principalId?: string;
+  /** Cluster principal role. */
+  role?: ClusterPrincipalRole;
+  /** The tenant id of the principal */
+  tenantId?: string;
+  /** Principal type. */
+  principalType?: PrincipalType;
   /**
-   * A list of private endpoint connections.
+   * The tenant name of the principal
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing a Kusto database. */
+export type Database = ProxyResource & {
+  /** Resource location. */
+  location?: string;
+  /** Kind of the database */
+  kind: Kind;
+};
+
+/** Class representing a database principal assignment. */
+export type DatabasePrincipalAssignment = ProxyResource & {
+  /** The principal ID assigned to the database principal. It can be a user email, application ID, or security group name. */
+  principalId?: string;
+  /** Database principal role. */
+  role?: DatabasePrincipalRole;
+  /** The tenant id of the principal */
+  tenantId?: string;
+  /** Principal type. */
+  principalType?: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing a database script. */
+export type Script = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The url to the KQL script blob file. */
+  scriptUrl?: string;
+  /** The SaS token. */
+  scriptUrlSasToken?: string;
+  /** A unique string. If changed the script will be applied again. */
+  forceUpdateTag?: string;
+  /** Flag that indicates whether to continue if one of the command fails. */
+  continueOnErrors?: boolean;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing a managed private endpoint. */
+export type ManagedPrivateEndpoint = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The ARM resource ID of the resource for which the managed private endpoint is created. */
+  privateLinkResourceId?: string;
+  /** The region of the resource to which the managed private endpoint is created. */
+  privateLinkResourceRegion?: string;
+  /** The groupId in which the managed private endpoint is created. */
+  groupId?: string;
+  /** The user request message. */
+  requestMessage?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** A private endpoint connection */
+export type PrivateEndpointConnection = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Private endpoint which the connection belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpointProperty;
+  /** Connection State of the Private Endpoint Connection. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * Group id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * Provisioning state of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+};
+
+/** Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to. */
+export type OutboundNetworkDependenciesEndpoint = ProxyResource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
+  category?: string;
+  /** The endpoints that the Kusto Service Environment reaches the service at. */
+  endpoints?: EndpointDependency[];
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing an attached database configuration. */
+export type AttachedDatabaseConfiguration = ProxyResource & {
+  /** Resource location. */
+  location?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The name of the database which you would like to attach, use * if you want to follow all current and future databases. */
+  databaseName?: string;
+  /** The resource id of the cluster where the databases you would like to attach reside. */
+  clusterResourceId?: string;
+  /**
+   * The list of databases from the clusterResourceId which are currently attached to the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly attachedDatabaseNames?: string[];
+  /** The default principals modification kind */
+  defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
+  /** Table level sharing specifications */
+  tableLevelSharingProperties?: TableLevelSharingProperties;
+};
+
+/** Class representing an data connection. */
+export type DataConnection = ProxyResource & {
+  /** Resource location. */
+  location?: string;
+  /** Kind of the endpoint for the data connection */
+  kind: DataConnectionKind;
 };
 
 /** Class representing a read write database. */
@@ -1084,13 +1049,6 @@ export type EventHubDataConnection = DataConnection & {
   readonly provisioningState?: ProvisioningState;
   /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
   managedIdentityResourceId?: string;
-  /**
-   * The object ID of the managedIdentityResourceId
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedIdentityObjectId?: string;
-  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
-  databaseRouting?: DatabaseRouting;
 };
 
 /** Class representing an iot hub data connection. */
@@ -1109,8 +1067,6 @@ export type IotHubDataConnection = DataConnection & {
   eventSystemProperties?: string[];
   /** The name of the share access policy */
   sharedAccessPolicyName?: string;
-  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
-  databaseRouting?: DatabaseRouting;
   /**
    * The provisioned state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1122,8 +1078,6 @@ export type IotHubDataConnection = DataConnection & {
 export type EventGridDataConnection = DataConnection & {
   /** The resource ID of the storage account where the data resides. */
   storageAccountResourceId?: string;
-  /** The resource ID of the event grid that is subscribed to the storage account events. */
-  eventGridResourceId?: string;
   /** The resource ID where the event grid is configured to send events. */
   eventHubResourceId?: string;
   /** The event hub consumer group. */
@@ -1138,15 +1092,6 @@ export type EventGridDataConnection = DataConnection & {
   ignoreFirstRecord?: boolean;
   /** The name of blob storage event type to process. */
   blobStorageEventType?: BlobStorageEventType;
-  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
-  managedIdentityResourceId?: string;
-  /**
-   * The object ID of managedIdentityResourceId
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedIdentityObjectId?: string;
-  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
-  databaseRouting?: DatabaseRouting;
   /**
    * The provisioned state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1154,56 +1099,22 @@ export type EventGridDataConnection = DataConnection & {
   readonly provisioningState?: ProvisioningState;
 };
 
-/** Defines headers for Clusters_update operation. */
-export interface ClustersUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Databases_update operation. */
-export interface DatabasesUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ManagedPrivateEndpoints_update operation. */
-export interface ManagedPrivateEndpointsUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Scripts_update operation. */
-export interface ScriptsUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for DataConnections_update operation. */
-export interface DataConnectionsUpdateHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
-
 /** Known values of {@link AzureSkuName} that the service accepts. */
 export enum KnownAzureSkuName {
-  DevNoSLAStandardD11V2 = "Dev(No SLA)_Standard_D11_v2",
-  DevNoSLAStandardE2AV4 = "Dev(No SLA)_Standard_E2a_v4",
-  StandardD11V2 = "Standard_D11_v2",
-  StandardD12V2 = "Standard_D12_v2",
-  StandardD13V2 = "Standard_D13_v2",
-  StandardD14V2 = "Standard_D14_v2",
-  StandardD32DV4 = "Standard_D32d_v4",
-  StandardD16DV5 = "Standard_D16d_v5",
-  StandardD32DV5 = "Standard_D32d_v5",
   StandardDS13V21TBPS = "Standard_DS13_v2+1TB_PS",
   StandardDS13V22TBPS = "Standard_DS13_v2+2TB_PS",
   StandardDS14V23TBPS = "Standard_DS14_v2+3TB_PS",
   StandardDS14V24TBPS = "Standard_DS14_v2+4TB_PS",
-  StandardL4S = "Standard_L4s",
+  StandardD13V2 = "Standard_D13_v2",
+  StandardD14V2 = "Standard_D14_v2",
   StandardL8S = "Standard_L8s",
   StandardL16S = "Standard_L16s",
   StandardL8SV2 = "Standard_L8s_v2",
   StandardL16SV2 = "Standard_L16s_v2",
+  StandardD11V2 = "Standard_D11_v2",
+  StandardD12V2 = "Standard_D12_v2",
+  StandardL4S = "Standard_L4s",
+  DevNoSLAStandardD11V2 = "Dev(No SLA)_Standard_D11_v2",
   StandardE64IV3 = "Standard_E64i_v3",
   StandardE80IdsV4 = "Standard_E80ids_v4",
   StandardE2AV4 = "Standard_E2a_v4",
@@ -1214,22 +1125,7 @@ export enum KnownAzureSkuName {
   StandardE8AsV42TBPS = "Standard_E8as_v4+2TB_PS",
   StandardE16AsV43TBPS = "Standard_E16as_v4+3TB_PS",
   StandardE16AsV44TBPS = "Standard_E16as_v4+4TB_PS",
-  StandardE8AsV51TBPS = "Standard_E8as_v5+1TB_PS",
-  StandardE8AsV52TBPS = "Standard_E8as_v5+2TB_PS",
-  StandardE16AsV53TBPS = "Standard_E16as_v5+3TB_PS",
-  StandardE16AsV54TBPS = "Standard_E16as_v5+4TB_PS",
-  StandardE2AdsV5 = "Standard_E2ads_v5",
-  StandardE4AdsV5 = "Standard_E4ads_v5",
-  StandardE8AdsV5 = "Standard_E8ads_v5",
-  StandardE16AdsV5 = "Standard_E16ads_v5",
-  StandardE8SV41TBPS = "Standard_E8s_v4+1TB_PS",
-  StandardE8SV42TBPS = "Standard_E8s_v4+2TB_PS",
-  StandardE16SV43TBPS = "Standard_E16s_v4+3TB_PS",
-  StandardE16SV44TBPS = "Standard_E16s_v4+4TB_PS",
-  StandardE8SV51TBPS = "Standard_E8s_v5+1TB_PS",
-  StandardE8SV52TBPS = "Standard_E8s_v5+2TB_PS",
-  StandardE16SV53TBPS = "Standard_E16s_v5+3TB_PS",
-  StandardE16SV54TBPS = "Standard_E16s_v5+4TB_PS"
+  DevNoSLAStandardE2AV4 = "Dev(No SLA)_Standard_E2a_v4"
 }
 
 /**
@@ -1237,24 +1133,20 @@ export enum KnownAzureSkuName {
  * {@link KnownAzureSkuName} can be used interchangeably with AzureSkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Dev(No SLA)_Standard_D11_v2** \
- * **Dev(No SLA)_Standard_E2a_v4** \
- * **Standard_D11_v2** \
- * **Standard_D12_v2** \
- * **Standard_D13_v2** \
- * **Standard_D14_v2** \
- * **Standard_D32d_v4** \
- * **Standard_D16d_v5** \
- * **Standard_D32d_v5** \
  * **Standard_DS13_v2+1TB_PS** \
  * **Standard_DS13_v2+2TB_PS** \
  * **Standard_DS14_v2+3TB_PS** \
  * **Standard_DS14_v2+4TB_PS** \
- * **Standard_L4s** \
+ * **Standard_D13_v2** \
+ * **Standard_D14_v2** \
  * **Standard_L8s** \
  * **Standard_L16s** \
  * **Standard_L8s_v2** \
  * **Standard_L16s_v2** \
+ * **Standard_D11_v2** \
+ * **Standard_D12_v2** \
+ * **Standard_L4s** \
+ * **Dev(No SLA)_Standard_D11_v2** \
  * **Standard_E64i_v3** \
  * **Standard_E80ids_v4** \
  * **Standard_E2a_v4** \
@@ -1265,22 +1157,7 @@ export enum KnownAzureSkuName {
  * **Standard_E8as_v4+2TB_PS** \
  * **Standard_E16as_v4+3TB_PS** \
  * **Standard_E16as_v4+4TB_PS** \
- * **Standard_E8as_v5+1TB_PS** \
- * **Standard_E8as_v5+2TB_PS** \
- * **Standard_E16as_v5+3TB_PS** \
- * **Standard_E16as_v5+4TB_PS** \
- * **Standard_E2ads_v5** \
- * **Standard_E4ads_v5** \
- * **Standard_E8ads_v5** \
- * **Standard_E16ads_v5** \
- * **Standard_E8s_v4+1TB_PS** \
- * **Standard_E8s_v4+2TB_PS** \
- * **Standard_E16s_v4+3TB_PS** \
- * **Standard_E16s_v4+4TB_PS** \
- * **Standard_E8s_v5+1TB_PS** \
- * **Standard_E8s_v5+2TB_PS** \
- * **Standard_E16s_v5+3TB_PS** \
- * **Standard_E16s_v5+4TB_PS**
+ * **Dev(No SLA)_Standard_E2a_v4**
  */
 export type AzureSkuName = string;
 
@@ -1457,22 +1334,6 @@ export enum KnownClusterNetworkAccessFlag {
  * **Disabled**
  */
 export type ClusterNetworkAccessFlag = string;
-
-/** Known values of {@link PublicIPType} that the service accepts. */
-export enum KnownPublicIPType {
-  IPv4 = "IPv4",
-  DualStack = "DualStack"
-}
-
-/**
- * Defines values for PublicIPType. \
- * {@link KnownPublicIPType} can be used interchangeably with PublicIPType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IPv4** \
- * **DualStack**
- */
-export type PublicIPType = string;
 
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
@@ -1733,22 +1594,6 @@ export enum KnownCompression {
  * **GZip**
  */
 export type Compression = string;
-
-/** Known values of {@link DatabaseRouting} that the service accepts. */
-export enum KnownDatabaseRouting {
-  Single = "Single",
-  Multi = "Multi"
-}
-
-/**
- * Defines values for DatabaseRouting. \
- * {@link KnownDatabaseRouting} can be used interchangeably with DatabaseRouting,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Multi**
- */
-export type DatabaseRouting = string;
 
 /** Known values of {@link IotHubDataFormat} that the service accepts. */
 export enum KnownIotHubDataFormat {
@@ -2467,10 +2312,6 @@ export interface OperationsResultsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type OperationsResultsGetResponse = OperationResult;
-
-/** Optional parameters. */
-export interface OperationsResultsLocationGetOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface KustoManagementClientOptionalParams

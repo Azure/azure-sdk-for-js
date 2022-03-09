@@ -44,7 +44,7 @@ export class LiveTokenImpl implements LiveToken {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.Insights/generatelivetoken",
+  path: "/{resourceUri}/providers/microsoft.insights/generatelivetoken",
   httpMethod: "POST",
   responses: {
     200: {

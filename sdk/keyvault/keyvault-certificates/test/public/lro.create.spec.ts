@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
+import TestClient from "../utils/testClient";
 
 describe("Certificates client - LRO - create", () => {
   const certificatePrefix = `lroCreate${env.CERTIFICATE_NAME || "CertificateName"}`;

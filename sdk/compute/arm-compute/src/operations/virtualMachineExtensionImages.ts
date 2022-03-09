@@ -100,9 +100,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtensionImage
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -134,9 +131,6 @@ const listTypesOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -166,9 +160,6 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [

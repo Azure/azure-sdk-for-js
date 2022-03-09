@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTracingClient } from "@azure/core-tracing";
+import { createSpanFunction } from "@azure/core-tracing";
 
 /**
- * A tracing client that can be used to manage spans.
+ * Creates a span using the global tracer.
  * @internal
  */
-export const tracingClient = createTracingClient({
+export const createSpan = createSpanFunction({
+  packagePrefix: "Azure.Data.Tables",
   namespace: "Microsoft.Data.Tables",
-  packageName: "@azure/data-tables",
-  packageVersion: "13.1.0",
 });

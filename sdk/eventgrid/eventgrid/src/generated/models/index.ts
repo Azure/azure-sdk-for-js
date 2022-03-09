@@ -140,7 +140,7 @@ export interface StorageDirectoryDeletedEventData {
   /** The path to the deleted directory. */
   url: string;
   /** Is this event for a recursive delete operation. */
-  recursive: string;
+  recursive: boolean;
   /** An opaque string value representing the logical sequence of events for any particular directory name. Users can use standard string comparison to understand the relative sequence of two events on the same directory name. */
   sequencer: string;
   /** The identity of the requester that triggered this event. */
@@ -280,7 +280,7 @@ export interface StorageBlobInventoryPolicyCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
-  fileUrl: string;
+  fileurl: string;
   /** The file type of the capture file. */
   fileType: string;
   /** The shard ID. */
@@ -2717,16 +2717,14 @@ export type MediaJobErrorCode =
   | "UploadTransientError"
   | "ConfigurationUnsupported"
   | "ContentMalformed"
-  | "ContentUnsupported"
-  | "IdentityUnsupported";
+  | "ContentUnsupported";
 /** Defines values for MediaJobErrorCategory. */
 export type MediaJobErrorCategory =
   | "Service"
   | "Download"
   | "Upload"
   | "Configuration"
-  | "Content"
-  | "Account";
+  | "Content";
 /** Defines values for MediaJobRetry. */
 export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
@@ -2736,10 +2734,7 @@ export interface GeneratedClientPublishEventsOptionalParams
 
 /** Optional parameters. */
 export interface GeneratedClientPublishCloudEventEventsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Required only when publishing to partner namespaces with partner topic routing mode ChannelNameHeader. */
-  aegChannelName?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface GeneratedClientPublishCustomEventEventsOptionalParams

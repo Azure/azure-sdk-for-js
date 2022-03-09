@@ -1,6 +1,6 @@
 # Release History
 
-## 13.1.0 (Unreleased)
+## 13.0.2 (Unreleased)
 
 ### Features Added
 
@@ -8,13 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix issue with `getStatistics()` operation consistently failing and added test. [#20398](https://github.com/Azure/azure-sdk-for-js/pull/20398)
-
 ### Other Changes
-
-- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0-preview.14)
-  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
-  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
 ## 13.0.1 (2022-01-12)
 

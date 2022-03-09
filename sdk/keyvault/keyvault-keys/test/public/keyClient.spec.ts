@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import chai, { assert } from "chai";
+import chaiExclude from "chai-exclude";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiExclude);
+chai.use(chaiAsPromised);
 import { Context } from "mocha";
+import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
 
@@ -17,13 +22,13 @@ import {
   getServiceVersion,
   isPublicCloud,
   onVersions,
-} from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+} from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -282,7 +287,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
-      if (e.name === "RestError") {
+      if (e instanceof RestError) {
         assert.equal(e.code, "KeyNotFound");
         assert.equal(e.statusCode, 404);
       } else {
@@ -313,7 +318,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
-      if (e.name === "RestError") {
+      if (e instanceof RestError) {
         assert.equal(e.code, "KeyNotFound");
         assert.equal(e.statusCode, 404);
       } else {
@@ -602,44 +607,6 @@ describe("Keys client - create, read, update and delete operations", () => {
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
         }),
         /exportable/i
-      );
-    });
-
-    it("errors when updating an immutable release policy", async () => {
-      const keyName = recorder.getUniqueName("immutablerelease");
-      const createdKey = await client.createRsaKey(keyName, {
-        exportable: true,
-        hsm: true,
-        releasePolicy: {
-          encodedPolicy: encodedReleasePolicy,
-          immutable: true,
-        },
-        keyOps: ["encrypt", "decrypt"],
-      });
-
-      const newReleasePolicy = {
-        anyOf: [
-          {
-            anyOf: [
-              {
-                claim: "sdk-test",
-                equals: "false",
-              },
-            ],
-            authority: env.AZURE_KEYVAULT_ATTESTATION_URI,
-          },
-        ],
-        version: "1.0",
-      };
-
-      await assert.isRejected(
-        client.updateKeyProperties(createdKey.name, {
-          releasePolicy: {
-            encodedPolicy: stringToUint8Array(JSON.stringify(newReleasePolicy)),
-            immutable: true,
-          },
-        }),
-        /Immutable Key Release/
       );
     });
   });

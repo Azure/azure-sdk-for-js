@@ -3,7 +3,7 @@
 
 import { GeneratedClient } from "./generated/generatedClient";
 
-import { AttestationResult, AttestationSigner, AttestationTokenValidationOptions } from "./models";
+import { AttestationSigner, AttestationTokenValidationOptions, AttestationResult } from "./models";
 
 import {
   GeneratedAttestationResult,
@@ -21,7 +21,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
 
 import { TypeDeserializer } from "./utils/typeDeserializer";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { bytesToString, stringToBytes } from "./utils/utf8";
 import { _attestationResultFromGenerated } from "./models/attestationResult";
@@ -187,14 +187,18 @@ export class AttestationClient {
   ) {
     let credentialScopes: string[] | undefined = undefined;
     let credential: TokenCredential | undefined = undefined;
-    let options: AttestationClientOptions;
+    let options: AttestationClientOptions = {};
 
-    if (credentialsOrOptions && isTokenCredential(credentialsOrOptions)) {
-      credential = credentialsOrOptions;
-      credentialScopes = ["https://attest.azure.net/.default"];
+    // If arg2 is defined, it's either a tokenCredential or it's a client options.
+    if (credentialsOrOptions !== undefined) {
+      if (isTokenCredential(credentialsOrOptions)) {
+        credential = credentialsOrOptions;
+        credentialScopes = ["https://attest.azure.net/.default"];
+      } else {
+        options = credentialsOrOptions;
+      }
+    } else if (clientOptions !== undefined) {
       options = clientOptions;
-    } else {
-      options = credentialsOrOptions || {};
     }
 
     const internalPipelineOptions: GeneratedClientOptionalParams = {

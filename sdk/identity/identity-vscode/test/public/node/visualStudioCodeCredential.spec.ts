@@ -3,12 +3,11 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-require-imports */
-/* eslint-disable sort-imports */
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { VisualStudioCodeCredential } from "@azure/identity";
 import assert from "assert";
+import { isRecordMode } from "@azure-tools/test-recorder";
 import sinon from "sinon";
 
 const mockedResponse = [
@@ -18,15 +17,12 @@ const mockedResponse = [
   },
 ];
 
-// TODO: Enable again once the VisualStudio cache bug is fixed.
-describe.skip("VisualStudioCodeCredential", function (this: Mocha.Suite) {
+describe("VisualStudioCodeCredential", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
-  let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(function (this: Mocha.Context) {
+    const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
-    recorder = setup.recorder;
   });
 
   afterEach(async function () {
@@ -43,7 +39,7 @@ describe.skip("VisualStudioCodeCredential", function (this: Mocha.Suite) {
       mock.expects("findCredentials").onFirstCall().returns(mockedResponse);
     }
 
-    const cred = new VisualStudioCodeCredential(recorder.configureClientOptions({}));
+    const cred = new VisualStudioCodeCredential();
 
     const token = await cred.getToken(scope);
 

@@ -1,28 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { testGroup, testSchema, testSchemaObject } from "./dummies";
-import { AvroSerializer } from "../../src/avroSerializer";
-import { AvroSerializerOptions } from "../../src/models";
 import { SchemaRegistry } from "@azure/schema-registry";
+import { SchemaRegistryAvroSerializer } from "../../src/schemaRegistryAvroSerializer";
+import { testGroup, testSchema, testSchemaObject } from "./dummies";
 import { createTestRegistry } from "./mockedRegistryClient";
 
-export interface CreateTestSerializerOptions<T> {
-  serializerOptions?: AvroSerializerOptions<T>;
-  registry?: SchemaRegistry;
-}
-
-export async function createTestSerializer<T>(
-  options: CreateTestSerializerOptions<T> = {}
-): Promise<AvroSerializer<T>> {
-  const {
-    serializerOptions = { autoRegisterSchemas: true, groupName: testGroup },
-    registry = createTestRegistry(),
-  } = options;
-  if (!serializerOptions.autoRegisterSchemas) {
+export async function createTestSerializer(
+  autoRegisterSchemas = true,
+  registry = createTestRegistry()
+): Promise<SchemaRegistryAvroSerializer> {
+  if (!autoRegisterSchemas) {
     await registerTestSchema(registry);
   }
-  return new AvroSerializer(registry, serializerOptions);
+  return new SchemaRegistryAvroSerializer(registry, { autoRegisterSchemas, groupName: testGroup });
 }
 
 export async function registerTestSchema(registry: SchemaRegistry): Promise<string> {

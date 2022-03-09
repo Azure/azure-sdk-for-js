@@ -9,9 +9,6 @@ trigger:
   paths:
     include:
       - sdk/synapse/
-    exclude:
-      - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
 pr:
   branches:
     include:
@@ -24,9 +21,6 @@ pr:
   paths:
     include:
       - sdk/synapse/
-    exclude:
-      - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -44,3 +38,5 @@ extends:
         safeName: azuresynapsemonitoring
       - name: azure-synapse-spark
         safeName: azuresynapsespark
+      - name: azure-arm-synapse
+        safeName: azurearmsynapse

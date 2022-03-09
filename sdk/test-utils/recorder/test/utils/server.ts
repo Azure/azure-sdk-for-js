@@ -19,15 +19,7 @@ app.get("/sample_response", (_, res) => {
   res.send({ val: "abc" });
 });
 
-app.post("/sample_response", (_, res) => {
-  res.send({ val: "abc" });
-});
-
 app.get(`/sample_response/:secret_info`, (_, res) => {
-  res.send({ val: "I am the answer!" });
-});
-
-app.post(`/sample_response/:secret_info`, (_, res) => {
   res.send({ val: "I am the answer!" });
 });
 

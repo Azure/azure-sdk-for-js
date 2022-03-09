@@ -127,12 +127,6 @@ export const KeyReleasePolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      immutable: {
-        serializedName: "immutable",
-        type: {
-          name: "Boolean"
-        }
-      },
       encodedPolicy: {
         serializedName: "data",
         type: {
@@ -678,12 +672,40 @@ export const KeyVerifyResult: coreHttp.CompositeMapper = {
   }
 };
 
+export const KeyExportParameters: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyExportParameters",
+    modelProperties: {
+      wrappingKey: {
+        serializedName: "wrappingKey",
+        type: {
+          name: "Composite",
+          className: "JsonWebKey"
+        }
+      },
+      wrappingKid: {
+        serializedName: "wrappingKid",
+        type: {
+          name: "String"
+        }
+      },
+      enc: {
+        serializedName: "enc",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const KeyReleaseParameters: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyReleaseParameters",
     modelProperties: {
-      targetAttestationToken: {
+      target: {
         constraints: {
           MinLength: 1
         },
@@ -905,7 +927,6 @@ export const RandomBytes: coreHttp.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        required: true,
         type: {
           name: "Base64Url"
         }
@@ -945,34 +966,6 @@ export const KeyProperties: coreHttp.CompositeMapper = {
       },
       curve: {
         serializedName: "crv",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const KeyExportParameters: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyExportParameters",
-    modelProperties: {
-      wrappingKey: {
-        serializedName: "wrappingKey",
-        type: {
-          name: "Composite",
-          className: "JsonWebKey"
-        }
-      },
-      wrappingKid: {
-        serializedName: "wrappingKid",
-        type: {
-          name: "String"
-        }
-      },
-      enc: {
-        serializedName: "enc",
         type: {
           name: "String"
         }

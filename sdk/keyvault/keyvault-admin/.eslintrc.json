@@ -3,9 +3,8 @@
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
   "ignorePatterns": ["src/generated"],
   "rules": {
-    "@azure/azure-sdk/ts-package-json-module": "warn",
     "@typescript-eslint/no-this-alias": "off",
-    "no-use-before-define": "warn",
-    "sort-imports": "error"
+    "@azure/azure-sdk/ts-package-json-module": "warn",
+    "no-use-before-define": "warn"
   }
 }

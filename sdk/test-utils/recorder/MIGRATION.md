@@ -15,8 +15,7 @@ The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. U
   // ...
   "devDependencies": {
     // ...
-    "@azure-tools/test-credential": "^1.0.0", // If you're using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^2.0.0"
+    "@azure-tools/test-recorder": "^2.0.0",
   }
 }
 ```
@@ -41,8 +40,6 @@ Note the difference between the dev-tool `node-ts-input` and `node-js-input` com
 - `node-ts-input` runs the tests using `ts-node`, without code coverage.
 - `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
 
-Compare with the older test runs to make sure you're running all the tests/files as before.
-
 ## Initializing the recorder
 
 The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
@@ -52,8 +49,6 @@ The approach taken to initialize the recorder depends on whether the SDK being t
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
-import { Recorder } from "@azure-tools/test-recorder";
-
 let recorder: Recorder;
 
 /*
@@ -65,13 +60,12 @@ beforeEach(function (this: Context) {
 });
 ```
 
-To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClientOptions` method. This method will add the necessary policies to the client options' `additionalPolicies` array for the recording to be enabled. Note that for this method to work, the `additionalPolicies` options has to be part of the client options.
+To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled. Note that for this method to work, the `pipeline` object must be exposed as a property on the client.
 
 ```ts
-const client = new MyServiceClient(
-  /* ... insert options here ... */,
-  recorder.configureClientOptions({ /* any additional options to pass through */ }),
-);
+const client = /* ... initialize your client as normal ... */;
+// recorderHttpPolicy is provided as an export from the test-recorder-new package.
+recorder.configureClient(client);
 ```
 
 ### For Core v1 SDKs
@@ -122,19 +116,6 @@ await recorder.stop();
 
 It is important that `recorder.stop()` is called, or otherwise the next test will throw an error when trying to start the already started recorder. Additionally, it is important that both the `start` and `stop` calls are awaited, for similar reasons.
 
-## XHRHttpClient
-
-The legacy recorder didn't support recording browser calls made through the Fetch API. As a result, when fetch API was introduced in `core-rest-pipeline` a workaround was applied to the libraries not yet migrated to the new recorder, this workaround needs to be removed as part of the migration. Make the following changes, typically located in `utils/recordedClient.ts`
-
-```diff
-- const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-```
-
-```diff
-- recorder.configureClientOptions({ httpClient, ...options })
-+ recorder.configureClientOptions(options)
-```
-
 ## Environment variables
 
 In the legacy recorder, the `replaceableVariables` option could be used to specify environment variables that would be replaced in the recording and set during playback. This could be used to ensure that secrets and user-specific options do not appear in the recording body.
@@ -152,9 +133,6 @@ await recorder.start({
 Under the hood, this is powered by the Unified Recorder's sanitizer functionality.
 
 **⚠️Important:** To access environment variables, you must use the `env` export made available from the **new** recorder. This ensures that environment variables are sourced from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
-
-`recorder.start()` internally sets up the environment variables for playback.
-So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
 
 ## Recorder variables
 
@@ -174,20 +152,15 @@ In this example, the name of the queue used in the recording is randomized. Howe
 
 A powerful feature of the legacy recorder was its `customizationsOnRecordings` option, which allowed for arbitrary replacements to be made to recordings. The new recorder's analog to this is the sanitizer functionality.
 
-### General sanitizers
+### GeneralRegexSanitizer
 
-For a simple find/replace, `generalSanitizers` can be used. For example:
+For a simple find/replace, a `GeneralRegexSanitizer` can be used. For example:
 
 ```ts
 await recorder.addSanitizers({
-  generalSanitizers: [
+  generalRegexSanitizers: [
     {
-      target: "find", // With `regex` unspecified, this matches a plaintext string
-      value: "replace",
-    },
-    {
-      regex: true, // Enable regex matching
-      target: "[Rr]egex", // This is a .NET regular expression that will be compiled by the proxy tool.
+      regex: "find", // This should be a .NET regular expression as it is passed to the .NET proxy tool
       value: "replace",
     },
     // add additional sanitizers here as required
@@ -195,10 +168,7 @@ await recorder.addSanitizers({
 });
 ```
 
-This example has two sanitizers:
-
-- The first sanitizer replaces all instances of "find" in the recording with "replace".
-- The second example demonstrates the use of a regular expression for replacement, where anything matching the .NET regular expression `[Rr]egex` (i.e. "Regex" and "regex") would be replaced with "replace".
+This example would replace all instances of `find` in the recording with `replace`.
 
 ### ConnectionStringSanitizer
 
@@ -231,13 +201,15 @@ Other sanitizers for more complex use cases are also available.
 
 ## AAD and the new `NoOpCredential`
 
-The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package.
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package, installed as follows:
 
-This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between `NoOpCredential` in playback and `ClientSecretCredential` when recording for you:
+```bash
+$ rush add --dev --caret -p @azure-tools/test-credential
+```
+
+This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
 
 ```ts
-import { createTestCredential } from "@azure-tools/test-credential";
-
 const credential = createTestCredential();
 
 // Create your client using the test credential.
@@ -251,7 +223,7 @@ Since AAD traffic is not recorded by the new recorder, there is no longer a need
 When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
 
 ```ts
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
@@ -273,48 +245,31 @@ module.exports = function (config) {
 };
 ```
 
-The following configuration options in `karma.config.js` are unnecessary and should be **removed**:
+The following configuration options in `karma.config.js` should be **removed**:
 
 ```ts
-// imports - to be deleted
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode,
-} = require("@azure-tools/test-recorder");
-
-// plugins - to be removed
-      "karma-json-to-file-reporter",
-      "karma-json-preprocessor",
-
-// files section - snippet to remove
-     .concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : [])
-
-// preprocessors - to be removed
-      "recordings/browsers/**/*.json": ["json"],
-
-// reporters - to be removed
-      "json-to-file"
-
-/* ... */
-// jsonToFileReporter - to be removed
-jsonToFileReporter: {
-  filter: jsonRecordingFilterFunction,  outputPath: ".",
-}
-
-/* ... */
-// log options - to be removed
 browserConsoleLogOptions: {
   terminal: !isRecordMode(),
 }
+
+/* ... */
+
+jsonToFileReporter: {
+  filter: jsonRecordingFilterFunction,  outputPath: ".",
+}
 ```
 
-Remove the following "devDependencies" from `package.json`
+## Changes to `ci.yml`
 
-```js
-   "karma-json-preprocessor": "^0.3.3",
-   "karma-json-to-file-reporter": "^1.0.1",
+You must set the `TestProxy` parameter to `true` to enable the test proxy server in your SDK's `ci.yml` file.
+
+```yaml
+# irrelevant sections of ci.yml omitted
+
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    TestProxy: true # Add me!
 ```
 
 ## Migrating your recordings

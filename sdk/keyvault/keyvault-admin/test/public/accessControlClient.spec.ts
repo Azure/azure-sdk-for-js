@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import chai, { assert } from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 
@@ -11,9 +13,8 @@ import {
   KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
 } from "../../src";
-import { authenticate } from "./utils/authentication";
-import { supportsTracing } from "./utils/supportsTracing";
-import { getServiceVersion } from "./utils/common";
+import { authenticate } from "../utils/authentication";
+import { supportsTracing } from "../utils/supportsTracing";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -22,7 +23,7 @@ describe("KeyVaultAccessControlClient", () => {
   const globalScope = "/";
 
   beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+    const authentication = await authenticate(this);
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;

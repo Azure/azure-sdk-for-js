@@ -8,16 +8,8 @@
           "ArmTemplateParameters": "@{ enableHsm = $true }"
         }
       },
-      "Versions": {
-        "12.x": {
-          "NodeTestVersion": "12.x"
-        },
-        "16.x_service_version_7_2": {
-          "NodeTestVersion": "16.x",
-          "ServiceVersion": "7.2"
-        }
-      },
-      "TestType": "node"
+      "TestType": "node",
+      "NodeTestVersion": "12.x"
     }
   ]
 }

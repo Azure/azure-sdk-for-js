@@ -12,7 +12,7 @@
  * This sample demonstrates how to Move recovery point from one datastore to another store.
  *
  * @summary Move recovery point from one datastore to another store.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/TriggerRecoveryPointMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/TriggerRecoveryPointMove_Post.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

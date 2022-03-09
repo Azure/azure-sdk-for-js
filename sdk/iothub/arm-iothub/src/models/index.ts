@@ -141,8 +141,6 @@ export interface IotHubProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly locations?: IotHubLocationDescription[];
-  /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
-  enableDataResidency?: boolean;
 }
 
 /** The properties of an IoT hub shared access policy. */
@@ -509,22 +507,6 @@ export interface ArmUserIdentity {
   readonly principalId?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly clientId?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** The common properties of an Azure resource. */
@@ -1195,11 +1177,6 @@ export type IotHubDescription = Resource & {
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
   identity?: ArmIdentity;
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 };
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
@@ -1383,26 +1360,6 @@ export enum KnownIotHubSku {
  * **B3**
  */
 export type IotHubSku = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {

@@ -15,14 +15,13 @@ import {
   extractSpanContextFromEventData,
 } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
+import { TraceFlags } from "@azure/core-tracing";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
 import debugModule from "debug";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { v4 as uuid } from "uuid";
-import { tracingClient } from "../../src/diagnostics/tracing";
-import Sinon from "sinon";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -400,9 +399,10 @@ testWithServiceTypes((serviceVersion) => {
   }).timeout(60000);
 
   describe("extractSpanContextFromEventData", function () {
-    it("should use diagnostic Id from a properly instrumented EventData", function () {
-      const tracingClientSpy = Sinon.spy(tracingClient, "parseTraceparentHeader");
-      const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
+    it("should extract a SpanContext from a properly instrumented EventData", function () {
+      const traceId = "11111111111111111111111111111111";
+      const spanId = "2222222222222222";
+      const flags = "00";
       const eventData: ReceivedEventData = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
@@ -410,14 +410,49 @@ testWithServiceTypes((serviceVersion) => {
         sequenceNumber: 0,
         partitionKey: null,
         properties: {
-          [TRACEPARENT_PROPERTY]: traceparent,
+          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`,
         },
         getRawAmqpMessage() {
           return {} as any;
         },
       };
-      extractSpanContextFromEventData(eventData);
-      assert.isTrue(tracingClientSpy.calledWith(traceparent));
+
+      const spanContext = extractSpanContextFromEventData(eventData);
+
+      should.exist(spanContext, "Extracted spanContext should be defined.");
+      should.equal(spanContext!.traceId, traceId, "Extracted traceId does not match expectation.");
+      should.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
+      should.equal(
+        spanContext!.traceFlags,
+        TraceFlags.NONE,
+        "Extracted traceFlags do not match expectations."
+      );
+    });
+
+    it("should return undefined when EventData is not properly instrumented", function () {
+      const traceId = "11111111111111111111111111111111";
+      const spanId = "2222222222222222";
+      const flags = "00";
+      const eventData: ReceivedEventData = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        offset: 0,
+        sequenceNumber: 0,
+        partitionKey: null,
+        properties: {
+          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`,
+        },
+        getRawAmqpMessage() {
+          return {} as any;
+        },
+      };
+
+      const spanContext = extractSpanContextFromEventData(eventData);
+
+      should.not.exist(
+        spanContext,
+        "Invalid diagnosticId version should return undefined spanContext."
+      );
     });
 
     it("should return undefined when EventData is not instrumented", function () {

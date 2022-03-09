@@ -231,7 +231,6 @@ export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
     retentionPolicy?: RetentionPolicyUnion;
     instantRpRetentionRangeInDays?: number;
     timeZone?: string;
-    policyType?: IaasvmPolicyType;
 };
 
 // @public
@@ -1374,11 +1373,6 @@ export interface DailyRetentionSchedule {
     retentionTimes?: Date[];
 }
 
-// @public (undocumented)
-export interface DailySchedule {
-    scheduleRunTimes?: Date[];
-}
-
 // @public
 export type DataMoveLevel = string;
 
@@ -1687,9 +1681,6 @@ export type IaasVmilrRegistrationRequest = ILRRequest & {
     initiatorName?: string;
     renewExistingRegistration?: boolean;
 };
-
-// @public
-export type IaasvmPolicyType = string;
 
 // @public
 export type IaaSVMProtectableItem = WorkloadProtectableItem & {
@@ -2038,8 +2029,6 @@ export enum KnownContainerType {
     // (undocumented)
     AzureSqlContainer = "AzureSqlContainer",
     // (undocumented)
-    AzureWorkloadContainer = "AzureWorkloadContainer",
-    // (undocumented)
     Cluster = "Cluster",
     // (undocumented)
     DPMContainer = "DPMContainer",
@@ -2053,10 +2042,6 @@ export enum KnownContainerType {
     Invalid = "Invalid",
     // (undocumented)
     MABContainer = "MABContainer",
-    // (undocumented)
-    MicrosoftClassicComputeVirtualMachines = "Microsoft.ClassicCompute/virtualMachines",
-    // (undocumented)
-    MicrosoftComputeVirtualMachines = "Microsoft.Compute/virtualMachines",
     // (undocumented)
     SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
     // (undocumented)
@@ -2199,16 +2184,6 @@ export enum KnownHealthStatus {
     Invalid = "Invalid",
     // (undocumented)
     Passed = "Passed"
-}
-
-// @public
-export enum KnownIaasvmPolicyType {
-    // (undocumented)
-    Invalid = "Invalid",
-    // (undocumented)
-    V1 = "V1",
-    // (undocumented)
-    V2 = "V2"
 }
 
 // @public
@@ -2448,11 +2423,7 @@ export enum KnownProtectionIntentItemType {
     // (undocumented)
     AzureResourceItem = "AzureResourceItem",
     // (undocumented)
-    AzureWorkloadAutoProtectionIntent = "AzureWorkloadAutoProtectionIntent",
-    // (undocumented)
     AzureWorkloadContainerAutoProtectionIntent = "AzureWorkloadContainerAutoProtectionIntent",
-    // (undocumented)
-    AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent",
     // (undocumented)
     Invalid = "Invalid",
     // (undocumented)
@@ -3992,11 +3963,11 @@ export type RetentionScheduleFormat = string;
 
 // @public
 export interface SchedulePolicy {
-    schedulePolicyType: "LogSchedulePolicy" | "LongTermSchedulePolicy" | "SimpleSchedulePolicy" | "SimpleSchedulePolicyV2";
+    schedulePolicyType: "LogSchedulePolicy" | "LongTermSchedulePolicy" | "SimpleSchedulePolicy";
 }
 
 // @public (undocumented)
-export type SchedulePolicyUnion = SchedulePolicy | LogSchedulePolicy | LongTermSchedulePolicy | SimpleSchedulePolicy | SimpleSchedulePolicyV2;
+export type SchedulePolicyUnion = SchedulePolicy | LogSchedulePolicy | LongTermSchedulePolicy | SimpleSchedulePolicy;
 
 // @public
 export type ScheduleRunType = string;
@@ -4040,15 +4011,6 @@ export type SimpleSchedulePolicy = SchedulePolicy & {
     scheduleRunTimes?: Date[];
     hourlySchedule?: HourlySchedule;
     scheduleWeeklyFrequency?: number;
-};
-
-// @public
-export type SimpleSchedulePolicyV2 = SchedulePolicy & {
-    schedulePolicyType: "SimpleSchedulePolicyV2";
-    scheduleRunFrequency?: ScheduleRunType;
-    hourlySchedule?: HourlySchedule;
-    dailySchedule?: DailySchedule;
-    weeklySchedule?: WeeklySchedule;
 };
 
 // @public
@@ -4251,13 +4213,6 @@ export interface WeeklyRetentionSchedule {
     daysOfTheWeek?: DayOfWeek[];
     retentionDuration?: RetentionDuration;
     retentionTimes?: Date[];
-}
-
-// @public (undocumented)
-export interface WeeklySchedule {
-    // (undocumented)
-    scheduleRunDays?: DayOfWeek[];
-    scheduleRunTimes?: Date[];
 }
 
 // @public

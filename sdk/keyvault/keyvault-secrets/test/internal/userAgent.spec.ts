@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { SDK_VERSION } from "../../src/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure-tools/test-recorder";
@@ -13,9 +13,9 @@ import {
   challengeBasedAuthenticationPolicy,
 } from "../../../keyvault-common/src";
 import { KeyClient } from "../../src";
-import { authenticate } from "../public/utils/testAuthentication";
-import TestClient from "../public/utils/testClient";
-import { getServiceVersion } from "../public/utils/common";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+import { getServiceVersion } from "../utils/utils.common";
 import { HttpHeaders, isNode, WebResource } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import sinon from "sinon";

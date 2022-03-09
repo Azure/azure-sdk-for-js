@@ -19,16 +19,13 @@ import {
   DocumentTable,
   DocumentWord,
   LengthUnit,
-  DocumentLanguage,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
-import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
+import { AnalyzeDocumentsOptions } from "../options/AnalyzeDocumentsOptions";
 
 /**
- * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
- * inputs as URLs, so to send a string as a _binary_ input, first convert the string to one of the following input
- * types.
+ * A request input that can be uploaded to the Form Recognizer service.
  */
 export type FormRecognizerRequestBody =
   | NodeJS.ReadableStream
@@ -85,11 +82,14 @@ export function toAnalyzedDocumentFromGenerated(document: GeneratedDocument): An
 }
 
 /**
- * The common fields of all AnalyzeResult-like types, such as LayoutResult, ReadResult, and GeneralDocumentResult.
+ * The result of an analysis operation. The type of the Document may be determined by the model used to perform the
+ * analysis.
  */
-export interface AnalyzeResultCommon {
+export interface AnalyzeResult<Document = AnalyzedDocument> {
   /**
    * The service API version used to produce this result.
+   *
+   * Example: "2020-09-30-preview"
    */
   apiVersion: FormRecognizerApiVersion;
 
@@ -100,16 +100,10 @@ export interface AnalyzeResultCommon {
 
   /**
    * A string representation of all textual and visual elements in the input, concatenated by reading order (the order
-   * in which the service "reads" or extracts the textual and visual content from the document).
+   * in which the service "reads" or extracts the textual anc visual content from the document).
    */
   content: string;
-}
 
-/**
- * The result of an analysis operation. The type of the Document may be determined by the model used to perform the
- * analysis.
- */
-export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -129,11 +123,6 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
    * Extracted entities.
    */
   entities: DocumentEntity[];
-
-  /**
-   * Extracted text languages.
-   */
-  languages: DocumentLanguage[];
 
   /**
    * Extracted font styles.
@@ -440,7 +429,6 @@ export function toAnalyzeResultFromGenerated<
     tables: result.tables ?? [],
     keyValuePairs: result.keyValuePairs ?? [],
     entities: result.entities ?? [],
-    languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
   };
@@ -456,7 +444,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-    AnalyzeDocumentOptions<Result>;
+    AnalyzeDocumentsOptions<Result>;
 }
 
 /**

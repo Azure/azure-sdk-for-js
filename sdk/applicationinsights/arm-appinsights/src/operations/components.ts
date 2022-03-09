@@ -331,9 +331,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   queryParameters: [Parameters.apiVersion4],
@@ -348,9 +345,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   queryParameters: [Parameters.apiVersion4],
@@ -366,13 +360,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
+  responses: { 200: {}, 204: {} },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -380,7 +368,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -390,9 +377,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponent
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   queryParameters: [Parameters.apiVersion4],
@@ -413,8 +397,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponent
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
+    201: {
+      bodyMapper: Mappers.ApplicationInsightsComponent
     }
   },
   requestBody: Parameters.insightProperties,
@@ -437,8 +421,8 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponent
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
+    201: {
+      bodyMapper: Mappers.ApplicationInsightsComponent
     }
   },
   requestBody: Parameters.componentTags,
@@ -460,9 +444,6 @@ const purgeOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {
       bodyMapper: Mappers.ComponentPurgeResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   requestBody: Parameters.body,
@@ -484,9 +465,6 @@ const getPurgeStatusOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ComponentPurgeStatusResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   queryParameters: [Parameters.apiVersion4],
@@ -506,9 +484,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   queryParameters: [Parameters.apiVersion4],
@@ -526,9 +501,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
     }
   },
   queryParameters: [Parameters.apiVersion4],

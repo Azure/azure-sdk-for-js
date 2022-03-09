@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import * as coreHttp from "@azure/core-http";
 
-export const PhoneNumberSearchRequest: coreClient.CompositeMapper = {
+export const PhoneNumberSearchRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberSearchRequest",
@@ -17,14 +17,16 @@ export const PhoneNumberSearchRequest: coreClient.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["geographic", "tollFree"]
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["person", "application"]
         }
       },
       capabilities: {
@@ -55,7 +57,7 @@ export const PhoneNumberSearchRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumberCapabilities: coreClient.CompositeMapper = {
+export const PhoneNumberCapabilities: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberCapabilities",
@@ -64,21 +66,23 @@ export const PhoneNumberCapabilities: coreClient.CompositeMapper = {
         serializedName: "calling",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       },
       sms: {
         serializedName: "sms",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       }
     }
   }
 };
 
-export const PhoneNumberSearchResult: coreClient.CompositeMapper = {
+export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberSearchResult",
@@ -106,14 +110,16 @@ export const PhoneNumberSearchResult: coreClient.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["geographic", "tollFree"]
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["person", "application"]
         }
       },
       capabilities: {
@@ -141,7 +147,7 @@ export const PhoneNumberSearchResult: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumberCost: coreClient.CompositeMapper = {
+export const PhoneNumberCost: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberCost",
@@ -172,7 +178,7 @@ export const PhoneNumberCost: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunicationErrorResponse: coreClient.CompositeMapper = {
+export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationErrorResponse",
@@ -188,7 +194,7 @@ export const CommunicationErrorResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunicationError: coreClient.CompositeMapper = {
+export const CommunicationError: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationError",
@@ -238,7 +244,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumberPurchaseRequest: coreClient.CompositeMapper = {
+export const PhoneNumberPurchaseRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberPurchaseRequest",
@@ -253,7 +259,7 @@ export const PhoneNumberPurchaseRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumberOperation: coreClient.CompositeMapper = {
+export const PhoneNumberOperation: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberOperation",
@@ -262,7 +268,8 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["notStarted", "running", "succeeded", "failed"]
         }
       },
       resourceLocation: {
@@ -296,7 +303,13 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
         serializedName: "operationType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "purchase",
+            "releasePhoneNumber",
+            "search",
+            "updatePhoneNumberCapabilities"
+          ]
         }
       },
       lastActionDateTime: {
@@ -310,7 +323,7 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumberCapabilitiesRequest: coreClient.CompositeMapper = {
+export const PhoneNumberCapabilitiesRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumberCapabilitiesRequest",
@@ -318,20 +331,22 @@ export const PhoneNumberCapabilitiesRequest: coreClient.CompositeMapper = {
       calling: {
         serializedName: "calling",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       },
       sms: {
         serializedName: "sms",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       }
     }
   }
 };
 
-export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
+export const PurchasedPhoneNumber: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PurchasedPhoneNumber",
@@ -361,7 +376,8 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["geographic", "tollFree"]
         }
       },
       capabilities: {
@@ -375,7 +391,8 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["person", "application"]
         }
       },
       purchaseDate: {
@@ -396,7 +413,7 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
   }
 };
 
-export const PurchasedPhoneNumbers: coreClient.CompositeMapper = {
+export const PurchasedPhoneNumbers: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PurchasedPhoneNumbers",
@@ -424,7 +441,7 @@ export const PurchasedPhoneNumbers: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumbersSearchAvailablePhoneNumbersHeaders: coreClient.CompositeMapper = {
+export const PhoneNumbersSearchAvailablePhoneNumbersHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumbersSearchAvailablePhoneNumbersHeaders",
@@ -457,7 +474,7 @@ export const PhoneNumbersSearchAvailablePhoneNumbersHeaders: coreClient.Composit
   }
 };
 
-export const PhoneNumbersPurchasePhoneNumbersHeaders: coreClient.CompositeMapper = {
+export const PhoneNumbersPurchasePhoneNumbersHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumbersPurchasePhoneNumbersHeaders",
@@ -484,7 +501,7 @@ export const PhoneNumbersPurchasePhoneNumbersHeaders: coreClient.CompositeMapper
   }
 };
 
-export const PhoneNumbersGetOperationHeaders: coreClient.CompositeMapper = {
+export const PhoneNumbersGetOperationHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumbersGetOperationHeaders",
@@ -499,7 +516,7 @@ export const PhoneNumbersGetOperationHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const PhoneNumbersUpdateCapabilitiesHeaders: coreClient.CompositeMapper = {
+export const PhoneNumbersUpdateCapabilitiesHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumbersUpdateCapabilitiesHeaders",
@@ -532,7 +549,7 @@ export const PhoneNumbersUpdateCapabilitiesHeaders: coreClient.CompositeMapper =
   }
 };
 
-export const PhoneNumbersReleasePhoneNumberHeaders: coreClient.CompositeMapper = {
+export const PhoneNumbersReleasePhoneNumberHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PhoneNumbersReleasePhoneNumberHeaders",

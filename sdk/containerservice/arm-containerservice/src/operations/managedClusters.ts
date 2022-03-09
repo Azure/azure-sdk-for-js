@@ -1399,11 +1399,7 @@ const listClusterUserCredentialsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.serverFqdn,
-    Parameters.format
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.serverFqdn],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

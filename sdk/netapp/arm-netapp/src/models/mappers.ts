@@ -789,49 +789,6 @@ export const ActiveDirectory: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      ldapSearchScope: {
-        serializedName: "ldapSearchScope",
-        type: {
-          name: "Composite",
-          className: "LdapSearchScopeOpt"
-        }
-      }
-    }
-  }
-};
-
-export const LdapSearchScopeOpt: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LdapSearchScopeOpt",
-    modelProperties: {
-      userDN: {
-        constraints: {
-          MaxLength: 255
-        },
-        serializedName: "userDN",
-        type: {
-          name: "String"
-        }
-      },
-      groupDN: {
-        constraints: {
-          MaxLength: 255
-        },
-        serializedName: "groupDN",
-        type: {
-          name: "String"
-        }
-      },
-      groupMembershipFilter: {
-        constraints: {
-          MaxLength: 255
-        },
-        serializedName: "groupMembershipFilter",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -1032,13 +989,6 @@ export const CapacityPool: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       poolId: {
         constraints: {
           Pattern: new RegExp(
@@ -1054,7 +1004,10 @@ export const CapacityPool: coreClient.CompositeMapper = {
         }
       },
       size: {
-        defaultValue: 4398046511104,
+        constraints: {
+          InclusiveMaximum: 549755813888000,
+          InclusiveMinimum: 4398046511104
+        },
         serializedName: "properties.size",
         required: true,
         type: {
@@ -1156,6 +1109,10 @@ export const CapacityPoolPatch: coreClient.CompositeMapper = {
       },
       size: {
         defaultValue: 4398046511104,
+        constraints: {
+          InclusiveMaximum: 549755813888000,
+          InclusiveMinimum: 4398046511104
+        },
         serializedName: "properties.size",
         type: {
           name: "Number"
@@ -1243,13 +1200,6 @@ export const Volume: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       fileSystemId: {
@@ -1544,13 +1494,6 @@ export const Volume: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      maximumNumberOfFiles: {
-        serializedName: "properties.maximumNumberOfFiles",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
       volumeGroupName: {
         serializedName: "properties.volumeGroupName",
         readOnly: true,
@@ -1593,13 +1536,6 @@ export const Volume: coreClient.CompositeMapper = {
               className: "PlacementKeyValuePairs"
             }
           }
-        }
-      },
-      enableSubvolumes: {
-        defaultValue: "Disabled",
-        serializedName: "properties.enableSubvolumes",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2023,17 +1959,6 @@ export const VolumePatch: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      unixPermissions: {
-        constraints: {
-          MaxLength: 4,
-          MinLength: 4
-        },
-        serializedName: "properties.unixPermissions",
-        nullable: true,
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -2269,41 +2194,6 @@ export const Snapshot: coreClient.CompositeMapper = {
   }
 };
 
-export const SnapshotRestoreFiles: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SnapshotRestoreFiles",
-    modelProperties: {
-      filePaths: {
-        constraints: {
-          MinItems: 1,
-          MaxItems: 10
-        },
-        serializedName: "filePaths",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            constraints: {
-              MaxLength: 1024,
-              MinLength: 1
-            },
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      destinationPath: {
-        serializedName: "destinationPath",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SnapshotPoliciesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2370,13 +2260,6 @@ export const SnapshotPolicy: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       hourlySchedule: {
@@ -3061,13 +2944,6 @@ export const BackupPolicy: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       backupPolicyId: {
@@ -3847,13 +3723,6 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      maximumNumberOfFiles: {
-        serializedName: "properties.maximumNumberOfFiles",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
       volumeGroupName: {
         serializedName: "properties.volumeGroupName",
         readOnly: true,
@@ -3896,152 +3765,6 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
               className: "PlacementKeyValuePairs"
             }
           }
-        }
-      },
-      enableSubvolumes: {
-        defaultValue: "Disabled",
-        serializedName: "properties.enableSubvolumes",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SubvolumesList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubvolumesList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubvolumeInfo"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SubvolumePatchRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubvolumePatchRequest",
-    modelProperties: {
-      size: {
-        serializedName: "properties.size",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      path: {
-        serializedName: "properties.path",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SubvolumeModel: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubvolumeModel",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      path: {
-        serializedName: "properties.path",
-        type: {
-          name: "String"
-        }
-      },
-      parentPath: {
-        serializedName: "properties.parentPath",
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        serializedName: "properties.size",
-        type: {
-          name: "Number"
-        }
-      },
-      bytesUsed: {
-        serializedName: "properties.bytesUsed",
-        type: {
-          name: "Number"
-        }
-      },
-      permissions: {
-        serializedName: "properties.permissions",
-        type: {
-          name: "String"
-        }
-      },
-      creationTimeStamp: {
-        serializedName: "properties.creationTimeStamp",
-        type: {
-          name: "DateTime"
-        }
-      },
-      accessedTimeStamp: {
-        serializedName: "properties.accessedTimeStamp",
-        type: {
-          name: "DateTime"
-        }
-      },
-      modifiedTimeStamp: {
-        serializedName: "properties.modifiedTimeStamp",
-        type: {
-          name: "DateTime"
-        }
-      },
-      changedTimeStamp: {
-        serializedName: "properties.changedTimeStamp",
-        type: {
-          name: "DateTime"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
         }
       }
     }
@@ -4382,50 +4105,6 @@ export const SubscriptionQuotaItem: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const SubvolumeInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubvolumeInfo",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      path: {
-        serializedName: "properties.path",
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        serializedName: "properties.size",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      parentPath: {
-        serializedName: "properties.parentPath",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }

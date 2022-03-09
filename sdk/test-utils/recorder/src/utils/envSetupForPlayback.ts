@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "@azure/core-rest-pipeline";
-import { addSanitizers } from "../sanitizer";
+import { Sanitizer } from "../sanitizer";
 import { env } from "./env";
-import {
-  isPlaybackMode,
-  isRecordMode,
-  setEnvironmentVariables,
-  FindReplaceSanitizer,
-} from "./utils";
+import { isPlaybackMode, isRecordMode, setEnvironmentVariables, RegexSanitizer } from "./utils";
 
 /**
  * Supposed to be used in record and playback modes.
@@ -19,10 +13,8 @@ import {
  *  2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
  */
 export async function handleEnvSetup(
-  httpClient: HttpClient,
-  url: string,
-  recordingId: string,
-  envSetupForPlayback: Record<string, string>
+  envSetupForPlayback: Record<string, string>,
+  sanitizer: Sanitizer
 ): Promise<void> {
   if (envSetupForPlayback) {
     if (isPlaybackMode()) {
@@ -31,15 +23,15 @@ export async function handleEnvSetup(
     } else if (isRecordMode()) {
       // If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
 
-      const generalSanitizers: FindReplaceSanitizer[] = [];
+      const generalRegexSanitizers: RegexSanitizer[] = [];
       for (const [key, value] of Object.entries(envSetupForPlayback)) {
         const envKey = env[key];
         if (envKey) {
-          generalSanitizers.push({ target: envKey, value });
+          generalRegexSanitizers.push({ regex: envKey, value });
         }
       }
-      await addSanitizers(httpClient, url, recordingId, {
-        generalSanitizers,
+      await sanitizer.addSanitizers({
+        generalRegexSanitizers,
       });
     }
   }

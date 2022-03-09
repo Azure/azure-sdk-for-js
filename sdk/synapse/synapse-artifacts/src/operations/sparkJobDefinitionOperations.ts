@@ -13,7 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
+import { ArtifactsClientContext } from "../artifactsClientContext";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -39,13 +39,13 @@ import {
 /** Class containing SparkJobDefinitionOperations operations. */
 export class SparkJobDefinitionOperationsImpl
   implements SparkJobDefinitionOperations {
-  private readonly client: ArtifactsClient;
+  private readonly client: ArtifactsClientContext;
 
   /**
    * Initialize a new instance of the class SparkJobDefinitionOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClient) {
+  constructor(client: ArtifactsClientContext) {
     this.client = client;
   }
 

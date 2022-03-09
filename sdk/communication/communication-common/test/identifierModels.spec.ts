@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PhoneNumberIdentifier,
-  getIdentifierKind,
-  isCommunicationUserIdentifier,
-  isMicrosoftTeamsUserIdentifier,
-  isPhoneNumberIdentifier,
-  isUnknownIdentifier,
-} from "../src";
 import { assert } from "chai";
+import {
+  isCommunicationUserIdentifier,
+  isPhoneNumberIdentifier,
+  getIdentifierKind,
+  PhoneNumberIdentifier,
+  isUnknownIdentifier,
+  isMicrosoftTeamsUserIdentifier,
+} from "../src";
 
 describe("Identifier models", () => {
   it("type guards", () => {

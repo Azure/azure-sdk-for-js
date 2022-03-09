@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { RestError } from "@azure/core-http";
 import { DeleteSecretPoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "../../src/lro/recover/poller";

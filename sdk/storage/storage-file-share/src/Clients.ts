@@ -51,8 +51,6 @@ import {
   ShareAccessTier,
   ShareSetPropertiesResponse,
   ShareRootSquash,
-  FileRenameResponse,
-  DirectoryRenameResponse,
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -71,8 +69,6 @@ import {
   getShareNameAndPathFromUrl,
   appendToURLQuery,
   httpAuthorizationToString,
-  setURLPath,
-  setURLQueries,
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -2760,78 +2756,6 @@ export class ShareDirectoryClient extends StorageClient {
       span.end();
     }
   }
-
-  /**
-   * Renames a directory.
-   * This API only supports renaming a directory in the same share.
-   *
-   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.
-   * @param options - Options for the renaming operation.
-   * @returns Response data for the file renaming operation.
-   *
-   * Example usage:
-   *
-   * ```js
-   *
-   * // Rename the directory
-   * await diretoryClient.rename(destinationPath);
-   * console.log("Renamed directory successfully!");
-   * ```
-   */
-  public async rename(
-    destinationPath: string,
-    options: DirectoryRenameOptions = {}
-  ): Promise<{
-    destinationDirectoryClient: ShareDirectoryClient;
-    directoryRenameResponse: DirectoryRenameResponse;
-  }> {
-    const { span, updatedOptions } = createSpan("ShareDirectoryClient-rename", options);
-    const split: string[] = destinationPath.split("?");
-    let destinationUrl: string;
-    if (split.length === 2) {
-      const pathOnly = encodeURIComponent(split[0]);
-      const renameDestination = `/${this.shareName}/${pathOnly}`;
-      destinationUrl = setURLPath(this.url, renameDestination);
-      destinationUrl = setURLQueries(destinationUrl, split[1]);
-    } else if (split.length === 1) {
-      const pathOnly = encodeURIComponent(destinationPath);
-      const renameDestination = `/${this.shareName}/${pathOnly}`;
-      destinationUrl = setURLPath(this.url, renameDestination);
-    } else {
-      throw new RangeError("Destination path should not contain more than one query string");
-    }
-
-    const destDirectory = new ShareDirectoryClient(destinationUrl, this.pipeline);
-
-    try {
-      const response = await destDirectory.context.rename(this.url, {
-        ...updatedOptions,
-        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-          ? {
-              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-          ? {
-              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-      });
-
-      return {
-        destinationDirectoryClient: destDirectory,
-        directoryRenameResponse: response,
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
 }
 
 /**
@@ -3434,130 +3358,6 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: FileSASPermissions;
-}
-
-/**
- * Options to configure the {@link ShareFileClient.rename} operation.
- */
-export interface FileRenameOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-
-  /**
-   * Lease access condition for source file. Required if the source file has an active infinite lease.
-   */
-  sourceLeaseAccessConditions?: LeaseAccessConditions;
-
-  /**
-   * Lease access condition for destination file. Required if the destination file has an active infinite lease.
-   */
-  destinationLeaseAccessConditions?: LeaseAccessConditions;
-
-  /**
-   * Optional.
-   * Specifies the option to copy file security descriptor from source file or to set it using the value which is defined by the header value of x-ms-file-permission or x-ms-file-permission-key.
-   */
-  copyFileSmbInfo?: CopyFileSmbInfo;
-
-  /**
-   * A name-value pair to associate with a file storage object.
-   */
-  metadata?: Metadata;
-
-  /**
-   * Optional.
-   * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
-   */
-  timeoutInSeconds?: number;
-
-  /**
-   * Optional.
-   * If specified the permission (security descriptor) shall be set for the directory/file.
-   */
-  filePermission?: string;
-
-  /**
-   * Optional.
-   * Key of the permission to be set for the directory/file. Note: Only one of the filePermission or filePermissionKey should be specified.
-   */
-  filePermissionKey?: string;
-
-  /**
-   * Optional.
-   * A boolean value for if the destination file already exists, whether this request will overwrite the file or not. If true, the rename will succeed and will overwrite the destination file. If not provided or if false and the destination file does exist, the request will not overwrite the destination file. If provided and the destination file doesn’t exist, the rename will succeed. Note: This value does not override the x-ms-file-copy-ignore-read-only header value.
-   */
-  replaceIfExists?: boolean;
-
-  /**
-   * Optional.
-   * A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail.
-   */
-  ignoreReadOnly?: boolean;
-}
-
-/**
- * Options to configure the {@link ShareDirectoryClient.rename} operation.
- */
-export interface DirectoryRenameOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-
-  /**
-   * Lease access condition for source file. Required if the source file has an active infinite lease.
-   */
-  sourceLeaseAccessConditions?: LeaseAccessConditions;
-
-  /**
-   * Lease access condition for destination file. Required if the destination file has an active infinite lease.
-   */
-  destinationLeaseAccessConditions?: LeaseAccessConditions;
-
-  /**
-   * Optional.
-   * Specifies the option to copy file security descriptor from source file or to set it using the value which is defined by the header value of x-ms-file-permission or x-ms-file-permission-key.
-   */
-  copyFileSmbInfo?: CopyFileSmbInfo;
-
-  /**
-   * Optional.
-   * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
-   */
-  timeoutInSeconds?: number;
-
-  /**
-   * Optional.
-   * A name-value pair to associate with a file storage object.
-   */
-  metadata?: Metadata;
-
-  /**
-   * Optional.
-   * If specified the permission (security descriptor) shall be set for the directory/file.
-   */
-  filePermission?: string;
-
-  /**
-   * Optional.
-   * Key of the permission to be set for the directory/file. Note: Only one of the filePermission or filePermissionKey should be specified.
-   */
-  filePermissionKey?: string;
-  /**
-   * Optional.
-   * A boolean value for if the destination file already exists, whether this request will overwrite the file or not. If true, the rename will succeed and will overwrite the destination file. If not provided or if false and the destination file does exist, the request will not overwrite the destination file. If provided and the destination file doesn’t exist, the rename will succeed. Note: This value does not override the x-ms-file-copy-ignore-read-only header value.
-   */
-  replaceIfExists?: boolean;
-
-  /**
-   * Optional.
-   * A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail.
-   */
-  ignoreReadOnly?: boolean;
 }
 
 /**
@@ -5315,78 +5115,6 @@ export class ShareFileClient extends StorageClient {
     ).toString();
 
     return appendToURLQuery(this.url, sas);
-  }
-
-  /**
-   * Renames a file.
-   * This API only supports renaming a file in the same share.
-   *
-   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.
-   * @param options - Options for the renaming operation.
-   * @returns Response data for the file renaming operation.
-   *
-   * Example usage:
-   *
-   * ```js
-   *
-   * // Rename the file
-   * await fileClient.rename(destinationPath);
-   * console.log("Renamed file successfully!");
-   * ```
-   */
-  public async rename(
-    destinationPath: string,
-    options: FileRenameOptions = {}
-  ): Promise<{
-    destinationFileClient: ShareFileClient;
-    fileRenameResponse: FileRenameResponse;
-  }> {
-    const { span, updatedOptions } = createSpan("ShareFileClient-rename", options);
-    const split: string[] = destinationPath.split("?");
-    let destinationUrl: string;
-    if (split.length === 2) {
-      const pathOnly = encodeURIComponent(split[0]);
-      const renameDestination = `/${this.shareName}/${pathOnly}`;
-      destinationUrl = setURLPath(this.url, renameDestination);
-      destinationUrl = setURLQueries(destinationUrl, split[1]);
-    } else if (split.length === 1) {
-      const pathOnly = encodeURIComponent(destinationPath);
-      const renameDestination = `/${this.shareName}/${pathOnly}`;
-      destinationUrl = setURLPath(this.url, renameDestination);
-    } else {
-      throw new RangeError("Destination path should not contain more than one query string");
-    }
-
-    const destFile = new ShareFileClient(destinationUrl, this.pipeline);
-
-    try {
-      const response = await destFile.context.rename(this.url, {
-        ...updatedOptions,
-        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-          ? {
-              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-          ? {
-              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-            }
-          : undefined,
-      });
-
-      return {
-        destinationFileClient: destFile,
-        fileRenameResponse: response,
-      };
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }
 

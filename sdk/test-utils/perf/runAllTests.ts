@@ -11,9 +11,10 @@ function spawn(command: string) {
 
 function runTest(testClassName: string, options: string = "") {
   console.log("\n");
-  spawn(
-    `ts-node ./test/index.spec.ts ${testClassName} --warmup 0 --iterations 1 --duration 1 ${options}`
-  );
+  if (options === "") {
+    options = `--warmup 0 --iterations 1 --duration 1`;
+  }
+  spawn(`ts-node ./test/index.spec.ts ${testClassName} ${options}`);
 }
 
 allTests.forEach(({ testClass, options }) => {

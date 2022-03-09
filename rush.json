@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.61.2",
+  "rushVersion": "5.55.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -337,6 +337,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-account",
+      "projectFolder": "sdk/purview/purview-account-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-administration",
       "projectFolder": "sdk/purview/purview-administration-rest",
       "versionPolicyName": "client"
@@ -442,8 +447,18 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure-rest/core-client-lro",
+      "projectFolder": "sdk/core/core-client-lro-rest",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure-rest/core-client",
       "projectFolder": "sdk/core/core-client-rest",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client-paging",
+      "projectFolder": "sdk/core/core-client-paging-rest",
       "versionPolicyName": "core"
     },
     {
@@ -734,11 +749,6 @@
     {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/dtdl-parser",
-      "projectFolder": "sdk/digitaltwins/dtdl-parser",
       "versionPolicyName": "client"
     },
     {
@@ -1568,61 +1578,6 @@
     {
       "packageName": "@azure/arm-kusto",
       "projectFolder": "sdk/kusto/arm-kusto",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/core-http-compat",
-      "projectFolder": "sdk/core/core-http-compat",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/arm-dnsresolver",
-      "projectFolder": "sdk/dnsresolver/arm-dnsresolver",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mobilenetwork",
-      "projectFolder": "sdk/mobilenetwork/arm-mobilenetwork",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-resources-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/resources/arm-resources-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-dns-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/dns/arm-dns-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-locks-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/locks/arm-locks-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-policy-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/policy/arm-policy-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-subscriptions-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-storage-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/storage/arm-storage-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-keyvault-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-network-profile-2020-09-01-hybrid",
-      "projectFolder": "sdk/network/arm-network-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
     }
   ]

@@ -4,11 +4,14 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure-tools/test-recorder");
 
-process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -30,14 +33,14 @@ module.exports = function (config) {
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-source-map-support",
-      "karma-json-preprocessor",
+      "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
-    ],
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -46,6 +49,7 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
+      "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // "dist-test/index.js": ["coverage"]
@@ -56,14 +60,13 @@ module.exports = function (config) {
       "ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
-      "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
@@ -72,8 +75,8 @@ module.exports = function (config) {
         { type: "json", subdir: ".", file: "coverage.json" },
         { type: "lcovonly", subdir: ".", file: "lcov.info" },
         { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
-      ],
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {
@@ -83,8 +86,14 @@ module.exports = function (config) {
       useBrowserName: false, // add browser name to report and classes names
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-      properties: {}, // key value pair of properties to add to the <properties> section of the report
+      properties: {} // key value pair of properties to add to the <properties> section of the report
     },
+
+    jsonToFileReporter: {
+      filter: jsonRecordingFilterFunction,
+      outputPath: "."
+    },
+
     // web server port
     port: 9876,
 
@@ -104,8 +113,8 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"],
-      },
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
     },
 
     // Continuous Integration mode
@@ -119,13 +128,16 @@ module.exports = function (config) {
     browserNoActivityTimeout: 60000000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
+    browserConsoleLogOptions: {
+      terminal: !isRecordMode()
+    },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: 0,
-      },
-    },
+        timeout: 0
+      }
+    }
   });
 };

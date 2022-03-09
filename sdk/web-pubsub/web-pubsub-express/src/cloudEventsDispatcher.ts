@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as utils from "./utils";
+import { CloudEvent } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
 import { logger } from "./logger";
+import * as utils from "./utils";
 
 import {
   ConnectRequest,
   ConnectResponse,
+  UserEventRequest,
+  DisconnectedRequest,
   ConnectedRequest,
   ConnectionContext,
   ConnectResponseHandler,
-  DisconnectedRequest,
-  UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
 } from "./cloudEventsProtocols";
@@ -95,15 +96,15 @@ function getUserEventResponseHandler(
   return handler;
 }
 
-function getContext(request: IncomingMessage, origin: string): ConnectionContext {
+function getContext(ce: CloudEvent, origin: string): ConnectionContext {
   const context = {
-    signature: utils.getHttpHeader(request, "ce-signature"),
-    userId: utils.getHttpHeader(request, "ce-userid"),
-    hub: utils.getHttpHeader(request, "ce-hub")!,
-    connectionId: utils.getHttpHeader(request, "ce-connectionid")!,
-    eventName: utils.getHttpHeader(request, "ce-eventname")!,
+    signature: ce["signature"] as string,
+    userId: ce["userid"] as string,
+    hub: ce["hub"] as string,
+    connectionId: ce["connectionid"] as string,
+    eventName: ce["eventname"] as string,
     origin: origin,
-    states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
+    states: utils.fromBase64JsonString(ce["connectionstate"] as string),
   };
 
   // TODO: validation
@@ -138,51 +139,6 @@ function tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
 
 function isWebPubSubRequest(req: IncomingMessage): boolean {
   return utils.getHttpHeader(req, "ce-awpsversion") !== undefined;
-}
-
-async function readUserEventRequest(
-  request: IncomingMessage,
-  origin: string
-): Promise<UserEventRequest | undefined> {
-  const contentTypeheader = utils.getHttpHeader(request, "content-type");
-  if (contentTypeheader === undefined) {
-    return undefined;
-  }
-
-  const contentType = contentTypeheader.split(";")[0].trim();
-
-  switch (contentType) {
-    case "application/octet-stream":
-      return {
-        context: getContext(request, origin),
-        data: await utils.readRequestBody(request),
-        dataType: "binary",
-      };
-    case "application/json":
-      return {
-        context: getContext(request, origin),
-        data: JSON.parse((await utils.readRequestBody(request)).toString()),
-        dataType: "json",
-      };
-    case "text/plain":
-      return {
-        context: getContext(request, origin),
-        data: (await utils.readRequestBody(request)).toString(),
-        dataType: "text",
-      };
-    default:
-      return undefined;
-  }
-}
-
-async function readSystemEventRequest<T extends { context: ConnectionContext }>(
-  request: IncomingMessage,
-  origin: string
-): Promise<T> {
-  const body = (await utils.readRequestBody(request)).toString();
-  const parsedRequest = JSON.parse(body) as T;
-  parsedRequest.context = getContext(request, origin);
-  return parsedRequest;
 }
 
 /**
@@ -276,11 +232,13 @@ export class CloudEventsDispatcher {
         return false;
     }
 
+    const receivedEvent = await utils.convertHttpToEvent(request);
+    logger.verbose(receivedEvent);
+
     switch (eventType) {
       case EventType.Connect: {
-        const connectRequest = await readSystemEventRequest<ConnectRequest>(request, origin);
-        logger.verbose(connectRequest);
-
+        const connectRequest = receivedEvent.data as ConnectRequest;
+        connectRequest.context = getContext(receivedEvent, origin);
         this.eventHandler.handleConnect!(
           connectRequest,
           getConnectResponseHandler(connectRequest, response)
@@ -290,31 +248,37 @@ export class CloudEventsDispatcher {
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const connectedRequest = await readSystemEventRequest<ConnectedRequest>(request, origin);
-        logger.verbose(connectedRequest);
+        const connectedRequest = receivedEvent.data as ConnectedRequest;
+        connectedRequest.context = getContext(receivedEvent, origin);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
       }
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(
-          request,
-          origin
-        );
-        logger.verbose(disconnectedRequest);
+        const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
+        disconnectedRequest.context = getContext(receivedEvent, origin);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
       case EventType.UserEvent: {
-        const userRequest = await readUserEventRequest(request, origin);
-        if (userRequest === undefined) {
-          logger.warning(
-            `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`
-          );
-          return false;
+        let userRequest: UserEventRequest;
+        if (receivedEvent.data_base64 !== undefined) {
+          userRequest = {
+            context: getContext(receivedEvent, origin),
+            data: Buffer.from(receivedEvent.data_base64, "base64"),
+            dataType: "binary",
+          };
+        } else if (receivedEvent.data !== undefined) {
+          userRequest = {
+            context: getContext(receivedEvent, origin),
+            data: receivedEvent.data as string,
+            dataType: utils.isJsonData(receivedEvent) ? "json" : "text",
+          };
+        } else {
+          throw new Error("Unexpected data.");
         }
-        logger.verbose(userRequest);
+
         this.eventHandler.handleUserEvent!(
           userRequest,
           getUserEventResponseHandler(userRequest, response)

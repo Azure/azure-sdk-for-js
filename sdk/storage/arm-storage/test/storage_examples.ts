@@ -14,8 +14,8 @@ import {
   delay,
   isPlaybackMode
 } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { ClientSecretCredential } from "@azure/identity";
-import * as assert from "assert";
 import { StorageManagementClient } from "../src/storageManagementClient";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
@@ -93,7 +93,7 @@ describe("Storage test", () => {
         key2: "value2",
       }
     }, testPollingOptions)
-    assert.equal(res.name,storageAccountName)
+    assert.equal(res.name, storageAccountName);
   });
 
   it("blobContainers create test", async function () {

@@ -1,3 +1,4 @@
+import rollup from "rollup";
 import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import cjs from "@rollup/plugin-commonjs";
@@ -46,7 +47,11 @@ const config = {
   plugins: [
     nodeResolve({ module: true }),
     sourcemaps(),
-    cjs()
+    cjs({
+      namedExports: {
+        assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"]
+      }
+    })
   ]
 };
 

@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnalyzeDocumentOptions } from "./AnalyzeDocumentsOptions";
-import {
-  BuildModelOptions,
-  CommonModelCreationOptions,
-  DocumentModelBuildMode,
-} from "./BuildModelOptions";
+import { AnalyzeDocumentsOptions } from "./AnalyzeDocumentsOptions";
+import { BuildModelOptions } from "./BuildModelOptions";
 import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
 import {
@@ -25,11 +21,9 @@ import { ListOperationsOptions } from "./ListOperationsOptions";
 import { PollerOptions } from "./PollerOptions";
 
 export {
-  AnalyzeDocumentOptions,
+  AnalyzeDocumentsOptions,
   BuildModelOptions,
-  CommonModelCreationOptions,
   CopyModelOptions,
-  DocumentModelBuildMode,
   FormRecognizerCommonClientOptions,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,

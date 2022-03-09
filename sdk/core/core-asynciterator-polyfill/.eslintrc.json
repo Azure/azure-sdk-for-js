@@ -14,7 +14,6 @@
     // list in `package.json`.
     "@azure/azure-sdk/ts-package-json-files-required": "off",
     // this package does not have type declaration file.
-    "@azure/azure-sdk/ts-package-json-types": "off",
-    "sort-imports": "error"
+    "@azure/azure-sdk/ts-package-json-types": "off"
   }
 }

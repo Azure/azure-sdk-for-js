@@ -19,6 +19,7 @@ import {
   KeyOperationsParameters as KeyOperationsParametersMapper,
   KeySignParameters as KeySignParametersMapper,
   KeyVerifyParameters as KeyVerifyParametersMapper,
+  KeyExportParameters as KeyExportParametersMapper,
   KeyReleaseParameters as KeyReleaseParametersMapper,
   KeyRotationPolicy as KeyRotationPolicyMapper,
   GetRandomBytesRequest as GetRandomBytesRequestMapper
@@ -261,8 +262,23 @@ export const signature: OperationParameter = {
   mapper: KeyVerifyParametersMapper
 };
 
-export const targetAttestationToken: OperationParameter = {
-  parameterPath: "targetAttestationToken",
+export const wrappingKey: OperationParameter = {
+  parameterPath: ["options", "wrappingKey"],
+  mapper: KeyExportParametersMapper
+};
+
+export const wrappingKid: OperationParameter = {
+  parameterPath: ["options", "wrappingKid"],
+  mapper: KeyExportParametersMapper
+};
+
+export const enc: OperationParameter = {
+  parameterPath: ["options", "enc"],
+  mapper: KeyExportParametersMapper
+};
+
+export const target: OperationParameter = {
+  parameterPath: "target",
   mapper: KeyReleaseParametersMapper
 };
 
@@ -271,7 +287,7 @@ export const nonce: OperationParameter = {
   mapper: KeyReleaseParametersMapper
 };
 
-export const enc: OperationParameter = {
+export const enc1: OperationParameter = {
   parameterPath: ["options", "enc"],
   mapper: KeyReleaseParametersMapper
 };

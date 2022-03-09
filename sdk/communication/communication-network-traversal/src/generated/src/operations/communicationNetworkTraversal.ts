@@ -30,7 +30,7 @@ export class CommunicationNetworkTraversal {
   }
 
   /**
-   * Issue a configuration for an STUN/TURN server.
+   * Issue a configuration for an STUN/TURN server for an existing identity.
    * @param options The options parameters.
    */
   issueRelayConfiguration(
@@ -50,7 +50,7 @@ export class CommunicationNetworkTraversal {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const issueRelayConfigurationOperationSpec: coreHttp.OperationSpec = {
-  path: "/networkTraversal/:issueRelayConfiguration",
+  path: "/networktraversal/:issueRelayConfiguration",
   httpMethod: "POST",
   responses: {
     200: {

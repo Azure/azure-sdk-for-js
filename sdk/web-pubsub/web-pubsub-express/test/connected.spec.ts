@@ -14,7 +14,7 @@ function buildRequest(
   userId?: string
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
-  req.headers["content-type"] = "application/json; charset=utf-8";
+  req.headers["Content-Type"] = "application/json; charset=utf-8";
   req.headers["ce-awpsversion"] = "1.0";
   req.headers["ce-specversion"] = "1.0";
   req.headers["ce-type"] = "azure.webpubsub.user.connected";

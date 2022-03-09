@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  CommonClientOptions,
-  OperationArguments,
-  OperationRequest,
-  OperationSpec,
-} from "./interfaces";
+import { TokenCredential } from "@azure/core-auth";
 import {
   HttpClient,
-  Pipeline,
   PipelineRequest,
   PipelineResponse,
+  Pipeline,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { createClientPipeline } from "./pipeline";
+import {
+  OperationArguments,
+  OperationSpec,
+  OperationRequest,
+  CommonClientOptions,
+} from "./interfaces";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
+import { getRequestUrl } from "./urlHelpers";
 import { flattenResponse } from "./utils";
 import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
-import { getRequestUrl } from "./urlHelpers";
-import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
+import { createClientPipeline } from "./pipeline";
 
 /**
  * Options to be provided while creating the client.
@@ -93,16 +93,6 @@ export class ServiceClient {
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
-    if (options.additionalPolicies?.length) {
-      for (const { policy, position } of options.additionalPolicies) {
-        // Sign happens after Retry and is commonly needed to occur
-        // before policies that intercept post-retry.
-        const afterPhase = position === "perRetry" ? "Sign" : undefined;
-        this.pipeline.addPolicy(policy, {
-          afterPhase,
-        });
-      }
-    }
   }
 
   /**

@@ -16,20 +16,18 @@ export interface MSIConfiguration {
   identityClient: IdentityClient;
   scopes: string | string[];
   clientId?: string;
-  resourceId?: string;
 }
 
 /**
  * @internal
  */
 export interface MSI {
-  isAvailable(options: {
-    scopes: string | string[];
-    identityClient?: IdentityClient;
-    clientId?: string;
-    resourceId?: string;
-    getTokenOptions?: GetTokenOptions;
-  }): Promise<boolean>;
+  isAvailable(
+    scopes: string | string[],
+    identityClient?: IdentityClient,
+    clientId?: string,
+    getTokenOptions?: GetTokenOptions
+  ): Promise<boolean>;
   getToken(
     configuration: MSIConfiguration,
     getTokenOptions?: GetTokenOptions

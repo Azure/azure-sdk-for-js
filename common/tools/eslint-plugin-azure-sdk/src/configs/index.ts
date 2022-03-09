@@ -28,7 +28,6 @@ export = {
       "@azure/azure-sdk/ts-apisurface-supportcancellation": "error",
       "@azure/azure-sdk/ts-config-include": "error",
       "@azure/azure-sdk/ts-doc-internal": "error",
-      "@azure/azure-sdk/ts-doc-internal-private-member": "warn",
       "@azure/azure-sdk/ts-error-handling": "off",
       "@azure/azure-sdk/ts-modules-only-named": "error",
       "@azure/azure-sdk/ts-naming-drop-noun": "error",

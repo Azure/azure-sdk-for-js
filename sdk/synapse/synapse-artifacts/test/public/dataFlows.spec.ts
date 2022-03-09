@@ -1,18 +1,17 @@
 import { ArtifactsClient } from "../../src/artifactsClient";
-import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 
 describe("DataFlow", () => {
-  const dataFlowName = "testdataflow";
-  const renamedDataflow = "testdataflow2";
   let recorder: Recorder;
   let client: ArtifactsClient;
+  const dataFlowName = "testdataflow";
+  const renamedDataflow = "testdataflow2";
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    client = await createClient(recorder);
+  beforeEach(function() {
+    recorder = createRecorder(this);
+    client = createClient();
   });
 
   afterEach(async () => {
@@ -21,7 +20,7 @@ describe("DataFlow", () => {
 
   it("should create dataFlow", async () => {
     const poller = await client.dataFlowOperations.beginCreateOrUpdateDataFlow(dataFlowName, {
-      properties: { type: "MappingDataFlow" },
+      properties: { type: "MappingDataFlow" }
     });
 
     const result = await poller.pollUntilDone();
@@ -48,7 +47,7 @@ describe("DataFlow", () => {
 
   it("should rename dataFlow", async () => {
     const poller = await client.dataFlowOperations.beginRenameDataFlow(dataFlowName, {
-      newName: renamedDataflow,
+      newName: renamedDataflow
     });
     await poller.pollUntilDone();
 

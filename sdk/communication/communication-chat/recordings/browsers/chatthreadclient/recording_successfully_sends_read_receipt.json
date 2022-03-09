@@ -1,46 +1,22 @@
 {
-  "Entries": [
-    {
-      "RequestUri": "https://endpoint/chat/threads/19%3ADLFXLgSucap6tThRd_X1JKmjMNrDVam37hheL3rNoCM1%40thread.v2/readReceipts?api-version=2021-09-07",
-      "RequestMethod": "POST",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "33",
-        "Content-Type": "application/json",
-        "Origin": "http://localhost:9876",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "2cb54a75-9448-4e64-9e27-5953e47a7531",
-        "x-ms-useragent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
-      },
-      "RequestBody": {
-        "chatMessageId": "1644378360406"
-      },
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 03:46:00 GMT",
-        "MS-CV": "Ox91VGhqekS9i9fFZlKkcQ.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BDgDYgAAAADzJCSPpX2PTK6O/HlzjbqAV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "125ms"
-      },
-      "ResponseBody": null
-    }
-  ],
-  "Variables": {}
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3Ag0x1r-Au6W3oC_P19M8Tg8l7xbEou6NTDjR2gplU33A1%40thread.v2/readReceipts",
+   "query": {
+    "api-version": "2021-09-07"
+   },
+   "requestBody": "{\"chatMessageId\":\"1630697249791\"}",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "73d3c12e3f3a0509b0044b8187e2c051"
 }

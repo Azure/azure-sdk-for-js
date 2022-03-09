@@ -54,7 +54,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/2.1.1`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -77,7 +77,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01";
+    this.apiVersion = options.apiVersion || "2021-09-01";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.extensions = new ExtensionsImpl(this);

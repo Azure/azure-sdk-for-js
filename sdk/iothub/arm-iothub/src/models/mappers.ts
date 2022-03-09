@@ -324,12 +324,6 @@ export const IotHubProperties: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      enableDataResidency: {
-        serializedName: "enableDataResidency",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -1450,51 +1444,6 @@ export const ArmUserIdentity: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -3035,13 +2984,6 @@ export const IotHubDescription: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ArmIdentity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       }
     }

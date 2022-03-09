@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { assert } from "chai";
+import { getRequestUrl, appendQueryParams } from "../src/urlHelpers";
 import {
-  OperationQueryParameter,
   OperationSpec,
   OperationURLParameter,
   createSerializer,
+  OperationQueryParameter,
 } from "../src";
-import { appendQueryParams, getRequestUrl } from "../src/urlHelpers";
-import { assert } from "chai";
 
 describe("getRequestUrl", function () {
   const urlParameter: OperationURLParameter = {

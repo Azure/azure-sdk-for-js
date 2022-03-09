@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNode, WebResourceLike } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
@@ -11,7 +11,6 @@ import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("PhoneNumbersClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -19,7 +18,7 @@ describe("PhoneNumbersClient - headers", function () {
   let client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: getPhoneNumberHttpClient,
   });
-  let request: PipelineRequest;
+  let request: WebResourceLike;
 
   afterEach(function () {
     sinon.restore();
@@ -44,7 +43,7 @@ describe("PhoneNumbersClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-azure-communication-phone-numbers/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g")
     );
   });
 
@@ -112,7 +111,7 @@ describe("PhoneNumbersClient - headers", function () {
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(
-        `phonenumbersclient-headers-test azsdk-js-azure-communication-phone-numbers/${SDK_VERSION}`,
+        `phonenumbersclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`,
         "g"
       )
     );

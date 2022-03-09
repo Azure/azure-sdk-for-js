@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { CertificateOperation as CoreCertificateOperation } from "../../src/generated/models";
 import { getCertificateOperationFromCoreOperation } from "../../src/transformations";
 

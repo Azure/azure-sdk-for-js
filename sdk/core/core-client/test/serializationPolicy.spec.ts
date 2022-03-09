@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MapperTypeNames, createSerializer } from "../src";
-import { serializeHeaders, serializeRequestBody } from "../src/serializationPolicy";
-import { Mappers } from "./testMappers1";
 import { assert } from "chai";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
+import { createSerializer, MapperTypeNames } from "../src";
+import { serializeRequestBody, serializeHeaders } from "../src/serializationPolicy";
+import { Mappers } from "./testMappers1";
 
 describe("serializationPolicy", function () {
   describe("serializeRequestBody()", () => {

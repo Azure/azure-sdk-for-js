@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isLiveMode, record } from "@azure-tools/test-recorder";
 import { TableClient, TableEntityResult, TransactionAction, odata } from "../../src";
-
+import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/test-utils";
 
 describe("SpecialCharacters", function () {
   before(function (this: Context) {
     if (!isLiveMode()) {
-      // Only run in live tests to avoid unecessary extra time in CI
+      // Currently the recorder is having issues with the encoding of single qoutes in the
+      // query request and generates invalid JS code. Disabling this test on playback mode
+      // while these issues are resolved. #18534
       this.skip();
     }
   });
   let client: TableClient;
+  let recorder: Recorder;
   const suffix = isNode ? "Node" : "Browser";
   const tableName = `SpecialCharacterTest${suffix}`;
   const specialCharacters = [
@@ -44,8 +46,13 @@ describe("SpecialCharacters", function () {
   ];
 
   describe("Single operations", () => {
-    beforeEach(async function (this: Context) {
-      client = await createTableClient(tableName, "TokenCredential");
+    beforeEach(function (this: Context) {
+      recorder = record(this, recordedEnvironmentSetup);
+      client = createTableClient(tableName, "TokenCredential");
+    });
+
+    afterEach(async function () {
+      await recorder.stop();
     });
 
     specialCharacters.forEach(({ char, name }) => {
@@ -125,10 +132,14 @@ describe("SpecialCharacters", function () {
   });
 
   describe("Batch", () => {
-    beforeEach(async function (this: Context) {
-      client = await createTableClient(`${tableName}Batch`, "TokenCredential");
+    beforeEach(function (this: Context) {
+      recorder = record(this, recordedEnvironmentSetup);
+      client = createTableClient(`${tableName}Batch`, "TokenCredential");
     });
 
+    afterEach(async function () {
+      await recorder.stop();
+    });
     const partitionKey = `foo'`;
     it("should create entity with single quote in the partitionKey and rowKey", async () => {
       await client.createTable();

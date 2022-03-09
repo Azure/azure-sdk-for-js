@@ -12,7 +12,7 @@
  * This sample demonstrates how to Lists the recovery points recommended for move to another tier
  *
  * @summary Lists the recovery points recommended for move to another tier
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
  */
 import {
   ListRecoveryPointsRecommendedForMoveRequest,

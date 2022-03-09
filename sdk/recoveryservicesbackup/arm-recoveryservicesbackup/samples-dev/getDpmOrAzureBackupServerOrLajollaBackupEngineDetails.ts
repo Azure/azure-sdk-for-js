@@ -12,7 +12,7 @@
  * This sample demonstrates how to Returns backup management server registered to Recovery Services Vault.
  *
  * @summary Returns backup management server registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/Dpm/BackupEngines_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/Dpm/BackupEngines_Get.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

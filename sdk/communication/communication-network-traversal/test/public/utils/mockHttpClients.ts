@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, HttpHeaders, HttpOperationResponse, WebResourceLike } from "@azure/core-http";
+import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

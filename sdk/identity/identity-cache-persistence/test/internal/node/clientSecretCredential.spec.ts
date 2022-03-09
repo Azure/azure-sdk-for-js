@@ -2,16 +2,15 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-/* eslint-disable sort-imports */
 
 import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-import { createPersistence } from "./setup.spec";
 import { ConfidentialClientApplication } from "@azure/msal-node";
+import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import assert from "assert";
+import { createPersistence } from "./setup.spec";
+import { env } from "@azure-tools/test-recorder";
 
 const scope = "https://graph.microsoft.com/.default";
 
@@ -19,12 +18,10 @@ describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
-  let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(function (this: Mocha.Context) {
+    const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
-    recorder = setup.recorder;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
@@ -55,10 +52,10 @@ describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
     persistence?.save("{}");
 
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions })
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      { tokenCachePersistenceOptions }
     );
 
     await credential.getToken(scope);
@@ -67,16 +64,7 @@ describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  // TODO:
-  // MSAL reports that they don't use silent authentication
-  // on Client Certificate requests because the responses
-  // don't have id_token, meaning they don't receive
-  // the account information used to keep the cache.
-  // MSAL reports that they handle caching in this case within
-  // the acquireTokenByClientCredential method.
-  // Can we test this?
-  // What do other languages do?
-  it.skip("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
@@ -93,10 +81,10 @@ describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
     persistence?.save("{}");
 
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions })
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      { tokenCachePersistenceOptions }
     );
 
     await credential.getToken(scope);

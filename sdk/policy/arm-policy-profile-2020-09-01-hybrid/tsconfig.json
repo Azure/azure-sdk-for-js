@@ -3,25 +3,17 @@
     "module": "es6",
     "moduleResolution": "node",
     "strict": true,
-    "target": "es6",
+    "target": "es5",
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "declaration": true,
-    "outDir": "./dist-esm",
+    "outDir": "./esm",
     "importHelpers": true
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

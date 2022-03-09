@@ -20,7 +20,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
-  GetKeysOptionalParams,
+  KeyVaultClientGetKeysOptionalParams,
   KnownJsonWebKeyType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -854,15 +854,15 @@ export class KeyClient {
    * let result = await client.getKeyRotationPolicy("myKey");
    * ```
    *
-   * @param keyName - The name of the key.
+   * @param name - The name of the key.
    * @param options - The optional parameters.
    */
   public getKeyRotationPolicy(
-    keyName: string,
+    name: string,
     options: GetKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy> {
     return withTrace("getKeyRotationPolicy", options, async () => {
-      const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, keyName);
+      const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, name);
       return keyRotationTransformations.generatedToPublic(policy);
     });
   }
@@ -877,19 +877,19 @@ export class KeyClient {
    * const setPolicy = await client.updateKeyRotationPolicy("MyKey", myPolicy);
    * ```
    *
-   * @param keyName - The name of the key.
+   * @param name - The name of the key.
    * @param policyProperties - The {@link KeyRotationPolicyProperties} for the policy.
    * @param options - The optional parameters.
    */
   public updateKeyRotationPolicy(
-    keyName: string,
+    name: string,
     policy: KeyRotationPolicyProperties,
     options: UpdateKeyRotationPolicyOptions = {}
   ): Promise<KeyRotationPolicy> {
     return withTrace("updateKeyRotationPolicy", options, async (updatedOptions) => {
       const result = await this.client.updateKeyRotationPolicy(
         this.vaultUrl,
-        keyName,
+        name,
         keyRotationTransformations.propertiesToGenerated(policy),
         updatedOptions
       );
@@ -909,7 +909,7 @@ export class KeyClient {
     options?: ListPropertiesOfKeyVersionsOptions
   ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: GetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -1001,7 +1001,7 @@ export class KeyClient {
     options?: ListPropertiesOfKeysOptions
   ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: GetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -1089,7 +1089,7 @@ export class KeyClient {
     options?: ListDeletedKeysOptions
   ): AsyncIterableIterator<DeletedKey[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: GetKeysOptionalParams = {
+      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };

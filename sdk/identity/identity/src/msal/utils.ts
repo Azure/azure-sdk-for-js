@@ -56,9 +56,6 @@ export function getAuthority(tenantId: string, host?: string): string {
   if (!host) {
     host = DefaultAuthorityHost;
   }
-  if (new RegExp(`${tenantId}/?$`).test(host)) {
-    return host;
-  }
   if (host.endsWith("/")) {
     return host + tenantId;
   } else {

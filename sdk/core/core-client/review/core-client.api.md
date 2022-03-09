@@ -19,12 +19,6 @@ import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public
-export interface AdditionalPolicyConfig {
-    policy: PipelinePolicy;
-    position: "perCall" | "perRetry";
-}
-
-// @public
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public
@@ -47,7 +41,6 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
-    additionalPolicies?: AdditionalPolicyConfig[];
     allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }

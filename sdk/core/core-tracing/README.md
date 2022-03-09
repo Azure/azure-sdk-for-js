@@ -51,7 +51,6 @@ Please see the [troubleshooting](#troubleshooting) section for additional inform
 
 ```ts
 const opentelemetry = require("@opentelemetry/api");
-const { NodeTracerProvider } = require("@opentelemetry/node");
 const { SimpleSpanProcessor, ConsoleSpanExporter } = require("@opentelemetry/tracing");
 
 const provider = new NodeTracerProvider();
@@ -69,24 +68,14 @@ const opentelemetry = require("@opentelemetry/api");
 const tracer = opentelemetry.trace.getTracer("my-tracer");
 const span = tracer.startSpan("main");
 const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), span);
-const { BlobClient } = require("@azure/storage-blob");
 
 // Assuming we have an existing BlobClient, let's see if the blob exists.
 // The context is passed to the client library as a tracingContext option and will be propagated downstream to any child spans.
-async function main() {
-  const blobClient = new BlobClient(
-    "<account connection string>",
-    "<container name>",
-    "<blob name>"
-  );
-  const result = await blobClient.exists({
-    tracingOptions: {
-      tracingContext: ctx,
-    },
-  });
-}
-
-main();
+const result = await blobClient.exists({
+  tracingOptions: {
+    tracingContext: ctx
+  }
+});
 ```
 
 ## Next steps

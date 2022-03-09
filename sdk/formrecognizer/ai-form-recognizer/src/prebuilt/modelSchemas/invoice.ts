@@ -18,7 +18,7 @@ export const InvoiceSchema = {
     "Prebuilt model to extract key information from English invoices, including customer, vendor, invoice ID, due date, total, and more.",
   createdDateTime: "2021-07-30T00:00:00Z",
   docTypes: {
-    invoice: {
+    "prebuilt:invoice": {
       description: "Invoice",
       fieldSchema: {
         CustomerName: {
@@ -97,27 +97,27 @@ export const InvoiceSchema = {
           example: "Microsoft Delivery",
         },
         SubTotal: {
-          type: "currency",
+          type: "number",
           description: "Subtotal field identified on this invoice",
           example: "$100.00",
         },
         TotalTax: {
-          type: "currency",
+          type: "number",
           description: "Total tax field identified on this invoice",
           example: "$10.00",
         },
         InvoiceTotal: {
-          type: "currency",
+          type: "number",
           description: "Total new charges associated with this invoice",
           example: "$110.00",
         },
         AmountDue: {
-          type: "currency",
+          type: "number",
           description: "Total Amount Due to the vendor",
           example: "$610.00",
         },
         PreviousUnpaidBalance: {
-          type: "currency",
+          type: "number",
           description: "Explicit previously unpaid balance",
           example: "$500.00",
         },
@@ -153,26 +153,6 @@ export const InvoiceSchema = {
             "End date for the service period (for example, a utility bill service period)",
           example: "11/14/2019",
         },
-        TotalVAT: {
-          type: "currency",
-          description: "Total VAT tax amount in document",
-          example: "€10.00",
-        },
-        VendorTaxId: {
-          type: "string",
-          description: "The government ID number associated with the vendor",
-          example: "123456-7",
-        },
-        CustomerTaxId: {
-          type: "string",
-          description: "The government ID number associated with the customer",
-          example: "765432-1",
-        },
-        PaymentTerm: {
-          type: "string",
-          description: "The terms under which the payment is meant to be paid",
-          example: "Net90",
-        },
         Items: {
           type: "array",
           description: "List of line items",
@@ -182,7 +162,7 @@ export const InvoiceSchema = {
             example: "3/4/2021\nA123\nConsulting Services\b2 hours\n$30.00\n10%\n$60.00",
             properties: {
               Amount: {
-                type: "currency",
+                type: "number",
                 description: "The amount of the line item",
                 example: "$60.00",
               },
@@ -209,10 +189,10 @@ export const InvoiceSchema = {
                 example: "A123",
               },
               Tax: {
-                type: "currency",
+                type: "number",
                 description:
                   "Tax associated with each line item. Possible values include tax amount, tax %, and tax Y/N",
-                example: "$6.00",
+                example: "10%",
               },
               Unit: {
                 type: "string",
@@ -220,15 +200,10 @@ export const InvoiceSchema = {
                 example: "hours",
               },
               UnitPrice: {
-                type: "currency",
+                type: "number",
                 description:
                   "The net or gross price (depending on the gross invoice setting of the invoice) of one unit of this item",
                 example: "$30.00",
-              },
-              VAT: {
-                type: "currency",
-                description: "Value added tax: this is the flat tax levied on an item",
-                example: "€10.00",
               },
             },
           },

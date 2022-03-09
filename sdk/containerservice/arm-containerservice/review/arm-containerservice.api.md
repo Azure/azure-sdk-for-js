@@ -346,9 +346,6 @@ export interface ExtendedLocation {
 export type ExtendedLocationTypes = string;
 
 // @public
-export type Format = string;
-
-// @public
 export type GPUInstanceProfile = string;
 
 // @public
@@ -768,12 +765,6 @@ export enum KnownExpander {
 export enum KnownExtendedLocationTypes {
     // (undocumented)
     EdgeZone = "EdgeZone"
-}
-
-// @public
-export enum KnownFormat {
-    Azure = "azure",
-    Exec = "exec"
 }
 
 // @public
@@ -1473,7 +1464,6 @@ export type ManagedClustersListClusterMonitoringUserCredentialsResponse = Creden
 
 // @public
 export interface ManagedClustersListClusterUserCredentialsOptionalParams extends coreClient.OperationOptions {
-    format?: Format;
     serverFqdn?: string;
 }
 

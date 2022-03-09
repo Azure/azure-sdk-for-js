@@ -18,7 +18,7 @@ part of the Location header of the operation response.
 status code in the response would be Accepted. It will continue to be in this state till it reaches completion. On
 successful completion, the status code will be OK. This method expects OperationID as an argument. OperationID is
 part of the Location header of the operation response.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/Common/ProtectedItem_Delete_OperationResult.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/Common/ProtectedItem_Delete_OperationResult.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

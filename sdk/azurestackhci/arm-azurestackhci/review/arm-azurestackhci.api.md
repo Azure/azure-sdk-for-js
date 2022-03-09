@@ -16,7 +16,7 @@ export type ActionType = string;
 // @public
 export type ArcSetting = ProxyResource & {
     readonly provisioningState?: ProvisioningState;
-    arcInstanceResourceGroup?: string;
+    readonly arcInstanceResourceGroup?: string;
     readonly aggregateState?: ArcSettingAggregateState;
     readonly perNodeDetails?: PerNodeState[];
     createdBy?: string;

@@ -58,7 +58,7 @@ export interface WebSocketOptions {
  * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
-  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
+  !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 /**
  * Defines an object with possible properties defined in T.

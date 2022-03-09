@@ -1,10 +1,14 @@
 # Release History
 
-## 1.0.0 (2022-02-04) (Deprecated)
+## 1.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
 
 ### Other Changes
-
-Stable version of NetworkTraversal
 
 ## 1.0.0-beta.3 (2021-11-18)
 

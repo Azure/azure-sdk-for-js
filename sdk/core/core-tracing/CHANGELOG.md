@@ -1,16 +1,8 @@
 # Release History
 
-## 1.0.0-preview.15 (Unreleased)
+## 1.0.0-preview.14 (Unreleased)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-preview.14 (2022-02-03)
 
 ### Breaking Changes
 
@@ -19,6 +11,8 @@
   - `createSpanFunction` has been removed and replaced with a stateful `TracingClient` which can be created using the `createTracingClient` function.
   - `TracingClient` introduces a new API for creating tracing spans. Use `TracingClient#withSpan` to wrap an invocation in a span, ensuring the span is ended and exceptions are captured.
   - `TracingClient` also provides the lower-level APIs necessary to start a span without making it active, create request headers, serialize `traceparent` header, and wrapping a callback with an active context.
+
+### Bugs Fixed
 
 ### Other Changes
 

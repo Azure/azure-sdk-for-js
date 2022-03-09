@@ -4,16 +4,16 @@
 import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
-
+import { resetTracer, setTracer } from "./util/testTracerProvider";
 import { Context } from "mocha";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
-import { Span } from "@opentelemetry/sdk-trace-base";
+import { TestSpan } from "./util/testSpan";
+import { TestTracer } from "./util/testTracer";
 import { assert } from "chai";
-import { inMemoryExporter } from "./util/setup";
 import sinon from "sinon";
 
-function unwrap(span: TracingSpan): Span {
-  return (span as OpenTelemetrySpanWrapper).unwrap() as Span;
+function unwrap(span: TracingSpan): TestSpan {
+  return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
 }
 
 describe("OpenTelemetryInstrumenter", () => {
@@ -26,7 +26,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
     it("uses the passed in context if it exists", () => {
       const propagationSpy = sinon.spy(propagator);
-      const span = trace.getTracer("test").startSpan("test");
+      const span = new TestTracer().startSpan("test");
       const tracingContext = trace.setSpan(context.active(), span);
       instrumenter.createRequestHeaders(tracingContext);
       assert.isTrue(propagationSpy.inject.calledWith(tracingContext));
@@ -40,20 +40,24 @@ describe("OpenTelemetryInstrumenter", () => {
     });
   });
 
+  // TODO: the following still uses existing test support for OTel.
+  // Once the new APIs are available we should move away from those.
   describe("#startSpan", () => {
+    let tracer: TestTracer;
     const packageName = "test-package";
     const packageVersion = "test-version";
-
     beforeEach(() => {
-      inMemoryExporter.reset();
+      tracer = setTracer(tracer);
+    });
+
+    afterEach(() => {
+      resetTracer();
     });
 
     it("returns a newly started TracingSpan", () => {
       const { span } = instrumenter.startSpan("test", { packageName, packageVersion });
-      span.end();
       const otSpan = unwrap(span);
-      assert.lengthOf(inMemoryExporter.getFinishedSpans(), 1);
-      assert.equal(otSpan, inMemoryExporter.getFinishedSpans()[0]);
+      assert.equal(otSpan, tracer.getActiveSpans()[0]);
       assert.equal(otSpan.kind, SpanKind.INTERNAL);
     });
 
@@ -85,19 +89,6 @@ describe("OpenTelemetryInstrumenter", () => {
         });
 
         assert.equal(trace.getSpan(tracingContext), unwrap(span));
-      });
-
-      it("adds az.namespace as a context attribute for compatibility", async () => {
-        const currentContext = context
-          .active()
-          .setValue(Symbol.for("@azure/core-tracing namespace"), "test-namespace");
-
-        const { tracingContext } = instrumenter.startSpan("test", {
-          tracingContext: currentContext,
-          packageName,
-        });
-
-        assert.equal(tracingContext.getValue(Symbol.for("az.namespace")), "test-namespace");
       });
     });
 
@@ -217,7 +208,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
       // Function syntax
       instrumenter.withContext(context.active(), function (this: any) {
-        assert.notExists(this);
+        assert.isUndefined(this);
       });
       instrumenter.withContext(
         context.active(),

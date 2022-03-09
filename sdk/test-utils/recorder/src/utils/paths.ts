@@ -16,5 +16,4 @@ export const paths = {
   active: "/active",
   reset: "/reset",
   setMatcher: "/setMatcher",
-  addTransform: "/addTransform",
 };

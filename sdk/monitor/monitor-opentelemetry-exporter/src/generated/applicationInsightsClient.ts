@@ -13,8 +13,8 @@ import { ApplicationInsightsClientContext } from "./applicationInsightsClientCon
 import {
   ApplicationInsightsClientOptionalParams,
   TelemetryItem,
-  TrackOptionalParams,
-  TrackOperationResponse
+  ApplicationInsightsClientTrackOptionalParams,
+  ApplicationInsightsClientTrackResponse
 } from "./models";
 
 export class ApplicationInsightsClient extends ApplicationInsightsClientContext {
@@ -33,8 +33,8 @@ export class ApplicationInsightsClient extends ApplicationInsightsClientContext 
    */
   track(
     body: TelemetryItem[],
-    options?: TrackOptionalParams
-  ): Promise<TrackOperationResponse> {
+    options?: ApplicationInsightsClientTrackOptionalParams
+  ): Promise<ApplicationInsightsClientTrackResponse> {
     return this.sendOperationRequest({ body, options }, trackOperationSpec);
   }
 }

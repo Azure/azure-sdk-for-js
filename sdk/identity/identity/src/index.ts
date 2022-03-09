@@ -33,8 +33,6 @@ export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export {
   DefaultAzureCredential,
   DefaultAzureCredentialOptions,
-  DefaultAzureCredentialClientIdOptions,
-  DefaultAzureCredentialOptionsWithResourceId as DefaultAzureCredentialResourceIdOptions,
 } from "./credentials/defaultAzureCredential";
 export {
   EnvironmentCredential,
@@ -56,12 +54,7 @@ export {
   InteractiveBrowserCredentialInBrowserOptions,
   BrowserLoginStyle,
 } from "./credentials/interactiveBrowserCredentialOptions";
-export {
-  ManagedIdentityCredential,
-  ManagedIdentityCredentialOptions,
-  ManagedIdentityCredentialClientIdOptions,
-  ManagedIdentityCredentialResourceIdOptions,
-} from "./credentials/managedIdentityCredential";
+export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export {
   DeviceCodePromptCallback,

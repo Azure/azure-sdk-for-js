@@ -128,7 +128,6 @@ export interface ActiveDirectory {
     encryptDCConnections?: boolean;
     kdcIP?: string;
     ldapOverTLS?: boolean;
-    ldapSearchScope?: LdapSearchScopeOpt;
     ldapSigning?: boolean;
     organizationalUnit?: string;
     password?: string;
@@ -254,7 +253,6 @@ export interface BackupPolicy {
     monthlyBackupsToKeep?: number;
     readonly name?: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -407,7 +405,6 @@ export interface CapacityPool {
     qosType?: QosType;
     serviceLevel: ServiceLevel;
     size: number;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -478,9 +475,6 @@ export interface Dimension {
     displayName?: string;
     name?: string;
 }
-
-// @public
-export type EnableSubvolumes = string;
 
 // @public
 export type EncryptionType = string;
@@ -595,12 +589,6 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownEnableSubvolumes {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownEncryptionType {
     Double = "Double",
     Single = "Single"
@@ -689,13 +677,6 @@ export enum KnownVolumeStorageToNetworkProximity {
     Default = "Default",
     T1 = "T1",
     T2 = "T2"
-}
-
-// @public
-export interface LdapSearchScopeOpt {
-    groupDN?: string;
-    groupMembershipFilter?: string;
-    userDN?: string;
 }
 
 // @public
@@ -827,8 +808,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     snapshots: Snapshots;
     // (undocumented)
     subscriptionId: string;
-    // (undocumented)
-    subvolumes: Subvolumes;
     // (undocumented)
     vaults: Vaults;
     // (undocumented)
@@ -1158,7 +1137,6 @@ export interface SnapshotPolicy {
     monthlySchedule?: MonthlySchedule;
     readonly name?: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1206,19 +1184,11 @@ export interface SnapshotPolicyVolumeList {
 }
 
 // @public
-export interface SnapshotRestoreFiles {
-    destinationPath?: string;
-    filePaths: string[];
-}
-
-// @public
 export interface Snapshots {
     beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: Snapshot, options?: SnapshotsCreateOptionalParams): Promise<PollerLike<PollOperationState<SnapshotsCreateResponse>, SnapshotsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: Snapshot, options?: SnapshotsCreateOptionalParams): Promise<SnapshotsCreateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams): Promise<void>;
-    beginRestoreFiles(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: SnapshotRestoreFiles, options?: SnapshotsRestoreFilesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginRestoreFilesAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: SnapshotRestoreFiles, options?: SnapshotsRestoreFilesOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: Record<string, unknown>, options?: SnapshotsUpdateOptionalParams): Promise<PollerLike<PollOperationState<SnapshotsUpdateResponse>, SnapshotsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: Record<string, unknown>, options?: SnapshotsUpdateOptionalParams): Promise<SnapshotsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<SnapshotsGetResponse>;
@@ -1260,12 +1230,6 @@ export interface SnapshotsListOptionalParams extends coreClient.OperationOptions
 export type SnapshotsListResponse = SnapshotsList;
 
 // @public
-export interface SnapshotsRestoreFilesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1285,112 +1249,6 @@ export type SubscriptionQuotaItem = ProxyResource & {
 export interface SubscriptionQuotaItemList {
     value?: SubscriptionQuotaItem[];
 }
-
-// @public
-export type SubvolumeInfo = ProxyResource & {
-    readonly systemData?: SystemData;
-    path?: string;
-    size?: number;
-    parentPath?: string;
-    readonly provisioningState?: string;
-};
-
-// @public
-export interface SubvolumeModel {
-    accessedTimeStamp?: Date;
-    bytesUsed?: number;
-    changedTimeStamp?: Date;
-    creationTimeStamp?: Date;
-    readonly id?: string;
-    modifiedTimeStamp?: Date;
-    readonly name?: string;
-    parentPath?: string;
-    path?: string;
-    permissions?: string;
-    provisioningState?: string;
-    size?: number;
-    readonly type?: string;
-}
-
-// @public
-export interface SubvolumePatchRequest {
-    path?: string;
-    size?: number;
-}
-
-// @public
-export interface Subvolumes {
-    beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, body: SubvolumeInfo, options?: SubvolumesCreateOptionalParams): Promise<PollerLike<PollOperationState<SubvolumesCreateResponse>, SubvolumesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, body: SubvolumeInfo, options?: SubvolumesCreateOptionalParams): Promise<SubvolumesCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesDeleteOptionalParams): Promise<void>;
-    beginGetMetadata(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesGetMetadataOptionalParams): Promise<PollerLike<PollOperationState<SubvolumesGetMetadataResponse>, SubvolumesGetMetadataResponse>>;
-    beginGetMetadataAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesGetMetadataOptionalParams): Promise<SubvolumesGetMetadataResponse>;
-    beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, body: SubvolumePatchRequest, options?: SubvolumesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SubvolumesUpdateResponse>, SubvolumesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, body: SubvolumePatchRequest, options?: SubvolumesUpdateOptionalParams): Promise<SubvolumesUpdateResponse>;
-    get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesGetOptionalParams): Promise<SubvolumesGetResponse>;
-    listByVolume(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: SubvolumesListByVolumeOptionalParams): PagedAsyncIterableIterator<SubvolumeInfo>;
-}
-
-// @public
-export interface SubvolumesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubvolumesCreateResponse = SubvolumeInfo;
-
-// @public
-export interface SubvolumesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SubvolumesGetMetadataOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubvolumesGetMetadataResponse = SubvolumeModel;
-
-// @public
-export interface SubvolumesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubvolumesGetResponse = SubvolumeInfo;
-
-// @public
-export interface SubvolumesList {
-    nextLink?: string;
-    value?: SubvolumeInfo[];
-}
-
-// @public
-export interface SubvolumesListByVolumeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubvolumesListByVolumeNextResponse = SubvolumesList;
-
-// @public
-export interface SubvolumesListByVolumeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubvolumesListByVolumeResponse = SubvolumesList;
-
-// @public
-export interface SubvolumesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubvolumesUpdateResponse = SubvolumeInfo;
 
 // @public
 export interface SystemData {
@@ -1441,7 +1299,6 @@ export interface Volume {
     dataProtection?: VolumePropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
     defaultUserQuotaInKiBs?: number;
-    enableSubvolumes?: EnableSubvolumes;
     encryptionKeySource?: string;
     readonly etag?: string;
     exportPolicy?: VolumePropertiesExportPolicy;
@@ -1452,7 +1309,6 @@ export interface Volume {
     kerberosEnabled?: boolean;
     ldapEnabled?: boolean;
     location: string;
-    readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     readonly name?: string;
     networkFeatures?: NetworkFeatures;
@@ -1469,7 +1325,6 @@ export interface Volume {
     snapshotId?: string;
     readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
     subnetId: string;
-    readonly systemData?: SystemData;
     readonly t2Network?: string;
     tags?: {
         [propertyName: string]: string;
@@ -1592,7 +1447,6 @@ export interface VolumeGroupVolumeProperties {
     dataProtection?: VolumePropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
     defaultUserQuotaInKiBs?: number;
-    enableSubvolumes?: EnableSubvolumes;
     encryptionKeySource?: string;
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileSystemId?: string;
@@ -1601,7 +1455,6 @@ export interface VolumeGroupVolumeProperties {
     isRestoring?: boolean;
     kerberosEnabled?: boolean;
     ldapEnabled?: boolean;
-    readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     name?: string;
     networkFeatures?: NetworkFeatures;
@@ -1653,7 +1506,6 @@ export interface VolumePatch {
     };
     throughputMibps?: number;
     readonly type?: string;
-    unixPermissions?: string;
     usageThreshold?: number;
 }
 
@@ -1736,7 +1588,6 @@ export type VolumesCreateOrUpdateResponse = Volume;
 
 // @public
 export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
-    forceDelete?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

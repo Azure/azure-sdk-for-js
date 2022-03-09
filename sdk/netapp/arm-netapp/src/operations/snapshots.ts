@@ -24,9 +24,7 @@ import {
   SnapshotsCreateResponse,
   SnapshotsUpdateOptionalParams,
   SnapshotsUpdateResponse,
-  SnapshotsDeleteOptionalParams,
-  SnapshotRestoreFiles,
-  SnapshotsRestoreFilesOptionalParams
+  SnapshotsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -499,114 +497,6 @@ export class SnapshotsImpl implements Snapshots {
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Restore payload supplied in the body of the operation.
-   * @param options The options parameters.
-   */
-  async beginRestoreFiles(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    snapshotName: string,
-    body: SnapshotRestoreFiles,
-    options?: SnapshotsRestoreFilesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        snapshotName,
-        body,
-        options
-      },
-      restoreFilesOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Restore the specified files from the specified snapshot to the active filesystem
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param snapshotName The name of the snapshot
-   * @param body Restore payload supplied in the body of the operation.
-   * @param options The options parameters.
-   */
-  async beginRestoreFilesAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    snapshotName: string,
-    body: SnapshotRestoreFiles,
-    options?: SnapshotsRestoreFilesOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginRestoreFiles(
-      resourceGroupName,
-      accountName,
-      poolName,
-      volumeName,
-      snapshotName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -739,25 +629,5 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.volumeName,
     Parameters.snapshotName
   ],
-  serializer
-};
-const restoreFilesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}/restoreFiles",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.body15,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-    Parameters.snapshotName
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
   serializer
 };

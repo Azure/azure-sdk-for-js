@@ -2,8 +2,6 @@
 
 > see https://aka.ms/autorest
 
-Run `rushx generate:client` to generate code.
-
 ## Configuration
 
 ```yaml
@@ -17,7 +15,7 @@ clear-output-folder: false
 tracing-info:
   namespace: "Azure.Synapse.Artifacts"
   packagePrefix: "Microsoft.Synapse"
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/efd3d669a86d2e123f57ac3a43e5af4bb9e3a29f/specification/synapse/data-plane/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/949388b9dfddc435859fda2850c5bb5019aa217b/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
 tag: package-artifacts-composite-v3

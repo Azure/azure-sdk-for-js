@@ -1,93 +1,33 @@
 {
-  "Entries": [
-    {
-      "RequestUri": "https://endpoint/chat/threads/19%3ADLFXLgSucap6tThRd_X1JKmjMNrDVam37hheL3rNoCM1%40thread.v2?api-version=2021-09-07",
-      "RequestMethod": "PATCH",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Content-Length": "21",
-        "Content-Type": "application/merge-patch\u002Bjson",
-        "Origin": "http://localhost:9876",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "aa0ff190-e74e-4815-a508-669106a7e8eb",
-        "x-ms-useragent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
-      },
-      "RequestBody": {
-        "topic": "new topic"
-      },
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Date": "Wed, 09 Feb 2022 03:45:59 GMT",
-        "MS-CV": "j5S46tzkokCPfNnKV0/EBg.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BDgDYgAAAABUbBB/FhIvTrgLOlSzKR7fV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "87ms"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://endpoint/chat/threads/19%3ADLFXLgSucap6tThRd_X1JKmjMNrDVam37hheL3rNoCM1%40thread.v2?api-version=2021-09-07",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Origin": "http://localhost:9876",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "6e30bea5-44f3-485e-9bd4-d2d783eb44e5",
-        "x-ms-useragent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 03:45:59 GMT",
-        "MS-CV": "LzlrrCE/10a0TWAAjT\u002BFpQ.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0\u002BDgDYgAAAAC3qy1ijH0zT6BIkXtLffx9V1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "51ms"
-      },
-      "ResponseBody": {
-        "id": "19:DLFXLgSucap6tThRd_X1JKmjMNrDVam37hheL3rNoCM1@thread.v2",
-        "topic": "new topic",
-        "createdOn": "2022-02-09T03:45:59Z",
-        "createdByCommunicationIdentifier": {
-          "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c78-2a6f-f40f-343a0d009ad5",
-          "communicationUser": {
-            "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c78-2a6f-f40f-343a0d009ad5"
-          }
-        }
-      }
-    }
-  ],
-  "Variables": {}
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/chat/threads/19%3Ag0x1r-Au6W3oC_P19M8Tg8l7xbEou6NTDjR2gplU33A1%40thread.v2",
+   "query": {
+    "api-version": "2021-09-07"
+   },
+   "requestBody": "{\"topic\":\"new topic\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {}
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3Ag0x1r-Au6W3oC_P19M8Tg8l7xbEou6NTDjR2gplU33A1%40thread.v2",
+   "query": {
+    "api-version": "2021-09-07"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"19:g0x1r-Au6W3oC_P19M8Tg8l7xbEou6NTDjR2gplU33A1@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2021-09-03T19:27:28Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-f6a5-9508-45482200108f\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-f6a5-9508-45482200108f\"}}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "cdb749d3bb82f640534d2a61b146fd63"
 }

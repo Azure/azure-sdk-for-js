@@ -118,8 +118,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime,
     Parameters.restorableMongodbDatabaseRid
   ],
   urlParameters: [

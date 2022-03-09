@@ -4,7 +4,6 @@
 import {
   DocumentArrayField,
   DocumentCountryRegionField,
-  DocumentCurrencyField,
   DocumentDateField,
   DocumentIntegerField,
   DocumentNumberField,
@@ -13,7 +12,6 @@ import {
   DocumentStringField,
   DocumentTimeField,
 } from "../models/fields";
-import { Acronymic } from "../util";
 
 /**
  * The type of a model schema, which has a model ID and a set of document types, each having a field schema.
@@ -44,8 +42,7 @@ export type FieldSchema =
   | DateFieldSchema
   | ArrayFieldSchema
   | ObjectFieldSchema
-  | StructuredStringFieldSchema
-  | WellKnownObjectFieldSchema;
+  | StructuredStringFieldSchema;
 
 /**
  * A field that is ultimately represented by a string.
@@ -54,11 +51,7 @@ export type FieldSchema =
 export interface StringLikeFieldSchema<
   Type extends "string" | "countryRegion" = "string" | "countryRegion"
 > {
-  /** Field type: a string type such as "string" or "countryRegion". */
   readonly type: Type;
-  /**
-   * Optionally specifies the possible values of this string.
-   */
   readonly enum?: readonly string[];
 }
 
@@ -67,7 +60,6 @@ export interface StringLikeFieldSchema<
  * @hidden
  */
 export interface NumberFieldSchema<Type extends "number" | "integer" = "number" | "integer"> {
-  /** Field type: a number field such as "number" or "integer". */
   readonly type: Type;
 }
 
@@ -76,7 +68,6 @@ export interface NumberFieldSchema<Type extends "number" | "integer" = "number" 
  * @hidden
  */
 export interface DateFieldSchema {
-  /** Field type: "date". */
   readonly type: "date";
 }
 
@@ -87,7 +78,6 @@ export interface DateFieldSchema {
 export interface StructuredStringFieldSchema<
   Type extends "time" | "phoneNumber" = "time" | "phoneNumber"
 > {
-  /** Field type: a structured string type such as "time" or "phoneNumber". */
   readonly type: Type;
 }
 
@@ -96,22 +86,11 @@ export interface StructuredStringFieldSchema<
  * @hidden
  */
 export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<FieldSchema>> {
-  /** Field type: "array". */
   readonly type: "array";
   /**
    * The nested item schema.
    */
   readonly items: Item;
-}
-
-/**
- * A field that is represented by an object whose properties are immediately applied to the result (as opposed to nested
- * beneath a property named `properties` as in ordinary "object" fields).
- * @hidden
- */
-export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"> {
-  /** Field type: an immediate object such as "currency". */
-  readonly type: Type;
 }
 
 /**
@@ -121,7 +100,6 @@ export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"
 export interface ObjectFieldSchema<
   Properties extends { readonly [k: string]: FieldSchema } = { readonly [k: string]: FieldSchema }
 > {
-  /** Field type: "object". */
   readonly type: "object";
   /**
    * The field schemas for this field's properties.
@@ -160,7 +138,7 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> =
     Schema extends StringLikeFieldSchema<infer Type>
     ? {
         string: Schema extends { enum: string[] }
-          ? DocumentStringField<Schema["enum"][number]>
+          ? DocumentStringField & { value?: Schema["enum"][number] }
           : DocumentStringField;
         countryRegion: DocumentCountryRegionField;
       }[Type]
@@ -173,14 +151,10 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> =
     ? DocumentDateField
     : Schema extends ArrayFieldSchema<infer Item>
     ? DocumentArrayField<ReifyFieldSchema<Item>>
-    : Schema extends WellKnownObjectFieldSchema<infer Type>
-    ? {
-        currency: DocumentCurrencyField;
-      }[Type]
     : Schema extends ObjectFieldSchema<infer Properties>
     ? DocumentObjectField<{
-        [K in Extract<keyof Properties, string> as K extends Acronymic
-          ? K
-          : Uncapitalize<K>]?: ReifyFieldSchema<Properties[K]>;
+        [K in Extract<keyof Properties, string> as Uncapitalize<K>]?: ReifyFieldSchema<
+          Properties[K]
+        >;
       }>
     : never;

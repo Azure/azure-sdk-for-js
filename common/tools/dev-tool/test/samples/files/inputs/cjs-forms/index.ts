@@ -23,11 +23,6 @@ import "./hasSideEffects";
 import * as path_1 from "path";
 import path_2 from "path";
 
-import test1, { x as x1 } from "@azure/test1";
-import test2, { x as x2 } from "@azure-test2/test2";
-
-void [test1, test2, x1, x2];
-
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);

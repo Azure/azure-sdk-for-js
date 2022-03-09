@@ -1,7 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { PluginContext, RollupWarning, WarningHandler } from "rollup";
+import { RollupWarning, WarningHandler } from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
@@ -11,9 +8,6 @@ import json from "@rollup/plugin-json";
 import * as path from "path";
 
 import nodeBuiltins from "builtin-modules";
-import { createPrinter } from "../util/printer";
-
-const { debug } = createPrinter("rollup.base.config");
 
 interface PackageJson {
   name: string;
@@ -22,115 +16,49 @@ interface PackageJson {
   devDependencies: Record<string, string>;
 }
 
-/**
- * The default sourcemaps plugin does not provide very much information in warnings, so this shim allows us to capture
- * the active sourcemaps loading context.
- *
- * This allows us to selectively disable warnings about missing source maps, for example in core-asynciterator-polyfill.
- */
-export function sourcemapsExtra() {
-  const _sourcemaps = sourcemaps();
-
-  const load = _sourcemaps.load;
-
-  if (!load) return _sourcemaps;
-
-  return Object.assign(_sourcemaps, {
-    load(this: PluginContext, id: string) {
-      const shim = new Proxy(this, {
-        get(context, p, ...rest) {
-          if (p === "warn") {
-            const warn = context.warn;
-            return (warning: unknown) => {
-              const warningObject = (
-                typeof warning === "string" ? { message: warning } : warning
-              ) as RollupWarning;
-
-              warningObject.id = id;
-
-              warn(warningObject);
-            };
-          }
-          return Reflect.get(context, p, ...rest);
-        },
-      });
-
-      return load.call(shim, id);
-    },
-  });
-}
-
 // #region Warning Handler
 
 /**
- * A function that can determine whether a rollup warning should be ignored. If
+ * A function that can determine whether a rollupwarning should be ignored. If
  * the function returns `true`, then the warning will not be displayed.
  */
 export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
-function ignoreNiseSinonEval(warning: RollupWarning): boolean {
+function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
-    (warning.id?.includes(["node_modules", "nise"].join(path.sep)) ||
-      warning.id?.includes(["node_modules", "sinon"].join(path.sep))) === true
+    (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
+      true
   );
 }
 
-function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
+function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer?.includes(["node_modules", "chai"].join(path.sep)) === true
+    warning.importer?.includes("node_modules/chai") === true
   );
 }
 
-function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
+function ignoreOpenTelemetryThisIsUndefinedWarnings(warning: RollupWarning): boolean {
   return (
-    warning.code === "THIS_IS_UNDEFINED" &&
-    warning.id?.includes(["node_modules", "@opentelemetry", "api"].join(path.sep)) === true
-  );
-}
-
-/**
- * v1.0.0 of @azure/core-asynciterator-polyfill does not provide a source map.
- *
- * This was a bug, and this function works around that bug.
- */
-function ignoreAsyncIteratorPolyfillSourceMaps(warning: RollupWarning): boolean {
-  return (
-    warning.code === "PLUGIN_WARNING" &&
-    warning.plugin === "sourcemaps" &&
-    warning.id?.includes("@azure+core-asynciterator-polyfill@1.0.0") === true
-  );
-}
-
-/**
- * We ignore these warnings because some packages explicitly browser-map node builtins to `false`. Rollup will then
- * complain that node-resolve's empty module does not export symbols from them, but as long as the package doesn't
- * actually use those symbols at runtime in the browser tests, it should be fine.
- */
-function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
-  return (
-    // I absolutely cannot explain why, but node-resolve's internal module ID for empty.js begins with a null byte.
-    warning.code === "MISSING_EXPORT" && warning.exporter?.trim() === "\0node-resolve:empty.js"
+    warning.code === "THIS_IS_UNDEFINED" && warning.id?.includes("@opentelemetry/api") === true
   );
 }
 
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
-  ignoreChaiCircularDependency,
-  ignoreNiseSinonEval,
-  ignoreOpenTelemetryThisIsUndefined,
-  ignoreAsyncIteratorPolyfillSourceMaps,
-  ignoreMissingExportsFromEmpty,
+  ignoreChaiCircularDependencyWarnings,
+  ignoreNiseSinonEvalWarnings,
+  ignoreOpenTelemetryThisIsUndefinedWarnings,
 ];
 
 /**
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-export function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
+function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
   return (warning, warn) => {
-    if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
-      debug("Warning:", warning.code, warning.id, warning.loc);
+    // If every inhibitor returns false (i.e. no inhibitors), then show the warning
+    if (warningInhibitors.every((inhib) => !inhib(warning))) {
       warn(warning);
     }
   };
@@ -159,11 +87,17 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
       multiEntry({ exports: false }),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false,
       }),
-      cjs(),
+      cjs({
+        namedExports: {
+          // Chai's strange internal architecture makes it impossible to statically
+          // analyze its exports.
+          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
+          events: ["EventEmitter"],
+        },
+      }),
       json(),
-      sourcemapsExtra(),
+      sourcemaps(),
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),
@@ -204,7 +138,7 @@ export function makeConfig(
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
-    plugins: [sourcemaps(), nodeResolve(), cjs(), json()],
+    plugins: [sourcemaps(), nodeResolve(), cjs()],
   };
 
   const config: RollupOptions[] = [baseConfig as RollupOptions];

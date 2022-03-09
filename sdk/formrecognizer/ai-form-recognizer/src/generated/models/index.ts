@@ -81,8 +81,6 @@ export interface AnalyzeResult {
   entities?: DocumentEntity[];
   /** Extracted font styles. */
   styles?: DocumentStyle[];
-  /** Detected languages. */
-  languages?: DocumentLanguage[];
   /** Extracted documents. */
   documents?: Document[];
 }
@@ -239,16 +237,6 @@ export interface DocumentStyle {
   confidence: number;
 }
 
-/** An object representing the detected language for a given text span. */
-export interface DocumentLanguage {
-  /** Detected language.  Value may an ISO 639-1 language code (ex. "en", "fr") or BCP 47 language tag (ex. "zh-Hans"). */
-  languageCode: string;
-  /** Location of the text elements in the concatenated content the language applies to. */
-  spans: DocumentSpan[];
-  /** Confidence of correctly identifying the language. */
-  confidence: number;
-}
-
 /** An object describing the location and semantic content of a document. */
 export interface Document {
   /** Document type. */
@@ -292,8 +280,6 @@ export interface DocumentField {
   valueArray?: DocumentField[];
   /** Dictionary of named field values. */
   valueObject?: { [propertyName: string]: DocumentField };
-  /** Currency value. */
-  valueCurrency?: CurrencyValue;
   /** Field content. */
   content?: string;
   /** Bounding regions covering the field. */
@@ -304,26 +290,14 @@ export interface DocumentField {
   confidence?: number;
 }
 
-/** Currency field value. */
-export interface CurrencyValue {
-  /** Currency amount. */
-  amount: number;
-  /** Currency symbol label, if any. */
-  currencySymbol?: string;
-}
-
 /** Request body to build a new custom model. */
 export interface BuildDocumentModelRequest {
   /** Unique model name. */
   modelId: string;
   /** Model description. */
   description?: string;
-  /** Custom model build mode. */
-  buildMode: DocumentBuildMode;
   /** Azure Blob Storage location containing the training data. */
   azureBlobSource?: AzureBlobContentSource;
-  /** List of key-value tag attributes associated with the model. */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Azure Blob Storage content. */
@@ -342,8 +316,6 @@ export interface ComposeDocumentModelRequest {
   description?: string;
   /** List of component models to compose. */
   componentModels: ComponentModelInfo[];
-  /** List of key-value tag attributes associated with the model. */
-  tags?: { [propertyName: string]: string };
 }
 
 /** A component of a composed model. */
@@ -358,8 +330,6 @@ export interface AuthorizeCopyRequest {
   modelId: string;
   /** Model description. */
   description?: string;
-  /** List of key-value tag attributes associated with the model. */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Authorization to copy a model to the specified target resource and modelId. */
@@ -402,18 +372,6 @@ export interface OperationInfo {
   kind: OperationKind;
   /** URL of the resource targeted by this operation. */
   resourceLocation: string;
-  /** API version used to create this operation. */
-  apiVersion?: string;
-  /** List of key-value tag attributes associated with the model. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** List Models response object. */
-export interface GetModelsResponse {
-  /** List of models. */
-  value: ModelSummary[];
-  /** Link to the next page of models. */
-  nextLink?: string;
 }
 
 /** Model summary. */
@@ -424,18 +382,12 @@ export interface ModelSummary {
   description?: string;
   /** Date and time (UTC) when the model was created. */
   createdDateTime: Date;
-  /** API version used to create this model. */
-  apiVersion?: string;
-  /** List of key-value tag attributes associated with the model. */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Document type info. */
 export interface DocTypeInfo {
   /** Model description. */
   description?: string;
-  /** Custom model build mode. */
-  buildMode?: DocumentBuildMode;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
   fieldSchema: { [propertyName: string]: DocumentFieldSchema };
   /** Estimated confidence for each field. */
@@ -454,6 +406,14 @@ export interface DocumentFieldSchema {
   items?: DocumentFieldSchema;
   /** Named sub-fields of the object field. */
   properties?: { [propertyName: string]: DocumentFieldSchema };
+}
+
+/** List Models response object. */
+export interface GetModelsResponse {
+  /** List of models. */
+  value: ModelSummary[];
+  /** Link to the next page of models. */
+  nextLink?: string;
 }
 
 /** General information regarding the current resource. */
@@ -475,7 +435,7 @@ export type GetOperationResponse = OperationInfo & {
   /** Encountered error. */
   error?: ErrorModel;
   /** Operation result upon success. */
-  result?: Record<string, unknown>;
+  result?: ModelInfo;
 };
 
 /** Model info. */
@@ -528,7 +488,7 @@ export type StringIndexType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
-  TwoThousandTwentyTwo0130Preview = "2022-01-30-preview"
+  TwoThousandTwentyOne0930Preview = "2021-09-30-preview"
 }
 
 /**
@@ -536,7 +496,7 @@ export enum KnownApiVersion {
  * {@link KnownApiVersion} can be used interchangeably with ApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2022-01-30-preview**
+ * **2021-09-30-preview**
  */
 export type ApiVersion = string;
 
@@ -606,8 +566,7 @@ export enum KnownDocumentFieldType {
   CountryRegion = "countryRegion",
   Signature = "signature",
   Array = "array",
-  Object = "object",
-  Currency = "currency"
+  Object = "object"
 }
 
 /**
@@ -625,8 +584,7 @@ export enum KnownDocumentFieldType {
  * **countryRegion** \
  * **signature** \
  * **array** \
- * **object** \
- * **currency**
+ * **object**
  */
 export type DocumentFieldType = string;
 
@@ -645,22 +603,6 @@ export enum KnownDocumentSignatureType {
  * **unsigned**
  */
 export type DocumentSignatureType = string;
-
-/** Known values of {@link DocumentBuildMode} that the service accepts. */
-export enum KnownDocumentBuildMode {
-  Template = "template",
-  Neural = "neural"
-}
-
-/**
- * Defines values for DocumentBuildMode. \
- * {@link KnownDocumentBuildMode} can be used interchangeably with DocumentBuildMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **template** \
- * **neural**
- */
-export type DocumentBuildMode = string;
 
 /** Known values of {@link OperationKind} that the service accepts. */
 export enum KnownOperationKind {
@@ -702,7 +644,7 @@ export type OperationStatus =
   | "canceled";
 
 /** Optional parameters. */
-export interface AnalyzeDocument$binaryOptionalParams
+export interface GeneratedClientAnalyzeDocument$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Analyze request parameters. */
   analyzeRequest?: coreRestPipeline.RequestBodyType;
@@ -713,7 +655,7 @@ export interface AnalyzeDocument$binaryOptionalParams
 }
 
 /** Optional parameters. */
-export interface AnalyzeDocument$jsonOptionalParams
+export interface GeneratedClientAnalyzeDocument$jsonOptionalParams
   extends coreClient.OperationOptions {
   /** Analyze request parameters. */
   analyzeRequest?: AnalyzeDocumentRequest;
@@ -724,92 +666,95 @@ export interface AnalyzeDocument$jsonOptionalParams
 }
 
 /** Contains response data for the analyzeDocument operation. */
-export type AnalyzeDocumentResponse = GeneratedClientAnalyzeDocumentHeaders;
+export type GeneratedClientAnalyzeDocumentResponse = GeneratedClientAnalyzeDocumentHeaders;
 
 /** Optional parameters. */
-export interface GetAnalyzeDocumentResultOptionalParams
+export interface GeneratedClientGetAnalyzeDocumentResultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAnalyzeDocumentResult operation. */
-export type GetAnalyzeDocumentResultResponse = AnalyzeResultOperation;
+export type GeneratedClientGetAnalyzeDocumentResultResponse = AnalyzeResultOperation;
 
 /** Optional parameters. */
-export interface BuildDocumentModelOptionalParams
+export interface GeneratedClientBuildDocumentModelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the buildDocumentModel operation. */
-export type BuildDocumentModelResponse = GeneratedClientBuildDocumentModelHeaders;
+export type GeneratedClientBuildDocumentModelResponse = GeneratedClientBuildDocumentModelHeaders;
 
 /** Optional parameters. */
-export interface ComposeDocumentModelOptionalParams
+export interface GeneratedClientComposeDocumentModelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the composeDocumentModel operation. */
-export type ComposeDocumentModelResponse = GeneratedClientComposeDocumentModelHeaders;
+export type GeneratedClientComposeDocumentModelResponse = GeneratedClientComposeDocumentModelHeaders;
 
 /** Optional parameters. */
-export interface AuthorizeCopyDocumentModelOptionalParams
+export interface GeneratedClientAuthorizeCopyDocumentModelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the authorizeCopyDocumentModel operation. */
-export type AuthorizeCopyDocumentModelResponse = CopyAuthorization;
+export type GeneratedClientAuthorizeCopyDocumentModelResponse = CopyAuthorization;
 
 /** Optional parameters. */
-export interface CopyDocumentModelToOptionalParams
+export interface GeneratedClientCopyDocumentModelToOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the copyDocumentModelTo operation. */
-export type CopyDocumentModelToResponse = GeneratedClientCopyDocumentModelToHeaders;
+export type GeneratedClientCopyDocumentModelToResponse = GeneratedClientCopyDocumentModelToHeaders;
 
 /** Optional parameters. */
-export interface GetOperationsOptionalParams
+export interface GeneratedClientGetOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperations operation. */
-export type GetOperationsOperationResponse = GetOperationsResponse;
+export type GeneratedClientGetOperationsResponse = GetOperationsResponse;
 
 /** Optional parameters. */
-export interface GetOperationOptionalParams
+export interface GeneratedClientGetOperationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
-export type GetOperationOperationResponse = GetOperationResponse;
+export type GeneratedClientGetOperationResponse = GetOperationResponse;
 
 /** Optional parameters. */
-export interface GetModelsOptionalParams extends coreClient.OperationOptions {}
+export interface GeneratedClientGetModelsOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModels operation. */
-export type GetModelsOperationResponse = GetModelsResponse;
+export type GeneratedClientGetModelsResponse = GetModelsResponse;
 
 /** Optional parameters. */
-export interface GetModelOptionalParams extends coreClient.OperationOptions {}
+export interface GeneratedClientGetModelOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModel operation. */
-export type GetModelResponse = ModelInfo;
+export type GeneratedClientGetModelResponse = ModelInfo;
 
 /** Optional parameters. */
-export interface DeleteModelOptionalParams
+export interface GeneratedClientDeleteModelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GetInfoOptionalParams extends coreClient.OperationOptions {}
+export interface GeneratedClientGetInfoOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInfo operation. */
-export type GetInfoOperationResponse = GetInfoResponse;
+export type GeneratedClientGetInfoResponse = GetInfoResponse;
 
 /** Optional parameters. */
-export interface GetOperationsNextOptionalParams
+export interface GeneratedClientGetOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationsNext operation. */
-export type GetOperationsNextResponse = GetOperationsResponse;
+export type GeneratedClientGetOperationsNextResponse = GetOperationsResponse;
 
 /** Optional parameters. */
-export interface GetModelsNextOptionalParams
+export interface GeneratedClientGetModelsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModelsNext operation. */
-export type GetModelsNextResponse = GetModelsResponse;
+export type GeneratedClientGetModelsNextResponse = GetModelsResponse;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

@@ -8,9 +8,6 @@ trigger:
   paths:
     include:
       - sdk/eventgrid/
-    exclude:
-      - sdk/eventgrid/ci.mgmt.yml
-      - sdk/eventgrid/arm-eventgrid/
 pr:
   branches:
     include:
@@ -23,10 +20,6 @@ pr:
   paths:
     include:
       - sdk/eventgrid/
-    exclude:
-      - sdk/eventgrid/ci.mgmt.yml
-      - sdk/eventgrid/arm-eventgrid/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +27,5 @@ extends:
     Artifacts:
       - name: azure-eventgrid
         safeName: azureeventgrid
+      - name: azure-arm-eventgrid
+        safeName: azurearmeventgrid

@@ -1823,9 +1823,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.VirtualMachineScaleSet
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters15,
@@ -1856,9 +1853,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.VirtualMachineScaleSet
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters16,
@@ -1877,15 +1871,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion, Parameters.forceDeletion],
   urlParameters: [
     Parameters.$host,
@@ -1893,7 +1879,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -1903,9 +1888,6 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSet
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand2],
@@ -1922,15 +1904,7 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/deallocate",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1939,7 +1913,7 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1947,15 +1921,7 @@ const deleteInstancesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs1,
   queryParameters: [Parameters.apiVersion, Parameters.forceDeletion],
   urlParameters: [
@@ -1964,7 +1930,7 @@ const deleteInstancesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1975,9 +1941,6 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetInstanceView
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1997,9 +1960,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2018,9 +1978,6 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListWithLinkResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2035,9 +1992,6 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListSkusResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2057,9 +2011,6 @@ const getOSUpgradeHistoryOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListOSUpgradeHistory
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2076,15 +2027,7 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/poweroff",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion, Parameters.skipShutdown],
   urlParameters: [
@@ -2093,7 +2036,7 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2101,15 +2044,7 @@ const restartOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/restart",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2118,7 +2053,7 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2126,15 +2061,7 @@ const startOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2143,7 +2070,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2151,15 +2078,7 @@ const redeployOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2168,7 +2087,7 @@ const redeployOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2176,15 +2095,7 @@ const performMaintenanceOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/performMaintenance",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2193,7 +2104,7 @@ const performMaintenanceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2201,15 +2112,7 @@ const updateInstancesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2218,7 +2121,7 @@ const updateInstancesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2226,15 +2129,7 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmScaleSetReimageInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2243,7 +2138,7 @@ const reimageOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2251,15 +2146,7 @@ const reimageAllOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.vmInstanceIDs,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2268,7 +2155,7 @@ const reimageAllOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2279,17 +2166,9 @@ const forceRecoveryServiceFabricPlatformUpdateDomainWalkOperationSpec: coreClien
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryWalkResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.platformUpdateDomain,
-    Parameters.zone,
-    Parameters.placementGroupId
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.platformUpdateDomain],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -2303,12 +2182,7 @@ const convertToSinglePlacementGroupOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/convertToSinglePlacementGroup",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {} },
   requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2317,7 +2191,7 @@ const convertToSinglePlacementGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2325,15 +2199,7 @@ const setOrchestrationServiceStateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState",
   httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2342,7 +2208,7 @@ const setOrchestrationServiceStateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -2373,9 +2239,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2394,9 +2257,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListWithLinkResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2414,9 +2274,6 @@ const listSkusNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListSkusResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2436,9 +2293,6 @@ const getOSUpgradeHistoryNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetListOSUpgradeHistory
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],

@@ -12,7 +12,7 @@
  * This sample demonstrates how to Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
  */
 import {
   PrivateEndpointConnectionResource,

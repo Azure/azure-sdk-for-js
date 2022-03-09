@@ -33,7 +33,7 @@ describe("HubClient", function () {
     it("takes an endpoint, an API key, a hub name, and options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubServiceClient(
-          env.WPS_ENDPOINT,
+          env.ENDPOINT,
           new AzureKeyCredential(env.WPS_API_KEY),
           "test-hub",
           {
@@ -45,7 +45,7 @@ describe("HubClient", function () {
 
     it("takes an endpoint, DefaultAzureCredential, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(env.WPS_ENDPOINT, new DefaultAzureCredential(), "test-hub", {
+        new WebPubSubServiceClient(env.ENDPOINT, new DefaultAzureCredential(), "test-hub", {
           retryOptions: { maxRetries: 2 },
         });
       });
@@ -76,7 +76,7 @@ describe("HubClient", function () {
 
     it("can broadcast using the DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        env.WPS_ENDPOINT,
+        env.ENDPOINT,
         new DefaultAzureCredential(),
         "simplechat"
       );
@@ -94,7 +94,7 @@ describe("HubClient", function () {
 
     it("can broadcast using APIM", async () => {
       const apimClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat", {
-        reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT,
+        reverseProxyEndpoint: env.REVERSE_PROXY_ENDPOINT,
       });
 
       await apimClient.sendToAll("hello", { contentType: "text/plain", onResponse });
@@ -165,8 +165,14 @@ describe("HubClient", function () {
     it("can revoke permissions from connections", async function () {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
-      await client.revokePermission("invalid-id", "joinLeaveGroup", { targetName: "x" });
-      // Service doesn't throw error for invalid connection-ids
+      let error;
+      try {
+        await client.revokePermission("xxx", "joinLeaveGroup", { targetName: "x" });
+      } catch (e) {
+        error = e;
+      }
+      // grantPermission validates connection ids, so we expect an error here.
+      assert.equal(error.statusCode, 404);
     });
 
     // service API doesn't work yet.

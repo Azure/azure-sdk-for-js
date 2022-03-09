@@ -56,9 +56,6 @@ export class ContainerSASPermissions {
         case "y":
           containerSASPermissions.permanentDelete = true;
           break;
-        case "f":
-          containerSASPermissions.filterByTags = true;
-          break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
@@ -110,9 +107,6 @@ export class ContainerSASPermissions {
     }
     if (permissionLike.permanentDelete) {
       containerSASPermissions.permanentDelete = true;
-    }
-    if (permissionLike.filterByTags) {
-      containerSASPermissions.filterByTags = true;
     }
     return containerSASPermissions;
   }
@@ -178,11 +172,6 @@ export class ContainerSASPermissions {
   public permanentDelete: boolean = false;
 
   /**
-   * Specifies that Filter Blobs by Tags is permitted.
-   */
-  public filterByTags: boolean = false;
-
-  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -227,9 +216,6 @@ export class ContainerSASPermissions {
     }
     if (this.permanentDelete) {
       permissions.push("y");
-    }
-    if (this.filterByTags) {
-      permissions.push("f");
     }
     return permissions.join("");
   }
@@ -299,9 +285,4 @@ export interface ContainerSASPermissionsLike {
    * Specifies that Permanent Delete is permitted.
    */
   permanentDelete?: boolean;
-
-  /**
-   * Specifies that Filter Blobs by Tags is permitted.
-   */
-  filterByTags?: boolean;
 }

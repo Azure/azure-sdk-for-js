@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientCertificateCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -20,14 +20,11 @@ describe("ClientCertificateCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
-  let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(function (this: Context) {
+    const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
-    recorder = setup.recorder;
 
-    await recorder.setMatcher("BodilessMatcher");
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
     // MsalClientSecret calls to this method underneath.
@@ -46,15 +43,15 @@ describe("ClientCertificateCredential (internal)", function () {
   it("Should throw if the parameteres are not correctly specified", async function () {
     let errors: Error[] = [];
     try {
-      new ClientCertificateCredential(undefined as any, env.AZURE_CLIENT_ID!, {
-        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH!,
+      new ClientCertificateCredential(undefined as any, env.AZURE_CLIENT_ID, {
+        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH,
       });
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientCertificateCredential(env.AZURE_TENANT_ID!, undefined as any, {
-        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH!,
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, undefined as any, {
+        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH,
       });
     } catch (e) {
       errors.push(e);
@@ -75,13 +72,13 @@ describe("ClientCertificateCredential (internal)", function () {
     errors = [];
     try {
       // If configuration object is undefined. Relevant for JavaScript.
-      new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, undefined as any);
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
     } catch (e) {
       errors.push(e);
     }
     try {
       // If configuration object is empty.
-      new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, {} as any);
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {} as any);
     } catch (e) {
       errors.push(e);
     }
@@ -96,7 +93,7 @@ describe("ClientCertificateCredential (internal)", function () {
     let error: unknown;
     try {
       // If both values are provided. Relevant for JavaScript.
-      new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, {
+      new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
         certificatePath: "some/path",
         certificate: "certificate-value",
       } as any);
@@ -146,11 +143,7 @@ describe("ClientCertificateCredential (internal)", function () {
     );
   });
 
-  // TODO:
-  // This is not the way to test persistence with acquireTokenByClientCredential,
-  // since acquireTokenByClientCredential caches at the method level, and not with the same cache used for acquireTokenSilent.
-  // I'm leaving this here so I can remember about this in the future.
-  it.skip("Authenticates silently after the initial request", async function (this: Context) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -158,7 +151,7 @@ describe("ClientCertificateCredential (internal)", function () {
       this.skip();
     }
 
-    const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, {
+    const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
       certificatePath,
     });
 
@@ -178,8 +171,8 @@ describe("ClientCertificateCredential (internal)", function () {
   // TODO: Enable again once we're ready to release this feature.
   it.skip("supports specifying the regional authority", async function () {
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
       { certificatePath },
       {
         // TODO: Uncomment once we're ready to release this feature.
@@ -187,7 +180,7 @@ describe("ClientCertificateCredential (internal)", function () {
       }
     );
 
-    // We'll abort since we only want to ensure the parameters are sent appropriately.
+    // We'll abort since we only want to ensure the parameters are sent apporpriately.
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
       abortSignal: controller.signal,

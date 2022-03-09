@@ -643,6 +643,7 @@ export const ArcSetting: coreClient.CompositeMapper = {
       },
       arcInstanceResourceGroup: {
         serializedName: "properties.arcInstanceResourceGroup",
+        readOnly: true,
         type: {
           name: "String"
         }

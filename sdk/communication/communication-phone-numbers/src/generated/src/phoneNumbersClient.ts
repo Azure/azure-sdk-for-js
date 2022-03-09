@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PhoneNumbersImpl } from "./operations";
-import { PhoneNumbers } from "./operationsInterfaces";
+import { PhoneNumbers } from "./operations";
 import { PhoneNumbersClientContext } from "./phoneNumbersClientContext";
 import { PhoneNumbersClientOptionalParams } from "./models";
 
@@ -20,7 +19,7 @@ export class PhoneNumbersClient extends PhoneNumbersClientContext {
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
     super(endpoint, options);
-    this.phoneNumbers = new PhoneNumbersImpl(this);
+    this.phoneNumbers = new PhoneNumbers(this);
   }
 
   phoneNumbers: PhoneNumbers;

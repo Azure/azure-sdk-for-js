@@ -8,9 +8,6 @@ trigger:
   paths:
     include:
       - sdk/attestation/
-    exclude:
-      - sdk/attestation/ci.mgmt.yml
-      - sdk/attestation/arm-attestation
 pr:
   branches:
     include:
@@ -23,10 +20,6 @@ pr:
   paths:
     include:
       - sdk/attestation/
-    exclude:
-      - sdk/attestation/ci.mgmt.yml
-      - sdk/attestation/arm-attestation
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +27,5 @@ extends:
     Artifacts:
       - name: azure-attestation
         safeName: azureattestation
+      - name: azure-arm-attestation
+        safeName: azurearmattestation

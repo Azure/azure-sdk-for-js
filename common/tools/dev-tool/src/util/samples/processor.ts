@@ -4,21 +4,20 @@
 import fs from "fs-extra";
 import path from "path";
 import * as ts from "typescript";
-import { convert } from "./convert";
+import { convert } from "../../commands/samples/tsToJs";
 import { createPrinter } from "../printer";
 import { createAccumulator } from "../typescript/accumulator";
 import { createDiagnosticEmitter } from "../typescript/diagnostic";
 import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
 import { testSyntax } from "./syntax";
-import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms";
+import { isDependency, isRelativePath, toCommonJs } from "./transforms";
 
 const log = createPrinter("samples:processor");
 
 export async function processSources(
   sourceDirectory: string,
   sources: string[],
-  fail: (...values: unknown[]) => never,
-  requireInScope: (moduleSpecifier: string) => unknown
+  fail: (...values: unknown[]) => never
 ): Promise<ModuleInfo[]> {
   // Project-scoped information (shared between all source files)
   let hadUnsupportedSyntax = false;
@@ -106,7 +105,7 @@ export async function processSources(
       fileName: source,
       transformers: {
         before: [sourceProcessor],
-        after: [createToCommonJsTransform(requireInScope)],
+        after: [toCommonJs],
       },
     });
 

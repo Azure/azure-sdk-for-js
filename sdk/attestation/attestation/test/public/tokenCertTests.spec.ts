@@ -12,14 +12,13 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure-tools/test-recorder";
 
-import { createRecordedClient, getAttestationUri, recorderOptions } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder, getAttestationUri } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 describe("TokenCertTests", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
+  beforeEach(function (this: Context) {
+    recorder = createRecorder(this);
   });
 
   afterEach(async function () {
@@ -27,17 +26,17 @@ describe("TokenCertTests", function () {
   });
 
   it("#GetCertificateAAD", async () => {
-    const client = createRecordedClient(recorder, "AAD");
+    const client = createRecordedClient("AAD");
     await getCertificatesTest(client);
   });
 
   it("#GetCertificatesIsolated", async () => {
-    const client = createRecordedClient(recorder, "Isolated");
+    const client = createRecordedClient("Isolated");
     await getCertificatesTest(client);
   });
 
   it("#GetCertificatesShared", async () => {
-    const client = createRecordedClient(recorder, "Shared");
+    const client = createRecordedClient("Shared");
     await getCertificatesTest(client);
   });
 
@@ -57,17 +56,17 @@ describe("TokenCertTests", function () {
   }
 
   it("#GetMetadataConfigAAD", async () => {
-    const client = createRecordedClient(recorder, "AAD");
+    const client = createRecordedClient("AAD");
     await getMetadataConfigTest(client, getAttestationUri("AAD"));
   });
 
   it("#GetMetadataConfigIsolated", async () => {
-    const client = createRecordedClient(recorder, "Isolated");
+    const client = createRecordedClient("Isolated");
     await getMetadataConfigTest(client, getAttestationUri("Isolated"));
   });
 
   it("#GetMetadataConfigShared", async () => {
-    const client = createRecordedClient(recorder, "Shared");
+    const client = createRecordedClient("Shared");
     await getMetadataConfigTest(client, getAttestationUri("Shared"));
   });
 

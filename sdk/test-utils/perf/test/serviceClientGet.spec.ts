@@ -37,7 +37,7 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
     const url = this.parsedOptions.url.value;
     const insecure = this.parsedOptions.insecure.value;
 
-    this.client = new ServiceClient(this.configureClientOptions({}));
+    this.client = this.configureClient(new ServiceClient());
     this.request = createPipelineRequest({
       allowInsecureConnection: true,
       streamResponseStatusCodes: new Set([200]),

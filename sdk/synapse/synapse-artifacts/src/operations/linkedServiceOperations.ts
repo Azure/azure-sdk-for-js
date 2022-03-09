@@ -13,7 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
+import { ArtifactsClientContext } from "../artifactsClientContext";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -34,13 +34,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LinkedServiceOperations operations. */
 export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
-  private readonly client: ArtifactsClient;
+  private readonly client: ArtifactsClientContext;
 
   /**
    * Initialize a new instance of the class LinkedServiceOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClient) {
+  constructor(client: ArtifactsClientContext) {
     this.client = client;
   }
 

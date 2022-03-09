@@ -21,12 +21,12 @@ describe("LogsQueryClient live tests", function () {
 
   let testRunId: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(function (this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
-    const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
+    const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this);
     monitorWorkspaceId = getMonitorWorkspaceId(this);
     logsClient = recordedClient.client;
+    recorder = recordedClient.recorder;
   });
   afterEach(async function () {
     if (recorder) {
@@ -459,11 +459,10 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(function (this: Context) {
     setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
-    const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder, {
+    const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
       maxRetries: 0,
       retryDelayInMs: 0,
       maxRetryDelayInMs: 0,
@@ -473,8 +472,10 @@ describe("LogsQueryClient live tests - server timeout", function () {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
   });
   afterEach(async function () {
-    loggerForTest.verbose("Recorder: stopping");
-    await recorder.stop();
+    if (recorder) {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    }
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.

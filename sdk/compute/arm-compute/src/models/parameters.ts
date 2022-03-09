@@ -110,7 +110,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01",
+    defaultValue: "2021-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -604,26 +604,6 @@ export const platformUpdateDomain: OperationQueryParameter = {
   }
 };
 
-export const zone: OperationQueryParameter = {
-  parameterPath: ["options", "zone"],
-  mapper: {
-    serializedName: "zone",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const placementGroupId: OperationQueryParameter = {
-  parameterPath: ["options", "placementGroupId"],
-  mapper: {
-    serializedName: "placementGroupId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: VMScaleSetConvertToSinglePlacementGroupInputMapper
@@ -702,16 +682,6 @@ export const restorePointName: OperationURLParameter = {
   }
 };
 
-export const expand4: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const parameters24: OperationParameter = {
   parameterPath: "parameters",
   mapper: CapacityReservationGroupMapper
@@ -733,7 +703,7 @@ export const parameters25: OperationParameter = {
   mapper: CapacityReservationGroupUpdateMapper
 };
 
-export const expand5: OperationQueryParameter = {
+export const expand4: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -743,7 +713,7 @@ export const expand5: OperationQueryParameter = {
   }
 };
 
-export const expand6: OperationQueryParameter = {
+export const expand5: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -774,7 +744,7 @@ export const parameters27: OperationParameter = {
   mapper: CapacityReservationUpdateMapper
 };
 
-export const expand7: OperationQueryParameter = {
+export const expand6: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -899,18 +869,6 @@ export const runCommand1: OperationParameter = {
   mapper: VirtualMachineRunCommandUpdateMapper
 };
 
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-07-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const includeExtendedLocations: OperationQueryParameter = {
   parameterPath: ["options", "includeExtendedLocations"],
   mapper: {
@@ -937,10 +895,10 @@ export const diskName: OperationURLParameter = {
   }
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-12-01",
+    defaultValue: "2021-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1076,18 +1034,6 @@ export const galleryName: OperationURLParameter = {
   }
 };
 
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const gallery1: OperationParameter = {
   parameterPath: "gallery",
   mapper: GalleryUpdateMapper
@@ -1097,16 +1043,6 @@ export const select1: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$select",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const expand8: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
     type: {
       name: "String"
     }
@@ -1155,7 +1091,7 @@ export const galleryImageVersion1: OperationParameter = {
   mapper: GalleryImageVersionUpdateMapper
 };
 
-export const expand9: OperationQueryParameter = {
+export const expand7: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -1266,7 +1202,7 @@ export const cloudServiceName: OperationURLParameter = {
   }
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-03-01",

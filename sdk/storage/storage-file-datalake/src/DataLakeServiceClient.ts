@@ -82,9 +82,7 @@ export class DataLakeServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        if (!options.proxyOptions) {
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        }
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline);
       } else {

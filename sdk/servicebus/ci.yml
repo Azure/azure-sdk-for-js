@@ -8,9 +8,6 @@ trigger:
   paths:
     include:
       - sdk/servicebus/
-    exclude:
-      - sdk/servicebus-map/ci.mgmt.yml
-      - sdk/servicebus-map/arm-servicebus/
 pr:
   branches:
     include:
@@ -23,9 +20,6 @@ pr:
   paths:
     include:
       - sdk/servicebus/
-    exclude:
-      - sdk/servicebus-map/ci.mgmt.yml
-      - sdk/servicebus-map/arm-servicebus/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,3 +27,5 @@ extends:
     Artifacts:
       - name: azure-service-bus
         safeName: azureservicebus
+      - name: azure-arm-servicebus
+        safeName: azurearmservicebus

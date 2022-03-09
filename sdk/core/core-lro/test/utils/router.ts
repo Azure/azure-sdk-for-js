@@ -29,8 +29,8 @@ const lroClient: HttpClient = {
   async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const reqPath = request.url;
     const reqMethod = request.method;
-    const route = routesTable.get(reqPath);
-    if (route !== undefined) {
+    if (routesTable.has(reqPath) === true) {
+      const route = routesTable.get(reqPath)!;
       if (route.method === reqMethod) {
         return route.process(request);
       } else {

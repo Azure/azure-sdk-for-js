@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Secret client - restore secrets and recover backups", () => {
   const secretPrefix = `backupRestore${env.SECRET_NAME || "SecretName"}`;

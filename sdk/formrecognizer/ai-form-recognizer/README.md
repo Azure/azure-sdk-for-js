@@ -4,7 +4,6 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 
 - Layout - Extract text, table structures, and selection marks, along with their bounding region coordinates, from documents.
 - Document - Analyze entities, key-value pairs, tables, and selection marks from documents using the general prebuilt document model.
-- Read - Read information about textual elements, such as page words and lines in addition to text language information.
 - Prebuilt - Analyze data from certain types of common documents (such as receipts, invoices, business cards, or identity documents) using prebuilt models.
 - Custom - Build custom models to extract text, field values, selection marks, and table data from documents. Custom models are built with your own data, so they're tailored to your documents.
 
@@ -16,23 +15,23 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 
 #### **_Breaking Change Advisory_ ⚠️**
 
-In version 4 (currently beta), this package introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2022-01-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). Additionally, the [CHANGELOG](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/CHANGELOG.md) contains an outline of the changes. This package targets Azure Form Recognizer service API version `2022-01-30-preview` and newer. To continue to use Form Recognizer API version 2.1, please use major version 3 of the client package (`@azure/ai-form-recognizer@^3.2.0`).
+In version 4 (currently beta), this package introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). Additionally, the [CHANGELOG](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/CHANGELOG.md) contains an outline of the changes. This package targets Azure Form Recognizer service API version `2021-09-30-preview` and newer. To continue to use Form Recognizer API version 2.1, please use major version 3 of the client package (`@azure/ai-form-recognizer@^3.2.0`).
 
 ### Install the `@azure/ai-form-recognizer` Package
 
 Install the Azure Form Recognizer client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-form-recognizer@4.0.0-beta.3
+npm install @azure/ai-form-recognizer@4.0.0-beta.2
 ```
 
 ## Getting Started
 
 ```javascript
-const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const fs = require("fs");
+import * as fs from "fs";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(
@@ -42,7 +41,7 @@ const client = new DocumentAnalysisClient(
 
 // Form Recognizer supports many different types of files.
 const file = fs.createReadStream("path/to/file.jpg");
-const poller = await client.beginAnalyzeDocument("<model ID>", file);
+const poller = await client.beginAnalyzeDocuments("<model ID>", file);
 
 const { pages, tables, styles, keyValuePairs, entities, documents } = await poller.pollUntilDone();
 ```
@@ -106,7 +105,7 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 Once you have an API key and endpoint, you can use it as follows:
 
 ```js
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const client = new DocumentAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 ```
@@ -124,8 +123,8 @@ To authenticate using a service principal, you will also need to [register an AA
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```js
-const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredential());
 ```
@@ -136,10 +135,9 @@ const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredenti
 
 `DocumentAnalysisClient` provides operations for analyzing input documents using custom and prebuilt models. It has three methods:
 
-- `beginAnalyzeDocument`, which extracts data from an input document using a custom or prebuilt model given by its model ID. For information about the prebuilt models supported in all resources and their model IDs/outputs, please see [the service's documentation of the models][fr-models].
-- `beginExtractLayout`, which uses the "prebuilt-layout" model to extract only the basic layout (OCR) information from the input documents, such as pages and their contents, tables, and observed text styles. This method provides a stronger TypeScript type for the layout result than the `beginAnalyzeDocument` method.
-- `beginExtractGeneralDocument`, which uses the "prebuilt-document" model to extract key-value pairs and entities in addition to the properties of the prebuilt layout model. This method also provides a stronger TypeScript type for the general document result than the `beginAnalyzeDocument` method.
-- `beginReadDocument`, which uses the "prebuilt-read" model to extract textual elements, such as page words and lines in addition to text language information.
+- `beginAnalyzeDocuments`, which extracts data from an input document using a custom or prebuilt model given by its model ID. For information about the prebuilt models supported in all resources and their model IDs/outputs, please see [the service's documentation of the models][fr-models].
+- `beginExtractLayout`, which uses the "prebuilt-layout" model to extract only the basic layout (OCR) information from the input documents, such as pages and their contents, tables, and observed text styles. This method provides a stronger TypeScript type for the layout result than the `beginAnalyzeDocuments` method.
+- `beginExtractGenericDocument`, which uses the "prebuilt-document" model to extract key-value pairs and entities in addition to the properties of the prebuilt layout model. This method also provides a stronger TypeScript type for the generic document result than the `beginAnalyzeDocuments` method.
 
 ### `DocumentModelAdministrationClient`
 
@@ -168,17 +166,17 @@ The following section provides several JavaScript code snippets illustrating com
 
 - [Analyze a Document with a Model](#analyze-a-document-with-a-model)
 - [Extract Layout](#extract-layout)
-- [Extract General Document](#extract-general-document)
+- [Extract Generic Document](#extract-generic-document)
 - [Use Prebuilt Models](#using-prebuilt-models)
 - [Build a Model](#build-a-model)
 - [Manage Models](#manage-models)
 
 ### Analyze a Document with a Model
 
-The `beginAnalyzeDocument` method can extract fields and table data from documents. These models are trained with your own data, so they're tailored to your particular documents. A custom model should only be used with documents of the same structure as one of the document types in the model (there may be multiple, such as in a composed model).
+The `beginAnalyzeDocuments` method can extract fields and table data from documents. These models are trained with your own data, so they're tailored to your particular documents. A custom model should only be used with documents of the same structure as one of the document types in the model (there may be multiple, such as in a composed model).
 
 ```javascript
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const fs = require("fs");
 
@@ -191,7 +189,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginAnalyzeDocument(modelId, readStream, {
+  const poller = await client.beginAnalyzeDocuments(modelId, readStream, {
     onProgress: ({ status }) => {
       console.log(`status: ${status}`);
     },
@@ -236,7 +234,7 @@ As an alternative to providing a readable stream, a publicly-accessible URL can 
 The `beginExtractLayout` method extracts only the basic elements of the document, such as pages, (which consist of text words/lines and selection marks), tables, and visual text styles along with their bounding regions and spans within the text content of the input documents.
 
 ```javascript
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const fs = require("fs");
 
@@ -268,14 +266,14 @@ main().catch((err) => {
 });
 ```
 
-_Note_: you may also use the `beginAnalyzeDocument` method to extract layout information using the prebuilt layout model by providing the model ID `"prebuilt-layout"`. This method provides a weaker TypeScript type for the layout analysis result, but will produce the same information. The `beginExtractLayout` method is available for your convenience.
+_Note_: you may also use the `beginAnalyzeDocuments` method to extract layout information using the prebuilt layout model by providing the model ID `"prebuilt-layout"`. This method provides a weaker TypeScript type for the layout analysis result, but will produce the same information. The `beginExtractLayout` method is available for your convenience.
 
-### Extract General Document
+### Extract Generic Document
 
-The `beginExtractGeneralDocument` method extracts information about key-value pairs and entities in addition to the properties produced by the layout extraction method. This prebuilt (general) document model provides similar functionality to the custom models trained without label information in previous iterations of the Form Recognizer service, but it is now provided as a prebuilt model that works with a wide variety of documents.
+The `beginExtractGenericDocument` method extracts information about key-value pairs and entities in addition to the properties produced by the layout extraction method. This new prebuilt (generic) document model provides similar functionality to the "unlabeled" custom models found in previous iterations of the Form Recognizer service, but it is now provided as a prebuilt that works with a wide variety of documents.
 
 ```javascript
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const fs = require("fs");
 
@@ -287,7 +285,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginExtractGeneralDocument(readStream);
+  const poller = await client.beginExtractLayout(readStream);
 
   // `pages`, `tables` and `styles` are also available as in the "layout" example above, but for the sake of this
   // example we won't show them here.
@@ -322,78 +320,16 @@ main().catch((err) => {
 });
 ```
 
-_Note_: you may also use the `beginAnalyzeDocument` method to extract general document information using the prebuilt document model by providing the model ID `"prebuilt-document"`. This method provides a weaker TypeScript type for the layout analysis result, but will produce the same information. The `beginExtractGeneralDocument` method is available for your convenience.
-
-### Read Document
-
-```javascript
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
-
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const path = "<path to a document>"; // pdf/jpeg/png/tiff formats
-
-  const readStream = fs.createReadStream(path);
-
-  const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginReadDocument(readStream);
-
-  // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
-  // document, such as page text elements, text styles, and information about the language of the text.
-  const { content, pages, languages, styles } = await poller.pollUntilDone();
-
-  if (pages.length <= 0) {
-    console.log("No pages were extracted from the document.");
-  } else {
-    console.log("Pages:");
-    for (const page of pages) {
-      console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
-      console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
-      console.log(`  ${page.lines.length} lines, ${page.words.length} words`);
-
-      if (page.lines.length > 0) {
-        console.log("  Lines:");
-
-        for (const line of page.lines) {
-          console.log(`  - "${line.content}"`);
-        }
-      }
-    }
-  }
-
-  if (languages.length <= 0) {
-    console.log("No language spans were extracted from the document.");
-  } else {
-    console.log("Languages:");
-    for (const languageEntry of languages) {
-      console.log(
-        `- Found language: ${languageEntry.languageCode} (confidence: ${languageEntry.confidence})`
-      );
-      for (const text of getTextOfSpans(content, languageEntry.spans)) {
-        const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
-        console.log(`  - "${escapedText}"`);
-      }
-    }
-  }
-}
-
-main().catch((error) => {
-  console.error("An error occurred:", error);
-  process.exit(1);
-});
-```
-
-_Note_: you may also use the `beginAnalyzeDocument` method to read document information using the "read" model by providing the model ID `"prebuilt-read"`. This method provides a weaker TypeScript type for the read result, but will produce the same information. The `beginReadDocument` method is available for your convenience.
+_Note_: you may also use the `beginAnalyzeDocuments` method to extract generic document information using the prebuilt document model by providing the model ID `"prebuilt-document"`. This method provides a weaker TypeScript type for the layout analysis result, but will produce the same information. The `beginExtractGenericDocument` method is available for your convenience.
 
 ### Using Prebuilt Models
 
-The `beginAnalyzeDocument` method also supports extracting fields from certain types of common documents such as receipts, invoices, business cards, and identity documents using prebuilt models provided by the Form Recognizer service. The prebuilt models may be provided either as model ID strings (the same as custom document models) or using a `DocumentModel` object. When using a `DocumentModel`, the Form Recognizer SDK for JavaScript provides a much stronger TypeScript type for the resulting extracted documents based on the model's schema, and it will be converted to use JavaScript naming conventions.
+The `beginAnalyzeDocuments` method also supports extracting fields from certain types of common documents such as receipts, invoices, business cards, and identity documents using prebuilt models provided by the Form Recognizer service. The prebuilt models may be provided either as model ID strings (the same as custom document models) or using a `DocumentModel` object. When using a `DocumentModel`, the Form Recognizer SDK for JavaScript provides a much stronger TypeScript type for the resulting extracted documents based on the model's schema, and it will be converted to use JavaScript naming conventions.
 
 For example, the following code shows how to use `PrebuiltModels.Receipt` to extract a strongly-typed receipt object from an input.
 
 ```javascript
-const { DocumentAnalysisClient, PrebuiltModels, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, PrebuiltModels, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 const fs = require("fs");
 
@@ -407,7 +343,7 @@ async function main() {
   const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
 
   // The PrebuiltModels.Receipt `DocumentModel` encodes both the model ID and a stronger return type for the operation
-  const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, readStream, {
+  const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, readStream, {
     onProgress: ({status}}) => {
       console.log(`status: ${status}`);
     }
@@ -423,14 +359,17 @@ async function main() {
   const receipt = receiptDocument.fields;
 
   console.log(`Receipt data (${receiptDocument.docType})`);
+  console.log("  Type:", receipt.receiptType?.value);
   console.log("  Merchant Name:", receipt.merchantName?.value);
+  console.log("  Transaction Date:", receipt.transactionDate?.value);
 
   // The items of the receipt are an example of a `DocumentArrayValue`
   if (receipt.items !== undefined) {
-    console.log("Items:");
-    for (const { properties: item } of receipt.items.values) {
-      console.log("- Description:", item.description?.value);
-      console.log("  Total Price:", item.totalPrice?.value);
+    console.log("  Items:");
+    for (const itemField of receipt.items.values) {
+      // Just as the fields constitute the receipt data, the item field's properties constitute the item data
+      const item = itemField.properties;
+      console.log("  - Name:", item.name?.value, `(confidence ${itemField.confidence})`);
     }
   }
 
@@ -452,7 +391,6 @@ You are not limited to receipts! There are a few prebuilt models to choose from,
 - Business cards, using `PrebuiltModels.BusinessCard` or its model ID `"prebuilt-businessCard"` (see [the supported fields of the business card model](https://aka.ms/azsdk/formrecognizer/businesscardfieldschema)).
 - Invoices, using `PrebuiltModels.Invoice` or its model ID `"prebuilt-invoice"` (see [the supported fields of the invoice model](https://aka.ms/azsdk/formrecognizer/invoicefieldschema)).
 - Identity Documents (such as driver licenses and passports), using `PrebuiltModels.IdentityDocument` or its model ID `"prebuilt-idDocument"` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfieldschema)).
-- W2 Tax Forms (United States), using `PrebuiltModels.TaxUsW2` or its model ID `"prebuilt-tax.us.w2"` (see [the supported fields of the W2 model](https://aka.ms/azsdk/formrecognizer/taxusw2fieldschema)).
 
 The fields of all prebuilt document models may also be accessed programmatically using the `getModel` method (by their model IDs) of `DocumentModelAdministrationClient` and inspecting the `docTypes` field in the result.
 
@@ -463,10 +401,7 @@ The SDK also supports creating models, using `DocumentModelAdministrationClient`
 For example, the following program builds a custom document model using a SAS-encoded URL to a pre-existing Azure Storage container:
 
 ```javascript
-const {
-  DocumentModelAdministrationClient,
-  AzureKeyCredential,
-} = require("@azure/ai-form-recognizer");
+import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
@@ -480,10 +415,7 @@ async function main() {
 
   // You must provide the model ID. It can be any text that does not start with "prebuilt-".
   // For example, you could provide a randomly generated GUID using the "uuid" package.
-  // The second parameter is the SAS-encoded URL to an Azure Storage container with the training documents.
-  // The third parameter is the build mode: one of "template" (the only mode prior to 4.0.0-beta.3) or "neural".
-  // See https://aka.ms/azsdk/formrecognizer/buildmode for more information about build modes.
-  const poller = await trainingClient.beginBuildModel("<model ID>", containerSasUrl, "template", {
+  const poller = await trainingClient.beginBuildModel("<model ID>", containerSasUrl, {
     // The model description is optional and can be any text.
     description: "This is my new model!",
     onProgress: ({ status }) => {
@@ -526,10 +458,7 @@ main().catch((err) => {
 `DocumentModelAdministrationClient` also provides several methods for managing models. The following example shows how to iterate through the models in a Form Recognizer resource (this will include both custom models in the resource as well as prebuilt models that are common to all resources), get a model by ID, and delete a model.
 
 ```javascript
-const {
-  DocumentModelAdministrationClient,
-  AzureKeyCredential,
-} = require("@azure/ai-form-recognizer");
+import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
@@ -582,7 +511,7 @@ For information about the error messages and codes produced by the Form Recogniz
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-const { setLogLevel } = require("@azure/logger");
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

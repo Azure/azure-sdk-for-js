@@ -4,9 +4,9 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class ConfigurationClient {
@@ -16,7 +16,7 @@ export class ConfigurationClient {
 }
 
 // @public
-export interface ConfigurationClientOptions extends CommonClientOptions {
+export interface ConfigurationClientOptions extends PipelineOptions {
 }
 
 // @public (undocumented)
@@ -37,6 +37,7 @@ export interface ConfigurationSetting {
 export interface GetConfigurationSettingOptions extends OperationOptions {
     onlyIfChanged?: boolean;
 }
+
 
 // (No @packageDocumentation comment for this package)
 

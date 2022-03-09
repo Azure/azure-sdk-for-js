@@ -4,16 +4,16 @@ import { PurviewAccount } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createAccountClient } from "./utils/recordedClient";
+import { createAccountClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
 describe("List collections", () => {
   let recorder: Recorder;
   let client: PurviewAccount.Client.PurviewAccountRestClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    client = await createAccountClient(recorder);
+  beforeEach(function (this: Context) {
+    recorder = createRecorder(this);
+    client = createAccountClient();
   });
 
   afterEach(async function () {

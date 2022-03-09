@@ -12,7 +12,6 @@ import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs";
 import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation";
 import tsConfigInclude from "./ts-config-include";
 import tsDocInternal from "./ts-doc-internal";
-import tsDocInternalPrivateMember from "./ts-doc-internal-private-member";
 import tsErrorHandling from "./ts-error-handling";
 import tsModulesOnlyNamed from "./ts-modules-only-named";
 import tsNamingDropNoun from "./ts-naming-drop-noun";
@@ -50,7 +49,6 @@ export = {
   "ts-apisurface-supportcancellation": tsApisurfaceSupportcancellation,
   "ts-config-include": tsConfigInclude,
   "ts-doc-internal": tsDocInternal,
-  "ts-doc-internal-private-member": tsDocInternalPrivateMember,
   "ts-error-handling": tsErrorHandling,
   "ts-modules-only-named": tsModulesOnlyNamed,
   "ts-naming-drop-noun": tsNamingDropNoun,

@@ -13,7 +13,6 @@
     // this package does not have type declaration file.
     "@azure/azure-sdk/ts-package-json-types": "off",
     // this package does not have a homepage
-    "@azure/azure-sdk/ts-package-json-homepage": "off",
-    "sort-imports": "error"
+    "@azure/azure-sdk/ts-package-json-homepage": "off"
   }
 }

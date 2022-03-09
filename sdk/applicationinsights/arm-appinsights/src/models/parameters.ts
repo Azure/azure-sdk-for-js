@@ -508,7 +508,7 @@ export const revisionId: OperationURLParameter = {
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-02-02",
+    defaultValue: "2018-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -576,6 +576,18 @@ export const linkedStorageAccountsProperties1: OperationParameter = {
   mapper: ComponentLinkedStorageAccountsPatchMapper
 };
 
+export const apiVersion6: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-06-02-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceUri: OperationURLParameter = {
   parameterPath: "resourceUri",
   mapper: {
@@ -586,16 +598,4 @@ export const resourceUri: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const apiVersion6: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-10-14",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
 };

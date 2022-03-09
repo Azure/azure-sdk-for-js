@@ -12,7 +12,7 @@
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

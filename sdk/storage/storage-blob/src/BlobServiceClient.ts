@@ -26,8 +26,6 @@ import {
   ServiceFilterBlobsHeaders,
   ContainerRenameResponse,
   LeaseAccessConditions,
-  FilterBlobSegment,
-  FilterBlobItem,
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
@@ -50,6 +48,7 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
+import { Tags } from "./models";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
@@ -204,6 +203,43 @@ export interface ServiceFindBlobByTagsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Blob info from a {@link BlobServiceClient.findBlobsByTags}
+ */
+export interface FilterBlobItem {
+  /**
+   * Blob Name.
+   */
+  name: string;
+
+  /**
+   * Container Name.
+   */
+  containerName: string;
+
+  /**
+   * Blob Tags.
+   */
+  tags?: Tags;
+
+  /**
+   * Tag value.
+   *
+   * @deprecated The service no longer returns this value. Use {@link tags} to fetch all matching Blob Tags.
+   */
+  tagValue: string;
+}
+
+/**
+ * Segment response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export interface FilterBlobSegment {
+  serviceEndpoint: string;
+  where: string;
+  blobs: FilterBlobItem[];
+  continuationToken?: string;
 }
 
 /**
@@ -390,11 +426,7 @@ export class BlobServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-
-        if (!options.proxyOptions) {
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        }
-
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new BlobServiceClient(extractedCreds.url, pipeline);
       } else {

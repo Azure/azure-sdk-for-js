@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
+import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { createClientLogger } from "@azure/logger";
 import { decodeStringToString } from "./base64";
 

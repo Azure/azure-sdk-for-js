@@ -23,9 +23,6 @@ import {
   ApiKey,
   ConfigurationStoresListKeysNextOptionalParams,
   ConfigurationStoresListKeysOptionalParams,
-  DeletedConfigurationStore,
-  ConfigurationStoresListDeletedNextOptionalParams,
-  ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresListResponse,
   ConfigurationStoresListByResourceGroupResponse,
   ConfigurationStoresGetOptionalParams,
@@ -40,14 +37,9 @@ import {
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
-  ConfigurationStoresListDeletedResponse,
-  ConfigurationStoresGetDeletedOptionalParams,
-  ConfigurationStoresGetDeletedResponse,
-  ConfigurationStoresPurgeDeletedOptionalParams,
   ConfigurationStoresListNextResponse,
   ConfigurationStoresListByResourceGroupNextResponse,
-  ConfigurationStoresListKeysNextResponse,
-  ConfigurationStoresListDeletedNextResponse
+  ConfigurationStoresListKeysNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -225,48 +217,6 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       configStoreName,
       options
     )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets information about the deleted configuration stores in a subscription.
-   * @param options The options parameters.
-   */
-  public listDeleted(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): PagedAsyncIterableIterator<DeletedConfigurationStore> {
-    const iter = this.listDeletedPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listDeletedPagingPage(options);
-      }
-    };
-  }
-
-  private async *listDeletedPagingPage(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): AsyncIterableIterator<DeletedConfigurationStore[]> {
-    let result = await this._listDeleted(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listDeletedNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listDeletedPagingAll(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): AsyncIterableIterator<DeletedConfigurationStore> {
-    for await (const page of this.listDeletedPagingPage(options)) {
       yield* page;
     }
   }
@@ -620,116 +570,6 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
-   * Gets information about the deleted configuration stores in a subscription.
-   * @param options The options parameters.
-   */
-  private _listDeleted(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): Promise<ConfigurationStoresListDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listDeletedOperationSpec
-    );
-  }
-
-  /**
-   * Gets a deleted Azure app configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  getDeleted(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresGetDeletedOptionalParams
-  ): Promise<ConfigurationStoresGetDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { location, configStoreName, options },
-      getDeletedOperationSpec
-    );
-  }
-
-  /**
-   * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeleted(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { location, configStoreName, options },
-      purgeDeletedOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeletedAndWait(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginPurgeDeleted(
-      location,
-      configStoreName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -777,21 +617,6 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
       listKeysNextOperationSpec
-    );
-  }
-
-  /**
-   * ListDeletedNext
-   * @param nextLink The nextLink from the previous successful call to the ListDeleted method.
-   * @param options The options parameters.
-   */
-  private _listDeletedNext(
-    nextLink: string,
-    options?: ConfigurationStoresListDeletedNextOptionalParams
-  ): Promise<ConfigurationStoresListDeletedNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listDeletedNextOperationSpec
     );
   }
 }
@@ -993,68 +818,6 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/deletedConfigurationStores",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedConfigurationStoreListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/deletedConfigurationStores/{configStoreName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedConfigurationStore
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.configStoreName,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const purgeDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/deletedConfigurationStores/{configStoreName}/purge",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.configStoreName,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1113,26 +876,6 @@ const listKeysNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDeletedNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedConfigurationStoreListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

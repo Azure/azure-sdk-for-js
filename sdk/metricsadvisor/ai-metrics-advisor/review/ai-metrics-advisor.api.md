@@ -6,10 +6,10 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { CommonClientOptions } from '@azure/core-client';
 import { FullOperationResponse } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -885,7 +885,7 @@ export class MetricsAdvisorAdministrationClient {
 }
 
 // @public
-export interface MetricsAdvisorAdministrationClientOptions extends CommonClientOptions {
+export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptions {
 }
 
 // @public
@@ -910,7 +910,7 @@ export class MetricsAdvisorClient {
 }
 
 // @public
-export interface MetricsAdvisorClientOptions extends CommonClientOptions {
+export interface MetricsAdvisorClientOptions extends PipelineOptions {
 }
 
 // @public

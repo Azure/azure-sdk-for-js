@@ -80,7 +80,7 @@ export function tokenExchangeMsi(): MSI {
   }
 
   return {
-    async isAvailable({ clientId }): Promise<boolean> {
+    async isAvailable(_scopes, _identityClient, clientId): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
         (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
@@ -97,7 +97,6 @@ export function tokenExchangeMsi(): MSI {
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
       const { identityClient, scopes, clientId } = configuration;
-
       logger.info(`${msiName}: Using the client assertion coming from environment variables.`);
 
       let assertion: string;

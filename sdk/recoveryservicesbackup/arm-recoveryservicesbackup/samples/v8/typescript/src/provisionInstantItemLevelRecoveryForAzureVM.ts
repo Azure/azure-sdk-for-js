@@ -16,7 +16,7 @@ provisioning, call GetProtectedItemOperationResult API.
  * @summary Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
 explorer displaying all the recoverable files and folders. This is an asynchronous operation. To know the status of
 provisioning, call GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/Provision_Ilr.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/Provision_Ilr.json
  */
 import {
   ILRRequestResource,

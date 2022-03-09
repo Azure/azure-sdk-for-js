@@ -6,9 +6,5 @@
   "apiRefLink": "https://docs.microsoft.com/",
   "requiredResources": {
     "test": "https://contoso.com"
-  },
-  "dependencyOverrides": {
-    "@azure/test1": "latest",
-    "@azure-test2/test2": "next"
   }
 }

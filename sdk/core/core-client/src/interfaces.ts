@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  HttpClient,
-  HttpMethods,
-  PipelineOptions,
-  PipelinePolicy,
-  PipelineRequest,
-  PipelineResponse,
-  TransferProgressEvent,
-} from "@azure/core-rest-pipeline";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import {
+  HttpMethods,
+  PipelineResponse,
+  TransferProgressEvent,
+  PipelineRequest,
+  PipelineOptions,
+  HttpClient,
+} from "@azure/core-rest-pipeline";
 
 /**
  * Default key used to access the XML attributes.
@@ -726,23 +725,6 @@ export interface SpanConfig {
 }
 
 /**
- * Used to configure additional policies added to the pipeline at construction.
- */
-export interface AdditionalPolicyConfig {
-  /**
-   * A policy to be added.
-   */
-  policy: PipelinePolicy;
-  /**
-   * Determines if this policy be applied before or after retry logic.
-   * Only use `perRetry` if you need to modify the request again
-   * each time the operation is retried due to retryable service
-   * issues.
-   */
-  position: "perCall" | "perRetry";
-}
-
-/**
  * The common set of options that high level clients are expected to expose.
  */
 export interface CommonClientOptions extends PipelineOptions {
@@ -754,8 +736,4 @@ export interface CommonClientOptions extends PipelineOptions {
    * Set to true if the request is sent over HTTP instead of HTTPS
    */
   allowInsecureConnection?: boolean;
-  /**
-   * Additional policies to include in the HTTP pipeline.
-   */
-  additionalPolicies?: AdditionalPolicyConfig[];
 }

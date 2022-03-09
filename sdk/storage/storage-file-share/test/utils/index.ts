@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-http";
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-
-import { TokenCredential } from "@azure/core-http";
-import { BlobServiceClient } from "@azure/storage-blob";
 
 import {
   AccountSASPermissions,
@@ -20,6 +18,7 @@ import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 export * from "./testutils.common";
 

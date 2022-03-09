@@ -43,14 +43,23 @@ export class Application {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ApplicationListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  list(options?: Models.ApplicationListOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
+  list(
+    options: Models.ApplicationListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  list(
+    options?:
+      | Models.ApplicationListOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ApplicationListResponse>;
+      callback
+    ) as Promise<Models.ApplicationListResponse>;
   }
 
   /**
@@ -63,7 +72,10 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGetResponse>
    */
-  get(applicationId: string, options?: Models.ApplicationGetOptionalParams): Promise<Models.ApplicationGetResponse>;
+  get(
+    applicationId: string,
+    options?: Models.ApplicationGetOptionalParams
+  ): Promise<Models.ApplicationGetResponse>;
   /**
    * @param applicationId The ID of the Application.
    * @param callback The callback
@@ -74,15 +86,26 @@ export class Application {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationId: string, options: Models.ApplicationGetOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationSummary>): void;
-  get(applicationId: string, options?: Models.ApplicationGetOptionalParams | msRest.ServiceCallback<Models.ApplicationSummary>, callback?: msRest.ServiceCallback<Models.ApplicationSummary>): Promise<Models.ApplicationGetResponse> {
+  get(
+    applicationId: string,
+    options: Models.ApplicationGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationSummary>
+  ): void;
+  get(
+    applicationId: string,
+    options?:
+      | Models.ApplicationGetOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationSummary>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSummary>
+  ): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplicationGetResponse>;
+      callback
+    ) as Promise<Models.ApplicationGetResponse>;
   }
 
   /**
@@ -95,26 +118,43 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListResponse>
    */
-  listNext(nextPageLink: string, options?: Models.ApplicationListNextOptionalParams): Promise<Models.ApplicationListResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.ApplicationListNextOptionalParams
+  ): Promise<Models.ApplicationListResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.ApplicationListNextOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ApplicationListNextOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationListResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.ApplicationListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.ApplicationListNextOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ApplicationListResponse>;
+      callback
+    ) as Promise<Models.ApplicationListResponse>;
   }
 }
 
@@ -123,14 +163,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "applications",
-  urlParameters: [
-    Parameters.batchUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxResults0,
-    Parameters.timeout0
-  ],
+  urlParameters: [Parameters.batchUrl],
+  queryParameters: [Parameters.apiVersion, Parameters.maxResults0, Parameters.timeout0],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId0,
@@ -153,14 +187,8 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "applications/{applicationId}",
-  urlParameters: [
-    Parameters.batchUrl,
-    Parameters.applicationId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.timeout1
-  ],
+  urlParameters: [Parameters.batchUrl, Parameters.applicationId],
+  queryParameters: [Parameters.apiVersion, Parameters.timeout1],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId1,
@@ -184,12 +212,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId2,

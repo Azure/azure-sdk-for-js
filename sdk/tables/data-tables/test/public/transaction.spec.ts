@@ -2,243 +2,249 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  CreateClientMode,
+  createTableClient,
+  recordedEnvironmentSetup,
+} from "./utils/recordedClient";
+import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
-
 import { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
-const partitionKey = "batchTest";
-const testEntities = [
-  { partitionKey, rowKey: "1", name: "first" },
-  { partitionKey, rowKey: "2", name: "second" },
-  { partitionKey, rowKey: "3", name: "third" },
-];
+// SASConnectionString and SASToken are supported in both node and browser
+const authModes: CreateClientMode[] = ["TokenCredential", "SASConnectionString"];
 
-describe(`batch operations`, () => {
-  let client: TableClient;
-  let unRecordedClient: TableClient;
-  let recorder: Recorder;
-  const suffix = isNode ? "node" : "browser";
-  const tableName = `batchTableTest${suffix}`;
+// Validate all supported auth strategies when running in live mode
+if (isLiveMode()) {
+  if (isNode) {
+    // This auth strategies are only supported in node
+    authModes.push("AccountConnectionString", "AccountKey");
+  }
+  authModes.push("SASToken");
+}
 
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
-  });
+authModes.forEach((authMode) => {
+  describe(`batch operations ${authMode}`, () => {
+    let client: TableClient;
+    let recorder: Recorder;
+    const suffix = isNode ? "node" : "browser";
+    const tableName = `batchTableTest${authMode}${suffix}`;
 
-  afterEach(async function () {
-    sinon.restore();
-    await recorder.stop();
-  });
-
-  before(async () => {
-    if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
-      await unRecordedClient.createTable();
-    }
-  });
-
-  after(async () => {
-    if (!isPlaybackMode()) {
-      await unRecordedClient.deleteTable();
-    }
-  });
-
-  it("should send a set of create actions when using TableTransaction Helper", async () => {
-    const transaction = new TableTransaction();
-    transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
-    transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
-
-    const result = await client.submitTransaction(transaction.actions);
-
-    assert.equal(result.status, 202);
-    assert.lengthOf(result.subResponses, 2);
-    assert.equal(result.getResponseForEntity("1")?.status, 204);
-    assert.equal(result.getResponseForEntity("2")?.status, 204);
-  });
-
-  it("should send a set of create batch operations", async () => {
-    const actions: TransactionAction[] = [];
-
-    for (const entity of testEntities) {
-      actions.push(["create", entity]);
-    }
-
-    const result = await client.submitTransaction(actions);
-    assert.equal(result.status, 202);
-    assert.lengthOf(result.subResponses, 3);
-    testEntities.forEach((entity) => {
-      const subResponse = result.getResponseForEntity(entity.rowKey);
-      assert.equal(subResponse?.status, 204);
-      // Etags should be in the following format W/"datetime'2020-10-01T18%3A07%3A48.4010495Z'"
-      assert.isTrue(subResponse?.etag?.indexOf(`W/"datetime'`) !== -1);
-    });
-  });
-
-  it("should send a set of update batch operations", async () => {
-    const actions: TransactionAction[] = [];
-
-    for (const entity of testEntities) {
-      actions.push(["update", { ...entity, name: "updated" }, "Replace"]);
-    }
-
-    const batchResult = await client.submitTransaction(actions);
-
-    const updatedEntities = client.listEntities<{ name: string }>({
-      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
-    });
-
-    assert.equal(batchResult.status, 202);
-    assert.lengthOf(batchResult.subResponses, 3);
-    batchResult.subResponses.forEach((subResponse) => {
-      assert.equal(subResponse?.status, 204);
-    });
-
-    for await (const entity of updatedEntities) {
-      assert.equal(entity.name, "updated");
-    }
-  });
-
-  it("should send a set of upsert batch operations", async () => {
-    const actions: TransactionAction[] = [];
-
-    for (const entity of testEntities) {
-      // This actions will be on existing entities so they should be updated
-      actions.push(["upsert", { ...entity, name: "upserted" }, "Replace"]);
-    }
-
-    // This is a new entity so upsert should create it
-    actions.push(["upsert", { partitionKey, rowKey: "4", name: "upserted" }, "Replace"]);
-
-    const batchResult = await client.submitTransaction(actions);
-    const updatedEntities = client.listEntities<{ name: string }>({
-      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
-    });
-
-    assert.equal(batchResult.status, 202);
-    assert.lengthOf(batchResult.subResponses, 4);
-    batchResult.subResponses.forEach((subResponse) => {
-      assert.equal(subResponse?.status, 204);
-    });
-
-    let inserted;
-    for await (const entity of updatedEntities) {
-      if (entity.rowKey === "4") {
-        inserted = entity;
-      }
-      assert.equal(entity.name, "upserted");
-    }
-
-    assert.equal(inserted?.rowKey, "4");
-  });
-
-  it("should send a set of delete batch operations", async () => {
-    const actions: TransactionAction[] = [];
-
-    for (const entity of testEntities) {
-      actions.push(["delete", entity]);
-    }
-
-    const result = await client.submitTransaction(actions);
-    assert.equal(result.status, 202);
-    assert.lengthOf(result.subResponses, 3);
-    result.subResponses.forEach((subResponse) => {
-      assert.equal(subResponse?.status, 204);
-    });
-  });
-
-  it("should send multiple transactions with the same partition key", async () => {
-    const multiBatchPartitionKey = "multiBatch1";
-    const actions1: TransactionAction[] = [
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r2", value: "2" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }],
+    const partitionKey = "batchTest";
+    const testEntities = [
+      { partitionKey, rowKey: "1", name: "first" },
+      { partitionKey, rowKey: "2", name: "second" },
+      { partitionKey, rowKey: "3", name: "third" },
     ];
 
-    await client.submitTransaction(actions1);
+    beforeEach(async function (this: Context) {
+      sinon.stub(Uuid, "generateUuid").returns("fakeId");
+      recorder = record(this, recordedEnvironmentSetup);
+      client = createTableClient(tableName, authMode);
 
-    const actions2: TransactionAction[] = [
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r4", value: "4" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r5", value: "5" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }],
-    ];
-
-    await client.submitTransaction(actions2);
-
-    const entities = client.listEntities<{ name: string }>({
-      queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` },
+      try {
+        if (!isPlaybackMode()) {
+          await client.createTable();
+        }
+      } catch {
+        console.warn("Table already exists");
+      }
     });
 
-    let entityCount = 0;
-    for await (const entity of entities) {
-      if (entity.partitionKey !== multiBatchPartitionKey) {
-        throw new Error(
-          `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`
-        );
+    afterEach(async function () {
+      sinon.restore();
+      await recorder.stop();
+    });
+
+    after(async () => {
+      try {
+        if (!isPlaybackMode()) {
+          await client.deleteTable();
+        }
+      } catch {
+        console.warn("Table was not deleted");
+      }
+    });
+
+    it("should send a set of create actions when using TableTransaction Helper", async () => {
+      const transaction = new TableTransaction();
+      transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
+      transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
+
+      const result = await client.submitTransaction(transaction.actions);
+
+      assert.equal(result.status, 202);
+      assert.lengthOf(result.subResponses, 2);
+      assert.equal(result.getResponseForEntity("1")?.status, 204);
+      assert.equal(result.getResponseForEntity("2")?.status, 204);
+    });
+
+    it("should send a set of create batch operations", async () => {
+      const actions: TransactionAction[] = [];
+
+      for (const entity of testEntities) {
+        actions.push(["create", entity]);
       }
 
-      entityCount++;
-    }
+      const result = await client.submitTransaction(actions);
+      assert.equal(result.status, 202);
+      assert.lengthOf(result.subResponses, 3);
+      testEntities.forEach((entity) => {
+        const subResponse = result.getResponseForEntity(entity.rowKey);
+        assert.equal(subResponse?.status, 204);
+        // Etags should be in the following format W/"datetime'2020-10-01T18%3A07%3A48.4010495Z'"
+        assert.isTrue(subResponse?.etag?.indexOf(`W/"datetime'`) !== -1);
+      });
+    });
 
-    assert.equal(entityCount, 6);
-  });
+    it("should send a set of update batch operations", async () => {
+      const actions: TransactionAction[] = [];
 
-  it("should support empty partition and row keys", async () => {
-    const actions1: TransactionAction[] = [["create", { partitionKey: "", rowKey: "", value: "" }]];
+      for (const entity of testEntities) {
+        actions.push(["update", { ...entity, name: "updated" }, "Replace"]);
+      }
 
-    await client.submitTransaction(actions1);
-    await client.submitTransaction([
-      ["update", { partitionKey: "", rowKey: "", value: "updated" }],
-    ]);
+      const batchResult = await client.submitTransaction(actions);
 
-    let entity = await client.getEntity("", "");
-    assert.equal(entity.value, "updated");
+      const updatedEntities = client.listEntities<{ name: string }>({
+        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
+      });
 
-    await client.submitTransaction([
-      ["upsert", { partitionKey: "", rowKey: "", value: "upserted" }],
-    ]);
+      assert.equal(batchResult.status, 202);
+      assert.lengthOf(batchResult.subResponses, 3);
+      batchResult.subResponses.forEach((subResponse) => {
+        assert.equal(subResponse?.status, 204);
+      });
 
-    entity = await client.getEntity("", "");
-    assert.equal(entity.value, "upserted");
-  });
-});
+      for await (const entity of updatedEntities) {
+        assert.equal(entity.name, "updated");
+      }
+    });
 
-describe("Handle suberror", () => {
-  let client: TableClient;
-  let recorder: Recorder;
-  const tableName = "noExistingTableError";
+    it("should send a set of upsert batch operations", async () => {
+      const actions: TransactionAction[] = [];
 
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
-  });
+      for (const entity of testEntities) {
+        // This actions will be on existing entities so they should be updated
+        actions.push(["upsert", { ...entity, name: "upserted" }, "Replace"]);
+      }
 
-  afterEach(async function () {
-    sinon.restore();
-    await recorder.stop();
-  });
+      // This is a new entity so upsert should create it
+      actions.push(["upsert", { partitionKey, rowKey: "4", name: "upserted" }, "Replace"]);
 
-  it("should handle sub request error", async function () {
-    const actions: TransactionAction[] = [];
+      const batchResult = await client.submitTransaction(actions);
+      const updatedEntities = client.listEntities<{ name: string }>({
+        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
+      });
 
-    for (const entity of testEntities) {
-      actions.push(["create", entity]);
-    }
+      assert.equal(batchResult.status, 202);
+      assert.lengthOf(batchResult.subResponses, 4);
+      batchResult.subResponses.forEach((subResponse) => {
+        assert.equal(subResponse?.status, 204);
+      });
 
-    try {
-      await client.submitTransaction(actions);
-      assert.fail("Expected submitBatch to throw");
-    } catch (error) {
-      assert.equal(error.code, "TableNotFound");
-      assert.equal(error.statusCode, 404);
-      assert.isString(error.message);
-    }
+      let inserted;
+      for await (const entity of updatedEntities) {
+        if (entity.rowKey === "4") {
+          inserted = entity;
+        }
+        assert.equal(entity.name, "upserted");
+      }
+
+      assert.equal(inserted?.rowKey, "4");
+    });
+
+    it("should send a set of delete batch operations", async () => {
+      const actions: TransactionAction[] = [];
+
+      for (const entity of testEntities) {
+        actions.push(["delete", entity]);
+      }
+
+      const result = await client.submitTransaction(actions);
+      assert.equal(result.status, 202);
+      assert.lengthOf(result.subResponses, 3);
+      result.subResponses.forEach((subResponse) => {
+        assert.equal(subResponse?.status, 204);
+      });
+    });
+
+    it("should handle sub request error", async () => {
+      const testClient = createTableClient("noExistingTable", authMode);
+      const actions: TransactionAction[] = [];
+
+      for (const entity of testEntities) {
+        actions.push(["create", entity]);
+      }
+
+      try {
+        await testClient.submitTransaction(actions);
+        assert.fail("Expected submitBatch to throw");
+      } catch (error) {
+        assert.equal(error.code, "TableNotFound");
+        assert.equal(error.statusCode, 404);
+        assert.isString(error.message);
+      }
+    });
+
+    it("should send multiple transactions with the same partition key", async () => {
+      const multiBatchPartitionKey = "multiBatch1";
+      const actions1: TransactionAction[] = [
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r2", value: "2" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }],
+      ];
+
+      await client.submitTransaction(actions1);
+
+      const actions2: TransactionAction[] = [
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r4", value: "4" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r5", value: "5" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }],
+      ];
+
+      await client.submitTransaction(actions2);
+
+      const entities = client.listEntities<{ name: string }>({
+        queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` },
+      });
+
+      let entityCount = 0;
+      for await (const entity of entities) {
+        if (entity.partitionKey !== multiBatchPartitionKey) {
+          throw new Error(
+            `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`
+          );
+        }
+
+        entityCount++;
+      }
+
+      assert.equal(entityCount, 6);
+    });
+
+    it("should support empty partition and row keys", async () => {
+      const actions1: TransactionAction[] = [
+        ["create", { partitionKey: "", rowKey: "", value: "" }],
+      ];
+
+      await client.submitTransaction(actions1);
+      await client.submitTransaction([
+        ["update", { partitionKey: "", rowKey: "", value: "updated" }],
+      ]);
+
+      let entity = await client.getEntity("", "");
+      assert.equal(entity.value, "updated");
+
+      await client.submitTransaction([
+        ["upsert", { partitionKey: "", rowKey: "", value: "upserted" }],
+      ]);
+
+      entity = await client.getEntity("", "");
+      assert.equal(entity.value, "upserted");
+    });
   });
 });

@@ -1,9 +1,0 @@
-{
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
-    "rootDir": "./"
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
-}

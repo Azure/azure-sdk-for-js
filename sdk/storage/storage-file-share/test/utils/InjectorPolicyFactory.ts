@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "../../src";
-import { Injector, InjectorPolicy } from "./InjectorPolicy";
+import { InjectorPolicy, Injector } from "./InjectorPolicy";
 
 /**
  * InjectorPolicyFactory is a factory class which injects customized errors for retry policy testing.

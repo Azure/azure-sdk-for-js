@@ -980,25 +980,6 @@ export interface ComponentsResource {
   tags?: { [propertyName: string]: string };
 }
 
-export interface ErrorResponseComponents {
-  /** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
-  error?: ErrorResponseComponentsError;
-}
-
-/** Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponseComponentsError {
-  /**
-   * Error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
 /** Describes the body of a purge request for an App Insights component */
 export interface ComponentPurgeBody {
   /** Table from which to purge data. */
@@ -1054,6 +1035,38 @@ export interface ErrorResponseLinkedStorageError {
 export interface ComponentLinkedStorageAccountsPatch {
   /** Linked storage account resource ID */
   linkedStorageAccount?: string;
+}
+
+/** Result of the List Operations operation */
+export interface OperationsListResult {
+  /** A collection of operations */
+  value?: OperationLive[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
+/** Represents an operation returned by the GetOperations request */
+export interface OperationLive {
+  /** Name of the operation */
+  name?: string;
+  /** Display name of the operation */
+  display?: OperationInfo;
+  /** Origin of the operation */
+  origin?: string;
+  /** Properties of the operation */
+  properties?: Record<string, unknown>;
+}
+
+/** Information about an operation */
+export interface OperationInfo {
+  /** Name of the provider */
+  provider?: string;
+  /** Name of the resource type */
+  resource?: string;
+  /** Name of the operation */
+  operation?: string;
+  /** Description of the operation */
+  description?: string;
 }
 
 /** The response to a live token query. */
@@ -1115,40 +1128,6 @@ export interface WorkbookInnerErrorTrace {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly trace?: string[];
-}
-
-/** Result of the List Operations operation */
-export interface OperationsListResult {
-  /** A collection of operations */
-  value?: OperationLive[];
-  /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
-}
-
-/** Represents an operation returned by the GetOperations request */
-export interface OperationLive {
-  /** Name of the operation */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** Display name of the operation */
-  display?: OperationInfo;
-  /** Origin of the operation */
-  origin?: string;
-  /** Properties of the operation */
-  properties?: Record<string, unknown>;
-}
-
-/** Information about an operation */
-export interface OperationInfo {
-  /** Name of the provider */
-  provider?: string;
-  /** Name of the resource type */
-  resource?: string;
-  /** Name of the operation */
-  operation?: string;
-  /** Description of the operation */
-  description?: string;
 }
 
 /** An Application Insights web test definition. */
@@ -1249,8 +1228,6 @@ export type ProxyResource = Resource & {};
 export type ApplicationInsightsComponent = ComponentsResource & {
   /** The kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone. */
   kind: string;
-  /** Resource etag */
-  etag?: string;
   /**
    * The unique ID of your application. This field mirrors the 'Name' field and cannot be changed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1261,11 +1238,6 @@ export type ApplicationInsightsComponent = ComponentsResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly appId?: string;
-  /**
-   * Application name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly namePropertiesName?: string;
   /** Type of application being monitored. */
   applicationType?: ApplicationType;
   /** Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to 'Bluefield' when creating/updating a component via the REST API. */
@@ -1312,13 +1284,6 @@ export type ApplicationInsightsComponent = ComponentsResource & {
   disableIpMasking?: boolean;
   /** Purge data immediately after 30 days. */
   immediatePurgeDataOn30Days?: boolean;
-  /** Resource Id of the log analytics workspace which the data will be ingested to. This property is required to create an application with this API version. Applications from older versions will not have this property. */
-  workspaceResourceId?: string;
-  /**
-   * The date which the component got migrated to LA, in ISO 8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly laMigrationDate?: Date;
   /**
    * List of linked private link scope resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1330,10 +1295,6 @@ export type ApplicationInsightsComponent = ComponentsResource & {
   publicNetworkAccessForQuery?: PublicNetworkAccessType;
   /** Indicates the flow of the ingestion. */
   ingestionMode?: IngestionMode;
-  /** Disable Non-AAD based Auth. */
-  disableLocalAuth?: boolean;
-  /** Force users to create their own storage account for profiler and debugger. */
-  forceCustomerStorageForProfiler?: boolean;
 };
 
 /** An azure resource object */
@@ -2373,6 +2334,20 @@ export type ComponentLinkedStorageAccountsUpdateResponse = ComponentLinkedStorag
 /** Optional parameters. */
 export interface ComponentLinkedStorageAccountsDeleteOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationsListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationsListResult;
 
 /** Optional parameters. */
 export interface LiveTokenGetOptionalParams

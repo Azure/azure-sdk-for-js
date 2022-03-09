@@ -187,8 +187,6 @@ export interface StorageAccountCreateParameters {
   tags?: { [propertyName: string]: string };
   /** The identity of the resource. */
   identity?: Identity;
-  /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
-  allowedCopyScope?: AllowedCopyScope;
   /** Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
   /** SasPolicy assigned to the storage account. */
@@ -197,7 +195,7 @@ export interface StorageAccountCreateParameters {
   keyPolicy?: KeyPolicy;
   /** User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property. */
   customDomain?: CustomDomain;
-  /** Encryption settings to be used for server-side encryption for the storage account. */
+  /** Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled. */
   encryption?: Encryption;
   /** Network rule set */
   networkRuleSet?: NetworkRuleSet;
@@ -207,10 +205,6 @@ export interface StorageAccountCreateParameters {
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01. */
   enableHttpsTrafficOnly?: boolean;
-  /** Enables Secure File Transfer Protocol, if set to true */
-  isSftpEnabled?: boolean;
-  /** Enables local users feature, if set to true */
-  isLocalUserEnabled?: boolean;
   /** Account HierarchicalNamespace enabled if sets to true. */
   isHnsEnabled?: boolean;
   /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
@@ -334,10 +328,10 @@ export interface EncryptionServices {
 
 /** A service that allows server-side encryption to be used. */
 export interface EncryptionService {
-  /** A boolean indicating whether or not the service encrypts the data as it is stored. Encryption at rest is enabled by default today and cannot be disabled. */
+  /** A boolean indicating whether or not the service encrypts the data as it is stored. */
   enabled?: boolean;
   /**
-   * Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is encrypted at rest by default today and cannot be disabled.
+   * Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastEnabledTime?: Date;
@@ -369,8 +363,6 @@ export interface KeyVaultProperties {
 export interface EncryptionIdentity {
   /** Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account. */
   encryptionUserAssignedIdentity?: string;
-  /** ClientId of the multi-tenant application to be used in conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the storage account. */
-  encryptionFederatedIdentityClientId?: string;
 }
 
 /** Network rule set */
@@ -437,10 +429,6 @@ export interface ActiveDirectoryProperties {
   domainSid: string;
   /** Specifies the security identifier (SID) for Azure Storage. */
   azureStorageSid: string;
-  /** Specifies the Active Directory SAMAccountName for Azure Storage. */
-  samAccountName?: string;
-  /** Specifies the Active Directory account type for Azure Storage. */
-  accountType?: ActiveDirectoryPropertiesAccountType;
 }
 
 /** Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user data, the default option is microsoft routing */
@@ -682,7 +670,7 @@ export interface StorageAccountUpdateParameters {
   kind?: Kind;
   /** Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property. */
   customDomain?: CustomDomain;
-  /** Not applicable. Azure Storage encryption at rest is enabled by default for all storage accounts and cannot be disabled. */
+  /** Provides the encryption settings on the account. The default setting is unencrypted. */
   encryption?: Encryption;
   /** SasPolicy assigned to the storage account. */
   sasPolicy?: SasPolicy;
@@ -694,10 +682,6 @@ export interface StorageAccountUpdateParameters {
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
   enableHttpsTrafficOnly?: boolean;
-  /** Enables Secure File Transfer Protocol, if set to true */
-  isSftpEnabled?: boolean;
-  /** Enables local users feature, if set to true */
-  isLocalUserEnabled?: boolean;
   /** Network rule set */
   networkRuleSet?: NetworkRuleSet;
   /** Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. */
@@ -718,8 +702,6 @@ export interface StorageAccountUpdateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default. */
   immutableStorageWithVersioning?: ImmutableStorageAccount;
-  /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
-  allowedCopyScope?: AllowedCopyScope;
 }
 
 /** The response from the List Deleted Accounts operation. */
@@ -1138,48 +1120,6 @@ export interface ObjectReplicationPolicyFilter {
   minCreationTime?: string;
 }
 
-/** List storage account local users. */
-export interface LocalUsers {
-  /** The local users associated with the storage account. */
-  value?: LocalUser[];
-}
-
-export interface PermissionScope {
-  /** The permissions for the local user. Possible values include: Read (r), Write (w), Delete (d), List (l), and Create (c). */
-  permissions: string;
-  /** The service used by the local user, e.g. blob, file. */
-  service: string;
-  /** The name of resource, normally the container name or the file share name, used by the local user. */
-  resourceName: string;
-}
-
-export interface SshPublicKey {
-  /** Optional. It is used to store the function/usage of the key */
-  description?: string;
-  /** Ssh public key base64 encoded. The format should be: '<keyType> <keyData>', e.g. ssh-rsa AAAABBBB */
-  key?: string;
-}
-
-/** The Storage Account Local User keys. */
-export interface LocalUserKeys {
-  /** Optional, local user ssh authorized keys for SFTP. */
-  sshAuthorizedKeys?: SshPublicKey[];
-  /**
-   * Auto generated by the server for SMB authentication.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sharedKey?: string;
-}
-
-/** The secrets of Storage Account Local User. */
-export interface LocalUserRegeneratePasswordResult {
-  /**
-   * Auto generated password by the server for SSH authentication if hasSshPassword is set to true on the creation of local user.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sshPassword?: string;
-}
-
 /** The key vault properties for the encryption scope. This is a required field if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'. */
 export interface EncryptionScopeKeyVaultProperties {
   /** The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope. */
@@ -1517,6 +1457,24 @@ export interface Multichannel {
   enabled?: boolean;
 }
 
+/** An error response from the Storage service. */
+export interface CloudErrorAutoGenerated {
+  /** An error response from the Storage service. */
+  error?: CloudErrorBodyAutoGenerated;
+}
+
+/** An error response from the Storage service. */
+export interface CloudErrorBodyAutoGenerated {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBodyAutoGenerated[];
+}
+
 /** Response schema. Contains list of shares returned, and if paging is requested or required, a URL to next page of shares. */
 export interface FileShareItems {
   /**
@@ -1706,32 +1664,6 @@ export type ObjectReplicationPolicy = Resource & {
   destinationAccount?: string;
   /** The storage account object replication rules. */
   rules?: ObjectReplicationPolicyRule[];
-};
-
-/** The local user associated with the storage accounts. */
-export type LocalUser = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The permission scopes of the local user. */
-  permissionScopes?: PermissionScope[];
-  /** Optional, local user home directory. */
-  homeDirectory?: string;
-  /** Optional, local user ssh authorized keys for SFTP. */
-  sshAuthorizedKeys?: SshPublicKey[];
-  /**
-   * A unique Security Identifier that is generated by the server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sid?: string;
-  /** Indicates whether shared key exists. Set it to false to remove existing shared key. */
-  hasSharedKey?: boolean;
-  /** Indicates whether ssh key exists. Set it to false to remove existing SSH key. */
-  hasSshKey?: boolean;
-  /** Indicates whether ssh password exists. Set it to false to remove existing SSH password. */
-  hasSshPassword?: boolean;
 };
 
 /** The Encryption Scope resource. */
@@ -1925,7 +1857,7 @@ export type StorageAccount = TrackedResource & {
    */
   readonly secondaryEndpoints?: Endpoints;
   /**
-   * Encryption settings to be used for server-side encryption for the storage account.
+   * Gets the encryption settings on the account. If unspecified, the account is unencrypted.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly encryption?: Encryption;
@@ -1943,10 +1875,6 @@ export type StorageAccount = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly networkRuleSet?: NetworkRuleSet;
-  /** Enables Secure File Transfer Protocol, if set to true */
-  isSftpEnabled?: boolean;
-  /** Enables local users feature, if set to true */
-  isLocalUserEnabled?: boolean;
   /** Account HierarchicalNamespace enabled if sets to true. */
   isHnsEnabled?: boolean;
   /**
@@ -1989,8 +1917,6 @@ export type StorageAccount = TrackedResource & {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default. */
   immutableStorageWithVersioning?: ImmutableStorageAccount;
-  /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
-  allowedCopyScope?: AllowedCopyScope;
 };
 
 /** Deleted storage account */
@@ -2481,22 +2407,6 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
-/** Known values of {@link AllowedCopyScope} that the service accepts. */
-export enum KnownAllowedCopyScope {
-  PrivateLink = "PrivateLink",
-  AAD = "AAD"
-}
-
-/**
- * Defines values for AllowedCopyScope. \
- * {@link KnownAllowedCopyScope} can be used interchangeably with AllowedCopyScope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PrivateLink** \
- * **AAD**
- */
-export type AllowedCopyScope = string;
-
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
   Enabled = "Enabled",
@@ -2618,22 +2528,6 @@ export enum KnownDirectoryServiceOptions {
  * **AD**
  */
 export type DirectoryServiceOptions = string;
-
-/** Known values of {@link ActiveDirectoryPropertiesAccountType} that the service accepts. */
-export enum KnownActiveDirectoryPropertiesAccountType {
-  User = "User",
-  Computer = "Computer"
-}
-
-/**
- * Defines values for ActiveDirectoryPropertiesAccountType. \
- * {@link KnownActiveDirectoryPropertiesAccountType} can be used interchangeably with ActiveDirectoryPropertiesAccountType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Computer**
- */
-export type ActiveDirectoryPropertiesAccountType = string;
 
 /** Known values of {@link DefaultSharePermission} that the service accepts. */
 export enum KnownDefaultSharePermission {
@@ -3602,45 +3496,6 @@ export type ObjectReplicationPoliciesCreateOrUpdateResponse = ObjectReplicationP
 /** Optional parameters. */
 export interface ObjectReplicationPoliciesDeleteOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface LocalUsersListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type LocalUsersListResponse = LocalUsers;
-
-/** Optional parameters. */
-export interface LocalUsersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type LocalUsersGetResponse = LocalUser;
-
-/** Optional parameters. */
-export interface LocalUsersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type LocalUsersCreateOrUpdateResponse = LocalUser;
-
-/** Optional parameters. */
-export interface LocalUsersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface LocalUsersListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type LocalUsersListKeysResponse = LocalUserKeys;
-
-/** Optional parameters. */
-export interface LocalUsersRegeneratePasswordOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regeneratePassword operation. */
-export type LocalUsersRegeneratePasswordResponse = LocalUserRegeneratePasswordResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesPutOptionalParams

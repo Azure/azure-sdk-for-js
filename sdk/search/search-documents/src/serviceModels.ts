@@ -62,7 +62,6 @@ import {
   DocumentExtractionSkill,
   TextTranslationSkill,
   WebApiSkill,
-  AzureMachineLearningSkill,
   DefaultCognitiveServicesAccount,
   CognitiveServicesAccountKey,
   HighWaterMarkChangeDetectionPolicy,
@@ -86,7 +85,6 @@ import {
   SearchIndexerKnowledgeStore,
   SearchIndexerCache,
   SemanticSettings,
-  SearchAlias,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -207,46 +205,6 @@ export type CreateIndexOptions = OperationOptions;
  * Options for create skillset operation.
  */
 export type CreateSkillsetOptions = OperationOptions;
-
-/**
- * Options for create alias operation.
- */
-export type CreateAliasOptions = OperationOptions;
-
-/**
- * Options for create or update alias operation.
- */
-export interface CreateOrUpdateAliasOptions extends OperationOptions {
-  /**
-   * If set to true, Resource will be deleted only if the etag matches.
-   */
-  onlyIfUnchanged?: boolean;
-}
-
-/**
- * Options for delete alias operation.
- */
-export interface DeleteAliasOptions extends OperationOptions {
-  /**
-   * If set to true, Resource will be deleted only if the etag matches.
-   */
-  onlyIfUnchanged?: boolean;
-}
-
-/**
- * Options for get alias operation.
- */
-export type GetAliasOptions = OperationOptions;
-
-/**
- * Options for list aliases operation.
- */
-export type ListAliasesOptions = OperationOptions;
-
-/**
- * Search Alias object.
- */
-export type SearchIndexAlias = SearchAlias;
 
 /**
  * Options for create synonymmap operation.
@@ -555,8 +513,7 @@ export type SearchIndexerSkill =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
-  | WebApiSkill
-  | AzureMachineLearningSkill;
+  | WebApiSkill;
 
 /**
  * Contains the possible cases for CognitiveServicesAccount.
@@ -975,14 +932,6 @@ export interface SynonymMap {
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
-
-/**
- * An iterator for listing the aliases that exist in the Search service. Will make requests
- * as needed during iteration. Use .byPage() to make one request to the server
- * per iteration.
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 /**
  * An iterator for listing the indexes that exist in the Search service. Will make requests

@@ -35,46 +35,46 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
   /** Maximum total amount of material applied during the application (inclusive). */
   maxTotalMaterial?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -88,8 +88,8 @@ export interface ApplicationDataListByFarmerIdQueryParam {
   queryParameters?: ApplicationDataListByFarmerIdQueryParamProperties;
 }
 
-export type ApplicationDataListByFarmerIdParameters = ApplicationDataListByFarmerIdQueryParam &
-  RequestParameters;
+export type ApplicationDataListByFarmerIdParameters = RequestParameters &
+  ApplicationDataListByFarmerIdQueryParam;
 
 export interface ApplicationDataListQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */
@@ -101,46 +101,46 @@ export interface ApplicationDataListQueryParamProperties {
   /** Maximum total amount of material applied during the application (inclusive). */
   maxTotalMaterial?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -154,48 +154,41 @@ export interface ApplicationDataListQueryParam {
   queryParameters?: ApplicationDataListQueryParamProperties;
 }
 
-export type ApplicationDataListParameters = ApplicationDataListQueryParam & RequestParameters;
+export type ApplicationDataListParameters = RequestParameters & ApplicationDataListQueryParam;
 export type ApplicationDataGetParameters = RequestParameters;
 
 export interface ApplicationDataCreateOrUpdateBodyParam {
-  /** Application data resource payload to create or update. */
   body?: ApplicationData;
 }
 
-export interface ApplicationDataCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type ApplicationDataCreateOrUpdateParameters = ApplicationDataCreateOrUpdateMediaTypesParam &
-  ApplicationDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ApplicationDataCreateOrUpdateParameters = RequestParameters &
+  ApplicationDataCreateOrUpdateBodyParam;
 export type ApplicationDataDeleteParameters = RequestParameters;
 
 export interface AttachmentsListByFarmerIdQueryParamProperties {
   /** Resource Ids of the resource. */
-  resourceIds?: Array<string>;
+  resourceIds?: string[];
   /** Resource Types of the resource. */
-  resourceTypes?: Array<string>;
+  resourceTypes?: string[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -209,27 +202,16 @@ export interface AttachmentsListByFarmerIdQueryParam {
   queryParameters?: AttachmentsListByFarmerIdQueryParamProperties;
 }
 
-export type AttachmentsListByFarmerIdParameters = AttachmentsListByFarmerIdQueryParam &
-  RequestParameters;
+export type AttachmentsListByFarmerIdParameters = RequestParameters &
+  AttachmentsListByFarmerIdQueryParam;
 export type AttachmentsGetParameters = RequestParameters;
 
 export interface AttachmentsCreateOrUpdateBodyParam {
-  /**
-   * File to be uploaded.
-   *
-   * Value may contain any sequence of octets
-   */
   body?: string;
 }
 
-export interface AttachmentsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "multipart/form-data";
-}
-
-export type AttachmentsCreateOrUpdateParameters = AttachmentsCreateOrUpdateMediaTypesParam &
-  AttachmentsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type AttachmentsCreateOrUpdateParameters = RequestParameters &
+  AttachmentsCreateOrUpdateBodyParam;
 export type AttachmentsDeleteParameters = RequestParameters;
 export type AttachmentsDownloadParameters = RequestParameters;
 
@@ -239,30 +221,30 @@ export interface BoundariesListByFarmerIdQueryParamProperties {
   /** Type of the parent it belongs to. */
   parentType?: string;
   /** Parent Ids of the resource. */
-  parentIds?: Array<string>;
+  parentIds?: string[];
   /** Minimum acreage of the boundary (inclusive). */
   minAcreage?: number;
   /** Maximum acreage of the boundary (inclusive). */
   maxAcreage?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -276,22 +258,15 @@ export interface BoundariesListByFarmerIdQueryParam {
   queryParameters?: BoundariesListByFarmerIdQueryParamProperties;
 }
 
-export type BoundariesListByFarmerIdParameters = BoundariesListByFarmerIdQueryParam &
-  RequestParameters;
+export type BoundariesListByFarmerIdParameters = RequestParameters &
+  BoundariesListByFarmerIdQueryParam;
 
 export interface BoundariesSearchByFarmerIdBodyParam {
-  /** Query filters. */
   body?: SearchBoundaryQuery;
 }
 
-export interface BoundariesSearchByFarmerIdMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type BoundariesSearchByFarmerIdParameters = BoundariesSearchByFarmerIdMediaTypesParam &
-  BoundariesSearchByFarmerIdBodyParam &
-  RequestParameters;
+export type BoundariesSearchByFarmerIdParameters = RequestParameters &
+  BoundariesSearchByFarmerIdBodyParam;
 
 export interface BoundariesListQueryParamProperties {
   /** Is the boundary primary. */
@@ -299,30 +274,30 @@ export interface BoundariesListQueryParamProperties {
   /** Type of the parent it belongs to. */
   parentType?: string;
   /** Parent Ids of the resource. */
-  parentIds?: Array<string>;
+  parentIds?: string[];
   /** Minimum acreage of the boundary (inclusive). */
   minAcreage?: number;
   /** Maximum acreage of the boundary (inclusive). */
   maxAcreage?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -336,21 +311,13 @@ export interface BoundariesListQueryParam {
   queryParameters?: BoundariesListQueryParamProperties;
 }
 
-export type BoundariesListParameters = BoundariesListQueryParam & RequestParameters;
+export type BoundariesListParameters = RequestParameters & BoundariesListQueryParam;
 
 export interface BoundariesSearchBodyParam {
-  /** Query filters. */
   body?: SearchBoundaryQuery;
 }
 
-export interface BoundariesSearchMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type BoundariesSearchParameters = BoundariesSearchMediaTypesParam &
-  BoundariesSearchBodyParam &
-  RequestParameters;
+export type BoundariesSearchParameters = RequestParameters & BoundariesSearchBodyParam;
 export type BoundariesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface BoundariesCreateCascadeDeleteJobQueryParamProperties {
@@ -364,23 +331,16 @@ export interface BoundariesCreateCascadeDeleteJobQueryParam {
   queryParameters: BoundariesCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type BoundariesCreateCascadeDeleteJobParameters =
-  BoundariesCreateCascadeDeleteJobQueryParam & RequestParameters;
+export type BoundariesCreateCascadeDeleteJobParameters = RequestParameters &
+  BoundariesCreateCascadeDeleteJobQueryParam;
 export type BoundariesGetParameters = RequestParameters;
 
 export interface BoundariesCreateOrUpdateBodyParam {
-  /** Boundary resource payload to create or update. */
   body?: Boundary;
 }
 
-export interface BoundariesCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type BoundariesCreateOrUpdateParameters = BoundariesCreateOrUpdateMediaTypesParam &
-  BoundariesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type BoundariesCreateOrUpdateParameters = RequestParameters &
+  BoundariesCreateOrUpdateBodyParam;
 export type BoundariesDeleteParameters = RequestParameters;
 
 export interface BoundariesGetOverlapQueryParamProperties {
@@ -394,30 +354,30 @@ export interface BoundariesGetOverlapQueryParam {
   queryParameters: BoundariesGetOverlapQueryParamProperties;
 }
 
-export type BoundariesGetOverlapParameters = BoundariesGetOverlapQueryParam & RequestParameters;
+export type BoundariesGetOverlapParameters = RequestParameters & BoundariesGetOverlapQueryParam;
 
 export interface CropsListQueryParamProperties {
   /** Crop phenotypes of the resource. */
-  phenotypes?: Array<string>;
+  phenotypes?: string[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -431,50 +391,42 @@ export interface CropsListQueryParam {
   queryParameters?: CropsListQueryParamProperties;
 }
 
-export type CropsListParameters = CropsListQueryParam & RequestParameters;
+export type CropsListParameters = RequestParameters & CropsListQueryParam;
 export type CropsGetParameters = RequestParameters;
 
 export interface CropsCreateOrUpdateBodyParam {
-  /** Crop resource payload to create or update. */
   body?: Crop;
 }
 
-export interface CropsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type CropsCreateOrUpdateParameters = CropsCreateOrUpdateMediaTypesParam &
-  CropsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type CropsCreateOrUpdateParameters = RequestParameters & CropsCreateOrUpdateBodyParam;
 export type CropsDeleteParameters = RequestParameters;
 
 export interface CropVarietiesListByCropIdQueryParamProperties {
   /** CropIds of the resource. */
-  cropIds?: Array<string>;
+  cropIds?: string[];
   /** Brands of the resource. */
-  brands?: Array<string>;
+  brands?: string[];
   /** Products of the resource. */
-  products?: Array<string>;
+  products?: string[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -488,35 +440,35 @@ export interface CropVarietiesListByCropIdQueryParam {
   queryParameters?: CropVarietiesListByCropIdQueryParamProperties;
 }
 
-export type CropVarietiesListByCropIdParameters = CropVarietiesListByCropIdQueryParam &
-  RequestParameters;
+export type CropVarietiesListByCropIdParameters = RequestParameters &
+  CropVarietiesListByCropIdQueryParam;
 
 export interface CropVarietiesListQueryParamProperties {
   /** CropIds of the resource. */
-  cropIds?: Array<string>;
+  cropIds?: string[];
   /** Brands of the resource. */
-  brands?: Array<string>;
+  brands?: string[];
   /** Products of the resource. */
-  products?: Array<string>;
+  products?: string[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -530,44 +482,37 @@ export interface CropVarietiesListQueryParam {
   queryParameters?: CropVarietiesListQueryParamProperties;
 }
 
-export type CropVarietiesListParameters = CropVarietiesListQueryParam & RequestParameters;
+export type CropVarietiesListParameters = RequestParameters & CropVarietiesListQueryParam;
 export type CropVarietiesGetParameters = RequestParameters;
 
 export interface CropVarietiesCreateOrUpdateBodyParam {
-  /** Crop variety resource payload to create or update. */
   body?: CropVariety;
 }
 
-export interface CropVarietiesCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type CropVarietiesCreateOrUpdateParameters = CropVarietiesCreateOrUpdateMediaTypesParam &
-  CropVarietiesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type CropVarietiesCreateOrUpdateParameters = RequestParameters &
+  CropVarietiesCreateOrUpdateBodyParam;
 export type CropVarietiesDeleteParameters = RequestParameters;
 
 export interface FarmersListQueryParamProperties {
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -581,22 +526,14 @@ export interface FarmersListQueryParam {
   queryParameters?: FarmersListQueryParamProperties;
 }
 
-export type FarmersListParameters = FarmersListQueryParam & RequestParameters;
+export type FarmersListParameters = RequestParameters & FarmersListQueryParam;
 export type FarmersGetParameters = RequestParameters;
 
 export interface FarmersCreateOrUpdateBodyParam {
-  /** Farmer resource payload to create or update. */
   body?: Farmer;
 }
 
-export interface FarmersCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type FarmersCreateOrUpdateParameters = FarmersCreateOrUpdateMediaTypesParam &
-  FarmersCreateOrUpdateBodyParam &
-  RequestParameters;
+export type FarmersCreateOrUpdateParameters = RequestParameters & FarmersCreateOrUpdateBodyParam;
 export type FarmersDeleteParameters = RequestParameters;
 export type FarmersGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
@@ -609,45 +546,37 @@ export interface FarmersCreateCascadeDeleteJobQueryParam {
   queryParameters: FarmersCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type FarmersCreateCascadeDeleteJobParameters = FarmersCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type FarmersCreateCascadeDeleteJobParameters = RequestParameters &
+  FarmersCreateCascadeDeleteJobQueryParam;
 
 export interface FarmOperationsCreateDataIngestionJobBodyParam {
-  /** Job parameters supplied by user. */
   body?: FarmOperationDataIngestionJob;
 }
 
-export interface FarmOperationsCreateDataIngestionJobMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type FarmOperationsCreateDataIngestionJobParameters =
-  FarmOperationsCreateDataIngestionJobMediaTypesParam &
-    FarmOperationsCreateDataIngestionJobBodyParam &
-    RequestParameters;
+export type FarmOperationsCreateDataIngestionJobParameters = RequestParameters &
+  FarmOperationsCreateDataIngestionJobBodyParam;
 export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
 
 export interface FarmsListByFarmerIdQueryParamProperties {
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -661,28 +590,28 @@ export interface FarmsListByFarmerIdQueryParam {
   queryParameters?: FarmsListByFarmerIdQueryParamProperties;
 }
 
-export type FarmsListByFarmerIdParameters = FarmsListByFarmerIdQueryParam & RequestParameters;
+export type FarmsListByFarmerIdParameters = RequestParameters & FarmsListByFarmerIdQueryParam;
 
 export interface FarmsListQueryParamProperties {
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -696,22 +625,14 @@ export interface FarmsListQueryParam {
   queryParameters?: FarmsListQueryParamProperties;
 }
 
-export type FarmsListParameters = FarmsListQueryParam & RequestParameters;
+export type FarmsListParameters = RequestParameters & FarmsListQueryParam;
 export type FarmsGetParameters = RequestParameters;
 
 export interface FarmsCreateOrUpdateBodyParam {
-  /** Farm resource payload to create or update. */
   body?: Farm;
 }
 
-export interface FarmsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type FarmsCreateOrUpdateParameters = FarmsCreateOrUpdateMediaTypesParam &
-  FarmsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type FarmsCreateOrUpdateParameters = RequestParameters & FarmsCreateOrUpdateBodyParam;
 export type FarmsDeleteParameters = RequestParameters;
 export type FarmsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
@@ -726,31 +647,31 @@ export interface FarmsCreateCascadeDeleteJobQueryParam {
   queryParameters: FarmsCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type FarmsCreateCascadeDeleteJobParameters = FarmsCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type FarmsCreateCascadeDeleteJobParameters = RequestParameters &
+  FarmsCreateCascadeDeleteJobQueryParam;
 
 export interface FieldsListByFarmerIdQueryParamProperties {
   /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
+  farmIds?: string[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -764,30 +685,30 @@ export interface FieldsListByFarmerIdQueryParam {
   queryParameters?: FieldsListByFarmerIdQueryParamProperties;
 }
 
-export type FieldsListByFarmerIdParameters = FieldsListByFarmerIdQueryParam & RequestParameters;
+export type FieldsListByFarmerIdParameters = RequestParameters & FieldsListByFarmerIdQueryParam;
 
 export interface FieldsListQueryParamProperties {
   /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
+  farmIds?: string[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -801,22 +722,14 @@ export interface FieldsListQueryParam {
   queryParameters?: FieldsListQueryParamProperties;
 }
 
-export type FieldsListParameters = FieldsListQueryParam & RequestParameters;
+export type FieldsListParameters = RequestParameters & FieldsListQueryParam;
 export type FieldsGetParameters = RequestParameters;
 
 export interface FieldsCreateOrUpdateBodyParam {
-  /** Field resource payload to create or update. */
   body?: Field;
 }
 
-export interface FieldsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type FieldsCreateOrUpdateParameters = FieldsCreateOrUpdateMediaTypesParam &
-  FieldsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type FieldsCreateOrUpdateParameters = RequestParameters & FieldsCreateOrUpdateBodyParam;
 export type FieldsDeleteParameters = RequestParameters;
 export type FieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
@@ -831,8 +744,8 @@ export interface FieldsCreateCascadeDeleteJobQueryParam {
   queryParameters: FieldsCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type FieldsCreateCascadeDeleteJobParameters = FieldsCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type FieldsCreateCascadeDeleteJobParameters = RequestParameters &
+  FieldsCreateCascadeDeleteJobQueryParam;
 
 export interface HarvestDataListByFarmerIdQueryParamProperties {
   /** Minimum Yield value(inclusive). */
@@ -860,46 +773,46 @@ export interface HarvestDataListByFarmerIdQueryParamProperties {
   /** Maximum AvgSpeed value (inclusive). */
   maxAvgSpeed?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -913,8 +826,8 @@ export interface HarvestDataListByFarmerIdQueryParam {
   queryParameters?: HarvestDataListByFarmerIdQueryParamProperties;
 }
 
-export type HarvestDataListByFarmerIdParameters = HarvestDataListByFarmerIdQueryParam &
-  RequestParameters;
+export type HarvestDataListByFarmerIdParameters = RequestParameters &
+  HarvestDataListByFarmerIdQueryParam;
 
 export interface HarvestDataListQueryParamProperties {
   /** Minimum Yield value(inclusive). */
@@ -942,46 +855,46 @@ export interface HarvestDataListQueryParamProperties {
   /** Maximum AvgSpeed value (inclusive). */
   maxAvgSpeed?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -995,60 +908,45 @@ export interface HarvestDataListQueryParam {
   queryParameters?: HarvestDataListQueryParamProperties;
 }
 
-export type HarvestDataListParameters = HarvestDataListQueryParam & RequestParameters;
+export type HarvestDataListParameters = RequestParameters & HarvestDataListQueryParam;
 export type HarvestDataGetParameters = RequestParameters;
 
 export interface HarvestDataCreateOrUpdateBodyParam {
-  /** Harvest data resource payload to create or update. */
   body?: HarvestData;
 }
 
-export interface HarvestDataCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type HarvestDataCreateOrUpdateParameters = HarvestDataCreateOrUpdateMediaTypesParam &
-  HarvestDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type HarvestDataCreateOrUpdateParameters = RequestParameters &
+  HarvestDataCreateOrUpdateBodyParam;
 export type HarvestDataDeleteParameters = RequestParameters;
 
 export interface ImageProcessingCreateRasterizeJobBodyParam {
-  /** Job parameters supplied by user. */
   body?: ImageProcessingRasterizeJob;
 }
 
-export interface ImageProcessingCreateRasterizeJobMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ImageProcessingCreateRasterizeJobParameters =
-  ImageProcessingCreateRasterizeJobMediaTypesParam &
-    ImageProcessingCreateRasterizeJobBodyParam &
-    RequestParameters;
+export type ImageProcessingCreateRasterizeJobParameters = RequestParameters &
+  ImageProcessingCreateRasterizeJobBodyParam;
 export type ImageProcessingGetRasterizeJobParameters = RequestParameters;
 
 export interface OAuthProvidersListQueryParamProperties {
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1062,39 +960,32 @@ export interface OAuthProvidersListQueryParam {
   queryParameters?: OAuthProvidersListQueryParamProperties;
 }
 
-export type OAuthProvidersListParameters = OAuthProvidersListQueryParam & RequestParameters;
+export type OAuthProvidersListParameters = RequestParameters & OAuthProvidersListQueryParam;
 export type OAuthProvidersGetParameters = RequestParameters;
 
 export interface OAuthProvidersCreateOrUpdateBodyParam {
-  /** OauthProvider resource payload to create or update. */
   body?: OAuthProvider;
 }
 
-export interface OAuthProvidersCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type OAuthProvidersCreateOrUpdateParameters = OAuthProvidersCreateOrUpdateMediaTypesParam &
-  OAuthProvidersCreateOrUpdateBodyParam &
-  RequestParameters;
+export type OAuthProvidersCreateOrUpdateParameters = RequestParameters &
+  OAuthProvidersCreateOrUpdateBodyParam;
 export type OAuthProvidersDeleteParameters = RequestParameters;
 
 export interface OAuthTokensListQueryParamProperties {
   /** Name of AuthProvider. */
-  authProviderIds?: Array<string>;
+  authProviderIds?: string[];
   /** List of farmers. */
-  farmerIds?: Array<string>;
+  farmerIds?: string[];
   /** If the token object is valid. */
   isValid?: boolean;
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1108,22 +999,14 @@ export interface OAuthTokensListQueryParam {
   queryParameters?: OAuthTokensListQueryParamProperties;
 }
 
-export type OAuthTokensListParameters = OAuthTokensListQueryParam & RequestParameters;
+export type OAuthTokensListParameters = RequestParameters & OAuthTokensListQueryParam;
 
 export interface OAuthTokensGetOAuthConnectionLinkBodyParam {
-  /** OAuth Connect Request. */
   body?: OAuthConnectRequest;
 }
 
-export interface OAuthTokensGetOAuthConnectionLinkMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type OAuthTokensGetOAuthConnectionLinkParameters =
-  OAuthTokensGetOAuthConnectionLinkMediaTypesParam &
-    OAuthTokensGetOAuthConnectionLinkBodyParam &
-    RequestParameters;
+export type OAuthTokensGetOAuthConnectionLinkParameters = RequestParameters &
+  OAuthTokensGetOAuthConnectionLinkBodyParam;
 export type OAuthTokensGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface OAuthTokensCreateCascadeDeleteJobQueryParamProperties {
@@ -1137,8 +1020,8 @@ export interface OAuthTokensCreateCascadeDeleteJobQueryParam {
   queryParameters: OAuthTokensCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type OAuthTokensCreateCascadeDeleteJobParameters =
-  OAuthTokensCreateCascadeDeleteJobQueryParam & RequestParameters;
+export type OAuthTokensCreateCascadeDeleteJobParameters = RequestParameters &
+  OAuthTokensCreateCascadeDeleteJobQueryParam;
 
 export interface PlantingDataListByFarmerIdQueryParamProperties {
   /** Minimum AvgPlantingRate value(inclusive). */
@@ -1154,46 +1037,46 @@ export interface PlantingDataListByFarmerIdQueryParamProperties {
   /** Maximum AvgMaterial value (inclusive). */
   maxAvgMaterial?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1207,8 +1090,8 @@ export interface PlantingDataListByFarmerIdQueryParam {
   queryParameters?: PlantingDataListByFarmerIdQueryParamProperties;
 }
 
-export type PlantingDataListByFarmerIdParameters = PlantingDataListByFarmerIdQueryParam &
-  RequestParameters;
+export type PlantingDataListByFarmerIdParameters = RequestParameters &
+  PlantingDataListByFarmerIdQueryParam;
 
 export interface PlantingDataListQueryParamProperties {
   /** Minimum AvgPlantingRate value(inclusive). */
@@ -1224,46 +1107,46 @@ export interface PlantingDataListQueryParamProperties {
   /** Maximum AvgMaterial value (inclusive). */
   maxAvgMaterial?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1277,22 +1160,15 @@ export interface PlantingDataListQueryParam {
   queryParameters?: PlantingDataListQueryParamProperties;
 }
 
-export type PlantingDataListParameters = PlantingDataListQueryParam & RequestParameters;
+export type PlantingDataListParameters = RequestParameters & PlantingDataListQueryParam;
 export type PlantingDataGetParameters = RequestParameters;
 
 export interface PlantingDataCreateOrUpdateBodyParam {
-  /** Planting data resource payload to create or update. */
   body?: PlantingData;
 }
 
-export interface PlantingDataCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type PlantingDataCreateOrUpdateParameters = PlantingDataCreateOrUpdateMediaTypesParam &
-  PlantingDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type PlantingDataCreateOrUpdateParameters = RequestParameters &
+  PlantingDataCreateOrUpdateBodyParam;
 export type PlantingDataDeleteParameters = RequestParameters;
 
 export interface ScenesListQueryParamProperties {
@@ -1305,19 +1181,19 @@ export interface ScenesListQueryParamProperties {
   /** Source name of scene data, default value Sentinel_2_L2A (Sentinel 2 L2A). */
   source?: string;
   /** Scene start UTC datetime (inclusive), sample format: yyyy-MM-ddThh:mm:ssZ. */
-  startDateTime?: Date | string;
+  startDateTime?: Date;
   /** Scene end UTC datetime (inclusive), sample format: yyyy-MM-dThh:mm:ssZ. */
-  endDateTime?: Date | string;
+  endDateTime?: Date;
   /** Filter scenes with cloud coverage percentage less than max value. Range [0 to 100.0]. */
   maxCloudCoveragePercentage?: number;
   /** Filter scenes with dark pixel coverage percentage less than max value. Range [0 to 100.0]. */
   maxDarkPixelCoveragePercentage?: number;
   /** List of image names to be filtered. */
-  imageNames?: Array<string>;
+  imageNames?: string[];
   /** List of image resolutions in meters to be filtered. */
-  imageResolutions?: Array<number>;
+  imageResolutions?: number[];
   /** List of image formats to be filtered. */
-  imageFormats?: Array<string>;
+  imageFormats?: string[];
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1331,22 +1207,14 @@ export interface ScenesListQueryParam {
   queryParameters: ScenesListQueryParamProperties;
 }
 
-export type ScenesListParameters = ScenesListQueryParam & RequestParameters;
+export type ScenesListParameters = RequestParameters & ScenesListQueryParam;
 
 export interface ScenesCreateSatelliteDataIngestionJobBodyParam {
-  /** Job parameters supplied by user. */
   body?: SatelliteDataIngestionJob;
 }
 
-export interface ScenesCreateSatelliteDataIngestionJobMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ScenesCreateSatelliteDataIngestionJobParameters =
-  ScenesCreateSatelliteDataIngestionJobMediaTypesParam &
-    ScenesCreateSatelliteDataIngestionJobBodyParam &
-    RequestParameters;
+export type ScenesCreateSatelliteDataIngestionJobParameters = RequestParameters &
+  ScenesCreateSatelliteDataIngestionJobBodyParam;
 export type ScenesGetSatelliteDataIngestionJobDetailsParameters = RequestParameters;
 
 export interface ScenesDownloadQueryParamProperties {
@@ -1358,19 +1226,19 @@ export interface ScenesDownloadQueryParam {
   queryParameters: ScenesDownloadQueryParamProperties;
 }
 
-export type ScenesDownloadParameters = ScenesDownloadQueryParam & RequestParameters;
+export type ScenesDownloadParameters = RequestParameters & ScenesDownloadQueryParam;
 
 export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
   /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
+  farmIds?: string[];
   /** Field Ids of the resource. */
-  fieldIds?: Array<string>;
+  fieldIds?: string[];
   /** Season Ids of the resource. */
-  seasonIds?: Array<string>;
+  seasonIds?: string[];
   /** CropVarietyIds of the resource. */
-  cropVarietyIds?: Array<string>;
+  cropVarietyIds?: string[];
   /** Ids of the crop it belongs to. */
-  cropIds?: Array<string>;
+  cropIds?: string[];
   /** Minimum average yield value of the seasonal field(inclusive). */
   minAvgYieldValue?: number;
   /** Maximum average yield value of the seasonal field(inclusive). */
@@ -1384,28 +1252,28 @@ export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
   /** Unit of average seed population value attribute. */
   avgSeedPopulationUnit?: string;
   /** Minimum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minPlantingDateTime?: Date | string;
+  minPlantingDateTime?: Date;
   /** Maximum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxPlantingDateTime?: Date | string;
+  maxPlantingDateTime?: Date;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1419,20 +1287,20 @@ export interface SeasonalFieldsListByFarmerIdQueryParam {
   queryParameters?: SeasonalFieldsListByFarmerIdQueryParamProperties;
 }
 
-export type SeasonalFieldsListByFarmerIdParameters = SeasonalFieldsListByFarmerIdQueryParam &
-  RequestParameters;
+export type SeasonalFieldsListByFarmerIdParameters = RequestParameters &
+  SeasonalFieldsListByFarmerIdQueryParam;
 
 export interface SeasonalFieldsListQueryParamProperties {
   /** Farm Ids of the resource. */
-  farmIds?: Array<string>;
+  farmIds?: string[];
   /** Field Ids of the resource. */
-  fieldIds?: Array<string>;
+  fieldIds?: string[];
   /** Season Ids of the resource. */
-  seasonIds?: Array<string>;
+  seasonIds?: string[];
   /** CropVarietyIds of the resource. */
-  cropVarietyIds?: Array<string>;
+  cropVarietyIds?: string[];
   /** Ids of the crop it belongs to. */
-  cropIds?: Array<string>;
+  cropIds?: string[];
   /** Minimum average yield value of the seasonal field(inclusive). */
   minAvgYieldValue?: number;
   /** Maximum average yield value of the seasonal field(inclusive). */
@@ -1446,28 +1314,28 @@ export interface SeasonalFieldsListQueryParamProperties {
   /** Unit of average seed population value attribute. */
   avgSeedPopulationUnit?: string;
   /** Minimum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minPlantingDateTime?: Date | string;
+  minPlantingDateTime?: Date;
   /** Maximum planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxPlantingDateTime?: Date | string;
+  maxPlantingDateTime?: Date;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1481,22 +1349,15 @@ export interface SeasonalFieldsListQueryParam {
   queryParameters?: SeasonalFieldsListQueryParamProperties;
 }
 
-export type SeasonalFieldsListParameters = SeasonalFieldsListQueryParam & RequestParameters;
+export type SeasonalFieldsListParameters = RequestParameters & SeasonalFieldsListQueryParam;
 export type SeasonalFieldsGetParameters = RequestParameters;
 
 export interface SeasonalFieldsCreateOrUpdateBodyParam {
-  /** Seasonal field resource payload to create or update. */
   body?: SeasonalField;
 }
 
-export interface SeasonalFieldsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type SeasonalFieldsCreateOrUpdateParameters = SeasonalFieldsCreateOrUpdateMediaTypesParam &
-  SeasonalFieldsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SeasonalFieldsCreateOrUpdateParameters = RequestParameters &
+  SeasonalFieldsCreateOrUpdateBodyParam;
 export type SeasonalFieldsDeleteParameters = RequestParameters;
 export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
@@ -1511,39 +1372,39 @@ export interface SeasonalFieldsCreateCascadeDeleteJobQueryParam {
   queryParameters: SeasonalFieldsCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type SeasonalFieldsCreateCascadeDeleteJobParameters =
-  SeasonalFieldsCreateCascadeDeleteJobQueryParam & RequestParameters;
+export type SeasonalFieldsCreateCascadeDeleteJobParameters = RequestParameters &
+  SeasonalFieldsCreateCascadeDeleteJobQueryParam;
 
 export interface SeasonsListQueryParamProperties {
   /** Minimum season start datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minStartDateTime?: Date | string;
+  minStartDateTime?: Date;
   /** Maximum season start datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxStartDateTime?: Date | string;
+  maxStartDateTime?: Date;
   /** Minimum season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  minEndDateTime?: Date | string;
+  minEndDateTime?: Date;
   /** Maximum season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  maxEndDateTime?: Date | string;
+  maxEndDateTime?: Date;
   /** Years of the resource. */
-  years?: Array<number>;
+  years?: number[];
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1557,22 +1418,14 @@ export interface SeasonsListQueryParam {
   queryParameters?: SeasonsListQueryParamProperties;
 }
 
-export type SeasonsListParameters = SeasonsListQueryParam & RequestParameters;
+export type SeasonsListParameters = RequestParameters & SeasonsListQueryParam;
 export type SeasonsGetParameters = RequestParameters;
 
 export interface SeasonsCreateOrUpdateBodyParam {
-  /** Season resource payload to create or update. */
   body?: Season;
 }
 
-export interface SeasonsCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type SeasonsCreateOrUpdateParameters = SeasonsCreateOrUpdateMediaTypesParam &
-  SeasonsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SeasonsCreateOrUpdateParameters = RequestParameters & SeasonsCreateOrUpdateBodyParam;
 export type SeasonsDeleteParameters = RequestParameters;
 
 export interface TillageDataListByFarmerIdQueryParamProperties {
@@ -1585,46 +1438,46 @@ export interface TillageDataListByFarmerIdQueryParamProperties {
   /** Maximum pressure applied by a tillage implement (inclusive). */
   maxTillagePressure?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1638,8 +1491,8 @@ export interface TillageDataListByFarmerIdQueryParam {
   queryParameters?: TillageDataListByFarmerIdQueryParamProperties;
 }
 
-export type TillageDataListByFarmerIdParameters = TillageDataListByFarmerIdQueryParam &
-  RequestParameters;
+export type TillageDataListByFarmerIdParameters = RequestParameters &
+  TillageDataListByFarmerIdQueryParam;
 
 export interface TillageDataListQueryParamProperties {
   /** Minimum measured tillage depth (inclusive). */
@@ -1651,46 +1504,46 @@ export interface TillageDataListQueryParamProperties {
   /** Maximum pressure applied by a tillage implement (inclusive). */
   maxTillagePressure?: number;
   /** Sources of the operation data. */
-  sources?: Array<string>;
+  sources?: string[];
   /** Boundary IDs associated with operation data. */
-  associatedBoundaryIds?: Array<string>;
+  associatedBoundaryIds?: string[];
   /** Operation boundary IDs associated with operation data. */
-  operationBoundaryIds?: Array<string>;
+  operationBoundaryIds?: string[];
   /** Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationStartDateTime?: Date | string;
+  minOperationStartDateTime?: Date;
   /** Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationStartDateTime?: Date | string;
+  maxOperationStartDateTime?: Date;
   /** Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationEndDateTime?: Date | string;
+  minOperationEndDateTime?: Date;
   /** Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationEndDateTime?: Date | string;
+  maxOperationEndDateTime?: Date;
   /** Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  minOperationModifiedDateTime?: Date | string;
+  minOperationModifiedDateTime?: Date;
   /** Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive). */
-  maxOperationModifiedDateTime?: Date | string;
+  maxOperationModifiedDateTime?: Date;
   /** Minimum area for which operation was applied (inclusive). */
   minArea?: number;
   /** Maximum area for which operation was applied (inclusive). */
   maxArea?: number;
   /** Ids of the resource. */
-  ids?: Array<string>;
+  ids?: string[];
   /** Names of the resource. */
-  names?: Array<string>;
+  names?: string[];
   /**
    * Filters on key-value pairs within the Properties object.
-   * eg. "{testKey} eq {testValue}".
+   * eg. "\{testKey\} eq \{testValue\}".
    */
-  propertyFilters?: Array<string>;
+  propertyFilters?: string[];
   /** Statuses of the resource. */
-  statuses?: Array<string>;
+  statuses?: string[];
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date | string;
+  minCreatedDateTime?: Date;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date | string;
+  maxCreatedDateTime?: Date;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date | string;
+  minLastModifiedDateTime?: Date;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date | string;
+  maxLastModifiedDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1704,22 +1557,15 @@ export interface TillageDataListQueryParam {
   queryParameters?: TillageDataListQueryParamProperties;
 }
 
-export type TillageDataListParameters = TillageDataListQueryParam & RequestParameters;
+export type TillageDataListParameters = RequestParameters & TillageDataListQueryParam;
 export type TillageDataGetParameters = RequestParameters;
 
 export interface TillageDataCreateOrUpdateBodyParam {
-  /** Tillage data resource payload to create or update. */
   body?: TillageData;
 }
 
-export interface TillageDataCreateOrUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
-}
-
-export type TillageDataCreateOrUpdateParameters = TillageDataCreateOrUpdateMediaTypesParam &
-  TillageDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type TillageDataCreateOrUpdateParameters = RequestParameters &
+  TillageDataCreateOrUpdateBodyParam;
 export type TillageDataDeleteParameters = RequestParameters;
 
 export interface WeatherListQueryParamProperties {
@@ -1734,9 +1580,9 @@ export interface WeatherListQueryParamProperties {
   /** Granularity of weather data (daily/hourly). */
   granularity: string;
   /** Weather data start UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startDateTime?: Date | string;
+  startDateTime?: Date;
   /** Weather data end UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endDateTime?: Date | string;
+  endDateTime?: Date;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
@@ -1750,34 +1596,20 @@ export interface WeatherListQueryParam {
   queryParameters: WeatherListQueryParamProperties;
 }
 
-export type WeatherListParameters = WeatherListQueryParam & RequestParameters;
+export type WeatherListParameters = RequestParameters & WeatherListQueryParam;
 export type WeatherGetDataIngestionJobDetailsParameters = RequestParameters;
 
 export interface WeatherCreateDataIngestionJobBodyParam {
-  /** Job parameters supplied by user. */
   body?: WeatherDataIngestionJob;
 }
 
-export interface WeatherCreateDataIngestionJobMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type WeatherCreateDataIngestionJobParameters = WeatherCreateDataIngestionJobMediaTypesParam &
-  WeatherCreateDataIngestionJobBodyParam &
-  RequestParameters;
+export type WeatherCreateDataIngestionJobParameters = RequestParameters &
+  WeatherCreateDataIngestionJobBodyParam;
 export type WeatherGetDataDeleteJobDetailsParameters = RequestParameters;
 
 export interface WeatherCreateDataDeleteJobBodyParam {
-  /** Job parameters supplied by user. */
   body?: WeatherDataDeleteJob;
 }
 
-export interface WeatherCreateDataDeleteJobMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type WeatherCreateDataDeleteJobParameters = WeatherCreateDataDeleteJobMediaTypesParam &
-  WeatherCreateDataDeleteJobBodyParam &
-  RequestParameters;
+export type WeatherCreateDataDeleteJobParameters = RequestParameters &
+  WeatherCreateDataDeleteJobBodyParam;

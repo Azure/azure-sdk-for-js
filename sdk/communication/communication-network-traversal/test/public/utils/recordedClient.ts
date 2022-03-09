@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
+import * as dotenv from "dotenv";
 
 import {
   env,
-  isPlaybackMode,
   Recorder,
   record,
   RecorderEnvironmentSetup,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,

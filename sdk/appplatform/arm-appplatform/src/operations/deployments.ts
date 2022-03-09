@@ -1562,7 +1562,7 @@ const generateThreadDumpOperationSpec: coreClient.OperationSpec = {
 };
 const startJFROperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/startJFR",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/StartJFR",
   httpMethod: "POST",
   responses: {
     200: {},

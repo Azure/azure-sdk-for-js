@@ -5,7 +5,6 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   FormDataMap,
-  HttpClient,
   HttpMethods,
   Pipeline,
   PipelineRequest,
@@ -24,17 +23,15 @@ import { binaryArrayToString, stringToBinaryArray } from "./helpers/getBinaryBod
  * @param url - url to send the request to
  * @param pipeline - pipeline with the policies to run when sending the request
  * @param options - request options
- * @param customHttpClient - a custom HttpClient to use when making the request
  * @returns returns and HttpResponse
  */
 export async function sendRequest(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
-  options: RequestParameters = {},
-  customHttpClient?: HttpClient
+  options: RequestParameters = {}
 ): Promise<HttpResponse> {
-  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
+  const httpClient = getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
   const response = await pipeline.sendRequest(httpClient, request);
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();

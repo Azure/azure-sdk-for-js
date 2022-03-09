@@ -14,63 +14,65 @@ import {
   KeyVaultClientOptionalParams,
   ApiVersion73Preview,
   JsonWebKeyType,
-  CreateKeyOptionalParams,
-  CreateKeyResponse,
-  RotateKeyOptionalParams,
-  RotateKeyResponse,
+  KeyVaultClientCreateKeyOptionalParams,
+  KeyVaultClientCreateKeyResponse,
+  KeyVaultClientRotateKeyOptionalParams,
+  KeyVaultClientRotateKeyResponse,
   JsonWebKey,
-  ImportKeyOptionalParams,
-  ImportKeyResponse,
-  DeleteKeyOptionalParams,
-  DeleteKeyResponse,
-  UpdateKeyOptionalParams,
-  UpdateKeyResponse,
-  GetKeyOptionalParams,
-  GetKeyResponse,
-  GetKeyVersionsOptionalParams,
-  GetKeyVersionsResponse,
-  GetKeysOptionalParams,
-  GetKeysResponse,
-  BackupKeyOptionalParams,
-  BackupKeyResponse,
-  RestoreKeyOptionalParams,
-  RestoreKeyResponse,
+  KeyVaultClientImportKeyOptionalParams,
+  KeyVaultClientImportKeyResponse,
+  KeyVaultClientDeleteKeyOptionalParams,
+  KeyVaultClientDeleteKeyResponse,
+  KeyVaultClientUpdateKeyOptionalParams,
+  KeyVaultClientUpdateKeyResponse,
+  KeyVaultClientGetKeyOptionalParams,
+  KeyVaultClientGetKeyResponse,
+  KeyVaultClientGetKeyVersionsOptionalParams,
+  KeyVaultClientGetKeyVersionsResponse,
+  KeyVaultClientGetKeysOptionalParams,
+  KeyVaultClientGetKeysResponse,
+  KeyVaultClientBackupKeyOptionalParams,
+  KeyVaultClientBackupKeyResponse,
+  KeyVaultClientRestoreKeyOptionalParams,
+  KeyVaultClientRestoreKeyResponse,
   JsonWebKeyEncryptionAlgorithm,
-  EncryptOptionalParams,
-  EncryptResponse,
-  DecryptOptionalParams,
-  DecryptResponse,
+  KeyVaultClientEncryptOptionalParams,
+  KeyVaultClientEncryptResponse,
+  KeyVaultClientDecryptOptionalParams,
+  KeyVaultClientDecryptResponse,
   JsonWebKeySignatureAlgorithm,
-  SignOptionalParams,
-  SignResponse,
-  VerifyOptionalParams,
-  VerifyResponse,
-  WrapKeyOptionalParams,
-  WrapKeyResponse,
-  UnwrapKeyOptionalParams,
-  UnwrapKeyResponse,
-  ReleaseOptionalParams,
-  ReleaseResponse,
-  GetDeletedKeysOptionalParams,
-  GetDeletedKeysResponse,
-  GetDeletedKeyOptionalParams,
-  GetDeletedKeyResponse,
-  PurgeDeletedKeyOptionalParams,
-  RecoverDeletedKeyOptionalParams,
-  RecoverDeletedKeyResponse,
-  GetKeyRotationPolicyOptionalParams,
-  GetKeyRotationPolicyResponse,
+  KeyVaultClientSignOptionalParams,
+  KeyVaultClientSignResponse,
+  KeyVaultClientVerifyOptionalParams,
+  KeyVaultClientVerifyResponse,
+  KeyVaultClientWrapKeyOptionalParams,
+  KeyVaultClientWrapKeyResponse,
+  KeyVaultClientUnwrapKeyOptionalParams,
+  KeyVaultClientUnwrapKeyResponse,
+  KeyVaultClientExportOptionalParams,
+  KeyVaultClientExportResponse,
+  KeyVaultClientReleaseOptionalParams,
+  KeyVaultClientReleaseResponse,
+  KeyVaultClientGetDeletedKeysOptionalParams,
+  KeyVaultClientGetDeletedKeysResponse,
+  KeyVaultClientGetDeletedKeyOptionalParams,
+  KeyVaultClientGetDeletedKeyResponse,
+  KeyVaultClientPurgeDeletedKeyOptionalParams,
+  KeyVaultClientRecoverDeletedKeyOptionalParams,
+  KeyVaultClientRecoverDeletedKeyResponse,
+  KeyVaultClientGetKeyRotationPolicyOptionalParams,
+  KeyVaultClientGetKeyRotationPolicyResponse,
   KeyRotationPolicy,
-  UpdateKeyRotationPolicyOptionalParams,
-  UpdateKeyRotationPolicyResponse,
-  GetRandomBytesOptionalParams,
-  GetRandomBytesResponse,
-  GetKeyVersionsNextOptionalParams,
-  GetKeyVersionsNextResponse,
-  GetKeysNextOptionalParams,
-  GetKeysNextResponse,
-  GetDeletedKeysNextOptionalParams,
-  GetDeletedKeysNextResponse
+  KeyVaultClientUpdateKeyRotationPolicyOptionalParams,
+  KeyVaultClientUpdateKeyRotationPolicyResponse,
+  KeyVaultClientGetRandomBytesOptionalParams,
+  KeyVaultClientGetRandomBytesResponse,
+  KeyVaultClientGetKeyVersionsNextOptionalParams,
+  KeyVaultClientGetKeyVersionsNextResponse,
+  KeyVaultClientGetKeysNextOptionalParams,
+  KeyVaultClientGetKeysNextResponse,
+  KeyVaultClientGetDeletedKeysNextOptionalParams,
+  KeyVaultClientGetDeletedKeysNextResponse
 } from "./models";
 
 export class KeyVaultClient extends KeyVaultClientContext {
@@ -99,8 +101,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     kty: JsonWebKeyType,
-    options?: CreateKeyOptionalParams
-  ): Promise<CreateKeyResponse> {
+    options?: KeyVaultClientCreateKeyOptionalParams
+  ): Promise<KeyVaultClientCreateKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -110,7 +112,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       createKeyOperationSpec
-    ) as Promise<CreateKeyResponse>;
+    ) as Promise<KeyVaultClientCreateKeyResponse>;
   }
 
   /**
@@ -123,8 +125,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   rotateKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: RotateKeyOptionalParams
-  ): Promise<RotateKeyResponse> {
+    options?: KeyVaultClientRotateKeyOptionalParams
+  ): Promise<KeyVaultClientRotateKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -133,7 +135,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       rotateKeyOperationSpec
-    ) as Promise<RotateKeyResponse>;
+    ) as Promise<KeyVaultClientRotateKeyResponse>;
   }
 
   /**
@@ -149,8 +151,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     key: JsonWebKey,
-    options?: ImportKeyOptionalParams
-  ): Promise<ImportKeyResponse> {
+    options?: KeyVaultClientImportKeyOptionalParams
+  ): Promise<KeyVaultClientImportKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -160,7 +162,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       importKeyOperationSpec
-    ) as Promise<ImportKeyResponse>;
+    ) as Promise<KeyVaultClientImportKeyResponse>;
   }
 
   /**
@@ -175,8 +177,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   deleteKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: DeleteKeyOptionalParams
-  ): Promise<DeleteKeyResponse> {
+    options?: KeyVaultClientDeleteKeyOptionalParams
+  ): Promise<KeyVaultClientDeleteKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -185,7 +187,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       deleteKeyOperationSpec
-    ) as Promise<DeleteKeyResponse>;
+    ) as Promise<KeyVaultClientDeleteKeyResponse>;
   }
 
   /**
@@ -201,8 +203,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    options?: UpdateKeyOptionalParams
-  ): Promise<UpdateKeyResponse> {
+    options?: KeyVaultClientUpdateKeyOptionalParams
+  ): Promise<KeyVaultClientUpdateKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -212,7 +214,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       updateKeyOperationSpec
-    ) as Promise<UpdateKeyResponse>;
+    ) as Promise<KeyVaultClientUpdateKeyResponse>;
   }
 
   /**
@@ -228,8 +230,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    options?: GetKeyOptionalParams
-  ): Promise<GetKeyResponse> {
+    options?: KeyVaultClientGetKeyOptionalParams
+  ): Promise<KeyVaultClientGetKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -239,7 +241,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getKeyOperationSpec
-    ) as Promise<GetKeyResponse>;
+    ) as Promise<KeyVaultClientGetKeyResponse>;
   }
 
   /**
@@ -252,8 +254,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getKeyVersions(
     vaultBaseUrl: string,
     keyName: string,
-    options?: GetKeyVersionsOptionalParams
-  ): Promise<GetKeyVersionsResponse> {
+    options?: KeyVaultClientGetKeyVersionsOptionalParams
+  ): Promise<KeyVaultClientGetKeyVersionsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -262,7 +264,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getKeyVersionsOperationSpec
-    ) as Promise<GetKeyVersionsResponse>;
+    ) as Promise<KeyVaultClientGetKeyVersionsResponse>;
   }
 
   /**
@@ -275,8 +277,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getKeys(
     vaultBaseUrl: string,
-    options?: GetKeysOptionalParams
-  ): Promise<GetKeysResponse> {
+    options?: KeyVaultClientGetKeysOptionalParams
+  ): Promise<KeyVaultClientGetKeysResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -284,7 +286,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getKeysOperationSpec
-    ) as Promise<GetKeysResponse>;
+    ) as Promise<KeyVaultClientGetKeysResponse>;
   }
 
   /**
@@ -305,8 +307,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   backupKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: BackupKeyOptionalParams
-  ): Promise<BackupKeyResponse> {
+    options?: KeyVaultClientBackupKeyOptionalParams
+  ): Promise<KeyVaultClientBackupKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -315,7 +317,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       backupKeyOperationSpec
-    ) as Promise<BackupKeyResponse>;
+    ) as Promise<KeyVaultClientBackupKeyResponse>;
   }
 
   /**
@@ -336,8 +338,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreKey(
     vaultBaseUrl: string,
     keyBundleBackup: Uint8Array,
-    options?: RestoreKeyOptionalParams
-  ): Promise<RestoreKeyResponse> {
+    options?: KeyVaultClientRestoreKeyOptionalParams
+  ): Promise<KeyVaultClientRestoreKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyBundleBackup,
@@ -346,7 +348,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       restoreKeyOperationSpec
-    ) as Promise<RestoreKeyResponse>;
+    ) as Promise<KeyVaultClientRestoreKeyResponse>;
   }
 
   /**
@@ -370,8 +372,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: EncryptOptionalParams
-  ): Promise<EncryptResponse> {
+    options?: KeyVaultClientEncryptOptionalParams
+  ): Promise<KeyVaultClientEncryptResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -383,7 +385,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       encryptOperationSpec
-    ) as Promise<EncryptResponse>;
+    ) as Promise<KeyVaultClientEncryptResponse>;
   }
 
   /**
@@ -405,8 +407,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: DecryptOptionalParams
-  ): Promise<DecryptResponse> {
+    options?: KeyVaultClientDecryptOptionalParams
+  ): Promise<KeyVaultClientDecryptResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -418,7 +420,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       decryptOperationSpec
-    ) as Promise<DecryptResponse>;
+    ) as Promise<KeyVaultClientDecryptResponse>;
   }
 
   /**
@@ -439,8 +441,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
-    options?: SignOptionalParams
-  ): Promise<SignResponse> {
+    options?: KeyVaultClientSignOptionalParams
+  ): Promise<KeyVaultClientSignResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -452,7 +454,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       signOperationSpec
-    ) as Promise<SignResponse>;
+    ) as Promise<KeyVaultClientSignResponse>;
   }
 
   /**
@@ -477,8 +479,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     algorithm: JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options?: VerifyOptionalParams
-  ): Promise<VerifyResponse> {
+    options?: KeyVaultClientVerifyOptionalParams
+  ): Promise<KeyVaultClientVerifyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -491,7 +493,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       verifyOperationSpec
-    ) as Promise<VerifyResponse>;
+    ) as Promise<KeyVaultClientVerifyResponse>;
   }
 
   /**
@@ -514,8 +516,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: WrapKeyOptionalParams
-  ): Promise<WrapKeyResponse> {
+    options?: KeyVaultClientWrapKeyOptionalParams
+  ): Promise<KeyVaultClientWrapKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -527,7 +529,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       wrapKeyOperationSpec
-    ) as Promise<WrapKeyResponse>;
+    ) as Promise<KeyVaultClientWrapKeyResponse>;
   }
 
   /**
@@ -548,8 +550,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: UnwrapKeyOptionalParams
-  ): Promise<UnwrapKeyResponse> {
+    options?: KeyVaultClientUnwrapKeyOptionalParams
+  ): Promise<KeyVaultClientUnwrapKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -561,7 +563,33 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       unwrapKeyOperationSpec
-    ) as Promise<UnwrapKeyResponse>;
+    ) as Promise<KeyVaultClientUnwrapKeyResponse>;
+  }
+
+  /**
+   * The export key operation is applicable to all key types. The target key must be marked exportable.
+   * This operation requires the keys/export permission.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param keyName The name of the key to get.
+   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
+   * @param options The options parameters.
+   */
+  export(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options?: KeyVaultClientExportOptionalParams
+  ): Promise<KeyVaultClientExportResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      keyVersion,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.sendOperationRequest(
+      operationArguments,
+      exportOperationSpec
+    ) as Promise<KeyVaultClientExportResponse>;
   }
 
   /**
@@ -570,27 +598,27 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
    * @param keyVersion Adding the version parameter retrieves a specific version of a key.
-   * @param targetAttestationToken The attestation assertion for the target of the key release.
+   * @param target The attestation assertion for the target of the key release.
    * @param options The options parameters.
    */
   release(
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    targetAttestationToken: string,
-    options?: ReleaseOptionalParams
-  ): Promise<ReleaseResponse> {
+    target: string,
+    options?: KeyVaultClientReleaseOptionalParams
+  ): Promise<KeyVaultClientReleaseResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
       keyVersion,
-      targetAttestationToken,
+      target,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.sendOperationRequest(
       operationArguments,
       releaseOperationSpec
-    ) as Promise<ReleaseResponse>;
+    ) as Promise<KeyVaultClientReleaseResponse>;
   }
 
   /**
@@ -604,8 +632,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getDeletedKeys(
     vaultBaseUrl: string,
-    options?: GetDeletedKeysOptionalParams
-  ): Promise<GetDeletedKeysResponse> {
+    options?: KeyVaultClientGetDeletedKeysOptionalParams
+  ): Promise<KeyVaultClientGetDeletedKeysResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -613,7 +641,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getDeletedKeysOperationSpec
-    ) as Promise<GetDeletedKeysResponse>;
+    ) as Promise<KeyVaultClientGetDeletedKeysResponse>;
   }
 
   /**
@@ -627,8 +655,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: GetDeletedKeyOptionalParams
-  ): Promise<GetDeletedKeyResponse> {
+    options?: KeyVaultClientGetDeletedKeyOptionalParams
+  ): Promise<KeyVaultClientGetDeletedKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -637,7 +665,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getDeletedKeyOperationSpec
-    ) as Promise<GetDeletedKeyResponse>;
+    ) as Promise<KeyVaultClientGetDeletedKeyResponse>;
   }
 
   /**
@@ -651,7 +679,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   purgeDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: PurgeDeletedKeyOptionalParams
+    options?: KeyVaultClientPurgeDeletedKeyOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -676,8 +704,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?: RecoverDeletedKeyOptionalParams
-  ): Promise<RecoverDeletedKeyResponse> {
+    options?: KeyVaultClientRecoverDeletedKeyOptionalParams
+  ): Promise<KeyVaultClientRecoverDeletedKeyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -686,7 +714,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       recoverDeletedKeyOperationSpec
-    ) as Promise<RecoverDeletedKeyResponse>;
+    ) as Promise<KeyVaultClientRecoverDeletedKeyResponse>;
   }
 
   /**
@@ -699,8 +727,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getKeyRotationPolicy(
     vaultBaseUrl: string,
     keyName: string,
-    options?: GetKeyRotationPolicyOptionalParams
-  ): Promise<GetKeyRotationPolicyResponse> {
+    options?: KeyVaultClientGetKeyRotationPolicyOptionalParams
+  ): Promise<KeyVaultClientGetKeyRotationPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -709,7 +737,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getKeyRotationPolicyOperationSpec
-    ) as Promise<GetKeyRotationPolicyResponse>;
+    ) as Promise<KeyVaultClientGetKeyRotationPolicyResponse>;
   }
 
   /**
@@ -724,8 +752,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyRotationPolicy: KeyRotationPolicy,
-    options?: UpdateKeyRotationPolicyOptionalParams
-  ): Promise<UpdateKeyRotationPolicyResponse> {
+    options?: KeyVaultClientUpdateKeyRotationPolicyOptionalParams
+  ): Promise<KeyVaultClientUpdateKeyRotationPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -735,7 +763,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       updateKeyRotationPolicyOperationSpec
-    ) as Promise<UpdateKeyRotationPolicyResponse>;
+    ) as Promise<KeyVaultClientUpdateKeyRotationPolicyResponse>;
   }
 
   /**
@@ -747,8 +775,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getRandomBytes(
     vaultBaseUrl: string,
     count: number,
-    options?: GetRandomBytesOptionalParams
-  ): Promise<GetRandomBytesResponse> {
+    options?: KeyVaultClientGetRandomBytesOptionalParams
+  ): Promise<KeyVaultClientGetRandomBytesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       count,
@@ -757,7 +785,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getRandomBytesOperationSpec
-    ) as Promise<GetRandomBytesResponse>;
+    ) as Promise<KeyVaultClientGetRandomBytesResponse>;
   }
 
   /**
@@ -771,8 +799,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     nextLink: string,
-    options?: GetKeyVersionsNextOptionalParams
-  ): Promise<GetKeyVersionsNextResponse> {
+    options?: KeyVaultClientGetKeyVersionsNextOptionalParams
+  ): Promise<KeyVaultClientGetKeyVersionsNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
@@ -782,7 +810,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getKeyVersionsNextOperationSpec
-    ) as Promise<GetKeyVersionsNextResponse>;
+    ) as Promise<KeyVaultClientGetKeyVersionsNextResponse>;
   }
 
   /**
@@ -794,8 +822,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getKeysNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: GetKeysNextOptionalParams
-  ): Promise<GetKeysNextResponse> {
+    options?: KeyVaultClientGetKeysNextOptionalParams
+  ): Promise<KeyVaultClientGetKeysNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       nextLink,
@@ -804,7 +832,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getKeysNextOperationSpec
-    ) as Promise<GetKeysNextResponse>;
+    ) as Promise<KeyVaultClientGetKeysNextResponse>;
   }
 
   /**
@@ -816,8 +844,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedKeysNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: GetDeletedKeysNextOptionalParams
-  ): Promise<GetDeletedKeysNextResponse> {
+    options?: KeyVaultClientGetDeletedKeysNextOptionalParams
+  ): Promise<KeyVaultClientGetDeletedKeysNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       nextLink,
@@ -826,7 +854,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getDeletedKeysNextOperationSpec
-    ) as Promise<GetDeletedKeysNextResponse>;
+    ) as Promise<KeyVaultClientGetDeletedKeysNextResponse>;
   }
 }
 // Operation Specifications
@@ -1218,6 +1246,35 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const exportOperationSpec: coreHttp.OperationSpec = {
+  path: "/keys/{key-name}/{key-version}/export",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyBundle
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      wrappingKey: ["options", "wrappingKey"],
+      wrappingKid: ["options", "wrappingKid"],
+      enc: ["options", "enc"]
+    },
+    mapper: { ...Mappers.KeyExportParameters, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const releaseOperationSpec: coreHttp.OperationSpec = {
   path: "/keys/{key-name}/{key-version}/release",
   httpMethod: "POST",
@@ -1231,7 +1288,7 @@ const releaseOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      targetAttestationToken: ["targetAttestationToken"],
+      target: ["target"],
       nonce: ["options", "nonce"],
       enc: ["options", "enc"]
     },

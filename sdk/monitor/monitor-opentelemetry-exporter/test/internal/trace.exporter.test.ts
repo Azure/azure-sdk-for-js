@@ -52,7 +52,7 @@ describe("#AzureMonitorBaseExporter", () => {
 
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
-      const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+      const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
       const envelope = {
         name: "Name",
         time: new Date(),
@@ -165,9 +165,9 @@ describe("#AzureMonitorBaseExporter", () => {
       it("should handle permanent redirects in Azure Monitor", async () => {
         const exporter = new TestExporter();
         const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        const redirectLocation = redirectHost + "/v2.1/track";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
-        const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
+        const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
         });
         redirectScope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
@@ -186,9 +186,9 @@ describe("#AzureMonitorBaseExporter", () => {
       it("should handle temporary redirects in Azure Monitor", async () => {
         const exporter = new TestExporter();
         const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        const redirectLocation = redirectHost + "/v2.1/track";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
-        const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
+        const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
         });
         redirectScope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
@@ -207,9 +207,9 @@ describe("#AzureMonitorBaseExporter", () => {
       it("should use redirect URL for following requests", async () => {
         const exporter = new TestExporter();
         const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        const redirectLocation = redirectHost + "/v2.1/track";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
-        const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
+        const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
         });
         redirectScope.twice().reply(200, JSON.stringify(successfulBreezeResponse(1)));
@@ -231,9 +231,9 @@ describe("#AzureMonitorBaseExporter", () => {
       it("should stop redirecting when circular redirect is triggered", async () => {
         const exporter = new TestExporter();
         const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
-        const redirectLocation = redirectHost + "/v2.1/track";
+        const redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
-        const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
+        const redirectScope = nock(redirectHost).post("/v2/track", () => {
           return true;
         });
         // Circle redirect

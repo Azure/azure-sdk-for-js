@@ -12,7 +12,7 @@
  * This sample demonstrates how to Provides a pageable list of all items that are backed up within a vault.
  *
  * @summary Provides a pageable list of all items that are backed up within a vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-12-01/examples/AzureIaasVm/BackupProtectedItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2021-10-01/examples/AzureIaasVm/BackupProtectedItems_List.json
  */
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");

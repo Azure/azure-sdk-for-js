@@ -17,7 +17,6 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
 Key links:
-
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-certificates)
 - [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates)
@@ -163,7 +162,7 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new CertificateClient(url, credential, {
-  serviceVersion: "7.0",
+  serviceVersion: "7.0"
 });
 ```
 
@@ -204,7 +203,7 @@ async function main() {
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subject: "cn=MyCert"
   });
 }
 
@@ -232,17 +231,17 @@ const certificateName = "MyCertificateName";
 // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
 const certificatePolicy = {
   issuerName: "Self",
-  subject: "cn=MyCert",
+  subject: "cn=MyCert"
 };
 const enabled = true;
 const tags = {
-  myCustomTag: "myCustomTagsValue",
+  myCustomTag: "myCustomTagsValue"
 };
 
 async function main() {
   await client.beginCreateCertificate(certificateName, certificatePolicy, {
     enabled,
-    tags,
+    tags
   });
 }
 
@@ -275,7 +274,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
   issuerName: "Self",
-  subject: "cn=MyCert",
+  subject: "cn=MyCert"
 };
 
 async function main() {
@@ -309,7 +308,7 @@ const client = new CertificateClient(url, credential);
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
   issuerName: "Self",
-  subject: "cn=MyCert",
+  subject: "cn=MyCert"
 };
 
 async function main() {
@@ -443,7 +442,7 @@ const certificateName = "MyCertificate";
 const createPoller = await client.beginCreateCertificate(certificateName, {
   issuerName: "Self",
   subject: "cn=MyCert",
-  contentType: "application/x-pem-file", // Here you specify you want to work with PEM certificates.
+  contentType: "application/x-pem-file" // Here you specify you want to work with PEM certificates.
 });
 const keyVaultCertificate = await createPoller.pollUntilDone();
 
@@ -505,8 +504,8 @@ async function main() {
   await client.updateCertificateProperties(certificateName, result.properties.version, {
     enabled: false,
     tags: {
-      myCustomTag: "myCustomTagsValue",
-    },
+      myCustomTag: "myCustomTagsValue"
+    }
   });
 }
 
@@ -533,7 +532,7 @@ async function main() {
   // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
   await client.updateCertificatePolicy(certificateName, {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subject: "cn=MyCert"
   });
 }
 
@@ -684,8 +683,6 @@ import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
-
-See our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/TROUBLESHOOTING.md) for details on how to diagnose various failure scenarios.
 
 ## Next steps
 

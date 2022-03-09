@@ -5,7 +5,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
@@ -13,7 +13,6 @@ import { getError } from "../../authTestUtils";
 
 describe("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
-  let recorder: Recorder;
   const environmentVariableNames = [
     "AZURE_TENANT_ID",
     "AZURE_CLIENT_ID",
@@ -24,9 +23,8 @@ describe("EnvironmentCredential", function () {
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    recorder = setup.recorder;
+  beforeEach(function (this: Context) {
+    const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {
       cachedValues[name] = process.env[name];
@@ -49,7 +47,7 @@ describe("EnvironmentCredential", function () {
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+    const credential = new EnvironmentCredential();
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -61,14 +59,20 @@ describe("EnvironmentCredential", function () {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
     }
+    if (isPlaybackMode()) {
+      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+      // This assertion could be provided as parameters, but we don't have that in the public API yet,
+      // and I'm trying to avoid having to generate one ourselves.
+      this.skip();
+    }
+
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-    process.env.AZURE_CLIENT_CERTIFICATE_PATH =
-      cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
+    process.env.AZURE_CLIENT_CERTIFICATE_PATH = cachedValues.AZURE_CLIENT_CERTIFICATE_PATH;
 
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+    const credential = new EnvironmentCredential();
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -86,7 +90,7 @@ describe("EnvironmentCredential", function () {
     const getTokenSpy = sinon.spy(UsernamePasswordCredential.prototype, "getToken");
 
     try {
-      const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+      const credential = new EnvironmentCredential();
       await credential.getToken("scope");
     } catch (e) {
       // To avoid having to store passwords anywhere, this getToken request will fail.
@@ -110,7 +114,7 @@ describe("EnvironmentCredential", function () {
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
         process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
-        const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+        const credential = new EnvironmentCredential();
 
         await credential.getToken(scope, {
           tracingOptions,
@@ -135,16 +139,21 @@ describe("EnvironmentCredential", function () {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
     }
+    if (isPlaybackMode()) {
+      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+      // This assertion could be provided as parameters, but we don't have that in the public API yet,
+      // and I'm trying to avoid having to generate one ourselves.
+      this.skip();
+    }
     await testTracing({
       test: async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-        process.env.AZURE_CLIENT_CERTIFICATE_PATH =
-          cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
+        process.env.AZURE_CLIENT_CERTIFICATE_PATH = cachedValues.AZURE_CLIENT_CERTIFICATE_PATH;
 
-        const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+        const credential = new EnvironmentCredential();
 
         await credential.getToken(scope, {
           tracingOptions,
@@ -175,7 +184,7 @@ describe("EnvironmentCredential", function () {
         process.env.AZURE_USERNAME = "user";
         process.env.AZURE_PASSWORD = "password";
 
-        const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+        const credential = new EnvironmentCredential();
 
         try {
           await credential.getToken(scope, {
@@ -201,7 +210,7 @@ describe("EnvironmentCredential", function () {
   );
 
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+    const credential = new EnvironmentCredential();
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "CredentialUnavailableError");
     assert.ok(
@@ -216,7 +225,7 @@ describe("EnvironmentCredential", function () {
     process.env.AZURE_CLIENT_ID = "client";
     process.env.AZURE_CLIENT_SECRET = "secret";
 
-    const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
+    const credential = new EnvironmentCredential();
     const error = await getError(credential.getToken(scope));
     assert.equal(error.name, "AuthenticationError");
     assert.ok(error.message.indexOf("EnvironmentCredential authentication failed.") > -1);

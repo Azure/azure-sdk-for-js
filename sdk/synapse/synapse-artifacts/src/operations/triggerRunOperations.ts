@@ -12,7 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
+import { ArtifactsClientContext } from "../artifactsClientContext";
 import {
   TriggerRunRerunTriggerInstanceOptionalParams,
   TriggerRunCancelTriggerInstanceOptionalParams,
@@ -23,13 +23,13 @@ import {
 
 /** Class containing TriggerRunOperations operations. */
 export class TriggerRunOperationsImpl implements TriggerRunOperations {
-  private readonly client: ArtifactsClient;
+  private readonly client: ArtifactsClientContext;
 
   /**
    * Initialize a new instance of the class TriggerRunOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClient) {
+  constructor(client: ArtifactsClientContext) {
     this.client = client;
   }
 

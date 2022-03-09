@@ -235,20 +235,6 @@ testWithServiceTypes((serviceVersion) => {
         const resultTypes = results.map((r) => r.type);
         assert.deepEqual(resultTypes, ["success", "flush", "success", "flush"]);
       });
-
-      it("passes idempotent publish options to internal producer", async () => {
-        const results: Result[] = [];
-        client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
-          async onSendEventsErrorHandler(context) {
-            results.push({ type: "error", context });
-          },
-          enableIdempotentPartitions: true,
-        });
-
-        const internalProducer = (client as any)._producer;
-        assert.ok(internalProducer, "Expecting internal standard producer to be valid");
-        assert.equal(internalProducer._enableIdempotentPartitions, true);
-      });
     });
   });
 });

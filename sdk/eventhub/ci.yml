@@ -8,9 +8,6 @@ trigger:
   paths:
     include:
       - sdk/eventhub/
-    exclude:
-      - sdk/eventhub/ci.mgmt.yml
-      - sdk/eventhub/arm-eventhub/
 pr:
   branches:
     include:
@@ -23,10 +20,6 @@ pr:
   paths:
     include:
       - sdk/eventhub/
-    exclude:
-      - sdk/eventhub/ci.mgmt.yml
-      - sdk/eventhub/arm-eventhub/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -39,3 +32,5 @@ extends:
         safeName: azureeventhubscheckpointstoreblob
       - name: azure-eventhubs-checkpointstore-table
         safeName: azureeventhubscheckpointstoretable
+      - name: azure-arm-eventhub
+        safeName: azurearmeventhub

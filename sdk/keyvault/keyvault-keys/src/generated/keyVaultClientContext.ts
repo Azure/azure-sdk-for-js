@@ -34,7 +34,7 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
     }
 
     const defaultUserAgent = `azsdk-js-${packageName.replace(
-      /@.*\//,
+      "@azure/",
       ""
     )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 

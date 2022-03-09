@@ -21,8 +21,7 @@ import {
   AccountBackupsImpl,
   BackupPoliciesImpl,
   VaultsImpl,
-  VolumeGroupsImpl,
-  SubvolumesImpl
+  VolumeGroupsImpl
 } from "./operations";
 import {
   Operations,
@@ -37,8 +36,7 @@ import {
   AccountBackups,
   BackupPolicies,
   Vaults,
-  VolumeGroups,
-  Subvolumes
+  VolumeGroups
 } from "./operationsInterfaces";
 import { NetAppManagementClientOptionalParams } from "./models";
 
@@ -75,7 +73,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/15.1.1`;
+    const packageDetails = `azsdk-js-arm-netapp/15.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -98,7 +96,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2021-08-01";
     this.operations = new OperationsImpl(this);
     this.netAppResource = new NetAppResourceImpl(this);
     this.netAppResourceQuotaLimits = new NetAppResourceQuotaLimitsImpl(this);
@@ -112,7 +110,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.vaults = new VaultsImpl(this);
     this.volumeGroups = new VolumeGroupsImpl(this);
-    this.subvolumes = new SubvolumesImpl(this);
   }
 
   operations: Operations;
@@ -128,5 +125,4 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
   backupPolicies: BackupPolicies;
   vaults: Vaults;
   volumeGroups: VolumeGroups;
-  subvolumes: Subvolumes;
 }

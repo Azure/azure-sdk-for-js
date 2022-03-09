@@ -1,4 +1,4 @@
-import { createPipelineRequest, HttpMethods, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env } from "../../src";
 import { isLiveMode, TestMode } from "../../src/utils/utils";
@@ -14,7 +14,7 @@ export const setTestMode = (mode: TestMode): TestMode => {
  * Returns the test server url
  * Acts as the endpoint [ Works as a substitute to the actual Azure Services ]
  */
-export function getTestServerUrl(): string {
+export function getTestServerUrl() {
   // utils/server.ts creates a localhost server at port 8080
   // - In "live" mode, we are hitting directly the localhost endpoint
   // - In "record" and "playback" modes, we need to hit the localhost of the host network
@@ -38,9 +38,8 @@ export async function makeRequestAndVerifyResponse(
     headers?: { headerName: string; value: string }[];
     method: HttpMethods;
   },
-  expectedResponse: { [key: string]: unknown } | undefined,
-  expectedHeaders?: { [key: string]: string }
-): Promise<PipelineResponse> {
+  expectedResponse: { [key: string]: unknown } | undefined
+) {
   const req = createPipelineRequest({
     url: request.url ?? getTestServerUrl() + request.path,
     body: request.body,
@@ -58,12 +57,6 @@ export async function makeRequestAndVerifyResponse(
 
     expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
   }
-
-  if (expectedHeaders) {
-    for (const [headerName, headerValue] of Object.entries(expectedHeaders)) {
-      expect(response.headers.get(headerName)).to.equal(headerValue);
-    }
-  }
-
+  // Add code to also check expected headers
   return response;
 }

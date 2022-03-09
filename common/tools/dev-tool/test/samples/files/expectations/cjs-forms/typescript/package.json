@@ -26,9 +26,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms",
   "dependencies": {
     "cjs-forms": "latest",
-    "dotenv": "latest",
-    "@azure/test1": "latest",
-    "@azure-test2/test2": "next"
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse, expect } from "chai";
+import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
@@ -9,10 +9,10 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure-tools/test-recorder";
 
 import {
-  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
-  recorderOptions,
+  createRecorder,
+  EndpointType,
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
@@ -21,9 +21,8 @@ import { KnownAttestationType } from "../../src";
 describe("[AAD] Attestation Client", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
+  beforeEach(function (this: Context) {
+    recorder = createRecorder(this);
   });
 
   afterEach(async function () {
@@ -168,8 +167,8 @@ describe("[AAD] Attestation Client", function () {
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
   it("#attestTpm", async () => {
-    const client = createRecordedClient(recorder, "AAD", true);
-    const adminClient = createRecordedAdminClient(recorder, "AAD");
+    const client = createRecordedClient("AAD", true);
+    const adminClient = createRecordedAdminClient("AAD");
 
     // Set the policy on the instance to a known value.
     await adminClient.setPolicy(
@@ -195,17 +194,17 @@ describe("[AAD] Attestation Client", function () {
 
   async function testOpenEnclave(endpointType: EndpointType): Promise<void> {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
-    const client = createRecordedClient(recorder, endpointType);
+    const client = createRecordedClient(endpointType);
 
-    // You can't specify both runtimeData and runtimeJson.
-    await assert.isRejected(
-      client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-        runTimeData: binaryRuntimeData,
-        runTimeJson: binaryRuntimeData,
-      }),
-      "Cannot provide both runTimeData and runTimeJson.",
-      "Expected to throw since you can't specify both runtimeData and runtimeJson"
-    );
+    {
+      // You can't specify both runtimeData and runtimeJson.
+      await expect(
+        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+          runTimeData: binaryRuntimeData,
+          runTimeJson: binaryRuntimeData,
+        })
+      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+    }
 
     {
       const attestationResult = await client.attestOpenEnclave(
@@ -247,18 +246,19 @@ describe("[AAD] Attestation Client", function () {
   }
 
   async function testSgxEnclave(endpointType: EndpointType): Promise<void> {
-    const client = createRecordedClient(recorder, endpointType);
+    const client = createRecordedClient(endpointType);
 
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
-    await assert.isRejected(
-      client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-        runTimeData: binaryRuntimeData,
-        runTimeJson: binaryRuntimeData,
-      }),
-      "Cannot provide both runTimeData and runTimeJson.",
-      "Expected to throw since you can't specify both runtimeData and runtimeJson"
-    );
+    {
+      // You can't specify both runtimeData and runtimeJson.
+      await expect(
+        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+          runTimeData: binaryRuntimeData,
+          runTimeJson: binaryRuntimeData,
+        })
+      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+    }
 
     {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.

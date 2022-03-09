@@ -94,16 +94,6 @@ export const events1: OperationParameter = {
   }
 };
 
-export const aegChannelName: OperationParameter = {
-  parameterPath: ["options", "aegChannelName"],
-  mapper: {
-    serializedName: "aeg-channel-name",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const events2: OperationParameter = {
   parameterPath: "events",
   mapper: {
