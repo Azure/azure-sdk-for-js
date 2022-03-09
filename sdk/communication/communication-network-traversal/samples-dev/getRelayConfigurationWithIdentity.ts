@@ -6,7 +6,10 @@
  */
 
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { CommunicationRelayClient, GetRelayConfigurationOptions } from "@azure/communication-network-traversal";
+import {
+  CommunicationRelayClient,
+  GetRelayConfigurationOptions,
+} from "@azure/communication-network-traversal";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
