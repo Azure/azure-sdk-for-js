@@ -7,17 +7,6 @@ import {
 } from "./messages";
 import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
 
-// debug, delete
-const inspect =
-  <T extends unknown[], U>(fn: (...x: T) => U, name: string, filterArgs?: number[]) =>
-  (...args: T): U => {
-    console.log(
-      `${name}:`,
-      args.filter((_, i) => !filterArgs || filterArgs.includes(i))
-    );
-    return fn(...args);
-  };
-
 export type WorkerLike = workerThreads.Worker | ChildProcess;
 
 export interface WorkerData {
@@ -79,7 +68,7 @@ const createWorkerUtils = (
   workerData: WorkerData
 ): WorkerMulticoreUtils => ({
   isManager: false,
-  sendMessage: inspect(sendMessage, "sendMessage (worker -> manager)"),
+  sendMessage,
   onMessage,
   offMessage,
   getMessage: makeGetMessage<ManagerToWorkerMessage>(onMessage, offMessage),
@@ -106,17 +95,13 @@ const createManagerUtils = (mode: "worker_threads" | "child_processes"): Manager
   const offMessage = (callback: (message: WorkerToManagerMessageWithId) => void) =>
     workerMessageHandlers.delete(callback);
 
-  const sendMessage = inspect(
-    (handle: WorkerLike, message: ManagerToWorkerMessage) => {
-      if (isWorker(handle)) {
-        handle.postMessage(message);
-      } else {
-        handle.send(message);
-      }
-    },
-    "sendMessage (manager -> worker)",
-    [1]
-  );
+  const sendMessage = (handle: WorkerLike, message: ManagerToWorkerMessage) => {
+    if (isWorker(handle)) {
+      handle.postMessage(message);
+    } else {
+      handle.send(message);
+    }
+  };
 
   const getMessage = makeGetMessage<WorkerToManagerMessageWithId>(onMessage, offMessage);
 

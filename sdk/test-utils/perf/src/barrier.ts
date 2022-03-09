@@ -4,7 +4,15 @@
 import { Message } from "./messages";
 import { multicoreUtils } from "./multicore";
 
-export type Stage = "setup" | "postSetup" | "warmup" | "test" | "cleanup" | "preCleanup";
+export type Stage =
+  | "globalSetup"
+  | "setup"
+  | "postSetup"
+  | "warmup"
+  | "test"
+  | "preCleanup"
+  | "cleanup"
+  | "globalCleanup";
 
 export type BarrierMessageType = "enter" | "exit" | "complete";
 

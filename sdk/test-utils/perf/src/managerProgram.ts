@@ -42,7 +42,7 @@ export class ManagerPerfProgram implements PerfProgram {
   private parsedOptions: ParsedPerfOptions<DefaultPerfOptions>;
 
   /** Dummy instance of the test class used for global setup and cleanup. */
-  private testInstanceForGlobalSetup: PerfTestBase;
+  private dummyTestInstance: PerfTestBase;
 
   /**
    * Receives a test class to instantiate and execute.
@@ -60,8 +60,8 @@ export class ManagerPerfProgram implements PerfProgram {
     this.managerUtils = multicoreUtils;
 
     this.testName = testClass.name;
-    this.testInstanceForGlobalSetup = new testClass();
-    this.parsedOptions = this.testInstanceForGlobalSetup.parsedOptions;
+    this.dummyTestInstance = new testClass();
+    this.parsedOptions = this.dummyTestInstance.parsedOptions;
     this.parallelNumber = Number(this.parsedOptions.parallel.value);
   }
 
@@ -241,7 +241,7 @@ export class ManagerPerfProgram implements PerfProgram {
     // --help, or -h
     if (this.parsedOptions.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
-      console.table(this.testInstanceForGlobalSetup.parsedOptions);
+      console.table(this.dummyTestInstance.parsedOptions);
       return;
     }
 
@@ -249,18 +249,16 @@ export class ManagerPerfProgram implements PerfProgram {
       this.parsedOptions["list-transitive-dependencies"].value ?? false
     );
 
-    const options = this.testInstanceForGlobalSetup.parsedOptions;
+    const options = this.dummyTestInstance.parsedOptions;
     console.log("=== Parsed options ===");
     console.table(options);
 
-    if (this.testInstanceForGlobalSetup.globalSetup) {
-      console.log(
-        `=== Calling globalSetup() once for (all) the instance(s) of ${this.testName} ===`
-      );
-      await this.testInstanceForGlobalSetup.globalSetup();
-    }
-
     this.createWorkers();
+
+    console.log(
+      `=== Calling globalSetup() once per CPU for (all) the instance(s) of ${this.testName} ===`
+    );
+    await performStage("globalSetup");
 
     console.log(
       `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
@@ -286,15 +284,10 @@ export class ManagerPerfProgram implements PerfProgram {
         `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
       );
       await performStage("cleanup");
-    }
-
-    if (!options["no-cleanup"].value) {
-      if (this.testInstanceForGlobalSetup.globalCleanup) {
-        console.log(
-          `=== Calling globalCleanup() once for (all) the instance(s) of ${this.testName} ===`
-        );
-        await this.testInstanceForGlobalSetup.globalCleanup();
-      }
+      console.log(
+        `=== Calling globalCleanup() once per CPU for (all) the instance(s) of ${this.testName} ===`
+      );
+      await performStage("globalCleanup");
     }
   }
 }

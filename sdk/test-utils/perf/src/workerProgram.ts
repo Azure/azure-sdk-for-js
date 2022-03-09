@@ -67,6 +67,10 @@ export class WorkerPerfProgram implements PerfProgram {
       throw error;
     });
 
+    await enterStage("globalSetup");
+    await this.tests[0].globalSetup?.();
+    await exitStage("globalSetup");
+
     await enterStage("setup");
     await Promise.all(this.tests.map((test) => test.setup?.()));
     await exitStage("setup");
@@ -95,6 +99,10 @@ export class WorkerPerfProgram implements PerfProgram {
       await enterStage("cleanup");
       await Promise.all(this.tests.map((test) => test.cleanup?.()));
       await exitStage("cleanup");
+
+      await enterStage("globalCleanup");
+      await this.tests[0].globalCleanup?.();
+      await exitStage("globalCleanup");
     }
   }
 }
