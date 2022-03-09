@@ -11,3 +11,11 @@ https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/
 https://docs.microsoft.com/javascript/api/@azure/arm-dnsresolver?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview
 https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview
+https://docs.microsoft.com/javascript/api/@azure/arm-resources-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-locks-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-dns-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-policy-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-subscriptions-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-storage-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-keyvault-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-network-profile-2020-09-01-hybrid

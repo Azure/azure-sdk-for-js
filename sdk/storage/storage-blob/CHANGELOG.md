@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.4 (Unreleased)
+## 12.9.0-beta.5 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,17 @@
 
 ### Bugs Fixed
 
-- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
-
 ### Other Changes
+
+## 12.9.0-beta.4 (2022-03-04)
+
+### Features Added
+
+- Added ability to specify Disk Compute AAD Audience in StoragePipelineOptions.
+
+### Bugs Fixed
+
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
 
 ## 12.9.0-beta.3 (2022-02-11)
 

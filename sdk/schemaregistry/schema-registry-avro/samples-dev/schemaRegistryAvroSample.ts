@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry.
+ * @summary Demonstrates the use of AvroSerializer to create messages with avro-serialized payload using schema from Schema Registry.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { AvroEncoder } from "@azure/schema-registry-avro";
+import { AvroSerializer } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -61,23 +61,23 @@ export async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `encodeMessageData` automatically register
+  // You can also skip this step and let `serializeMessageData` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await client.registerSchema(schemaDescription);
 
-  // Create a new encoder backed by the client
-  const encoder = new AvroEncoder(client, { groupName });
+  // Create a new serializer backed by the client
+  const serializer = new AvroSerializer(client, { groupName });
 
-  // encode an object that matches the schema and put it in a message
+  // serialize an object that matches the schema and put it in a message
   const value: User = { firstName: "Jane", lastName: "Doe" };
-  const message = await encoder.encodeMessageData(value, schema);
+  const message = await serializer.serializeMessageData(value, schema);
   console.log("Created message:");
   console.log(JSON.stringify(message));
 
-  // decode the message back to an object
-  const decodedObject = await encoder.decodeMessageData(message);
-  console.log("Decoded object:");
-  console.log(JSON.stringify(decodedObject as User));
+  // deserialize the message back to an object
+  const deserializedObject = await serializer.deserializeMessageData(message);
+  console.log("Deserialized object:");
+  console.log(JSON.stringify(deserializedObject as User));
 }
 
 main().catch((err) => {

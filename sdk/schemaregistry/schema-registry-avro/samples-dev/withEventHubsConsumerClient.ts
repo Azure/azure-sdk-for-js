@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroEncoder to decode messages with avro-encoded payload received from the Event Hub Consumer Client.
+ * @summary Demonstrates the use of AvroSerializer to deserialize messages with avro-serialized payload received from the Event Hub Consumer Client.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { AvroEncoder } from "@azure/schema-registry-avro";
+import { AvroSerializer } from "@azure/schema-registry-avro";
 import {
   EventHubConsumerClient,
   earliestEventPosition,
@@ -69,12 +69,12 @@ export async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `encodeMessageData` automatically register
+  // You can also skip this step and let `serializeMessageData` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
-  // Create a new encoder backed by the client
-  const encoder = new AvroEncoder(schemaRegistryClient, {
+  // Create a new serializer backed by the client
+  const serializer = new AvroSerializer(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });
@@ -104,8 +104,8 @@ export async function main() {
           if (event.contentType !== undefined && event.body) {
             const contentTypeParts = event.contentType.split("+");
             if (contentTypeParts[0] === "avro/binary") {
-              const decodedEvent = await encoder.decodeMessageData(event);
-              console.log(`Decoded message: '${JSON.stringify(decodedEvent)}'`);
+              const deserializedEvent = await serializer.deserializeMessageData(event);
+              console.log(`Deserialized message: '${JSON.stringify(deserializedEvent)}'`);
             }
           }
         }
