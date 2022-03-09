@@ -10,7 +10,7 @@ import { BatchPerfTest } from "./batchPerfTest";
  */
 export abstract class PerfTest<
   TOptions = Record<string, unknown>,
-  TGlobals = unknown
+  TGlobals = void
 > extends BatchPerfTest<TOptions, TGlobals> {
   public abstract run(abortSignal?: AbortSignalLike): Promise<void>;
 

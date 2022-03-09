@@ -254,14 +254,15 @@ export class ManagerPerfProgram implements PerfProgram {
     console.log("=== Parsed options ===");
     console.table(options);
 
+    let globals = undefined;
     if (this.testInstanceForGlobalSetup.globalSetup) {
       console.log(
         `=== Calling globalSetup() once for (all) the instance(s) of ${this.testName} ===`
       );
-      await this.testInstanceForGlobalSetup.globalSetup();
+      globals = await this.testInstanceForGlobalSetup.globalSetup();
     }
 
-    this.createWorkers(this.testInstanceForGlobalSetup.globals);
+    this.createWorkers(globals);
 
     console.log(
       `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`

@@ -31,16 +31,14 @@ export interface PerfTestConstructor<
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfTestBase<TOptions = Record<string, unknown>, TGlobals = unknown> {
+export abstract class PerfTestBase<TOptions = Record<string, unknown>, TGlobals = void> {
   public abstract options: PerfOptionDictionary<TOptions>;
 
-  private _globals: Partial<TGlobals> = {};
-
-  public get globals(): Partial<TGlobals> {
+  public get globals(): TGlobals {
     if (multicoreUtils.isManager) {
-      return this._globals;
+      throw new Error("Cannot access globals as a manager");
     } else {
-      return Object.assign({}, multicoreUtils.workerData.globals);
+      return multicoreUtils.workerData.globals as TGlobals;
     }
   }
 
@@ -85,7 +83,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>, TGlobals 
   }
 
   // Before and after running a bunch of the same test.
-  public globalSetup?(): void | Promise<void>;
+  public globalSetup?(): TGlobals | Promise<TGlobals>;
   public globalCleanup?(): void | Promise<void>;
 
   public postSetup?(): void | Promise<void>;
