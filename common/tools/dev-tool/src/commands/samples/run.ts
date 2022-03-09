@@ -77,7 +77,7 @@ export default leafCommand(commandInfo, async (options) => {
     const stats = await fs.stat(sample);
     if (stats.isFile()) {
       // We don't consider the skips if the file was _explicitly_ asked for
-      runSingle(sample, errors);
+      await runSingle(sample, errors);
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,
