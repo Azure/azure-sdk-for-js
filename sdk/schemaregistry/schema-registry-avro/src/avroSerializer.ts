@@ -28,9 +28,10 @@ const avroMimeType = "avro/binary";
 const cacheOptions: LRUCacheOptions<string, any> = {
   max: 128,
   /**
-   * Allow for up to ~50 mb of schema length
+   * This is needed in order to specify `sizeCalculation` but we do not intend
+   * to limit the size just yet.
    */
-  maxSize: 1024 * 1024 * 50,
+  maxSize: Number.MAX_VALUE,
   sizeCalculation: (_value: any, key: string) => {
     return key.length;
   },
