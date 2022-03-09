@@ -71,6 +71,7 @@ specifiers:
   '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
+  '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid': file:./projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
@@ -332,6 +333,7 @@ dependencies:
   '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
+  '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid': file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
@@ -10698,6 +10700,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-RFKn7RaLvR7waPom6B/E5XTboRLW13rjgjojK5L0+DTbEQiNDcplveznq3JLD9fRrHeIolWIOEXCFGTVQaIgSQ==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-keyvault.tgz:
     resolution: {integrity: sha512-BUQEurIWpE27h/AU697m0yoivlT29DnRzRewj9ZJZcMuNVR5LhFcOEiicURBM6ji4Vu+QrAqCYz5cJv6w7uyLQ==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
@@ -14682,7 +14712,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-Wu82qdfR48RutCq2D4p+KavTGmEOjyN310+4Icpux/1lp9T4OoZQFtKgPrKr+e1LVe2wUr4rMJiJqrDGu+7odA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-eSNP+rjDJzbLChAPy/G0Zh8/HuM9wJBgx0coCNEtMBy9aj5w8gkPwe3nsZNG3kJmoodg+QWZO5Libg7hwVBupw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -14713,13 +14743,12 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-TNas20f7WYNZmAmRFFGI8Q+lX/B8jpY0gPCASb7aC8jRgPqRbmM9jlAOpKwaPGQSaMWVqU8kC7wpr8ael9MBmQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-4Pb866SYL21ij7G09h1HOdDIIuSm+EGzpF4cdM5lQFTe4cpAjFTBIssP1EIQOYjftSjK/WRLydIuhA1hdFQEAQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -14748,13 +14777,12 @@ packages:
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-rbjSAE0K+z3lOIyAO8LLyQH9NqNRMlHktxHdIQpKYOUWcleAd0BdRv/K3NWAoRbSq9ESgXXTwt0xS4T6MFoI2Q==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-LeCn6IxiMBBfYJIUtgWsKx+ks1T0qhcMn0C2TkHOCcLk7GyeLQmgl2arVp96ZP2OQh5V7/QMuob++qg8dyFO3w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
