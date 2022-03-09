@@ -71,6 +71,7 @@ specifiers:
   '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
+  '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid': file:./projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
@@ -97,6 +98,7 @@ specifiers:
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
+  '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
@@ -139,6 +141,7 @@ specifiers:
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
+  '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
@@ -146,6 +149,7 @@ specifiers:
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:./projects/arm-subscriptions.tgz
+  '@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid': file:./projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-support': file:./projects/arm-support.tgz
   '@rush-temp/arm-synapse': file:./projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
@@ -330,6 +334,7 @@ dependencies:
   '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
+  '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid': file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
@@ -356,6 +361,7 @@ dependencies:
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
+  '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
@@ -398,6 +404,7 @@ dependencies:
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
+  '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
@@ -405,6 +412,7 @@ dependencies:
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:projects/arm-subscriptions.tgz
+  '@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid': file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-support': file:projects/arm-support.tgz
   '@rush-temp/arm-synapse': file:projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
@@ -9109,27 +9117,28 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-aEJAV+dcm2xFOdX/GFqvwkXq5ey9otSgPiT+SP3RGo34HtuNontnLMQAdm8GWpdr0THgiNQWhRyty0D9N4eUCA==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-PKdtoHctY2Gq1iu3K/1hqpDfnzJjlVN4Vx//xKh8K5LhY+i2wjN3m9HKgTGv+C5r7E3R+vTrWytLmKzME3ZL8Q==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -9317,27 +9326,28 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-Qz46HMD7+A8Oyfgh/RBD1hZbQHOKG1Xb+kgNnRWkvM8EJC8bpy9aDikQPIJcb6o897FKe81hwKxBdWXYNXAY1w==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-49o3lKVEYQEcLbY/eA2TIza6P5yWwsDUnX7sEtAipiXuSz2k4fd1/pvbVs+Y007FZEjL+vfnFJxCj6fYaLr5Zg==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -10674,6 +10684,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-RFKn7RaLvR7waPom6B/E5XTboRLW13rjgjojK5L0+DTbEQiNDcplveznq3JLD9fRrHeIolWIOEXCFGTVQaIgSQ==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-keyvault.tgz:
     resolution: {integrity: sha512-BUQEurIWpE27h/AU697m0yoivlT29DnRzRewj9ZJZcMuNVR5LhFcOEiicURBM6ji4Vu+QrAqCYz5cJv6w7uyLQ==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
@@ -11355,6 +11393,34 @@ packages:
   file:projects/arm-netapp.tgz:
     resolution: {integrity: sha512-BxqmyPJTZGmcXiuya10kSyUifo4nWfNo6MiuleBAIEzMHzb4/9hXmv7h/n4y8AAE7lRRGDWrYGJaIBZyjb2gyw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-network-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-qfzsf4gogQjeNAraYoxCLloFwUmHDZMnQevItdxCoeE/p2jXf8HWOZyosB8tkqOTdvb/VOrLSKyy5tHVXuq7HQ==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-network-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -12517,6 +12583,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-storage-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-v7E2jtmHj2/W/Jj2ErWzqPqZJrhgjlbW2QS8gYLbHKvePTjJvE9BbhZhNa0Xmx2JBibNXIOF1tQWuxKuipuGKg==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-storage-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-storage.tgz:
     resolution: {integrity: sha512-0WFSWibkdzYPyWFt+vCkVn+t285g6gni3TeLolJSQ7ClIBTBwiWPMKq2eSSOa1hzrSletN5QchvcsAgArsQP/A==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
@@ -12701,6 +12795,34 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-fcWmytIvTJt2HWfp/GauYWmskejXVXA1AuCdgQ1o88nHKjxXjtWLn/mK9FKX8IfQ9DRwJsHYaQyM8R3LAwR95Q==, tarball: file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -14602,7 +14724,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-CFe0WI1XTobXicxBDPvW8D0nMFKHIPTT0NE9vNTAu3E4CvmlbV18hO8jCcBliXOCECbaFdRP3Db+D5L1y6Pr8g==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-eSNP+rjDJzbLChAPy/G0Zh8/HuM9wJBgx0coCNEtMBy9aj5w8gkPwe3nsZNG3kJmoodg+QWZO5Libg7hwVBupw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -14632,13 +14754,12 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-waXLJDSljrQ37B3H/5aGu0N/TUxtDw5uE+Hnh4OqZZQmOOlukfMDSNOpI/wvnGzUulNOQXPbeS1t3HCRRlQ0UQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-4Pb866SYL21ij7G09h1HOdDIIuSm+EGzpF4cdM5lQFTe4cpAjFTBIssP1EIQOYjftSjK/WRLydIuhA1hdFQEAQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -14666,13 +14787,12 @@ packages:
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-rbjSAE0K+z3lOIyAO8LLyQH9NqNRMlHktxHdIQpKYOUWcleAd0BdRv/K3NWAoRbSq9ESgXXTwt0xS4T6MFoI2Q==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-LeCn6IxiMBBfYJIUtgWsKx+ks1T0qhcMn0C2TkHOCcLk7GyeLQmgl2arVp96ZP2OQh5V7/QMuob++qg8dyFO3w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -15947,7 +16067,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-I5HoH42dK6hqJ7CP4cnZGP71KnnpnerIlcaclSnVOajgmryhVfwK6LDCbi9y7uwYMy3B2kPXrE1dyfhYyUzWgw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-96Xam8lJb1jErVL0xBDzRuX9hQ8P2243eNi2b4TT0wiS5I/PsBWWSkDKIpAQjQA/4NU21WDTIc0+VOemWbk84w==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
