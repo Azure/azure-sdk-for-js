@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "3cdcb68411588fa5a74b2c4c92bed95e";
+module.exports.hash = "ee66fbc7ebb1cd6e3770eba994e7f6e5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/networkTraversal/:issueRelayConfiguration', {"ttl":5000})
+  .post('/networkTraversal/:issueRelayConfiguration', {"ttl":4000})
   .query(true)
   .reply(200, {"iceServers":[{"routeType":"any","urls":["turn.skype.com"],"username":"sanitized_username","credential":"sanitized_credential"},{"routeType":"nearest","urls":["turn.skype.com"],"username":"sanitized_username","credential":"sanitized_credential"}],"expiresOn":"2022-05-18T12:00:00.00+00:00"}, [
   'Content-Length',
@@ -15,7 +15,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '6skefEBwQkaXsWYX1TRd0w.0',
+  'EblRMDLsRUq/Qzj3pb4MVA.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -27,7 +27,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0t4MmYgAAAABpA93bYF+NQKZ0Qon1TSiMV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0ggEpYgAAAABtBOGSSGSURaZ5ChkyYMufV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Mon, 07 Mar 2022 22:14:15 GMT'
+  'Wed, 09 Mar 2022 19:35:29 GMT'
 ]);

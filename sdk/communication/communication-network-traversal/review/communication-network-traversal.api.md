@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CommunicationUserIdentifier } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
@@ -24,11 +23,6 @@ export class CommunicationRelayClient {
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
     getRelayConfiguration(options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
-    getRelayConfiguration(routeType: RouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
-    getRelayConfiguration(ttl: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
-    getRelayConfiguration(routeType: RouteType, ttl?: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
-    getRelayConfiguration(user: CommunicationUserIdentifier, routeType?: RouteType, ttl?: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
-    getRelayConfiguration(user: CommunicationUserIdentifier, ttl?: number, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public
@@ -43,6 +37,11 @@ export interface CommunicationRelayConfiguration {
 
 // @public
 export interface GetRelayConfigurationOptions extends OperationOptions {
+    id?: string;
+    // (undocumented)
+    routeType?: RouteType;
+    // (undocumented)
+    ttl?: number;
 }
 
 // @public

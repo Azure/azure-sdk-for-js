@@ -5,7 +5,7 @@
  * @summary Issue a new Relay configuration without user identity
  */
 
-import { CommunicationRelayClient } from "@azure/communication-network-traversal";
+import { CommunicationRelayClient, GetRelayConfigurationOptions } from "@azure/communication-network-traversal";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -20,8 +20,9 @@ export async function main() {
 
   const relayClient = new CommunicationRelayClient(connectionString);
   console.log("Getting relay configuration");
-
-  const config = await relayClient.getRelayConfiguration(5000);
+  
+  const options: GetRelayConfigurationOptions = { ttl: 4000 };
+  const config = await relayClient.getRelayConfiguration(options);
   console.log("RelayConfig", config);
 }
 
