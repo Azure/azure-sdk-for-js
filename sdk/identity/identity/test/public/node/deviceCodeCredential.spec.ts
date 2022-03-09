@@ -4,16 +4,23 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
-import { env, isLiveMode, delay, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, isLiveMode, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
 import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
 
+// https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
+export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
+
 describe("DeviceCodeCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function (this: Context) {
-    cleanup = msalNodeTestSetup(this).cleanup;
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest, DeveloperSignOnClientId);
+    cleanup = setup.cleanup;
+    recorder = setup.recorder;
   });
   afterEach(async function () {
     await cleanup();
@@ -26,7 +33,7 @@ describe("DeviceCodeCredential", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential();
+    const credential = new DeviceCodeCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -38,10 +45,12 @@ describe("DeviceCodeCredential", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+      })
+    );
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -53,10 +62,12 @@ describe("DeviceCodeCredential", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+      })
+    );
 
     // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
     const token = await credential.getToken("https://graph.microsoft.com/Calendars.Read");
@@ -72,11 +83,13 @@ describe("DeviceCodeCredential", function () {
     const callback: DeviceCodePromptCallback = (info) => {
       console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
     };
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-      userPromptCallback: callback,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+        userPromptCallback: callback,
+      })
+    );
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -88,16 +101,18 @@ describe("DeviceCodeCredential", function () {
     if (isLiveMode()) {
       this.skip();
     }
+
+    // On playback we can't quite control the time needed to trigger this error.
     if (isPlaybackMode()) {
-      // We're automatically replacing the DeviceCode polling interval on the recorder settings,
-      // which makes it so this test fails on playback.
       this.skip();
     }
 
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+      })
+    );
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
@@ -123,9 +138,11 @@ describe("DeviceCodeCredential", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential({
-      disableAutomaticAuthentication: true,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        disableAutomaticAuthentication: true,
+      })
+    );
 
     let error: AbortError | undefined;
     try {
@@ -149,10 +166,12 @@ describe("DeviceCodeCredential", function () {
     }
     await testTracing({
       test: async (tracingOptions) => {
-        const credential = new DeviceCodeCredential({
-          tenantId: env.AZURE_TENANT_ID,
-          clientId: env.AZURE_CLIENT_ID,
-        });
+        const credential = new DeviceCodeCredential(
+          recorder.configureClientOptions({
+            tenantId: env.AZURE_TENANT_ID,
+            clientId: env.AZURE_CLIENT_ID,
+          })
+        );
 
         await credential.getToken(scope, {
           tracingOptions,
