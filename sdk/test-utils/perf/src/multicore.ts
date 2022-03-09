@@ -24,6 +24,7 @@ export interface WorkerData {
   testClassName: string;
   assignedParallels: number;
   options: ParsedPerfOptions<DefaultPerfOptions>;
+  globals: unknown;
 }
 
 type MessageFilter<T> = (message: T) => boolean;

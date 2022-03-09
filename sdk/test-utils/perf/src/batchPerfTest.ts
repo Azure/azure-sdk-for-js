@@ -16,8 +16,9 @@ import { AdditionalPolicyConfig } from "@azure/core-client";
  * Enables writing perf tests where the number of operations are dynamic for the method/call being tested.
  */
 export abstract class BatchPerfTest<
-  TOptions = Record<string, unknown>
-> extends PerfTestBase<TOptions> {
+  TOptions = Record<string, unknown>,
+  TGlobals = void
+> extends PerfTestBase<TOptions, TGlobals> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;

@@ -136,7 +136,7 @@ export class ManagerPerfProgram implements PerfProgram {
     );
   }
 
-  private createWorkers(): void {
+  private createWorkers(globals: unknown): void {
     const cpuOption = this.parsedOptions.cpus.value ?? 1;
     const cpus = cpuOption === 0 ? os.cpus.length : cpuOption;
 
@@ -157,6 +157,7 @@ export class ManagerPerfProgram implements PerfProgram {
         testClassName: this.testName,
         assignedParallels: alloc,
         options: this.parsedOptions,
+        globals,
       });
     }
   }
@@ -253,14 +254,15 @@ export class ManagerPerfProgram implements PerfProgram {
     console.log("=== Parsed options ===");
     console.table(options);
 
+    let globals = undefined;
     if (this.testInstanceForGlobalSetup.globalSetup) {
       console.log(
         `=== Calling globalSetup() once for (all) the instance(s) of ${this.testName} ===`
       );
-      await this.testInstanceForGlobalSetup.globalSetup();
+      globals = await this.testInstanceForGlobalSetup.globalSetup();
     }
 
-    this.createWorkers();
+    this.createWorkers(globals);
 
     console.log(
       `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`

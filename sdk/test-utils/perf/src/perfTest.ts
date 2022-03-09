@@ -8,7 +8,10 @@ import { BatchPerfTest } from "./batchPerfTest";
  *
  * The `PerfTest` class helps build performance test cases where the functionality being tested in the `run` method consists of a single operation.
  */
-export abstract class PerfTest<TOptions = Record<string, unknown>> extends BatchPerfTest<TOptions> {
+export abstract class PerfTest<
+  TOptions = Record<string, unknown>,
+  TGlobals = void
+> extends BatchPerfTest<TOptions, TGlobals> {
   public abstract run(abortSignal?: AbortSignalLike): Promise<void>;
 
   public async runBatch(abortSignal?: AbortSignalLike) {

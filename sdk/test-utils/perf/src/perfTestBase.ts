@@ -31,8 +31,16 @@ export interface PerfTestConstructor<
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
+export abstract class PerfTestBase<TOptions = Record<string, unknown>, TGlobals = void> {
   public abstract options: PerfOptionDictionary<TOptions>;
+
+  public get globals(): TGlobals {
+    if (multicoreUtils.isManager) {
+      throw new Error("Cannot access globals as a manager");
+    } else {
+      return multicoreUtils.workerData.globals as TGlobals;
+    }
+  }
 
   public get parsedOptions(): ParsedPerfOptions<TOptions & DefaultPerfOptions> {
     // Only validate the options if they are defined: if (when) parsedOptions is called
@@ -75,7 +83,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
   }
 
   // Before and after running a bunch of the same test.
-  public globalSetup?(): void | Promise<void>;
+  public globalSetup?(): TGlobals | Promise<TGlobals>;
   public globalCleanup?(): void | Promise<void>;
 
   public postSetup?(): void | Promise<void>;
