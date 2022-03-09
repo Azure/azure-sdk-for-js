@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Context, Test } from "mocha";
 import {
   Recorder,
   RecorderStartOptions,
@@ -8,7 +9,6 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Context, Test } from "mocha";
 import { CommunicationIdentityClient } from "../../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -45,23 +45,23 @@ const sanitizerOptions: SanitizerOptions = {
   uriSanitizers: [
     {
       regex: true,
-      target: `/(https:\/\/)(?<host_name>[^/',]*)/`,
+      target: `/(https://)(?<host_name>[^/',]*)/`,
       value: "endpoint",
       groupForReplace: "host_name",
     },
     {
       regex: true,
-      target: `(.*)\/identities\/(?<secret_content>.*?)[\/|?](.*)`,
+      target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
       value: "sanitized",
       groupForReplace: "secret_content",
     },
   ],
   generalSanitizers: [
-    { regex: true, target: `"access_token"\s?:\s?"[^"]*"`, value: `"access_token":"sanitized"` },
-    { regex: true, target: `"token"\s?:\s?"[^"]*"`, value: `"token":"sanitized"` },
-    { regex: true, target: `"id_token"\s?:\s?"[^"]*"`, value: `"id_token":"sanitized"` },
-    { regex: true, target: `"refresh_token"\s?:\s?"[^"]*"`, value: `"refresh_token":"sanitized"` },
-    { regex: true, target: `"id"\s?:\s?"[^"]*"`, value: `"id":"sanitized"` },
+    { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
+    { regex: true, target: `"token"\\s?:\\s?"[^"]*"`, value: `"token":"sanitized"` },
+    { regex: true, target: `"id_token"\\s?:\\s?"[^"]*"`, value: `"id_token":"sanitized"` },
+    { regex: true, target: `"refresh_token"\\s?:\\s?"[^"]*"`, value: `"refresh_token":"sanitized"` },
+    { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
     {
       regex: true,
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,

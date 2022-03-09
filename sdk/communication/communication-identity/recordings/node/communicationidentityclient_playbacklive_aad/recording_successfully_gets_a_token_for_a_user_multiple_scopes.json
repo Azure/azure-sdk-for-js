@@ -19,14 +19,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Mar 2022 12:37:37 GMT",
-        "MS-CV": "yZsG/eMrxkyEbuDwiRL1Cg.0",
+        "Date": "Wed, 09 Mar 2022 12:57:14 GMT",
+        "MS-CV": "x1Loe4vw\u002B0qq6U1mdo9aHQ.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0kZ8oYgAAAAA04i76QggURadBYLQ7LaR3UFJHMDFFREdFMDcxMwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0K6QoYgAAAAAwMyB1zwtxRamJODZ870gyUFJHMDFFREdFMDkxNwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "24ms"
+        "X-Processing-Time": "23ms"
       },
       "ResponseBody": {
         "identity": {
@@ -58,18 +58,18 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Mar 2022 12:37:38 GMT",
-        "MS-CV": "/vi7ZiDL50yAgADfoWPAYA.0",
+        "Date": "Wed, 09 Mar 2022 12:57:14 GMT",
+        "MS-CV": "9o8jMpQO7EeMma3lI5q42A.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0kZ8oYgAAAAAPaujVf7PWQb8b3xQhO8bLUFJHMDFFREdFMDcxMwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0K6QoYgAAAACIqDqlnDUhRom5pdnHe9RGUFJHMDFFREdFMDkxNwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "29ms"
+        "X-Processing-Time": "31ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-03-10T12:37:38.0373022\u002B00:00"
+        "expiresOn": "2022-03-10T12:57:15.6575149\u002B00:00"
       }
     }
   ],
