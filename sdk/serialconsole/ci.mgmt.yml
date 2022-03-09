@@ -1,0 +1,33 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/serialconsole/ci.mgmt.yml
+      - sdk/serialconsole/arm-serialconsole/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/serialconsole/ci.mgmt.yml
+      - sdk/serialconsole/arm-serialconsole/
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: serialconsole
+    Artifacts:
+      - name: azure-arm-serialconsole
+        safeName: azurearmserialconsole        

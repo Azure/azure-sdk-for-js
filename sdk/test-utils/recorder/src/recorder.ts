@@ -26,7 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
-import { Matcher, setMatcher } from "./matcher";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
 import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
@@ -34,6 +34,7 @@ import {
   WebResource,
   WebResourceLike,
 } from "@azure/core-http";
+import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
@@ -107,15 +108,33 @@ export class Recorder {
    * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
    *
    * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   *
+   * By default, it applies only to record mode.
+   *
+   * If you want this to be applied in a specific mode or in a combination of modes, use the "mode" argument.
    */
-  async addSanitizers(options: SanitizerOptions): Promise<void> {
-    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
+  async addSanitizers(
+    options: SanitizerOptions,
+    mode: ("record" | "playback")[] = ["record"]
+  ): Promise<void> {
+    if (isLiveMode()) return;
+    const actualTestMode = getTestMode() as "record" | "playback";
     if (
-      isRecordMode() &&
+      mode.includes(actualTestMode) &&
       ensureExistence(this.httpClient, "this.httpClient") &&
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
       return addSanitizers(this.httpClient, this.url, this.recordingId, options);
+    }
+  }
+
+  async addTransform(transform: Transform): Promise<void> {
+    if (
+      isPlaybackMode() &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
+      await addTransform(this.url, this.httpClient, transform, this.recordingId);
     }
   }
 
@@ -127,7 +146,7 @@ export class Recorder {
    * Takes RecorderStartOptions as the input, which will get used in record and playback modes.
    * Includes
    * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
-   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
+   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isLiveMode()) return;
@@ -204,13 +223,21 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher): Promise<void> {
+  async setMatcher(matcher: "HeaderlessMatcher" | "BodilessMatcher"): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: "CustomDefaultMatcher", options?: CustomMatcherOptions): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId, options);
     }
   }
 

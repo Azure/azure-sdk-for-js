@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/policy/ci.mgmt.yml
+      - sdk/policy/arm-policy/
+      - sdk/policy/arm-policy-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/policy/ci.mgmt.yml
+      - sdk/policy/arm-policy/
+      - sdk/policy/arm-policy-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: policy
+    Artifacts:
+      - name: azure-arm-policy
+        safeName: azurearmpolicy
+      - name: azure-arm-policy-profile-2020-09-01-hybrid
+        safeName: azurearmpolicyprofile20200901hybrid

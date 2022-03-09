@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added authentication support using @azure/identity TokenCredential.
+- Added file access control in Windows for retriable telemetry.
+
 ### Breaking Changes
 
 ### Bugs Fixed

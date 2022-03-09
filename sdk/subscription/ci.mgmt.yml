@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/subscription/ci.mgmt.yml
+      - sdk/subscription/arm-subscription/
+      - sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/subscription/ci.mgmt.yml
+      - sdk/subscription/arm-subscription/
+      - sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: subscription
+    Artifacts:
+      - name: azure-arm-subscriptions
+        safeName: azurearmsubscriptions
+      - name: azure-arm-subscriptions-profile-2020-09-01-hybrid
+        safeName: azurearmsubscriptionsprofile20200901hybrid

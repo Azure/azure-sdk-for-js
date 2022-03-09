@@ -1006,6 +1006,25 @@ export interface AnalyzedTokenInfo {
   readonly position: number;
 }
 
+/** Represents an index alias, which describes a mapping from the alias name to an index. The alias name can be used in place of the index name for supported operations. */
+export interface SearchAlias {
+  /** The name of the alias. */
+  name: string;
+  /** The name of the index this alias maps to. Only one index name may be specified. */
+  indexes: string[];
+  /** The ETag of the alias. */
+  etag?: string;
+}
+
+/** Response from a List Aliases request. If successful, it includes the associated index mappings for all aliases. */
+export interface ListAliasesResult {
+  /**
+   * The aliases in the Search service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aliases: SearchAlias[];
+}
+
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface ServiceStatistics {
   /** Service level resource counters. */
@@ -1016,6 +1035,8 @@ export interface ServiceStatistics {
 
 /** Represents service-level resource counters and quotas. */
 export interface ServiceCounters {
+  /** Total number of aliases. */
+  aliasCounter?: ResourceCounter;
   /** Total number of documents across all indexes in the service. */
   documentCounter: ResourceCounter;
   /** Total number of indexes. */
@@ -4104,6 +4125,59 @@ export interface IndexesAnalyzeOptionalParams
 
 /** Contains response data for the analyze operation. */
 export type IndexesAnalyzeResponse = AnalyzeResult;
+
+/** Optional parameters. */
+export interface AliasesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
+
+/** Contains response data for the create operation. */
+export type AliasesCreateResponse = SearchAlias;
+
+/** Optional parameters. */
+export interface AliasesListOptionalParams extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
+
+/** Contains response data for the list operation. */
+export type AliasesListResponse = ListAliasesResult;
+
+/** Optional parameters. */
+export interface AliasesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
+  ifMatch?: string;
+  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AliasesCreateOrUpdateResponse = SearchAlias;
+
+/** Optional parameters. */
+export interface AliasesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
+  ifMatch?: string;
+  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
+  ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface AliasesGetOptionalParams extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
+
+/** Contains response data for the get operation. */
+export type AliasesGetResponse = SearchAlias;
 
 /** Optional parameters. */
 export interface SearchServiceClientGetServiceStatisticsOptionalParams
