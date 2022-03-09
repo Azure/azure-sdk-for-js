@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./vaults";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./operations";
-export * from "./secrets";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { KeyVaultManagementClient } from "./keyVaultManagementClient";
+export * from "./operationsInterfaces";

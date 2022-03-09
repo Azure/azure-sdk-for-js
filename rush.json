@@ -1614,6 +1614,11 @@
       "packageName": "@azure/arm-storage-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/storage/arm-storage-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
