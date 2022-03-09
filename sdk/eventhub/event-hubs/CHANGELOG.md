@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- `createEventDataAdapter` is updated so that `consumeMessage` returns the original binary payload instead of the Buffer representation of it.
+
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0-preview.14)

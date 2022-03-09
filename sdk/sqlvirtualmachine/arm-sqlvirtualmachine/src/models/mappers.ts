@@ -74,6 +74,112 @@ export const PrivateIPAddress: coreClient.CompositeMapper = {
   }
 };
 
+export const AgConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgConfiguration",
+    modelProperties: {
+      replicas: {
+        serializedName: "replicas",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgReplica"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AgReplica: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgReplica",
+    modelProperties: {
+      sqlVirtualMachineInstanceId: {
+        serializedName: "sqlVirtualMachineInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
+      },
+      commit: {
+        serializedName: "commit",
+        type: {
+          name: "String"
+        }
+      },
+      failover: {
+        serializedName: "failover",
+        type: {
+          name: "String"
+        }
+      },
+      readableSecondary: {
+        serializedName: "readableSecondary",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -497,6 +603,12 @@ export const AutoBackupSettings: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      storageContainerName: {
+        serializedName: "storageContainerName",
+        type: {
+          name: "String"
+        }
+      },
       storageAccessKey: {
         serializedName: "storageAccessKey",
         type: {
@@ -525,6 +637,17 @@ export const AutoBackupSettings: coreClient.CompositeMapper = {
         serializedName: "fullBackupFrequency",
         type: {
           name: "String"
+        }
+      },
+      daysOfWeek: {
+        serializedName: "daysOfWeek",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       fullBackupStartTime: {
@@ -619,6 +742,13 @@ export const ServerConfigurationsManagementSettings: coreClient.CompositeMapper 
         type: {
           name: "Composite",
           className: "AdditionalFeaturesServerConfigurations"
+        }
+      },
+      sqlInstanceSettings: {
+        serializedName: "sqlInstanceSettings",
+        type: {
+          name: "Composite",
+          className: "SQLInstanceSettings"
         }
       }
     }
@@ -715,6 +845,45 @@ export const AdditionalFeaturesServerConfigurations: coreClient.CompositeMapper 
   }
 };
 
+export const SQLInstanceSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SQLInstanceSettings",
+    modelProperties: {
+      collation: {
+        serializedName: "collation",
+        type: {
+          name: "String"
+        }
+      },
+      maxDop: {
+        serializedName: "maxDop",
+        type: {
+          name: "Number"
+        }
+      },
+      isOptimizeForAdHocWorkloadsEnabled: {
+        serializedName: "isOptimizeForAdHocWorkloadsEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      minServerMemoryMB: {
+        serializedName: "minServerMemoryMB",
+        type: {
+          name: "Number"
+        }
+      },
+      maxServerMemoryMB: {
+        serializedName: "maxServerMemoryMB",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const StorageConfigurationSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -738,7 +907,13 @@ export const StorageConfigurationSettings: coreClient.CompositeMapper = {
         serializedName: "sqlTempDbSettings",
         type: {
           name: "Composite",
-          className: "SQLStorageSettings"
+          className: "SQLTempDbSettings"
+        }
+      },
+      sqlSystemDbOnDataDisk: {
+        serializedName: "sqlSystemDbOnDataDisk",
+        type: {
+          name: "Boolean"
         }
       },
       diskConfigurationType: {
@@ -775,6 +950,138 @@ export const SQLStorageSettings: coreClient.CompositeMapper = {
       },
       defaultFilePath: {
         serializedName: "defaultFilePath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SQLTempDbSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SQLTempDbSettings",
+    modelProperties: {
+      dataFileSize: {
+        serializedName: "dataFileSize",
+        type: {
+          name: "Number"
+        }
+      },
+      dataGrowth: {
+        serializedName: "dataGrowth",
+        type: {
+          name: "Number"
+        }
+      },
+      logFileSize: {
+        serializedName: "logFileSize",
+        type: {
+          name: "Number"
+        }
+      },
+      logGrowth: {
+        serializedName: "logGrowth",
+        type: {
+          name: "Number"
+        }
+      },
+      dataFileCount: {
+        serializedName: "dataFileCount",
+        type: {
+          name: "Number"
+        }
+      },
+      luns: {
+        serializedName: "luns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      defaultFilePath: {
+        serializedName: "defaultFilePath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AssessmentSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssessmentSettings",
+    modelProperties: {
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      runImmediately: {
+        serializedName: "runImmediately",
+        type: {
+          name: "Boolean"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "Schedule"
+        }
+      }
+    }
+  }
+};
+
+export const Schedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Schedule",
+    modelProperties: {
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      weeklyInterval: {
+        serializedName: "weeklyInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      monthlyOccurrence: {
+        serializedName: "monthlyOccurrence",
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ]
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
         type: {
           name: "String"
         }
@@ -839,6 +1146,13 @@ export const AvailabilityGroupListener: coreClient.CompositeMapper = {
     className: "AvailabilityGroupListener",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -875,6 +1189,13 @@ export const AvailabilityGroupListener: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      availabilityGroupConfiguration: {
+        serializedName: "properties.availabilityGroupConfiguration",
+        type: {
+          name: "Composite",
+          className: "AgConfiguration"
+        }
       }
     }
   }
@@ -886,6 +1207,13 @@ export const SqlVirtualMachineGroup: coreClient.CompositeMapper = {
     className: "SqlVirtualMachineGroup",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -948,6 +1276,13 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceIdentity"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       },
       virtualMachineResourceId: {
@@ -1033,6 +1368,13 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "StorageConfigurationSettings"
+        }
+      },
+      assessmentSettings: {
+        serializedName: "properties.assessmentSettings",
+        type: {
+          name: "Composite",
+          className: "AssessmentSettings"
         }
       }
     }

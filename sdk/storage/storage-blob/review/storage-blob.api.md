@@ -3196,6 +3196,12 @@ export interface StaticWebsite {
 }
 
 // @public
+export enum StorageBlobAudience {
+    DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
+    StorageOAuthScopes = "https://storage.azure.com/.default"
+}
+
+// @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
@@ -3211,6 +3217,7 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
+    audience?: string | string[];
     httpClient?: IHttpClient;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;

@@ -12,14 +12,16 @@ import {
   IndexersImpl,
   SkillsetsImpl,
   SynonymMapsImpl,
-  IndexesImpl
+  IndexesImpl,
+  AliasesImpl
 } from "./operations";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
-  Indexes
+  Indexes,
+  Aliases
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -50,6 +52,7 @@ export class SearchServiceClient extends SearchServiceClientContext {
     this.skillsets = new SkillsetsImpl(this);
     this.synonymMaps = new SynonymMapsImpl(this);
     this.indexes = new IndexesImpl(this);
+    this.aliases = new AliasesImpl(this);
   }
 
   /**
@@ -70,6 +73,7 @@ export class SearchServiceClient extends SearchServiceClientContext {
   skillsets: Skillsets;
   synonymMaps: SynonymMaps;
   indexes: Indexes;
+  aliases: Aliases;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
