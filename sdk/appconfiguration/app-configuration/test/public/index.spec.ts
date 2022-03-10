@@ -12,7 +12,7 @@ import {
   startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient", () => {
@@ -278,7 +278,9 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key, label });
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      if (isPlaybackMode()) this.skip();
       const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
@@ -395,7 +397,9 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      if (isPlaybackMode()) this.skip();
       const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
       const value = "foo";
@@ -775,7 +779,9 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
           requestOptions: { timeout: 1 },
@@ -869,7 +875,9 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("accepts operation options", async () => {
+    it("accepts operation options", async function () {
+      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
         await iter.next();

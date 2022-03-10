@@ -10,7 +10,7 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
@@ -68,6 +68,8 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   it("accepts operation options", async function () {
+    // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+    if (isPlaybackMode()) this.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label,
