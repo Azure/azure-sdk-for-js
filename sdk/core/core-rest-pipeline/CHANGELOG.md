@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.1 (Unreleased)
+## 1.7.0 (Unreleased)
 
 ### Features Added
 
@@ -13,6 +13,8 @@
   [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781) fixed the issue by taking the `abortSignal` that is associated with the request into account.
 
 ### Other Changes
+
+- Changed the default number of retries from 10 to 3.
 
 ## 1.6.0 (2022-03-03)
 

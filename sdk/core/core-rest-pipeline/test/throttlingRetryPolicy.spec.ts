@@ -11,8 +11,8 @@ import {
   createHttpHeaders,
   throttlingRetryPolicy,
 } from "../src";
-import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../src/policies/throttlingRetryPolicy";
 import { AbortController } from "@azure/abort-controller";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {
@@ -196,7 +196,7 @@ describe("throttlingRetryPolicy", function () {
     const policy = throttlingRetryPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     let i = 0;
-    for (; i < DEFAULT_CLIENT_MAX_RETRY_COUNT; ++i) {
+    for (; i < DEFAULT_RETRY_POLICY_COUNT; ++i) {
       next.onCall(i).resolves(retryResponse);
     }
     // This one should be returned
