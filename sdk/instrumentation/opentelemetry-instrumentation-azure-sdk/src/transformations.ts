@@ -93,3 +93,16 @@ export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOption
     links,
   };
 }
+
+/**
+ * A helper function that converts a raw string to its boolean representation.
+ *
+ * This function treats "false" and "0" as false, but otherwise uses truthy-ness of the value.
+ *
+ * @param rawValue - The raw string value to convert to boolean.
+ * @returns - true if the {@link rawValue} is truthy, false otherwise.
+ */
+export function toBoolean(rawValue?: string): boolean {
+  const valueWithDefault = (rawValue ?? "").toLowerCase();
+  return valueWithDefault !== "false" && valueWithDefault !== "0" && Boolean(valueWithDefault);
+}
