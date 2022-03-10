@@ -2,16 +2,23 @@
 // Licensed under the MIT license.
 
 import {
+  INVALID_SPAN_CONTEXT,
+  Span,
+  context,
+  defaultTextMapGetter,
+  defaultTextMapSetter,
+  trace,
+} from "@opentelemetry/api";
+import {
   Instrumenter,
   InstrumenterSpanOptions,
   TracingContext,
   TracingSpan,
 } from "@azure/core-tracing";
-import { W3CTraceContextPropagator, suppressTracing } from "@opentelemetry/core";
-import { context, defaultTextMapGetter, defaultTextMapSetter, trace } from "@opentelemetry/api";
 import { toBoolean, toSpanOptions } from "./transformations";
 
 import { OpenTelemetrySpanWrapper } from "./spanWrapper";
+import { W3CTraceContextPropagator } from "@opentelemetry/core";
 
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
 export const propagator = new W3CTraceContextPropagator();
@@ -22,13 +29,14 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     spanOptions: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     let ctx = spanOptions?.tracingContext || context.active();
+    let span: Span;
     if (isTracingDisabled(name)) {
-      ctx = suppressTracing(ctx);
+      span = trace.wrapSpanContext(INVALID_SPAN_CONTEXT);
+    } else {
+      span = trace
+        .getTracer(spanOptions.packageName, spanOptions.packageVersion)
+        .startSpan(name, toSpanOptions(spanOptions), ctx);
     }
-
-    const span = trace
-      .getTracer(spanOptions.packageName, spanOptions.packageVersion)
-      .startSpan(name, toSpanOptions(spanOptions), ctx);
 
     // COMPAT: remove when core-rest-pipeline has upgraded to core-tracing 1.0
     // https://github.com/Azure/azure-sdk-for-js/issues/20567

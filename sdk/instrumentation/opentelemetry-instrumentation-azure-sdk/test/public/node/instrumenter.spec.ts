@@ -5,7 +5,6 @@ import { OpenTelemetryInstrumenter, isTracingDisabled } from "../../../src/instr
 
 import { assert } from "chai";
 import { inMemoryExporter } from "../util/setup";
-import { isTracingSuppressed } from "@opentelemetry/core";
 
 describe("OpenTelemetryInstrumenter (node)", () => {
   const packageName = "test-package";
@@ -27,10 +26,10 @@ describe("OpenTelemetryInstrumenter (node)", () => {
       });
 
       it("suppresses tracing for all spans", () => {
-        const { tracingContext } = instrumenter.startSpan("test", {
+        const { span } = instrumenter.startSpan("test", {
           packageName,
         });
-        assert.isTrue(isTracingSuppressed(tracingContext));
+        assert.isFalse(span.isRecording());
       });
     });
 
@@ -43,21 +42,19 @@ describe("OpenTelemetryInstrumenter (node)", () => {
       });
 
       it("suppresses tracing for http spans", () => {
-        const { span, tracingContext } = instrumenter.startSpan("HTTP POST", {
+        const { span } = instrumenter.startSpan("HTTP POST", {
           packageName,
         });
 
         assert.isFalse(span.isRecording());
-        assert.isTrue(isTracingSuppressed(tracingContext));
       });
 
       it("does not suppress internal spans", () => {
-        const { span, tracingContext } = instrumenter.startSpan("foo", {
+        const { span } = instrumenter.startSpan("foo", {
           packageName,
         });
 
         assert.isTrue(span.isRecording());
-        assert.isFalse(isTracingSuppressed(tracingContext));
       });
     });
   });
