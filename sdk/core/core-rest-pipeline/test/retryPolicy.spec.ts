@@ -13,6 +13,7 @@ import {
   RestError,
   retryPolicy,
 } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("retryPolicy", function () {
   afterEach(function () {
@@ -94,7 +95,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 4);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 
@@ -173,7 +174,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 4);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
   });
@@ -281,7 +282,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 4);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -362,7 +363,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 4);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -573,7 +574,7 @@ describe("retryPolicy", function () {
     await clock.runAllAsync();
 
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 4);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
 
