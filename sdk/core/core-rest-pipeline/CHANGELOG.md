@@ -8,6 +8,10 @@
 
 ### Bugs Fixed
 
+- [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Retry logic(throttling/exponential) didn't honor `abortSignal` that was being passed as the constructor client options of the SDKs, which would lead to longer delays and could be misinterpreted as hanging code.
+
+  [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781) fixed the issue by taking the `abortSignal` that is associated with the request into account.
+
 ### Other Changes
 
 ## 1.6.0 (2022-03-03)
