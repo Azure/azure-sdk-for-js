@@ -3,10 +3,10 @@
 
 import { AppConfigurationClient } from "../../src";
 import {
-  startRecorder,
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError,
+  startRecorder,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";

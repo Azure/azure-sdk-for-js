@@ -7,7 +7,7 @@
 import { createAppConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 import "@azure/core-asynciterator-polyfill";
 
@@ -35,18 +35,18 @@ import {
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
-  formatFiltersAndSelect,
-  makeConfigurationSettingEmpty,
-  transformKeyValue,
   formatAcceptDateTime,
   formatFieldsForSelect,
+  formatFiltersAndSelect,
+  makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
+  transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse } from "./generated/src/models";
-import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
 import {
@@ -54,8 +54,8 @@ import {
   deserializationPolicy,
   deserializationPolicyName,
 } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy, PipelinePolicy } from "@azure/core-rest-pipeline";
-import { defaultRetryPolicyName, defaultRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { defaultRetryPolicy, defaultRetryPolicyName } from "./policies/throttlingRetryPolicy";
 
 /**
  * This constant should always be the same as the package.json's version - we use it when forming the

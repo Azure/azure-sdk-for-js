@@ -2,21 +2,21 @@
 // Licensed under the MIT license.
 
 import {
-  ListConfigurationSettingsOptions,
-  ListRevisionsOptions,
-  ConfigurationSettingId,
   ConfigurationSetting,
-  HttpResponseFields,
+  ConfigurationSettingId,
+  ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
-  ConfigurationSettingParam,
+  HttpResponseFields,
+  ListConfigurationSettingsOptions,
+  ListRevisionsOptions,
 } from "../models";
 import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { featureFlagContentType, FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
+import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
-  secretReferenceContentType,
   SecretReferenceHelper,
   SecretReferenceValue,
+  secretReferenceContentType,
 } from "../secretReference";
 import { isDefined } from "./typeguards";
 

@@ -9,11 +9,11 @@ import {
   ListRevisionsPage,
 } from "../../../src";
 import {
+  Recorder,
+  RecorderEnvironmentSetup,
   env,
   isPlaybackMode,
-  RecorderEnvironmentSetup,
   record,
-  Recorder,
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 

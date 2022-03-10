@@ -6,8 +6,8 @@ import {
   PipelineResponse,
   PipelineRetryOptions,
   RestError,
-  retryPolicy,
   RetryStrategy,
+  retryPolicy,
 } from "@azure/core-rest-pipeline";
 
 /**

@@ -3,22 +3,22 @@
 
 import {
   checkAndFormatIfAndIfNoneMatch,
-  formatFiltersAndSelect,
   extractAfterTokenFromNextLink,
-  quoteETag,
-  makeConfigurationSettingEmpty,
-  transformKeyValue,
-  transformKeyValueResponseWithStatusCode,
-  transformKeyValueResponse,
   formatFieldsForSelect,
+  formatFiltersAndSelect,
+  makeConfigurationSettingEmpty,
+  quoteETag,
   serializeAsConfigurationSettingParam,
+  transformKeyValue,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode,
 } from "../../src/internal/helpers";
 import { assert } from "chai";
 import {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  featureFlagContentType,
   HttpResponseFields,
+  featureFlagContentType,
   secretReferenceContentType,
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";

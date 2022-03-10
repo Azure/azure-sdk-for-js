@@ -4,14 +4,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
+import { SyncTokens, parseSyncToken } from "../../src/internal/synctokenpolicy";
 import { assert } from "chai";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
 import { InternalAppConfigurationClientOptions } from "../../src/appConfigurationClient";
 import {
-  createAppConfigurationClientForTests,
   assertThrowsRestError,
+  createAppConfigurationClientForTests,
   startRecorder,
 } from "../public/utils/testHelpers";
 

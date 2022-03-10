@@ -3,13 +3,13 @@
 
 import { assert } from "chai";
 import {
+  assertEqualSettings,
+  assertThrowsAbortError,
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  toSortedArray,
-  assertEqualSettings,
-  assertThrowsRestError,
-  assertThrowsAbortError,
   startRecorder,
+  toSortedArray,
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -280,6 +280,7 @@ describe("AppConfigurationClient", () => {
 
     it("accepts operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
       const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
@@ -399,6 +400,7 @@ describe("AppConfigurationClient", () => {
 
     it("accepts operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
       const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
@@ -781,6 +783,7 @@ describe("AppConfigurationClient", () => {
 
     it("accepts operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
@@ -877,6 +880,7 @@ describe("AppConfigurationClient", () => {
 
     it("accepts operation options", async function () {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
