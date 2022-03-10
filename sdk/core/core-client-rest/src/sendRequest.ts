@@ -133,6 +133,9 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     case "text/plain":
       return { body: String(body) };
     default:
+      if (typeof body === "string") {
+        return { body };
+      }
       return { body: JSON.stringify(body) };
   }
 }
