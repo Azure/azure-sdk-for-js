@@ -13,6 +13,11 @@ describe("OpenTelemetryInstrumenter (node)", () => {
     inMemoryExporter.reset();
   });
 
+  afterEach(() => {
+    delete process.env.AZURE_HTTP_TRACING_DISABLED;
+    delete process.env.AZURE_TRACING_DISABLED;
+  });
+
   const instrumenter = new OpenTelemetryInstrumenter();
 
   describe("startSpan", () => {
@@ -39,10 +44,6 @@ describe("OpenTelemetryInstrumenter (node)", () => {
         process.env.AZURE_HTTP_TRACING_DISABLED = "1";
       });
 
-      afterEach(() => {
-        delete process.env.AZURE_HTTP_TRACING_DISABLED;
-      });
-
       it("suppresses tracing for downstream spans", () => {
         const { span, tracingContext } = instrumenter.startSpan("HTTP POST", {
           packageName,
@@ -58,6 +59,29 @@ describe("OpenTelemetryInstrumenter (node)", () => {
         });
 
         assert.isTrue(span.isRecording());
+        assert.isFalse(isTracingSuppressed(tracingContext));
+      });
+    });
+
+    describe("when both AZURE_TRACING_DISABLED and AZURE_HTTP_TRACING_DISABLED are set", () => {
+      beforeEach(() => {
+        process.env.AZURE_TRACING_DISABLED = "true";
+        process.env.AZURE_HTTP_TRACING_DISABLED = "true";
+      });
+
+      it("creates a non-recording span", () => {
+        const { span } = instrumenter.startSpan("foo", {
+          packageName,
+        });
+
+        assert.isFalse(span.isRecording());
+      });
+
+      it("does not suppress downstream spans", () => {
+        const { tracingContext } = instrumenter.startSpan("foo", {
+          packageName,
+        });
+
         assert.isFalse(isTracingSuppressed(tracingContext));
       });
     });
