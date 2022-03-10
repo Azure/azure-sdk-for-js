@@ -95,14 +95,16 @@ export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOption
 }
 
 /**
- * A helper function that converts a raw string to its boolean representation.
+ * Given an environment variable name, returns whether it is truthy.
  *
- * This function treats "false" and "0" as false, but otherwise uses truthy-ness of the value.
+ * We consider "false" and "0" as falsey when used in environment variables.
  *
- * @param rawValue - The raw string value to convert to boolean.
- * @returns - true if the {@link rawValue} is truthy, false otherwise.
+ * @internal
  */
-export function toBoolean(rawValue?: string): boolean {
-  const valueWithDefault = (rawValue ?? "").toLowerCase();
+export function environmentVariableToBoolean(environmentVariableName: string): boolean {
+  if (typeof process === "undefined") {
+    return false;
+  }
+  const valueWithDefault = (process.env[environmentVariableName] ?? "").toLowerCase();
   return valueWithDefault !== "false" && valueWithDefault !== "0" && Boolean(valueWithDefault);
 }
