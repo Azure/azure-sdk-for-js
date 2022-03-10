@@ -6,5 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./usageAggregates";
-export * from "./rateCard";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { UsageManagementClient } from "./usageManagementClient";
+export * from "./operationsInterfaces";

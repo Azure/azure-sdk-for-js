@@ -28,6 +28,7 @@ specifiers:
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
+  '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-commitmentplans': file:./projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:./projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
@@ -291,6 +292,7 @@ dependencies:
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
+  '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-commitmentplans': file:projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
@@ -9540,6 +9542,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-IlC/qeudTB5E7WBY75iyYbb4VNKIguFCqVihs1obupt33muYi6FuaEeephKV1HkgQVvAl9IpORD5M69yeSlBJw==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-commerce-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-commerce.tgz:
     resolution: {integrity: sha512-z7EhnJYJ8vABJlNHOZc90OEP9T0WunxpBrMzaJ9Iz5sod9CusL/5WMP4dsm2IXSr7zSYaszRAk9IwCmSvLXCjA==, tarball: file:projects/arm-commerce.tgz}
     name: '@rush-temp/arm-commerce'
@@ -13441,7 +13471,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-9UvlaFfkwkx9TfO/szU9qrlm8WjCeZxE/ttW3XI7KpBpmPmffBawyrZ0HHHTipGwwGFdWZtryAvHQ7q1HIwBuQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-vSGhVRX/S963VBFVN+EY5q41snGccSQVK12fWrXbp2Ax6jL/xBvgL0VA8zsIeAmVJpmet3u4hpAdMPfQ3T9sUg==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:

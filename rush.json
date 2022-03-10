@@ -1624,6 +1624,11 @@
       "packageName": "@azure/arm-network-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/network/arm-network-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commerce-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/commerce/arm-commerce-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
