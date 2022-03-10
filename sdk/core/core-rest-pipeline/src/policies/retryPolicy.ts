@@ -113,7 +113,7 @@ export function retryPolicy(
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
             );
-            await delay(retryAfterInMs);
+            await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
           }
 
