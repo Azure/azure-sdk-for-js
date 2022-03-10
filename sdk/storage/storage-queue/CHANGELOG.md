@@ -1,16 +1,14 @@
 # Release History
 
-## 12.8.0-beta.2 (Unreleased)
+## 12.8.0 (2022-03-11)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2021-04-10.
 
 ### Bugs Fixed
 
 - Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `QueueServiceClient` or `QueueClient` with connection string.
-
-### Other Changes
 
 ## 12.8.0-beta.1 (2021-11-09)
 
