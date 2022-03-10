@@ -60,6 +60,7 @@ specifiers:
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
+  '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:./projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-frontdoor': file:./projects/arm-frontdoor.tgz
@@ -325,6 +326,7 @@ dependencies:
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
+  '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-frontdoor': file:projects/arm-frontdoor.tgz
@@ -10413,6 +10415,34 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-Pz9pmtIeZpFJP3OrAAF8VFnYIvLYtzEKPXu4d8rOyg4azrtOjtkr3GqMGYnpUfjmAxvhx7OwFYko03r6ERd/rA==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
