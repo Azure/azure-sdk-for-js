@@ -3,11 +3,10 @@
 
 /**
  *
- * @summary Issue a new Relay configuration providing a user identity
- * @azsdk-weight 20
+ * @summary Issue a new Relay configuration providing a ttl
+ * @azsdk-weight 30
  */
 
-import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {
   CommunicationRelayClient,
   GetRelayConfigurationOptions,
@@ -22,18 +21,12 @@ const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export async function main() {
-  console.log("\n== Get Relay configuration Sample ==\n");
+  console.log("\n== Get Relay configuration passing Time to live for credential ==\n");
 
-  const identityClient = new CommunicationIdentityClient(connectionString);
-
-  // Create user
-  console.log("Creating User");
-
-  const user = await identityClient.createUser();
-  const options: GetRelayConfigurationOptions = { id: user.communicationUserId };
   const relayClient = new CommunicationRelayClient(connectionString);
   console.log("Getting relay configuration");
 
+  const options: GetRelayConfigurationOptions = { ttl: 4000 };
   const config = await relayClient.getRelayConfiguration(options);
   console.log("RelayConfig", config);
 }

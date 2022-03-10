@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "aa53048fc55c364530c2e24f80464c3c";
+module.exports.hash = "461d766cfefe7bfc25e4548961013960";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -15,7 +15,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '5Gos9UsVd0iYUSM+Qh30kg.0',
+  '5XjEpXVItk+pej8que/Bow.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -23,17 +23,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01',
   'X-Processing-Time',
-  '65ms',
+  '21ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0dtX6YQAAAADNsh3CO1rFSZhOxk5rQaSqV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0cX4qYgAAAAAf2cyooXx4R6vVRQBImuLfV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 02 Feb 2022 19:03:17 GMT'
+  'Thu, 10 Mar 2022 22:40:49 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/networkTraversal/:issueRelayConfiguration', {"id":"sanitized","routeType":"nearest"})
+  .post('/networkTraversal/:issueRelayConfiguration', {"id":"sanitized","routeType":"nearest","ttl":4000})
   .query(true)
   .reply(200, {"iceServers":[{"routeType":"nearest","urls":["turn.skype.com"],"username":"sanitized_username","credential":"sanitized_credential"}],"expiresOn":"2022-05-18T12:00:00.00+00:00"}, [
   'Content-Length',
@@ -43,19 +43,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'dpLXlXzrOEatLr166zpJFQ.0',
+  'P8U6vm1GW0yfwR0hkmDrpQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2021-02-22-preview1, 2021-06-21-preview, 2021-10-08-preview, 2022-02-01',
+  '2021-02-22-preview1, 2021-06-21-preview, 2021-10-08-preview, 2022-03-01-preview',
   'X-Processing-Time',
-  '148ms',
+  '198ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0dtX6YQAAAABhl9Xs0gB2R6Bym1dWtJgEV1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0cX4qYgAAAADw55pV0VrpRKJHIyOI+1ciV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 02 Feb 2022 19:03:18 GMT'
+  'Thu, 10 Mar 2022 22:40:49 GMT'
 ]);
