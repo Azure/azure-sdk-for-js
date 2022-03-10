@@ -12,6 +12,7 @@ import {
   throttlingRetryPolicy,
 } from "../src";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../src/policies/throttlingRetryPolicy";
+import { AbortController } from "@azure/abort-controller";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {
@@ -215,5 +216,40 @@ describe("throttlingRetryPolicy", function () {
     assert.equal(response.headers.get("final-response"), "final-response");
 
     clock.restore();
+  });
+
+  it("throttlingRetryPolicy should honor abort signal", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      abortSignal: AbortController.timeout(100), // test should end at 100ms
+    });
+    const retryResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "Retry-After": "10000", // 10000 seconds - a large duration
+      }),
+      request,
+      status: 429,
+    };
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const policy = throttlingRetryPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
+
+    let errorWasThrown = false;
+    try {
+      await policy.sendRequest(request, next);
+    } catch (error) {
+      errorWasThrown = true;
+      assert.equal((error as Error).name, "AbortError", "Unexpected error thrown");
+    }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
+    assert.isTrue(next.calledOnce);
+    assert.isFalse(next.calledTwice);
   });
 });
