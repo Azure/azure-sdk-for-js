@@ -6,11 +6,10 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { HttpResponse } from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
-import { UserAgentOptions } from '@azure/core-http';
 
 // @public
 export interface AddConfigurationSettingOptions extends OperationOptions {
@@ -20,7 +19,7 @@ export interface AddConfigurationSettingOptions extends OperationOptions {
 export type AddConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
-export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField {
 }
 
 // @public
@@ -38,9 +37,7 @@ export class AppConfigurationClient {
 }
 
 // @public
-export interface AppConfigurationClientOptions {
-    retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
+export interface AppConfigurationClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -69,14 +66,14 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
 });
 
 // @public
-export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 // @public
 export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
-export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields {
 }
 
 // @public
@@ -109,7 +106,7 @@ export interface GetConfigurationSettingOptions extends OperationOptions, HttpOn
 }
 
 // @public
-export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields, HttpResponseField<GetConfigurationHeaders> {
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields {
 }
 
 // @public
@@ -120,14 +117,6 @@ export interface HttpOnlyIfChangedField {
 // @public
 export interface HttpOnlyIfUnchangedField {
     onlyIfUnchanged?: boolean;
-}
-
-// @public
-export interface HttpResponseField<HeadersT> {
-    _response: HttpResponse & {
-        parsedHeaders: HeadersT;
-        bodyAsText: string;
-    };
 }
 
 // @public
@@ -142,7 +131,7 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListConfigurationSettingPage extends PageSettings {
     items: ConfigurationSetting[];
 }
 
@@ -155,7 +144,7 @@ export interface ListRevisionsOptions extends OperationOptions, ListSettingsOpti
 }
 
 // @public
-export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListRevisionsPage extends PageSettings {
     items: ConfigurationSetting[];
 }
 
@@ -204,7 +193,7 @@ export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField
 export type SetConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
-export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField {
 }
 
 // @public
@@ -212,7 +201,7 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 }
 
 // @public
-export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField {
 }
 
 // @public

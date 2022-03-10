@@ -4,20 +4,10 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import { AppConfigCredential } from "./appConfigCredential";
+import { createAppConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  isTokenCredential,
-  exponentialRetryPolicy,
-  systemErrorRetryPolicy,
-  ServiceClientCredentials,
-  UserAgentOptions,
-  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
-  userAgentPolicy,
-} from "@azure/core-http";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 
 import "@azure/core-asynciterator-polyfill";
 
@@ -36,7 +26,6 @@ import {
   ListRevisionsOptions,
   ListRevisionsPage,
   PageSettings,
-  RetryOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
@@ -48,24 +37,25 @@ import {
   extractAfterTokenFromNextLink,
   formatFiltersAndSelect,
   makeConfigurationSettingEmpty,
-  transformKeyValueResponse,
-  transformKeyValueResponseWithStatusCode,
   transformKeyValue,
   formatAcceptDateTime,
   formatFieldsForSelect,
   serializeAsConfigurationSettingParam,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
-import { tracingPolicy } from "@azure/core-http";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
-import {
-  AppConfigurationGetKeyValuesResponse,
-  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions,
-} from "./generated/src/models";
+import { GetKeyValuesResponse } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
-
-const packageName = "azsdk-js-app-configuration";
+import {
+  CommonClientOptions,
+  deserializationPolicy,
+  deserializationPolicyName,
+} from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy, PipelinePolicy } from "@azure/core-rest-pipeline";
+import { defaultRetryPolicyName, defaultRetryPolicy } from "./policies/throttlingRetryPolicy";
 
 /**
  * This constant should always be the same as the package.json's version - we use it when forming the
@@ -88,25 +78,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions {
-  // NOTE: AppConfigurationClient is currently using it's own version of the ThrottlingRetryPolicy
-  // which we are going to unify with core-http. When we do that we can have this options
-  // interface extend PipelineOptions, and also switch over to using`createPipelineFromOptions`
-  // which will auto-create all of these policies and remove a lot of code.
-  //
-  // In the meantime we'll just deal with having our own interface that's compatible with PipelineOptions
-  // for the small subset we absolutely need to support.
-
-  /**
-   * Options for adding user agent details to outgoing requests.
-   */
-  userAgentOptions?: UserAgentOptions;
-
-  /**
-   * Options that control how to retry failed requests.
-   */
-  retryOptions?: RetryOptions;
-}
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -153,19 +125,26 @@ export class AppConfigurationClient {
     options?: AppConfigurationClientOptions
   ) {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
-    let appConfigCredential: ServiceClientCredentials | TokenCredential;
+    let appConfigCredential: TokenCredential;
     let appConfigEndpoint: string;
+    let authPolicy: PipelinePolicy;
 
     if (isTokenCredential(tokenCredentialOrOptions)) {
       appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
       appConfigCredential = tokenCredentialOrOptions;
-      appConfigEndpoint = connectionStringOrEndpoint;
+      appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
+        ? connectionStringOrEndpoint.slice(0, -1)
+        : connectionStringOrEndpoint;
+      authPolicy = bearerTokenAuthenticationPolicy({
+        scopes: `${appConfigEndpoint}/.default`,
+        credential: appConfigCredential,
+      });
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
-        appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
         appConfigEndpoint = regexMatch[1];
+        authPolicy = createAppConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
@@ -174,12 +153,17 @@ export class AppConfigurationClient {
     }
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-
-    this.client = new AppConfiguration(
-      appConfigCredential,
-      appConfigEndpoint,
-      apiVersion,
-      getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions)
+    this.client = new AppConfiguration(appConfigEndpoint, apiVersion);
+    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
+    this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
+    this.client.pipeline.removePolicy({ name: defaultRetryPolicyName });
+    this.client.pipeline.addPolicy(defaultRetryPolicy(appConfigOptions.retryOptions), {
+      phase: "Retry",
+    });
+    this.client.pipeline.removePolicy({ name: deserializationPolicyName });
+    this.client.pipeline.addPolicy(
+      deserializationPolicy({ expectedContentTypes: deserializationContentTypes }),
+      { phase: "Deserialize" }
     );
   }
 
@@ -228,13 +212,17 @@ export class AppConfigurationClient {
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
     return this._trace("deleteConfigurationSetting", options, async (newOptions) => {
+      let status: number = 0;
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(id, options),
+        onResponse: (response) => {
+          status = response.status;
+        },
       });
 
-      return transformKeyValueResponseWithStatusCode(originalResponse);
+      return transformKeyValueResponseWithStatusCode(originalResponse, status);
     });
   }
 
@@ -253,16 +241,22 @@ export class AppConfigurationClient {
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
     return this._trace("getConfigurationSetting", options, async (newOptions) => {
+      let status = 0;
       const originalResponse = await this.client.getKeyValue(id.key, {
         ...newOptions,
         label: id.label,
         select: formatFieldsForSelect(options.fields),
         ...formatAcceptDateTime(options),
         ...checkAndFormatIfAndIfNoneMatch(id, options),
+        onResponse: (response) => {
+          status = response.status;
+        },
       });
 
-      const response: GetConfigurationSettingResponse =
-        transformKeyValueResponseWithStatusCode(originalResponse);
+      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
+        originalResponse,
+        status
+      );
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -368,7 +362,7 @@ export class AppConfigurationClient {
   }
 
   private *createListConfigurationPageFromResponse(
-    currentResponse: AppConfigurationGetKeyValuesResponse
+    currentResponse: GetKeyValuesResponse
   ): Generator<ListConfigurationSettingPage> {
     yield {
       ...currentResponse,
@@ -456,9 +450,7 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListRevisionsPageFromResponse(
-    currentResponse: AppConfigurationGetKeyValuesResponse
-  ) {
+  private *createListRevisionsPageFromResponse(currentResponse: GetKeyValuesResponse) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
@@ -537,52 +529,4 @@ export class AppConfigurationClient {
   updateSyncToken(syncToken: string): void {
     this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
   }
-}
-/**
- * Gets the options for the generated AppConfigurationClient
- * @internal
- */
-export function getGeneratedClientOptions(
-  endpoint: string,
-  syncTokens: SyncTokens,
-  internalAppConfigOptions: InternalAppConfigurationClientOptions
-): GeneratedAppConfigurationClientOptions {
-  const retryPolicies = [
-    exponentialRetryPolicy(),
-    systemErrorRetryPolicy(),
-    throttlingRetryPolicy(internalAppConfigOptions.retryOptions),
-  ];
-
-  const userAgent = getUserAgentPrefix(
-    internalAppConfigOptions.userAgentOptions &&
-      internalAppConfigOptions.userAgentOptions.userAgentPrefix
-  );
-
-  return {
-    endpoint,
-    deserializationContentTypes,
-    // we'll add in our own custom retry policies
-    noRetryPolicy: true,
-    requestPolicyFactories: (defaults) => [
-      tracingPolicy({ userAgent }),
-      syncTokenPolicy(syncTokens),
-      userAgentPolicy({ value: userAgent }),
-      ...retryPolicies,
-      ...defaults,
-    ],
-    generateClientRequestIdHeader: true,
-  };
-}
-
-/**
- * @internal
- */
-export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): string {
-  const appConfigDefaultUserAgent = `${packageName}/${packageVersion} ${getCoreHttpDefaultUserAgentValue()}`;
-
-  if (!userSuppliedUserAgent) {
-    return appConfigDefaultUserAgent;
-  }
-
-  return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
 }

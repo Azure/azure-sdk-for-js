@@ -9000,7 +9000,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-uyrepJ22xaI7YRKoj836BZZvdlSapK28XMSnGqz0uFz6du/cF3TlVWEo45p8RImylkFy6Eq/emY5wu/MQ46VVA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-8ZO/LeYDmp0l7Fz6lH31TH9r5qrjLdRmcoomi261ldvxhzx096iWEoO7ltWut+31gOb1HzcOXXvJm9uK5RRAUw==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -9019,6 +9019,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.46
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9050,6 +9051,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13441,7 +13443,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-9UvlaFfkwkx9TfO/szU9qrlm8WjCeZxE/ttW3XI7KpBpmPmffBawyrZ0HHHTipGwwGFdWZtryAvHQ7q1HIwBuQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-vSGhVRX/S963VBFVN+EY5q41snGccSQVK12fWrXbp2Ax6jL/xBvgL0VA8zsIeAmVJpmet3u4hpAdMPfQ3T9sUg==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:

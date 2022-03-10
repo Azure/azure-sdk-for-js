@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URLBuilder } from "@azure/core-http";
 import {
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ConfigurationSettingId,
   ConfigurationSetting,
-  HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
   ConfigurationSettingParam,
 } from "../models";
-import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import { featureFlagContentType, FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
 import {
   secretReferenceContentType,
@@ -85,7 +83,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatFiltersAndSelect(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -119,8 +117,8 @@ export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): {
  * @internal
  */
 export function extractAfterTokenFromNextLink(nextLink: string): string {
-  const parsedLink = URLBuilder.parse(nextLink);
-  const afterToken = parsedLink.getQueryParameterValue("after");
+  const searchParams = new URLSearchParams(nextLink);
+  const afterToken = searchParams.get("after");
 
   if (afterToken == null || Array.isArray(afterToken)) {
     throw new Error("Invalid nextLink - invalid after token");
@@ -232,42 +230,25 @@ export function serializeAsConfigurationSettingParam(
 /**
  * @internal
  */
-export function transformKeyValueResponseWithStatusCode<
-  T extends KeyValue & HttpResponseField<any>
->(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
-  return normalizeResponse(kvp, <
-    ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
-  >{
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
+  kvp: T,
+  status: number
+): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
+  return {
     ...transformKeyValue(kvp),
-    statusCode: kvp._response.status,
-  });
+    statusCode: status,
+  };
 }
 
 /**
  * @internal
  */
-export function transformKeyValueResponse<
-  T extends KeyValue & { eTag?: string } & HttpResponseField<any>
->(kvp: T): ConfigurationSetting & HttpResponseField<any> {
-  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
-    ...transformKeyValue(kvp),
-  });
-}
-
-function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>(
-  originalResponse: HttpResponseField<any>,
-  newResponse: T
-): T {
-  Object.defineProperty(newResponse, "_response", {
-    enumerable: false,
-    value: originalResponse._response,
-  });
-
-  // this field comes from the header but it's redundant with
-  // the one serialized in the model itself
-  delete newResponse.eTag;
-
-  return newResponse;
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }>(
+  kvp: T
+): ConfigurationSetting {
+  const setting = transformKeyValue(kvp);
+  delete (setting as ConfigurationSetting & { eTag?: string }).eTag;
+  return setting;
 }
 
 /**

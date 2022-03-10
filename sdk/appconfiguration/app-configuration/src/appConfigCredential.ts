@@ -2,55 +2,49 @@
 // Licensed under the MIT license.
 
 import {
-  ServiceClientCredentials,
-  WebResource,
-  URLBuilder,
-  WebResourceLike,
-} from "@azure/core-http";
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**
- * @internal
+ * Create an HTTP pipeline policy to authenticate a request
+ * using an `AzureKeyCredential` for AppConfig.
  */
-export class AppConfigCredential implements ServiceClientCredentials {
-  private credential: string;
-  private secret: string;
+export function createAppConfigKeyCredentialPolicy(
+  credential: string,
+  secret: string
+): PipelinePolicy {
+  return {
+    name: "AppConfigKeyCredentialPolicy",
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const verb = request.method.toUpperCase();
+      const utcNow = new Date().toUTCString();
 
-  constructor(credential: string, secret: string) {
-    this.credential = credential;
-    this.secret = secret;
-  }
+      const contentHash = await sha256Digest(request.body?.toString());
 
-  /**
-   * Signs a request with the values provided in the credential and secret parameter.
-   *
-   * @param webResource - The WebResource to be signed.
-   * @returns The signed request object.
-   */
-  async signRequest(webResource: WebResourceLike): Promise<WebResource> {
-    const verb = webResource.method.toUpperCase();
-    const utcNow = new Date().toUTCString();
+      const signedHeaders = "x-ms-date;host;x-ms-content-sha256";
 
-    const contentHash = await sha256Digest(webResource.body || "");
+      const url = new URL(request.url);
+      const query = url.searchParams;
+      const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
+      const port = url.port;
+      const hostAndPort = port ? `${url.host}:${port}` : url.host;
+      const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
+      const signature = await sha256Hmac(secret, stringToSign);
 
-    const signedHeaders = "x-ms-date;host;x-ms-content-sha256";
+      request.headers.set("x-ms-date", utcNow);
+      request.headers.set("x-ms-content-sha256", contentHash);
+      // Syntax for Authorization header
+      // Reference - https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
+      request.headers.set(
+        "Authorization",
+        `HMAC-SHA256 Credential=${credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`
+      );
 
-    const url = URLBuilder.parse(webResource.url);
-    const query = url.getQuery();
-    const urlPathAndQuery = `${url.getPath()}${query ? "?" + query : ""}`;
-
-    const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${url.getHost()};${contentHash}`;
-
-    const signature = await sha256Hmac(this.secret, stringToSign);
-
-    webResource.headers.set("x-ms-date", utcNow);
-    webResource.headers.set("x-ms-content-sha256", contentHash);
-    // Syntax for Authorization header
-    // Reference - https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
-    webResource.headers.set(
-      "Authorization",
-      `HMAC-SHA256 Credential=${this.credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`
-    );
-    return webResource;
-  }
+      return next(request);
+    },
+  };
 }

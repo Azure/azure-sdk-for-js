@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import { KeyValue as KeyValueMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -136,7 +135,7 @@ export const select: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const select1: OperationQueryParameter = {
@@ -152,7 +151,7 @@ export const select1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const accept2: OperationParameter = {
@@ -212,7 +211,7 @@ export const select2: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const contentType: OperationParameter = {
@@ -245,7 +244,7 @@ export const select3: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const accept3: OperationParameter = {
@@ -276,7 +275,7 @@ export const select4: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const select5: OperationQueryParameter = {
@@ -292,7 +291,7 @@ export const select5: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const select6: OperationQueryParameter = {
@@ -308,7 +307,7 @@ export const select6: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const nextLink: OperationURLParameter = {

@@ -6,14 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreAuth from "@azure/core-auth";
 import { ApiVersion10, AppConfigurationOptionalParams } from "./models";
 
-const packageName = "app-configuration";
-const packageVersion = "1.3.2";
-
 /** @internal */
-export class AppConfigurationContext extends coreHttp.ServiceClient {
+export class AppConfigurationContext extends coreClient.ServiceClient {
   endpoint: string;
   syncToken?: string;
   apiVersion: ApiVersion10;
@@ -26,7 +24,7 @@ export class AppConfigurationContext extends coreHttp.ServiceClient {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     endpoint: string,
     apiVersion: ApiVersion10,
     options?: AppConfigurationOptionalParams
@@ -45,18 +43,26 @@ export class AppConfigurationContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: AppConfigurationOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-app-configuration/1.0.0-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(credentials, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{endpoint}";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
     this.apiVersion = apiVersion;
