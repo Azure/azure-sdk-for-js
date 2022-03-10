@@ -51,172 +51,179 @@ function ServiceFabric(
   return {
     ...client,
     ...{
-      getClusterManifest: (options) => {
-        return client.path("/$/GetClusterManifest").get(options);
+      getClusterManifest: (shortcutOptions) => {
+        return client.path("/$/GetClusterManifest").get(shortcutOptions);
       },
-      getClusterHealth: (options) => {
-        return client.path("/$/GetClusterHealth").get(options);
+      getClusterHealth: (shortcutOptions) => {
+        return client.path("/$/GetClusterHealth").get(shortcutOptions);
       },
-      getClusterHealthUsingPolicy: (options) => {
-        return client.path("/$/GetClusterHealth").post(options);
+      getClusterHealthUsingPolicy: (shortcutOptions) => {
+        return client.path("/$/GetClusterHealth").post(shortcutOptions);
       },
-      getClusterHealthChunk: (options) => {
-        return client.path("/$/GetClusterHealthChunk").get(options);
+      getClusterHealthChunk: (shortcutOptions) => {
+        return client.path("/$/GetClusterHealthChunk").get(shortcutOptions);
       },
-      getClusterHealthChunkUsingPolicyAndAdvancedFilters: (options) => {
-        return client.path("/$/GetClusterHealthChunk").post(options);
+      getClusterHealthChunkUsingPolicyAndAdvancedFilters: (shortcutOptions) => {
+        return client.path("/$/GetClusterHealthChunk").post(shortcutOptions);
       },
-      reportClusterHealth: (options) => {
-        return client.path("/$/ReportClusterHealth").post(options);
+      reportClusterHealth: (shortcutOptions) => {
+        return client.path("/$/ReportClusterHealth").post(shortcutOptions);
       },
-      getProvisionedFabricCodeVersionInfoList: (options) => {
-        return client.path("/$/GetProvisionedCodeVersions").get(options);
+      getProvisionedFabricCodeVersionInfoList: (shortcutOptions) => {
+        return client.path("/$/GetProvisionedCodeVersions").get(shortcutOptions);
       },
-      getProvisionedFabricConfigVersionInfoList: (options) => {
-        return client.path("/$/GetProvisionedConfigVersions").get(options);
+      getProvisionedFabricConfigVersionInfoList: (shortcutOptions) => {
+        return client.path("/$/GetProvisionedConfigVersions").get(shortcutOptions);
       },
-      getClusterUpgradeProgress: (options) => {
-        return client.path("/$/GetUpgradeProgress").get(options);
+      getClusterUpgradeProgress: (shortcutOptions) => {
+        return client.path("/$/GetUpgradeProgress").get(shortcutOptions);
       },
-      getClusterConfiguration: (options) => {
-        return client.path("/$/GetClusterConfiguration").get(options);
+      getClusterConfiguration: (shortcutOptions) => {
+        return client.path("/$/GetClusterConfiguration").get(shortcutOptions);
       },
-      getClusterConfigurationUpgradeStatus: (options) => {
-        return client.path("/$/GetClusterConfigurationUpgradeStatus").get(options);
+      getClusterConfigurationUpgradeStatus: (shortcutOptions) => {
+        return client.path("/$/GetClusterConfigurationUpgradeStatus").get(shortcutOptions);
       },
-      getUpgradeOrchestrationServiceState: (options) => {
-        return client.path("/$/GetUpgradeOrchestrationServiceState").get(options);
+      getUpgradeOrchestrationServiceState: (shortcutOptions) => {
+        return client.path("/$/GetUpgradeOrchestrationServiceState").get(shortcutOptions);
       },
-      setUpgradeOrchestrationServiceState: (options) => {
-        return client.path("/$/SetUpgradeOrchestrationServiceState").post(options);
+      setUpgradeOrchestrationServiceState: (shortcutOptions) => {
+        return client.path("/$/SetUpgradeOrchestrationServiceState").post(shortcutOptions);
       },
-      provisionCluster: (options) => {
-        return client.path("/$/Provision").post(options);
+      provisionCluster: (shortcutOptions) => {
+        return client.path("/$/Provision").post(shortcutOptions);
       },
-      unprovisionCluster: (options) => {
-        return client.path("/$/Unprovision").post(options);
+      unprovisionCluster: (shortcutOptions) => {
+        return client.path("/$/Unprovision").post(shortcutOptions);
       },
-      rollbackClusterUpgrade: (options) => {
-        return client.path("/$/RollbackUpgrade").post(options);
+      rollbackClusterUpgrade: (shortcutOptions) => {
+        return client.path("/$/RollbackUpgrade").post(shortcutOptions);
       },
-      resumeClusterUpgrade: (options) => {
-        return client.path("/$/MoveToNextUpgradeDomain").post(options);
+      resumeClusterUpgrade: (shortcutOptions) => {
+        return client.path("/$/MoveToNextUpgradeDomain").post(shortcutOptions);
       },
-      startClusterUpgrade: (options) => {
-        return client.path("/$/Upgrade").post(options);
+      startClusterUpgrade: (shortcutOptions) => {
+        return client.path("/$/Upgrade").post(shortcutOptions);
       },
-      startClusterConfigurationUpgrade: (options) => {
-        return client.path("/$/StartClusterConfigurationUpgrade").post(options);
+      startClusterConfigurationUpgrade: (shortcutOptions) => {
+        return client.path("/$/StartClusterConfigurationUpgrade").post(shortcutOptions);
       },
-      updateClusterUpgrade: (options) => {
-        return client.path("/$/UpdateUpgrade").post(options);
+      updateClusterUpgrade: (shortcutOptions) => {
+        return client.path("/$/UpdateUpgrade").post(shortcutOptions);
       },
-      getAadMetadata: (options) => {
-        return client.path("/$/GetAadMetadata").get(options);
+      getAadMetadata: (shortcutOptions) => {
+        return client.path("/$/GetAadMetadata").get(shortcutOptions);
       },
-      getClusterVersion: (options) => {
-        return client.path("/$/GetClusterVersion").get(options);
+      getClusterVersion: (shortcutOptions) => {
+        return client.path("/$/GetClusterVersion").get(shortcutOptions);
       },
-      getClusterLoad: (options) => {
-        return client.path("/$/GetLoadInformation").get(options);
+      getClusterLoad: (shortcutOptions) => {
+        return client.path("/$/GetLoadInformation").get(shortcutOptions);
       },
-      toggleVerboseServicePlacementHealthReporting: (options) => {
-        return client.path("/$/ToggleVerboseServicePlacementHealthReporting").post(options);
+      toggleVerboseServicePlacementHealthReporting: (shortcutOptions) => {
+        return client.path("/$/ToggleVerboseServicePlacementHealthReporting").post(shortcutOptions);
       },
-      getNodeInfoList: (options) => {
-        return client.path("/Nodes").get(options);
+      getNodeInfoList: (shortcutOptions) => {
+        return client.path("/Nodes").get(shortcutOptions);
       },
-      getNodeInfo: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}", nodeName).get(options);
+      getNodeInfo: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}", nodeName).get(shortcutOptions);
       },
-      getNodeHealth: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/GetHealth", nodeName).get(options);
+      getNodeHealth: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/GetHealth", nodeName).get(shortcutOptions);
       },
-      getNodeHealthUsingPolicy: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/GetHealth", nodeName).post(options);
+      getNodeHealthUsingPolicy: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/GetHealth", nodeName).post(shortcutOptions);
       },
-      reportNodeHealth: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/ReportHealth", nodeName).post(options);
+      reportNodeHealth: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/ReportHealth", nodeName).post(shortcutOptions);
       },
-      getNodeLoadInfo: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/GetLoadInformation", nodeName).get(options);
+      getNodeLoadInfo: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/GetLoadInformation", nodeName).get(shortcutOptions);
       },
-      disableNode: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/Deactivate", nodeName).post(options);
+      disableNode: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/Deactivate", nodeName).post(shortcutOptions);
       },
-      enableNode: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/Activate", nodeName).post(options);
+      enableNode: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/Activate", nodeName).post(shortcutOptions);
       },
-      removeNodeState: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/RemoveNodeState", nodeName).post(options);
+      removeNodeState: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/RemoveNodeState", nodeName).post(shortcutOptions);
       },
-      restartNode: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/Restart", nodeName).post(options);
+      restartNode: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/Restart", nodeName).post(shortcutOptions);
       },
-      removeConfigurationOverrides: (nodeName, options) => {
+      removeConfigurationOverrides: (nodeName, shortcutOptions) => {
         return client
           .path("/Nodes/{nodeName}/$/RemoveConfigurationOverrides", nodeName)
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      getConfigurationOverrides: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/GetConfigurationOverrides", nodeName).get(options);
+      getConfigurationOverrides: (nodeName, shortcutOptions) => {
+        return client
+          .path("/Nodes/{nodeName}/$/GetConfigurationOverrides", nodeName)
+          .get(shortcutOptions);
       },
-      addConfigurationParameterOverrides: (nodeName, options) => {
+      addConfigurationParameterOverrides: (nodeName, shortcutOptions) => {
         return client
           .path("/Nodes/{nodeName}/$/AddConfigurationParameterOverrides", nodeName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      removeNodeTags: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/RemoveNodeTags", nodeName).post(options);
+      removeNodeTags: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/RemoveNodeTags", nodeName).post(shortcutOptions);
       },
-      addNodeTags: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/AddNodeTags", nodeName).post(options);
+      addNodeTags: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/AddNodeTags", nodeName).post(shortcutOptions);
       },
-      getApplicationTypeInfoList: (options) => {
-        return client.path("/ApplicationTypes").get(options);
+      getApplicationTypeInfoList: (shortcutOptions) => {
+        return client.path("/ApplicationTypes").get(shortcutOptions);
       },
-      getApplicationTypeInfoListByName: (applicationTypeName, options) => {
+      getApplicationTypeInfoListByName: (applicationTypeName, shortcutOptions) => {
         return client
           .path("/ApplicationTypes/{applicationTypeName}", applicationTypeName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      provisionApplicationType: (options) => {
-        return client.path("/ApplicationTypes/$/Provision").post(options);
+      provisionApplicationType: (shortcutOptions) => {
+        return client.path("/ApplicationTypes/$/Provision").post(shortcutOptions);
       },
-      unprovisionApplicationType: (applicationTypeName, options) => {
+      unprovisionApplicationType: (applicationTypeName, shortcutOptions) => {
         return client
           .path("/ApplicationTypes/{applicationTypeName}/$/Unprovision", applicationTypeName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      getServiceTypeInfoList: (applicationTypeName, options) => {
+      getServiceTypeInfoList: (applicationTypeName, shortcutOptions) => {
         return client
           .path("/ApplicationTypes/{applicationTypeName}/$/GetServiceTypes", applicationTypeName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getServiceTypeInfoByName: (applicationTypeName, serviceTypeName, options) => {
+      getServiceTypeInfoByName: (applicationTypeName, serviceTypeName, shortcutOptions) => {
         return client
           .path(
             "/ApplicationTypes/{applicationTypeName}/$/GetServiceTypes/{serviceTypeName}",
             applicationTypeName,
             serviceTypeName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getServiceManifest: (applicationTypeName, options) => {
+      getServiceManifest: (applicationTypeName, shortcutOptions) => {
         return client
           .path("/ApplicationTypes/{applicationTypeName}/$/GetServiceManifest", applicationTypeName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedServiceTypeInfoList: (nodeName, applicationId, options) => {
+      getDeployedServiceTypeInfoList: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes",
             nodeName,
             applicationId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedServiceTypeInfoByName: (nodeName, applicationId, serviceTypeName, options) => {
+      getDeployedServiceTypeInfoByName: (
+        nodeName,
+        applicationId,
+        serviceTypeName,
+        shortcutOptions
+      ) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes/{serviceTypeName}",
@@ -224,296 +231,324 @@ function ServiceFabric(
             applicationId,
             serviceTypeName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      createApplication: (options) => {
-        return client.path("/Applications/$/Create").post(options);
+      createApplication: (shortcutOptions) => {
+        return client.path("/Applications/$/Create").post(shortcutOptions);
       },
-      deleteApplication: (applicationId, options) => {
-        return client.path("/Applications/{applicationId}/$/Delete", applicationId).post(options);
+      deleteApplication: (applicationId, shortcutOptions) => {
+        return client
+          .path("/Applications/{applicationId}/$/Delete", applicationId)
+          .post(shortcutOptions);
       },
-      getApplicationLoadInfo: (applicationId, options) => {
+      getApplicationLoadInfo: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetLoadInformation", applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getApplicationInfoList: (options) => {
-        return client.path("/Applications").get(options);
+      getApplicationInfoList: (shortcutOptions) => {
+        return client.path("/Applications").get(shortcutOptions);
       },
-      getApplicationInfo: (applicationId, options) => {
-        return client.path("/Applications/{applicationId}", applicationId).get(options);
+      getApplicationInfo: (applicationId, shortcutOptions) => {
+        return client.path("/Applications/{applicationId}", applicationId).get(shortcutOptions);
       },
-      getApplicationHealth: (applicationId, options) => {
-        return client.path("/Applications/{applicationId}/$/GetHealth", applicationId).get(options);
-      },
-      getApplicationHealthUsingPolicy: (applicationId, options) => {
+      getApplicationHealth: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetHealth", applicationId)
-          .post(options);
+          .get(shortcutOptions);
       },
-      reportApplicationHealth: (applicationId, options) => {
+      getApplicationHealthUsingPolicy: (applicationId, shortcutOptions) => {
+        return client
+          .path("/Applications/{applicationId}/$/GetHealth", applicationId)
+          .post(shortcutOptions);
+      },
+      reportApplicationHealth: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/ReportHealth", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      startApplicationUpgrade: (applicationId, options) => {
-        return client.path("/Applications/{applicationId}/$/Upgrade", applicationId).post(options);
+      startApplicationUpgrade: (applicationId, shortcutOptions) => {
+        return client
+          .path("/Applications/{applicationId}/$/Upgrade", applicationId)
+          .post(shortcutOptions);
       },
-      getApplicationUpgrade: (applicationId, options) => {
+      getApplicationUpgrade: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetUpgradeProgress", applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      updateApplicationUpgrade: (applicationId, options) => {
+      updateApplicationUpgrade: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/UpdateUpgrade", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      updateApplication: (applicationId, options) => {
-        return client.path("/Applications/{applicationId}/$/Update", applicationId).post(options);
+      updateApplication: (applicationId, shortcutOptions) => {
+        return client
+          .path("/Applications/{applicationId}/$/Update", applicationId)
+          .post(shortcutOptions);
       },
-      resumeApplicationUpgrade: (applicationId, options) => {
+      resumeApplicationUpgrade: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/MoveToNextUpgradeDomain", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      rollbackApplicationUpgrade: (applicationId, options) => {
+      rollbackApplicationUpgrade: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/RollbackUpgrade", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      getDeployedApplicationInfoList: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/GetApplications", nodeName).get(options);
+      getDeployedApplicationInfoList: (nodeName, shortcutOptions) => {
+        return client.path("/Nodes/{nodeName}/$/GetApplications", nodeName).get(shortcutOptions);
       },
-      getDeployedApplicationInfo: (nodeName, applicationId, options) => {
+      getDeployedApplicationInfo: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path("/Nodes/{nodeName}/$/GetApplications/{applicationId}", nodeName, applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedApplicationHealth: (nodeName, applicationId, options) => {
+      getDeployedApplicationHealth: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth",
             nodeName,
             applicationId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedApplicationHealthUsingPolicy: (nodeName, applicationId, options) => {
+      getDeployedApplicationHealthUsingPolicy: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth",
             nodeName,
             applicationId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      reportDeployedApplicationHealth: (nodeName, applicationId, options) => {
+      reportDeployedApplicationHealth: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/ReportHealth",
             nodeName,
             applicationId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getApplicationManifest: (applicationTypeName, options) => {
+      getApplicationManifest: (applicationTypeName, shortcutOptions) => {
         return client
           .path(
             "/ApplicationTypes/{applicationTypeName}/$/GetApplicationManifest",
             applicationTypeName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getServiceInfoList: (applicationId, options) => {
+      getServiceInfoList: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetServices", applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getServiceInfo: (applicationId, serviceId, options) => {
+      getServiceInfo: (applicationId, serviceId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetServices/{serviceId}", applicationId, serviceId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getApplicationNameInfo: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/GetApplicationName", serviceId).get(options);
+      getApplicationNameInfo: (serviceId, shortcutOptions) => {
+        return client
+          .path("/Services/{serviceId}/$/GetApplicationName", serviceId)
+          .get(shortcutOptions);
       },
-      createService: (applicationId, options) => {
+      createService: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetServices/$/Create", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      createServiceFromTemplate: (applicationId, options) => {
+      createServiceFromTemplate: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetServices/$/CreateFromTemplate", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      deleteService: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/Delete", serviceId).post(options);
+      deleteService: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/Delete", serviceId).post(shortcutOptions);
       },
-      updateService: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/Update", serviceId).post(options);
+      updateService: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/Update", serviceId).post(shortcutOptions);
       },
-      getServiceDescription: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/GetDescription", serviceId).get(options);
+      getServiceDescription: (serviceId, shortcutOptions) => {
+        return client
+          .path("/Services/{serviceId}/$/GetDescription", serviceId)
+          .get(shortcutOptions);
       },
-      getServiceHealth: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/GetHealth", serviceId).get(options);
+      getServiceHealth: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/GetHealth", serviceId).get(shortcutOptions);
       },
-      getServiceHealthUsingPolicy: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/GetHealth", serviceId).post(options);
+      getServiceHealthUsingPolicy: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/GetHealth", serviceId).post(shortcutOptions);
       },
-      reportServiceHealth: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/ReportHealth", serviceId).post(options);
+      reportServiceHealth: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/ReportHealth", serviceId).post(shortcutOptions);
       },
-      resolveService: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/ResolvePartition", serviceId).get(options);
+      resolveService: (serviceId, shortcutOptions) => {
+        return client
+          .path("/Services/{serviceId}/$/ResolvePartition", serviceId)
+          .get(shortcutOptions);
       },
-      getUnplacedReplicaInformation: (serviceId, options) => {
+      getUnplacedReplicaInformation: (serviceId, shortcutOptions) => {
         return client
           .path("/Services/{serviceId}/$/GetUnplacedReplicaInformation", serviceId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getLoadedPartitionInfoList: (options) => {
-        return client.path("/$/GetLoadedPartitionInfoList").get(options);
+      getLoadedPartitionInfoList: (shortcutOptions) => {
+        return client.path("/$/GetLoadedPartitionInfoList").get(shortcutOptions);
       },
-      getPartitionInfoList: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/GetPartitions", serviceId).get(options);
+      getPartitionInfoList: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/GetPartitions", serviceId).get(shortcutOptions);
       },
-      getPartitionInfo: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}", partitionId).get(options);
+      getPartitionInfo: (partitionId, shortcutOptions) => {
+        return client.path("/Partitions/{partitionId}", partitionId).get(shortcutOptions);
       },
-      getServiceNameInfo: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/GetServiceName", partitionId).get(options);
+      getServiceNameInfo: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/GetServiceName", partitionId)
+          .get(shortcutOptions);
       },
-      getPartitionHealth: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/GetHealth", partitionId).get(options);
+      getPartitionHealth: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/GetHealth", partitionId)
+          .get(shortcutOptions);
       },
-      getPartitionHealthUsingPolicy: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/GetHealth", partitionId).post(options);
+      getPartitionHealthUsingPolicy: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/GetHealth", partitionId)
+          .post(shortcutOptions);
       },
-      reportPartitionHealth: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/ReportHealth", partitionId).post(options);
+      reportPartitionHealth: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/ReportHealth", partitionId)
+          .post(shortcutOptions);
       },
-      getPartitionLoadInformation: (partitionId, options) => {
+      getPartitionLoadInformation: (partitionId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/GetLoadInformation", partitionId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      resetPartitionLoad: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/ResetLoad", partitionId).post(options);
+      resetPartitionLoad: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/ResetLoad", partitionId)
+          .post(shortcutOptions);
       },
-      recoverPartition: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/Recover", partitionId).post(options);
+      recoverPartition: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/Recover", partitionId)
+          .post(shortcutOptions);
       },
-      recoverServicePartitions: (serviceId, options) => {
+      recoverServicePartitions: (serviceId, shortcutOptions) => {
         return client
           .path("/Services/$/{serviceId}/$/GetPartitions/$/Recover", serviceId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      recoverSystemPartitions: (options) => {
-        return client.path("/$/RecoverSystemPartitions").post(options);
+      recoverSystemPartitions: (shortcutOptions) => {
+        return client.path("/$/RecoverSystemPartitions").post(shortcutOptions);
       },
-      recoverAllPartitions: (options) => {
-        return client.path("/$/RecoverAllPartitions").post(options);
+      recoverAllPartitions: (shortcutOptions) => {
+        return client.path("/$/RecoverAllPartitions").post(shortcutOptions);
       },
-      movePrimaryReplica: (partitionId, options) => {
+      movePrimaryReplica: (partitionId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/MovePrimaryReplica", partitionId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      moveSecondaryReplica: (partitionId, options) => {
+      moveSecondaryReplica: (partitionId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/MoveSecondaryReplica", partitionId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      updatePartitionLoad: (options) => {
-        return client.path("/$/UpdatePartitionLoad").post(options);
+      updatePartitionLoad: (shortcutOptions) => {
+        return client.path("/$/UpdatePartitionLoad").post(shortcutOptions);
       },
-      moveInstance: (serviceId, partitionId, options) => {
+      moveInstance: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Services/{serviceId}/$/GetPartitions/{partitionId}/$/MoveInstance",
             serviceId,
             partitionId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      moveAuxiliaryReplica: (serviceId, partitionId, options) => {
+      moveAuxiliaryReplica: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Services/{serviceId}/$/GetPartitions/{partitionId}/$/MoveAuxiliaryReplica",
             serviceId,
             partitionId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      createRepairTask: (options) => {
-        return client.path("/$/CreateRepairTask").post(options);
+      createRepairTask: (shortcutOptions) => {
+        return client.path("/$/CreateRepairTask").post(shortcutOptions);
       },
-      cancelRepairTask: (options) => {
-        return client.path("/$/CancelRepairTask").post(options);
+      cancelRepairTask: (shortcutOptions) => {
+        return client.path("/$/CancelRepairTask").post(shortcutOptions);
       },
-      deleteRepairTask: (options) => {
-        return client.path("/$/DeleteRepairTask").post(options);
+      deleteRepairTask: (shortcutOptions) => {
+        return client.path("/$/DeleteRepairTask").post(shortcutOptions);
       },
-      getRepairTaskList: (options) => {
-        return client.path("/$/GetRepairTaskList").get(options);
+      getRepairTaskList: (shortcutOptions) => {
+        return client.path("/$/GetRepairTaskList").get(shortcutOptions);
       },
-      forceApproveRepairTask: (options) => {
-        return client.path("/$/ForceApproveRepairTask").post(options);
+      forceApproveRepairTask: (shortcutOptions) => {
+        return client.path("/$/ForceApproveRepairTask").post(shortcutOptions);
       },
-      updateRepairTaskHealthPolicy: (options) => {
-        return client.path("/$/UpdateRepairTaskHealthPolicy").post(options);
+      updateRepairTaskHealthPolicy: (shortcutOptions) => {
+        return client.path("/$/UpdateRepairTaskHealthPolicy").post(shortcutOptions);
       },
-      updateRepairExecutionState: (options) => {
-        return client.path("/$/UpdateRepairExecutionState").post(options);
+      updateRepairExecutionState: (shortcutOptions) => {
+        return client.path("/$/UpdateRepairExecutionState").post(shortcutOptions);
       },
-      getReplicaInfoList: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/GetReplicas", partitionId).get(options);
+      getReplicaInfoList: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/GetReplicas", partitionId)
+          .get(shortcutOptions);
       },
-      getReplicaInfo: (partitionId, replicaId, options) => {
+      getReplicaInfo: (partitionId, replicaId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/GetReplicas/{replicaId}", partitionId, replicaId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getReplicaHealth: (partitionId, replicaId, options) => {
+      getReplicaHealth: (partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth",
             partitionId,
             replicaId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getReplicaHealthUsingPolicy: (partitionId, replicaId, options) => {
+      getReplicaHealthUsingPolicy: (partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth",
             partitionId,
             replicaId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      reportReplicaHealth: (partitionId, replicaId, options) => {
+      reportReplicaHealth: (partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth",
             partitionId,
             replicaId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getDeployedServiceReplicaInfoList: (nodeName, applicationId, options) => {
+      getDeployedServiceReplicaInfoList: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetReplicas",
             nodeName,
             applicationId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedServiceReplicaDetailInfo: (nodeName, partitionId, replicaId, options) => {
+      getDeployedServiceReplicaDetailInfo: (nodeName, partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetDetail",
@@ -521,18 +556,22 @@ function ServiceFabric(
             partitionId,
             replicaId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedServiceReplicaDetailInfoByPartitionId: (nodeName, partitionId, options) => {
+      getDeployedServiceReplicaDetailInfoByPartitionId: (
+        nodeName,
+        partitionId,
+        shortcutOptions
+      ) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas",
             nodeName,
             partitionId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      restartReplica: (nodeName, partitionId, replicaId, options) => {
+      restartReplica: (nodeName, partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas/{replicaId}/$/Restart",
@@ -540,9 +579,9 @@ function ServiceFabric(
             partitionId,
             replicaId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      removeReplica: (nodeName, partitionId, replicaId, options) => {
+      removeReplica: (nodeName, partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas/{replicaId}/$/Delete",
@@ -550,22 +589,22 @@ function ServiceFabric(
             partitionId,
             replicaId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getDeployedServicePackageInfoList: (nodeName, applicationId, options) => {
+      getDeployedServicePackageInfoList: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages",
             nodeName,
             applicationId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
       getDeployedServicePackageInfoListByName: (
         nodeName,
         applicationId,
         servicePackageName,
-        options
+        shortcutOptions
       ) => {
         return client
           .path(
@@ -574,23 +613,13 @@ function ServiceFabric(
             applicationId,
             servicePackageName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getDeployedServicePackageHealth: (nodeName, applicationId, servicePackageName, options) => {
-        return client
-          .path(
-            "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth",
-            nodeName,
-            applicationId,
-            servicePackageName
-          )
-          .get(options);
-      },
-      getDeployedServicePackageHealthUsingPolicy: (
+      getDeployedServicePackageHealth: (
         nodeName,
         applicationId,
         servicePackageName,
-        options
+        shortcutOptions
       ) => {
         return client
           .path(
@@ -599,13 +628,28 @@ function ServiceFabric(
             applicationId,
             servicePackageName
           )
-          .post(options);
+          .get(shortcutOptions);
+      },
+      getDeployedServicePackageHealthUsingPolicy: (
+        nodeName,
+        applicationId,
+        servicePackageName,
+        shortcutOptions
+      ) => {
+        return client
+          .path(
+            "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth",
+            nodeName,
+            applicationId,
+            servicePackageName
+          )
+          .post(shortcutOptions);
       },
       reportDeployedServicePackageHealth: (
         nodeName,
         applicationId,
         servicePackageName,
-        options
+        shortcutOptions
       ) => {
         return client
           .path(
@@ -614,556 +658,586 @@ function ServiceFabric(
             applicationId,
             servicePackageName
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      deployServicePackageToNode: (nodeName, options) => {
-        return client.path("/Nodes/{nodeName}/$/DeployServicePackage", nodeName).post(options);
+      deployServicePackageToNode: (nodeName, shortcutOptions) => {
+        return client
+          .path("/Nodes/{nodeName}/$/DeployServicePackage", nodeName)
+          .post(shortcutOptions);
       },
-      getDeployedCodePackageInfoList: (nodeName, applicationId, options) => {
+      getDeployedCodePackageInfoList: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages",
             nodeName,
             applicationId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      restartDeployedCodePackage: (nodeName, applicationId, options) => {
+      restartDeployedCodePackage: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages/$/Restart",
             nodeName,
             applicationId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getContainerLogsDeployedOnNode: (nodeName, applicationId, options) => {
+      getContainerLogsDeployedOnNode: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages/$/ContainerLogs",
             nodeName,
             applicationId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      invokeContainerApi: (nodeName, applicationId, options) => {
+      invokeContainerApi: (nodeName, applicationId, shortcutOptions) => {
         return client
           .path(
             "/Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages/$/ContainerApi",
             nodeName,
             applicationId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      createComposeDeployment: (options) => {
-        return client.path("/ComposeDeployments/$/Create").put(options);
+      createComposeDeployment: (shortcutOptions) => {
+        return client.path("/ComposeDeployments/$/Create").put(shortcutOptions);
       },
-      getComposeDeploymentStatus: (deploymentName, options) => {
-        return client.path("/ComposeDeployments/{deploymentName}", deploymentName).get(options);
+      getComposeDeploymentStatus: (deploymentName, shortcutOptions) => {
+        return client
+          .path("/ComposeDeployments/{deploymentName}", deploymentName)
+          .get(shortcutOptions);
       },
-      getComposeDeploymentStatusList: (options) => {
-        return client.path("/ComposeDeployments").get(options);
+      getComposeDeploymentStatusList: (shortcutOptions) => {
+        return client.path("/ComposeDeployments").get(shortcutOptions);
       },
-      getComposeDeploymentUpgradeProgress: (deploymentName, options) => {
+      getComposeDeploymentUpgradeProgress: (deploymentName, shortcutOptions) => {
         return client
           .path("/ComposeDeployments/{deploymentName}/$/GetUpgradeProgress", deploymentName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      removeComposeDeployment: (deploymentName, options) => {
+      removeComposeDeployment: (deploymentName, shortcutOptions) => {
         return client
           .path("/ComposeDeployments/{deploymentName}/$/Delete", deploymentName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      startComposeDeploymentUpgrade: (deploymentName, options) => {
+      startComposeDeploymentUpgrade: (deploymentName, shortcutOptions) => {
         return client
           .path("/ComposeDeployments/{deploymentName}/$/Upgrade", deploymentName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      startRollbackComposeDeploymentUpgrade: (deploymentName, options) => {
+      startRollbackComposeDeploymentUpgrade: (deploymentName, shortcutOptions) => {
         return client
           .path("/ComposeDeployments/{deploymentName}/$/RollbackUpgrade", deploymentName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      getChaos: (options) => {
-        return client.path("/Tools/Chaos").get(options);
+      getChaos: (shortcutOptions) => {
+        return client.path("/Tools/Chaos").get(shortcutOptions);
       },
-      startChaos: (options) => {
-        return client.path("/Tools/Chaos/$/Start").post(options);
+      startChaos: (shortcutOptions) => {
+        return client.path("/Tools/Chaos/$/Start").post(shortcutOptions);
       },
-      stopChaos: (options) => {
-        return client.path("/Tools/Chaos/$/Stop").post(options);
+      stopChaos: (shortcutOptions) => {
+        return client.path("/Tools/Chaos/$/Stop").post(shortcutOptions);
       },
-      getChaosEvents: (options) => {
-        return client.path("/Tools/Chaos/Events").get(options);
+      getChaosEvents: (shortcutOptions) => {
+        return client.path("/Tools/Chaos/Events").get(shortcutOptions);
       },
-      getChaosSchedule: (options) => {
-        return client.path("/Tools/Chaos/Schedule").get(options);
+      getChaosSchedule: (shortcutOptions) => {
+        return client.path("/Tools/Chaos/Schedule").get(shortcutOptions);
       },
-      postChaosSchedule: (options) => {
-        return client.path("/Tools/Chaos/Schedule").post(options);
+      postChaosSchedule: (shortcutOptions) => {
+        return client.path("/Tools/Chaos/Schedule").post(shortcutOptions);
       },
-      uploadFile: (contentPath, options) => {
-        return client.path("/ImageStore/{contentPath}", contentPath).put(options);
+      uploadFile: (contentPath, shortcutOptions) => {
+        return client.path("/ImageStore/{contentPath}", contentPath).put(shortcutOptions);
       },
-      getImageStoreContent: (contentPath, options) => {
-        return client.path("/ImageStore/{contentPath}", contentPath).get(options);
+      getImageStoreContent: (contentPath, shortcutOptions) => {
+        return client.path("/ImageStore/{contentPath}", contentPath).get(shortcutOptions);
       },
-      deleteImageStoreContent: (contentPath, options) => {
-        return client.path("/ImageStore/{contentPath}", contentPath).delete(options);
+      deleteImageStoreContent: (contentPath, shortcutOptions) => {
+        return client.path("/ImageStore/{contentPath}", contentPath).delete(shortcutOptions);
       },
-      getImageStoreRootContent: (options) => {
-        return client.path("/ImageStore").get(options);
+      getImageStoreRootContent: (shortcutOptions) => {
+        return client.path("/ImageStore").get(shortcutOptions);
       },
-      copyImageStoreContent: (options) => {
-        return client.path("/ImageStore/$/Copy").post(options);
+      copyImageStoreContent: (shortcutOptions) => {
+        return client.path("/ImageStore/$/Copy").post(shortcutOptions);
       },
-      deleteImageStoreUploadSession: (options) => {
-        return client.path("/ImageStore/$/DeleteUploadSession").delete(options);
+      deleteImageStoreUploadSession: (shortcutOptions) => {
+        return client.path("/ImageStore/$/DeleteUploadSession").delete(shortcutOptions);
       },
-      commitImageStoreUploadSession: (options) => {
-        return client.path("/ImageStore/$/CommitUploadSession").post(options);
+      commitImageStoreUploadSession: (shortcutOptions) => {
+        return client.path("/ImageStore/$/CommitUploadSession").post(shortcutOptions);
       },
-      getImageStoreUploadSessionById: (options) => {
-        return client.path("/ImageStore/$/GetUploadSession").get(options);
+      getImageStoreUploadSessionById: (shortcutOptions) => {
+        return client.path("/ImageStore/$/GetUploadSession").get(shortcutOptions);
       },
-      getImageStoreUploadSessionByPath: (contentPath, options) => {
+      getImageStoreUploadSessionByPath: (contentPath, shortcutOptions) => {
         return client
           .path("/ImageStore/{contentPath}/$/GetUploadSession", contentPath)
-          .get(options);
+          .get(shortcutOptions);
       },
-      uploadFileChunk: (contentPath, options) => {
-        return client.path("/ImageStore/{contentPath}/$/UploadChunk", contentPath).put(options);
+      uploadFileChunk: (contentPath, shortcutOptions) => {
+        return client
+          .path("/ImageStore/{contentPath}/$/UploadChunk", contentPath)
+          .put(shortcutOptions);
       },
-      getImageStoreRootFolderSize: (options) => {
-        return client.path("/ImageStore/$/FolderSize").get(options);
+      getImageStoreRootFolderSize: (shortcutOptions) => {
+        return client.path("/ImageStore/$/FolderSize").get(shortcutOptions);
       },
-      getImageStoreFolderSize: (contentPath, options) => {
-        return client.path("/ImageStore/{contentPath}/$/FolderSize", contentPath).get(options);
+      getImageStoreFolderSize: (contentPath, shortcutOptions) => {
+        return client
+          .path("/ImageStore/{contentPath}/$/FolderSize", contentPath)
+          .get(shortcutOptions);
       },
-      getImageStoreInfo: (options) => {
-        return client.path("/ImageStore/$/Info").get(options);
+      getImageStoreInfo: (shortcutOptions) => {
+        return client.path("/ImageStore/$/Info").get(shortcutOptions);
       },
-      invokeInfrastructureCommand: (options) => {
-        return client.path("/$/InvokeInfrastructureCommand").post(options);
+      invokeInfrastructureCommand: (shortcutOptions) => {
+        return client.path("/$/InvokeInfrastructureCommand").post(shortcutOptions);
       },
-      invokeInfrastructureQuery: (options) => {
-        return client.path("/$/InvokeInfrastructureQuery").get(options);
+      invokeInfrastructureQuery: (shortcutOptions) => {
+        return client.path("/$/InvokeInfrastructureQuery").get(shortcutOptions);
       },
-      startDataLoss: (serviceId, partitionId, options) => {
+      startDataLoss: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartDataLoss",
             serviceId,
             partitionId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getDataLossProgress: (serviceId, partitionId, options) => {
+      getDataLossProgress: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetDataLossProgress",
             serviceId,
             partitionId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      startQuorumLoss: (serviceId, partitionId, options) => {
+      startQuorumLoss: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartQuorumLoss",
             serviceId,
             partitionId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getQuorumLossProgress: (serviceId, partitionId, options) => {
+      getQuorumLossProgress: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetQuorumLossProgress",
             serviceId,
             partitionId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      startPartitionRestart: (serviceId, partitionId, options) => {
+      startPartitionRestart: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartRestart",
             serviceId,
             partitionId
           )
-          .post(options);
+          .post(shortcutOptions);
       },
-      getPartitionRestartProgress: (serviceId, partitionId, options) => {
+      getPartitionRestartProgress: (serviceId, partitionId, shortcutOptions) => {
         return client
           .path(
             "/Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetRestartProgress",
             serviceId,
             partitionId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      startNodeTransition: (nodeName, options) => {
-        return client.path("/Faults/Nodes/{nodeName}/$/StartTransition/", nodeName).post(options);
+      startNodeTransition: (nodeName, shortcutOptions) => {
+        return client
+          .path("/Faults/Nodes/{nodeName}/$/StartTransition/", nodeName)
+          .post(shortcutOptions);
       },
-      getNodeTransitionProgress: (nodeName, options) => {
+      getNodeTransitionProgress: (nodeName, shortcutOptions) => {
         return client
           .path("/Faults/Nodes/{nodeName}/$/GetTransitionProgress", nodeName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getFaultOperationList: (options) => {
-        return client.path("/Faults/").get(options);
+      getFaultOperationList: (shortcutOptions) => {
+        return client.path("/Faults/").get(shortcutOptions);
       },
-      cancelOperation: (options) => {
-        return client.path("/Faults/$/Cancel").post(options);
+      cancelOperation: (shortcutOptions) => {
+        return client.path("/Faults/$/Cancel").post(shortcutOptions);
       },
-      createBackupPolicy: (options) => {
-        return client.path("/BackupRestore/BackupPolicies/$/Create").post(options);
+      createBackupPolicy: (shortcutOptions) => {
+        return client.path("/BackupRestore/BackupPolicies/$/Create").post(shortcutOptions);
       },
-      deleteBackupPolicy: (backupPolicyName, options) => {
+      deleteBackupPolicy: (backupPolicyName, shortcutOptions) => {
         return client
           .path("/BackupRestore/BackupPolicies/{backupPolicyName}/$/Delete", backupPolicyName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      getBackupPolicyList: (options) => {
-        return client.path("/BackupRestore/BackupPolicies").get(options);
+      getBackupPolicyList: (shortcutOptions) => {
+        return client.path("/BackupRestore/BackupPolicies").get(shortcutOptions);
       },
-      getBackupPolicyByName: (backupPolicyName, options) => {
+      getBackupPolicyByName: (backupPolicyName, shortcutOptions) => {
         return client
           .path("/BackupRestore/BackupPolicies/{backupPolicyName}", backupPolicyName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getAllEntitiesBackedUpByPolicy: (backupPolicyName, options) => {
+      getAllEntitiesBackedUpByPolicy: (backupPolicyName, shortcutOptions) => {
         return client
           .path(
             "/BackupRestore/BackupPolicies/{backupPolicyName}/$/GetBackupEnabledEntities",
             backupPolicyName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      updateBackupPolicy: (backupPolicyName, options) => {
+      updateBackupPolicy: (backupPolicyName, shortcutOptions) => {
         return client
           .path("/BackupRestore/BackupPolicies/{backupPolicyName}/$/Update", backupPolicyName)
-          .post(options);
+          .post(shortcutOptions);
       },
-      enableApplicationBackup: (applicationId, options) => {
+      enableApplicationBackup: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/EnableBackup", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      disableApplicationBackup: (applicationId, options) => {
+      disableApplicationBackup: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/DisableBackup", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      getApplicationBackupConfigurationInfo: (applicationId, options) => {
+      getApplicationBackupConfigurationInfo: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetBackupConfigurationInfo", applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getApplicationBackupList: (applicationId, options) => {
+      getApplicationBackupList: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/GetBackups", applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      suspendApplicationBackup: (applicationId, options) => {
+      suspendApplicationBackup: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/SuspendBackup", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      resumeApplicationBackup: (applicationId, options) => {
+      resumeApplicationBackup: (applicationId, shortcutOptions) => {
         return client
           .path("/Applications/{applicationId}/$/ResumeBackup", applicationId)
-          .post(options);
+          .post(shortcutOptions);
       },
-      enableServiceBackup: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/EnableBackup", serviceId).post(options);
+      enableServiceBackup: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/EnableBackup", serviceId).post(shortcutOptions);
       },
-      disableServiceBackup: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/DisableBackup", serviceId).post(options);
+      disableServiceBackup: (serviceId, shortcutOptions) => {
+        return client
+          .path("/Services/{serviceId}/$/DisableBackup", serviceId)
+          .post(shortcutOptions);
       },
-      getServiceBackupConfigurationInfo: (serviceId, options) => {
+      getServiceBackupConfigurationInfo: (serviceId, shortcutOptions) => {
         return client
           .path("/Services/{serviceId}/$/GetBackupConfigurationInfo", serviceId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getServiceBackupList: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/GetBackups", serviceId).get(options);
+      getServiceBackupList: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/GetBackups", serviceId).get(shortcutOptions);
       },
-      suspendServiceBackup: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/SuspendBackup", serviceId).post(options);
+      suspendServiceBackup: (serviceId, shortcutOptions) => {
+        return client
+          .path("/Services/{serviceId}/$/SuspendBackup", serviceId)
+          .post(shortcutOptions);
       },
-      resumeServiceBackup: (serviceId, options) => {
-        return client.path("/Services/{serviceId}/$/ResumeBackup", serviceId).post(options);
+      resumeServiceBackup: (serviceId, shortcutOptions) => {
+        return client.path("/Services/{serviceId}/$/ResumeBackup", serviceId).post(shortcutOptions);
       },
-      enablePartitionBackup: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/EnableBackup", partitionId).post(options);
+      enablePartitionBackup: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/EnableBackup", partitionId)
+          .post(shortcutOptions);
       },
-      disablePartitionBackup: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/DisableBackup", partitionId).post(options);
+      disablePartitionBackup: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/DisableBackup", partitionId)
+          .post(shortcutOptions);
       },
-      getPartitionBackupConfigurationInfo: (partitionId, options) => {
+      getPartitionBackupConfigurationInfo: (partitionId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/GetBackupConfigurationInfo", partitionId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getPartitionBackupList: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/GetBackups", partitionId).get(options);
+      getPartitionBackupList: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/GetBackups", partitionId)
+          .get(shortcutOptions);
       },
-      suspendPartitionBackup: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/SuspendBackup", partitionId).post(options);
+      suspendPartitionBackup: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/SuspendBackup", partitionId)
+          .post(shortcutOptions);
       },
-      resumePartitionBackup: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/ResumeBackup", partitionId).post(options);
+      resumePartitionBackup: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/ResumeBackup", partitionId)
+          .post(shortcutOptions);
       },
-      backupPartition: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/Backup", partitionId).post(options);
+      backupPartition: (partitionId, shortcutOptions) => {
+        return client.path("/Partitions/{partitionId}/$/Backup", partitionId).post(shortcutOptions);
       },
-      getPartitionBackupProgress: (partitionId, options) => {
+      getPartitionBackupProgress: (partitionId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/GetBackupProgress", partitionId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      restorePartition: (partitionId, options) => {
-        return client.path("/Partitions/{partitionId}/$/Restore", partitionId).post(options);
+      restorePartition: (partitionId, shortcutOptions) => {
+        return client
+          .path("/Partitions/{partitionId}/$/Restore", partitionId)
+          .post(shortcutOptions);
       },
-      getPartitionRestoreProgress: (partitionId, options) => {
+      getPartitionRestoreProgress: (partitionId, shortcutOptions) => {
         return client
           .path("/Partitions/{partitionId}/$/GetRestoreProgress", partitionId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getBackupsFromBackupLocation: (options) => {
-        return client.path("/BackupRestore/$/GetBackups").post(options);
+      getBackupsFromBackupLocation: (shortcutOptions) => {
+        return client.path("/BackupRestore/$/GetBackups").post(shortcutOptions);
       },
-      createName: (options) => {
-        return client.path("/Names/$/Create").post(options);
+      createName: (shortcutOptions) => {
+        return client.path("/Names/$/Create").post(shortcutOptions);
       },
-      getNameExistsInfo: (nameId, options) => {
-        return client.path("/Names/{nameId}", nameId).get(options);
+      getNameExistsInfo: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}", nameId).get(shortcutOptions);
       },
-      deleteName: (nameId, options) => {
-        return client.path("/Names/{nameId}", nameId).delete(options);
+      deleteName: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}", nameId).delete(shortcutOptions);
       },
-      getSubNameInfoList: (nameId, options) => {
-        return client.path("/Names/{nameId}/$/GetSubNames", nameId).get(options);
+      getSubNameInfoList: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}/$/GetSubNames", nameId).get(shortcutOptions);
       },
-      getPropertyInfoList: (nameId, options) => {
-        return client.path("/Names/{nameId}/$/GetProperties", nameId).get(options);
+      getPropertyInfoList: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}/$/GetProperties", nameId).get(shortcutOptions);
       },
-      putProperty: (nameId, options) => {
-        return client.path("/Names/{nameId}/$/GetProperty", nameId).put(options);
+      putProperty: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}/$/GetProperty", nameId).put(shortcutOptions);
       },
-      getPropertyInfo: (nameId, options) => {
-        return client.path("/Names/{nameId}/$/GetProperty", nameId).get(options);
+      getPropertyInfo: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}/$/GetProperty", nameId).get(shortcutOptions);
       },
-      deleteProperty: (nameId, options) => {
-        return client.path("/Names/{nameId}/$/GetProperty", nameId).delete(options);
+      deleteProperty: (nameId, shortcutOptions) => {
+        return client.path("/Names/{nameId}/$/GetProperty", nameId).delete(shortcutOptions);
       },
-      submitPropertyBatch: (nameId, options) => {
-        return client.path("/Names/{nameId}/$/GetProperties/$/SubmitBatch", nameId).post(options);
+      submitPropertyBatch: (nameId, shortcutOptions) => {
+        return client
+          .path("/Names/{nameId}/$/GetProperties/$/SubmitBatch", nameId)
+          .post(shortcutOptions);
       },
-      getClusterEventList: (options) => {
-        return client.path("/EventsStore/Cluster/Events").get(options);
+      getClusterEventList: (shortcutOptions) => {
+        return client.path("/EventsStore/Cluster/Events").get(shortcutOptions);
       },
-      getContainersEventList: (options) => {
-        return client.path("/EventsStore/Containers/Events").get(options);
+      getContainersEventList: (shortcutOptions) => {
+        return client.path("/EventsStore/Containers/Events").get(shortcutOptions);
       },
-      getNodeEventList: (nodeName, options) => {
-        return client.path("/EventsStore/Nodes/{nodeName}/$/Events", nodeName).get(options);
+      getNodeEventList: (nodeName, shortcutOptions) => {
+        return client.path("/EventsStore/Nodes/{nodeName}/$/Events", nodeName).get(shortcutOptions);
       },
-      getNodesEventList: (options) => {
-        return client.path("/EventsStore/Nodes/Events").get(options);
+      getNodesEventList: (shortcutOptions) => {
+        return client.path("/EventsStore/Nodes/Events").get(shortcutOptions);
       },
-      getApplicationEventList: (applicationId, options) => {
+      getApplicationEventList: (applicationId, shortcutOptions) => {
         return client
           .path("/EventsStore/Applications/{applicationId}/$/Events", applicationId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getApplicationsEventList: (options) => {
-        return client.path("/EventsStore/Applications/Events").get(options);
+      getApplicationsEventList: (shortcutOptions) => {
+        return client.path("/EventsStore/Applications/Events").get(shortcutOptions);
       },
-      getServiceEventList: (serviceId, options) => {
-        return client.path("/EventsStore/Services/{serviceId}/$/Events", serviceId).get(options);
+      getServiceEventList: (serviceId, shortcutOptions) => {
+        return client
+          .path("/EventsStore/Services/{serviceId}/$/Events", serviceId)
+          .get(shortcutOptions);
       },
-      getServicesEventList: (options) => {
-        return client.path("/EventsStore/Services/Events").get(options);
+      getServicesEventList: (shortcutOptions) => {
+        return client.path("/EventsStore/Services/Events").get(shortcutOptions);
       },
-      getPartitionEventList: (partitionId, options) => {
+      getPartitionEventList: (partitionId, shortcutOptions) => {
         return client
           .path("/EventsStore/Partitions/{partitionId}/$/Events", partitionId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getPartitionsEventList: (options) => {
-        return client.path("/EventsStore/Partitions/Events").get(options);
+      getPartitionsEventList: (shortcutOptions) => {
+        return client.path("/EventsStore/Partitions/Events").get(shortcutOptions);
       },
-      getPartitionReplicaEventList: (partitionId, replicaId, options) => {
+      getPartitionReplicaEventList: (partitionId, replicaId, shortcutOptions) => {
         return client
           .path(
             "/EventsStore/Partitions/{partitionId}/$/Replicas/{replicaId}/$/Events",
             partitionId,
             replicaId
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      getPartitionReplicasEventList: (partitionId, options) => {
+      getPartitionReplicasEventList: (partitionId, shortcutOptions) => {
         return client
           .path("/EventsStore/Partitions/{partitionId}/$/Replicas/Events", partitionId)
-          .get(options);
+          .get(shortcutOptions);
       },
-      getCorrelatedEventList: (eventInstanceId, options) => {
+      getCorrelatedEventList: (eventInstanceId, shortcutOptions) => {
         return client
           .path("/EventsStore/CorrelatedEvents/{eventInstanceId}/$/Events", eventInstanceId)
-          .get(options);
+          .get(shortcutOptions);
       },
     },
     meshSecret: {
-      createOrUpdate: (secretResourceName, options) => {
+      createOrUpdate: (secretResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Secrets/{secretResourceName}", secretResourceName)
-          .put(options);
+          .put(shortcutOptions);
       },
-      get: (secretResourceName, options) => {
+      get: (secretResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Secrets/{secretResourceName}", secretResourceName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      delete: (secretResourceName, options) => {
+      delete: (secretResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Secrets/{secretResourceName}", secretResourceName)
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      list: (options) => {
-        return client.path("/Resources/Secrets").get(options);
+      list: (shortcutOptions) => {
+        return client.path("/Resources/Secrets").get(shortcutOptions);
       },
     },
     meshSecretValue: {
-      addValue: (secretResourceName, secretValueResourceName, options) => {
+      addValue: (secretResourceName, secretValueResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}",
             secretResourceName,
             secretValueResourceName
           )
-          .put(options);
+          .put(shortcutOptions);
       },
-      get: (secretResourceName, secretValueResourceName, options) => {
+      get: (secretResourceName, secretValueResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}",
             secretResourceName,
             secretValueResourceName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      delete: (secretResourceName, secretValueResourceName, options) => {
+      delete: (secretResourceName, secretValueResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}",
             secretResourceName,
             secretValueResourceName
           )
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      list: (secretResourceName, options) => {
+      list: (secretResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Secrets/{secretResourceName}/values", secretResourceName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      show: (secretResourceName, secretValueResourceName, options) => {
+      show: (secretResourceName, secretValueResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}/list_value",
             secretResourceName,
             secretValueResourceName
           )
-          .post(options);
+          .post(shortcutOptions);
       },
     },
     meshVolume: {
-      createOrUpdate: (volumeResourceName, options) => {
+      createOrUpdate: (volumeResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Volumes/{volumeResourceName}", volumeResourceName)
-          .put(options);
+          .put(shortcutOptions);
       },
-      get: (volumeResourceName, options) => {
+      get: (volumeResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Volumes/{volumeResourceName}", volumeResourceName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      delete: (volumeResourceName, options) => {
+      delete: (volumeResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Volumes/{volumeResourceName}", volumeResourceName)
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      list: (options) => {
-        return client.path("/Resources/Volumes").get(options);
+      list: (shortcutOptions) => {
+        return client.path("/Resources/Volumes").get(shortcutOptions);
       },
     },
     meshNetwork: {
-      createOrUpdate: (networkResourceName, options) => {
+      createOrUpdate: (networkResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Networks/{networkResourceName}", networkResourceName)
-          .put(options);
+          .put(shortcutOptions);
       },
-      get: (networkResourceName, options) => {
+      get: (networkResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Networks/{networkResourceName}", networkResourceName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      delete: (networkResourceName, options) => {
+      delete: (networkResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Networks/{networkResourceName}", networkResourceName)
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      list: (options) => {
-        return client.path("/Resources/Networks").get(options);
+      list: (shortcutOptions) => {
+        return client.path("/Resources/Networks").get(shortcutOptions);
       },
     },
     meshApplication: {
-      createOrUpdate: (applicationResourceName, options) => {
+      createOrUpdate: (applicationResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Applications/{applicationResourceName}", applicationResourceName)
-          .put(options);
+          .put(shortcutOptions);
       },
-      get: (applicationResourceName, options) => {
+      get: (applicationResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Applications/{applicationResourceName}", applicationResourceName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      delete: (applicationResourceName, options) => {
+      delete: (applicationResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Applications/{applicationResourceName}", applicationResourceName)
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      list: (options) => {
-        return client.path("/Resources/Applications").get(options);
+      list: (shortcutOptions) => {
+        return client.path("/Resources/Applications").get(shortcutOptions);
       },
-      getUpgradeProgress: (applicationResourceName, options) => {
+      getUpgradeProgress: (applicationResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Applications/{applicationResourceName}/$/GetUpgradeProgress",
             applicationResourceName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
     },
     meshService: {
-      get: (applicationResourceName, serviceResourceName, options) => {
+      get: (applicationResourceName, serviceResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}",
             applicationResourceName,
             serviceResourceName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      list: (applicationResourceName, options) => {
+      list: (applicationResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Applications/{applicationResourceName}/Services",
             applicationResourceName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
     },
     meshCodePackage: {
@@ -1172,7 +1246,7 @@ function ServiceFabric(
         serviceResourceName,
         replicaName,
         codePackageName,
-        options
+        shortcutOptions
       ) => {
         return client
           .path(
@@ -1182,11 +1256,11 @@ function ServiceFabric(
             replicaName,
             codePackageName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
     },
     meshServiceReplica: {
-      get: (applicationResourceName, serviceResourceName, replicaName, options) => {
+      get: (applicationResourceName, serviceResourceName, replicaName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas/{replicaName}",
@@ -1194,36 +1268,36 @@ function ServiceFabric(
             serviceResourceName,
             replicaName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
-      list: (applicationResourceName, serviceResourceName, options) => {
+      list: (applicationResourceName, serviceResourceName, shortcutOptions) => {
         return client
           .path(
             "/Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas",
             applicationResourceName,
             serviceResourceName
           )
-          .get(options);
+          .get(shortcutOptions);
       },
     },
     meshGateway: {
-      createOrUpdate: (gatewayResourceName, options) => {
+      createOrUpdate: (gatewayResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Gateways/{gatewayResourceName}", gatewayResourceName)
-          .put(options);
+          .put(shortcutOptions);
       },
-      get: (gatewayResourceName, options) => {
+      get: (gatewayResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Gateways/{gatewayResourceName}", gatewayResourceName)
-          .get(options);
+          .get(shortcutOptions);
       },
-      delete: (gatewayResourceName, options) => {
+      delete: (gatewayResourceName, shortcutOptions) => {
         return client
           .path("/Resources/Gateways/{gatewayResourceName}", gatewayResourceName)
-          .delete(options);
+          .delete(shortcutOptions);
       },
-      list: (options) => {
-        return client.path("/Resources/Gateways").get(options);
+      list: (shortcutOptions) => {
+        return client.path("/Resources/Gateways").get(shortcutOptions);
       },
     },
   };
