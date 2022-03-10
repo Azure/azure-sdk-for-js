@@ -22,9 +22,8 @@ import {
   SubmitUSProgramBriefOptions,
 } from "./models";
 import {
-  createCommunicationAccessKeyCredentialPolicy,
   createCommunicationAuthPolicy,
-} from "./utils/communicationAccessKeyCredentialPolicy";
+} from "@azure/communication-common";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
@@ -74,12 +73,8 @@ export class ShortCodesClient {
     };
 
     this.client = new ShortCodesGeneratedClient(url, internalPipelineOptions);
-
-    if (isTokenCredential(credential)) {
-      this.client.pipeline.addPolicy(createCommunicationAuthPolicy(credential));
-    } else {
-      this.client.pipeline.addPolicy(createCommunicationAccessKeyCredentialPolicy(credential));
-    }
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   public listShortCodes(

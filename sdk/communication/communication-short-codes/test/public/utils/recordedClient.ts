@@ -10,26 +10,18 @@ import {
   record,
   RecorderEnvironmentSetup,
   isPlaybackMode,
+  isLiveMode,
 } from "@azure-tools/test-recorder";
-import {
-  PipelineResponse,
-  PipelineRequest,
-  HttpClient,
-  createDefaultHttpClient,
-} from "@azure/core-rest-pipeline";
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
-
-const isNode =
-  typeof process !== "undefined" &&
-  !!process.version &&
-  !!process.versions &&
-  !!process.versions.node;
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 if (isNode) {
   dotenv.config();
 }
+
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedClient<T> {
   client: T;
@@ -62,7 +54,7 @@ export function createRecordedClient(context: Context): RecordedClient<ShortCode
   // casting is a workaround to enable min-max testing
   return {
     client: new ShortCodesClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient(),
+      httpClient,
     } as ShortCodesClientOptions),
     recorder,
   };
@@ -92,7 +84,7 @@ export function createRecordedClientWithToken(
     // casting is a workaround to enable min-max testing
     return {
       client: new ShortCodesClient(endpoint, credential, {
-        httpClient: createTestHttpClient(),
+        httpClient,
       } as ShortCodesClientOptions),
       recorder,
     };
@@ -111,7 +103,7 @@ export function createRecordedClientWithToken(
   // casting is a workaround to enable min-max testing
   return {
     client: new ShortCodesClient(endpoint, credential, {
-      httpClient: createTestHttpClient(),
+      httpClient,
     } as ShortCodesClientOptions),
     recorder,
   };
@@ -120,23 +112,3 @@ export function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = createDefaultHttpClient();
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
-    httpRequest: PipelineRequest
-  ): Promise<PipelineResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
-}
