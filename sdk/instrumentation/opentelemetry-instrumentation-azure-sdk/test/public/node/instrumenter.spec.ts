@@ -60,6 +60,11 @@ describe("OpenTelemetryInstrumenter (node)", () => {
   });
 
   describe("#isTracingDisabled", () => {
+    afterEach(() => {
+      delete process.env.AZURE_TRACING_DISABLED;
+      delete process.env.AZURE_HTTP_TRACING_DISABLED;
+    });
+
     it("is false when env var is blank or missing", () => {
       process.env.AZURE_TRACING_DISABLED = "";
       assert.isFalse(isTracingDisabled());
@@ -74,13 +79,11 @@ describe("OpenTelemetryInstrumenter (node)", () => {
       assert.isFalse(isTracingDisabled());
       process.env.AZURE_TRACING_DISABLED = "FALSE";
       assert.isFalse(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
     });
 
     it("is false when env var is 0", () => {
       process.env.AZURE_TRACING_DISABLED = "0";
       assert.isFalse(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
     });
 
     it("is true otherwise", () => {
@@ -88,7 +91,19 @@ describe("OpenTelemetryInstrumenter (node)", () => {
       assert.isTrue(isTracingDisabled());
       process.env.AZURE_TRACING_DISABLED = "1";
       assert.isTrue(isTracingDisabled());
-      delete process.env.AZURE_TRACING_DISABLED;
+    });
+
+    describe("when suppressing HTTP spans", () => {
+      it("is true when creating an HTTP span", () => {
+        process.env.AZURE_HTTP_TRACING_DISABLED = "true";
+        assert.isTrue(isTracingDisabled("HTTP GET"));
+        assert.isTrue(isTracingDisabled("HTTPS GET"));
+      });
+
+      it("is false for non HTTP spans", () => {
+        process.env.AZURE_HTTP_TRACING_DISABLED = "1";
+        assert.isFalse(isTracingDisabled("foo"));
+      });
     });
   });
 });
