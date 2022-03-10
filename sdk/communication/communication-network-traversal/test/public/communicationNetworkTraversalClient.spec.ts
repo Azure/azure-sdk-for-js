@@ -127,7 +127,7 @@ matrix([[true, false]], async function (useAad) {
     it("successfully gets a turn credential providing ttl", async function () {
       const ttl = 4000;
       const options: GetRelayConfigurationOptions = { ttl: ttl };
-      
+
       const requestedTime = new Date();
       const turnCredentialResponse = await client.getRelayConfiguration(options);
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
