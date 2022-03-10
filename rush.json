@@ -1629,6 +1629,11 @@
       "packageName": "@azure/arm-commerce-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/commerce/arm-commerce-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-compute-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/compute/arm-compute-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
