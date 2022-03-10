@@ -15,7 +15,7 @@ import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
 import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   onMessageSettled,
   DeferredPromiseAndTimer,

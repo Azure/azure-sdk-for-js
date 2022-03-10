@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode, WebResourceLike } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
@@ -11,6 +11,7 @@ import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("PhoneNumbersClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -18,7 +19,7 @@ describe("PhoneNumbersClient - headers", function () {
   let client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: getPhoneNumberHttpClient,
   });
-  let request: WebResourceLike;
+  let request: PipelineRequest;
 
   afterEach(function () {
     sinon.restore();

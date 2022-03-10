@@ -3,33 +3,28 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  parseClientArguments,
-  isKeyCredential,
   createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
 } from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-} from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { logger, createSpan, SDK_VERSION } from "./utils";
+import { createSpan, logger } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
-import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
-  PurchasedPhoneNumber,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchResult,
+  PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
   ListPurchasedPhoneNumbersOptions,
-  SearchAvailablePhoneNumbersRequest,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
+  SearchAvailablePhoneNumbersRequest,
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
@@ -37,11 +32,13 @@ import {
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels";
+import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
+import { CommonClientOptions } from "@azure/core-client";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
  */
-export interface PhoneNumbersClientOptions extends PipelineOptions {}
+export interface PhoneNumbersClientOptions extends CommonClientOptions {}
 
 const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -53,7 +50,7 @@ export class PhoneNumbersClient {
   /**
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
-  private readonly client: GeneratedClient;
+  private readonly client: PhoneNumbersGeneratedClient;
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
@@ -89,17 +86,6 @@ export class PhoneNumbersClient {
     const options = isPhoneNumbersClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-phone-numbers/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -110,9 +96,16 @@ export class PhoneNumbersClient {
       },
     };
 
+    this.client = new PhoneNumbersGeneratedClient(url, {
+      endpoint: url,
+      ...internalPipelineOptions,
+    });
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new PhoneNumbersGeneratedClient(url, pipeline).phoneNumbers;
+    this.client.pipeline.addPolicy(authPolicy);
+
+    // This policy is temporary workarounds to address compatibility issues with Azure Core V2.
+    const phoneNumbersPagingPolicy = createPhoneNumbersPagingPolicy(url);
+    this.client.pipeline.addPolicy(phoneNumbersPagingPolicy);
   }
 
   /**
@@ -130,9 +123,8 @@ export class PhoneNumbersClient {
       options
     );
     try {
-      const { _response, ...results } = await this.client.getByNumber(phoneNumber, updatedOptions);
-      return results;
-    } catch (e) {
+      return await this.client.phoneNumbers.getByNumber(phoneNumber, updatedOptions);
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -163,7 +155,7 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
     );
-    const iter = this.client.listPhoneNumbers(updatedOptions);
+    const iter = this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
     span.end();
     return iter;
   }
@@ -198,8 +190,8 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return await this.client.releasePhoneNumber(phoneNumber, updatedOptions);
-    } catch (e) {
+      return await this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -243,7 +235,7 @@ export class PhoneNumbersClient {
 
     try {
       const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return this.client.searchAvailablePhoneNumbers(
+      return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
@@ -253,7 +245,7 @@ export class PhoneNumbersClient {
           ...rest,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -297,8 +289,8 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
-    } catch (e) {
+      return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -342,11 +334,11 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.updateCapabilities(phoneNumber, {
+      return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
         ...updatedOptions,
         ...request,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

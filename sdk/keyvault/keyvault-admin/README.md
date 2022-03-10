@@ -9,6 +9,7 @@ The package `@azure/keyvault-admin` provides support for administrative Key Vaul
 > Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
 Key links:
+
 - [Source code][package-gh]
 - [Package (npm)][package-npm]
 - [API Reference Documentation][docs]
@@ -219,6 +220,8 @@ We have samples both in JavaScript and TypeScript that show the access control a
 - [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/README.md)
 
 ## Troubleshooting
+
+See our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/TROUBLESHOOTING.md) for details on how to diagnose various failure scenarios.
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 

@@ -52,8 +52,7 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { ManagementGroupsAPI } = require("@azure/arm-managementgroups");
 const { DefaultAzureCredential } = require("@azure/identity");
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ManagementGroupsAPI(new DefaultAzureCredential(), subscriptionId);
+const client = new ManagementGroupsAPI(new DefaultAzureCredential());
 ```
 
 

@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.9.0-beta.4
+package-version: 12.9.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -1330,6 +1330,16 @@ directive:
     where: $["definitions"]["BlobItemInternal"]["properties"]
     transform: >
       $["HasVersionsOnly"]["description"] = "Inactive root blobs which have any versions would have such tag with value true.";
+```
+
+### Use string union instead of string for EncryptionAlgorithm
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.EncryptionAlgorithm
+    transform: >
+      $["x-ms-enum"]["modelAsString"] = true;
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

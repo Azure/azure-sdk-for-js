@@ -6,27 +6,29 @@
 
 /// <reference types="node" />
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
+import { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpResponse } from '@azure/core-http';
+import { HttpMethods } from '@azure/core-rest-pipeline';
 import { default as Long_2 } from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
-import { ServiceClient } from '@azure/core-http';
+import { ServiceClient } from '@azure/core-client';
 import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
-import { UserAgentOptions } from '@azure/core-http';
+import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -146,6 +148,35 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
+}
+
+// @public
+export interface HttpResponse {
+    headers: HttpHeadersLike;
+    request: WebResourceLike;
+    status: number;
+}
+
+// @public
 export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
@@ -226,6 +257,11 @@ export interface QueueRuntimeProperties {
 }
 
 // @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
+
+// @public
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
@@ -280,7 +316,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 }
 
 // @public
-export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+export interface ServiceBusAdministrationClientOptions extends CommonClientOptions {
     serviceVersion?: "2021-05" | "2017-04";
 }
 
@@ -302,7 +338,7 @@ export class ServiceBusClient {
 // @public
 export interface ServiceBusClientOptions {
     retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;
 }
 
@@ -583,10 +619,39 @@ export interface TopicRuntimeProperties {
 }
 
 // @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
+
+// @public
 export interface TryAddOptions {
     // @deprecated (undocumented)
     parentSpan?: Span | SpanContext | null;
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    body?: any;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    withCredentials: boolean;
 }
 
 export { WebSocketImpl }
