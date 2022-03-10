@@ -552,6 +552,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/identity-web",
+      "projectFolder": "sdk/identity/identity-web",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/identity-cache-persistence",
       "projectFolder": "sdk/identity/identity-cache-persistence",
       "versionPolicyName": "client"
