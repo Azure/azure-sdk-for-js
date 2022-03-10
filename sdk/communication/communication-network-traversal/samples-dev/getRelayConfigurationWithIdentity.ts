@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 /**
+ *
  * @summary Issue a new Relay configuration providing a user identity
+ * @azsdk-weight 20
  */
 
 import { CommunicationIdentityClient } from "@azure/communication-identity";

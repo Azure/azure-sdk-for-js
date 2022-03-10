@@ -130,7 +130,7 @@ export class CommunicationRelayClient {
    *
    * @param user - The user for whom to issue a token
    * @param routeType - The specified routeType for the relay request
-   * @param ttl - The specified Time to live for the relay credential
+   * @param ttl - The specified time to live for the relay credential in seconds
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(

@@ -15,7 +15,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'Qca0ehF0l0azpgg1RQ/rpQ.0',
+  'GQJol1gk8k+8eWjPOdbFag.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -27,9 +27,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0ggEpYgAAAAAFHCxChSxqSJhbQWaXTND9V1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0WmsqYgAAAACLQJ8ThPvkSZuOMMAx4HYHV1NURURHRTA4MTgAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 09 Mar 2022 19:35:29 GMT'
+  'Thu, 10 Mar 2022 21:19:22 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -37,13 +37,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"iceServers":[{"routeType":"nearest","urls":["turn.skype.com"],"username":"sanitized_username","credential":"sanitized_credential"}],"expiresOn":"2022-05-18T12:00:00.00+00:00"}, [
   'Content-Length',
-  '304',
+  '305',
   'Content-Type',
   'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  'mFuzj+VDwkitAVKwH6pk+w.0',
+  'yOEhHWLYnEORFN5iCZ+Fpg.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -51,11 +51,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2021-02-22-preview1, 2021-06-21-preview, 2021-10-08-preview, 2022-03-01-preview',
   'X-Processing-Time',
-  '21ms',
+  '30ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0ggEpYgAAAACcSWuisiELTb1zDKjU5Yx+V1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0WmsqYgAAAAAYGtqFfX8wTKZ596VwZEZBV1NURURHRTA4MDkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 09 Mar 2022 19:35:30 GMT'
+  'Thu, 10 Mar 2022 21:19:22 GMT'
 ]);

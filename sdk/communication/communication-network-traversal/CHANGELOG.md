@@ -9,6 +9,9 @@
 
 ### Breaking Changes
 
+- Making User, RouteType and Ttl part of the options parameter
+- getRelayConfiguration can be called without parameters or passing the GetRelayConfigurationOptions parameter
+
 ## 1.0.0 (2022-02-04) (Deprecated)
 
 ### Other Changes

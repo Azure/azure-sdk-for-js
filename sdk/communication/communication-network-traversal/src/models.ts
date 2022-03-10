@@ -25,7 +25,7 @@ export interface GetRelayConfigurationOptions extends OperationOptions {
   routeType?: RouteType;
 
   /*
-   * The specified Time to live for the relay credential
+   * The specified time to live for the relay credential in seconds
    */
   ttl?: number;
 }
