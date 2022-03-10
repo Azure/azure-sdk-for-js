@@ -13441,7 +13441,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-9UvlaFfkwkx9TfO/szU9qrlm8WjCeZxE/ttW3XI7KpBpmPmffBawyrZ0HHHTipGwwGFdWZtryAvHQ7q1HIwBuQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-vSGhVRX/S963VBFVN+EY5q41snGccSQVK12fWrXbp2Ax6jL/xBvgL0VA8zsIeAmVJpmet3u4hpAdMPfQ3T9sUg==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
