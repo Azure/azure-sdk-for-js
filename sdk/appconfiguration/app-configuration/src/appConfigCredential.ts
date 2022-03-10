@@ -22,17 +22,12 @@ export function createAppConfigKeyCredentialPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const verb = request.method.toUpperCase();
       const utcNow = new Date().toUTCString();
-
-      const contentHash = await sha256Digest(request.body?.toString());
-
+      const contentHash = await sha256Digest(request.body?.toString() || "");
       const signedHeaders = "x-ms-date;host;x-ms-content-sha256";
-
       const url = new URL(request.url);
-      const query = url.searchParams;
-      const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
-      const port = url.port;
-      const hostAndPort = port ? `${url.host}:${port}` : url.host;
-      const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
+      const query = url.search;
+      const urlPathAndQuery = query ? `${url.pathname}${query}` : url.pathname;
+      const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${url.host};${contentHash}`;
       const signature = await sha256Hmac(secret, stringToSign);
 
       request.headers.set("x-ms-date", utcNow);
