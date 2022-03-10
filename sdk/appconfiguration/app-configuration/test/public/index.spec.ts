@@ -136,7 +136,7 @@ describe("AppConfigurationClient", () => {
         await client.addConfigurationSetting({ key, label, value });
         throw new Error("Test failure");
       } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
 
       await client.deleteConfigurationSetting({ key, label });
@@ -182,14 +182,14 @@ describe("AppConfigurationClient", () => {
 
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
-      assert.equal(200, deletedSetting._response.status);
+      assert.equal(200, deletedSetting.statusCode);
 
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
 
@@ -227,7 +227,7 @@ describe("AppConfigurationClient", () => {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
 
@@ -242,7 +242,6 @@ describe("AppConfigurationClient", () => {
       // delete actually happened (status code: 200) or if the setting wasn't
       // found which results in the same state but might matter to
       // the user(status code: 204)
-      assert.equal(response._response.status, response.statusCode);
       assert.equal(204, response.statusCode);
     });
 
@@ -392,7 +391,7 @@ describe("AppConfigurationClient", () => {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+        assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
 

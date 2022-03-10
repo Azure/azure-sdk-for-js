@@ -5,7 +5,8 @@ import chai from "chai";
 import { AppConfigurationClient } from "../../../src";
 import { AbortController } from "@azure/abort-controller";
 import nock from "nock";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("Should not retry forever", () => {
   let client: AppConfigurationClient;
@@ -28,7 +29,7 @@ describe("Should not retry forever", () => {
   }
 
   beforeEach(() => {
-    client = new AppConfigurationClient(connectionString);
+    client = new AppConfigurationClient(connectionString, { retryOptions: { maxRetries: 3 } });
   });
 
   afterEach(async function () {
@@ -85,10 +86,11 @@ describe("Should not retry forever", () => {
       });
     } catch (error) {
       errorWasThrown = true;
-      chai.assert.equal(error.name, "RestError", "Unexpected error thrown");
-      chai.assert.equal(JSON.parse(error.message).status, 429, "Unexpected error thrown");
+      const err = error as RestError;
+      chai.assert.equal(err.name, "RestError", "Unexpected error thrown");
+      chai.assert.equal(JSON.parse(err.message).status, 429, "Unexpected error thrown");
       chai.assert.equal(
-        JSON.parse(error.message).title,
+        JSON.parse(err.message).title,
         "Resource utilization has surpassed the assigned quota",
         "Unexpected error thrown"
       );
