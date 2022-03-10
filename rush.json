@@ -1634,6 +1634,11 @@
       "packageName": "@azure/arm-compute-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/compute/arm-compute-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventhub-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
