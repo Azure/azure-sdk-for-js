@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { logger, createSpan } from "./utils";
+import { createSpan, logger } from "./utils";
 import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import {
   ShortCode,
@@ -21,9 +21,7 @@ import {
   ListUSProgramBriefsOptions,
   SubmitUSProgramBriefOptions,
 } from "./models";
-import {
-  createCommunicationAuthPolicy,
-} from "@azure/communication-common";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
