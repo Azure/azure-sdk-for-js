@@ -3,7 +3,7 @@
 
 /**
  *
- * @summary Issue a new Relay configuration providing a user identity
+ * @summary Issue a new Relay configuration providing a ttl
  * @azsdk-weight 30
  */
 
