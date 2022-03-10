@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0-beta.1 (2022-03-10)
+## 2.0.0 (2022-03-10)
 
 The package of @azure/arm-eventhub-profile-2020-09-01-hybrid is using our next generation design principles since version 2.0.0-beta.1, which contains breaking changes.
 
