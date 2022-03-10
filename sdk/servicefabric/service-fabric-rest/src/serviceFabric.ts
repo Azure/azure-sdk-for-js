@@ -11,11 +11,26 @@ import {
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ServiceFabricLike } from "./clientDefinitions";
 
-export default function ServiceFabric(
-  endpoint: string,
+function ServiceFabric(enpoint: string, options?: ClientOptions): ServiceFabricLike;
+function ServiceFabric(
+  enpoint: string,
   credentials: TokenCredential | CertificateCredential,
-  options: ClientOptions = {}
+  options?: ClientOptions
+): ServiceFabricLike;
+function ServiceFabric(
+  endpoint: string,
+  secondParameter?: TokenCredential | CertificateCredential | ClientOptions,
+  thirdParameter: ClientOptions = {}
 ): ServiceFabricLike {
+  let options: ClientOptions = thirdParameter;
+  let credentials: TokenCredential | CertificateCredential | undefined;
+
+  if (isTokenCredential(secondParameter) || isCertificateCredential(secondParameter)) {
+    credentials = secondParameter;
+  } else if (secondParameter !== undefined) {
+    options = secondParameter;
+  }
+
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "8.1";
   options = {
@@ -1213,3 +1228,5 @@ export default function ServiceFabric(
     },
   };
 }
+
+export default ServiceFabric;

@@ -6,6 +6,5 @@
     "paths": {
       "@azure-rest/service-fabric": ["./src/index"]
     }
-  },
-  "include": ["src/**/*.ts"]
+  }
 }

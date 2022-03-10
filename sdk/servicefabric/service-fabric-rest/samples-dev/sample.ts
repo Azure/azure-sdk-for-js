@@ -12,8 +12,8 @@ import ServiceFabric from "../src";
 import { promises as fs } from "fs";
 
 dotenv.config();
-const endpoint = process.env["SERVICE_FABRIC_ENDPOINT"];
-const pfxPath = process.env["SERVICE_FABRIC_PFX_PATH"];
+const endpoint = process.env["SERVICE_FABRIC_ENDPOINT"] ?? "";
+const pfxPath = process.env["SERVICE_FABRIC_PFX_PATH"] ?? "";
 
 async function main() {
   // If you are using a self signed certificate make sure to

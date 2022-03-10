@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "types/index.d.ts",
+  "mainEntryPointFilePath": "types/src/index.d.ts",
   "docModel": {
     "enabled": true
   },

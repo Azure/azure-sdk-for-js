@@ -13333,7 +13333,10 @@ export interface ServiceEventOutputBase extends FabricEventOutputBase {
 }
 
 // @public (undocumented)
-function ServiceFabric(credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ServiceFabricLike;
+function ServiceFabric(enpoint: string, options?: ClientOptions): ServiceFabricLike;
+
+// @public (undocumented)
+function ServiceFabric(enpoint: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ServiceFabricLike;
 export default ServiceFabric;
 
 // @public (undocumented)
