@@ -32,11 +32,6 @@ import {
 import { LatLon, SearchGeometry, StructuredAddress } from "./models/models";
 import { GeoJsonFeatureCollection, GeoJsonLineString } from "./models/geojsons";
 import {
-  FuzzySearchQuery,
-  ReverseSearchAddressQuery,
-  SearchAddressQuery,
-} from "./models/batchQueries";
-import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
   createSearchAddressBatchRequest,
@@ -66,11 +61,11 @@ import {
   SearchPointOfInterestCategoryOptions,
   SearchPointOfInterestOptions,
   SearchStructuredAddressOptions,
-  FuzzySearchBaseOptions,
-  SearchPointOfInterestBaseOptions,
-  GetFuzzySearchBatchResultOptions,
-  GetSearchAddressBatchResultOptions,
-  GetReverseSearchAddressBatchResultOptions,
+  BatchPollerOptions,
+  SearchQuery,
+  FuzzySearchRequest,
+  SearchAddressRequest,
+  ReverseSearchAddressRequest,
 } from "./models/options";
 import { BatchPoller, BatchPollerProxy } from "./models/pollers";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
@@ -78,6 +73,7 @@ import { mapsAzureKeyCredentialPolicy } from "./credential/mapsAzureKeyCredentia
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { OperationOptions } from "@azure/core-client";
 
 const isMapsSearchClientOptions = (
   clientIdOrOptions: any
@@ -208,18 +204,21 @@ export class MapsSearchClient {
   /**
    * Performs a free-form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens.
    *
+   * @param searchQuery - Text query and location information to search
    * @param options - Options for fuzzy search
    */
-  public async fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult> {
+  public async fuzzySearch(
+    searchQuery: SearchQuery,
+    options: FuzzySearchOptions & OperationOptions = {}
+  ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearch", options);
-    const { query, coordinates, countryFilter, ...otherOptions } =
-      updatedOptions as FuzzySearchBaseOptions & {
-        query: string;
-        coordinates?: LatLon;
-        countryFilter?: string[];
-      };
+    const { query, coordinates, countryFilter } = searchQuery as {
+      query: string;
+      coordinates?: LatLon;
+      countryFilter?: string[];
+    };
 
-    const internalOptions = mapFuzzySearchOptions(otherOptions);
+    const internalOptions = mapFuzzySearchOptions(updatedOptions);
     if (coordinates) {
       internalOptions.lat = coordinates.latitude;
       internalOptions.lon = coordinates.longitude;
@@ -249,20 +248,21 @@ export class MapsSearchClient {
   /**
    * Requests points of interest (POI) results by name
    *
+   * @param searchQuery - Text query and location information to search
    * @param options - Options for search POI
    */
   public async searchPointOfInterest(
-    options: SearchPointOfInterestOptions
+    searchQuery: SearchQuery,
+    options: SearchPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchPointOfInterest", options);
-    const { query, coordinates, countryFilter, ...otherOptions } =
-      updatedOptions as SearchPointOfInterestBaseOptions & {
-        query: string;
-        coordinates?: LatLon;
-        countryFilter?: string[];
-      };
+    const { query, coordinates, countryFilter } = searchQuery as {
+      query: string;
+      coordinates?: LatLon;
+      countryFilter?: string[];
+    };
 
-    const internalOptions = mapSearchPointOfInterestOptions(otherOptions);
+    const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
       internalOptions.lat = coordinates.latitude;
       internalOptions.lon = coordinates.longitude;
@@ -326,22 +326,23 @@ export class MapsSearchClient {
   /**
    * Requests points of interests (POI) results from given category.
    *
-   * @param options - - Options for search POI category
+   * @param searchQuery - Text query and location information to search
+   * @param options - Options for search POI category
    */
   public async searchPointOfInterestCategory(
-    options: SearchPointOfInterestCategoryOptions
+    searchQuery: SearchQuery,
+    options: SearchPointOfInterestCategoryOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-searchPointOfInterestCategory",
       options
     );
-    const { query, coordinates, countryFilter, ...otherOptions } =
-      updatedOptions as SearchPointOfInterestBaseOptions & {
-        query: string;
-        coordinates?: LatLon;
-        countryFilter?: string[];
-      };
-    const internalOptions = mapSearchPointOfInterestOptions(otherOptions);
+    const { query, coordinates, countryFilter } = searchQuery as {
+      query: string;
+      coordinates?: LatLon;
+      countryFilter?: string[];
+    };
+    const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (coordinates) {
       internalOptions.lat = coordinates.latitude;
       internalOptions.lon = coordinates.longitude;
@@ -406,7 +407,7 @@ export class MapsSearchClient {
    */
   public async searchAddress(
     query: string,
-    options: SearchAddressOptions = {}
+    options: SearchAddressOptions & OperationOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddress", options);
     const internalOptions = mapSearchAddressOptions(updatedOptions);
@@ -436,7 +437,7 @@ export class MapsSearchClient {
    */
   public async reverseSearchAddress(
     coordinates: LatLon,
-    options: ReverseSearchAddressOptions = {}
+    options: ReverseSearchAddressOptions & OperationOptions = {}
   ): Promise<ReverseSearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-reverseSearchAddress", options);
     const internalOptions = updatedOptions as ReverseSearchAddressOptionalParams;
@@ -602,18 +603,18 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of fuzzy search queries.
+   * Sends batches of fuzzy search requests.
    * The method return the result directly.
    *
-   * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
+   * @param requests - The array of search requests to process. The array can contain a max of 100 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async fuzzySearchBatch(
-    queries: FuzzySearchQuery[],
+    requests: FuzzySearchRequest[],
     options: FuzzySearchBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearchBatch", options);
-    const batchRequest = createFuzzySearchBatchRequest(queries);
+    const batchRequest = createFuzzySearchBatchRequest(requests);
     try {
       const internalResult = await this.client.search.fuzzySearchBatchSync(
         this.defaultFormat,
@@ -633,18 +634,18 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of fuzzy search queries.
+   * Sends batches of fuzzy search requests.
    * The method returns a poller for retrieving the result later.
    *
-   * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
+   * @param requests - The array of search requests to process. The array can contain a max of 10,000 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async beginFuzzySearchBatch(
-    queries: FuzzySearchQuery[],
-    options: FuzzySearchBatchOptions = {}
+    requests: FuzzySearchRequest[],
+    options: FuzzySearchBatchOptions & BatchPollerOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
-    const batchRequest = createFuzzySearchBatchRequest(queries);
+    const batchRequest = createFuzzySearchBatchRequest(requests);
     try {
       const internalPoller = await this.client.search.beginFuzzySearchBatch(
         this.defaultFormat,
@@ -678,7 +679,7 @@ export class MapsSearchClient {
    */
   public async beginGetFuzzySearchBatchResult(
     batchId: string,
-    options: GetFuzzySearchBatchResultOptions = {}
+    options: FuzzySearchBatchOptions & BatchPollerOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginGetFuzzySearchBatchResult",
@@ -708,18 +709,18 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of geocoding queries.
+   * Sends batches of geocoding requests.
    * The method return the result directly.
    *
-   * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
+   * @param requests - The array of search requests to process. The array can contain a max of 100 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async searchAddressBatch(
-    queries: SearchAddressQuery[],
+    requests: SearchAddressRequest[],
     options: SearchAddressBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddressBatch", options);
-    const batchRequest = createSearchAddressBatchRequest(queries);
+    const batchRequest = createSearchAddressBatchRequest(requests);
     try {
       const internalResult = await this.client.search.searchAddressBatchSync(
         this.defaultFormat,
@@ -739,21 +740,21 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of geocoding queries.
+   * Sends batches of geocoding requests.
    * The method returns a poller for retrieving the result later.
    *
-   * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
+   * @param requests - The array of search requests to process. The array can contain a max of 10,000 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async beginSearchAddressBatch(
-    queries: SearchAddressQuery[],
-    options: SearchAddressBatchOptions = {}
+    requests: SearchAddressRequest[],
+    options: SearchAddressBatchOptions & BatchPollerOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginSearchAddressBatch",
       options
     );
-    const batchRequest = createSearchAddressBatchRequest(queries);
+    const batchRequest = createSearchAddressBatchRequest(requests);
     try {
       const internalPoller = await this.client.search.beginSearchAddressBatch(
         this.defaultFormat,
@@ -787,7 +788,7 @@ export class MapsSearchClient {
    */
   public async beginGetSearchAddressBatchResult(
     batchId: string,
-    options: GetSearchAddressBatchResultOptions = {}
+    options: SearchAddressBatchOptions & BatchPollerOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginGetSearchAddressBatchResult",
@@ -817,21 +818,21 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of reverse geocoding queries.
+   * Sends batches of reverse geocoding requests.
    * The method return the result directly.
    *
-   * @param queries - The list of search queries to process. The list can contain a max of 100 queries and must contain at least 1 query.
+   * @param requests - The array of search requests to process. The array can contain a max of 100 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async reverseSearchAddressBatch(
-    queries: ReverseSearchAddressQuery[],
+    requests: ReverseSearchAddressRequest[],
     options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchResult<ReverseSearchAddressResult>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-reverseSearchAddressBatch",
       options
     );
-    const batchRequest = createReverseSearchAddressBatchRequest(queries);
+    const batchRequest = createReverseSearchAddressBatchRequest(requests);
     try {
       const internalResult = await this.client.search.reverseSearchAddressBatchSync(
         this.defaultFormat,
@@ -851,21 +852,21 @@ export class MapsSearchClient {
   }
 
   /**
-   * Sends batches of reverse geocoding queries.
+   * Sends batches of reverse geocoding requests.
    * The method returns a poller for retrieving the result later.
    *
-   * @param queries - The list of search queries to process. The list can contain a max of 10,000 queries and must contain at least 1 query.
+   * @param requests - The array of search requests to process. The array can contain a max of 10,000 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async beginReverseSearchAddressBatch(
-    queries: ReverseSearchAddressQuery[],
-    options: ReverseSearchAddressBatchOptions = {}
+    requests: ReverseSearchAddressRequest[],
+    options: ReverseSearchAddressBatchOptions & BatchPollerOptions = {}
   ): Promise<BatchPoller<BatchResult<ReverseSearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
     );
-    const batchRequest = createReverseSearchAddressBatchRequest(queries);
+    const batchRequest = createReverseSearchAddressBatchRequest(requests);
     try {
       const internalPoller = await this.client.search.beginReverseSearchAddressBatch(
         this.defaultFormat,
@@ -900,7 +901,7 @@ export class MapsSearchClient {
    */
   public async beginGetReverseSearchAddressBatchResult(
     batchId: string,
-    options: GetReverseSearchAddressBatchResultOptions = {}
+    options: ReverseSearchAddressBatchOptions & BatchPollerOptions = {}
   ): Promise<BatchPoller<BatchResult<SearchAddressResult>>> {
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-beginGetReverseSearchAddressBatchResult",

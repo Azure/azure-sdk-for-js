@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "cac76fae3bb2f2ec5ffc06310bea8c4f";
+module.exports.hash = "134f1e9f5c3090c5b036876ab39eb0da";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b0f81dad-b2de-42a2-8203-af4e20601800',
+  '28d0d3a2-0e74-48f9-a207-b9ce877e8000',
   'x-ms-ests-server',
-  '2.1.12507.13 - KRSLR1 ProdSlices',
+  '2.1.12529.17 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=ApvhTkSD3UBIqx0RCAOY88I; expires=Thu, 24-Mar-2022 10:21:46 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AueVaN-nJRpDiRiU0oKk2Xc; expires=Sat, 09-Apr-2022 06:34:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrPvGuY9BMf6Dca7VLUIMgNvt3hchH7DXICENgeB6gpmlBUfJXRyS5BnYwVnWT6two_sG5VUaIYT6-z9g8u8JMMsA6ACYHyioWOL4mrEiRojUkxTwuCO8yZPkRi3Ux1UzOS74x9q6DJLU7K9vKx7of9bL8W_V-EM7uK1IgOnK3lP8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrcN9_uBzY_qZpswWskl6feFeUGTbADr6DQVISAtQL7aJfW-ez4CBGroXdZpZxaSMV6g9n7LaXbTrR6arr9Uq493YV8BBeEVj02R98V9ZVaF_Inxav9OiLylxh7KM-N5SxYD5KKfYQfkbbYcXiSD352PPEip59qgCtX3XTCDWIEaMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:45 GMT',
+  'Thu, 10 Mar 2022 06:34:15 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,19 +58,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd5d7c1cd-f81e-45d0-8548-ae2bc32e9100',
+  '2d276e23-6662-4d32-a903-8e689542ca00',
   'x-ms-ests-server',
-  '2.1.12470.11 - KRSLR1 ProdSlices',
+  '2.1.12529.17 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AiIqMq0PzXVHpKGf2MkMtfo; expires=Thu, 24-Mar-2022 10:21:46 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnJuVucBAndHrMsMEkkJnTQ; expires=Sat, 09-Apr-2022 06:34:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrjo8SSZfX6ng5x5jqFDGUzoH2NYF3QRycjUswmLP2M9lS4zVw8an2d_uVFeOLjZf2jnQP7ir4lvd6NWH8_W7DvJmuAbuMLu9qP_2vnyWFBMNNyDPm-oYwrttenAL0WAi9kj-r3KU8s-WcwTm_8iFj58RzyUlC8iLWFtRHBsw_6ykgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrq8lXx4tqyqmL3qEkl0XHh0gyvYccWJcHVgKqbz3Q_rLhua8pwzzHMpig6p9el7F25TwIa0EF56c--xNAeOHAjRdeYP1ip-DREokGqrd5_68OFJwcBXqp1qpkET91tmIkOPak-TGbqUZCQWEhagVY3QGgB6I0J7uFqSsq2Kv8UpcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:45 GMT',
+  'Thu, 10 Mar 2022 06:34:16 GMT',
   'Content-Length',
   '1753'
 ]);
@@ -93,25 +93,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '250d0075-41b5-4f00-b484-f342aa109600',
+  '773343ac-35fa-4c0e-92b6-b220f63bbd00',
   'x-ms-ests-server',
-  '2.1.12470.11 - KRSLR1 ProdSlices',
+  '2.1.12529.17 - SEASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AoJpZxWATV9Hqmr_gFYyV1g; expires=Thu, 24-Mar-2022 10:21:46 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsS4mVV9yvBDtWiEnBZmfaY; expires=Sat, 09-Apr-2022 06:34:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrQoRhZ7lW3t-55X-LXvBMPrwXUCdDqiA1k9-gFEI5U8B-krZAroReac9cjGBC3AAbqolXXx-i5WSeMLjeLXGYRjOY_Ajy3aU3V8zQvlfn9iqKuR0tokcb9thDNfR2_UTKoBlDaa81EtGn5ZLSPUqP2OSvPcQ_ob814rNO4Kb6aQYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrowKJNnhH29bftH2rp1Mih-uNpbVY2T88xQLvaaadIFaIsmjnR3ljCepjPpkMC9sBvOu_z0qlSZMjFZt7WgBnh-mAbwMIlXj29Gw402koTEnlad9lCaySWe5uUbJ1t0iztQnLEotURfJNaO05OU9ixzQF2yj1aqUug63ILQfEQVAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:45 GMT',
+  'Thu, 10 Mar 2022 06:34:15 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=5f5c754a-b67c-48a9-a488-da00cd719ce2&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=91f1b9ea-bae2-451e-a0c6-dc15e5d5f860&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -128,25 +128,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9d5bd505-7f94-4b12-91c9-0132bb376501',
+  '2d276e23-6662-4d32-a903-8e68a042ca00',
   'x-ms-ests-server',
-  '2.1.12470.11 - SEASLR1 ProdSlices',
+  '2.1.12529.17 - SEASLR2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AtJCHpgTxLFCqJcwvGAy3UM; expires=Thu, 24-Mar-2022 10:21:46 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AqQ9A8NnFVtKiS7e3X2fzPar4fIWAQAAAOeSu9kOAAAA; expires=Sat, 09-Apr-2022 06:34:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:45 GMT',
+  'Thu, 10 Mar 2022 06:34:16 GMT',
   'Content-Length',
   '1319'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=ba50f2a1-451a-4858-9712-a9b07230ee2f&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=6cab45b3-338d-4b5b-af43-2955da9d4c53&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -163,19 +163,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0dba3cef-0936-4078-ba20-cf72e8b82001',
+  '58e75afe-1542-4592-a277-505a9355d200',
   'x-ms-ests-server',
-  '2.1.12470.11 - SEASLR1 ProdSlices',
+  '2.1.12529.17 - SEASLR2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Avou_5ZhEwtGv-insSpxXkY; expires=Thu, 24-Mar-2022 10:21:46 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ajm6TypoIWBCt2ij33J_roE; expires=Sat, 09-Apr-2022 06:34:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:45 GMT',
+  'Thu, 10 Mar 2022 06:34:16 GMT',
   'Content-Length',
   '1319'
 ]);
@@ -197,17 +197,17 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: A703EEC22CD24637B92DC6F9A2FD1943 Ref B: TYO01EDGE1715 Ref C: 2022-02-22T10:21:46Z',
+  'Ref A: B429AE8286D1437298090D64BE3E9895 Ref B: TPE30EDGE0408 Ref C: 2022-03-10T06:34:16Z',
   'Date',
-  'Tue, 22 Feb 2022 10:21:46 GMT'
+  'Thu, 10 Mar 2022 06:34:16 GMT'
 ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .post('/search/geometry/json', {"geometry":{"type":"Polygon","coordinates":[[[-122.43576049804686,37.7524152343544],[-122.43301391601562,37.70660472542312],[-122.36434936523438,37.712059855877314],[-122.43576049804686,37.7524152343544]]]}})
   .query(true)
-  .reply(200, {"summary":{"query":"pizza","queryType":"NON_NEAR","queryTime":5,"numResults":10,"offset":0,"totalResults":18,"fuzzyLevel":1},"results":[{"type":"POI","id":"840069020866687","score":2.1455571651,"info":"search:ta:840069020866687-US","poi":{"name":"Wood Fired Pizza","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetName":"Peralta Avenue","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"Peralta Avenue, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.73537,"lon":-122.41061},"viewport":{"topLeftPoint":{"lat":37.73627,"lon":-122.41175},"btmRightPoint":{"lat":37.73447,"lon":-122.40947}},"entryPoints":[{"type":"main","position":{"lat":37.73524,"lon":-122.41059}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0ZTQ2YWU0YzQ4M2IwM2QwOTBlMzJmNWM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019255788","score":2.1455390453,"info":"search:ta:840069019255788-US","poi":{"name":"Bernal Heights Pizzeria","phone":"+1 415-400-5644","categorySet":[{"id":7315036}],"url":"www.bernalheightspizzeria.com/","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"59","streetName":"30th Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5401","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"59 30th Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74222,"lon":-122.42313},"viewport":{"topLeftPoint":{"lat":37.74312,"lon":-122.42427},"btmRightPoint":{"lat":37.74132,"lon":-122.42199}},"entryPoints":[{"type":"main","position":{"lat":37.74234,"lon":-122.42268}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1MjkyYWY2NTExZDI2NGM1ODdiOGE4ODM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069002602194","score":2.1454770565,"info":"search:ta:840069002602194-US","poi":{"name":"Round Table Pizza","phone":"+1 415-586-1200","brands":[{"name":"Round Table Pizza"}],"categorySet":[{"id":7315036}],"url":"https://ordering.roundtablepizza.com/Site/rtsf","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"4523","streetName":"Mission Street","municipalitySubdivision":"Mission Terrace","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94112","extendedPostalCode":"94112-2600","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"4523 Mission Street, San Francisco, CA 94112","localName":"San Francisco"},"position":{"lat":37.72572,"lon":-122.43368},"viewport":{"topLeftPoint":{"lat":37.72662,"lon":-122.43482},"btmRightPoint":{"lat":37.72482,"lon":-122.43254}},"entryPoints":[{"type":"main","position":{"lat":37.72585,"lon":-122.43393}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0Yzc5ODcyNjNiYWRiMWY3ODA3ODRmNTQ=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019316011","score":2.1454670429,"info":"search:ta:840069019316011-US","poi":{"name":"Round Table Pizza","phone":"+1 415-468-7100","brands":[{"name":"Round Table Pizza"}],"categorySet":[{"id":7315036}],"url":"www.roundtablepizza.com/rtp/store.asp?store_num=488","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"2660","streetName":"San Bruno Avenue","municipalitySubdivision":"Portola","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94134","extendedPostalCode":"94134-1500","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"2660 San Bruno Avenue, San Francisco, CA 94134","localName":"San Francisco"},"position":{"lat":37.7279,"lon":-122.40406},"viewport":{"topLeftPoint":{"lat":37.7288,"lon":-122.4052},"btmRightPoint":{"lat":37.727,"lon":-122.40292}},"entryPoints":[{"type":"main","position":{"lat":37.72798,"lon":-122.40375}},{"type":"main","position":{"lat":37.72802,"lon":-122.40377}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0YzM2MWMyODJjODAyMGExMDdjMzg2MDA=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019184903","score":2.1454501152,"info":"search:ta:840069019184903-US","poi":{"name":"Pizza Joint","phone":"+1 415-467-4100","categorySet":[{"id":7315036}],"url":"pizzajointsf.com/","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"2414","streetName":"San Bruno Avenue","municipalitySubdivision":"Portola","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94134","extendedPostalCode":"94134-1503","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"2414 San Bruno Avenue, San Francisco, CA 94134","localName":"San Francisco"},"position":{"lat":37.73194,"lon":-122.40576},"viewport":{"topLeftPoint":{"lat":37.73284,"lon":-122.4069},"btmRightPoint":{"lat":37.73104,"lon":-122.40462}},"entryPoints":[{"type":"main","position":{"lat":37.73203,"lon":-122.40543}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0YWYxZTUxOGY5NjRhNTIwMzRlNDIxZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019388007","score":2.1454474926,"info":"search:ta:840069019388007-US","poi":{"name":"Pizza Hut","phone":"+1 415-641-0400","brands":[{"name":"Pizza Hut"}],"categorySet":[{"id":7315036}],"url":"https://locations.pizzahut.com/ca/san-francisco/3349-mission-st","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3349","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5008","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3349 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74325,"lon":-122.42113},"viewport":{"topLeftPoint":{"lat":37.74415,"lon":-122.42227},"btmRightPoint":{"lat":37.74235,"lon":-122.41999}},"entryPoints":[{"type":"main","position":{"lat":37.74334,"lon":-122.42134}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0YjhmMGIxN2Y5NjRhNTIwMmE0NjMzZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069006941877","score":2.1454372406,"info":"search:ta:840069006941877-US","poi":{"name":"Cecilia's Pizza Restaurant","phone":"+1 415-821-5852","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3515","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5429","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3515 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74069,"lon":-122.42269},"viewport":{"topLeftPoint":{"lat":37.74159,"lon":-122.42383},"btmRightPoint":{"lat":37.73979,"lon":-122.42155}},"entryPoints":[{"type":"main","position":{"lat":37.7408,"lon":-122.42298}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1NTU2YWRlODQ5OGVkNTFmNmVmNzc2NjA=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069005708438","score":2.145428896,"info":"search:ta:840069005708438-US","poi":{"name":"Mama Mia Pizza","phone":"+1 415-400-4900","categorySet":[{"id":7315036}],"url":"www.mamamiapizzas.com/zgrid/themes/13108/portal/index.jsp","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3839","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5831","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3839 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.73548,"lon":-122.42454},"viewport":{"topLeftPoint":{"lat":37.73638,"lon":-122.42568},"btmRightPoint":{"lat":37.73458,"lon":-122.4234}},"entryPoints":[{"type":"main","position":{"lat":37.73552,"lon":-122.42465}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1NzVhNTk1NWNkMTAzNzE2NjEzNjEwZGU=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019390419","score":2.1454286575,"info":"search:ta:840069019390419-US","poi":{"name":"Zante Pizza","phone":"+1 415-821-3949","categorySet":[{"id":7315036}],"url":"zantepizzaandindian.com","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3489","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5438","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3489 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74104,"lon":-122.42244},"viewport":{"topLeftPoint":{"lat":37.74194,"lon":-122.42358},"btmRightPoint":{"lat":37.74014,"lon":-122.4213}},"entryPoints":[{"type":"main","position":{"lat":37.74116,"lon":-122.42274}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0NDc4ZWVlZWY5NjRhNTIwZDIzMzFmZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019116268","score":2.1454253197,"info":"search:ta:840069019116268-US","poi":{"name":"Red's Pizzeria","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3839","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5831","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3839 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.73548,"lon":-122.42454},"viewport":{"topLeftPoint":{"lat":37.73638,"lon":-122.42568},"btmRightPoint":{"lat":37.73458,"lon":-122.4234}},"entryPoints":[{"type":"main","position":{"lat":37.73552,"lon":-122.42465}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1YzkzMjMzYmNkNDQxYzAwMmM0MzgzNmU=","sourceName":"Foursquare"}]}}]}, [
+  .reply(200, {"summary":{"query":"pizza","queryType":"NON_NEAR","queryTime":6,"numResults":10,"offset":0,"totalResults":18,"fuzzyLevel":1},"results":[{"type":"POI","id":"840069020866687","score":2.1454937458,"info":"search:ta:840069020866687-US","poi":{"name":"Wood Fired Pizza","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetName":"Peralta Avenue","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"Peralta Avenue, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.73537,"lon":-122.41061},"viewport":{"topLeftPoint":{"lat":37.73627,"lon":-122.41175},"btmRightPoint":{"lat":37.73447,"lon":-122.40947}},"entryPoints":[{"type":"main","position":{"lat":37.73524,"lon":-122.41059}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0ZTQ2YWU0YzQ4M2IwM2QwOTBlMzJmNWM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019390419","score":2.1454737186,"info":"search:ta:840069019390419-US","poi":{"name":"Zante Pizza","phone":"+1 415-821-3949","categorySet":[{"id":7315036}],"url":"zantepizzaandindian.com","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3489","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5438","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3489 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74104,"lon":-122.42244},"viewport":{"topLeftPoint":{"lat":37.74194,"lon":-122.42358},"btmRightPoint":{"lat":37.74014,"lon":-122.4213}},"entryPoints":[{"type":"main","position":{"lat":37.74116,"lon":-122.42274}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0NDc4ZWVlZWY5NjRhNTIwZDIzMzFmZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019716710","score":2.1454656124,"info":"search:ta:840069019716710-US","poi":{"name":"Gialina Pizzeria","phone":"+1 415-239-8500","categorySet":[{"id":7315036}],"url":"gialina.com/","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"2842","streetName":"Diamond Street","municipalitySubdivision":"Glen Park","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94131","extendedPostalCode":"94131-3005","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"2842 Diamond Street, San Francisco, CA 94131","localName":"San Francisco"},"position":{"lat":37.73404,"lon":-122.43416},"viewport":{"topLeftPoint":{"lat":37.73494,"lon":-122.4353},"btmRightPoint":{"lat":37.73314,"lon":-122.43302}},"entryPoints":[{"type":"main","position":{"lat":37.734,"lon":-122.43403}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0YTQxNTA0NWY5NjRhNTIwMTVhNTFmZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019388007","score":2.1454637051,"info":"search:ta:840069019388007-US","poi":{"name":"Pizza Hut","phone":"+1 415-641-0400","brands":[{"name":"Pizza Hut"}],"categorySet":[{"id":7315036}],"url":"https://locations.pizzahut.com/ca/san-francisco/3349-mission-st","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3349","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5008","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3349 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74325,"lon":-122.42113},"viewport":{"topLeftPoint":{"lat":37.74415,"lon":-122.42227},"btmRightPoint":{"lat":37.74235,"lon":-122.41999}},"entryPoints":[{"type":"main","position":{"lat":37.74334,"lon":-122.42134}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0YjhmMGIxN2Y5NjRhNTIwMmE0NjMzZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069019184903","score":2.1454563141,"info":"search:ta:840069019184903-US","poi":{"name":"Pizza Joint","phone":"+1 415-467-4100","categorySet":[{"id":7315036}],"url":"pizzajointsf.com/","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"2414","streetName":"San Bruno Avenue","municipalitySubdivision":"Portola","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94134","extendedPostalCode":"94134-1503","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"2414 San Bruno Avenue, San Francisco, CA 94134","localName":"San Francisco"},"position":{"lat":37.73194,"lon":-122.40576},"viewport":{"topLeftPoint":{"lat":37.73284,"lon":-122.4069},"btmRightPoint":{"lat":37.73104,"lon":-122.40462}},"entryPoints":[{"type":"main","position":{"lat":37.73203,"lon":-122.40543}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0YWYxZTUxOGY5NjRhNTIwMzRlNDIxZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069009046971","score":2.1454539299,"info":"search:ta:840069009046971-US","poi":{"name":"Pizza Express","phone":"+1 415-282-2333","categorySet":[{"id":7315036}],"url":"pizzaexpresssf.com/","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"919","streetName":"Cortland Avenue","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5632","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"919 Cortland Avenue, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.73913,"lon":-122.41367},"viewport":{"topLeftPoint":{"lat":37.74003,"lon":-122.41481},"btmRightPoint":{"lat":37.73823,"lon":-122.41253}},"entryPoints":[{"type":"main","position":{"lat":37.73895,"lon":-122.41365}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0Yjc5YjVkNmY5NjRhNTIwYmQwYzJmZTM=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069000105213","score":2.1454510689,"info":"search:ta:840069000105213-US","poi":{"name":"Ginny Pizzardi MFCC","phone":"+1 415-285-4061","categorySet":[{"id":7315036}],"url":"www.ginnypizzardi.com","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"4155","streetName":"24th Street","municipalitySubdivision":"Noe Valley","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94114","extendedPostalCode":"94114-3614","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"4155 24th Street, San Francisco, CA 94114","localName":"San Francisco"},"position":{"lat":37.75098,"lon":-122.43527},"viewport":{"topLeftPoint":{"lat":37.75188,"lon":-122.43641},"btmRightPoint":{"lat":37.75008,"lon":-122.43413}},"entryPoints":[{"type":"main","position":{"lat":37.75123,"lon":-122.43528}}]},{"type":"POI","id":"840069002602194","score":2.145447731,"info":"search:ta:840069002602194-US","poi":{"name":"Round Table Pizza","phone":"+1 415-586-1200","brands":[{"name":"Round Table Pizza"}],"categorySet":[{"id":7315036}],"url":"https://ordering.roundtablepizza.com/Site/rtsf","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"4523","streetName":"Mission Street","municipalitySubdivision":"Mission Terrace","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94112","extendedPostalCode":"94112-2600","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"4523 Mission Street, San Francisco, CA 94112","localName":"San Francisco"},"position":{"lat":37.72572,"lon":-122.43368},"viewport":{"topLeftPoint":{"lat":37.72662,"lon":-122.43482},"btmRightPoint":{"lat":37.72482,"lon":-122.43254}},"entryPoints":[{"type":"main","position":{"lat":37.72585,"lon":-122.43393}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0Yzc5ODcyNjNiYWRiMWY3ODA3ODRmNTQ=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069005708438","score":2.1454458237,"info":"search:ta:840069005708438-US","poi":{"name":"Mama Mia Pizza","phone":"+1 415-400-4900","categorySet":[{"id":7315036}],"url":"www.mamamiapizzas.com/zgrid/themes/13108/portal/index.jsp","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3839","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5831","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3839 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.73548,"lon":-122.42454},"viewport":{"topLeftPoint":{"lat":37.73638,"lon":-122.42568},"btmRightPoint":{"lat":37.73458,"lon":-122.4234}},"entryPoints":[{"type":"main","position":{"lat":37.73552,"lon":-122.42465}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1NzVhNTk1NWNkMTAzNzE2NjEzNjEwZGU=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069006941877","score":2.1454410553,"info":"search:ta:840069006941877-US","poi":{"name":"Cecilia's Pizza Restaurant","phone":"+1 415-821-5852","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3515","streetName":"Mission Street","municipalitySubdivision":"Bernal Heights","municipality":"San Francisco","countrySecondarySubdivision":"San Francisco","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"94110","extendedPostalCode":"94110-5429","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3515 Mission Street, San Francisco, CA 94110","localName":"San Francisco"},"position":{"lat":37.74069,"lon":-122.42269},"viewport":{"topLeftPoint":{"lat":37.74159,"lon":-122.42383},"btmRightPoint":{"lat":37.73979,"lon":-122.42155}},"entryPoints":[{"type":"main","position":{"lat":37.7408,"lon":-122.42298}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1NTU2YWRlODQ5OGVkNTFmNmVmNzc2NjA=","sourceName":"Foursquare"}]}}]}, [
   'Content-Length',
-  '12230',
+  '12015',
   'Content-Type',
   'application/json; charset=utf-8',
   'Vary',
@@ -221,7 +221,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 280D46812C59438C922DE150CA48AB7C Ref B: TYBEDGE0409 Ref C: 2022-02-22T10:21:46Z',
+  'Ref A: 3A9DEE7AC0C94A0E8DE02A56A0C432B6 Ref B: TPE30EDGE0620 Ref C: 2022-03-10T06:34:16Z',
   'Date',
-  'Tue, 22 Feb 2022 10:21:46 GMT'
+  'Thu, 10 Mar 2022 06:34:16 GMT'
 ]);

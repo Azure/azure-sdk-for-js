@@ -20,7 +20,7 @@ export type MapsSearchClientOptions = CommonClientOptions;
 /**
  * Options for retrieving polygon geometries given geometry ids
  */
-export interface GetGeometriesOptions extends OperationOptions {}
+export type GetGeometriesOptions = OperationOptions;
 
 /**
  * Options for retrieving point of interest categories
@@ -34,7 +34,7 @@ export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
  * Base options for search operations
  */
 
-export interface SearchBaseOptions extends OperationOptions {
+export interface SearchBaseOptions {
   /** Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100 */
   top?: number;
   /** Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900 */
@@ -126,20 +126,20 @@ export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions
 }
 
 /**
- * Fuzzy search request
+ * Fuzzy search query
  */
-export type FuzzySearchRequest =
+export type SearchQuery =
   | { query: string; coordinates: LatLon }
   | { query: string; countryFilter: string[] };
 
 /**
  * Options for fuzzy search
  */
-export type FuzzySearchOptions = FuzzySearchRequest & FuzzySearchBaseOptions;
+export type FuzzySearchOptions = FuzzySearchBaseOptions;
 /**
  * Options for searching points of interest
  */
-export type SearchPointOfInterestOptions = FuzzySearchRequest & SearchPointOfInterestBaseOptions;
+export type SearchPointOfInterestOptions = SearchPointOfInterestBaseOptions & OperationOptions;
 /**
  * Options for seaching points of interest by categories
  */
@@ -150,7 +150,8 @@ export type SearchPointOfInterestCategoryOptions = SearchPointOfInterestOptions;
  */
 export interface SearchNearbyPointOfInterestOptions
   extends SearchBaseOptions,
-    SearchExtraFilterOptions {
+    SearchExtraFilterOptions,
+    OperationOptions {
   /** Counter filters that limit the search to the specified countries */
   countryFilter?: string[];
   /** The radius in meters to for the results to be constrained to the defined area, Min value is 1, Max Value is 50000. */
@@ -172,7 +173,7 @@ export interface SearchAddressOptions extends SearchAddressBaseOptions {
 /**
  * Options for searching structured addresses
  */
-export interface SearchStructuredAddressOptions extends SearchBaseOptions {
+export interface SearchStructuredAddressOptions extends SearchBaseOptions, OperationOptions {
   /** The entityType specifies the level of filtering performed on geographies */
   entityType?: GeographicEntityType;
 }
@@ -180,7 +181,7 @@ export interface SearchStructuredAddressOptions extends SearchBaseOptions {
 /**
  * Base options for reverse search operations
  */
-export interface ReverseSearchBaseOptions extends OperationOptions {
+export interface ReverseSearchBaseOptions {
   /** The radius in meters to for the results to be constrained to the defined area */
   radiusInMeters?: number;
   /** Language in which search results should be returned. */
@@ -219,7 +220,9 @@ export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
 /**
  * Options for reverse-searching cross street addresses
  */
-export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBaseOptions {
+export interface ReverseSearchCrossStreetAddressOptions
+  extends ReverseSearchBaseOptions,
+    OperationOptions {
   /** Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100 */
   top?: number;
 }
@@ -227,7 +230,7 @@ export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBas
 /**
  * Base options for geometry search operations
  */
-export interface SearchGeometryBaseOptions extends OperationOptions {
+export interface SearchGeometryBaseOptions {
   /** Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100 */
   top?: number;
   /** The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. */
@@ -249,7 +252,7 @@ export interface SearchGeometryBaseOptions extends OperationOptions {
 /**
  * Options for searching inside geometries
  */
-export interface SearchInsideGeometryOptions extends SearchGeometryBaseOptions {
+export interface SearchInsideGeometryOptions extends SearchGeometryBaseOptions, OperationOptions {
   /** Language in which search results should be returned. */
   language?: string;
   /** Indexes for which extended postal codes should be included in the results */
@@ -267,7 +270,7 @@ export interface SearchInsideGeometryOptions extends SearchGeometryBaseOptions {
 /**
  * Options for searching along routes
  */
-export interface SearchAlongRouteOptions extends SearchGeometryBaseOptions {
+export interface SearchAlongRouteOptions extends SearchGeometryBaseOptions, OperationOptions {
   /**
    * A comma-separated list of brand names which could be used to restrict the result to specific brands.
    * Item order does not matter. When multiple brands are provided, only results that belong to (at least) one of the provided list will be returned.
@@ -290,7 +293,10 @@ export interface SearchAlongRouteOptions extends SearchGeometryBaseOptions {
   electricVehicleConnectorFilter?: ElectricVehicleConnector[];
 }
 
-export interface BatchPollerOptions extends OperationOptions {
+/**
+ * Options for batch operation poller
+ */
+export interface BatchPollerOptions {
   /**
    * Time between each polling in milliseconds.
    */
@@ -304,25 +310,36 @@ export interface BatchPollerOptions extends OperationOptions {
 /**
  * Options for performing batch fuzzy searches
  */
-export type FuzzySearchBatchOptions = BatchPollerOptions;
+export type FuzzySearchBatchOptions = OperationOptions;
 /**
  * Options for performing batch address searches
  */
-export type SearchAddressBatchOptions = BatchPollerOptions;
+export type SearchAddressBatchOptions = OperationOptions;
 /**
  * Options for performing batch reverse searches
  */
-export type ReverseSearchAddressBatchOptions = BatchPollerOptions;
+export type ReverseSearchAddressBatchOptions = OperationOptions;
 
 /**
- * Options for retrieving batch fuzzy search results
+ * Request object containing parameters for making fuzzy search call
  */
-export type GetFuzzySearchBatchResultOptions = BatchPollerOptions;
+export interface FuzzySearchRequest {
+  searchQuery: SearchQuery;
+  options?: FuzzySearchOptions;
+}
+
 /**
- * Options for retrieving batch address search results
+ * Request object containing parameters for making search address call
  */
-export type GetSearchAddressBatchResultOptions = BatchPollerOptions;
+export interface SearchAddressRequest {
+  query: string;
+  options?: SearchAddressOptions;
+}
+
 /**
- * Options for retrieving batch reverse search results
+ * Request object containing parameters for making reverse search address call
  */
-export type GetReverseSearchAddressBatchResultOptions = BatchPollerOptions;
+export interface ReverseSearchAddressRequest {
+  coordinates: LatLon;
+  options?: ReverseSearchAddressOptions;
+}

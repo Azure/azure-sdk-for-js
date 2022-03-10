@@ -12,9 +12,9 @@ import {
   GeoJsonLineString,
   GeoJsonPolygon,
   StructuredAddress,
-  SearchAddressQuery,
-  ReverseSearchAddressQuery,
-  FuzzySearchQuery,
+  SearchAddressRequest,
+  ReverseSearchAddressRequest,
+  FuzzySearchRequest,
   GeoJsonPolygonCollection,
   GeoJsonCircleOrPolygonFeatureCollection,
 } from "@azure/maps-search";
@@ -306,7 +306,7 @@ async function main() {
   //     }
   //   ]
   // };
-  const searchAddressRequests: SearchAddressQuery[] = [
+  const searchAddressRequests: SearchAddressRequest[] = [
     { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
     { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
     { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
@@ -330,7 +330,7 @@ async function main() {
   //   ]
   // };
 
-  const reverseSearchAddressRequests: ReverseSearchAddressQuery[] = [
+  const reverseSearchAddressRequests: ReverseSearchAddressRequest[] = [
     { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
     {
       coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -359,20 +359,23 @@ async function main() {
   //   ]
   // };
 
-  const fuzzySearchRequests: FuzzySearchQuery[] = [
+  const fuzzySearchRequests: FuzzySearchRequest[] = [
     {
-      query: "atm",
-      coordinates: { latitude: 48.858561, longitude: 2.294911 },
+      searchQuery: { query: "atm", coordinates: { latitude: 48.858561, longitude: 2.294911 } },
       options: { radiusInMeters: 5000, top: 5 },
     },
     {
-      query: "Statue Of Liberty",
-      countryFilter: ["us"],
+      searchQuery: {
+        query: "Statue Of Liberty",
+        countryFilter: ["us"],
+      },
       options: { top: 2 },
     },
     {
-      query: "Starbucks",
-      coordinates: { latitude: 47.621028, longitude: -122.34817 },
+      searchQuery: {
+        query: "Starbucks",
+        coordinates: { latitude: 47.621028, longitude: -122.34817 },
+      },
       options: { radiusInMeters: 5000 },
     },
   ];
