@@ -84,7 +84,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl,
   ManagedServerSecurityAlertPoliciesImpl,
   OperationsImpl,
-  OperationsHealthOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   RecoverableManagedDatabasesImpl,
@@ -127,7 +126,10 @@ import {
   ManagedInstancesImpl,
   RestorableDroppedDatabasesImpl,
   RestorableDroppedManagedDatabasesImpl,
-  ServerConnectionPoliciesImpl
+  ServerConnectionPoliciesImpl,
+  DistributedAvailabilityGroupsImpl,
+  ServerTrustCertificatesImpl,
+  IPv6FirewallRulesImpl
 } from "./operations";
 import {
   RecoverableDatabases,
@@ -205,7 +207,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies,
   ManagedServerSecurityAlertPolicies,
   Operations,
-  OperationsHealthOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
   RecoverableManagedDatabases,
@@ -248,7 +249,10 @@ import {
   ManagedInstances,
   RestorableDroppedDatabases,
   RestorableDroppedManagedDatabases,
-  ServerConnectionPolicies
+  ServerConnectionPolicies,
+  DistributedAvailabilityGroups,
+  ServerTrustCertificates,
+  IPv6FirewallRules
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -283,7 +287,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/9.0.0`;
+    const packageDetails = `azsdk-js-arm-sql/10.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -445,7 +449,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
-    this.operationsHealthOperations = new OperationsHealthOperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.recoverableManagedDatabases = new RecoverableManagedDatabasesImpl(
@@ -513,6 +516,11 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.serverConnectionPolicies = new ServerConnectionPoliciesImpl(this);
+    this.distributedAvailabilityGroups = new DistributedAvailabilityGroupsImpl(
+      this
+    );
+    this.serverTrustCertificates = new ServerTrustCertificatesImpl(this);
+    this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
   }
 
   recoverableDatabases: RecoverableDatabases;
@@ -590,7 +598,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies;
   managedServerSecurityAlertPolicies: ManagedServerSecurityAlertPolicies;
   operations: Operations;
-  operationsHealthOperations: OperationsHealthOperations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   recoverableManagedDatabases: RecoverableManagedDatabases;
@@ -634,4 +641,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   restorableDroppedDatabases: RestorableDroppedDatabases;
   restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
   serverConnectionPolicies: ServerConnectionPolicies;
+  distributedAvailabilityGroups: DistributedAvailabilityGroups;
+  serverTrustCertificates: ServerTrustCertificates;
+  iPv6FirewallRules: IPv6FirewallRules;
 }

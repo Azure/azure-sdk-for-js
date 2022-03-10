@@ -12584,23 +12584,23 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-ahskW11FmraBiFZLs4mmltJ66RVl3L1F52TXlxxipNrO5nS6iingW+nUUkDCmlWZUIoXC4VN7hVMyWxUqNiZKg==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-O3WZiFZg4Pl8tyL+mOju6FqvGZ7bqNSoSAYR0UlsZChyFgezq8O23UYh1nJlCdMZxEL2Nuo8MTMQM7FGBq8YGA==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.0
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2

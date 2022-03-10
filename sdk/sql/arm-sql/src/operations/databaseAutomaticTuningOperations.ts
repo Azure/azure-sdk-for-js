@@ -87,7 +87,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -109,7 +109,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   requestBody: Parameters.parameters17,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

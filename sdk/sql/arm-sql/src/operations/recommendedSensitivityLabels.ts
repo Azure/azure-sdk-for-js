@@ -60,7 +60,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.parameters45,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

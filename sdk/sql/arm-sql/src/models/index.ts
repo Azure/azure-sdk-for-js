@@ -608,60 +608,6 @@ export interface ElasticPoolOperationListResult {
   readonly nextLink?: string;
 }
 
-/** The result of an elastic pool list request. */
-export interface ElasticPoolListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ElasticPool[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** An ARM Resource SKU. */
-export interface Sku {
-  /** The name of the SKU, typically, a letter + Number code, e.g. P3. */
-  name: string;
-  /** The tier or edition of the particular SKU, e.g. Basic, Premium. */
-  tier?: string;
-  /** Size of the particular SKU */
-  size?: string;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
-  /** Capacity of the particular SKU. */
-  capacity?: number;
-}
-
-/** Per database settings of an elastic pool. */
-export interface ElasticPoolPerDatabaseSettings {
-  /** The minimum capacity all databases are guaranteed. */
-  minCapacity?: number;
-  /** The maximum capacity any one database can consume. */
-  maxCapacity?: number;
-}
-
-/** An elastic pool update. */
-export interface ElasticPoolUpdate {
-  /** An ARM Resource SKU. */
-  sku?: Sku;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The storage limit for the database elastic pool in bytes. */
-  maxSizeBytes?: number;
-  /** The per database settings for the elastic pool. */
-  perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
-  /** Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones. */
-  zoneRedundant?: boolean;
-  /** The license type to apply for this elastic pool. */
-  licenseType?: ElasticPoolLicenseType;
-  /** Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur. */
-  maintenanceConfigurationId?: string;
-}
-
 /** A list of server encryption protectors. */
 export interface EncryptionProtectorListResult {
   /**
@@ -812,6 +758,20 @@ export interface InstanceFailoverGroupListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** An ARM Resource SKU. */
+export interface Sku {
+  /** The name of the SKU, typically, a letter + Number code, e.g. P3. */
+  name: string;
+  /** The tier or edition of the particular SKU, e.g. Basic, Premium. */
+  tier?: string;
+  /** Size of the particular SKU */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** Capacity of the particular SKU. */
+  capacity?: number;
 }
 
 /** An update to an Instance pool. */
@@ -2361,20 +2321,6 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** A list of service health statuses in a location. */
-export interface OperationsHealthListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: OperationsHealth[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
@@ -3441,7 +3387,7 @@ export interface Delegation {
   readonly tenantId?: string;
 }
 
-/** A database resource. */
+/** A database update resource. */
 export interface DatabaseUpdate {
   /** The name and tier of the SKU. */
   sku?: Sku;
@@ -3542,9 +3488,9 @@ export interface DatabaseUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly earliestRestoreDate?: Date;
-  /** The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. */
+  /** The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale database within an elastic pool. */
   readScale?: DatabaseReadScale;
-  /** The number of secondary replicas associated with the database that are used to provide high availability. */
+  /** The number of secondary replicas associated with the database that are used to provide high availability. Not applicable to a Hyperscale database within an elastic pool. */
   highAvailabilityReplicaCount?: number;
   /** The secondary type of the database if it is a secondary.  Valid values are Geo and Named. */
   secondaryType?: SecondaryType;
@@ -3589,10 +3535,22 @@ export interface DatabaseUpdate {
   primaryDelegatedIdentityClientId?: string;
 }
 
-/** Contains the information necessary to perform a resource move (rename). */
-export interface ResourceMoveDefinition {
-  /** The target ID for the resource */
-  id: string;
+/** Contains the information necessary to perform export database operation. */
+export interface ExportDatabaseDefinition {
+  /** Storage key type. */
+  storageKeyType: StorageKeyType;
+  /** Storage key. */
+  storageKey: string;
+  /** Storage Uri. */
+  storageUri: string;
+  /** Administrator login name. */
+  administratorLogin: string;
+  /** Administrator login password. */
+  administratorLoginPassword: string;
+  /** Authentication type. */
+  authenticationType?: string;
+  /** Optional resource information to enable network isolation for request. */
+  networkIsolation?: NetworkIsolationSettings;
 }
 
 /** Contains the information necessary to perform import operation for existing database. */
@@ -3613,22 +3571,10 @@ export interface ImportExistingDatabaseDefinition {
   networkIsolation?: NetworkIsolationSettings;
 }
 
-/** Contains the information necessary to perform export database operation. */
-export interface ExportDatabaseDefinition {
-  /** Storage key type. */
-  storageKeyType: StorageKeyType;
-  /** Storage key. */
-  storageKey: string;
-  /** Storage Uri. */
-  storageUri: string;
-  /** Administrator login name. */
-  administratorLogin: string;
-  /** Administrator login password. */
-  administratorLoginPassword: string;
-  /** Authentication type. */
-  authenticationType?: string;
-  /** Optional resource information to enable network isolation for request. */
-  networkIsolation?: NetworkIsolationSettings;
+/** Contains the information necessary to perform a resource move (rename). */
+export interface ResourceMoveDefinition {
+  /** The target ID for the resource */
+  id: string;
 }
 
 /** Contains the information necessary to perform long term retention backup copy operation. */
@@ -3933,6 +3879,90 @@ export interface ServerConnectionPolicyListResult {
   readonly nextLink?: string;
 }
 
+/** A list of distributed availability groups in instance. */
+export interface DistributedAvailabilityGroupsListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DistributedAvailabilityGroup[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of the server trust certificates which are used for secure communication between SQL On-Prem instance and the given Sql Managed Instance. */
+export interface ServerTrustCertificatesListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ServerTrustCertificate[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The result of an elastic pool list request. */
+export interface ElasticPoolListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ElasticPool[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Per database settings of an elastic pool. */
+export interface ElasticPoolPerDatabaseSettings {
+  /** The minimum capacity all databases are guaranteed. */
+  minCapacity?: number;
+  /** The maximum capacity any one database can consume. */
+  maxCapacity?: number;
+}
+
+/** An elastic pool update. */
+export interface ElasticPoolUpdate {
+  /** An ARM Resource SKU. */
+  sku?: Sku;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The storage limit for the database elastic pool in bytes. */
+  maxSizeBytes?: number;
+  /** The per database settings for the elastic pool. */
+  perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+  /** Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones. */
+  zoneRedundant?: boolean;
+  /** The license type to apply for this elastic pool. */
+  licenseType?: ElasticPoolLicenseType;
+  /** Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur. */
+  maintenanceConfigurationId?: string;
+  /** The number of secondary replicas associated with the elastic pool that are used to provide high availability. Applicable only to Hyperscale elastic pools. */
+  highAvailabilityReplicaCount?: number;
+}
+
+/** The response to a list IPv6 firewall rules request */
+export interface IPv6FirewallRuleListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: IPv6FirewallRule[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** A Slo Usage Metric. */
 export interface SloUsageMetric {
   /**
@@ -3982,6 +4012,11 @@ export interface SecurityEventsFilterParameters {
   eventTime?: Date;
   /** Whether to show server records or not. */
   showServerRecords?: boolean;
+}
+
+/** A list of IPv6 server firewall rules. */
+export interface IPv6FirewallRuleList {
+  values?: IPv6FirewallRule[];
 }
 
 /** ARM proxy resource. */
@@ -5903,25 +5938,6 @@ export type ManagedServerSecurityAlertPolicy = ProxyResource & {
   readonly creationTime?: Date;
 };
 
-/** Operations health status in a location. */
-export type OperationsHealth = ProxyResource & {
-  /**
-   * Operation name for the service
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly namePropertiesName?: string;
-  /**
-   * Operation health status of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly health?: string;
-  /**
-   * Health status description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-};
-
 /** A private endpoint connection */
 export type PrivateEndpointConnection = ProxyResource & {
   /** Private endpoint which the connection belongs to. */
@@ -6932,44 +6948,59 @@ export type ServerConnectionPolicy = ProxyResource & {
   connectionType?: ServerConnectionType;
 };
 
-/** An elastic pool. */
-export type ElasticPool = TrackedResource & {
+/** Distributed availability group between box and Sql Managed Instance. */
+export type DistributedAvailabilityGroup = ProxyResource & {
+  /** The name of the target database */
+  targetDatabase?: string;
+  /** The source endpoint */
+  sourceEndpoint?: string;
+  /** The primary availability group name */
+  primaryAvailabilityGroupName?: string;
+  /** The secondary availability group name */
+  secondaryAvailabilityGroupName?: string;
+  /** The replication mode of a distributed availability group. Parameter will be ignored during link creation. */
+  replicationMode?: ReplicationMode;
   /**
-   * The elastic pool SKU.
-   *
-   * The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or the following command:
-   *
-   * ```azurecli
-   * az sql elastic-pool list-editions -l <location> -o table
-   * ````
-   *
-   */
-  sku?: Sku;
-  /**
-   * Kind of elastic pool. This is metadata used for the Azure portal experience.
+   * The distributed availability group id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kind?: string;
+  readonly distributedAvailabilityGroupId?: string;
   /**
-   * The state of the elastic pool.
+   * The source replica id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly state?: ElasticPoolState;
+  readonly sourceReplicaId?: string;
   /**
-   * The creation date of the elastic pool (ISO8601 format).
+   * The target replica id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly creationDate?: Date;
-  /** The storage limit for the database elastic pool in bytes. */
-  maxSizeBytes?: number;
-  /** The per database settings for the elastic pool. */
-  perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
-  /** Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones. */
-  zoneRedundant?: boolean;
-  /** The license type to apply for this elastic pool. */
-  licenseType?: ElasticPoolLicenseType;
-  /** Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur. */
-  maintenanceConfigurationId?: string;
+  readonly targetReplicaId?: string;
+  /**
+   * The link state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkState?: string;
+  /**
+   * The last hardened lsn
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastHardenedLsn?: string;
+};
+
+/** Server trust certificate imported from box to enable connection between box and Sql Managed Instance. */
+export type ServerTrustCertificate = ProxyResource & {
+  /** The certificate public blob */
+  publicBlob?: string;
+  /**
+   * The certificate thumbprint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly thumbprint?: string;
+  /**
+   * The certificate name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certificateName?: string;
 };
 
 /** An Azure SQL instance pool. */
@@ -7241,9 +7272,9 @@ export type Database = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly earliestRestoreDate?: Date;
-  /** The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. */
+  /** The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale database within an elastic pool. */
   readScale?: DatabaseReadScale;
-  /** The number of secondary replicas associated with the database that are used to provide high availability. */
+  /** The number of secondary replicas associated with the database that are used to provide high availability. Not applicable to a Hyperscale database within an elastic pool. */
   highAvailabilityReplicaCount?: number;
   /** The secondary type of the database if it is a secondary.  Valid values are Geo and Named. */
   secondaryType?: SecondaryType;
@@ -7286,6 +7317,22 @@ export type Database = TrackedResource & {
   federatedClientId?: string;
   /** The Primary Delegated Identity Client id used for per database CMK - for internal use only */
   primaryDelegatedIdentityClientId?: string;
+  /**
+   * The resource identifier of the source associated with the create operation of this database.
+   *
+   * When sourceResourceId is specified, sourceDatabaseId, recoverableDatabaseId, restorableDroppedDatabaseId and sourceDatabaseDeletionDate must not be specified and CreateMode must be PointInTimeRestore, Restore or Recover.
+   *
+   * When createMode is PointInTimeRestore, sourceResourceId must be the resource ID of an existing database or existing sql pool, and restorePointInTime must be specified.
+   *
+   * When createMode is Restore, sourceResourceId must be the resource ID of restorable dropped database or restorable dropped sql pool.
+   *
+   * When createMode is Recover, sourceResourceId must be the resource ID of recoverable database or recoverable sql pool.
+   *
+   * This property allows to restore across subscriptions which is only supported for DataWarehouse edition.
+   *
+   * When source subscription belongs to a different tenant than target subscription, “x-ms-authorization-auxiliary” header must contain authentication token for the source tenant. For more details about “x-ms-authorization-auxiliary” header see https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant
+   */
+  sourceResourceId?: string;
 };
 
 /** An Azure SQL managed instance. */
@@ -7406,12 +7453,62 @@ export type RestorableDroppedManagedDatabase = TrackedResource & {
   readonly earliestRestoreDate?: Date;
 };
 
+/** An elastic pool. */
+export type ElasticPool = TrackedResource & {
+  /**
+   * The elastic pool SKU.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or the following command:
+   *
+   * ```azurecli
+   * az sql elastic-pool list-editions -l <location> -o table
+   * ````
+   *
+   */
+  sku?: Sku;
+  /**
+   * Kind of elastic pool. This is metadata used for the Azure portal experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
+  /**
+   * The state of the elastic pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: ElasticPoolState;
+  /**
+   * The creation date of the elastic pool (ISO8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationDate?: Date;
+  /** The storage limit for the database elastic pool in bytes. */
+  maxSizeBytes?: number;
+  /** The per database settings for the elastic pool. */
+  perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+  /** Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones. */
+  zoneRedundant?: boolean;
+  /** The license type to apply for this elastic pool. */
+  licenseType?: ElasticPoolLicenseType;
+  /** Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur. */
+  maintenanceConfigurationId?: string;
+  /** The number of secondary replicas associated with the elastic pool that are used to provide high availability. */
+  highAvailabilityReplicaCount?: number;
+};
+
 /** A server firewall rule. */
 export type FirewallRule = ProxyResourceWithWritableName & {
   /** The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' for all Azure-internal IP addresses. */
   startIpAddress?: string;
   /** The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value '0.0.0.0' for all Azure-internal IP addresses. */
   endIpAddress?: string;
+};
+
+/** An IPv6 server firewall rule. */
+export type IPv6FirewallRule = ProxyResourceWithWritableName & {
+  /** The start IP address of the firewall rule. Must be IPv6 format. */
+  startIPv6Address?: string;
+  /** The end IP address of the firewall rule. Must be IPv6 format. Must be greater than or equal to startIpAddress. */
+  endIPv6Address?: string;
 };
 
 /** Known values of {@link GeoBackupPolicyName} that the service accepts. */
@@ -7735,40 +7832,6 @@ export enum KnownDataWarehouseUserActivityName {
  * **current**
  */
 export type DataWarehouseUserActivityName = string;
-
-/** Known values of {@link ElasticPoolState} that the service accepts. */
-export enum KnownElasticPoolState {
-  Creating = "Creating",
-  Ready = "Ready",
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for ElasticPoolState. \
- * {@link KnownElasticPoolState} can be used interchangeably with ElasticPoolState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Ready** \
- * **Disabled**
- */
-export type ElasticPoolState = string;
-
-/** Known values of {@link ElasticPoolLicenseType} that the service accepts. */
-export enum KnownElasticPoolLicenseType {
-  LicenseIncluded = "LicenseIncluded",
-  BasePrice = "BasePrice"
-}
-
-/**
- * Defines values for ElasticPoolLicenseType. \
- * {@link KnownElasticPoolLicenseType} can be used interchangeably with ElasticPoolLicenseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LicenseIncluded** \
- * **BasePrice**
- */
-export type ElasticPoolLicenseType = string;
 
 /** Known values of {@link ServerKeyType} that the service accepts. */
 export enum KnownServerKeyType {
@@ -8570,8 +8633,8 @@ export enum KnownSyncMemberDbType {
  */
 export type SyncMemberDbType = string;
 
-/** Known values of {@link Enum60} that the service accepts. */
-export enum KnownEnum60 {
+/** Known values of {@link SyncGroupsType} that the service accepts. */
+export enum KnownSyncGroupsType {
   All = "All",
   Error = "Error",
   Warning = "Warning",
@@ -8579,8 +8642,8 @@ export enum KnownEnum60 {
 }
 
 /**
- * Defines values for Enum60. \
- * {@link KnownEnum60} can be used interchangeably with Enum60,
+ * Defines values for SyncGroupsType. \
+ * {@link KnownSyncGroupsType} can be used interchangeably with SyncGroupsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **All** \
@@ -8588,7 +8651,7 @@ export enum KnownEnum60 {
  * **Warning** \
  * **Success**
  */
-export type Enum60 = string;
+export type SyncGroupsType = string;
 
 /** Known values of {@link SyncGroupLogType} that the service accepts. */
 export enum KnownSyncGroupLogType {
@@ -9346,6 +9409,56 @@ export enum KnownServerConnectionType {
  */
 export type ServerConnectionType = string;
 
+/** Known values of {@link ReplicationMode} that the service accepts. */
+export enum KnownReplicationMode {
+  Async = "Async",
+  Sync = "Sync"
+}
+
+/**
+ * Defines values for ReplicationMode. \
+ * {@link KnownReplicationMode} can be used interchangeably with ReplicationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Async** \
+ * **Sync**
+ */
+export type ReplicationMode = string;
+
+/** Known values of {@link ElasticPoolState} that the service accepts. */
+export enum KnownElasticPoolState {
+  Creating = "Creating",
+  Ready = "Ready",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ElasticPoolState. \
+ * {@link KnownElasticPoolState} can be used interchangeably with ElasticPoolState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Ready** \
+ * **Disabled**
+ */
+export type ElasticPoolState = string;
+
+/** Known values of {@link ElasticPoolLicenseType} that the service accepts. */
+export enum KnownElasticPoolLicenseType {
+  LicenseIncluded = "LicenseIncluded",
+  BasePrice = "BasePrice"
+}
+
+/**
+ * Defines values for ElasticPoolLicenseType. \
+ * {@link KnownElasticPoolLicenseType} can be used interchangeably with ElasticPoolLicenseType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LicenseIncluded** \
+ * **BasePrice**
+ */
+export type ElasticPoolLicenseType = string;
+
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
   System = "System",
@@ -9719,11 +9832,16 @@ export interface DatabasesUpdateOptionalParams
 export type DatabasesUpdateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesListByElasticPoolOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesExportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/** Contains response data for the listByElasticPool operation. */
-export type DatabasesListByElasticPoolResponse = DatabaseListResult;
+/** Contains response data for the export operation. */
+export type DatabasesExportResponse = ImportExportOperationResult;
 
 /** Optional parameters. */
 export interface DatabasesFailoverOptionalParams
@@ -9737,11 +9855,20 @@ export interface DatabasesFailoverOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesListInaccessibleByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesImportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/** Contains response data for the listInaccessibleByServer operation. */
-export type DatabasesListInaccessibleByServerResponse = DatabaseListResult;
+/** Contains response data for the import operation. */
+export type DatabasesImportResponse = ImportExportOperationResult;
+
+/** Optional parameters. */
+export interface DatabasesRenameOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DatabasesPauseOptionalParams
@@ -9777,32 +9904,18 @@ export interface DatabasesUpgradeDataWarehouseOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesRenameOptionalParams
+export interface DatabasesListByElasticPoolOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Optional parameters. */
-export interface DatabasesImportOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the import operation. */
-export type DatabasesImportResponse = ImportExportOperationResult;
+/** Contains response data for the listByElasticPool operation. */
+export type DatabasesListByElasticPoolResponse = DatabaseListResult;
 
 /** Optional parameters. */
-export interface DatabasesExportOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface DatabasesListInaccessibleByServerOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the export operation. */
-export type DatabasesExportResponse = ImportExportOperationResult;
+/** Contains response data for the listInaccessibleByServer operation. */
+export type DatabasesListInaccessibleByServerResponse = DatabaseListResult;
 
 /** Optional parameters. */
 export interface DatabasesListByServerNextOptionalParams
@@ -12354,20 +12467,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsHealthListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocation operation. */
-export type OperationsHealthListByLocationResponse = OperationsHealthListResult;
-
-/** Optional parameters. */
-export interface OperationsHealthListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocationNext operation. */
-export type OperationsHealthListByLocationNextResponse = OperationsHealthListResult;
-
-/** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14445,6 +14544,134 @@ export interface ServerConnectionPoliciesListByServerNextOptionalParams
 
 /** Contains response data for the listByServerNext operation. */
 export type ServerConnectionPoliciesListByServerNextResponse = ServerConnectionPolicyListResult;
+
+/** Optional parameters. */
+export interface DistributedAvailabilityGroupsListByInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInstance operation. */
+export type DistributedAvailabilityGroupsListByInstanceResponse = DistributedAvailabilityGroupsListResult;
+
+/** Optional parameters. */
+export interface DistributedAvailabilityGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DistributedAvailabilityGroupsGetResponse = DistributedAvailabilityGroup;
+
+/** Optional parameters. */
+export interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DistributedAvailabilityGroupsCreateOrUpdateResponse = DistributedAvailabilityGroup;
+
+/** Optional parameters. */
+export interface DistributedAvailabilityGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DistributedAvailabilityGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DistributedAvailabilityGroupsUpdateResponse = DistributedAvailabilityGroup;
+
+/** Optional parameters. */
+export interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInstanceNext operation. */
+export type DistributedAvailabilityGroupsListByInstanceNextResponse = DistributedAvailabilityGroupsListResult;
+
+/** Optional parameters. */
+export interface ServerTrustCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerTrustCertificatesGetResponse = ServerTrustCertificate;
+
+/** Optional parameters. */
+export interface ServerTrustCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServerTrustCertificatesCreateOrUpdateResponse = ServerTrustCertificate;
+
+/** Optional parameters. */
+export interface ServerTrustCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServerTrustCertificatesListByInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInstance operation. */
+export type ServerTrustCertificatesListByInstanceResponse = ServerTrustCertificatesListResult;
+
+/** Optional parameters. */
+export interface ServerTrustCertificatesListByInstanceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInstanceNext operation. */
+export type ServerTrustCertificatesListByInstanceNextResponse = ServerTrustCertificatesListResult;
+
+/** Optional parameters. */
+export interface IPv6FirewallRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IPv6FirewallRulesGetResponse = IPv6FirewallRule;
+
+/** Optional parameters. */
+export interface IPv6FirewallRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IPv6FirewallRulesCreateOrUpdateResponse = IPv6FirewallRule;
+
+/** Optional parameters. */
+export interface IPv6FirewallRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IPv6FirewallRulesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type IPv6FirewallRulesListByServerResponse = IPv6FirewallRuleListResult;
+
+/** Optional parameters. */
+export interface IPv6FirewallRulesListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type IPv6FirewallRulesListByServerNextResponse = IPv6FirewallRuleListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

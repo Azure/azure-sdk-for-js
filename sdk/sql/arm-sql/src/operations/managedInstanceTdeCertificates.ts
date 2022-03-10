@@ -127,7 +127,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.parameters53,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

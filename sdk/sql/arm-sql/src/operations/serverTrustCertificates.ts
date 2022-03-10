@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ManagedInstanceAzureADOnlyAuthentications } from "../operationsInterfaces";
+import { ServerTrustCertificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,27 +15,25 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ManagedInstanceAzureADOnlyAuthentication,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
-  AuthenticationName,
-  ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsGetResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse
+  ServerTrustCertificate,
+  ServerTrustCertificatesListByInstanceNextOptionalParams,
+  ServerTrustCertificatesListByInstanceOptionalParams,
+  ServerTrustCertificatesGetOptionalParams,
+  ServerTrustCertificatesGetResponse,
+  ServerTrustCertificatesCreateOrUpdateOptionalParams,
+  ServerTrustCertificatesCreateOrUpdateResponse,
+  ServerTrustCertificatesDeleteOptionalParams,
+  ServerTrustCertificatesListByInstanceResponse,
+  ServerTrustCertificatesListByInstanceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ManagedInstanceAzureADOnlyAuthentications operations. */
-export class ManagedInstanceAzureADOnlyAuthenticationsImpl
-  implements ManagedInstanceAzureADOnlyAuthentications {
+/** Class containing ServerTrustCertificates operations. */
+export class ServerTrustCertificatesImpl implements ServerTrustCertificates {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class ManagedInstanceAzureADOnlyAuthentications class.
+   * Initialize a new instance of the class ServerTrustCertificates class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -43,7 +41,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Gets a list of server Azure Active Directory only authentications.
+   * Gets a list of the server trust certificates which are used for secure communication between SQL
+   * On-Prem instance and the given Sql Managed Instance
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -52,8 +51,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): PagedAsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication> {
+    options?: ServerTrustCertificatesListByInstanceOptionalParams
+  ): PagedAsyncIterableIterator<ServerTrustCertificate> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
@@ -79,8 +78,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private async *listByInstancePagingPage(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): AsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication[]> {
+    options?: ServerTrustCertificatesListByInstanceOptionalParams
+  ): AsyncIterableIterator<ServerTrustCertificate[]> {
     let result = await this._listByInstance(
       resourceGroupName,
       managedInstanceName,
@@ -103,8 +102,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): AsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication> {
+    options?: ServerTrustCertificatesListByInstanceOptionalParams
+  ): AsyncIterableIterator<ServerTrustCertificate> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
@@ -115,54 +114,50 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Gets a specific Azure Active Directory only authentication property.
+   * Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
+   * @param certificateName Name of of the certificate to get.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams
-  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsGetResponse> {
+    certificateName: string,
+    options?: ServerTrustCertificatesGetOptionalParams
+  ): Promise<ServerTrustCertificatesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, authenticationName, options },
+      { resourceGroupName, managedInstanceName, certificateName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Sets Server Active Directory only authentication property or updates an existing server Active
-   * Directory only authentication property.
+   * Uploads a server trust certificate from box to Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
-   * @param parameters The required parameters for creating or updating an Active Directory only
-   *                   authentication property.
+   * @param certificateName Name of of the certificate to upload.
+   * @param parameters The server trust certificate info.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    certificateName: string,
+    parameters: ServerTrustCertificate,
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
-      >,
-      ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
+      PollOperationState<ServerTrustCertificatesCreateOrUpdateResponse>,
+      ServerTrustCertificatesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse> => {
+    ): Promise<ServerTrustCertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -203,7 +198,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
       {
         resourceGroupName,
         managedInstanceName,
-        authenticationName,
+        certificateName,
         parameters,
         options
       },
@@ -216,27 +211,25 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Sets Server Active Directory only authentication property or updates an existing server Active
-   * Directory only authentication property.
+   * Uploads a server trust certificate from box to Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
-   * @param parameters The required parameters for creating or updating an Active Directory only
-   *                   authentication property.
+   * @param certificateName Name of of the certificate to upload.
+   * @param parameters The server trust certificate info.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
-  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse> {
+    certificateName: string,
+    parameters: ServerTrustCertificate,
+    options?: ServerTrustCertificatesCreateOrUpdateOptionalParams
+  ): Promise<ServerTrustCertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
-      authenticationName,
+      certificateName,
       parameters,
       options
     );
@@ -244,18 +237,18 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Deletes an existing server Active Directory only authentication property.
+   * Deletes a server trust certificate that was uploaded from box to Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
+   * @param certificateName Name of of the certificate to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    certificateName: string,
+    options?: ServerTrustCertificatesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -298,7 +291,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, managedInstanceName, authenticationName, options },
+      { resourceGroupName, managedInstanceName, certificateName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -308,30 +301,31 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Deletes an existing server Active Directory only authentication property.
+   * Deletes a server trust certificate that was uploaded from box to Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
+   * @param certificateName Name of of the certificate to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    certificateName: string,
+    options?: ServerTrustCertificatesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
-      authenticationName,
+      certificateName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a list of server Azure Active Directory only authentications.
+   * Gets a list of the server trust certificates which are used for secure communication between SQL
+   * On-Prem instance and the given Sql Managed Instance
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -340,8 +334,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsListByInstanceResponse> {
+    options?: ServerTrustCertificatesListByInstanceOptionalParams
+  ): Promise<ServerTrustCertificatesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
       listByInstanceOperationSpec
@@ -360,10 +354,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextOptionalParams
-  ): Promise<
-    ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse
-  > {
+    options?: ServerTrustCertificatesListByInstanceNextOptionalParams
+  ): Promise<ServerTrustCertificatesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
       listByInstanceNextOperationSpec
@@ -375,52 +367,52 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerTrustCertificate
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.authenticationName
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerTrustCertificate
     },
     201: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerTrustCertificate
     },
     202: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerTrustCertificate
     },
     204: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
+      bodyMapper: Mappers.ServerTrustCertificate
     },
     default: {}
   },
-  requestBody: Parameters.parameters48,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters90,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.authenticationName
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -428,30 +420,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.authenticationName
+    Parameters.certificateName
   ],
   serializer
 };
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult
+      bodyMapper: Mappers.ServerTrustCertificatesListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -466,11 +458,11 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult
+      bodyMapper: Mappers.ServerTrustCertificatesListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

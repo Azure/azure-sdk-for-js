@@ -17,9 +17,9 @@ import {
   GeoBackupPolicy as GeoBackupPolicyMapper,
   Database as DatabaseMapper,
   DatabaseUpdate as DatabaseUpdateMapper,
-  ResourceMoveDefinition as ResourceMoveDefinitionMapper,
-  ImportExistingDatabaseDefinition as ImportExistingDatabaseDefinitionMapper,
   ExportDatabaseDefinition as ExportDatabaseDefinitionMapper,
+  ImportExistingDatabaseDefinition as ImportExistingDatabaseDefinitionMapper,
+  ResourceMoveDefinition as ResourceMoveDefinitionMapper,
   ElasticPool as ElasticPoolMapper,
   ElasticPoolUpdate as ElasticPoolUpdateMapper,
   UnlinkParameters as UnlinkParametersMapper,
@@ -100,7 +100,10 @@ import {
   UpdateLongTermRetentionBackupParameters as UpdateLongTermRetentionBackupParametersMapper,
   ManagedInstance as ManagedInstanceMapper,
   ManagedInstanceUpdate as ManagedInstanceUpdateMapper,
-  ServerConnectionPolicy as ServerConnectionPolicyMapper
+  ServerConnectionPolicy as ServerConnectionPolicyMapper,
+  DistributedAvailabilityGroup as DistributedAvailabilityGroupMapper,
+  ServerTrustCertificate as ServerTrustCertificateMapper,
+  IPv6FirewallRule as IPv6FirewallRuleMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -287,15 +290,9 @@ export const parameters4: OperationParameter = {
   mapper: DatabaseUpdateMapper
 };
 
-export const elasticPoolName: OperationURLParameter = {
-  parameterPath: "elasticPoolName",
-  mapper: {
-    serializedName: "elasticPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ExportDatabaseDefinitionMapper
 };
 
 export const replicaType: OperationQueryParameter = {
@@ -308,11 +305,6 @@ export const replicaType: OperationQueryParameter = {
   }
 };
 
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ResourceMoveDefinitionMapper
-};
-
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ImportExistingDatabaseDefinitionMapper
@@ -320,7 +312,18 @@ export const parameters6: OperationParameter = {
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ExportDatabaseDefinitionMapper
+  mapper: ResourceMoveDefinitionMapper
+};
+
+export const elasticPoolName: OperationURLParameter = {
+  parameterPath: "elasticPoolName",
+  mapper: {
+    serializedName: "elasticPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {
@@ -348,7 +351,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-11-01-preview",
+    defaultValue: "2021-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -428,6 +431,18 @@ export const blobAuditingPolicyName: OperationURLParameter = {
     defaultValue: "default",
     isConstant: true,
     serializedName: "blobAuditingPolicyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion4: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-11-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -1874,4 +1889,41 @@ export const connectionPolicyName: OperationURLParameter = {
 export const parameters88: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerConnectionPolicyMapper
+};
+
+export const distributedAvailabilityGroupName: OperationURLParameter = {
+  parameterPath: "distributedAvailabilityGroupName",
+  mapper: {
+    serializedName: "distributedAvailabilityGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters89: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DistributedAvailabilityGroupMapper
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    serializedName: "certificateName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters90: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ServerTrustCertificateMapper
+};
+
+export const parameters91: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IPv6FirewallRuleMapper
 };

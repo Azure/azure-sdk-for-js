@@ -7,31 +7,31 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DatabaseBlobAuditingPolicies } from "../operationsInterfaces";
+import { IPv6FirewallRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
-  DatabaseBlobAuditingPolicy,
-  DatabaseBlobAuditingPoliciesListByDatabaseNextOptionalParams,
-  DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
-  DatabaseBlobAuditingPoliciesGetOptionalParams,
-  DatabaseBlobAuditingPoliciesGetResponse,
-  DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  DatabaseBlobAuditingPoliciesCreateOrUpdateResponse,
-  DatabaseBlobAuditingPoliciesListByDatabaseResponse,
-  DatabaseBlobAuditingPoliciesListByDatabaseNextResponse
+  IPv6FirewallRule,
+  IPv6FirewallRulesListByServerNextOptionalParams,
+  IPv6FirewallRulesListByServerOptionalParams,
+  IPv6FirewallRulesGetOptionalParams,
+  IPv6FirewallRulesGetResponse,
+  IPv6FirewallRulesCreateOrUpdateOptionalParams,
+  IPv6FirewallRulesCreateOrUpdateResponse,
+  IPv6FirewallRulesDeleteOptionalParams,
+  IPv6FirewallRulesListByServerResponse,
+  IPv6FirewallRulesListByServerNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DatabaseBlobAuditingPolicies operations. */
-export class DatabaseBlobAuditingPoliciesImpl
-  implements DatabaseBlobAuditingPolicies {
+/** Class containing IPv6FirewallRules operations. */
+export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class DatabaseBlobAuditingPolicies class.
+   * Initialize a new instance of the class IPv6FirewallRules class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -39,23 +39,20 @@ export class DatabaseBlobAuditingPoliciesImpl
   }
 
   /**
-   * Lists auditing settings of a database.
+   * Gets a list of IPv6 firewall rules.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
    * @param options The options parameters.
    */
-  public listByDatabase(
+  public listByServer(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<DatabaseBlobAuditingPolicy> {
-    const iter = this.listByDatabasePagingAll(
+    options?: IPv6FirewallRulesListByServerOptionalParams
+  ): PagedAsyncIterableIterator<IPv6FirewallRule> {
+    const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      databaseName,
       options
     );
     return {
@@ -66,35 +63,31 @@ export class DatabaseBlobAuditingPoliciesImpl
         return this;
       },
       byPage: () => {
-        return this.listByDatabasePagingPage(
+        return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          databaseName,
           options
         );
       }
     };
   }
 
-  private async *listByDatabasePagingPage(
+  private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
-  ): AsyncIterableIterator<DatabaseBlobAuditingPolicy[]> {
-    let result = await this._listByDatabase(
+    options?: IPv6FirewallRulesListByServerOptionalParams
+  ): AsyncIterableIterator<IPv6FirewallRule[]> {
+    let result = await this._listByServer(
       resourceGroupName,
       serverName,
-      databaseName,
       options
     );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByDatabaseNext(
+      result = await this._listByServerNext(
         resourceGroupName,
         serverName,
-        databaseName,
         continuationToken,
         options
       );
@@ -103,16 +96,14 @@ export class DatabaseBlobAuditingPoliciesImpl
     }
   }
 
-  private async *listByDatabasePagingAll(
+  private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
-  ): AsyncIterableIterator<DatabaseBlobAuditingPolicy> {
-    for await (const page of this.listByDatabasePagingPage(
+    options?: IPv6FirewallRulesListByServerOptionalParams
+  ): AsyncIterableIterator<IPv6FirewallRule> {
+    for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      databaseName,
       options
     )) {
       yield* page;
@@ -120,86 +111,102 @@ export class DatabaseBlobAuditingPoliciesImpl
   }
 
   /**
-   * Gets a database's blob auditing policy.
+   * Gets an IPv6 firewall rule.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
+   * @param firewallRuleName The name of the firewall rule.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesGetOptionalParams
-  ): Promise<DatabaseBlobAuditingPoliciesGetResponse> {
+    firewallRuleName: string,
+    options?: IPv6FirewallRulesGetOptionalParams
+  ): Promise<IPv6FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
+      { resourceGroupName, serverName, firewallRuleName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a database's blob auditing policy.
+   * Creates or updates an IPv6 firewall rule.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param parameters The database blob auditing policy.
+   * @param firewallRuleName The name of the firewall rule.
+   * @param parameters The required parameters for creating or updating an IPv6 firewall rule.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    parameters: DatabaseBlobAuditingPolicy,
-    options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams
-  ): Promise<DatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
+    firewallRuleName: string,
+    parameters: IPv6FirewallRule,
+    options?: IPv6FirewallRulesCreateOrUpdateOptionalParams
+  ): Promise<IPv6FirewallRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, parameters, options },
+      { resourceGroupName, serverName, firewallRuleName, parameters, options },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Lists auditing settings of a database.
+   * Deletes an IPv6 firewall rule.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
+   * @param firewallRuleName The name of the firewall rule.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  delete(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
-  ): Promise<DatabaseBlobAuditingPoliciesListByDatabaseResponse> {
+    firewallRuleName: string,
+    options?: IPv6FirewallRulesDeleteOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      { resourceGroupName, serverName, firewallRuleName, options },
+      deleteOperationSpec
     );
   }
 
   /**
-   * ListByDatabaseNext
+   * Gets a list of IPv6 firewall rules.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param nextLink The nextLink from the previous successful call to the ListByDatabase method.
    * @param options The options parameters.
    */
-  private _listByDatabaseNext(
+  private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    databaseName: string,
-    nextLink: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseNextOptionalParams
-  ): Promise<DatabaseBlobAuditingPoliciesListByDatabaseNextResponse> {
+    options?: IPv6FirewallRulesListByServerOptionalParams
+  ): Promise<IPv6FirewallRulesListByServerResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec
+    );
+  }
+
+  /**
+   * ListByServerNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
+   * @param options The options parameters.
+   */
+  private _listByServerNext(
+    resourceGroupName: string,
+    serverName: string,
+    nextLink: string,
+    options?: IPv6FirewallRulesListByServerNextOptionalParams
+  ): Promise<IPv6FirewallRulesListByServerNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec
     );
   }
 }
@@ -208,90 +215,101 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicy
+      bodyMapper: Mappers.IPv6FirewallRule
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.blobAuditingPolicyName
+    Parameters.firewallRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicy
+      bodyMapper: Mappers.IPv6FirewallRule
     },
     201: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicy
+      bodyMapper: Mappers.IPv6FirewallRule
     },
     default: {}
   },
-  requestBody: Parameters.parameters15,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters91,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.blobAuditingPolicyName
+    Parameters.firewallRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion4],
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.firewallRuleName
+  ],
+  serializer
+};
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IPv6FirewallRuleListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult
+      bodyMapper: Mappers.IPv6FirewallRuleListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

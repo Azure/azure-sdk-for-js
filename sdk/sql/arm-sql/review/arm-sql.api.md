@@ -284,6 +284,7 @@ export type Database = TrackedResource & {
     readonly isInfraEncryptionEnabled?: boolean;
     federatedClientId?: string;
     primaryDelegatedIdentityClientId?: string;
+    sourceResourceId?: string;
 };
 
 // @public
@@ -1352,6 +1353,83 @@ export type DeletedServersRecoverResponse = DeletedServer;
 export type DiffBackupIntervalInHours = number;
 
 // @public
+export type DistributedAvailabilityGroup = ProxyResource & {
+    targetDatabase?: string;
+    sourceEndpoint?: string;
+    primaryAvailabilityGroupName?: string;
+    secondaryAvailabilityGroupName?: string;
+    replicationMode?: ReplicationMode;
+    readonly distributedAvailabilityGroupId?: string;
+    readonly sourceReplicaId?: string;
+    readonly targetReplicaId?: string;
+    readonly linkState?: string;
+    readonly lastHardenedLsn?: string;
+};
+
+// @public
+export interface DistributedAvailabilityGroups {
+    beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DistributedAvailabilityGroupsCreateOrUpdateResponse>, DistributedAvailabilityGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DistributedAvailabilityGroupsUpdateResponse>, DistributedAvailabilityGroupsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsUpdateOptionalParams): Promise<DistributedAvailabilityGroupsUpdateResponse>;
+    get(resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsGetOptionalParams): Promise<DistributedAvailabilityGroupsGetResponse>;
+    listByInstance(resourceGroupName: string, managedInstanceName: string, options?: DistributedAvailabilityGroupsListByInstanceOptionalParams): PagedAsyncIterableIterator<DistributedAvailabilityGroup>;
+}
+
+// @public
+export interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DistributedAvailabilityGroupsCreateOrUpdateResponse = DistributedAvailabilityGroup;
+
+// @public
+export interface DistributedAvailabilityGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DistributedAvailabilityGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DistributedAvailabilityGroupsGetResponse = DistributedAvailabilityGroup;
+
+// @public
+export interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DistributedAvailabilityGroupsListByInstanceNextResponse = DistributedAvailabilityGroupsListResult;
+
+// @public
+export interface DistributedAvailabilityGroupsListByInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DistributedAvailabilityGroupsListByInstanceResponse = DistributedAvailabilityGroupsListResult;
+
+// @public
+export interface DistributedAvailabilityGroupsListResult {
+    readonly nextLink?: string;
+    readonly value?: DistributedAvailabilityGroup[];
+}
+
+// @public
+export interface DistributedAvailabilityGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DistributedAvailabilityGroupsUpdateResponse = DistributedAvailabilityGroup;
+
+// @public
 export type DnsRefreshConfigurationPropertiesStatus = string;
 
 // @public
@@ -1376,6 +1454,7 @@ export type ElasticPool = TrackedResource & {
     zoneRedundant?: boolean;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
+    highAvailabilityReplicaCount?: number;
 };
 
 // @public
@@ -1650,6 +1729,7 @@ export type ElasticPoolsUpdateResponse = ElasticPool;
 
 // @public
 export interface ElasticPoolUpdate {
+    highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
@@ -1727,9 +1807,6 @@ export interface EncryptionProtectorsRevalidateOptionalParams extends coreClient
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type Enum60 = string;
 
 // @public
 export interface ExportDatabaseDefinition {
@@ -2374,6 +2451,64 @@ export interface InstancePoolVcoresCapability {
     readonly storageLimit?: MaxSizeCapability;
     readonly value?: number;
 }
+
+// @public
+export type IPv6FirewallRule = ProxyResourceWithWritableName & {
+    startIPv6Address?: string;
+    endIPv6Address?: string;
+};
+
+// @public
+export interface IPv6FirewallRuleList {
+    // (undocumented)
+    values?: IPv6FirewallRule[];
+}
+
+// @public
+export interface IPv6FirewallRuleListResult {
+    readonly nextLink?: string;
+    readonly value?: IPv6FirewallRule[];
+}
+
+// @public
+export interface IPv6FirewallRules {
+    createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: IPv6FirewallRule, options?: IPv6FirewallRulesCreateOrUpdateOptionalParams): Promise<IPv6FirewallRulesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: IPv6FirewallRulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: IPv6FirewallRulesGetOptionalParams): Promise<IPv6FirewallRulesGetResponse>;
+    listByServer(resourceGroupName: string, serverName: string, options?: IPv6FirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<IPv6FirewallRule>;
+}
+
+// @public
+export interface IPv6FirewallRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IPv6FirewallRulesCreateOrUpdateResponse = IPv6FirewallRule;
+
+// @public
+export interface IPv6FirewallRulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IPv6FirewallRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IPv6FirewallRulesGetResponse = IPv6FirewallRule;
+
+// @public
+export interface IPv6FirewallRulesListByServerNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IPv6FirewallRulesListByServerNextResponse = IPv6FirewallRuleListResult;
+
+// @public
+export interface IPv6FirewallRulesListByServerOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IPv6FirewallRulesListByServerResponse = IPv6FirewallRuleListResult;
 
 // @public
 export type IsRetryable = "Yes" | "No";
@@ -3367,18 +3502,6 @@ export enum KnownEncryptionProtectorName {
 }
 
 // @public
-export enum KnownEnum60 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Error = "Error",
-    // (undocumented)
-    Success = "Success",
-    // (undocumented)
-    Warning = "Warning"
-}
-
-// @public
 export enum KnownFailoverGroupReplicationRole {
     // (undocumented)
     Primary = "Primary",
@@ -3845,6 +3968,14 @@ export enum KnownReplicationLinkType {
 }
 
 // @public
+export enum KnownReplicationMode {
+    // (undocumented)
+    Async = "Async",
+    // (undocumented)
+    Sync = "Sync"
+}
+
+// @public
 export enum KnownReplicationState {
     // (undocumented)
     CatchUP = "CATCH_UP",
@@ -4160,6 +4291,18 @@ export enum KnownSyncGroupState {
     NotReady = "NotReady",
     // (undocumented)
     Progressing = "Progressing",
+    // (undocumented)
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownSyncGroupsType {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Error = "Error",
+    // (undocumented)
+    Success = "Success",
     // (undocumented)
     Warning = "Warning"
 }
@@ -6743,38 +6886,6 @@ export interface Operations {
 }
 
 // @public
-export type OperationsHealth = ProxyResource & {
-    readonly namePropertiesName?: string;
-    readonly health?: string;
-    readonly description?: string;
-};
-
-// @public
-export interface OperationsHealthListByLocationNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsHealthListByLocationNextResponse = OperationsHealthListResult;
-
-// @public
-export interface OperationsHealthListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsHealthListByLocationResponse = OperationsHealthListResult;
-
-// @public
-export interface OperationsHealthListResult {
-    readonly nextLink?: string;
-    readonly value?: OperationsHealth[];
-}
-
-// @public
-export interface OperationsHealthOperations {
-    listByLocation(locationName: string, options?: OperationsHealthListByLocationOptionalParams): PagedAsyncIterableIterator<OperationsHealth>;
-}
-
-// @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -7347,6 +7458,9 @@ export interface ReplicationLinksUnlinkOptionalParams extends coreClient.Operati
 
 // @public
 export type ReplicationLinkType = string;
+
+// @public
+export type ReplicationMode = string;
 
 // @public
 export type ReplicationRole = "Primary" | "Secondary" | "NonReadableSecondary" | "Source" | "Copy";
@@ -8484,6 +8598,65 @@ export interface ServersUpdateOptionalParams extends coreClient.OperationOptions
 export type ServersUpdateResponse = Server;
 
 // @public
+export type ServerTrustCertificate = ProxyResource & {
+    publicBlob?: string;
+    readonly thumbprint?: string;
+    readonly certificateName?: string;
+};
+
+// @public
+export interface ServerTrustCertificates {
+    beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, certificateName: string, parameters: ServerTrustCertificate, options?: ServerTrustCertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServerTrustCertificatesCreateOrUpdateResponse>, ServerTrustCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, managedInstanceName: string, certificateName: string, parameters: ServerTrustCertificate, options?: ServerTrustCertificatesCreateOrUpdateOptionalParams): Promise<ServerTrustCertificatesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesGetOptionalParams): Promise<ServerTrustCertificatesGetResponse>;
+    listByInstance(resourceGroupName: string, managedInstanceName: string, options?: ServerTrustCertificatesListByInstanceOptionalParams): PagedAsyncIterableIterator<ServerTrustCertificate>;
+}
+
+// @public
+export interface ServerTrustCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerTrustCertificatesCreateOrUpdateResponse = ServerTrustCertificate;
+
+// @public
+export interface ServerTrustCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServerTrustCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerTrustCertificatesGetResponse = ServerTrustCertificate;
+
+// @public
+export interface ServerTrustCertificatesListByInstanceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerTrustCertificatesListByInstanceNextResponse = ServerTrustCertificatesListResult;
+
+// @public
+export interface ServerTrustCertificatesListByInstanceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServerTrustCertificatesListByInstanceResponse = ServerTrustCertificatesListResult;
+
+// @public
+export interface ServerTrustCertificatesListResult {
+    readonly nextLink?: string;
+    readonly value?: ServerTrustCertificate[];
+}
+
+// @public
 export type ServerTrustGroup = ProxyResource & {
     groupMembers?: ServerInfo[];
     trustScopes?: ServerTrustGroupPropertiesTrustScopesItem[];
@@ -8836,6 +9009,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     deletedServers: DeletedServers;
     // (undocumented)
+    distributedAvailabilityGroups: DistributedAvailabilityGroups;
+    // (undocumented)
     elasticPoolActivities: ElasticPoolActivities;
     // (undocumented)
     elasticPoolDatabaseActivities: ElasticPoolDatabaseActivities;
@@ -8859,6 +9034,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     instanceFailoverGroups: InstanceFailoverGroups;
     // (undocumented)
     instancePools: InstancePools;
+    // (undocumented)
+    iPv6FirewallRules: IPv6FirewallRules;
     // (undocumented)
     jobAgents: JobAgents;
     // (undocumented)
@@ -8948,8 +9125,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    operationsHealthOperations: OperationsHealthOperations;
-    // (undocumented)
     outboundFirewallRules: OutboundFirewallRules;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
@@ -8997,6 +9172,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     servers: Servers;
     // (undocumented)
     serverSecurityAlertPolicies: ServerSecurityAlertPolicies;
+    // (undocumented)
+    serverTrustCertificates: ServerTrustCertificates;
     // (undocumented)
     serverTrustGroups: ServerTrustGroups;
     // (undocumented)
@@ -9310,7 +9487,7 @@ export interface SyncGroups {
     get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsGetOptionalParams): Promise<SyncGroupsGetResponse>;
     listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: SyncGroupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SyncGroup>;
     listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsListHubSchemasOptionalParams): PagedAsyncIterableIterator<SyncFullSchemaProperties>;
-    listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, typeParam: Enum60, options?: SyncGroupsListLogsOptionalParams): PagedAsyncIterableIterator<SyncGroupLogProperties>;
+    listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, typeParam: SyncGroupsType, options?: SyncGroupsListLogsOptionalParams): PagedAsyncIterableIterator<SyncGroupLogProperties>;
     listSyncDatabaseIds(locationName: string, options?: SyncGroupsListSyncDatabaseIdsOptionalParams): PagedAsyncIterableIterator<SyncDatabaseIdProperties>;
     triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsTriggerSyncOptionalParams): Promise<void>;
 }
@@ -9430,6 +9607,9 @@ export type SyncGroupState = string;
 // @public
 export interface SyncGroupsTriggerSyncOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type SyncGroupsType = string;
 
 // @public
 export interface SyncGroupsUpdateOptionalParams extends coreClient.OperationOptions {

@@ -248,7 +248,7 @@ const listByJobExecutionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.apiVersion2,
+    Parameters.apiVersion4,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,
@@ -278,7 +278,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -303,7 +303,7 @@ const listByJobExecutionNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.apiVersion2,
+    Parameters.apiVersion4,
     Parameters.createTimeMin,
     Parameters.createTimeMax,
     Parameters.endTimeMin,

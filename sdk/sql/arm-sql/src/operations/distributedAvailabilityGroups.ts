@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ManagedInstanceAzureADOnlyAuthentications } from "../operationsInterfaces";
+import { DistributedAvailabilityGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,27 +15,28 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ManagedInstanceAzureADOnlyAuthentication,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
-  AuthenticationName,
-  ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsGetResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceResponse,
-  ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse
+  DistributedAvailabilityGroup,
+  DistributedAvailabilityGroupsListByInstanceNextOptionalParams,
+  DistributedAvailabilityGroupsListByInstanceOptionalParams,
+  DistributedAvailabilityGroupsListByInstanceResponse,
+  DistributedAvailabilityGroupsGetOptionalParams,
+  DistributedAvailabilityGroupsGetResponse,
+  DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
+  DistributedAvailabilityGroupsCreateOrUpdateResponse,
+  DistributedAvailabilityGroupsDeleteOptionalParams,
+  DistributedAvailabilityGroupsUpdateOptionalParams,
+  DistributedAvailabilityGroupsUpdateResponse,
+  DistributedAvailabilityGroupsListByInstanceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ManagedInstanceAzureADOnlyAuthentications operations. */
-export class ManagedInstanceAzureADOnlyAuthenticationsImpl
-  implements ManagedInstanceAzureADOnlyAuthentications {
+/** Class containing DistributedAvailabilityGroups operations. */
+export class DistributedAvailabilityGroupsImpl
+  implements DistributedAvailabilityGroups {
   private readonly client: SqlManagementClient;
 
   /**
-   * Initialize a new instance of the class ManagedInstanceAzureADOnlyAuthentications class.
+   * Initialize a new instance of the class DistributedAvailabilityGroups class.
    * @param client Reference to the service client
    */
   constructor(client: SqlManagementClient) {
@@ -43,7 +44,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Gets a list of server Azure Active Directory only authentications.
+   * Gets a list of a distributed availability groups in instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
@@ -52,8 +53,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): PagedAsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication> {
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+  ): PagedAsyncIterableIterator<DistributedAvailabilityGroup> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
@@ -79,8 +80,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private async *listByInstancePagingPage(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): AsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication[]> {
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+  ): AsyncIterableIterator<DistributedAvailabilityGroup[]> {
     let result = await this._listByInstance(
       resourceGroupName,
       managedInstanceName,
@@ -103,8 +104,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): AsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication> {
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+  ): AsyncIterableIterator<DistributedAvailabilityGroup> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
@@ -115,54 +116,73 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Gets a specific Azure Active Directory only authentication property.
+   * Gets a list of a distributed availability groups in instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
+   * @param options The options parameters.
+   */
+  private _listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+  ): Promise<DistributedAvailabilityGroupsListByInstanceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, managedInstanceName, options },
+      listByInstanceOperationSpec
+    );
+  }
+
+  /**
+   * Gets a distributed availability group info.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams
-  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsGetResponse> {
+    distributedAvailabilityGroupName: string,
+    options?: DistributedAvailabilityGroupsGetOptionalParams
+  ): Promise<DistributedAvailabilityGroupsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, authenticationName, options },
+      {
+        resourceGroupName,
+        managedInstanceName,
+        distributedAvailabilityGroupName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Sets Server Active Directory only authentication property or updates an existing server Active
-   * Directory only authentication property.
+   * Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
-   * @param parameters The required parameters for creating or updating an Active Directory only
-   *                   authentication property.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group info.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroup,
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
-      >,
-      ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse
+      PollOperationState<DistributedAvailabilityGroupsCreateOrUpdateResponse>,
+      DistributedAvailabilityGroupsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse> => {
+    ): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -203,7 +223,7 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
       {
         resourceGroupName,
         managedInstanceName,
-        authenticationName,
+        distributedAvailabilityGroupName,
         parameters,
         options
       },
@@ -216,27 +236,25 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Sets Server Active Directory only authentication property or updates an existing server Active
-   * Directory only authentication property.
+   * Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
-   * @param parameters The required parameters for creating or updating an Active Directory only
-   *                   authentication property.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group info.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    parameters: ManagedInstanceAzureADOnlyAuthentication,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams
-  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateResponse> {
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroup,
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+  ): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
-      authenticationName,
+      distributedAvailabilityGroupName,
       parameters,
       options
     );
@@ -244,18 +262,18 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Deletes an existing server Active Directory only authentication property.
+   * Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    distributedAvailabilityGroupName: string,
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -298,7 +316,12 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, managedInstanceName, authenticationName, options },
+      {
+        resourceGroupName,
+        managedInstanceName,
+        distributedAvailabilityGroupName,
+        options
+      },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -308,44 +331,129 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
   }
 
   /**
-   * Deletes an existing server Active Directory only authentication property.
+   * Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
-   * @param authenticationName The name of server azure active directory only authentication.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     managedInstanceName: string,
-    authenticationName: AuthenticationName,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams
+    distributedAvailabilityGroupName: string,
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       managedInstanceName,
-      authenticationName,
+      distributedAvailabilityGroupName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a list of server Azure Active Directory only authentications.
+   * Updates a distributed availability group replication mode.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group info.
    * @param options The options parameters.
    */
-  private _listByInstance(
+  async beginUpdate(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams
-  ): Promise<ManagedInstanceAzureADOnlyAuthenticationsListByInstanceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroup,
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DistributedAvailabilityGroupsUpdateResponse>,
+      DistributedAvailabilityGroupsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DistributedAvailabilityGroupsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        managedInstanceName,
+        distributedAvailabilityGroupName,
+        parameters,
+        options
+      },
+      updateOperationSpec
     );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Updates a distributed availability group replication mode.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group info.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroup,
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+  ): Promise<DistributedAvailabilityGroupsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      distributedAvailabilityGroupName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -360,10 +468,8 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextOptionalParams
-  ): Promise<
-    ManagedInstanceAzureADOnlyAuthenticationsListByInstanceNextResponse
-  > {
+    options?: DistributedAvailabilityGroupsListByInstanceNextOptionalParams
+  ): Promise<DistributedAvailabilityGroupsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
       listByInstanceNextOperationSpec
@@ -373,85 +479,17 @@ export class ManagedInstanceAzureADOnlyAuthenticationsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
-    Parameters.authenticationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
-    },
-    201: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
-    },
-    202: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
-    },
-    204: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthentication
-    },
-    default: {}
-  },
-  requestBody: Parameters.parameters48,
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
-    Parameters.authenticationName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications/{authenticationName}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
-    Parameters.authenticationName
-  ],
-  serializer
-};
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/azureADOnlyAuthentications",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult
+      bodyMapper: Mappers.DistributedAvailabilityGroupsListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -461,16 +499,116 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.distributedAvailabilityGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    201: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    202: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    204: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    default: {}
+  },
+  requestBody: Parameters.parameters89,
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.distributedAvailabilityGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.distributedAvailabilityGroupName
+  ],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    201: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    202: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    204: {
+      bodyMapper: Mappers.DistributedAvailabilityGroup
+    },
+    default: {}
+  },
+  requestBody: Parameters.parameters89,
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.distributedAvailabilityGroupName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedInstanceAzureADOnlyAuthListResult
+      bodyMapper: Mappers.DistributedAvailabilityGroupsListResult
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
