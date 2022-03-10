@@ -9,7 +9,7 @@ import {
   ReverseSearchCrossStreetAddressResult,
   ReverseSearchCrossStreetAddressResultItem,
   SearchAddressResult,
-  SearchAddressResultItem
+  SearchAddressResultItem,
 } from "./results";
 import {
   Address as AddressInternal,
@@ -25,23 +25,20 @@ import {
   SearchAddressBatchResult,
   SearchSearchAddressOptionalParams as SearchAddressOptionalParams,
   SearchAddressResult as SearchAddressResultInternal,
-  SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams
+  SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams,
 } from "../generated/models";
 import { BoundingBox, LatLon } from "./models";
 import {
-  FuzzySearchBaseOptions,
+  FuzzySearchOptions,
+  FuzzySearchRequest,
+  ReverseSearchAddressOptions,
+  ReverseSearchAddressRequest,
   SearchAddressOptions,
+  SearchAddressRequest,
   SearchBaseOptions,
   SearchExtraFilterOptions,
-  SearchPointOfInterestBaseOptions
+  SearchPointOfInterestOptions,
 } from "./options";
-import {
-  FuzzySearchQuery,
-  FuzzySearchQueryOptions,
-  ReverseSearchAddressQuery,
-  SearchAddressQuery,
-  SearchAddressQueryOptions
-} from "./batchQueries";
 import { OperationOptions } from "@azure/core-client";
 
 /* LatLon / BoundingBox mappers */
@@ -52,11 +49,12 @@ import { OperationOptions } from "@azure/core-client";
 export function toLatLon(lat: number, lon: number): LatLon {
   return {
     latitude: lat,
-    longitude: lon
+    longitude: lon,
   };
 }
 
 /**
+ *
  * @internal
  */
 export function toLatLonString(coordinates: LatLon): string {
@@ -99,7 +97,7 @@ export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
 export function toBoundingBox(topLeft: LatLon, bottomRight: LatLon): BoundingBox {
   return {
     topLeft: topLeft,
-    bottomRight: bottomRight
+    bottomRight: bottomRight,
   };
 }
 
@@ -148,7 +146,7 @@ export function extractOperationOptions(options: OperationOptions): OperationOpt
     requestOptions: options.requestOptions,
     tracingOptions: options.tracingOptions,
     serializerOptions: options.serializerOptions,
-    onResponse: options.onResponse
+    onResponse: options.onResponse,
   };
 }
 
@@ -162,7 +160,6 @@ export function mapSearchBaseOptions(options: SearchBaseOptions): SearchBaseOpti
     language: options.language,
     extendedPostalCodesFor: options.extendedPostalCodesFor,
     localizedMapView: options.localizedMapView,
-    ...extractOperationOptions(options)
   };
 }
 
@@ -175,7 +172,7 @@ export function mapSearchExtraFilterOptions(
   return {
     categoryFilter: options.categoryFilter,
     brandFilter: options.brandFilter,
-    electricVehicleConnectorFilter: options.electricVehicleConnectorFilter
+    electricVehicleConnectorFilter: options.electricVehicleConnectorFilter,
   };
 }
 
@@ -183,7 +180,7 @@ export function mapSearchExtraFilterOptions(
  * @internal
  */
 export function mapSearchAddressOptions(
-  options: SearchAddressOptions
+  options: SearchAddressOptions & OperationOptions
 ): SearchAddressOptionalParams {
   return {
     isTypeAhead: options.isTypeAhead,
@@ -193,7 +190,8 @@ export function mapSearchAddressOptions(
     radiusInMeters: options.radiusInMeters,
     topLeft: options.boundingBox ? toLatLonString(options.boundingBox.topLeft) : undefined,
     btmRight: options.boundingBox ? toLatLonString(options.boundingBox.bottomRight) : undefined,
-    ...mapSearchBaseOptions(options)
+    ...mapSearchBaseOptions(options),
+    ...extractOperationOptions(options),
   };
 }
 
@@ -201,7 +199,7 @@ export function mapSearchAddressOptions(
  * @internal
  */
 export function mapSearchPointOfInterestOptions(
-  options: SearchPointOfInterestBaseOptions
+  options: SearchPointOfInterestOptions
 ): SearchPointOfInterestOptionalParams {
   return {
     operatingHours: options.operatingHours,
@@ -209,20 +207,23 @@ export function mapSearchPointOfInterestOptions(
     radiusInMeters: options.radiusInMeters,
     topLeft: options.boundingBox ? toLatLonString(options.boundingBox.topLeft) : undefined,
     btmRight: options.boundingBox ? toLatLonString(options.boundingBox.bottomRight) : undefined,
-    ...mapSearchBaseOptions(options)
+    ...mapSearchBaseOptions(options),
+    ...extractOperationOptions(options),
   };
 }
 
 /**
  * @internal
  */
-export function mapFuzzySearchOptions(options: FuzzySearchBaseOptions): FuzzySearchOptionalParams {
+export function mapFuzzySearchOptions(
+  options: FuzzySearchOptions & OperationOptions
+): FuzzySearchOptionalParams {
   return {
     entityType: options.entityType,
     minFuzzyLevel: options.minFuzzyLevel,
     maxFuzzyLevel: options.maxFuzzyLevel,
     indexFilter: options.indexFilter,
-    ...mapSearchPointOfInterestOptions(options)
+    ...mapSearchPointOfInterestOptions(options),
   };
 }
 
@@ -254,7 +255,7 @@ export function mapAddress(address?: AddressInternal): Address | undefined {
       freeformAddress: address.freeformAddress,
       countrySubdivisionName: address.countrySecondarySubdivision,
       localName: address.localName,
-      boundingBox: mapBoundingBoxFromCompassNotation(address.boundingBox)
+      boundingBox: mapBoundingBoxFromCompassNotation(address.boundingBox),
     };
     return removeUndefinedProperties(mappedAddress);
   }
@@ -300,15 +301,15 @@ export function mapSearchAddressResult(
               rangeLeft: ir.addressRanges.rangeLeft,
               rangeRight: ir.addressRanges.rangeRight,
               from: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.from),
-              to: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.to)
+              to: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.to),
             }
           : undefined,
         dataSources: ir.dataSources,
         matchType: ir.matchType,
-        detourTime: ir.detourTime
+        detourTime: ir.detourTime,
       };
       return removeUndefinedProperties(mappedResult);
-    })
+    }),
   };
 
   const result: SearchAddressResult = removeUndefinedProperties(resultWithUndefinedProps);
@@ -338,10 +339,10 @@ export function mapReverseSearchAddressResult(
         address: mapAddress(ad.address),
         position: mapStringToLatLon(ad.position),
         roadUse: ad.roadUse,
-        matchType: ad.matchType
+        matchType: ad.matchType,
       };
       return removeUndefinedProperties(mappedResult);
-    })
+    }),
   };
   const result: ReverseSearchAddressResult = removeUndefinedProperties(resultWithUndefinedProps);
   return result;
@@ -359,15 +360,14 @@ export function mapReverseSearchCrossStreetAddressResult(
     results: internalResult.addresses?.map((ad) => {
       const mappedResult: ReverseSearchCrossStreetAddressResultItem = {
         address: mapAddress(ad.address),
-        position: mapStringToLatLon(ad.position)
+        position: mapStringToLatLon(ad.position),
       };
       return removeUndefinedProperties(mappedResult);
-    })
+    }),
   };
 
-  const result: ReverseSearchCrossStreetAddressResult = removeUndefinedProperties(
-    resultWithUndefinedProps
-  );
+  const result: ReverseSearchCrossStreetAddressResult =
+    removeUndefinedProperties(resultWithUndefinedProps);
   return result;
 }
 
@@ -384,12 +384,12 @@ export function mapSearchAddressBatchResult(
       if (item.statusCode === 200) {
         return {
           statusCode: item.statusCode,
-          response: mapSearchAddressResult(item.response as SearchAddressResultInternal)
+          response: mapSearchAddressResult(item.response as SearchAddressResultInternal),
         };
       } else {
         return { statusCode: item.statusCode, response: item.response as ErrorResponse };
       }
-    })
+    }),
   };
   return result;
 }
@@ -409,12 +409,12 @@ export function mapReverseSearchAddressBatchResult(
           statusCode: item.statusCode,
           response: mapReverseSearchAddressResult(
             item.response as ReverseSearchAddressResultInternal
-          )
+          ),
         };
       } else {
         return { statusCode: item.statusCode, response: item.response as ErrorResponse };
       }
-    })
+    }),
   };
   return result;
 }
@@ -434,7 +434,7 @@ const clientToServiceNames: Readonly<Record<string, string>> = {
   includeSpeedLimit: "returnSpeedLimit",
   numberParam: "number",
   includeRoadUse: "returnRoadUse",
-  includeMatchType: "returnMatchType"
+  includeMatchType: "returnMatchType",
 };
 
 /**
@@ -446,14 +446,14 @@ const clientToServiceNamesArray: Readonly<Record<string, string>> = {
   brandFilter: "brandSet",
   countryFilter: "countrySet",
   electricVehicleConnectorFilter: "connectorSet",
-  roadUse: "roadUse"
+  roadUse: "roadUse",
 };
 
 /**
  * @internal
  */
 function createPartialQueryStringFromOptions(
-  options: FuzzySearchQueryOptions | SearchAddressQueryOptions
+  options: FuzzySearchOptions | SearchAddressOptions | ReverseSearchAddressOptions
 ): string {
   let partialQuery = "";
   for (const [k, v] of Object.entries(options)) {
@@ -481,11 +481,11 @@ function createPartialQueryStringFromOptions(
 /**
  * @internal
  */
-export function createFuzzySearchBatchRequest(queries: FuzzySearchQuery[]): BatchRequest {
+export function createFuzzySearchBatchRequest(requests: FuzzySearchRequest[]): BatchRequest {
   return {
-    batchItems: queries.map((q) => {
-      const options = q.options;
-      const { query, coordinates, countryFilter } = q as {
+    batchItems: requests.map((r) => {
+      const options = r.options;
+      const { query, coordinates, countryFilter } = r.searchQuery as {
         query: string;
         coordinates?: LatLon;
         countryFilter?: string[];
@@ -505,25 +505,25 @@ export function createFuzzySearchBatchRequest(queries: FuzzySearchQuery[]): Batc
       }
 
       return { query: queryText };
-    })
+    }),
   };
 }
 
 /**
  * @internal
  */
-export function createSearchAddressBatchRequest(queries: SearchAddressQuery[]): BatchRequest {
+export function createSearchAddressBatchRequest(requests: SearchAddressRequest[]): BatchRequest {
   return {
-    batchItems: queries.map((q) => {
+    batchItems: requests.map((r) => {
       // Add top level query parameters
-      let queryText = `?query=${q.query}`;
+      let queryText = `?query=${r.query}`;
 
       // Add optional query parameters
-      if (q.options) {
-        queryText += createPartialQueryStringFromOptions(q.options);
+      if (r.options) {
+        queryText += createPartialQueryStringFromOptions(r.options);
       }
       return { query: queryText };
-    })
+    }),
   };
 }
 
@@ -531,18 +531,18 @@ export function createSearchAddressBatchRequest(queries: SearchAddressQuery[]): 
  * @internal
  */
 export function createReverseSearchAddressBatchRequest(
-  queries: ReverseSearchAddressQuery[]
+  requests: ReverseSearchAddressRequest[]
 ): BatchRequest {
   return {
-    batchItems: queries.map((q) => {
+    batchItems: requests.map((r) => {
       // Add top level query parameters
-      let queryText = `?query=${q.coordinates.latitude},${q.coordinates.longitude}`;
+      let queryText = `?query=${r.coordinates.latitude},${r.coordinates.longitude}`;
 
       // Add optional query parameters
-      if (q.options) {
-        queryText += createPartialQueryStringFromOptions(q.options);
+      if (r.options) {
+        queryText += createPartialQueryStringFromOptions(r.options);
       }
       return { query: queryText };
-    })
+    }),
   };
 }
