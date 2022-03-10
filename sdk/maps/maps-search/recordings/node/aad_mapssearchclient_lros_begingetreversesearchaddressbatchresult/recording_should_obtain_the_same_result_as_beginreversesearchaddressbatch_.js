@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "06aeb08757f9de215299bc780f9272c2";
+module.exports.hash = "c29b7f19478a2c9a30cfb395ac65db39";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '70691cbc-5f62-44d2-8618-e127b1d51600',
+  'de74fc99-cfd8-40ea-be0d-cffb71e85900',
   'x-ms-ests-server',
-  '2.1.12507.13 - SEASLR2 ProdSlices',
+  '2.1.12559.4 - KRSLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AlKfrMwzIe1HmUbKgj-pnpk; expires=Thu, 24-Mar-2022 10:21:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=At8nTPrrp5BHgGLMalY6ww8; expires=Sat, 09-Apr-2022 06:34:29 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrmh39TwxRDAv0Jf4mYiGQ9BwBul_f-BE0N1RFUVsXRg6vM9VHF9aVTarGaRBuywLpqqMLBXDlio8ePg-B9N_EKfXoe7KHByC4qxIuzDfouI8k_SEYC9WiharqyAYNRMXCAIwCRb-SvnUe3azzu7OZOxH22CyqkP52iMCyTPdjkKcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJoVaU3A4t-JIs6yLaF1oCLVSCCqYqbxWoe941oj9bysJpWmC_GuaP_-p_IP193PtVtcKTbHiuhWUY65v2a0--VBCWgRu3_N9twNSg3g_Ib9-PKXfI7i1Jt_4x_iQGH1mPOGgCjrKcxXJ9dHfWRQzoxXsDgVxmOJDXeCHcIRbXcIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:58 GMT',
+  'Thu, 10 Mar 2022 06:34:29 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '62ad4de4-ec93-45a7-9ded-61cc8fa6a600',
+  '9eb665cb-2621-47b5-b900-1a9e5e181500',
   'x-ms-ests-server',
-  '2.1.12470.11 - KRSLR2 ProdSlices',
+  '2.1.12559.4 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AnxNxN5UXLFDgNoLPabRQGs; expires=Thu, 24-Mar-2022 10:21:59 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Anc_jC1Ivj1GoVMZ2MuV4xY; expires=Sat, 09-Apr-2022 06:34:30 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrzlJ70KAyUvzAY1WUt2BNrCBsjZAl0XQO4tz8oHO70DjzwZY3N4bBtNG-WdbPWWGUmcgyD0XZhEMq33gU1V1igYWqqJxnezCEIS1kwRjfTu5vQLAwcDnRmQc7akZ0ZDgnZeh4q7pWpryjqeiIk5G6KbgQXdLuG2RAT0K3yAGuxm0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrGqx82W95ENYQqbzISw_YU2c7AMXGKlY9B3bE-Nb0q2OucGTkxs0CjWdVA7585sgxRxWHL2Sas-WERbqqzyP9eirIzNJ1lcLoXLvONI2eF-2tnfAUzmx-k6WuUmjSULFknUFkCDxuAZskQZOBJ8hz_lAREn5QVlejAJ_4345WUrsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:58 GMT',
+  'Thu, 10 Mar 2022 06:34:29 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=11b50b6b-c6fa-4a6a-bc59-4ada62798efc&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=6f5ede96-a686-40d1-a500-883db8775f80&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6c7cff29-11c7-41b4-97d9-967d98a5ee00',
+  '16e1b4e1-2b70-4247-bf37-52b7fba8ca00',
   'x-ms-ests-server',
-  '2.1.12470.11 - KRSLR2 ProdSlices',
+  '2.1.12529.17 - SEASLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AoEbDJ8_3hNGp5_G5e8rdzA; expires=Thu, 24-Mar-2022 10:21:59 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuBh4cs4BE9Aj7swBLx_Td4; expires=Sat, 09-Apr-2022 06:34:30 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:58 GMT',
+  'Thu, 10 Mar 2022 06:34:29 GMT',
   'Content-Length',
   '1319'
 ]);
@@ -129,15 +129,15 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 7B53E6105B01426EADB2B9BFB387C1A5 Ref B: TYAEDGE0409 Ref C: 2022-02-22T10:21:59Z',
+  'Ref A: B04A08B062AB401AAE1398A6DCF6E42D Ref B: TPE30EDGE0415 Ref C: 2022-03-10T06:34:30Z',
   'Date',
-  'Tue, 22 Feb 2022 10:21:59 GMT'
+  'Thu, 10 Mar 2022 06:34:29 GMT'
 ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/reverse/batch/<batch-id>')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":3,"numResults":1},"addresses":[{"address":{"buildingNumber":"16000","streetNumber":"16000","routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","streetNameAndNumber":"16000 Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98008","country":"United States","countryCodeISO3":"USA","freeformAddress":"16000 Northeast 31st Street, Bellevue, WA 98008","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Bellevue"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":6,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"16000","streetNumber":"16000","routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","streetNameAndNumber":"16000 Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98008","country":"United States","countryCodeISO3":"USA","freeformAddress":"16000 Northeast 31st Street, Bellevue, WA 98008","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Bellevue"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -151,15 +151,15 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 9ADCEDC240F048F19AA6741D13547020 Ref B: TYAEDGE0409 Ref C: 2022-02-22T10:21:59Z',
+  'Ref A: 79C58906660348429F0D20F29AE4DA7D Ref B: TPE30EDGE0415 Ref C: 2022-03-10T06:34:30Z',
   'Date',
-  'Tue, 22 Feb 2022 10:21:59 GMT'
+  'Thu, 10 Mar 2022 06:34:29 GMT'
 ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/reverse/batch/<batch-id>')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":3,"numResults":1},"addresses":[{"address":{"buildingNumber":"16000","streetNumber":"16000","routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","streetNameAndNumber":"16000 Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98008","country":"United States","countryCodeISO3":"USA","freeformAddress":"16000 Northeast 31st Street, Bellevue, WA 98008","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Bellevue"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":6,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"16000","streetNumber":"16000","routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","streetNameAndNumber":"16000 Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98008","country":"United States","countryCodeISO3":"USA","freeformAddress":"16000 Northeast 31st Street, Bellevue, WA 98008","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Bellevue"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -173,7 +173,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 8CD1E4A3478045D1AC7BA7BD5961C183 Ref B: TYAEDGE0409 Ref C: 2022-02-22T10:21:59Z',
+  'Ref A: 1E717C70081846B1911174894B65950E Ref B: TPE30EDGE0415 Ref C: 2022-03-10T06:34:30Z',
   'Date',
-  'Tue, 22 Feb 2022 10:21:59 GMT'
+  'Thu, 10 Mar 2022 06:34:29 GMT'
 ]);

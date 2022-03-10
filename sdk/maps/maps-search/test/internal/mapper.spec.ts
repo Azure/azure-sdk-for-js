@@ -26,21 +26,27 @@ import {
   removeUndefinedProperties,
   toBoundingBox,
   toLatLon,
-  toLatLonString
+  toLatLonString,
 } from "../../src/models/mappers";
 import {
   FuzzySearchBaseOptions,
+  FuzzySearchOptions,
+  FuzzySearchRequest,
+  ReverseSearchAddressOptions,
+  ReverseSearchAddressRequest,
   SearchAddressBaseOptions,
   SearchAddressOptions,
+  SearchAddressRequest,
   SearchBaseOptions,
   SearchExtraFilterOptions,
   SearchNearbyPointOfInterestOptions,
-  SearchPointOfInterestBaseOptions
+  SearchPointOfInterestBaseOptions,
+  SearchPointOfInterestOptions,
 } from "../../src/models/options";
 import {
   LatLongPairAbbreviated,
   BoundingBox as BoundingBoxInternal,
-  BoundingBoxCompassNotation
+  BoundingBoxCompassNotation,
 } from "../../src/generated";
 import {
   SearchSearchAddressOptionalParams as SearchAddressOptionalParams,
@@ -58,23 +64,15 @@ import {
   ReverseSearchCrossStreetAddressResult as ReverseSearchCrossStreetAddressResultInternal,
   KnownMatchType,
   SearchAddressBatchResult,
-  ReverseSearchAddressBatchResult
+  ReverseSearchAddressBatchResult,
 } from "../../src/generated/models";
 import { OperationOptions } from "@azure/core-client";
-import {
-  FuzzySearchQuery,
-  FuzzySearchQueryOptions,
-  ReverseSearchAddressQuery,
-  ReverseSearchAddressQueryOptions,
-  SearchAddressQuery,
-  SearchAddressQueryOptions
-} from "../../src/models/batchQueries";
 import {
   Address,
   BatchResult,
   ReverseSearchAddressResult,
   ReverseSearchCrossStreetAddressResult,
-  SearchAddressResult
+  SearchAddressResult,
 } from "../../src/models/results";
 
 describe("LatLon/BoundingBox mappers", () => {
@@ -102,7 +100,7 @@ describe("LatLon/BoundingBox mappers", () => {
     it("should convert LatLongPairAbbreviated to LatLong correctly", () => {
       const latLongAbbr: LatLongPairAbbreviated = {
         lat: 45.2,
-        lon: 120.3
+        lon: 120.3,
       };
       const latLon = mapLatLongPairAbbreviatedToLatLon(latLongAbbr) as LatLon;
 
@@ -149,7 +147,7 @@ describe("LatLon/BoundingBox mappers", () => {
     it("should convert an internel bounding box to a BondingBox object", () => {
       const concreteBbox: BoundingBoxInternal = {
         topLeft: topLeft,
-        bottomRight: bottomRight
+        bottomRight: bottomRight,
       };
       const bbox = mapBoundingBox(concreteBbox) as BoundingBox;
       assert.hasAllKeys(bbox, ["topLeft", "bottomRight"]);
@@ -160,11 +158,11 @@ describe("LatLon/BoundingBox mappers", () => {
     it("should not convert to a BoundingBox is some properties are null", () => {
       const incompleteBbox1: BoundingBoxInternal = {
         topLeft: topLeft,
-        bottomRight: undefined
+        bottomRight: undefined,
       };
       const incompleteBbox2: BoundingBoxInternal = {
         topLeft: undefined,
-        bottomRight: bottomRight
+        bottomRight: bottomRight,
       };
       assert.isUndefined(mapBoundingBox(incompleteBbox1));
       assert.isUndefined(mapBoundingBox(incompleteBbox2));
@@ -182,7 +180,7 @@ describe("LatLon/BoundingBox mappers", () => {
     it("should convert an internel bounding box to a BondingBox object", () => {
       const concreteBbox: BoundingBoxCompassNotation = {
         northEast: northEast,
-        southWest: southWest
+        southWest: southWest,
       };
       const bbox = mapBoundingBoxFromCompassNotation(concreteBbox) as BoundingBox;
       assert.hasAllKeys(bbox, ["topLeft", "bottomRight"]);
@@ -197,11 +195,11 @@ describe("LatLon/BoundingBox mappers", () => {
     it("should not convert to a BoundingBox is some properties are null", () => {
       const incompleteBbox1: BoundingBoxCompassNotation = {
         northEast: northEast,
-        southWest: undefined
+        southWest: undefined,
       };
       const incompleteBbox2: BoundingBoxCompassNotation = {
         northEast: undefined,
-        southWest: southWest
+        southWest: southWest,
       };
       assert.isUndefined(mapBoundingBoxFromCompassNotation(incompleteBbox1));
       assert.isUndefined(mapBoundingBoxFromCompassNotation(incompleteBbox2));
@@ -219,23 +217,22 @@ describe("Options mappers", () => {
     "requestOptions",
     "tracingOptions",
     "serializerOptions",
-    "onResponse"
+    "onResponse",
   ];
   const searchBaseOptionsKeys: (keyof SearchBaseOptions)[] = [
-    ...operationOptionsKeys,
     "top",
     "skip",
     "language",
     "extendedPostalCodesFor",
-    "localizedMapView"
+    "localizedMapView",
   ];
   const searchExtraFilterOptionsKeys: (keyof SearchExtraFilterOptions)[] = [
     "categoryFilter",
     "brandFilter",
-    "electricVehicleConnectorFilter"
+    "electricVehicleConnectorFilter",
   ];
-
   const searchAddressOptionalParamsKeys: (keyof SearchAddressOptionalParams)[] = [
+    ...operationOptionsKeys,
     ...searchBaseOptionsKeys,
     "isTypeAhead",
     "countryFilter",
@@ -243,16 +240,17 @@ describe("Options mappers", () => {
     "lon",
     "radiusInMeters",
     "topLeft",
-    "btmRight"
+    "btmRight",
   ];
 
   const searchPointOfInterestOptionalParamsKeys: (keyof SearchPointOfInterestOptionalParams)[] = [
+    ...operationOptionsKeys,
     ...searchBaseOptionsKeys,
     "operatingHours",
     "isTypeAhead",
     "radiusInMeters",
     "topLeft",
-    "btmRight"
+    "btmRight",
   ];
 
   const fuzzySearchOptionalParams: (keyof FuzzySearchOptionalParams)[] = [
@@ -260,14 +258,14 @@ describe("Options mappers", () => {
     "entityType",
     "minFuzzyLevel",
     "maxFuzzyLevel",
-    "indexFilter"
+    "indexFilter",
   ];
 
   describe("extractOperationOptions", () => {
     it("should only return properties of OperationOptions", () => {
-      const options: SearchBaseOptions = {
+      const options: SearchPointOfInterestOptions = {
         top: 5,
-        skip: 1
+        skip: 1,
       };
       const convertedOptions = extractOperationOptions(options);
       assert.hasAllKeys(convertedOptions, operationOptionsKeys);
@@ -277,7 +275,7 @@ describe("Options mappers", () => {
   describe("mapSearchBaseOptions", () => {
     it("should only return properties of SearchBaseOptions", () => {
       const options: SearchAddressBaseOptions = {
-        isTypeAhead: true
+        isTypeAhead: true,
       };
       const convertedOptions = mapSearchBaseOptions(options);
       assert.hasAllKeys(convertedOptions, searchBaseOptionsKeys);
@@ -287,7 +285,7 @@ describe("Options mappers", () => {
   describe("mapSearchExtraFilterOptions", () => {
     it("should only return properties of SearchExtraFilterOptions", () => {
       const options: SearchNearbyPointOfInterestOptions = {
-        radiusInMeters: 5000
+        radiusInMeters: 5000,
       };
       const convertedOptions = mapSearchExtraFilterOptions(options);
       assert.hasAllKeys(convertedOptions, searchExtraFilterOptionsKeys);
@@ -297,7 +295,7 @@ describe("Options mappers", () => {
   describe("mapSearchAddressOptions", () => {
     it("should only return properties of SearchAddressOptionalParams", () => {
       const options: SearchAddressOptions = {
-        coordinates: { latitude: 50, longitude: 100 }
+        coordinates: { latitude: 50, longitude: 100 },
       };
       const convertedOptions = mapSearchAddressOptions(options);
       assert.hasAllKeys(convertedOptions, searchAddressOptionalParamsKeys);
@@ -309,8 +307,8 @@ describe("Options mappers", () => {
       const options: SearchPointOfInterestBaseOptions = {
         boundingBox: {
           bottomRight: { latitude: 60, longitude: 50 },
-          topLeft: { latitude: 61, longitude: 49 }
-        }
+          topLeft: { latitude: 61, longitude: 49 },
+        },
       };
       const convertedOptions = mapSearchPointOfInterestOptions(options);
       assert.hasAllKeys(convertedOptions, searchPointOfInterestOptionalParamsKeys);
@@ -322,8 +320,8 @@ describe("Options mappers", () => {
       const options: FuzzySearchBaseOptions = {
         boundingBox: {
           bottomRight: { latitude: 60, longitude: 50 },
-          topLeft: { latitude: 61, longitude: 49 }
-        }
+          topLeft: { latitude: 61, longitude: 49 },
+        },
       };
       const convertedOptions = mapFuzzySearchOptions(options);
       assert.hasAllKeys(convertedOptions, fuzzySearchOptionalParams);
@@ -337,7 +335,7 @@ describe("Result mappers", () => {
     it("should transform an internal address to custom address object", () => {
       const bboxCompass: BoundingBoxCompassNotation = {
         northEast: "45.2,12.4",
-        southWest: "45.1,12.3"
+        southWest: "45.1,12.3",
       };
       const internalAddr: AddressInternal = {
         buildingNumber: "buildingNumber",
@@ -360,11 +358,11 @@ describe("Result mappers", () => {
         freeformAddress: "freeformAddress",
         countrySubdivisionName: "countrySecondarySubdivision",
         localName: "localName",
-        boundingBox: bboxCompass
+        boundingBox: bboxCompass,
       };
       const expectedAddress: Address = {
         ...internalAddr,
-        boundingBox: mapBoundingBoxFromCompassNotation(bboxCompass)
+        boundingBox: mapBoundingBoxFromCompassNotation(bboxCompass),
       };
       assert.deepEqual(mapAddress(internalAddr), expectedAddress);
     });
@@ -372,11 +370,11 @@ describe("Result mappers", () => {
       const internalAddr: AddressInternal = {
         buildingNumber: "buildingNumber",
         crossStreet: "crossStreet",
-        streetNumber: undefined
+        streetNumber: undefined,
       };
       const expectedAddress = {
         buildingNumber: "buildingNumber",
-        crossStreet: "crossStreet"
+        crossStreet: "crossStreet",
       };
       assert.deepEqual(mapAddress(internalAddr), expectedAddress);
     });
@@ -393,8 +391,8 @@ describe("Result mappers", () => {
           numResults: 1,
           geoBias: {
             lat: 47.301293179130347,
-            lon: -120.88247999999997
-          }
+            lon: -120.88247999999997,
+          },
         },
         results: [
           {
@@ -402,20 +400,20 @@ describe("Result mappers", () => {
             score: 8.074,
             position: {
               lat: 47.6308,
-              lon: -122.1385
+              lon: -122.1385,
             },
             viewport: {
               topLeft: {
                 lat: 47.6317,
-                lon: -122.13983
+                lon: -122.13983,
               },
               bottomRight: {
                 lat: 47.6299,
-                lon: -122.13717
-              }
-            }
-          }
-        ]
+                lon: -122.13717,
+              },
+            },
+          },
+        ],
       };
 
       const expectedResult: SearchAddressResult = {
@@ -424,7 +422,7 @@ describe("Result mappers", () => {
         numResults: 1,
         geoBias: {
           latitude: 47.301293179130347,
-          longitude: -120.88247999999997
+          longitude: -120.88247999999997,
         },
         results: [
           {
@@ -432,20 +430,20 @@ describe("Result mappers", () => {
             score: 8.074,
             position: {
               latitude: 47.6308,
-              longitude: -122.1385
+              longitude: -122.1385,
             },
             viewport: {
               topLeft: {
                 latitude: 47.6317,
-                longitude: -122.13983
+                longitude: -122.13983,
               },
               bottomRight: {
                 latitude: 47.6299,
-                longitude: -122.13717
-              }
-            }
-          }
-        ]
+                longitude: -122.13717,
+              },
+            },
+          },
+        ],
       };
 
       assert.deepEqual(mapSearchAddressResult(internalResult), expectedResult);
@@ -456,7 +454,7 @@ describe("Result mappers", () => {
       const obj: Record<string, any> = {
         prop1: 5,
         prop2: "text",
-        prop3: undefined
+        prop3: undefined,
       };
       const convertedObj = removeUndefinedProperties(obj);
       assert.hasAllKeys(convertedObj, ["prop1", "prop2"]);
@@ -472,9 +470,9 @@ describe("Result mappers", () => {
             roadUse: [],
             matchType: KnownMatchType.Street,
             address: { country: "Japan" },
-            position: "60.12,120.34"
-          }
-        ]
+            position: "60.12,120.34",
+          },
+        ],
       };
 
       const expectedResult: ReverseSearchAddressResult = {
@@ -485,9 +483,9 @@ describe("Result mappers", () => {
             roadUse: [],
             matchType: KnownMatchType.Street,
             address: { country: "Japan" },
-            position: { latitude: 60.12, longitude: 120.34 }
-          }
-        ]
+            position: { latitude: 60.12, longitude: 120.34 },
+          },
+        ],
       };
 
       assert.deepEqual(mapReverseSearchAddressResult(internalResult), expectedResult);
@@ -500,9 +498,9 @@ describe("Result mappers", () => {
         addresses: [
           {
             address: { country: "Japan" },
-            position: "60.12,120.34"
-          }
-        ]
+            position: "60.12,120.34",
+          },
+        ],
       };
 
       const expectedResult: ReverseSearchCrossStreetAddressResult = {
@@ -511,9 +509,9 @@ describe("Result mappers", () => {
         results: [
           {
             address: { country: "Japan" },
-            position: { latitude: 60.12, longitude: 120.34 }
-          }
-        ]
+            position: { latitude: 60.12, longitude: 120.34 },
+          },
+        ],
       };
 
       assert.deepEqual(mapReverseSearchCrossStreetAddressResult(internalResult), expectedResult);
@@ -528,18 +526,18 @@ describe("Result mappers", () => {
             statusCode: 200,
             response: {
               summary: { numResults: 1, query: "one microsoft way redmond wa 98052" },
-              results: [{ position: { lat: 47.63989, lon: -122.12509 } }]
-            }
+              results: [{ position: { lat: 47.63989, lon: -122.12509 } }],
+            },
           },
           {
             statusCode: 200,
             response: {
               summary: { numResults: 2, query: "pike pl seattle wa 98101" },
-              results: [{ position: { lat: 47.60963, lon: -122.34215 } }]
-            }
+              results: [{ position: { lat: 47.60963, lon: -122.34215 } }],
+            },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } }
-        ]
+          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+        ],
       };
 
       const expectedResult: BatchResult<SearchAddressResult> = {
@@ -551,19 +549,19 @@ describe("Result mappers", () => {
             response: {
               numResults: 1,
               query: "one microsoft way redmond wa 98052",
-              results: [{ position: { latitude: 47.63989, longitude: -122.12509 } }]
-            }
+              results: [{ position: { latitude: 47.63989, longitude: -122.12509 } }],
+            },
           },
           {
             statusCode: 200,
             response: {
               numResults: 2,
               query: "pike pl seattle wa 98101",
-              results: [{ position: { latitude: 47.60963, longitude: -122.34215 } }]
-            }
+              results: [{ position: { latitude: 47.60963, longitude: -122.34215 } }],
+            },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } }
-        ]
+          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+        ],
       };
 
       assert.deepEqual(mapSearchAddressBatchResult(searchAddressBatchResult), expectedResult);
@@ -582,15 +580,15 @@ describe("Result mappers", () => {
                 {
                   address: {
                     country: "France",
-                    freeformAddress: "Avenue Anatole France, 75007 Paris"
+                    freeformAddress: "Avenue Anatole France, 75007 Paris",
                   },
-                  position: "48.858490,2.294820"
-                }
-              ]
-            }
+                  position: "48.858490,2.294820",
+                },
+              ],
+            },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } }
-        ]
+          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+        ],
       };
 
       const expectedResult: BatchResult<ReverseSearchAddressResult> = {
@@ -605,15 +603,15 @@ describe("Result mappers", () => {
                 {
                   address: {
                     country: "France",
-                    freeformAddress: "Avenue Anatole France, 75007 Paris"
+                    freeformAddress: "Avenue Anatole France, 75007 Paris",
                   },
-                  position: { latitude: 48.85849, longitude: 2.29482 }
-                }
-              ]
-            }
+                  position: { latitude: 48.85849, longitude: 2.29482 },
+                },
+              ],
+            },
           },
-          { statusCode: 400, response: { error: { code: "400 BadRequest" } } }
-        ]
+          { statusCode: 400, response: { error: { code: "400 BadRequest" } } },
+        ],
       };
 
       assert.deepEqual(
@@ -627,88 +625,88 @@ describe("Result mappers", () => {
       const query = "pizza";
       const coordinates = { latitude: 47.59118, longitude: -122.3327 };
       const countryFilter = ["fr", "us"];
-      const options1: FuzzySearchQueryOptions = {
+      const options1: FuzzySearchOptions = {
         entityType: KnownGeographicEntityType.Country,
         minFuzzyLevel: 1,
         maxFuzzyLevel: 1,
-        indexFilter: [KnownSearchIndexes.Address, KnownSearchIndexes.Streets]
+        indexFilter: [KnownSearchIndexes.Address, KnownSearchIndexes.Streets],
       };
-      const options2: FuzzySearchQueryOptions = {
+      const options2: FuzzySearchOptions = {
         operatingHours: KnownOperatingHoursRange.NextSevenDays,
         categoryFilter: [7315025, 7315017],
-        brandFilter: ["Foo", "Bar"]
+        brandFilter: ["Foo", "Bar"],
       };
-      const options3: FuzzySearchQueryOptions = {
+      const options3: FuzzySearchOptions = {
         electricVehicleConnectorFilter: [
           KnownElectricVehicleConnector.IEC62196Type1CCS,
-          KnownElectricVehicleConnector.IEC62196Type3
+          KnownElectricVehicleConnector.IEC62196Type3,
         ],
         isTypeAhead: false,
-        radiusInMeters: 5000
+        radiusInMeters: 5000,
       };
-      const options4: FuzzySearchQueryOptions = {
+      const options4: FuzzySearchOptions = {
         boundingBox: {
           topLeft: { latitude: 47.59118, longitude: -122.3327 },
-          bottomRight: { latitude: 45.59118, longitude: -121.3327 }
+          bottomRight: { latitude: 45.59118, longitude: -121.3327 },
         },
         top: 10,
-        skip: 3
+        skip: 3,
       };
-      const options5: FuzzySearchQueryOptions = {
+      const options5: FuzzySearchOptions = {
         language: "en-US",
         extendedPostalCodesFor: [KnownSearchIndexes.Address, KnownSearchIndexes.PointAddresses],
-        localizedMapView: "Auto"
+        localizedMapView: "Auto",
       };
-      const options6: FuzzySearchQueryOptions = {
+      const options6: FuzzySearchOptions = {
         indexFilter: [],
         categoryFilter: [],
         brandFilter: undefined,
-        electricVehicleConnectorFilter: undefined
+        electricVehicleConnectorFilter: undefined,
       };
-      const queries: FuzzySearchQuery[] = [
-        { query: query, coordinates: coordinates },
-        { query: query, countryFilter: countryFilter },
-        { query: query, coordinates: coordinates, countryFilter: countryFilter },
-        { query: query, coordinates, options: options1 },
-        { query: query, coordinates, options: options2 },
-        { query: query, coordinates, options: options3 },
-        { query: query, coordinates, options: options4 },
-        { query: query, coordinates, options: options5 },
-        { query: query, coordinates, options: options6 }
+      const queries: FuzzySearchRequest[] = [
+        { searchQuery: { query: query, coordinates: coordinates } },
+        { searchQuery: { query: query, countryFilter: countryFilter } },
+        { searchQuery: { query: query, coordinates: coordinates, countryFilter: countryFilter } },
+        { searchQuery: { query: query, coordinates }, options: options1 },
+        { searchQuery: { query: query, coordinates }, options: options2 },
+        { searchQuery: { query: query, coordinates }, options: options3 },
+        { searchQuery: { query: query, coordinates }, options: options4 },
+        { searchQuery: { query: query, coordinates }, options: options5 },
+        { searchQuery: { query: query, coordinates }, options: options6 },
       ];
       const expectedBatchRequest: BatchRequest = {
         batchItems: [
           {
-            query: "?query=pizza&lat=47.59118&lon=-122.3327"
+            query: "?query=pizza&lat=47.59118&lon=-122.3327",
           },
           {
-            query: "?query=pizza&countrySet=fr,us"
+            query: "?query=pizza&countrySet=fr,us",
           },
           {
-            query: "?query=pizza&lat=47.59118&lon=-122.3327&countrySet=fr,us"
-          },
-          {
-            query:
-              "?query=pizza&lat=47.59118&lon=-122.3327&entityType=Country&minFuzzyLevel=1&maxFuzzyLevel=1&idxSet=Addr,Str"
+            query: "?query=pizza&lat=47.59118&lon=-122.3327&countrySet=fr,us",
           },
           {
             query:
-              "?query=pizza&lat=47.59118&lon=-122.3327&openingHours=nextSevenDays&categorySet=7315025,7315017&brandSet=Foo,Bar"
+              "?query=pizza&lat=47.59118&lon=-122.3327&entityType=Country&minFuzzyLevel=1&maxFuzzyLevel=1&idxSet=Addr,Str",
           },
           {
             query:
-              "?query=pizza&lat=47.59118&lon=-122.3327&connectorSet=IEC62196Type1CCS,IEC62196Type3&typeahead=false&radius=5000"
+              "?query=pizza&lat=47.59118&lon=-122.3327&openingHours=nextSevenDays&categorySet=7315025,7315017&brandSet=Foo,Bar",
           },
           {
             query:
-              "?query=pizza&lat=47.59118&lon=-122.3327&topLeft=47.59118,-122.3327&btmRight=45.59118,-121.3327&limit=10&ofs=3"
+              "?query=pizza&lat=47.59118&lon=-122.3327&connectorSet=IEC62196Type1CCS,IEC62196Type3&typeahead=false&radius=5000",
           },
           {
             query:
-              "?query=pizza&lat=47.59118&lon=-122.3327&language=en-US&extendedPostalCodesFor=Addr,PAD&view=Auto"
+              "?query=pizza&lat=47.59118&lon=-122.3327&topLeft=47.59118,-122.3327&btmRight=45.59118,-121.3327&limit=10&ofs=3",
           },
-          { query: "?query=pizza&lat=47.59118&lon=-122.3327" }
-        ]
+          {
+            query:
+              "?query=pizza&lat=47.59118&lon=-122.3327&language=en-US&extendedPostalCodesFor=Addr,PAD&view=Auto",
+          },
+          { query: "?query=pizza&lat=47.59118&lon=-122.3327" },
+        ],
       };
       const actualBatchRequest = createFuzzySearchBatchRequest(queries);
 
@@ -718,54 +716,54 @@ describe("Result mappers", () => {
   describe("createSearchAddressBatchRequest", () => {
     it("should properly transform the request objects to query strings", () => {
       const query = "Paris";
-      const options1: SearchAddressQueryOptions = {
+      const options1: SearchAddressOptions = {
         entityType: KnownGeographicEntityType.Country,
         countryFilter: ["fr", "us"],
         coordinates: { latitude: 47.59118, longitude: -122.3327 },
         isTypeAhead: false,
-        radiusInMeters: 5000
+        radiusInMeters: 5000,
       };
-      const options2: SearchAddressQueryOptions = {
+      const options2: SearchAddressOptions = {
         boundingBox: {
           topLeft: { latitude: 47.59118, longitude: -122.3327 },
-          bottomRight: { latitude: 45.59118, longitude: -121.3327 }
+          bottomRight: { latitude: 45.59118, longitude: -121.3327 },
         },
         top: 10,
-        skip: 3
+        skip: 3,
       };
-      const options3: SearchAddressQueryOptions = {
+      const options3: SearchAddressOptions = {
         language: "en-US",
         extendedPostalCodesFor: [KnownSearchIndexes.Address, KnownSearchIndexes.PointAddresses],
-        localizedMapView: "Auto"
+        localizedMapView: "Auto",
       };
-      const options4: SearchAddressQueryOptions = {
+      const options4: SearchAddressOptions = {
         countryFilter: [],
         coordinates: undefined,
         boundingBox: undefined,
         extendedPostalCodesFor: undefined,
-        localizedMapView: "Auto"
+        localizedMapView: "Auto",
       };
-      const queries: SearchAddressQuery[] = [
+      const queries: SearchAddressRequest[] = [
         { query: query },
         { query: query, options: options1 },
         { query: query, options: options2 },
         { query: query, options: options3 },
-        { query: query, options: options4 }
+        { query: query, options: options4 },
       ];
       const expectedBatchRequest: BatchRequest = {
         batchItems: [
           { query: "?query=Paris" },
           {
             query:
-              "?query=Paris&entityType=Country&countrySet=fr,us&lat=47.59118&lon=-122.3327&typeahead=false&radius=5000"
+              "?query=Paris&entityType=Country&countrySet=fr,us&lat=47.59118&lon=-122.3327&typeahead=false&radius=5000",
           },
           {
             query:
-              "?query=Paris&topLeft=47.59118,-122.3327&btmRight=45.59118,-121.3327&limit=10&ofs=3"
+              "?query=Paris&topLeft=47.59118,-122.3327&btmRight=45.59118,-121.3327&limit=10&ofs=3",
           },
           { query: "?query=Paris&language=en-US&extendedPostalCodesFor=Addr,PAD&view=Auto" },
-          { query: "?query=Paris&view=Auto" }
-        ]
+          { query: "?query=Paris&view=Auto" },
+        ],
       };
       const actualBatchRequest = createSearchAddressBatchRequest(queries);
 
@@ -775,49 +773,49 @@ describe("Result mappers", () => {
   describe("createReverseSearchAddressBatchRequest", () => {
     it("should properly transform the request objects to query strings", () => {
       const coordinates = { latitude: 60.12, longitude: -100.34 };
-      const options1: ReverseSearchAddressQueryOptions = {
+      const options1: ReverseSearchAddressOptions = {
         radiusInMeters: 5000,
         language: "en-US",
         localizedMapView: "Auto",
         heading: 0,
-        entityType: KnownGeographicEntityType.Country
+        entityType: KnownGeographicEntityType.Country,
       };
-      const options2: ReverseSearchAddressQueryOptions = {
+      const options2: ReverseSearchAddressOptions = {
         includeSpeedLimit: false,
         allowFreeformNewline: false,
-        includeMatchType: false
+        includeMatchType: false,
       };
-      const options3: ReverseSearchAddressQueryOptions = {
+      const options3: ReverseSearchAddressOptions = {
         includeRoadUse: true,
-        roadUse: [KnownRoadUseType.Arterial, KnownRoadUseType.Ramp]
+        roadUse: [KnownRoadUseType.Arterial, KnownRoadUseType.Ramp],
       };
-      const options4: ReverseSearchAddressQueryOptions = {
+      const options4: ReverseSearchAddressOptions = {
         radiusInMeters: 5000,
         entityType: undefined,
         includeRoadUse: true,
-        roadUse: []
+        roadUse: [],
       };
-      const queries: ReverseSearchAddressQuery[] = [
+      const queries: ReverseSearchAddressRequest[] = [
         { coordinates: coordinates },
         { coordinates: coordinates, options: options1 },
         { coordinates: coordinates, options: options2 },
         { coordinates: coordinates, options: options3 },
-        { coordinates: coordinates, options: options4 }
+        { coordinates: coordinates, options: options4 },
       ];
       const expectedBatchRequest: BatchRequest = {
         batchItems: [
           { query: "?query=60.12,-100.34" },
           {
             query:
-              "?query=60.12,-100.34&radius=5000&language=en-US&view=Auto&heading=0&entityType=Country"
+              "?query=60.12,-100.34&radius=5000&language=en-US&view=Auto&heading=0&entityType=Country",
           },
           {
             query:
-              "?query=60.12,-100.34&returnSpeedLimit=false&allowFreeformNewline=false&returnMatchType=false"
+              "?query=60.12,-100.34&returnSpeedLimit=false&allowFreeformNewline=false&returnMatchType=false",
           },
           { query: "?query=60.12,-100.34&returnRoadUse=true&roadUse=Arterial,Ramp" },
-          { query: "?query=60.12,-100.34&radius=5000&returnRoadUse=true" }
-        ]
+          { query: "?query=60.12,-100.34&radius=5000&returnRoadUse=true" },
+        ],
       };
       const actualBatchRequest = createReverseSearchAddressBatchRequest(queries);
 

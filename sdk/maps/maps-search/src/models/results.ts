@@ -11,7 +11,7 @@ import {
   PointOfInterest,
   QueryType,
   RoadUseType,
-  SearchAddressResultType
+  SearchAddressResultType,
 } from "../generated/models";
 import { GeoJsonFeatureCollection } from "./geojsons";
 
@@ -189,8 +189,8 @@ export interface ReverseSearchCrossStreetAddressResultItem {
   readonly matchType?: MatchType;
 }
 
-/** This object is returned from a successful Search Address Batch service call. */
-export interface BatchResult<TResult extends SearchAddressResult | ReverseSearchAddressResult> {
+/** This object is returned from a successful Batch service call. */
+export interface BatchResult<TResult> {
   /** Number of successful requests in the batch */
   readonly successfulRequests?: number;
   /** Total number of requests in the batch */
@@ -199,11 +199,11 @@ export interface BatchResult<TResult extends SearchAddressResult | ReverseSearch
   readonly batchItems?: BatchItem<TResult>[];
 }
 
-/** An item returned from Search Address Batch service call. */
+/** An item returned from Batch service call. */
 export interface BatchItem<TResult> {
   /** HTTP request status code. */
   readonly statusCode?: number;
-  /** The result of the query. SearchResultType if the query completed successfully, ErrorResponse otherwise. */
+  /** The result of the query. TResult if the query completed successfully, ErrorResponse otherwise. */
   readonly response?: TResult & ErrorResponse;
 }
 

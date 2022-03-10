@@ -109,21 +109,21 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         describe("#searchAddressBatch", function () {
-          it("should throw errors if given empty array as queries", async function () {
+          it("should throw errors if given empty requests", async function () {
             // "Number of queries must be between 1 and 10000 inclusive.""
             assert.isRejected(client.searchAddressBatch([]));
           });
-          it("could take an array of fuzzy search queries as input", async function () {
-            const batchQueries = [
+          it("could take an array of fuzzy search requests as input", async function () {
+            const requests = [
               { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
               { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
               { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
             ];
 
-            const batchResult = await client.searchAddressBatch(batchQueries);
+            const batchResult = await client.searchAddressBatch(requests);
 
-            assert.equal(batchResult.totalRequests, batchQueries.length);
-            assert.equal(batchResult.batchItems?.length, batchQueries.length);
+            assert.equal(batchResult.totalRequests, requests.length);
+            assert.equal(batchResult.batchItems?.length, requests.length);
           });
         });
 
@@ -172,13 +172,13 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         describe("#reverseSearchAddressBatch", function () {
-          it("should throw errors if given empty array as queries", async function () {
+          it("should throw errors if given empty requests", async function () {
             // "Number of queries must be between 1 and 10000 inclusive.""
             assert.isRejected(client.reverseSearchAddressBatch([]));
           });
 
-          it("could take an array of fuzzy search queries as input", async function () {
-            const batchQueries = [
+          it("could take an array of fuzzy search requests as input", async function () {
+            const requests = [
               { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
               {
                 coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -187,10 +187,10 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
               { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
             ];
 
-            const batchResult = await client.reverseSearchAddressBatch(batchQueries);
+            const batchResult = await client.reverseSearchAddressBatch(requests);
 
-            assert.equal(batchResult.totalRequests, batchQueries.length);
-            assert.equal(batchResult.batchItems?.length, batchQueries.length);
+            assert.equal(batchResult.totalRequests, requests.length);
+            assert.equal(batchResult.batchItems?.length, requests.length);
           });
         });
 
@@ -422,26 +422,28 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         describe("#fuzzySearchBatch", function () {
-          it("should throw errors if given empty array as queries", async function () {
+          it("should throw errors if given empty requests", async function () {
             // "Number of queries must be between 1 and 10000 inclusive.""
             assert.isRejected(client.fuzzySearchBatch([]));
           });
 
-          it("could take an array of fuzzy search queries as input", async function () {
-            const batchQueries = [
-              { query: "pizza", countryFilter: ["fr"] },
-              { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+          it("could take an array of fuzzy search requests as input", async function () {
+            const requests = [
+              { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+              { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
               {
-                query: "pizza",
-                countryFilter: ["tw"],
-                coordinates: { latitude: 25, longitude: 121 },
+                searchQuery: {
+                  query: "pizza",
+                  countryFilter: ["tw"],
+                  coordinates: { latitude: 25, longitude: 121 },
+                },
               },
             ];
 
-            const batchResult = await client.fuzzySearchBatch(batchQueries);
+            const batchResult = await client.fuzzySearchBatch(requests);
 
-            assert.equal(batchResult.totalRequests, batchQueries.length);
-            assert.equal(batchResult.batchItems?.length, batchQueries.length);
+            assert.equal(batchResult.totalRequests, requests.length);
+            assert.equal(batchResult.batchItems?.length, requests.length);
           });
         });
 
@@ -554,35 +556,37 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
       });
 
       describe("#beginFuzzySearchBatch", function () {
-        it("should throw errors if given empty array as queries", async function () {
+        it("should throw errors if given empty requests", async function () {
           // "Number of queries must be between 1 and 10000 inclusive.""
           assert.isRejected(client.beginFuzzySearchBatch([]));
         });
-        it("could take an array of fuzzy search queries as input", async function () {
-          const batchQueries = [
-            { query: "pizza", countryFilter: ["fr"] },
-            { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+        it("could take an array of fuzzy search requests as input", async function () {
+          const requests = [
+            { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+            { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
-              query: "pizza",
-              countryFilter: ["tw"],
-              coordinates: { latitude: 25, longitude: 121 },
+              searchQuery: {
+                query: "pizza",
+                countryFilter: ["tw"],
+                coordinates: { latitude: 25, longitude: 121 },
+              },
             },
           ];
 
-          const poller = await client.beginFuzzySearchBatch(batchQueries, {
+          const poller = await client.beginFuzzySearchBatch(requests, {
             updateIntervalInMs: pollingInterval,
           });
 
           const batchResult = await poller.pollUntilDone();
 
-          assert.equal(batchResult.totalRequests, batchQueries.length);
-          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          assert.equal(batchResult.totalRequests, requests.length);
+          assert.equal(batchResult.batchItems?.length, requests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
-          const batchQueries = [{ query: "pizza", countryFilter: ["fr"] }];
+          const batchRequests = [{ searchQuery: { query: "pizza", countryFilter: ["fr"] } }];
 
-          const poller = await client.beginFuzzySearchBatch(batchQueries, {
+          const poller = await client.beginFuzzySearchBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
 
@@ -608,18 +612,20 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         it("could retrieve a previous submitted batch results", async function () {
-          const batchQueries = [
-            { query: "pizza", countryFilter: ["fr"] },
-            { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+          const batchRequests = [
+            { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+            { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
-              query: "pizza",
-              countryFilter: ["tw"],
-              coordinates: { latitude: 25, longitude: 121 },
+              searchQuery: {
+                query: "pizza",
+                countryFilter: ["tw"],
+                coordinates: { latitude: 25, longitude: 121 },
+              },
             },
           ];
 
           // Initiate fuzzy search batch
-          const poller1 = await client.beginFuzzySearchBatch(batchQueries, {
+          const poller1 = await client.beginFuzzySearchBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
           const batchId = poller1.getBatchId() as string;
@@ -630,23 +636,25 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             updateIntervalInMs: pollingInterval,
           });
           const batchResult = await poller2.pollUntilDone();
-          assert.equal(batchResult.totalRequests, batchQueries.length);
-          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginFuzzySearchBatch ", async function () {
-          const batchQueries = [
-            { query: "pizza", countryFilter: ["fr"] },
-            { query: "pizza", coordinates: { latitude: 25, longitude: 121 } },
+          const batchRequests = [
+            { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
+            { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
-              query: "pizza",
-              countryFilter: ["tw"],
-              coordinates: { latitude: 25, longitude: 121 },
+              searchQuery: {
+                query: "pizza",
+                countryFilter: ["tw"],
+                coordinates: { latitude: 25, longitude: 121 },
+              },
             },
           ];
 
           // Initiate fuzzy search batch
-          const poller1 = await client.beginFuzzySearchBatch(batchQueries, {
+          const poller1 = await client.beginFuzzySearchBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
           const batchResult1 = await poller1.pollUntilDone();
@@ -663,31 +671,31 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
       });
 
       describe("#beginSearchAddressBatch", function () {
-        it("should throw errors if given empty array as queries", async function () {
+        it("should throw errors if given empty requests", async function () {
           // "Number of queries must be between 1 and 10000 inclusive.""
           assert.isRejected(client.beginSearchAddressBatch([]));
         });
-        it("could take an array of fuzzy search queries as input", async function () {
-          const batchQueries = [
+        it("could take an array of fuzzy search requests as input", async function () {
+          const requests = [
             { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
             { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
             { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
           ];
 
-          const poller = await client.beginSearchAddressBatch(batchQueries, {
+          const poller = await client.beginSearchAddressBatch(requests, {
             updateIntervalInMs: pollingInterval,
           });
 
           const batchResult = await poller.pollUntilDone();
 
-          assert.equal(batchResult.totalRequests, batchQueries.length);
-          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          assert.equal(batchResult.totalRequests, requests.length);
+          assert.equal(batchResult.batchItems?.length, requests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
-          const batchQueries = [{ query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } }];
+          const batchRequests = [{ query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } }];
 
-          const poller = await client.beginSearchAddressBatch(batchQueries, {
+          const poller = await client.beginSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
 
@@ -713,14 +721,14 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         it("could retrieve a previous submitted batch results", async function () {
-          const batchQueries = [
+          const batchRequests = [
             { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
             { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
             { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
           ];
 
           // Initiate search address batch
-          const poller1 = await client.beginSearchAddressBatch(batchQueries, {
+          const poller1 = await client.beginSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
           const batchId = poller1.getBatchId() as string;
@@ -731,19 +739,19 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             updateIntervalInMs: pollingInterval,
           });
           const batchResult = await poller2.pollUntilDone();
-          assert.equal(batchResult.totalRequests, batchQueries.length);
-          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginSearchAddressBatch ", async function () {
-          const batchQueries = [
+          const batchRequests = [
             { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
             { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
             { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
           ];
 
           // Initiate search address batch
-          const poller1 = await client.beginSearchAddressBatch(batchQueries, {
+          const poller1 = await client.beginSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
           const batchResult1 = await poller1.pollUntilDone();
@@ -760,13 +768,13 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
       });
 
       describe("#beginReverseSearchAddressBatch", function () {
-        it("should throw errors if given empty array as queries", async function () {
+        it("should throw errors if given empty requests", async function () {
           // "Number of queries must be between 1 and 10000 inclusive.""
           assert.isRejected(client.beginReverseSearchAddressBatch([]));
         });
 
-        it("could take an array of fuzzy search queries as input", async function () {
-          const batchQueries = [
+        it("could take an array of fuzzy search requests as input", async function () {
+          const requests = [
             { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
             {
               coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -775,20 +783,20 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
           ];
 
-          const poller = await client.beginReverseSearchAddressBatch(batchQueries, {
+          const poller = await client.beginReverseSearchAddressBatch(requests, {
             updateIntervalInMs: pollingInterval,
           });
 
           const batchResult = await poller.pollUntilDone();
 
-          assert.equal(batchResult.totalRequests, batchQueries.length);
-          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          assert.equal(batchResult.totalRequests, requests.length);
+          assert.equal(batchResult.batchItems?.length, requests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
-          const batchQueries = [{ coordinates: { latitude: 47.621028, longitude: -122.34817 } }];
+          const batchRequests = [{ coordinates: { latitude: 47.621028, longitude: -122.34817 } }];
 
-          const poller = await client.beginReverseSearchAddressBatch(batchQueries, {
+          const poller = await client.beginReverseSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
 
@@ -814,7 +822,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         it("could retrieve a previous submitted batch results", async function () {
-          const batchQueries = [
+          const batchRequests = [
             { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
             {
               coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -824,7 +832,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           ];
 
           // Initiate search address batch
-          const poller1 = await client.beginReverseSearchAddressBatch(batchQueries, {
+          const poller1 = await client.beginReverseSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
           const batchId = poller1.getBatchId() as string;
@@ -835,12 +843,12 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             updateIntervalInMs: pollingInterval,
           });
           const batchResult = await poller2.pollUntilDone();
-          assert.equal(batchResult.totalRequests, batchQueries.length);
-          assert.equal(batchResult.batchItems?.length, batchQueries.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
 
         it("should obtain the same result as beginReverseSearchAddressBatch ", async function () {
-          const batchQueries = [
+          const batchRequests = [
             { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
             {
               coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -850,7 +858,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           ];
 
           // Initiate search address batch
-          const poller1 = await client.beginReverseSearchAddressBatch(batchQueries, {
+          const poller1 = await client.beginReverseSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
           const batchResult1 = await poller1.pollUntilDone();

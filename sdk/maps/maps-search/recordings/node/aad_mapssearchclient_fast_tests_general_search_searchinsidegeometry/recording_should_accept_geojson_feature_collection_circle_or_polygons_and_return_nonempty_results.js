@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "aa6043a3ed4f482113f3ea61ecf49894";
+module.exports.hash = "890fff943b2c02a7308843a8bbaed901";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '29f4aacc-9130-4113-8cc5-d5e28c641700',
+  'cdab1f9a-4383-4729-9bc6-06ff16a41200',
   'x-ms-ests-server',
-  '2.1.12507.13 - KRSLR2 ProdSlices',
+  '2.1.12559.4 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AhpnozKwkpJAsMLERcrE-GQ; expires=Thu, 24-Mar-2022 10:21:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aqg__bNKtIpEsUNOR8A6uCQ; expires=Sat, 09-Apr-2022 06:34:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrMjSw685CutatArifnik7RybzCDlcWxnpJxz_y7AzprDGIkif6vFUKAkvhqEvI5q77Ke1CAxISCSIKpdYNiqBAcHYpxSeJgWU9AL4T-SKpg3rsrODgJ06PmnXfasUu27sLF7X8Hg2ltWziZyUOtFR9AG-kHM50ek4tVTiW7Ur3_UgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8ER9ZAUb8wFEIlhO2Iw-e4zupSdLaIsiGvTF-S8xa0-m-sALWrRqtzln_Uy4EiPtx_CTBPEdm1bjXtElRMjG1s3Q92Aq_nADYnFpURSRMMOjkVzIIJY66GI3chU3gQkLC67Fe2gVGPOY8059WYhQCtDfss3chqxC4AEIRSfbs-cgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:46 GMT',
+  'Thu, 10 Mar 2022 06:34:16 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9d5bd505-7f94-4b12-91c9-0132f0376501',
+  '58e75afe-1542-4592-a277-505ac855d200',
   'x-ms-ests-server',
-  '2.1.12470.11 - SEASLR1 ProdSlices',
+  '2.1.12529.17 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=AlnSMDncX8dPrmIQ5mmaI3k; expires=Thu, 24-Mar-2022 10:21:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AiYQjaJsvsFJoShC53ncLfA; expires=Sat, 09-Apr-2022 06:34:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrleoX1HywK0vjlINGGeesEJB2RmGpE49uHKahMg-3sSMAGOwFxf-vsJjXUjeX2vvIXF3vVR534fLR8LaMmgY2ZekBci5TC6TUJ4Y8u7MG4K5kKzaY4LxQJ3e1f8uMnqKWkN48F38YfYbqYaWUFm5RwNKtrD9nF433MQ1QYqs0n6QgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrCFXfd3vhhbievG9J3GW0WkYFYSBb-AvbSnILWQo5Dzn-8bqJ0f5CD27PWgZYDxpdZlXiv31WaofuksAivR2snNVekr7MCx1-2tLzKOxEhgyorhR_U010PBuLKCNW4wNuX3oeitl4P5W5gSbQjzDicGSySEERDRROoj3Ue4xrmL4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:46 GMT',
+  'Thu, 10 Mar 2022 06:34:17 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=74b7b298-ebe7-4cf8-8b6d-87b3ecfd936e&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=fe1c510d-3f5d-4837-8d2c-5a2d79d7a9b3&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2f8e8d6d-1acf-4f35-9e65-03c91687c500',
+  'c0e29847-7d64-47a6-8004-514be829b700',
   'x-ms-ests-server',
-  '2.1.12470.11 - KRSLR2 ProdSlices',
+  '2.1.12529.17 - SEASLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AqCS5uvOIrJFr6R81iuEgymr4fIWAQAAADuwptkOAAAA; expires=Thu, 24-Mar-2022 10:21:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsU8w2vKxWBBlnex7HVQNu-r4fIWAQAAAOiSu9kOAAAA; expires=Sat, 09-Apr-2022 06:34:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Feb 2022 10:21:46 GMT',
+  'Thu, 10 Mar 2022 06:34:17 GMT',
   'Content-Length',
   '1319'
 ]);
@@ -113,9 +113,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .post('/search/geometry/json', {"geometry":{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-121.43576049804686,38.7524152343544],[-121.43301391601562,38.70660472542312],[-121.36434936523438,38.712059855877314],[-121.43576049804686,38.7524152343544]]]},"properties":{}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-121.43576049804686,38.7524152343544]},"properties":{"subType":"Circle","radius":5000}}]}})
   .query(true)
-  .reply(200, {"summary":{"query":"pizza","queryType":"NON_NEAR","queryTime":43,"numResults":3,"offset":0,"totalResults":3,"fuzzyLevel":1},"results":[{"type":"POI","id":"840069019394045","score":2.1455082893,"info":"search:ta:840069019394045-US","poi":{"name":"Round Table Pizza","phone":"+1 916-723-8665","brands":[{"name":"Round Table Pizza"}],"categorySet":[{"id":7315036}],"url":"https://ordering.roundtablepizza.com/Site/ex12","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"7909","streetName":"Walerga Road","municipality":"Antelope","countrySecondarySubdivision":"Sacramento","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"95843","extendedPostalCode":"95843-5722","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"7909 Walerga Road, Antelope, CA 95843","localName":"Antelope"},"position":{"lat":38.71302,"lon":-121.36609},"viewport":{"topLeftPoint":{"lat":38.71421,"lon":-121.36762},"btmRightPoint":{"lat":38.71183,"lon":-121.36456}},"entryPoints":[{"type":"main","position":{"lat":38.71306,"lon":-121.36456}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0ZTgyOTdkZDVjNWM5NzI4MzYzOGJkODI=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069009080627","score":2.1454348564,"info":"search:ta:840069009080627-US","poi":{"name":"Pizzeria Classico","phone":"+1 916-339-9244","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"3535","streetName":"Elverta Road","municipality":"Antelope","countrySecondarySubdivision":"Sacramento","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"95843","extendedPostalCode":"95843-4721","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3535 Elverta Road, Antelope, CA 95843","localName":"Antelope"},"position":{"lat":38.71883,"lon":-121.38094},"viewport":{"topLeftPoint":{"lat":38.71973,"lon":-121.38209},"btmRightPoint":{"lat":38.71793,"lon":-121.37979}},"entryPoints":[{"type":"main","position":{"lat":38.71848,"lon":-121.38091}}]},{"type":"POI","id":"840069002628285","score":2.1454257965,"info":"search:ta:840069002628285-US","poi":{"name":"Mama Mia Pizza","phone":"+1 916-334-7200","categorySet":[{"id":7315036}],"url":"www.mamamiapizzaantelope.com","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"pizza"},{"nameLocale":"en-US","name":"restaurant"}]}]},"address":{"streetNumber":"3535","streetName":"Elverta Road","municipality":"Antelope","countrySecondarySubdivision":"Sacramento","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"95843","extendedPostalCode":"95843-4721","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3535 Elverta Road, Antelope, CA 95843","localName":"Antelope"},"position":{"lat":38.71883,"lon":-121.38094},"viewport":{"topLeftPoint":{"lat":38.71973,"lon":-121.38209},"btmRightPoint":{"lat":38.71793,"lon":-121.37979}},"entryPoints":[{"type":"main","position":{"lat":38.71848,"lon":-121.38091}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1NmQzODM5N2NkMTAzMWFkN2I4MDAyZjk=","sourceName":"Foursquare"}]}}]}, [
+  .reply(200, {"summary":{"query":"pizza","queryType":"NON_NEAR","queryTime":5,"numResults":3,"offset":0,"totalResults":3,"fuzzyLevel":1},"results":[{"type":"POI","id":"840069009080627","score":2.1454691887,"info":"search:ta:840069009080627-US","poi":{"name":"Pizzeria Classico","phone":"+1 916-339-9244","categorySet":[{"id":7315036}],"categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3535","streetName":"Elverta Road","municipality":"Antelope","countrySecondarySubdivision":"Sacramento","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"95843","extendedPostalCode":"95843-4721","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3535 Elverta Road, Antelope, CA 95843","localName":"Antelope"},"position":{"lat":38.71883,"lon":-121.38094},"viewport":{"topLeftPoint":{"lat":38.71973,"lon":-121.38209},"btmRightPoint":{"lat":38.71793,"lon":-121.37979}},"entryPoints":[{"type":"main","position":{"lat":38.71848,"lon":-121.38091}}]},{"type":"POI","id":"840069019394045","score":2.1454443932,"info":"search:ta:840069019394045-US","poi":{"name":"Round Table Pizza","phone":"+1 916-723-8665","brands":[{"name":"Round Table Pizza"}],"categorySet":[{"id":7315036}],"url":"https://ordering.roundtablepizza.com/Site/ex12","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"7909","streetName":"Walerga Road","municipality":"Antelope","countrySecondarySubdivision":"Sacramento","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"95843","extendedPostalCode":"95843-5722","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"7909 Walerga Road, Antelope, CA 95843","localName":"Antelope"},"position":{"lat":38.71302,"lon":-121.36609},"viewport":{"topLeftPoint":{"lat":38.71421,"lon":-121.36762},"btmRightPoint":{"lat":38.71183,"lon":-121.36456}},"entryPoints":[{"type":"main","position":{"lat":38.71306,"lon":-121.36456}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo0ZTgyOTdkZDVjNWM5NzI4MzYzOGJkODI=","sourceName":"Foursquare"}]}},{"type":"POI","id":"840069002628285","score":2.145421505,"info":"search:ta:840069002628285-US","poi":{"name":"Mama Mia Pizza","phone":"+1 916-334-7200","categorySet":[{"id":7315036}],"url":"www.mamamiapizzaantelope.com","categories":["pizza","restaurant"],"classifications":[{"code":"RESTAURANT","names":[{"nameLocale":"en-US","name":"restaurant"},{"nameLocale":"en-US","name":"pizza"}]}]},"address":{"streetNumber":"3535","streetName":"Elverta Road","municipality":"Antelope","countrySecondarySubdivision":"Sacramento","countrySubdivision":"CA","countrySubdivisionName":"California","postalCode":"95843","extendedPostalCode":"95843-4721","countryCode":"US","country":"United States","countryCodeISO3":"USA","freeformAddress":"3535 Elverta Road, Antelope, CA 95843","localName":"Antelope"},"position":{"lat":38.71883,"lon":-121.38094},"viewport":{"topLeftPoint":{"lat":38.71973,"lon":-121.38209},"btmRightPoint":{"lat":38.71793,"lon":-121.37979}},"entryPoints":[{"type":"main","position":{"lat":38.71848,"lon":-121.38091}}],"dataSources":{"poiDetails":[{"id":"Rm91cnNxdWFyZTo1NmQzODM5N2NkMTAzMWFkN2I4MDAyZjk=","sourceName":"Foursquare"}]}}]}, [
   'Content-Length',
-  '3472',
+  '3470',
   'Content-Type',
   'application/json; charset=utf-8',
   'Vary',
@@ -129,7 +129,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 45D2DD1C09D9403DBBBEAC166B2BFD1F Ref B: TYBEDGE0409 Ref C: 2022-02-22T10:21:47Z',
+  'Ref A: 7616A8A12E4D44EFA988DEDC20E344EA Ref B: TPE30EDGE0620 Ref C: 2022-03-10T06:34:17Z',
   'Date',
-  'Tue, 22 Feb 2022 10:21:47 GMT'
+  'Thu, 10 Mar 2022 06:34:17 GMT'
 ]);
