@@ -127,9 +127,9 @@ matrix([[true, false]], async function (useAad) {
     it("successfully gets a turn credential providing ttl", async function () {
       const ttl = 4000;
       const options: GetRelayConfigurationOptions = { ttl: ttl };
-
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      
       const requestedTime = new Date();
+      const turnCredentialResponse = await client.getRelayConfiguration(options);
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
 
       // Token should expire a few milliseconds earlier
@@ -138,7 +138,7 @@ matrix([[true, false]], async function (useAad) {
 
       assert.isNotNull(turnCredentialResponse);
       assert.isNotNull(turnTokenExpiresOn);
-      assert.isTrue(turnTokenExpiresOn <= expectedExpirationTime);
+      assert.isTrue(expectedExpirationTime <= turnTokenExpiresOn);
 
       const turnServers = turnCredentialResponse.iceServers;
       // Should return both ANY and NEAREST routeType iceServers
