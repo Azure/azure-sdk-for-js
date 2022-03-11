@@ -49,7 +49,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
         });
     ```   
     A few points, you need to pay attention here:  
-    In the example, we are using DefaultAzureCredential, you can also try other way such as InteractiveBrowserCredential
+    In the example, we are using DefaultAzureCredential, you can also try other way such as Service Principal
     ```
         const credentials = new DefaultAzureCredential();;
     ```
