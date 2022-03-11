@@ -14,8 +14,8 @@
   - [Implementing the TokenCredential Interface](#implementing-the-tokencredential-interface).
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
-    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
+    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-azuremsal-node-confidential-client).
+    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azuremsal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
   - [Authenticate on behalf of](#authenticate-on-behalf-of)
@@ -62,7 +62,7 @@ function withInteractiveBrowserCredential() {
 }
 ```
 
-If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
+If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azuremsal-browser-public-client).
 
 ## Authenticating server-side applications
 

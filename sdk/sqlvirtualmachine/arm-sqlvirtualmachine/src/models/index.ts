@@ -30,6 +30,45 @@ export interface PrivateIPAddress {
   subnetResourceId?: string;
 }
 
+/** Availability group configuration. */
+export interface AgConfiguration {
+  /**
+   * Replica configurations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicas?: AgReplica[];
+}
+
+/** Availability group replica configuration. */
+export interface AgReplica {
+  /** Sql VirtualMachine Instance Id. */
+  sqlVirtualMachineInstanceId?: string;
+  /** Replica Role in availability group. */
+  role?: Role;
+  /** Replica commit mode in availability group. */
+  commit?: Commit;
+  /** Replica failover mode in availability group. */
+  failover?: Failover;
+  /** Replica readable secondary mode in availability group. */
+  readableSecondary?: ReadableSecondary;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** ARM resource. */
 export interface Resource {
   /**
@@ -223,10 +262,12 @@ export interface AutoBackupSettings {
   enable?: boolean;
   /** Enable or disable encryption for backup on SQL virtual machine. */
   enableEncryption?: boolean;
-  /** Retention period of backup: 1-30 days. */
+  /** Retention period of backup: 1-90 days. */
   retentionPeriod?: number;
   /** Storage account url where backup will be taken to. */
   storageAccountUrl?: string;
+  /** Storage container name where backup will be taken to. */
+  storageContainerName?: string;
   /** Storage account key where backup will be taken to. */
   storageAccessKey?: string;
   /** Password for encryption on backup. */
@@ -237,6 +278,8 @@ export interface AutoBackupSettings {
   backupScheduleType?: BackupScheduleType;
   /** Frequency of full backups. In both cases, full backups begin during the next scheduled time window. */
   fullBackupFrequency?: FullBackupFrequencyType;
+  /** Days of the week for the backups when FullBackupFrequency is set to Weekly. */
+  daysOfWeek?: DaysOfWeek[];
   /** Start time of a given day during which full backups can take place. 0-23 hours. */
   fullBackupStartTime?: number;
   /** Duration of the time window of a given day during which full backups can take place. 1-23 hours. */
@@ -269,6 +312,8 @@ export interface ServerConfigurationsManagementSettings {
   sqlStorageUpdateSettings?: SqlStorageUpdateSettings;
   /** Additional SQL feature settings. */
   additionalFeaturesServerConfigurations?: AdditionalFeaturesServerConfigurations;
+  /** SQL Instance settings. */
+  sqlInstanceSettings?: SQLInstanceSettings;
 }
 
 /** Set the access level and network port settings for SQL Server. */
@@ -305,6 +350,20 @@ export interface AdditionalFeaturesServerConfigurations {
   isRServicesEnabled?: boolean;
 }
 
+/** Set the server/instance-level settings for SQL Server. */
+export interface SQLInstanceSettings {
+  /** SQL Server Collation. */
+  collation?: string;
+  /** SQL Server MAXDOP. */
+  maxDop?: number;
+  /** SQL Server Optimize for Adhoc workloads. */
+  isOptimizeForAdHocWorkloadsEnabled?: boolean;
+  /** SQL Server minimum memory. */
+  minServerMemoryMB?: number;
+  /** SQL Server maximum memory. */
+  maxServerMemoryMB?: number;
+}
+
 /** Storage Configurations for SQL Data, Log and TempDb. */
 export interface StorageConfigurationSettings {
   /** SQL Server Data Storage Settings. */
@@ -312,7 +371,9 @@ export interface StorageConfigurationSettings {
   /** SQL Server Log Storage Settings. */
   sqlLogSettings?: SQLStorageSettings;
   /** SQL Server TempDb Storage Settings. */
-  sqlTempDbSettings?: SQLStorageSettings;
+  sqlTempDbSettings?: SQLTempDbSettings;
+  /** SQL Server SystemDb Storage on DataPool if true. */
+  sqlSystemDbOnDataDisk?: boolean;
   /** Disk configuration to apply to SQL Server. */
   diskConfigurationType?: DiskConfigurationType;
   /** Storage workload type. */
@@ -325,6 +386,46 @@ export interface SQLStorageSettings {
   luns?: number[];
   /** SQL Server default file path */
   defaultFilePath?: string;
+}
+
+export interface SQLTempDbSettings {
+  /** SQL Server default file size */
+  dataFileSize?: number;
+  /** SQL Server default file autoGrowth size */
+  dataGrowth?: number;
+  /** SQL Server default file size */
+  logFileSize?: number;
+  /** SQL Server default file autoGrowth size */
+  logGrowth?: number;
+  /** SQL Server default file count */
+  dataFileCount?: number;
+  /** Logical Unit Numbers for the disks. */
+  luns?: number[];
+  /** SQL Server default file path */
+  defaultFilePath?: string;
+}
+
+/** Configure assessment for databases in your SQL virtual machine. */
+export interface AssessmentSettings {
+  /** Enable or disable assessment feature on SQL virtual machine. */
+  enable?: boolean;
+  /** Run assessment immediately on SQL virtual machine. */
+  runImmediately?: boolean;
+  /** Schedule for Assessment. */
+  schedule?: Schedule;
+}
+
+export interface Schedule {
+  /** Enable or disable assessment schedule on SQL virtual machine. */
+  enable?: boolean;
+  /** Number of weeks to schedule between 2 assessment runs. Takes value from 1-6 */
+  weeklyInterval?: number;
+  /** Occurrence of the DayOfWeek day within a month to schedule assessment. Takes values: 1,2,3,4 and -1. Use -1 for last DayOfWeek day of the month */
+  monthlyOccurrence?: number;
+  /** Day of the week to run assessment. */
+  dayOfWeek?: DayOfWeek;
+  /** Time of the day in HH:mm format. Eg. 17:30 */
+  startTime?: string;
 }
 
 /** An update to a SQL virtual machine. */
@@ -347,6 +448,11 @@ export type TrackedResource = Resource & {
 /** A SQL Server availability group listener. */
 export type AvailabilityGroupListener = ProxyResource & {
   /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
    * Provisioning state to track the async operation status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -359,10 +465,17 @@ export type AvailabilityGroupListener = ProxyResource & {
   createDefaultAvailabilityGroupIfNotExist?: boolean;
   /** Listener port. */
   port?: number;
+  /** Availability Group configuration. */
+  availabilityGroupConfiguration?: AgConfiguration;
 };
 
 /** A SQL virtual machine group. */
 export type SqlVirtualMachineGroup = TrackedResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Provisioning state to track the async operation status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -395,6 +508,11 @@ export type SqlVirtualMachineGroup = TrackedResource & {
 export type SqlVirtualMachine = TrackedResource & {
   /** Azure Active Directory identity of the server. */
   identity?: ResourceIdentity;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** ARM Resource id of underlying virtual machine created from SQL marketplace image. */
   virtualMachineResourceId?: string;
   /**
@@ -424,7 +542,95 @@ export type SqlVirtualMachine = TrackedResource & {
   serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
   /** Storage Configuration Settings. */
   storageConfigurationSettings?: StorageConfigurationSettings;
+  /** Assessment Settings. */
+  assessmentSettings?: AssessmentSettings;
 };
+
+/** Known values of {@link Role} that the service accepts. */
+export enum KnownRole {
+  Primary = "PRIMARY",
+  Secondary = "SECONDARY"
+}
+
+/**
+ * Defines values for Role. \
+ * {@link KnownRole} can be used interchangeably with Role,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PRIMARY** \
+ * **SECONDARY**
+ */
+export type Role = string;
+
+/** Known values of {@link Commit} that the service accepts. */
+export enum KnownCommit {
+  SynchronousCommit = "SYNCHRONOUS_COMMIT",
+  AsynchronousCommit = "ASYNCHRONOUS_COMMIT"
+}
+
+/**
+ * Defines values for Commit. \
+ * {@link KnownCommit} can be used interchangeably with Commit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SYNCHRONOUS_COMMIT** \
+ * **ASYNCHRONOUS_COMMIT**
+ */
+export type Commit = string;
+
+/** Known values of {@link Failover} that the service accepts. */
+export enum KnownFailover {
+  Automatic = "AUTOMATIC",
+  Manual = "MANUAL"
+}
+
+/**
+ * Defines values for Failover. \
+ * {@link KnownFailover} can be used interchangeably with Failover,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AUTOMATIC** \
+ * **MANUAL**
+ */
+export type Failover = string;
+
+/** Known values of {@link ReadableSecondary} that the service accepts. */
+export enum KnownReadableSecondary {
+  NO = "NO",
+  ALL = "ALL",
+  ReadOnly = "READ_ONLY"
+}
+
+/**
+ * Defines values for ReadableSecondary. \
+ * {@link KnownReadableSecondary} can be used interchangeably with ReadableSecondary,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NO** \
+ * **ALL** \
+ * **READ_ONLY**
+ */
+export type ReadableSecondary = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link OperationOrigin} that the service accepts. */
 export enum KnownOperationOrigin {
@@ -502,6 +708,7 @@ export type ClusterConfiguration = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  None = "None",
   SystemAssigned = "SystemAssigned"
 }
 
@@ -510,6 +717,7 @@ export enum KnownIdentityType {
  * {@link KnownIdentityType} can be used interchangeably with IdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **None** \
  * **SystemAssigned**
  */
 export type IdentityType = string;
@@ -604,6 +812,32 @@ export enum KnownFullBackupFrequencyType {
  */
 export type FullBackupFrequencyType = string;
 
+/** Known values of {@link DaysOfWeek} that the service accepts. */
+export enum KnownDaysOfWeek {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday"
+}
+
+/**
+ * Defines values for DaysOfWeek. \
+ * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monday** \
+ * **Tuesday** \
+ * **Wednesday** \
+ * **Thursday** \
+ * **Friday** \
+ * **Saturday** \
+ * **Sunday**
+ */
+export type DaysOfWeek = string;
+
 /** Known values of {@link ConnectivityType} that the service accepts. */
 export enum KnownConnectivityType {
   Local = "LOCAL",
@@ -687,7 +921,10 @@ export type DayOfWeek =
 
 /** Optional parameters. */
 export interface AvailabilityGroupListenersGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
 
 /** Contains response data for the get operation. */
 export type AvailabilityGroupListenersGetResponse = AvailabilityGroupListener;
@@ -824,6 +1061,15 @@ export interface SqlVirtualMachinesListOptionalParams
 export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult;
 
 /** Optional parameters. */
+export interface SqlVirtualMachinesRedeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface SqlVirtualMachinesGetOptionalParams
   extends coreClient.OperationOptions {
   /** The child resources to include in the response. */
@@ -872,6 +1118,15 @@ export interface SqlVirtualMachinesListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type SqlVirtualMachinesListByResourceGroupResponse = SqlVirtualMachineListResult;
+
+/** Optional parameters. */
+export interface SqlVirtualMachinesStartAssessmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface SqlVirtualMachinesListBySqlVmGroupNextOptionalParams

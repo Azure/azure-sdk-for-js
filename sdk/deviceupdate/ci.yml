@@ -9,9 +9,7 @@ trigger:
   paths:
     include:
       - sdk/deviceupdate/
-    exclude:
-      - sdk/deviceupdate/ci.mgmt.yml
-      - sdk/deviceupdate/iot-device-update-rest/
+
 pr:
   branches:
     include:
@@ -22,9 +20,7 @@ pr:
   paths:
     include:
       - sdk/deviceupdate/
-    exclude:
-      - sdk/deviceupdate/ci.mgmt.yml
-      - sdk/deviceupdate/iot-device-update-rest/
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,3 +29,5 @@ extends:
     Artifacts:
       - name: azure-iot-device-update
         safeName: azureiotdeviceupdate
+      - name: azure-rest-iot-device-update
+        safeName: azurerestiotdeviceupdate
