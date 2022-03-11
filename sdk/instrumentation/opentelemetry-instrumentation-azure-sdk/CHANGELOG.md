@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for `AZURE_TRACING_DISABLED` environment variable which allows disabling all Azure SDK tracing spans from being recorded.
+- Added support for `AZURE_HTTP_TRACING_DISABLED` environment variable which allows disabling all children of our core HTTP spans from being recorded.
+
 ### Breaking Changes
 
 ### Bugs Fixed
