@@ -93,12 +93,6 @@ export const appServiceMsi2019: MSI = {
   ): Promise<AccessToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
-    if (resourceId) {
-      logger.warning(
-        `${msiName}: managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
-      );
-    }
-
     logger.info(
       `${msiName}: Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`
     );
