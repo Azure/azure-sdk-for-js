@@ -33,7 +33,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
 1. Create a ts file (free name and copy follow code into this file) eg: test_1.ts
     eg：
     ```
-        const DefaultAzureCredential = require("@azure/identity");
+        const { DefaultAzureCredential } = require("@azure/identity");
         const { TargetManagementClient } = require("@azure/arm-target");  // must same as dependencies
         const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
@@ -51,7 +51,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
     A few points, you need to pay attention here:  
     In the example, we are using DefaultAzureCredential, you can also try other way such as Service Principal
     ```
-        const credentials = new DefaultAzureCredential();;
+        const credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
     ```
     In the example, we only add client.operations.list(), you may change them into other resources CURD function per your need.  
     for example：  
