@@ -5,12 +5,12 @@ import {
   EventData,
   EventHubBufferedProducerClient,
   EventHubConsumerClient,
+  MessagingError,
   OnSendEventsErrorContext,
   earliestEventPosition,
 } from "@azure/event-hubs";
 import { MessagingTestClient } from "./models";
 import { delay } from "@azure-tools/test-recorder";
-import { MessagingError } from "@azure/event-hubs";
 
 export function createEventHubsClient(
   eventHubsConnectionString: string,
