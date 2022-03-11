@@ -48,9 +48,9 @@ describe("ClientSecretCredential", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      {
+      recorder.configureClientOptions({
         allowLoggingAccountIdentifiers: true,
-      }
+      })
     );
     setLogLevel("info");
     const spy = sinon.spy(process.stderr, "write");
