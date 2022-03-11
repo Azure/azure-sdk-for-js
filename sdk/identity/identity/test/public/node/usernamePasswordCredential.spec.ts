@@ -60,7 +60,7 @@ describe("UsernamePasswordCredential", function () {
       env.AZURE_USERNAME!,
       env.AZURE_PASSWORD!,
       recorder.configureClientOptions({
-        allowLoggingAccountIdentifiers: true,
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
       })
     );
     setLogLevel("info");

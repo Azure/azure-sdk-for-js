@@ -127,7 +127,9 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client", { allowLoggingAccountIdentifiers: true }),
+      credential: new ManagedIdentityCredential("client", {
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
+      }),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
         createResponse(200, {

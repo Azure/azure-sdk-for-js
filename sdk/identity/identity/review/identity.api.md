@@ -8,6 +8,7 @@ import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
+import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AccessToken }
@@ -317,8 +318,10 @@ export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends CommonClientOptions {
-    allowLoggingAccountIdentifiers?: boolean;
     authorityHost?: string;
+    loggingOptions?: LogPolicyOptions & {
+        allowLoggingAccountIdentifiers?: boolean;
+    };
 }
 
 // @public

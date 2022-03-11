@@ -104,7 +104,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     this.authorityHost = baseUri;
     this.abortControllers = new Map();
-    this.allowLoggingAccountIdentifiers = options?.allowLoggingAccountIdentifiers;
+    this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
   }
 
   async sendTokenRequest(
