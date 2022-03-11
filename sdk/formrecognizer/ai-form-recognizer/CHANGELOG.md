@@ -6,10 +6,7 @@
 
 ### Breaking Changes
 
-- [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) Renames in `DocumentModelAdministrationClient`,
-
-  - Method `beginCopyModel()` -> `beginCopyModelTo()`
-  - In the method `beginComposeModel()`, renamed argument `componentModels` -> `componentModelIds`.
+- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) 
 
 ### Bugs Fixed
 
