@@ -5,6 +5,8 @@
 ### Features Added
 
 ### Breaking Changes
+- The `encodeMessageData` method has been renamed to `serialize`
+- The `decodeMessageData` method has been renamed to `deserialize`
 
 ### Bugs Fixed
 
