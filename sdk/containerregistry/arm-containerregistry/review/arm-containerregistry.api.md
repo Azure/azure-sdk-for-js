@@ -17,6 +17,20 @@ export type Action = string;
 export type ActionsRequired = string;
 
 // @public
+export interface ActivationProperties {
+    readonly status?: ActivationStatus;
+}
+
+// @public
+export type ActivationStatus = string;
+
+// @public
+export interface ActiveDirectoryObject {
+    objectId?: string;
+    tenantId?: string;
+}
+
+// @public
 export interface Actor {
     name?: string;
 }
@@ -130,6 +144,9 @@ export interface Argument {
 }
 
 // @public
+export type AuditLogStatus = string;
+
+// @public
 export interface AuthInfo {
     expiresIn?: number;
     refreshToken?: string;
@@ -189,6 +206,112 @@ export interface CallbackConfig {
 }
 
 // @public
+export type CertificateType = string;
+
+// @public
+export interface ConnectedRegistries {
+    beginCreate(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams): Promise<PollerLike<PollOperationState<ConnectedRegistriesCreateResponse>, ConnectedRegistriesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryCreateParameters: ConnectedRegistry, options?: ConnectedRegistriesCreateOptionalParams): Promise<ConnectedRegistriesCreateResponse>;
+    beginDeactivate(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeactivateAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeactivateOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConnectedRegistriesUpdateResponse>, ConnectedRegistriesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams): Promise<ConnectedRegistriesUpdateResponse>;
+    get(resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesGetOptionalParams): Promise<ConnectedRegistriesGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: ConnectedRegistriesListOptionalParams): PagedAsyncIterableIterator<ConnectedRegistry>;
+}
+
+// @public
+export interface ConnectedRegistriesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectedRegistriesCreateResponse = ConnectedRegistry;
+
+// @public
+export interface ConnectedRegistriesDeactivateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConnectedRegistriesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConnectedRegistriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectedRegistriesGetResponse = ConnectedRegistry;
+
+// @public
+export interface ConnectedRegistriesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ConnectedRegistriesListNextResponse = ConnectedRegistryListResult;
+
+// @public
+export interface ConnectedRegistriesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ConnectedRegistriesListResponse = ConnectedRegistryListResult;
+
+// @public
+export interface ConnectedRegistriesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectedRegistriesUpdateResponse = ConnectedRegistry;
+
+// @public
+export type ConnectedRegistry = ProxyResource & {
+    readonly provisioningState?: ProvisioningState;
+    mode?: ConnectedRegistryMode;
+    readonly version?: string;
+    readonly connectionState?: ConnectionState;
+    readonly lastActivityTime?: Date;
+    readonly activation?: ActivationProperties;
+    parent?: ParentProperties;
+    clientTokenIds?: string[];
+    loginServer?: LoginServerProperties;
+    logging?: LoggingProperties;
+    readonly statusDetails?: StatusDetailProperties[];
+    notificationsList?: string[];
+};
+
+// @public
+export interface ConnectedRegistryListResult {
+    nextLink?: string;
+    value?: ConnectedRegistry[];
+}
+
+// @public
+export type ConnectedRegistryMode = string;
+
+// @public
+export interface ConnectedRegistryUpdateParameters {
+    clientTokenIds?: string[];
+    logging?: LoggingProperties;
+    notificationsList?: string[];
+    syncProperties?: SyncUpdateProperties;
+}
+
+// @public
+export type ConnectionState = string;
+
+// @public
 export type ConnectionStatus = string;
 
 // @public (undocumented)
@@ -199,7 +322,15 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
+    connectedRegistries: ConnectedRegistries;
+    // (undocumented)
+    exportPipelines: ExportPipelines;
+    // (undocumented)
+    importPipelines: ImportPipelines;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    pipelineRuns: PipelineRuns;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -209,11 +340,15 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     runs: Runs;
     // (undocumented)
+    scopeMaps: ScopeMaps;
+    // (undocumented)
     subscriptionId: string;
     // (undocumented)
     taskRuns: TaskRuns;
     // (undocumented)
     tasks: Tasks;
+    // (undocumented)
+    tokens: Tokens;
     // (undocumented)
     webhooks: Webhooks;
 }
@@ -386,6 +521,74 @@ export interface EventResponseMessage {
 }
 
 // @public
+export type ExportPipeline = ProxyResource & {
+    location?: string;
+    identity?: IdentityProperties;
+    target?: ExportPipelineTargetProperties;
+    options?: PipelineOptions[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface ExportPipelineListResult {
+    nextLink?: string;
+    value?: ExportPipeline[];
+}
+
+// @public
+export interface ExportPipelines {
+    beginCreate(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<PollerLike<PollOperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<ExportPipelinesCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesGetOptionalParams): Promise<ExportPipelinesGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: ExportPipelinesListOptionalParams): PagedAsyncIterableIterator<ExportPipeline>;
+}
+
+// @public
+export interface ExportPipelinesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExportPipelinesCreateResponse = ExportPipeline;
+
+// @public
+export interface ExportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExportPipelinesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExportPipelinesGetResponse = ExportPipeline;
+
+// @public
+export interface ExportPipelinesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExportPipelinesListNextResponse = ExportPipelineListResult;
+
+// @public
+export interface ExportPipelinesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExportPipelinesListResponse = ExportPipelineListResult;
+
+// @public
+export interface ExportPipelineTargetProperties {
+    keyVaultUri: string;
+    type?: string;
+    uri?: string;
+}
+
+// @public
 export interface ExportPolicy {
     status?: ExportPolicyStatus;
 }
@@ -423,6 +626,19 @@ export type FileTaskStepUpdateParameters = TaskStepUpdateParameters & {
 };
 
 // @public
+export interface GenerateCredentialsParameters {
+    expiry?: Date;
+    name?: TokenPasswordName;
+    tokenId?: string;
+}
+
+// @public
+export interface GenerateCredentialsResult {
+    passwords?: TokenPassword[];
+    username?: string;
+}
+
+// @public
 export interface IdentityProperties {
     principalId?: string;
     tenantId?: string;
@@ -457,6 +673,75 @@ export interface ImportImageParameters {
 
 // @public
 export type ImportMode = string;
+
+// @public
+export type ImportPipeline = ProxyResource & {
+    location?: string;
+    identity?: IdentityProperties;
+    source?: ImportPipelineSourceProperties;
+    trigger?: PipelineTriggerProperties;
+    options?: PipelineOptions[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface ImportPipelineListResult {
+    nextLink?: string;
+    value?: ImportPipeline[];
+}
+
+// @public
+export interface ImportPipelines {
+    beginCreate(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<PollerLike<PollOperationState<ImportPipelinesCreateResponse>, ImportPipelinesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<ImportPipelinesCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesGetOptionalParams): Promise<ImportPipelinesGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: ImportPipelinesListOptionalParams): PagedAsyncIterableIterator<ImportPipeline>;
+}
+
+// @public
+export interface ImportPipelinesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ImportPipelinesCreateResponse = ImportPipeline;
+
+// @public
+export interface ImportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ImportPipelinesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportPipelinesGetResponse = ImportPipeline;
+
+// @public
+export interface ImportPipelinesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportPipelinesListNextResponse = ImportPipelineListResult;
+
+// @public
+export interface ImportPipelinesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ImportPipelinesListResponse = ImportPipelineListResult;
+
+// @public
+export interface ImportPipelineSourceProperties {
+    keyVaultUri: string;
+    type?: PipelineSourceType;
+    uri?: string;
+}
 
 // @public (undocumented)
 export interface ImportSource {
@@ -509,6 +794,14 @@ export enum KnownActionsRequired {
 }
 
 // @public
+export enum KnownActivationStatus {
+    // (undocumented)
+    Active = "Active",
+    // (undocumented)
+    Inactive = "Inactive"
+}
+
+// @public
 export enum KnownArchitecture {
     // (undocumented)
     Amd64 = "amd64",
@@ -520,6 +813,14 @@ export enum KnownArchitecture {
     ThreeHundredEightySix = "386",
     // (undocumented)
     X86 = "x86"
+}
+
+// @public
+export enum KnownAuditLogStatus {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -536,6 +837,36 @@ export enum KnownBaseImageTriggerType {
     All = "All",
     // (undocumented)
     Runtime = "Runtime"
+}
+
+// @public
+export enum KnownCertificateType {
+    // (undocumented)
+    LocalDirectory = "LocalDirectory"
+}
+
+// @public
+export enum KnownConnectedRegistryMode {
+    // (undocumented)
+    Mirror = "Mirror",
+    // (undocumented)
+    ReadOnly = "ReadOnly",
+    // (undocumented)
+    ReadWrite = "ReadWrite",
+    // (undocumented)
+    Registry = "Registry"
+}
+
+// @public
+export enum KnownConnectionState {
+    // (undocumented)
+    Offline = "Offline",
+    // (undocumented)
+    Online = "Online",
+    // (undocumented)
+    Syncing = "Syncing",
+    // (undocumented)
+    Unhealthy = "Unhealthy"
 }
 
 // @public
@@ -607,6 +938,20 @@ export enum KnownLastModifiedByType {
 }
 
 // @public
+export enum KnownLogLevel {
+    // (undocumented)
+    Debug = "Debug",
+    // (undocumented)
+    Error = "Error",
+    // (undocumented)
+    Information = "Information",
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownNetworkRuleBypassOptions {
     // (undocumented)
     AzureServices = "AzureServices",
@@ -620,6 +965,36 @@ export enum KnownOS {
     Linux = "Linux",
     // (undocumented)
     Windows = "Windows"
+}
+
+// @public
+export enum KnownPipelineOptions {
+    // (undocumented)
+    ContinueOnErrors = "ContinueOnErrors",
+    // (undocumented)
+    DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
+    // (undocumented)
+    OverwriteBlobs = "OverwriteBlobs",
+    // (undocumented)
+    OverwriteTags = "OverwriteTags"
+}
+
+// @public
+export enum KnownPipelineRunSourceType {
+    // (undocumented)
+    AzureStorageBlob = "AzureStorageBlob"
+}
+
+// @public
+export enum KnownPipelineRunTargetType {
+    // (undocumented)
+    AzureStorageBlob = "AzureStorageBlob"
+}
+
+// @public
+export enum KnownPipelineSourceType {
+    // (undocumented)
+    AzureStorageBlobContainer = "AzureStorageBlobContainer"
 }
 
 // @public
@@ -769,6 +1144,38 @@ export enum KnownTaskStatus {
 }
 
 // @public
+export enum KnownTlsStatus {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownTokenCertificateName {
+    // (undocumented)
+    Certificate1 = "certificate1",
+    // (undocumented)
+    Certificate2 = "certificate2"
+}
+
+// @public
+export enum KnownTokenPasswordName {
+    // (undocumented)
+    Password1 = "password1",
+    // (undocumented)
+    Password2 = "password2"
+}
+
+// @public
+export enum KnownTokenStatus {
+    // (undocumented)
+    Disabled = "disabled",
+    // (undocumented)
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownTokenType {
     // (undocumented)
     OAuth = "OAuth",
@@ -842,12 +1249,28 @@ export enum KnownZoneRedundancy {
 export type LastModifiedByType = string;
 
 // @public
+export interface LoggingProperties {
+    auditLogStatus?: AuditLogStatus;
+    logLevel?: LogLevel;
+}
+
+// @public
+export interface LoginServerProperties {
+    readonly host?: string;
+    readonly tls?: TlsProperties;
+}
+
+// @public
+export type LogLevel = string;
+
+// @public
 export type NetworkRuleBypassOptions = string;
 
 // @public
 export interface NetworkRuleSet {
     defaultAction: DefaultAction;
     ipRules?: IPRule[];
+    virtualNetworkRules?: VirtualNetworkRule[];
 }
 
 // @public
@@ -929,13 +1352,140 @@ export interface OverrideTaskStepProperties {
 }
 
 // @public
-export interface PackageType {
-    readonly endpoint?: string;
-    name?: string;
+export interface ParentProperties {
+    id?: string;
+    syncProperties: SyncProperties;
 }
 
 // @public
 export type PasswordName = "password" | "password2";
+
+// @public
+export type PipelineOptions = string;
+
+// @public
+export type PipelineRun = ProxyResource & {
+    readonly provisioningState?: ProvisioningState;
+    request?: PipelineRunRequest;
+    readonly response?: PipelineRunResponse;
+    forceUpdateTag?: string;
+};
+
+// @public
+export interface PipelineRunListResult {
+    nextLink?: string;
+    value?: PipelineRun[];
+}
+
+// @public
+export interface PipelineRunRequest {
+    artifacts?: string[];
+    catalogDigest?: string;
+    pipelineResourceId?: string;
+    source?: PipelineRunSourceProperties;
+    target?: PipelineRunTargetProperties;
+}
+
+// @public
+export interface PipelineRunResponse {
+    catalogDigest?: string;
+    finishTime?: Date;
+    importedArtifacts?: string[];
+    pipelineRunErrorMessage?: string;
+    progress?: ProgressProperties;
+    source?: ImportPipelineSourceProperties;
+    startTime?: Date;
+    status?: string;
+    target?: ExportPipelineTargetProperties;
+    trigger?: PipelineTriggerDescriptor;
+}
+
+// @public
+export interface PipelineRuns {
+    beginCreate(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<PollerLike<PollOperationState<PipelineRunsCreateResponse>, PipelineRunsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<PipelineRunsCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsGetOptionalParams): Promise<PipelineRunsGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: PipelineRunsListOptionalParams): PagedAsyncIterableIterator<PipelineRun>;
+}
+
+// @public
+export interface PipelineRunsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PipelineRunsCreateResponse = PipelineRun;
+
+// @public
+export interface PipelineRunsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PipelineRunsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineRunsGetResponse = PipelineRun;
+
+// @public
+export interface PipelineRunsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineRunsListNextResponse = PipelineRunListResult;
+
+// @public
+export interface PipelineRunsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PipelineRunsListResponse = PipelineRunListResult;
+
+// @public (undocumented)
+export interface PipelineRunSourceProperties {
+    name?: string;
+    type?: PipelineRunSourceType;
+}
+
+// @public
+export type PipelineRunSourceType = string;
+
+// @public (undocumented)
+export interface PipelineRunTargetProperties {
+    name?: string;
+    type?: PipelineRunTargetType;
+}
+
+// @public
+export type PipelineRunTargetType = string;
+
+// @public (undocumented)
+export interface PipelineSourceTriggerDescriptor {
+    timestamp?: Date;
+}
+
+// @public (undocumented)
+export interface PipelineSourceTriggerProperties {
+    status: TriggerStatus;
+}
+
+// @public
+export type PipelineSourceType = string;
+
+// @public (undocumented)
+export interface PipelineTriggerDescriptor {
+    sourceTrigger?: PipelineSourceTriggerDescriptor;
+}
+
+// @public (undocumented)
+export interface PipelineTriggerProperties {
+    sourceTrigger?: PipelineSourceTriggerProperties;
+}
 
 // @public
 export interface PlatformProperties {
@@ -1049,6 +1599,11 @@ export interface PrivateLinkServiceConnectionState {
     status?: ConnectionStatus;
 }
 
+// @public (undocumented)
+export interface ProgressProperties {
+    percentage?: string;
+}
+
 // @public
 export type ProvisioningState = string;
 
@@ -1079,6 +1634,8 @@ export interface Registries {
     beginCreateAndWait(resourceGroupName: string, registryName: string, registry: Registry, options?: RegistriesCreateOptionalParams): Promise<RegistriesCreateResponse>;
     beginDelete(resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams): Promise<void>;
+    beginGenerateCredentials(resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams): Promise<PollerLike<PollOperationState<RegistriesGenerateCredentialsResponse>, RegistriesGenerateCredentialsResponse>>;
+    beginGenerateCredentialsAndWait(resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams): Promise<RegistriesGenerateCredentialsResponse>;
     beginImportImage(resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginImportImageAndWait(resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams): Promise<void>;
     beginScheduleRun(resourceGroupName: string, registryName: string, runRequest: RunRequestUnion, options?: RegistriesScheduleRunOptionalParams): Promise<PollerLike<PollOperationState<RegistriesScheduleRunResponse>, RegistriesScheduleRunResponse>>;
@@ -1118,6 +1675,15 @@ export interface RegistriesDeleteOptionalParams extends coreClient.OperationOpti
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface RegistriesGenerateCredentialsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegistriesGenerateCredentialsResponse = GenerateCredentialsResult;
 
 // @public
 export interface RegistriesGetBuildSourceUploadUrlOptionalParams extends coreClient.OperationOptions {
@@ -1245,6 +1811,7 @@ export type Registry = Resource & {
     publicNetworkAccess?: PublicNetworkAccess;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     zoneRedundancy?: ZoneRedundancy;
+    anonymousPullEnabled?: boolean;
 };
 
 // @public
@@ -1281,6 +1848,7 @@ export interface RegistryPassword {
 // @public
 export interface RegistryUpdateParameters {
     adminUserEnabled?: boolean;
+    anonymousPullEnabled?: boolean;
     dataEndpointEnabled?: boolean;
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
@@ -1553,6 +2121,84 @@ export interface RunUpdateParameters {
 }
 
 // @public
+export type ScopeMap = ProxyResource & {
+    description?: string;
+    readonly typePropertiesType?: string;
+    readonly creationDate?: Date;
+    readonly provisioningState?: ProvisioningState;
+    actions?: string[];
+};
+
+// @public
+export interface ScopeMapListResult {
+    nextLink?: string;
+    value?: ScopeMap[];
+}
+
+// @public
+export interface ScopeMaps {
+    beginCreate(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: ScopeMap, options?: ScopeMapsCreateOptionalParams): Promise<PollerLike<PollOperationState<ScopeMapsCreateResponse>, ScopeMapsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: ScopeMap, options?: ScopeMapsCreateOptionalParams): Promise<ScopeMapsCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapUpdateParameters: ScopeMapUpdateParameters, options?: ScopeMapsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ScopeMapsUpdateResponse>, ScopeMapsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapUpdateParameters: ScopeMapUpdateParameters, options?: ScopeMapsUpdateOptionalParams): Promise<ScopeMapsUpdateResponse>;
+    get(resourceGroupName: string, registryName: string, scopeMapName: string, options?: ScopeMapsGetOptionalParams): Promise<ScopeMapsGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: ScopeMapsListOptionalParams): PagedAsyncIterableIterator<ScopeMap>;
+}
+
+// @public
+export interface ScopeMapsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ScopeMapsCreateResponse = ScopeMap;
+
+// @public
+export interface ScopeMapsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScopeMapsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopeMapsGetResponse = ScopeMap;
+
+// @public
+export interface ScopeMapsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopeMapsListNextResponse = ScopeMapListResult;
+
+// @public
+export interface ScopeMapsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopeMapsListResponse = ScopeMapListResult;
+
+// @public
+export interface ScopeMapsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ScopeMapsUpdateResponse = ScopeMap;
+
+// @public
+export interface ScopeMapUpdateParameters {
+    actions?: string[];
+    description?: string;
+}
+
+// @public
 export interface SecretObject {
     type?: SecretObjectType;
     value?: string;
@@ -1657,11 +2303,32 @@ export interface Status {
 }
 
 // @public
+export interface StatusDetailProperties {
+    readonly code?: string;
+    readonly correlationId?: string;
+    readonly description?: string;
+    readonly timestamp?: Date;
+    readonly type?: string;
+}
+
+// @public
 export type StepType = string;
 
 // @public
-export interface StorageAccountProperties {
-    id: string;
+export interface SyncProperties {
+    readonly gatewayEndpoint?: string;
+    readonly lastSyncTime?: Date;
+    messageTtl: string;
+    schedule?: string;
+    syncWindow?: string;
+    tokenId: string;
+}
+
+// @public
+export interface SyncUpdateProperties {
+    messageTtl?: string;
+    schedule?: string;
+    syncWindow?: string;
 }
 
 // @public
@@ -1936,7 +2603,135 @@ export interface TimerTriggerUpdateParameters {
 }
 
 // @public
+export interface TlsCertificateProperties {
+    readonly location?: string;
+    readonly type?: CertificateType;
+}
+
+// @public
+export interface TlsProperties {
+    readonly certificate?: TlsCertificateProperties;
+    readonly status?: TlsStatus;
+}
+
+// @public
+export type TlsStatus = string;
+
+// @public
+export type Token = ProxyResource & {
+    readonly creationDate?: Date;
+    readonly provisioningState?: ProvisioningState;
+    scopeMapId?: string;
+    credentials?: TokenCredentialsProperties;
+    status?: TokenStatus;
+};
+
+// @public
+export interface TokenCertificate {
+    encodedPemCertificate?: string;
+    expiry?: Date;
+    // (undocumented)
+    name?: TokenCertificateName;
+    thumbprint?: string;
+}
+
+// @public
+export type TokenCertificateName = string;
+
+// @public
+export interface TokenCredentialsProperties {
+    // (undocumented)
+    certificates?: TokenCertificate[];
+    // (undocumented)
+    passwords?: TokenPassword[];
+}
+
+// @public
+export interface TokenListResult {
+    nextLink?: string;
+    value?: Token[];
+}
+
+// @public
+export interface TokenPassword {
+    creationTime?: Date;
+    expiry?: Date;
+    name?: TokenPasswordName;
+    readonly value?: string;
+}
+
+// @public
+export type TokenPasswordName = string;
+
+// @public
+export interface Tokens {
+    beginCreate(resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Token, options?: TokensCreateOptionalParams): Promise<PollerLike<PollOperationState<TokensCreateResponse>, TokensCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Token, options?: TokensCreateOptionalParams): Promise<TokensCreateResponse>;
+    beginDelete(resourceGroupName: string, registryName: string, tokenName: string, options?: TokensDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, registryName: string, tokenName: string, options?: TokensDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, registryName: string, tokenName: string, tokenUpdateParameters: TokenUpdateParameters, options?: TokensUpdateOptionalParams): Promise<PollerLike<PollOperationState<TokensUpdateResponse>, TokensUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, registryName: string, tokenName: string, tokenUpdateParameters: TokenUpdateParameters, options?: TokensUpdateOptionalParams): Promise<TokensUpdateResponse>;
+    get(resourceGroupName: string, registryName: string, tokenName: string, options?: TokensGetOptionalParams): Promise<TokensGetResponse>;
+    list(resourceGroupName: string, registryName: string, options?: TokensListOptionalParams): PagedAsyncIterableIterator<Token>;
+}
+
+// @public
+export interface TokensCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TokensCreateResponse = Token;
+
+// @public
+export interface TokensDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TokensGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TokensGetResponse = Token;
+
+// @public
+export interface TokensListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TokensListNextResponse = TokenListResult;
+
+// @public
+export interface TokensListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TokensListResponse = TokenListResult;
+
+// @public
+export type TokenStatus = string;
+
+// @public
+export interface TokensUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TokensUpdateResponse = Token;
+
+// @public
 export type TokenType = string;
+
+// @public
+export interface TokenUpdateParameters {
+    credentials?: TokenCredentialsProperties;
+    scopeMapId?: string;
+    status?: TokenStatus;
+}
 
 // @public
 export interface TriggerProperties {
@@ -1975,6 +2770,12 @@ export interface UserIdentityProperties {
 
 // @public
 export type Variant = string;
+
+// @public
+export interface VirtualNetworkRule {
+    action?: Action;
+    virtualNetworkResourceId: string;
+}
 
 // @public
 export type Webhook = Resource & {

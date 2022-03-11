@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.7.0 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,19 @@
 
 ### Bugs Fixed
 
+- [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Customers can provide abort signals in the options bags for the client libraries but they were not being checked when requests were being retried. The issue is fixed in [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781).
+
 ### Other Changes
+
+- Changed the default number of retries from 10 to 3.
+
+## 1.6.0 (2022-03-03)
+
+### Other Changes
+
+- Add "WWW-Authenticate" to the allowed logged header list. [#20288](https://github.com/Azure/azure-sdk-for-js/pull/20288)
+
+- Switch browser transport to fetch. [#20201](https://github.com/Azure/azure-sdk-for-js/pull/20201)
 
 ## 1.5.0 (2022-02-03)
 

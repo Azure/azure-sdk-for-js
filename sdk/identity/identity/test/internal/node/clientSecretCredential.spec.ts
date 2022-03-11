@@ -5,8 +5,9 @@
 
 import Sinon from "sinon";
 import { assert } from "chai";
+import { GetTokenOptions } from "@azure/core-auth";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay } from "@azure-tools/test-recorder";
+import { env, delay, Recorder } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -17,10 +18,12 @@ describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
+  let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    const setup = msalNodeTestSetup(this);
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
+    recorder = setup.recorder;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
@@ -39,17 +42,17 @@ describe("ClientSecretCredential (internal)", function () {
   it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
-      new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+      new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID!, env.AZURE_CLIENT_SECRET!);
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientSecretCredential(env.AZURE_TENANT_ID, undefined as any, env.AZURE_CLIENT_SECRET);
+      new ClientSecretCredential(env.AZURE_TENANT_ID!, undefined as any, env.AZURE_CLIENT_SECRET!);
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+      new ClientSecretCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, undefined as any);
     } catch (e) {
       errors.push(e);
     }
@@ -67,11 +70,14 @@ describe("ClientSecretCredential (internal)", function () {
     });
   });
 
-  it("Authenticates silently after the initial request", async function () {
+  // This is not the way to test persistence with acquireTokenByClientCredential,
+  // since acquireTokenByClientCredential caches at the method level, and not with the same cache used for acquireTokenSilent.
+  // I'm leaving this here so I can remember about this in the future.
+  it.skip("Authenticates silently after the initial request", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
     );
 
     const { token: firstToken } = await credential.getToken(scope);
@@ -85,12 +91,25 @@ describe("ClientSecretCredential (internal)", function () {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
+  it("Authenticates with tenantId on getToken", async function () {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({})
+    );
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1);
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
   // TODO: Enable again once we're ready to release this feature.
   it.skip("supports specifying the regional authority", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET,
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
       {
         // TODO: Uncomment once we're ready to release this feature.
         // regionalAuthority: RegionalAuthority.AutoDiscoverRegion

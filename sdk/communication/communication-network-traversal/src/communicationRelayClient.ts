@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  CommunicationUserIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
@@ -25,7 +24,6 @@ import { createSpan } from "./common/tracing";
 import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
 import {
   CommunicationRelayConfiguration,
-  RouteType,
   CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
 } from "./generated/src/models";
 
@@ -130,62 +128,19 @@ export class CommunicationRelayClient {
   /**
    * Gets a TURN credential for a user
    *
-   * @param routeType - The specified routeType for the relay request
-   * @param options - Additional options for the request.
-   */
-  public async getRelayConfiguration(
-    routeType: RouteType,
-    options?: GetRelayConfigurationOptions
-  ): Promise<CommunicationRelayConfiguration>;
-
-  /**
-   * Gets a TURN credential for a user
-   *
    * @param user - The user for whom to issue a token
    * @param routeType - The specified routeType for the relay request
+   * @param ttl - The specified time to live for the relay credential in seconds
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    user: CommunicationUserIdentifier,
-    routeType?: RouteType,
-    options?: GetRelayConfigurationOptions
-  ): Promise<CommunicationRelayConfiguration>;
-
-  /**
-   * Gets a TURN credential for a user
-   *
-   * @param user - The user for whom to issue a token
-   * @param routeType - The specified routeType for the relay request
-   * @param options - Additional options for the request.
-   */
-  public async getRelayConfiguration(
-    paramOne?: CommunicationUserIdentifier | RouteType | GetRelayConfigurationOptions,
-    paramTwo?: RouteType | GetRelayConfigurationOptions,
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
-    let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
+    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
       options;
 
-    if (
-      typeof paramOne !== "undefined" &&
-      typeof paramOne !== "string" &&
-      "communicationUserId" in paramOne
-    ) {
-      requestOptions.body = { id: paramOne.communicationUserId };
-      if (typeof paramTwo !== "undefined" && typeof paramTwo === "string") {
-        requestOptions.body["routeType"] = paramTwo;
-      }
-    } else if (typeof paramOne !== "undefined" && typeof paramOne === "string") {
-      requestOptions.body = { routeType: paramOne };
-      if (
-        typeof paramTwo !== "undefined" &&
-        typeof paramTwo !== "string" &&
-        "requestOptions" in paramTwo
-      ) {
-        requestOptions = paramTwo;
-      }
-    } else if (typeof paramOne !== "undefined" && "requestOptions" in paramOne) {
-      requestOptions = paramOne;
+    if (options !== "undefined") {
+      requestOptions.body = { id: options.id, routeType: options.routeType, ttl: options.ttl };
     }
 
     const { span, updatedOptions } = createSpan(

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, createEventDataAdapter, EventDataAdapterParameters } from "@azure/event-hubs";
-import { matrix } from "@azure/test-utils";
+import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
 import { MessageAdapter } from "../src/models";
 import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 /**
  * A type predicate to check whether two record types have the same keys
@@ -32,20 +32,14 @@ const dummyUint8Array = Uint8Array.from([0]);
  */
 interface AdapterTestInfo<T> {
   adapterFactory: MessageAdapter<T>;
-  nonUint8ArrayMessage: T;
   adapterFactoryName: string;
 }
 
-const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
-  adapterFactory: createEventDataAdapter(),
-  nonUint8ArrayMessage: {
-    body: "",
-    contentType: "",
-  },
-  adapterFactoryName: createEventDataAdapter.name,
-};
-
 describe("Message Adapters", function () {
+  const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
+    adapterFactory: createEventDataAdapter(),
+    adapterFactoryName: createEventDataAdapter.name,
+  };
   describe("Input types for message adapter factories are sound", function () {
     it("EventDataAdapterParameters", function () {
       const areEqual: AssertEqualKeys<
@@ -64,10 +58,14 @@ describe("Message Adapters", function () {
       it("implements MessageAdapter", async () => {
         assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
       });
-      it("consumeMessage rejects non-Uint8Array body", async () => {
+      it("consumeMessage rejects undefined body", async () => {
         assert.throws(
-          () => adapter.consumeMessage(adapterTestInfo.nonUint8ArrayMessage),
-          /Expected the body field to be defined and have a Uint8Array/
+          () =>
+            adapter.consumeMessage({
+              body: undefined,
+              contentType: "",
+            }),
+          /Expected the body field to be defined/
         );
       });
       it("consumeMessage rejects messages with no contentType", async () => {

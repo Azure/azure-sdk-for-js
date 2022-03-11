@@ -1,0 +1,1009 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://login.microsoftonline.com/common/discovery/instance?api-version=1.1\u0026authorization_endpoint=https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "5d72a4cd-2b66-44ae-b80e-d5807945f047"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "max-age=86400, private",
+        "Content-Length": "980",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:00 GMT",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAQAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:00 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12470.13 - NCUS ProdSlices",
+        "x-ms-request-id": "e17688e6-cacf-4707-8096-6cc57306e600"
+      },
+      "ResponseBody": {
+        "tenant_discovery_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration",
+        "api-version": "1.1",
+        "metadata": [
+          {
+            "preferred_network": "login.microsoftonline.com",
+            "preferred_cache": "login.windows.net",
+            "aliases": [
+              "login.microsoftonline.com",
+              "login.windows.net",
+              "login.microsoft.com",
+              "sts.windows.net"
+            ]
+          },
+          {
+            "preferred_network": "login.partner.microsoftonline.cn",
+            "preferred_cache": "login.partner.microsoftonline.cn",
+            "aliases": [
+              "login.partner.microsoftonline.cn",
+              "login.chinacloudapi.cn"
+            ]
+          },
+          {
+            "preferred_network": "login.microsoftonline.de",
+            "preferred_cache": "login.microsoftonline.de",
+            "aliases": [
+              "login.microsoftonline.de"
+            ]
+          },
+          {
+            "preferred_network": "login.microsoftonline.us",
+            "preferred_cache": "login.microsoftonline.us",
+            "aliases": [
+              "login.microsoftonline.us",
+              "login.usgovcloudapi.net"
+            ]
+          },
+          {
+            "preferred_network": "login-us.microsoftonline.com",
+            "preferred_cache": "login-us.microsoftonline.com",
+            "aliases": [
+              "login-us.microsoftonline.com"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "a6f752df-337b-4a0d-9205-e1f17a5e3554"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "max-age=86400, private",
+        "Content-Length": "1753",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:00 GMT",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAQAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:00 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12470.13 - NCUS ProdSlices",
+        "x-ms-request-id": "4ad72ffa-2b1e-4f2e-adfb-495c46d5db00"
+      },
+      "ResponseBody": {
+        "token_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+        "token_endpoint_auth_methods_supported": [
+          "client_secret_post",
+          "private_key_jwt",
+          "client_secret_basic"
+        ],
+        "jwks_uri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys",
+        "response_modes_supported": [
+          "query",
+          "fragment",
+          "form_post"
+        ],
+        "subject_types_supported": [
+          "pairwise"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "response_types_supported": [
+          "code",
+          "id_token",
+          "code id_token",
+          "id_token token"
+        ],
+        "scopes_supported": [
+          "openid",
+          "profile",
+          "email",
+          "offline_access"
+        ],
+        "issuer": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0",
+        "request_uri_parameter_supported": false,
+        "userinfo_endpoint": "https://graph.microsoft.com/oidc/userinfo",
+        "authorization_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize",
+        "device_authorization_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode",
+        "http_logout_supported": true,
+        "frontchannel_logout_supported": true,
+        "end_session_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout",
+        "claims_supported": [
+          "sub",
+          "iss",
+          "cloud_instance_name",
+          "cloud_instance_host_name",
+          "cloud_graph_host_name",
+          "msgraph_host",
+          "aud",
+          "exp",
+          "iat",
+          "auth_time",
+          "acr",
+          "nonce",
+          "preferred_username",
+          "name",
+          "tid",
+          "ver",
+          "at_hash",
+          "c_hash",
+          "email"
+        ],
+        "kerberos_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/kerberos",
+        "tenant_region_scope": "NA",
+        "cloud_instance_name": "microsoftonline.com",
+        "cloud_graph_host_name": "graph.windows.net",
+        "msgraph_host": "graph.microsoft.com",
+        "rbac_url": "https://pas.windows.net"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "200",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "68b143c3-c893-4ca1-a595-a4af401496ee"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "475",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:00 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:00 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12507.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "7c4ae622-f6de-492e-a90b-5d843f401200"
+      },
+      "ResponseBody": {
+        "user_code": "USER_CODE",
+        "device_code": "RAQABAAEAAAD--DLA3VO7QrddgJg7WevrXdI70MQnvWvsdbElXIAY-bjLtQ7QzKDodVVV6ihmL80YTUbYvioHlL305o-4lqk_O4ScvwmihkbWEe2m3bPfRPXiSrJoYSYowxshdmQLu6cUcpBWoLekKCmDpvrOsv0u7L27RHiZukBMNaTSwyEKOLn5PugzyiEhhQw3f4qTVwMgAA",
+        "verification_uri": "https://microsoft.com/devicelogin",
+        "expires_in": 900,
+        "interval": "0",
+        "message": "To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "3874cfc6-a057-4daa-943c-a19877a96213"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:00 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:00 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - NCUS ProdSlices",
+        "x-ms-request-id": "4ad72ffa-2b1e-4f2e-adfb-495c4ed5db00"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4ad72ffa-2b1e-4f2e-adfb-495c4ed5db00\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:00Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:00Z",
+        "trace_id": "4ad72ffa-2b1e-4f2e-adfb-495c4ed5db00",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "d47aa13b-59e0-48b8-90cf-53b73ddc96c4"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:05 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:06 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12507.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "7c4ae622-f6de-492e-a90b-5d841d411200"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 7c4ae622-f6de-492e-a90b-5d841d411200\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:06Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:06Z",
+        "trace_id": "7c4ae622-f6de-492e-a90b-5d841d411200",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "65a27ff9-7206-4a16-aad3-e000177dedc5"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:11 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:11 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - NCUS ProdSlices",
+        "x-ms-request-id": "59f7eb4b-dbd7-4b02-91f5-0c02c8e0d400"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 59f7eb4b-dbd7-4b02-91f5-0c02c8e0d400\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:11Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:11Z",
+        "trace_id": "59f7eb4b-dbd7-4b02-91f5-0c02c8e0d400",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "c050e9dd-91da-417d-a217-876becbaf66c"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:16 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:16 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12507.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "aab44ce2-37cd-4f71-b52a-b42c9dcd1300"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: aab44ce2-37cd-4f71-b52a-b42c9dcd1300\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:16Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:16Z",
+        "trace_id": "aab44ce2-37cd-4f71-b52a-b42c9dcd1300",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "774d5fca-d88a-491e-9346-3c3c42e3dd3b"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:21 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:21 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12507.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "07e481c0-c8ab-4d66-9f0e-faac96181100"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 07e481c0-c8ab-4d66-9f0e-faac96181100\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:21Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:21Z",
+        "trace_id": "07e481c0-c8ab-4d66-9f0e-faac96181100",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "75c95557-3d55-44e5-939c-14f8e4770592"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:26 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:26 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - EUS ProdSlices",
+        "x-ms-request-id": "d297bcf9-bd63-43fc-b907-0a1976991401"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: d297bcf9-bd63-43fc-b907-0a1976991401\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:26Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:26Z",
+        "trace_id": "d297bcf9-bd63-43fc-b907-0a1976991401",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "7b5d719c-97da-405f-807f-1109c108d22d"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:31 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:32 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "4abaaa5f-d07d-4d76-a2c5-90b4e4e32b01"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4abaaa5f-d07d-4d76-a2c5-90b4e4e32b01\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:32Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:32Z",
+        "trace_id": "4abaaa5f-d07d-4d76-a2c5-90b4e4e32b01",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "d14ceca8-2de2-4014-921b-b2c0571b2de4"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:36 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:37 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "4abaaa5f-d07d-4d76-a2c5-90b4bfe42b01"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4abaaa5f-d07d-4d76-a2c5-90b4bfe42b01\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:37Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:37Z",
+        "trace_id": "4abaaa5f-d07d-4d76-a2c5-90b4bfe42b01",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "07f64e34-3515-4b2c-8af9-a7c367e920c6"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:41 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:42 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "4abaaa5f-d07d-4d76-a2c5-90b48be52b01"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4abaaa5f-d07d-4d76-a2c5-90b48be52b01\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:42Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:42Z",
+        "trace_id": "4abaaa5f-d07d-4d76-a2c5-90b48be52b01",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "be0a96ab-6a8b-4d2b-8b85-9e554c7df320"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:47 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:47 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - EUS ProdSlices",
+        "x-ms-request-id": "d297bcf9-bd63-43fc-b907-0a19be9c1401"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: d297bcf9-bd63-43fc-b907-0a19be9c1401\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:47Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:47Z",
+        "trace_id": "d297bcf9-bd63-43fc-b907-0a19be9c1401",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "bc2df218-f1c3-4039-9ca1-e229e1d67d36"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:52 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:52 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - EUS ProdSlices",
+        "x-ms-request-id": "1a1ea3af-e400-4650-b62b-2ce49c681701"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 1a1ea3af-e400-4650-b62b-2ce49c681701\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:52Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:52Z",
+        "trace_id": "1a1ea3af-e400-4650-b62b-2ce49c681701",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "f1728398-f581-4d03-8f5d-9a82badae0d6"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:25:57 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:25:57 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "7af5c0d7-55a6-4a3b-bf01-95ce8bce2901"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 7af5c0d7-55a6-4a3b-bf01-95ce8bce2901\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:25:57Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:25:57Z",
+        "trace_id": "7af5c0d7-55a6-4a3b-bf01-95ce8bce2901",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "62359007-ae9a-4c9c-91d2-e11dd9813c94"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:26:02 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:26:02 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "4abaaa5f-d07d-4d76-a2c5-90b4bde82b01"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4abaaa5f-d07d-4d76-a2c5-90b4bde82b01\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:26:02Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:26:02Z",
+        "trace_id": "4abaaa5f-d07d-4d76-a2c5-90b4bde82b01",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "e90378b5-9403-451e-9214-a65bd3b39e1d"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:26:07 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:26:08 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12507.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "aab44ce2-37cd-4f71-b52a-b42c32d61300"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: aab44ce2-37cd-4f71-b52a-b42c32d61300\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:26:08Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:26:08Z",
+        "trace_id": "aab44ce2-37cd-4f71-b52a-b42c32d61300",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "10148862-b600-49f4-bea4-2359279a4881"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:26:12 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:26:13 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - NCUS ProdSlices",
+        "x-ms-request-id": "4ad72ffa-2b1e-4f2e-adfb-495cc2dedb00"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4ad72ffa-2b1e-4f2e-adfb-495cc2dedb00\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:26:13Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:26:13Z",
+        "trace_id": "4ad72ffa-2b1e-4f2e-adfb-495cc2dedb00",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "b27892d6-e17e-496e-b1da-db0f6cd30161"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:26:17 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:26:18 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "4abaaa5f-d07d-4d76-a2c5-90b437eb2b01"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 4abaaa5f-d07d-4d76-a2c5-90b437eb2b01\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:26:18Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:26:18Z",
+        "trace_id": "4abaaa5f-d07d-4d76-a2c5-90b437eb2b01",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "5aad9a2f-62de-447f-8bf8-42eaa747a134"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:26:22 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAA; expires=Sat, 02-Apr-2022 00:26:23 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12507.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "7c4ae622-f6de-492e-a90b-5d845f4c1200"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 7c4ae622-f6de-492e-a90b-5d845f4c1200\r\nCorrelation ID: 68b143c3-c893-4ca1-a595-a4af401496ee\r\nTimestamp: 2022-03-03 00:26:23Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-03 00:26:23Z",
+        "trace_id": "7c4ae622-f6de-492e-a90b-5d845f4c1200",
+        "correlation_id": "68b143c3-c893-4ca1-a595-a4af401496ee",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "504",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "67209d78-e3dd-4a46-8ae3-c659f869d979"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access\u0026client_id=azure_client_id\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "944",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 03 Mar 2022 00:26:28 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": [
+          "fpc=As9USPmZl7lJjC4KClFeNw3mR1YbAgAAANsBstkOAAAAv0pTgAEAAAAzArLZDgAAAA; expires=Sat, 02-Apr-2022 00:26:28 GMT; path=/; secure; HttpOnly; SameSite=None",
+          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
+          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,0,0,,",
+        "x-ms-ests-server": "2.1.12470.13 - SCUS ProdSlices",
+        "x-ms-request-id": "4abaaa5f-d07d-4d76-a2c5-90b48fec2b01"
+      },
+      "ResponseBody": {
+        "token_type": "Bearer",
+        "scope": "https://vault.azure.net/user_impersonation https://vault.azure.net/.default",
+        "expires_in": 3758,
+        "ext_expires_in": 3758,
+        "access_token": "access_token",
+        "refresh_token": "refresh_token",
+        "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz",
+        "client_info": "eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -807,6 +807,10 @@ sdk/securityinsights/arm-securityinsights @qiaozha @dw511214992 @MaryGao
 sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 /sdk/oep/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
+# PRLabel: %Mgmt
+sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
+sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
@@ -1044,7 +1048,7 @@ sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @jfggdl
 
 # ServiceLabel: %Event Hubs %Service Attention
-#/<NotInRepo>/          @kasun04
+#/<NotInRepo>/          @kasun04 @saglodha
 
 # ServiceLabel: %Functions %Service Attention
 #/<NotInRepo>/          @ahmedelnably @fabiocav
@@ -1230,7 +1234,7 @@ sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @chlahav
 
 # ServiceLabel: %Service Attention %Service Bus
-#/<NotInRepo>/          @jfggdl @axisc
+#/<NotInRepo>/          @saglodha @EldertGrootenboer
 
 # ServiceLabel: %Service Attention %Service Fabric
 #/<NotInRepo>/          @QingChenmsft @vaishnavk @juhacket

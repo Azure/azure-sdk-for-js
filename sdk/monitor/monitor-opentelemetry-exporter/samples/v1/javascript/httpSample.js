@@ -123,9 +123,13 @@ function setupOpenTelemetry() {
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
   provider.register();
 
+  const httpInstrumentationConfig = {
+    ignoreIncomingPaths: [new RegExp(/dc.services.visualstudio.com/i)]
+  };
+  const httpInstrumentation = new HttpInstrumentation(httpInstrumentationConfig);
+
   registerInstrumentations({
-    // // when boostraping with lerna for testing purposes
-    instrumentations: [new HttpInstrumentation()]
+    instrumentations: [httpInstrumentation]
   });
   serverTracer = provider.getTracer("serverTracer");
   clientTracer = provider.getTracer("clientTracer");

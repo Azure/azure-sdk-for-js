@@ -3,14 +3,21 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import FarmBeats, { FarmBeatsRestClient } from "../../../src";
-import { ClientSecretCredential } from "@azure/identity";
-
 import "./env";
+
+import FarmBeats, { FarmBeatsRestClient } from "../../../src";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isLiveMode,
+  record,
+} from "@azure-tools/test-recorder";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
+
 import { ClientOptions } from "@azure-rest/core-client";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   FARMBEATS_ENDPOINT: "https://endpoint",
@@ -37,12 +44,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClient(options?: ClientOptions): FarmBeatsRestClient {
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    { httpClient }
   );
-  return FarmBeats(env.FARMBEATS_ENDPOINT, credential, options);
+
+  return FarmBeats(env.FARMBEATS_ENDPOINT, credential, { ...options, httpClient });
 }
 
 /**

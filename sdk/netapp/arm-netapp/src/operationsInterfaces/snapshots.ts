@@ -17,7 +17,9 @@ import {
   SnapshotsCreateResponse,
   SnapshotsUpdateOptionalParams,
   SnapshotsUpdateResponse,
-  SnapshotsDeleteOptionalParams
+  SnapshotsDeleteOptionalParams,
+  SnapshotRestoreFiles,
+  SnapshotsRestoreFilesOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -174,5 +176,43 @@ export interface Snapshots {
     volumeName: string,
     snapshotName: string,
     options?: SnapshotsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Restore the specified files from the specified snapshot to the active filesystem
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param snapshotName The name of the snapshot
+   * @param body Restore payload supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginRestoreFiles(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    body: SnapshotRestoreFiles,
+    options?: SnapshotsRestoreFilesOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Restore the specified files from the specified snapshot to the active filesystem
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param snapshotName The name of the snapshot
+   * @param body Restore payload supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginRestoreFilesAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    body: SnapshotRestoreFiles,
+    options?: SnapshotsRestoreFilesOptionalParams
   ): Promise<void>;
 }

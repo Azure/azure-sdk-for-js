@@ -41,7 +41,8 @@ function expiresOnParser(requestBody: TokenResponseParsedBody): number {
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -56,7 +57,9 @@ function prepareRequestOptions(
   if (clientId) {
     queryParameters.client_id = clientId;
   }
-
+  if (resourceId) {
+    queryParameters.msi_res_id = resourceId;
+  }
   const query = new URLSearchParams(queryParameters);
 
   // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
@@ -81,7 +84,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure Service Fabric MSI is available, and also how to retrieve a token from the Azure Service Fabric MSI.
  */
 export const fabricMsi: MSI = {
-  async isAvailable(scopes): Promise<boolean> {
+  async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -102,7 +105,13 @@ export const fabricMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { scopes, identityClient, clientId } = configuration;
+    const { scopes, identityClient, clientId, resourceId } = configuration;
+
+    if (resourceId) {
+      logger.warning(
+        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
+      );
+    }
 
     logger.info(
       [
@@ -116,7 +125,7 @@ export const fabricMsi: MSI = {
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId),
+      ...prepareRequestOptions(scopes, clientId, resourceId),
       // The service fabric MSI endpoint will be HTTPS (however, the certificate will be self-signed).
       // allowInsecureConnection: true
     });

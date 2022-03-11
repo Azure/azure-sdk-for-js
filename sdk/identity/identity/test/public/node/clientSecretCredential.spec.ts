@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
-import { env, delay, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, delay, isRecordMode, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientSecretCredential } from "../../../src";
@@ -14,8 +14,11 @@ import { AzureLogger, setLogLevel } from "@azure/logger";
 
 describe("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function (this: Context) {
-    cleanup = msalNodeTestSetup(this).cleanup;
+  let recorder: Recorder;
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
+    cleanup = setup.cleanup;
+    recorder = setup.recorder;
   });
   afterEach(async function () {
     await cleanup();
@@ -25,9 +28,10 @@ describe("ClientSecretCredential", function () {
 
   it("authenticates", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({})
     );
 
     const token = await credential.getToken(scope);
@@ -41,9 +45,9 @@ describe("ClientSecretCredential", function () {
       this.skip();
     }
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET,
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
       {
         allowLoggingAccountIdentifiers: true,
       }
@@ -69,9 +73,10 @@ describe("ClientSecretCredential", function () {
 
   it("allows cancelling the authentication", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({})
     );
 
     const controller = new AbortController();
@@ -97,9 +102,10 @@ describe("ClientSecretCredential", function () {
     testTracing({
       test: async (tracingOptions) => {
         const credential = new ClientSecretCredential(
-          env.AZURE_TENANT_ID,
-          env.AZURE_CLIENT_ID,
-          env.AZURE_CLIENT_SECRET
+          env.AZURE_TENANT_ID!,
+          env.AZURE_CLIENT_ID!,
+          env.AZURE_CLIENT_SECRET!,
+          recorder.configureClientOptions({})
         );
 
         await credential.getToken(scope, {
@@ -125,13 +131,13 @@ describe("ClientSecretCredential", function () {
     }
 
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET,
-      {
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({
         // TODO: Uncomment again once we're ready to release this feature.
         // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
-      }
+      })
     );
 
     const token = await credential.getToken(scope);
