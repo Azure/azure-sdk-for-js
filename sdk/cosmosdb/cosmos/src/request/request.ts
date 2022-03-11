@@ -187,6 +187,9 @@ export async function getHeaders({
   if (options.disableRUPerMinuteUsage) {
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
+  if (options.maxIntegratedCacheStaleness) {
+    headers[Constants.HttpHeaders.DedicatedGatewayCacheStaleness] = options.maxIntegratedCacheStaleness
+  }
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||
