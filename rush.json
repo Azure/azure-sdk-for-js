@@ -1644,6 +1644,11 @@
       "packageName": "@azure/arm-authorization-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/authorization/arm-authorization-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/monitor/arm-monitor-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }

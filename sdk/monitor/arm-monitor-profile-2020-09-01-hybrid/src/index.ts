@@ -6,9 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./metricDefinitions";
-export * from "./metrics";
-export * from "./diagnosticSettings";
-export * from "./diagnosticSettingsCategory";
-export * from "./eventCategories";
-export * from "./operations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { MonitorClient } from "./monitorClient";
+export * from "./operationsInterfaces";
