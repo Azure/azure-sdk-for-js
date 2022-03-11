@@ -25,29 +25,29 @@ interface ScenariosTestInfo<T> {
 describe("With messaging clients", function () {
   const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
-  const eventDataAdapterTestInfo: ScenariosTestInfo<EventData> = {
+  const eventDataTestInfo: ScenariosTestInfo<EventData> = {
     adapterFactory: createEventDataAdapter(),
     messagingServiceName: "Event Hub",
     client: createMockedMessagingClient(() =>
       createEventHubsClient(eventHubsConnectionString, eventHubName)
     ),
   };
-  matrix([[eventDataAdapterTestInfo]] as const, async (adapterTestInfo: ScenariosTestInfo<any>) => {
-    describe(adapterTestInfo.messagingServiceName, async function () {
+  matrix([[eventDataTestInfo]] as const, async (testInfo: ScenariosTestInfo<any>) => {
+    describe(testInfo.messagingServiceName, async function () {
       let serializer: AvroSerializer<any>;
       before(async function () {
         serializer = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: true,
             groupName: testGroup,
-            messageAdapter: adapterTestInfo.adapterFactory,
+            messageAdapter: testInfo.adapterFactory,
           },
         });
-        await adapterTestInfo.client.initialize();
+        await testInfo.client.initialize();
       });
 
       after(async function () {
-        await adapterTestInfo.client.cleanup();
+        await testInfo.client.cleanup();
       });
 
       it("Test schema with fields of type int/string/boolean/float/bytes", async () => {
@@ -71,8 +71,8 @@ describe("With messaging clients", function () {
           randb: Buffer.from("\u00FF"),
         };
         const message = await serializer.serializeMessageData(value, schema);
-        await adapterTestInfo.client.send(message);
-        const receivedMessage = await adapterTestInfo.client.receive();
+        await testInfo.client.send(message);
+        const receivedMessage = await testInfo.client.receive();
         const deserializedValue = await serializer.deserializeMessageData(receivedMessage);
         assert.deepStrictEqual(deserializedValue, value);
       });
@@ -99,8 +99,8 @@ describe("With messaging clients", function () {
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
         const message = await serializer.serializeMessageData(value, writerSchema);
-        await adapterTestInfo.client.send(message);
-        const receivedMessage = await adapterTestInfo.client.receive();
+        await testInfo.client.send(message);
+        const receivedMessage = await testInfo.client.receive();
         const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
           schema: readerSchema,
         });
@@ -132,8 +132,8 @@ describe("With messaging clients", function () {
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
         const message = await serializer.serializeMessageData(value, writerSchema);
-        await adapterTestInfo.client.send(message);
-        const receivedMessage = await adapterTestInfo.client.receive();
+        await testInfo.client.send(message);
+        const receivedMessage = await testInfo.client.receive();
         const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
           schema: readerSchema,
         });

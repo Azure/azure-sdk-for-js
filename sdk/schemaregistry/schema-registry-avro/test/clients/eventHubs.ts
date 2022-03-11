@@ -10,6 +10,7 @@ import {
 } from "@azure/event-hubs";
 import { MessagingTestClient } from "./models";
 import { delay } from "@azure-tools/test-recorder";
+import { MessagingError } from "@azure/event-hubs";
 
 export function createEventHubsClient(
   eventHubsConnectionString: string,
@@ -44,7 +45,7 @@ export function createEventHubsClient(
               break;
             }
           },
-          processError: async (err) => {
+          processError: async (err: Error | MessagingError) => {
             this.cleanup();
             throw err;
           },
