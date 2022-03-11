@@ -17,6 +17,7 @@ export function createMockedMessagingClient<MessageT>(
   }
   let message: MessageT;
   return {
+    async initialize(): Promise<void> {},
     async send(inputMessage: MessageT): Promise<void> {
       message = inputMessage;
       return;
@@ -28,8 +29,6 @@ export function createMockedMessagingClient<MessageT>(
         throw new Error("No message was sent!");
       }
     },
-    async cleanup(): Promise<void> {
-      return;
-    },
+    async cleanup(): Promise<void> {},
   };
 }

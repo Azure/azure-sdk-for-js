@@ -15,17 +15,21 @@ export function createEventHubsClient(
   eventHubsConnectionString: string,
   eventHubName: string
 ): MessagingTestClient<EventData> {
-  const producer = new EventHubBufferedProducerClient(eventHubsConnectionString, eventHubName, {
-    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
-      throw ctx.error;
-    },
-  });
-  const consumer = new EventHubConsumerClient(
-    EventHubConsumerClient.defaultConsumerGroupName,
-    eventHubsConnectionString,
-    eventHubName
-  );
+  let producer: EventHubBufferedProducerClient;
+  let consumer: EventHubConsumerClient;
   return {
+    async initialize() {
+      producer = new EventHubBufferedProducerClient(eventHubsConnectionString, eventHubName, {
+        onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
+          throw ctx.error;
+        },
+      });
+      consumer = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        eventHubsConnectionString,
+        eventHubName
+      );
+    },
     async send(message: EventData) {
       await producer.enqueueEvent(message);
     },
@@ -34,7 +38,7 @@ export function createEventHubsClient(
       const subscription = consumer.subscribe(
         {
           // The callback where you add your code to process incoming events
-          processEvents: async (events) => {
+          processEvents: async (events: EventData[]) => {
             for (const event of events) {
               firstEvent = event;
               break;
