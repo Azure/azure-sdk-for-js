@@ -14,7 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 if (isNode) {
@@ -74,7 +74,7 @@ export function createRecordedClientWithToken(
   context: Context
 ): RecordedClient<ShortCodesClient> | undefined {
   const recorder = record(context, environmentSetup);
-  let credential;
+  let credential: TokenCredential;
   const endpoint = parseConnectionString(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
   ).endpoint;

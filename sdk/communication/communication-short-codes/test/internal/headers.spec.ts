@@ -11,12 +11,7 @@ import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
-
-const isNode =
-  typeof process !== "undefined" &&
-  !!process.version &&
-  !!process.versions &&
-  !!process.versions.node;
+import { isNode } from "@azure/test-utils";
 
 describe("ShortCodesClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
