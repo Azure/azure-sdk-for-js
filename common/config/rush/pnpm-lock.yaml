@@ -10974,28 +10974,27 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-M5fhHqT3uUZgml95AP+5HD52JQBp76+TKovG2XNzjTGV3dj5qM0fgmLNAeFdKt88CSFiEbt+MD239VOg0BnkcQ==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-PUpQXi1NXd8KUXsKwu7OFLHlDUPI0eF5YoCgHMtuDDwpQTrJctOJIi1WH0rqWDwnY3owFKJnGEnS9zeiltTNzg==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color

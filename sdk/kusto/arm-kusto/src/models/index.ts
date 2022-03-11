@@ -1082,7 +1082,7 @@ export type EventHubDataConnection = DataConnection & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
+  /** Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id. */
   managedIdentityResourceId?: string;
   /**
    * The object ID of the managedIdentityResourceId
@@ -1138,7 +1138,7 @@ export type EventGridDataConnection = DataConnection & {
   ignoreFirstRecord?: boolean;
   /** The name of blob storage event type to process. */
   blobStorageEventType?: BlobStorageEventType;
-  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
+  /** Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id. */
   managedIdentityResourceId?: string;
   /**
    * The object ID of managedIdentityResourceId
