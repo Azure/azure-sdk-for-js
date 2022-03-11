@@ -16,9 +16,10 @@ import {
   TracingSpan,
 } from "@azure/core-tracing";
 import { W3CTraceContextPropagator, suppressTracing } from "@opentelemetry/core";
-import { environmentVariableToBoolean, toSpanOptions } from "./transformations";
 
 import { OpenTelemetrySpanWrapper } from "./spanWrapper";
+import { envVarToBoolean } from "./configuration";
+import { toSpanOptions } from "./transformations";
 
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
 export const propagator = new W3CTraceContextPropagator();
@@ -31,7 +32,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     let ctx = spanOptions?.tracingContext || context.active();
     let span: Span;
 
-    if (environmentVariableToBoolean("AZURE_TRACING_DISABLED")) {
+    if (envVarToBoolean("AZURE_TRACING_DISABLED")) {
       // disable only our spans but not any downstream spans
       span = trace.wrapSpanContext(INVALID_SPAN_CONTEXT);
     } else {
@@ -40,10 +41,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
         .getTracer(spanOptions.packageName, spanOptions.packageVersion)
         .startSpan(name, toSpanOptions(spanOptions), ctx);
 
-      if (
-        environmentVariableToBoolean("AZURE_HTTP_TRACING_DISABLED") &&
-        name.toUpperCase().startsWith("HTTP")
-      ) {
+      if (envVarToBoolean("AZURE_HTTP_TRACING_DISABLED") && name.toUpperCase().startsWith("HTTP")) {
         // disable downstream spans
         ctx = suppressTracing(ctx);
       }

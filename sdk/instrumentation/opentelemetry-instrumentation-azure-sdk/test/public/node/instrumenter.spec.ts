@@ -3,6 +3,7 @@
 
 import { OpenTelemetryInstrumenter } from "../../../src/instrumenter";
 import { assert } from "chai";
+import { environment } from "../../../src/configuration";
 import { inMemoryExporter } from "../util/setup";
 import { isTracingSuppressed } from "@opentelemetry/core";
 
@@ -14,8 +15,7 @@ describe("OpenTelemetryInstrumenter (node)", () => {
   });
 
   afterEach(() => {
-    delete process.env.AZURE_HTTP_TRACING_DISABLED;
-    delete process.env.AZURE_TRACING_DISABLED;
+    environment.clear();
   });
 
   const instrumenter = new OpenTelemetryInstrumenter();
@@ -23,11 +23,7 @@ describe("OpenTelemetryInstrumenter (node)", () => {
   describe("startSpan", () => {
     describe("when AZURE_TRACING_DISABLED is set", () => {
       beforeEach(() => {
-        process.env.AZURE_TRACING_DISABLED = "1";
-      });
-
-      afterEach(() => {
-        delete process.env.AZURE_TRACING_DISABLED;
+        environment.set("AZURE_TRACING_DISABLED", "1");
       });
 
       it("suppresses tracing for our spans", () => {
@@ -41,7 +37,7 @@ describe("OpenTelemetryInstrumenter (node)", () => {
 
     describe("when AZURE_HTTP_TRACING_DISABLED is set", () => {
       beforeEach(() => {
-        process.env.AZURE_HTTP_TRACING_DISABLED = "1";
+        environment.set("AZURE_HTTP_TRACING_DISABLED", "1");
       });
 
       it("suppresses tracing for downstream spans", () => {
@@ -65,8 +61,8 @@ describe("OpenTelemetryInstrumenter (node)", () => {
 
     describe("when both AZURE_TRACING_DISABLED and AZURE_HTTP_TRACING_DISABLED are set", () => {
       beforeEach(() => {
-        process.env.AZURE_TRACING_DISABLED = "true";
-        process.env.AZURE_HTTP_TRACING_DISABLED = "true";
+        environment.set("AZURE_TRACING_DISABLED", "true");
+        environment.set("AZURE_HTTP_TRACING_DISABLED", "True");
       });
 
       it("creates a non-recording span", () => {

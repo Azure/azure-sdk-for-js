@@ -93,18 +93,3 @@ export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOption
     links,
   };
 }
-
-/**
- * Given an environment variable name, returns whether it is truthy.
- *
- * We consider "false" and "0" as falsey when used in environment variables.
- *
- * @internal
- */
-export function environmentVariableToBoolean(environmentVariableName: string): boolean {
-  if (typeof process === "undefined") {
-    return false;
-  }
-  const valueWithDefault = (process.env[environmentVariableName] ?? "").toLowerCase();
-  return valueWithDefault !== "false" && valueWithDefault !== "0" && Boolean(valueWithDefault);
-}
