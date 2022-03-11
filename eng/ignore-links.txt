@@ -23,3 +23,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-commerce-profile-2020-09-01
 https://docs.microsoft.com/javascript/api/@azure/arm-compute-profile-2020-09-01-hybrid
 https://docs.microsoft.com/javascript/api/@azure/arm-eventhub-profile-2020-09-01-hybrid?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-authorization-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-monitor-profile-2020-09-01-hybrid?view=azure-node-preview

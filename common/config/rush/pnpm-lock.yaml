@@ -98,6 +98,7 @@ specifiers:
   '@rush-temp/arm-mixedreality': file:./projects/arm-mixedreality.tgz
   '@rush-temp/arm-mobilenetwork': file:./projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
+  '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:./projects/arm-monitor-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-msi': file:./projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
@@ -365,6 +366,7 @@ dependencies:
   '@rush-temp/arm-mixedreality': file:projects/arm-mixedreality.tgz
   '@rush-temp/arm-mobilenetwork': file:projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
+  '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-msi': file:projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
@@ -11454,6 +11456,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-YNKi/CVMnfcXQgQawes3aJgDp52Sp6uku3L3bkzw/6wu/s0e6PPTRk0pbewJbG2Fq/CebEDUdP+7H0n4pSpGeQ==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-monitor.tgz:
     resolution: {integrity: sha512-sfxCB/Jzd3T1hg/Lzn8jowP0QgvNSmgZfMazqQo2T+t0tgCml2c8cwzscIhPcqt5meE/e6YirRLrCSt1AiS+8Q==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
@@ -14766,7 +14796,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-/D9UB0TNxhGrAggxo5vIN6OmKdenUTYw+XbUlwEbi7efhTrXpxmBXPBZ9fDjYvWWurgmrcB5BmDbs79tY6R8Ow==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-2Xtogh0f/tS8KN7C+MiCFSbkq5JO9dzcSNsvDrq0Bn4LVb7RbCUuA6EJt/cnlm0ypwaiGda/g8K/Qzm2HxJQqQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -14813,7 +14843,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16166,7 +16195,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-X/nrKHda1aqPL+2gmC+b/1OtZDtgyQgRBE9BNbnq/tvE/1SWxJ/S3YyQagLxEGwVnECay3rJK5kRF6FtC/mSbw==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-baM9AM1oaLuFQZVYWcQOOsk3S2pDL2sQq3P4Xz4QsSqrMdnar4GUttKENCESpdKzbEtd16Wn6aXAeEv6e1b/4w==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -16440,7 +16469,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-U4oabgzRWkgZ7Z6hiB0cd2I5Vcg00Jl6TdTcrIcFZkw/zC4wAwegjKg3iCcYR/Wm6zt9UHKMF47zCICB6/YYMg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-90O/0AZuhWsAPei6nhyvdr3u5FVN70Pe8EOHP0xmNFSkdCaB6iVI/ddJpBzOVuS/oCAQlquJRqa0weq9d7gMEg==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -16553,7 +16582,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-Qi1a/g8gosVDBOb+t5o3TsbvwZVjyYtAPmgf6v/zQLkY2qe7na90FScLTWYa1jH5E3yT+BviJylVsCJafnawog==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-PGParpvAAO9eFzHUe8wssASUN37elJN9u98Cpr04IryJ6QqvJcNSWQ6sXVlH2pfbAgWh1Doj1qsa7iGh1rARrA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -16609,7 +16638,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-2ZH8fLmpPVmWUGAVGdmZ8P0MjIFOKfaaovnt9M901HdH6hzf7cA0zDJWrYWUdyBdWlJWr9/lcc7hNJgNHvRADw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-Jxz0qOUTipeW7ba2V5XWyo959u+/94U+sQ6nebj1Q8wd2u4hIbfFTAR220a9SmxWyJ8xIkd4PLMM70/IXZo41g==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -17215,7 +17244,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-dwhQTjLzu4rD6RWxWqmP7WtOc3mTrrzKXyKkSSRzbuyxV7aG+PerCM1oBYuO6QnVdaOkcAKFDMd147hkMQDp2w==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-5r9FLsDPL6xG6wh3FHzpCZyEFsRwOQwvY7IPBuaoQGhtf81Z8wlBlRh83f8HMWnPGyLmoE63EdYNRgQ0Cmk2fQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -17259,7 +17288,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
