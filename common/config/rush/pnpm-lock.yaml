@@ -99,6 +99,7 @@ specifiers:
   '@rush-temp/arm-mixedreality': file:./projects/arm-mixedreality.tgz
   '@rush-temp/arm-mobilenetwork': file:./projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
+  '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:./projects/arm-monitor-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-msi': file:./projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
@@ -367,6 +368,7 @@ dependencies:
   '@rush-temp/arm-mixedreality': file:projects/arm-mixedreality.tgz
   '@rush-temp/arm-mobilenetwork': file:projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
+  '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-msi': file:projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
@@ -11459,6 +11461,34 @@ packages:
   file:projects/arm-mobilenetwork.tgz:
     resolution: {integrity: sha512-pcOHhGMWXboG2+RimOlWIoRqwdSlurEwe+26z7fE8dD9cPsXVLmIM5HjXxRxgB8qkOtXN81DUTIgH0oSZIbXLA==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-YNKi/CVMnfcXQgQawes3aJgDp52Sp6uku3L3bkzw/6wu/s0e6PPTRk0pbewJbG2Fq/CebEDUdP+7H0n4pSpGeQ==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
