@@ -47,7 +47,9 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
    * without having to first determine the client Id of the created identity.
    */
   resourceId?: string;
-  /** Having both client Id and resource Id is not supported */
+  /**
+   * Having both client Id and resource Id is not supported
+   */
   clientId?: undefined;
 }
 
