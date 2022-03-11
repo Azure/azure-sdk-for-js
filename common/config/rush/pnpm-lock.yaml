@@ -14239,7 +14239,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-yMZDpj7f7Wqn+tJ6Q6AUsd9ywFlTCn2lsuehnBCVFDXyV1LkgzK83XXX7W5tat7vLQIKGMHxmdIXKWBxME5ovw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-huJBLY2W+bEheXWtuUHMoAr+0WW/dRCMhyHZPFeL5FnLL7iSqBscZZHVCMkdyFOnBr1qlavfGgx79kHgaBjAMg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -14247,11 +14247,13 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
+      '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.46
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.6
+      chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -14273,6 +14275,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.5.1
+      puppeteer: 13.5.1
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -14283,6 +14286,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
