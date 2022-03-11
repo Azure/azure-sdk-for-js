@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { testGroup } from "./utils/dummies";
+import { AvroSerializer } from "../src/avroSerializer";
 import { MessageAdapter } from "../src/models";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
@@ -11,7 +11,7 @@ import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
-import { AvroSerializer } from "../src/avroSerializer";
+import { testGroup } from "./utils/dummies";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -104,6 +104,7 @@ describe("With messaging clients", function () {
         const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
           schema: readerSchema,
         });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         assert.deepStrictEqual(deserializedValue, (({ favorite_color, ...rest }) => rest)(value));
       });
 
