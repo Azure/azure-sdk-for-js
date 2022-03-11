@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, use as chaiUse } from "chai";
+import chaiPromises from "chai-as-promised";
+chaiUse(chaiPromises);
 import { Context } from "mocha";
 import * as sinon from "sinon";
 import {
@@ -241,14 +243,12 @@ describe("throttlingRetryPolicy", function () {
     next.onFirstCall().resolves(retryResponse);
     next.onSecondCall().resolves(successResponse);
 
-    let errorWasThrown = false;
-    try {
-      await policy.sendRequest(request, next);
-    } catch (error) {
-      errorWasThrown = true;
-      assert.equal((error as Error).name, "AbortError", "Unexpected error thrown");
-    }
-    assert.equal(errorWasThrown, true, "Error was not thrown");
+    await assert.isRejected(
+      policy.sendRequest(request, next),
+      "The operation was aborted.",
+      "Unexpected error thrown"
+    );
+
     assert.isTrue(next.calledOnce);
     assert.isFalse(next.calledTwice);
   });
