@@ -88,14 +88,18 @@ export function createEventDataAdapter(
     },
     consumeMessage: (message: EventData): MessageWithMetadata => {
       const { body, contentType } = message;
-      if (body === undefined || !(body instanceof Uint8Array)) {
-        throw new Error("Expected the body field to be defined and have a Uint8Array");
+      if (body === undefined) {
+        throw new Error("Expected the body field to be defined");
       }
       if (contentType === undefined) {
         throw new Error("Expected the contentType field to be defined");
       }
       return {
-        body,
+        /**
+         * If the raw response was parsed as JSON, we need to convert it to a Uint8Array,
+         * otherwise, leave the payload as is.
+         */
+        body: typeof body === "object" ? Uint8Array.from(Object.values(body)) : body,
         contentType,
       };
     },

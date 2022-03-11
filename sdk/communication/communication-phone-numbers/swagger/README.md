@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-phone-numbers
+package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.2.0-beta.1
+package-version: 1.2.0-beta.2
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
@@ -17,7 +17,7 @@ model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210223.1"
+  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
 azure-arm: false
 skip-enum-validation: true

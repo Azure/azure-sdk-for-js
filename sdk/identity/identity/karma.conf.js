@@ -1,12 +1,9 @@
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode,
-} = require("@azure-tools/test-recorder");
 
 module.exports = function (config) {
   config.set({
@@ -28,14 +25,13 @@ module.exports = function (config) {
       "karma-coverage",
       "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-json-preprocessor",
     ],
 
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -44,16 +40,18 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
-      // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "dist-test/index.browser.js": ["coverage"],
-      "recordings/browsers/**/*.json": ["json"],
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET", "AZURE_TENANT_ID", "TEST_MODE"],
+    envPreprocessor: [
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID",
+      "TEST_MODE",
+      "RECORDINGS_RELATIVE_PATH",
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

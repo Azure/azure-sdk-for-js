@@ -89,7 +89,8 @@ function getEndSignal(): Uint8Array {
 }
 
 describe("ServiceClient to manage the connected WebSocket connections", function () {
-  it("Simple clients can receive expected messages with different content types", async function (this: Context) {
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/20571 waiting for service fix
+  it.skip("Simple clients can receive expected messages with different content types", async function (this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "SimpleClientCanReceiveMessage";
 
