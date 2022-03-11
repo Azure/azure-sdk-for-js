@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { VirtualMachineImageTemplates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -72,16 +72,23 @@ export class VirtualMachineImageTemplatesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: VirtualMachineImageTemplatesListOptionalParams
+    options?: VirtualMachineImageTemplatesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ImageTemplate[]> {
-    let result = await this._list(options);
+    let result;
+    if (settings && settings.continuationToken) {
+      let url:string = settings.continuationToken;
+      result = await this._listNext(url, options);
+    } else {
+      result = await this._list(options);
+    }    
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
@@ -89,6 +96,31 @@ export class VirtualMachineImageTemplatesImpl
       continuationToken = result.nextLink;
       yield result.value || [];
     }
+  }
+
+  /**
+   * Gets information about the VM image templates associated with the subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: VirtualMachineImageTemplatesListOptionalParams
+  ): Promise<VirtualMachineImageTemplatesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: VirtualMachineImageTemplatesListNextOptionalParams
+  ): Promise<VirtualMachineImageTemplatesListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec
+    );
   }
 
   private async *listPagingAll(
@@ -221,16 +253,6 @@ export class VirtualMachineImageTemplatesImpl
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Gets information about the VM image templates associated with the subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: VirtualMachineImageTemplatesListOptionalParams
-  ): Promise<VirtualMachineImageTemplatesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -723,21 +745,6 @@ export class VirtualMachineImageTemplatesImpl
     return this.client.sendOperationRequest(
       { resourceGroupName, imageTemplateName, runOutputName, options },
       getRunOutputOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: VirtualMachineImageTemplatesListNextOptionalParams
-  ): Promise<VirtualMachineImageTemplatesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
     );
   }
 
