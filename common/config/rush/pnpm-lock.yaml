@@ -75,6 +75,7 @@ specifiers:
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
+  '@rush-temp/arm-iothub-profile-2020-09-01-hybrid': file:./projects/arm-iothub-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid': file:./projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
@@ -344,6 +345,7 @@ dependencies:
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
+  '@rush-temp/arm-iothub-profile-2020-09-01-hybrid': file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid': file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
@@ -10829,6 +10831,34 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-AMN0ZE/GpgBH4jY4iQqYAC3Cn03GCaDUuCwO/Pgw6YfnkNoZa6n9qKzxbefzLTlkCkIUac+iU76JFuH1/Lb3WQ==, tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-iothub-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
