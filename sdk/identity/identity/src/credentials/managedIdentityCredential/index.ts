@@ -28,7 +28,9 @@ export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentia
    * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
    */
   clientId?: string;
-  /** Having both client Id and resource Id is not supported */
+  /**
+   * Having both client Id and resource Id is not supported
+   */
   resourceId?: undefined;
 }
 
