@@ -1646,6 +1646,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-monitor-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/monitor/arm-monitor-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-appservice-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
