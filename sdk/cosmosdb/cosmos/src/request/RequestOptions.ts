@@ -44,4 +44,6 @@ export interface RequestOptions extends SharedOptions {
   urlConnection?: string;
   /** Disable automatic id generation (will cause creates to fail if id isn't on the definition) */
   disableAutomaticIdGeneration?: boolean;
+  /** Allows a lower bound to be set on the lifespan of a response from the cache for each request. */
+  maxIntegratedCacheStaleness?: string;
 }
