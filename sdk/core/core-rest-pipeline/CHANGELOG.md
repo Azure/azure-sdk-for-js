@@ -8,9 +8,7 @@
 
 ### Bugs Fixed
 
-- [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Retry logic(throttling/exponential) didn't honor `abortSignal` that was being passed as part of the constructor client options of the SDKs, which would lead to longer delays and could be misinterpreted as hanging code.
-
-  [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781) fixed the issue by taking the `abortSignal` that is associated with the request into account.
+- [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Customers can provide abort signals in the options bags for the client libraries but they were not being checked when requests were being retried. The issue is fixed in [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781).
 
 ### Other Changes
 
