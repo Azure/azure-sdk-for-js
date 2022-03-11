@@ -29,7 +29,7 @@ export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentia
    */
   clientId?: string;
   /** Having both client Id and resource Id is not supported */
-  resourceId?: undefined;
+  resourceId?: never;
 }
 
 /**
@@ -46,7 +46,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
    */
   resourceId?: string;
   /** Having both client Id and resource Id is not supported */
-  clientId?: undefined;
+  clientId?: never;
 }
 
 /**
