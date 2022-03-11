@@ -1,8 +1,8 @@
 {
-  "name": "azure-schema-registry-avro-samples-ts",
+  "name": "azure-schema-registry-avro-samples-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Schema Registry client library samples for TypeScript",
+  "description": "Azure Schema Registry client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -30,9 +30,11 @@
     "@azure/schema-registry-avro": "next",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1",
-    "@azure/schema-registry": "1.0.1"
+    "@azure/schema-registry": "1.0.2",
+    "@azure/event-hubs": "^5.8.0-beta.1"
   },
   "devDependencies": {
+    "@types/node": "^12.0.0",
     "typescript": "~4.4.0",
     "rimraf": "latest"
   }
