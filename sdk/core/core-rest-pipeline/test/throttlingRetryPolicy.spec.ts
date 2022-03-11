@@ -7,10 +7,10 @@ chaiUse(chaiPromises);
 import { Context } from "mocha";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
   createHttpHeaders,
+  createPipelineRequest,
   throttlingRetryPolicy,
 } from "../src";
 import { AbortController } from "@azure/abort-controller";

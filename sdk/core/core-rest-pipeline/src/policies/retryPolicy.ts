@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
