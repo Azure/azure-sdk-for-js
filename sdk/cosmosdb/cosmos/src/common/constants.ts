@@ -160,6 +160,10 @@ export const Constants = {
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
+
+    // Dedicated Gateway Header
+    DedicatedGatewayCacheStaleness: "x-ms-dedicatedgateway-max-age",
+    
   },
 
   // GlobalDB related constants
