@@ -4,7 +4,7 @@
 import * as avro from "avsc";
 import {
   AvroSerializerOptions,
-  DeserializeMessageDataOptions,
+  DeserializeOptions,
   MessageAdapter,
   MessageWithMetadata,
 } from "./models";
@@ -65,12 +65,12 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * serializes the value parameter according to the input schema and creates a message
    * with the serialized data.
    *
-   * @param value - The value to serializeMessageData.
+   * @param value - The value to serialize.
    * @param schema - The Avro schema to use.
    * @returns A new message with the serialized value. The structure of message is
    * constrolled by the message factory option.
    */
-  async serializeMessageData(value: unknown, schema: string): Promise<MessageT> {
+  async serialize(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = entry.serializer.toBuffer(value);
     const payload = new Uint8Array(
@@ -103,10 +103,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * @param options - Decoding options.
    * @returns The deserialized value.
    */
-  async deserializeMessageData(
-    message: MessageT,
-    options: DeserializeMessageDataOptions = {}
-  ): Promise<unknown> {
+  async deserialize(message: MessageT, options: DeserializeOptions = {}): Promise<unknown> {
     const { schema: readerSchema } = options;
     const { body, contentType } = convertMessage(message, this.messageAdapter);
     const buffer = Buffer.from(body);

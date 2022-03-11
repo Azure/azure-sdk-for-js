@@ -99,10 +99,10 @@ const schema = JSON.stringify({
 const value = { score: 42 };
 
 // Serialize value to a message
-const message = await serializer.serializeMessageData(value, schema);
+const message = await serializer.serialize(value, schema);
 
 // Deserialize a message to value
-const deserializedValue = await serializer.deserializeMessageData(message);
+const deserializedValue = await serializer.deserialize(message);
 ```
 
 ## Troubleshooting

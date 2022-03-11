@@ -35,7 +35,7 @@ export interface MessageAdapter<MessageT> {
  */
 export interface AvroSerializerOptions<MessageT> {
   /**
-   * When true, register new schemas passed to serializeMessageData. Otherwise, and by
+   * When true, register new schemas passed to serialize. Otherwise, and by
    * default, fail if schema has not already been registered.
    *
    * Automatic schema registration is NOT recommended for production scenarios.
@@ -43,7 +43,7 @@ export interface AvroSerializerOptions<MessageT> {
   autoRegisterSchemas?: boolean;
   /**
    * The group name to be used when registering/looking up a schema. Must be specified
-   * if `serializeMessageData` will be called.
+   * if `serialize` will be called.
    */
   groupName?: string;
   /**
@@ -53,9 +53,9 @@ export interface AvroSerializerOptions<MessageT> {
 }
 
 /**
- * The options to the deserializeMessageData method.
+ * The options to the deserialize method.
  */
-export interface DeserializeMessageDataOptions {
+export interface DeserializeOptions {
   /**
    * The schema to be used for deserializing.
    */
