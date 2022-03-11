@@ -61,7 +61,12 @@ export function createClient(options: {
   return new TextAnalyticsClient(
     env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
     credential,
-    recorder ? recorder.configureClientOptions(clientOptions) : clientOptions
+    {
+      ...(recorder ? recorder.configureClientOptions(clientOptions) : clientOptions),
+      retryOptions: {
+        maxRetries: 10,
+      },
+    }
   );
 }
 

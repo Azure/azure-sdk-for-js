@@ -17,9 +17,9 @@ const StandardAbortMessage = "The operation was aborted.";
  * @param delayInMs - The number of milliseconds to be delayed.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
  * @param options - The options for delay - currently abort options
- *   @param abortSignal - The abortSignal associated with containing operation.
- *   @param abortErrorMsg - The abort error message associated with containing operation.
- * @returns - Resolved promise
+ *                  - abortSignal - The abortSignal associated with containing operation.
+ *                  - abortErrorMsg - The abort error message associated with containing operation.
+ * @returns Resolved promise
  */
 export function delay<T>(
   delayInMs: number,

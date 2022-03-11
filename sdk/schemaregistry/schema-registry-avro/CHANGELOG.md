@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.7 (2022-03-10)
 
 ### Breaking Changes
 - `AvroEncoder` has been renamed to `AvroSerializer`
