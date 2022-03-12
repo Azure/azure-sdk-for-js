@@ -5,7 +5,12 @@ import {
   WorkerToManagerMessage,
   WorkerToManagerMessageWithId,
 } from "./messages";
-import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
+import {
+  defaultPerfOptions,
+  DefaultPerfOptions,
+  ParsedPerfOptions,
+  parsePerfOption,
+} from "./options";
 
 export type WorkerLike = workerThreads.Worker | ChildProcess;
 
@@ -137,7 +142,7 @@ export const multicoreUtils: MulticoreUtils = (() => {
   if (process.send) {
     // we are a child process
     return createWorkerUtils(
-      process.send,
+      (msg) => process.send && process.send(msg),
       (cb) => process.on("message", cb),
       (cb) => process.off("message", cb),
       JSON.parse(process.argv[2]) as WorkerData
@@ -151,8 +156,9 @@ export const multicoreUtils: MulticoreUtils = (() => {
       workerThreads.workerData as WorkerData
     );
   } else {
-    // we are a manager; TODO: parse the options and switch between workers here.
-    return createManagerUtils("worker_threads");
+    // we are a manager
+    const useWorkerThreads = parsePerfOption(defaultPerfOptions)["use-worker-threads"].value;
+    return createManagerUtils(useWorkerThreads ? "worker_threads" : "child_processes");
   }
 })();
 

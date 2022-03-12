@@ -78,6 +78,7 @@ export interface DefaultPerfOptions {
   insecure: boolean;
   "list-transitive-dependencies": boolean;
   cpus: number;
+  "use-worker-threads": boolean;
 }
 
 /**
@@ -136,6 +137,11 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
       "Number of CPUs to use. Parallel tests will be split evenly across CPUs. Specify 0 to use the number of logical CPUs available on the machine.",
     shortName: "c",
     defaultValue: 1,
+  },
+  "use-worker-threads": {
+    description:
+      "Set to true to use the Node worker_thread API when running tests across multiple CPUs. Set to false to use child_process (default).",
+    defaultValue: false,
   },
 };
 
