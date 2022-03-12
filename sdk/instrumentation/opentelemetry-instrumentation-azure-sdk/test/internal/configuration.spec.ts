@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KnownEnvironmentKeys, envVarToBoolean, environment } from "../../src/configuration";
+import { KnownEnvironmentKey, envVarToBoolean, environment } from "../../src/configuration";
 
 import { assert } from "chai";
 
 describe("#envVarToBoolean", () => {
-  const key = "FOO" as KnownEnvironmentKeys;
+  const key = "FOO" as KnownEnvironmentKey;
 
   it("is false when env var is blank or missing", () => {
     environment.set(key, "");
