@@ -61,7 +61,7 @@ import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-res
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.3.2";
+export const packageVersion = "1.4.0";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
