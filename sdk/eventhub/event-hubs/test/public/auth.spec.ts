@@ -32,7 +32,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
     });
   }
 
-  onVersions(["live"]).describe("Authentication via", () => {
+  onVersions(["live"]).describe.only("Authentication via", () => {
     const { endpoint, fullyQualifiedNamespace, sharedAccessKey, sharedAccessKeyName } =
       parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
     const service = {
