@@ -55,7 +55,6 @@ import {
   deserializationPolicyName,
 } from "@azure/core-client";
 import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { defaultRetryPolicy, defaultRetryPolicyName } from "./policies/throttlingRetryPolicy";
 
 /**
  * This constant should always be the same as the package.json's version - we use it when forming the
@@ -156,10 +155,6 @@ export class AppConfigurationClient {
     this.client = new AppConfiguration(appConfigEndpoint, apiVersion);
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
-    this.client.pipeline.removePolicy({ name: defaultRetryPolicyName });
-    this.client.pipeline.addPolicy(defaultRetryPolicy(appConfigOptions.retryOptions), {
-      phase: "Retry",
-    });
     this.client.pipeline.removePolicy({ name: deserializationPolicyName });
     this.client.pipeline.addPolicy(
       deserializationPolicy({ expectedContentTypes: deserializationContentTypes }),
