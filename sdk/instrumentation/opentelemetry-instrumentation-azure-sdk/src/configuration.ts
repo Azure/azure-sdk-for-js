@@ -6,11 +6,11 @@ export const SDK_VERSION: string = "1.0.0-beta.2";
 /**
  * @internal
  *
- * Keys of known environment variables we lookup.
+ * Keys of known environment variables we look up.
  */
-export type KnownEnvironmentKeys = "AZURE_HTTP_TRACING_DISABLED" | "AZURE_TRACING_DISABLED";
+export type KnownEnvironmentKey = "AZURE_HTTP_TRACING_DISABLED" | "AZURE_TRACING_DISABLED";
 
-export const environment = new Map<KnownEnvironmentKeys, string | undefined>();
+export const environment = new Map<KnownEnvironmentKey, string | undefined>();
 
 if (typeof process !== "undefined" && process.env) {
   environment.set("AZURE_HTTP_TRACING_DISABLED", process.env.AZURE_HTTP_TRACING_DISABLED);
@@ -23,7 +23,7 @@ if (typeof process !== "undefined" && process.env) {
  *
  * @internal
  */
-export function envVarToBoolean(key: KnownEnvironmentKeys): boolean {
-  const valueWithDefault = (environment.get(key) ?? "").toLowerCase();
-  return valueWithDefault !== "false" && valueWithDefault !== "0" && Boolean(valueWithDefault);
+export function envVarToBoolean(key: KnownEnvironmentKey): boolean {
+  const value = (environment.get(key) ?? "").toLowerCase();
+  return value !== "false" && value !== "0" && Boolean(value);
 }
