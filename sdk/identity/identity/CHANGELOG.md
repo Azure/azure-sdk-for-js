@@ -4,7 +4,8 @@
 
 ### Features Added
 
-- All of our credentials now support a new option on their constructor: `allowLoggingAccountIdentifiers`. If set to true, after a successful authentication our logging will include information specific to the authenticated account, including: the Client ID, the Tenant ID, the Object ID of the authenticated user, and if possible the User Principal Name.
+- All of our credentials now support a new option on their constructor: `loggingOptions`, which allows configuring the logging options of the HTTP pipelines.
+- Within the new `loggingOptions` we have also added `allowLoggingAccountIdentifiers`, a property that if set to true logs information specific to the authenticated account after each successful authentication, including: the Client ID, the Tenant ID, the Object ID of the authenticated user, and if possible the User Principal Name.
 
 ### Breaking Changes
 
