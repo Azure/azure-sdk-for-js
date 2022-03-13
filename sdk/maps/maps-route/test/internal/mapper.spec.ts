@@ -33,5 +33,3 @@ describe("LatLon mappers", () => {
     });
   });
 });
-
-describe("Result mappers", () => {});
