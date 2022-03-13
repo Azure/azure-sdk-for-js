@@ -53,7 +53,7 @@ export class RouteOperationsImpl implements RouteOperations {
 
   /**
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes
    * defined by origin and destination locations by using an asynchronous (async) or synchronous (sync)
@@ -225,7 +225,7 @@ export class RouteOperationsImpl implements RouteOperations {
 
   /**
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes
    * defined by origin and destination locations by using an asynchronous (async) or synchronous (sync)
@@ -348,6 +348,8 @@ export class RouteOperationsImpl implements RouteOperations {
   }
 
   /**
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+   *
    * If the Matrix Route request was accepted successfully, the Location header in the response contains
    * the URL to download the results of the request. This status URI looks like the following:
    *
@@ -445,6 +447,8 @@ export class RouteOperationsImpl implements RouteOperations {
   }
 
   /**
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+   *
    * If the Matrix Route request was accepted successfully, the Location header in the response contains
    * the URL to download the results of the request. This status URI looks like the following:
    *
@@ -491,7 +495,7 @@ export class RouteOperationsImpl implements RouteOperations {
 
   /**
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes
    * defined by origin and destination locations by using an asynchronous (async) or synchronous (sync)
@@ -612,7 +616,7 @@ export class RouteOperationsImpl implements RouteOperations {
   }
 
   /**
-   * **Applies to**: S0 and S1 pricing tiers.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    *
    * Returns  a route between an origin and a destination, passing through waypoints if they are
@@ -646,7 +650,7 @@ export class RouteOperationsImpl implements RouteOperations {
   }
 
   /**
-   * **Applies to**: S0 and S1 pricing tiers.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    *
    * Returns  a route between an origin and a destination, passing through waypoints if they are
@@ -706,7 +710,7 @@ export class RouteOperationsImpl implements RouteOperations {
    * __Route Range (Isochrone) API__
    *
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    * This service will calculate a set of locations that can be reached from the origin point based on
    * fuel, energy,  time or distance budget that is specified. A polygon boundary (or Isochrone) is
@@ -735,7 +739,7 @@ export class RouteOperationsImpl implements RouteOperations {
    * **Route Directions Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    *
    *
@@ -989,7 +993,7 @@ export class RouteOperationsImpl implements RouteOperations {
    * **Route Directions Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    *
    *
@@ -1192,6 +1196,8 @@ export class RouteOperationsImpl implements RouteOperations {
   }
 
   /**
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+   *
    * ### Download Asynchronous Batch Results
    * To download the async batch results you will issue a `GET` request to the batch download endpoint.
    * This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request
@@ -1368,6 +1374,8 @@ export class RouteOperationsImpl implements RouteOperations {
   }
 
   /**
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+   *
    * ### Download Asynchronous Batch Results
    * To download the async batch results you will issue a `GET` request to the batch download endpoint.
    * This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request
@@ -1495,7 +1503,7 @@ export class RouteOperationsImpl implements RouteOperations {
    * **Route Directions Batch API**
    *
    *
-   * **Applies to**: S1 pricing tier.
+   * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
    *
    *
    *

@@ -8,14 +8,25 @@ import { AlternativeRouteType as AlternativeRouteType_2 } from 'src/generated';
 import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { ComputeTravelTime as ComputeTravelTime_2 } from 'src/generated';
+import { DrivingSide } from 'src/generated/models';
+import { ErrorResponse } from 'src/generated/models';
+import { GuidanceInstructionType } from 'src/generated/models';
+import { GuidanceManeuver } from 'src/generated/models';
 import { InclineLevel as InclineLevel_2 } from 'src/generated';
+import { JunctionType } from 'src/generated/models';
 import { OperationOptions } from '@azure/core-client';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { Report as Report_2 } from 'src/generated';
 import { RouteAvoidType as RouteAvoidType_2 } from 'src/generated';
+import { RouteInstructionGroup } from 'src/generated/models';
 import { RouteInstructionsType as RouteInstructionsType_2 } from 'src/generated';
+import { RouteLegSummary } from 'src/generated/models';
+import { RouteOptimizedWaypoint as RouteOptimizedWaypoint_2 } from 'src/generated/models';
+import { RouteReport as RouteReport_2 } from 'src/generated/models';
 import { RouteRepresentationForBestOrder as RouteRepresentationForBestOrder_2 } from 'src/generated';
+import { RouteSection } from 'src/generated/models';
+import { RouteSummary } from 'src/generated/models';
 import { RouteType as RouteType_2 } from 'src/generated';
 import { SectionType as SectionType_2 } from 'src/generated';
 import { TokenCredential } from '@azure/core-auth';
@@ -30,17 +41,136 @@ export type AlternativeRouteType = string;
 export { AzureKeyCredential }
 
 // @public
+export interface BatchItem<TResult> {
+    readonly response?: TResult & ErrorResponse;
+    readonly statusCode?: number;
+}
+
+// @public
+export interface BatchPollerOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface BatchRequest {
     // Warning: (ae-forgotten-export) The symbol "BatchRequestItem" needs to be exported by the entry point index.d.ts
     batchItems?: BatchRequestItem[];
 }
 
 // @public
+export interface BatchResult<TResult> {
+    readonly batchItems?: BatchItem<TResult>[];
+    readonly successfulRequests?: number;
+    readonly totalRequests?: number;
+}
+
+// @public
+export type BBox = BBox2D | BBox3D;
+
+// @public
+export type BBox2D = [number, number, number, number];
+
+// @public
+export type BBox3D = [number, number, number, number, number, number];
+
+// @public
 export type ComputeTravelTime = string;
 
 // @public
-export interface GetRouteDirectionsBatchOptions extends OperationOptions {
+export interface GeoJsonFeature extends GeoJsonObject {
+    // (undocumented)
+    geometry?: GeoJsonGeometry;
+    // (undocumented)
+    id?: number | string;
+    // (undocumented)
+    properties?: {
+        [name: string]: any;
+    };
+    // (undocumented)
+    type: "Feature";
 }
+
+// @public
+export interface GeoJsonFeatureCollection extends GeoJsonObject {
+    // (undocumented)
+    features: GeoJsonFeature[];
+    // (undocumented)
+    type: "FeatureCollection";
+}
+
+// @public
+export type GeoJsonGeometry = GeoJsonPoint | GeoJsonMultiPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon;
+
+// @public
+export interface GeoJsonGeometryCollection extends GeoJsonObject {
+    // (undocumented)
+    geometries: GeoJsonGeometry[];
+    // (undocumented)
+    type: "GeometryCollection";
+}
+
+// @public
+export interface GeoJsonLineString extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[];
+    // (undocumented)
+    type: "LineString";
+}
+
+// @public
+export interface GeoJsonMultiLineString extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][];
+    // (undocumented)
+    type: "MultiLineString";
+}
+
+// @public
+export interface GeoJsonMultiPoint extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[];
+    // (undocumented)
+    type: "MultiPoint";
+}
+
+// @public
+export interface GeoJsonMultiPolygon extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][][];
+    // (undocumented)
+    type: "MultiPolygon";
+}
+
+// @public
+export interface GeoJsonObject {
+    // (undocumented)
+    bbox?: BBox;
+    // (undocumented)
+    type: GeoJsonType;
+}
+
+// @public
+export interface GeoJsonPoint extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position;
+    // (undocumented)
+    type: "Point";
+}
+
+// @public
+export interface GeoJsonPolygon extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][];
+    // (undocumented)
+    type: "Polygon";
+}
+
+// @public
+export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
+
+// @public
+export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
 
 // @public
 export interface GetRouteMatrixOptions extends OperationOptions {
@@ -175,22 +305,14 @@ export interface LatLon {
 export class MapsRouteClient {
     constructor(credential: AzureKeyCredential, options?: MapsRouteClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsRouteClientOptions);
-    // (undocumented)
-    beginGetRouteDirectionsBatchResult(batchId: string, options?: GetRouteDirectionsBatchOptions): Promise<PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>>;
-    // (undocumented)
+    beginGetRouteDirectionsBatchResult(batchId: string, options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>>;
     beginGetRouteMatrixResult(matrixId: string, options?: GetRouteMatrixOptions): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>>;
-    // (undocumented)
-    beginRequestRouteDirectionsBatch(routeDirectionsBatchQueries: BatchRequest, options?: RequestRouteDirectionsBatchOptions): Promise<PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>>;
-    // (undocumented)
+    beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>>;
     beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixOptions): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>>;
-    getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions): Promise<RouteDirections>;
-    // (undocumented)
-    getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions): Promise<RouteDirections>;
-    // (undocumented)
-    getRouteRange(coordinates: LatLon, options?: RouteRangeOptions): Promise<RouteRangeResult>;
-    // (undocumented)
-    requestRouteDirectionsBatch(routeDirectionsBatchQueries: BatchRequest, options?: RequestRouteDirectionsBatchOptions): Promise<RouteDirectionsBatchResult>;
-    // (undocumented)
+    getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
+    getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
+    getRouteRange(coordinates: LatLon, budget: RouteRangeBudget, options?: RouteRangeOptions): Promise<RouteRangeResult>;
+    requestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions): Promise<BatchResult<RouteDirections>>;
     requestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixOptions): Promise<RouteMatrixResult>;
 }
 
@@ -198,17 +320,35 @@ export class MapsRouteClient {
 export type MapsRouteClientOptions = CommonClientOptions;
 
 // @public
+export type Position = Position2D | Position3D;
+
+// @public
+export type Position2D = [number, number];
+
+// @public
+export type Position3D = [number, number, number];
+
+// @public
 export type Report = string;
 
 // @public
-export interface RequestRouteDirectionsBatchOptions extends OperationOptions {
+export type RequireOnlyOne<T> = {
+    [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
+}[keyof T];
+
+// @public (undocumented)
+export interface Route {
+    readonly guidance?: RouteGuidance;
+    readonly legs: RouteLeg[];
+    readonly sections: RouteSection[];
+    readonly summary: RouteSummary;
 }
 
 // @public
 export type RouteAvoidType = string;
 
 // @public
-export interface RouteBaseOptions extends OperationOptions {
+export interface RouteBaseOptions {
     accelerationEfficiency?: number;
     auxiliaryPowerInKw?: number;
     auxiliaryPowerInLitersPerHour?: number;
@@ -242,27 +382,27 @@ export interface RouteBaseOptions extends OperationOptions {
 // @public
 export interface RouteDirectionParameters {
     allowVignette?: string[];
-    // Warning: (ae-forgotten-export) The symbol "GeoJsonMultiPolygon" needs to be exported by the entry point index.d.ts
     avoidAreas?: GeoJsonMultiPolygon;
     avoidVignette?: string[];
-    supportingPoints?: Record<string, unknown>;
+    supportingPoints?: GeoJsonGeometryCollection;
 }
 
 // @public
 export interface RouteDirections {
     readonly formatVersion?: string;
-    // Warning: (ae-forgotten-export) The symbol "RouteOptimizedWaypoint" needs to be exported by the entry point index.d.ts
-    readonly optimizedWaypoints?: RouteOptimizedWaypoint[];
-    // Warning: (ae-forgotten-export) The symbol "RouteReport" needs to be exported by the entry point index.d.ts
-    report?: RouteReport;
-    // Warning: (ae-forgotten-export) The symbol "Route" needs to be exported by the entry point index.d.ts
+    readonly optimizedWaypoints?: RouteOptimizedWaypoint_2[];
+    report?: RouteReport_2;
     readonly routes?: Route[];
+}
+
+// @public
+export interface RouteDirectionsBatchOptions extends OperationOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "BatchResult" needs to be exported by the entry point index.d.ts
 //
 // @public
-export type RouteDirectionsBatchResult = BatchResult & {
+export type RouteDirectionsBatchResult = BatchResult_2 & {
     readonly batchItems?: RouteDirectionsBatchItem[];
 };
 
@@ -284,7 +424,50 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
 }
 
 // @public
+export interface RouteDirectionsRequest {
+    // (undocumented)
+    options?: RouteDirectionsOptions;
+    // (undocumented)
+    routePoints: LatLon[];
+}
+
+// @public
+export interface RouteGuidance {
+    readonly instructionGroups: RouteInstructionGroup[];
+    readonly instructions: RouteInstruction[];
+}
+
+// @public
+export interface RouteInstruction {
+    readonly combinedMessage?: string;
+    readonly countryCode?: string;
+    readonly drivingSide?: DrivingSide;
+    readonly exitNumber?: string;
+    instructionType?: GuidanceInstructionType;
+    readonly junctionType?: JunctionType;
+    readonly maneuver?: GuidanceManeuver;
+    readonly message?: string;
+    point?: LatLon;
+    readonly pointIndex?: number;
+    readonly possibleCombineWithNext?: boolean;
+    readonly roadNumbers?: string[];
+    readonly roundaboutExitNumber?: string;
+    readonly routeOffsetInMeters?: number;
+    readonly signpostText?: string;
+    readonly stateCode?: string;
+    readonly street?: string;
+    readonly travelTimeInSeconds?: number;
+    readonly turnAngleInDegrees?: number;
+}
+
+// @public
 export type RouteInstructionsType = string;
+
+// @public
+export interface RouteLeg {
+    readonly points: LatLon[];
+    readonly summary: RouteLegSummary;
+}
 
 // @public
 export interface RouteMatrixOptions extends OperationOptions {
@@ -304,14 +487,14 @@ export interface RouteMatrixOptions extends OperationOptions {
     vehicleMaxSpeed?: number;
     vehicleWeight?: number;
     vehicleWidth?: number;
+    waitForResults?: boolean;
     windingness?: WindingnessLevel_2;
 }
 
 // @public
 export interface RouteMatrixQuery {
-    destinations?: GeoJsonMultiPoint;
-    // Warning: (ae-forgotten-export) The symbol "GeoJsonMultiPoint" needs to be exported by the entry point index.d.ts
-    origins?: GeoJsonMultiPoint;
+    destinations: GeoJsonMultiPoint;
+    origins: GeoJsonMultiPoint;
 }
 
 // @public
@@ -324,19 +507,39 @@ export interface RouteMatrixResult {
 }
 
 // @public
-export interface RouteRangeOptions extends RouteBaseOptions {
-    distanceBudgetInMeters?: number;
-    energyBudgetInKwH?: number;
-    fuelBudgetInLiters?: number;
-    timeBudgetInSec?: number;
+export interface RouteOptimizedWaypoint {
+    readonly optimizedIndex?: number;
+    readonly providedIndex?: number;
 }
+
+// @public
+export interface RouteRange {
+    readonly boundary?: LatLon[];
+    center?: LatLon;
+}
+
+// @public
+export type RouteRangeBudget = RequireOnlyOne<{
+    fuelBudgetInLiters?: number;
+    energyBudgetInKwH?: number;
+    timeBudgetInSec?: number;
+    distanceBudgetInMeters?: number;
+}>;
+
+// @public
+export type RouteRangeOptions = RouteBaseOptions & OperationOptions;
 
 // @public
 export interface RouteRangeResult {
     readonly formatVersion?: string;
-    // Warning: (ae-forgotten-export) The symbol "RouteRange" needs to be exported by the entry point index.d.ts
     reachableRange?: RouteRange;
-    report?: RouteReport;
+    report?: RouteReport_2;
+}
+
+// @public
+export interface RouteReport {
+    // Warning: (ae-forgotten-export) The symbol "EffectiveSetting" needs to be exported by the entry point index.d.ts
+    readonly effectiveSettings?: EffectiveSetting[];
 }
 
 // @public
@@ -363,7 +566,7 @@ export type WindingnessLevel = string;
 
 // Warnings were encountered during analysis:
 //
-// src/generated/models/index.ts:771:3 - (ae-forgotten-export) The symbol "RouteDirectionsBatchItem" needs to be exported by the entry point index.d.ts
+// src/generated/models/index.ts:762:3 - (ae-forgotten-export) The symbol "RouteDirectionsBatchItem" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -80,19 +80,10 @@ export interface RouteMatrix {
    */
   readonly statusCode?: number;
   /**
-   * Response object of the current cell in the input matrix.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly response?: RouteMatrixResultResponse;
-}
-
-/** Response object of the current cell in the input matrix. */
-export interface RouteMatrixResultResponse {
-  /**
    * Summary object for route section.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: RouteLegSummary;
+  readonly routeLegSummary?: RouteLegSummary;
 }
 
 /** Summary object for route section. */
@@ -248,17 +239,17 @@ export interface Route {
    * Summary object
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: RouteSummary;
+  readonly summary: RouteSummary;
   /**
    * Legs array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly legs?: RouteLeg[];
+  readonly legs: RouteLeg[];
   /**
    * Sections array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sections?: RouteSection[];
+  readonly sections: RouteSection[];
   /**
    * Contains guidance related elements. This field is present only when guidance was requested and is available.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -301,12 +292,12 @@ export interface RouteLeg {
    * Summary object for route section.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly summary?: RouteLegSummary;
+  readonly summary: RouteLegSummary;
   /**
    * Points array
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly points?: LatLongPair[];
+  readonly points: LatLongPair[];
 }
 
 /** A location represented as a latitude and longitude. */
@@ -394,12 +385,12 @@ export interface RouteGuidance {
    * A list of instructions describing maneuvers.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly instructions?: RouteInstruction[];
+  readonly instructions: RouteInstruction[];
   /**
    * Groups a sequence of instruction elements which are related to each other.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly instructionGroups?: RouteInstructionGroup[];
+  readonly instructionGroups: RouteInstructionGroup[];
 }
 
 /** A set of attributes describing a maneuver, e.g. 'Turn right', 'Keep left', 'Take the ferry', 'Take the motorway', 'Arrive'. */

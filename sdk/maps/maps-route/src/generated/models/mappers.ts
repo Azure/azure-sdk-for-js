@@ -142,24 +142,8 @@ export const RouteMatrix: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      response: {
-        serializedName: "response",
-        type: {
-          name: "Composite",
-          className: "RouteMatrixResultResponse"
-        }
-      }
-    }
-  }
-};
-
-export const RouteMatrixResultResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RouteMatrixResultResponse",
-    modelProperties: {
-      summary: {
-        serializedName: "routeSummary",
+      routeLegSummary: {
+        serializedName: "response.routeSummary",
         type: {
           name: "Composite",
           className: "RouteLegSummary"
@@ -430,6 +414,7 @@ export const Route: coreClient.CompositeMapper = {
       },
       legs: {
         serializedName: "legs",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -443,6 +428,7 @@ export const Route: coreClient.CompositeMapper = {
       },
       sections: {
         serializedName: "sections",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -523,6 +509,7 @@ export const RouteLeg: coreClient.CompositeMapper = {
       },
       points: {
         serializedName: "points",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -689,6 +676,7 @@ export const RouteGuidance: coreClient.CompositeMapper = {
     modelProperties: {
       instructions: {
         serializedName: "instructions",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
@@ -702,6 +690,7 @@ export const RouteGuidance: coreClient.CompositeMapper = {
       },
       instructionGroups: {
         serializedName: "instructionGroups",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
