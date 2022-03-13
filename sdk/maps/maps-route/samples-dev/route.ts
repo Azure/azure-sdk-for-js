@@ -7,7 +7,15 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { MapsRouteClient, RouteMatrixQuery } from "@azure/maps-route";
+import {
+  MapsRouteClient,
+  RouteMatrixQuery,
+  RouteDirectionParameters,
+  RouteRangeBudget,
+  RouteDirectionsRequest,
+  KnownRouteType,
+  KnownTravelMode,
+} from "@azure/maps-route";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -41,35 +49,23 @@ async function main() {
   }
 
   console.log(" --- Get route directions:");
-  console.log(
-    await client.getRouteDirections(
-      [
-        { latitude: 51.368752, longitude: -0.118332 },
-        { latitude: 41.385426, longitude: -0.128929 },
-      ],
-      {
-        vehicleWidth: 2,
-        vehicleHeight: 2,
-        isCommercialVehicle: true,
-        vehicleLoadType: "USHazmatClass1",
-        travelMode: "truck",
-      }
-    )
+  let getRouteDirectionsResult = await client.getRouteDirections(
+    [
+      { latitude: 51.368752, longitude: -0.118332 },
+      { latitude: 41.385426, longitude: -0.128929 },
+    ],
+    {
+      vehicleWidth: 2,
+      vehicleHeight: 2,
+      isCommercialVehicle: true,
+      vehicleLoadType: "USHazmatClass1",
+      travelMode: "truck",
+    }
   );
+  console.log(getRouteDirectionsResult);
 
-  console.log(" --- Get route range:");
-  const routeRangeOptions = { timeBudgetInSec: 6000 };
-  console.log(
-    await client.getRouteRange(
-      { latitude: 50.97452, longitude: 5.86605 },
-      {
-        ...routeRangeOptions,
-      }
-    )
-  );
-
-  console.log(" --- Post route directions:");
-  const routeDirectionParameters = {
+  console.log(" --- Get route directions with additional parameters:");
+  const routeDirectionParameters: RouteDirectionParameters = {
     supportingPoints: {
       type: "GeometryCollection",
       geometries: [
@@ -84,7 +80,7 @@ async function main() {
       ],
     },
     avoidVignette: ["AUS", "CHE"],
-    avoidArea: {
+    avoidAreas: {
       type: "MultiPolygon",
       coordinates: [
         [
@@ -108,38 +104,68 @@ async function main() {
       ],
     },
   };
-  console.log(
-    await client.getRouteDirectionsWithAdditionalParameters(
-      [
-        { latitude: 52.50931, longitude: 13.42936 },
-        { latitude: 52.50274, longitude: 13.43872 },
-      ],
-      routeDirectionParameters
-    )
-  );
 
-  console.log(" --- Post route directions batch:");
-  const routeDirectionsBatchQueries = {
-    batchItems: [
-      {
-        query:
-          "?query=47.639987,-122.128384:47.621252,-122.184408:47.596437,-122.332000&routeType=fastest&travelMode=car&maxAlternatives=99",
-      },
-      {
-        query:
-          "?query=47.620659,-122.348934:47.610101,-122.342015&travelMode=bicycle&routeType=eco&traffic=false",
-      },
-      {
-        query:
-          "?query=40.759856,-73.985108:40.771136,-73.973506&travelMode=pedestrian&routeType=shortest",
-      },
+  getRouteDirectionsResult = await client.getRouteDirectionsWithAdditionalParameters(
+    [
+      { latitude: 52.50931, longitude: 13.42936 },
+      { latitude: 52.50274, longitude: 13.43872 },
     ],
-  };
-  const routeDirectionPoller = await client.beginRequestRouteDirectionsBatch(
-    routeDirectionsBatchQueries
+    routeDirectionParameters
+  );
+  console.log(getRouteDirectionsResult);
+
+  // TODO: Find ways to remote undefined props
+  // TODO: Mapper code removeUndefinedProperties may need to be revisited. Not type checks actually
+
+  console.log(" --- Get route range:");
+  const routeRangeBudget: RouteRangeBudget = { timeBudgetInSec: 6000 };
+
+  const routeRangeResult = await client.getRouteRange(
+    { latitude: 50.97452, longitude: 5.86605 },
+    routeRangeBudget
   );
 
-  console.log(await routeDirectionPoller.pollUntilDone());
+  console.log(routeRangeResult);
+
+  console.log(" --- Request route directions batch:");
+  const routeDirectionsRequests: RouteDirectionsRequest[] = [
+    {
+      routePoints: [
+        { latitude: 47.639987, longitude: -122.128384 },
+        { latitude: 47.621252, longitude: -122.184408 },
+        { latitude: 47.596437, longitude: -122.332 },
+      ],
+      options: {
+        routeType: KnownRouteType.Fastest,
+        travelMode: KnownTravelMode.Car,
+        maxAlternatives: 99,
+      },
+    },
+    {
+      routePoints: [
+        { latitude: 47.620659, longitude: -122.348934 },
+        { latitude: 47.610101, longitude: -122.342015 },
+      ],
+      options: {
+        routeType: KnownRouteType.Economy,
+        travelMode: KnownTravelMode.Bicycle,
+        useTrafficData: false,
+      },
+    },
+    {
+      routePoints: [
+        { latitude: 40.759856, longitude: -73.985108 },
+        { latitude: 40.771136, longitude: -73.973506 },
+      ],
+      options: { routeType: KnownRouteType.Shortest, travelMode: KnownTravelMode.Pedestrian },
+    },
+  ];
+  const routeDirectionPoller = await client.beginRequestRouteDirectionsBatch(
+    routeDirectionsRequests
+  );
+
+  const routeDirectionsBatchResults = await routeDirectionPoller.pollUntilDone();
+  console.log(routeDirectionsBatchResults);
 
   console.log(" --- Post route matrix:");
   const routeMatrixQuery: RouteMatrixQuery = {
@@ -160,7 +186,8 @@ async function main() {
   };
 
   const routeMatrixPoller = await client.beginRequestRouteMatrix(routeMatrixQuery);
-  console.log(await routeMatrixPoller.pollUntilDone());
+  const routeMatrixResult = await routeMatrixPoller.pollUntilDone();
+  console.log(routeMatrixResult.matrix);
 }
 
 main();

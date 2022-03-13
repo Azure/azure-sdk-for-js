@@ -38,3 +38,68 @@ directive:
       };
     reason: Autorest TS codegen does not deserialize array of base class objects as an operation parameter properly -> https://github.com/Azure/autorest.typescript/issues/1040
 ```
+
+### Required Fields for RouteDirections Model
+
+<!-- ```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RouteDirections
+    transform: >
+      $["required"] = [
+        "formatVersion",
+        "routes"
+      ]
+``` -->
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Route
+    transform: >
+      $["required"] = [
+        "legs",
+        "sections",
+        "summary"
+      ]
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RouteLeg
+    transform: >
+      $["required"] = [
+        "points",
+        "summary"
+      ]
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RouteGuidance
+    transform: >
+      $["required"] = [
+        "instructions",
+        "instructionGroups"
+      ]
+```
+
+### Flattening of RouteMatrixResult Properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RouteMatrix.properties.response
+    transform: >
+      $["x-ms-client-flatten"] = true;
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RouteMatrixResultResponse.properties.routeSummary
+    transform: >
+      $["x-ms-client-name"] = "routeLegSummary";
+```

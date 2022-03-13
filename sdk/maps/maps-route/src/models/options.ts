@@ -17,6 +17,8 @@ import {
   VehicleLoadType,
   WindingnessLevel,
 } from "src/generated";
+import { GeoJsonMultiPoint } from "./geojsons";
+import { LatLon } from "./models";
 
 /**
  * Client options used to configure the Maps Route Client
@@ -26,7 +28,7 @@ export type MapsRouteClientOptions = CommonClientOptions;
 /**
  * Base options for route operations
  */
-export interface RouteBaseOptions extends OperationOptions {
+export interface RouteBaseOptions {
   /** The date and time of departure from the origin point. */
   departAt?: Date;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
@@ -289,8 +291,17 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
   report?: Report;
 }
 
-/** Options for retrieving route range */
-export interface RouteRangeOptions extends RouteBaseOptions {
+/**
+ * RequireOnlyOne helps create a type where only one of the properties of an interface (can be any property) is required to exist.
+ */
+export type RequireOnlyOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
+}[keyof T];
+
+/**
+ * Budget for the route range request. One and only one budget must be provided.
+ */
+export type RouteRangeBudget = RequireOnlyOne<{
   /**
    * Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.
    * When fuelBudgetInLiters is used, it is mandatory to specify a detailed Combustion Consumption Model.
@@ -319,6 +330,23 @@ export interface RouteRangeOptions extends RouteBaseOptions {
    * Exactly one budget (fuelBudgetInLiters, energyBudgetInKwH, timeBudgetInSec, or distanceBudgetInMeters) must be used.
    */
   distanceBudgetInMeters?: number;
+}>;
+
+/** Options for retrieving route range */
+export type RouteRangeOptions = RouteBaseOptions & OperationOptions;
+
+/**
+ * Options for batch operation poller
+ */
+export interface BatchPollerOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
 }
 
 /** Options for requesting route matrix */
@@ -385,13 +413,28 @@ export interface RouteMatrixOptions extends OperationOptions {
    * This parameter is currently only considered for travelMode=truck.
    */
   vehicleLoadType?: VehicleLoadType;
+  /** Boolean to indicate whether to execute the request synchronously. If set to true, user will get a 200 response if the request is finished under 120 seconds. Otherwise, user will get a 202 response right away. Please refer to the API description for more details on 202 response. **Supported only for async request**. */
+  waitForResults?: boolean;
 }
 
 /** Options for requesting route directions in batch */
-export interface RequestRouteDirectionsBatchOptions extends OperationOptions {}
-
-/** Options for retrieving batch route direction results */
-export interface GetRouteDirectionsBatchOptions extends OperationOptions {}
+export interface RouteDirectionsBatchOptions extends OperationOptions {}
 
 /** Options for retrieving route matrix results */
 export interface GetRouteMatrixOptions extends OperationOptions {}
+
+/**
+ * Request object containing parameters for making route directions calls
+ */
+export interface RouteDirectionsRequest {
+  routePoints: LatLon[];
+  options?: RouteDirectionsOptions;
+}
+
+/** Route matrix query object which contains a set of origin and destination locations */
+export interface RouteMatrixQuery {
+  /** A set of origin locations represented by a GeoJsonMultiPoint object. At least one origin is required. */
+  origins: GeoJsonMultiPoint;
+  /** A set of destination locations represented by a GeoJsonMultiPoint object. At least one destination is required. */
+  destinations: GeoJsonMultiPoint;
+}

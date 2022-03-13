@@ -8,31 +8,34 @@ import {
 } from "@azure/core-rest-pipeline";
 import { mapsAzureKeyCredentialPolicy } from "./credential/mapsAzureKeyCredentialPolicy";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
+import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
 import {
-  BatchRequest,
-  GeneratedClient,
-  RouteDirectionParameters,
-  RouteDirections,
-  RouteDirectionsBatchResult,
-  RouteMatrixQuery,
-  RouteMatrixResult,
-  RouteRangeResult,
-} from "./generated";
-import {
-  GetRouteDirectionsBatchOptions,
   RouteDirectionsOptions,
   GetRouteMatrixOptions,
   RouteRangeOptions,
   MapsRouteClientOptions,
-  RequestRouteDirectionsBatchOptions,
   RouteMatrixOptions,
+  RouteRangeBudget,
+  RouteDirectionsRequest,
+  RouteDirectionsBatchOptions,
+  BatchPollerOptions,
+  RouteMatrixQuery,
 } from "./models/options";
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LatLon } from "./models/models";
-import { toColonDelimitedLatLonString, toNumericArray } from "./models/mappers";
+import { LatLon, RouteDirectionParameters } from "./models/models";
+import {
+  createRouteDirectionsBatchRequest,
+  mapRouteDirections,
+  mapRouteDirectionsBatchResult,
+  mapRouteRangeResult,
+  toColonDelimitedLatLonString,
+  toNumericArray,
+} from "./models/mappers";
+import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
+import { OperationOptions } from "@azure/core-client";
 
 const isMapsRouteClientOptions = (
   clientIdOrOptions: any
@@ -125,7 +128,7 @@ export class MapsRouteClient {
    */
   public async getRouteDirections(
     routePoints: LatLon[],
-    options?: RouteDirectionsOptions
+    options: RouteDirectionsOptions & OperationOptions = {}
   ): Promise<RouteDirections> {
     if (!Array.isArray(routePoints) || routePoints.length === 0) {
       throw new Error("routePoints must be a non-empty array");
@@ -138,7 +141,7 @@ export class MapsRouteClient {
         toColonDelimitedLatLonString(routePoints),
         updatedOptions
       );
-      return result;
+      return mapRouteDirections(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -160,20 +163,35 @@ export class MapsRouteClient {
   public async getRouteDirectionsWithAdditionalParameters(
     routePoints: LatLon[],
     routeDirectionParameters: RouteDirectionParameters,
-    options?: RouteDirectionsOptions
+    options: RouteDirectionsOptions & OperationOptions = {}
   ): Promise<RouteDirections> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-getRouteDirectionsWithAdditionalParameters",
       options
     );
+    // TODO: Other ways to check this?
+    if (
+      !routeDirectionParameters.supportingPoints &&
+      !routeDirectionParameters.allowVignette &&
+      !routeDirectionParameters.avoidAreas &&
+      !routeDirectionParameters.avoidVignette
+    ) {
+      throw new Error("At least one of the parameters must be provided.");
+    }
     try {
       const result = await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
         this.defaultFormat,
         toColonDelimitedLatLonString(routePoints),
-        routeDirectionParameters,
+        {
+          ...routeDirectionParameters,
+          supportingPoints: routeDirectionParameters.supportingPoints as unknown as Record<
+            string,
+            unknown
+          >,
+        },
         updatedOptions
       );
-      return result;
+      return mapRouteDirections(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -193,16 +211,17 @@ export class MapsRouteClient {
    */
   public async getRouteRange(
     coordinates: LatLon,
-    options?: RouteRangeOptions
+    budget: RouteRangeBudget,
+    options: RouteRangeOptions = {}
   ): Promise<RouteRangeResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-getRouteRange", options);
     try {
       const result = await this.client.routeOperations.getRouteRange(
         this.defaultFormat,
         toNumericArray(coordinates),
-        updatedOptions
+        { ...updatedOptions, ...budget }
       );
-      return result;
+      return mapRouteRangeResult(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -215,26 +234,28 @@ export class MapsRouteClient {
   }
 
   /**
-   * Sends batches of route direction queries. The method return the result directly.
+   * Sends batches of route directions requests.
+   * The method return the result directly.
    *
-   * @param routeDirectionsBatchQueries
+   * @param requests - The array of search requests to process. The array can contain a max of 100 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async requestRouteDirectionsBatch(
-    routeDirectionsBatchQueries: BatchRequest,
-    options?: RequestRouteDirectionsBatchOptions
-  ): Promise<RouteDirectionsBatchResult> {
+    requests: RouteDirectionsRequest[],
+    options: RouteDirectionsBatchOptions = {}
+  ): Promise<BatchResult<RouteDirections>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-requestRouteDirectionsBatch",
       options
     );
+    const batchRequest = createRouteDirectionsBatchRequest(requests);
     try {
-      const result = await this.client.routeOperations.requestRouteDirectionsBatchSync(
+      const internalResult = await this.client.routeOperations.requestRouteDirectionsBatchSync(
         this.defaultFormat,
-        routeDirectionsBatchQueries,
+        batchRequest,
         updatedOptions
       );
-      return result;
+      return mapRouteDirectionsBatchResult(internalResult);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -247,14 +268,15 @@ export class MapsRouteClient {
   }
 
   /**
-   * Sends batches of route direction queries. The method returns a poller for retrieving the result later.
+   * Sends batches of route direction queries.
+   * The method returns a poller for retrieving the result later.
    *
-   * @param routeDirectionsBatchQueries
+   * @param requests - The array of search requests to process. The array can contain a max of 700 requests and must contain at least 1 request.
    * @param options - Optional parameters for the operation
    */
   public async beginRequestRouteDirectionsBatch(
-    routeDirectionsBatchQueries: BatchRequest,
-    options?: RequestRouteDirectionsBatchOptions
+    requests: RouteDirectionsRequest[],
+    options: RouteDirectionsBatchOptions & BatchPollerOptions = {}
   ): Promise<
     PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>
   > {
@@ -262,10 +284,11 @@ export class MapsRouteClient {
       "MapsRouteClient-beginRequestRouteDirectionsBatch",
       options
     );
+    const batchRequest = createRouteDirectionsBatchRequest(requests);
     try {
       const poller = await this.client.routeOperations.beginRequestRouteDirectionsBatch(
         this.defaultFormat,
-        routeDirectionsBatchQueries,
+        batchRequest,
         updatedOptions
       );
 
@@ -290,7 +313,7 @@ export class MapsRouteClient {
    */
   public async beginGetRouteDirectionsBatchResult(
     batchId: string,
-    options?: GetRouteDirectionsBatchOptions
+    options: RouteDirectionsBatchOptions & BatchPollerOptions = {}
   ): Promise<
     PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>
   > {
@@ -326,16 +349,16 @@ export class MapsRouteClient {
    */
   public async requestRouteMatrix(
     routeMatrixQuery: RouteMatrixQuery,
-    options?: RouteMatrixOptions
+    options: RouteMatrixOptions = {}
   ): Promise<RouteMatrixResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
     try {
-      const result = await this.client.routeOperations.requestRouteMatrixSync(
+      const internalResult = await this.client.routeOperations.requestRouteMatrixSync(
         this.defaultFormat,
         routeMatrixQuery,
         updatedOptions
       );
-      return result;
+      return internalResult;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -356,7 +379,7 @@ export class MapsRouteClient {
    */
   public async beginRequestRouteMatrix(
     routeMatrixQuery: RouteMatrixQuery,
-    options?: RouteMatrixOptions
+    options: RouteMatrixOptions = {}
   ): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
     try {
@@ -388,7 +411,7 @@ export class MapsRouteClient {
    */
   public async beginGetRouteMatrixResult(
     matrixId: string,
-    options?: GetRouteMatrixOptions
+    options: GetRouteMatrixOptions = {}
   ): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginGetRouteMatrixResult",
