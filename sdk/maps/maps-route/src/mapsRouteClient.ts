@@ -11,7 +11,6 @@ import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
 import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
 import {
   RouteDirectionsOptions,
-  GetRouteMatrixOptions,
   RouteRangeOptions,
   MapsRouteClientOptions,
   RouteMatrixOptions,
@@ -24,7 +23,6 @@ import {
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { LatLon, RouteDirectionParameters } from "./models/models";
 import {
   createRouteDirectionsBatchRequest,
@@ -36,6 +34,7 @@ import {
 } from "./models/mappers";
 import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
 import { OperationOptions } from "@azure/core-client";
+import { BatchPoller, BatchPollerProxy } from "./models/pollers";
 
 const isMapsRouteClientOptions = (
   clientIdOrOptions: any
@@ -277,19 +276,22 @@ export class MapsRouteClient {
   public async beginRequestRouteDirectionsBatch(
     requests: RouteDirectionsRequest[],
     options: RouteDirectionsBatchOptions & BatchPollerOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>
-  > {
+  ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginRequestRouteDirectionsBatch",
       options
     );
     const batchRequest = createRouteDirectionsBatchRequest(requests);
     try {
-      const poller = await this.client.routeOperations.beginRequestRouteDirectionsBatch(
+      const internalPoller = await this.client.routeOperations.beginRequestRouteDirectionsBatch(
         this.defaultFormat,
         batchRequest,
         updatedOptions
+      );
+
+      const poller = new BatchPollerProxy<BatchResult<RouteDirections>, RouteDirectionsBatchResult>(
+        internalPoller,
+        mapRouteDirectionsBatchResult
       );
 
       await poller.poll();
@@ -314,17 +316,19 @@ export class MapsRouteClient {
   public async beginGetRouteDirectionsBatchResult(
     batchId: string,
     options: RouteDirectionsBatchOptions & BatchPollerOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>
-  > {
+  ): Promise<BatchPoller<BatchResult<RouteDirections>>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginGetRouteDirectionsBatchResult",
       options
     );
     try {
-      const poller = await this.client.routeOperations.beginGetRouteDirectionsBatch(
+      const internalPoller = await this.client.routeOperations.beginGetRouteDirectionsBatch(
         batchId,
         updatedOptions
+      );
+      const poller = new BatchPollerProxy<BatchResult<RouteDirections>, RouteDirectionsBatchResult>(
+        internalPoller,
+        mapRouteDirectionsBatchResult
       );
 
       await poller.poll();
@@ -353,12 +357,12 @@ export class MapsRouteClient {
   ): Promise<RouteMatrixResult> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
     try {
-      const internalResult = await this.client.routeOperations.requestRouteMatrixSync(
+      const result = await this.client.routeOperations.requestRouteMatrixSync(
         this.defaultFormat,
         routeMatrixQuery,
         updatedOptions
       );
-      return internalResult;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -379,14 +383,19 @@ export class MapsRouteClient {
    */
   public async beginRequestRouteMatrix(
     routeMatrixQuery: RouteMatrixQuery,
-    options: RouteMatrixOptions = {}
-  ): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>> {
+    options: RouteMatrixOptions & BatchPollerOptions = {}
+  ): Promise<BatchPoller<RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan("MapsRouteClient-beginRequestRouteMatrix", options);
     try {
-      const poller = await this.client.routeOperations.beginRequestRouteMatrix(
+      const internalPoller = await this.client.routeOperations.beginRequestRouteMatrix(
         this.defaultFormat,
         routeMatrixQuery,
         updatedOptions
+      );
+
+      const poller = new BatchPollerProxy<RouteMatrixResult, RouteMatrixResult>(
+        internalPoller,
+        (res) => res
       );
 
       await poller.poll();
@@ -406,21 +415,26 @@ export class MapsRouteClient {
    * Retrieves the result of a previous route matrix request.
    * The method returns a poller for retrieving the result.
    *
-   * @param batchId - Batch id for querying the operation.
+   * @param matrixId - Batch id for querying the operation.
    * @param options - Optional parameters for the operation
    */
   public async beginGetRouteMatrixResult(
     matrixId: string,
-    options: GetRouteMatrixOptions = {}
-  ): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>> {
+    options: RouteMatrixOptions & BatchPollerOptions = {}
+  ): Promise<BatchPoller<RouteMatrixResult>> {
     const { span, updatedOptions } = createSpan(
       "MapsRouteClient-beginGetRouteMatrixResult",
       options
     );
     try {
-      const poller = await this.client.routeOperations.beginGetRouteMatrix(
+      const internalPoller = await this.client.routeOperations.beginGetRouteMatrix(
         matrixId,
         updatedOptions
+      );
+
+      const poller = new BatchPollerProxy<RouteMatrixResult, RouteMatrixResult>(
+        internalPoller,
+        (res) => res
       );
 
       await poller.poll();

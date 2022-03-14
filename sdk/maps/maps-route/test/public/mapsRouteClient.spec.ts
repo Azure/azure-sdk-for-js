@@ -3,7 +3,7 @@
 
 import { AuthMethod, createClient, createRecorder } from "./utils/createClient";
 import { Context, Suite } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { MapsRouteClient } from "src/mapsRouteClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
@@ -13,6 +13,7 @@ import {
   KnownTravelMode,
   RouteDirectionParameters,
   RouteDirectionsRequest,
+  RouteMatrixQuery,
 } from "../../src";
 chaiUse(chaiPromises);
 
@@ -20,7 +21,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] MapsRouteClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: MapsRouteClient;
-    // const CLITimeout = this.timeout();
+    const CLITimeout = this.timeout();
     const fastTimeout = 10000;
 
     beforeEach(function (this: Context) {
@@ -134,7 +135,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isRejected(client.requestRouteDirectionsBatch([]));
         });
         it("could take an array of route directions requests as input", async function () {
-          const requests: RouteDirectionsRequest[] = [
+          const batchRequests: RouteDirectionsRequest[] = [
             {
               routePoints: [
                 { latitude: 47.639987, longitude: -122.128384 },
@@ -170,61 +171,372 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
             },
           ];
 
-          const batchResult = await client.requestRouteDirectionsBatch(requests);
+          const batchResult = await client.requestRouteDirectionsBatch(batchRequests);
 
-          assert.equal(batchResult.totalRequests, requests.length);
-          assert.equal(batchResult.batchItems?.length, requests.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
       });
 
       describe("#requestRouteMatrix", function () {
-        xit("should accept LatLon[] and return route directions", async function () {});
+        it("should accept routeMatrixQuery and return expected number of results", async function () {
+          const routeMatrixQuery: RouteMatrixQuery = {
+            origins: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85106, 52.36006],
+                [4.85056, 52.36187],
+              ],
+            },
+            destinations: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85003, 52.36241],
+                [13.42937, 52.50931],
+              ],
+            },
+          };
 
-        xit("should throw error on empty routePoints array", async function () {});
+          const routeMatrixResult = await client.requestRouteMatrix(routeMatrixQuery);
+          assert.isNotEmpty(routeMatrixResult.matrix);
+          assert.isNotEmpty(routeMatrixResult.summary);
+          assert.equal(routeMatrixResult.summary?.totalRoutes, 4);
+        });
       });
     });
 
     describe("LROs", function () {
-      //const pollingInterval = isPlaybackMode() ? 0 : 2000;
+      const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
       before(function (this: Context) {
-        //this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
       });
 
       describe("#beginRequestRouteDirectionsBatch", function () {
-        xit("should throw errors if given empty array as queries", async function () {});
+        it("should throw errors if given empty array as queries", async function () {
+          // "Number of queries must be between 1 and 700 inclusive.""
+          assert.isRejected(client.beginRequestRouteDirectionsBatch([]));
+        });
 
-        xit("could take an array of fuzzy search queries as input", async function () {});
+        it("could take an array of route directions requests as input", async function () {
+          const batchRequests: RouteDirectionsRequest[] = [
+            {
+              routePoints: [
+                { latitude: 47.639987, longitude: -122.128384 },
+                { latitude: 47.621252, longitude: -122.184408 },
+                { latitude: 47.596437, longitude: -122.332 },
+              ],
+              options: {
+                routeType: KnownRouteType.Fastest,
+                travelMode: KnownTravelMode.Car,
+                maxAlternatives: 3,
+              },
+            },
+            {
+              routePoints: [
+                { latitude: 47.620659, longitude: -122.348934 },
+                { latitude: 47.610101, longitude: -122.342015 },
+              ],
+              options: {
+                routeType: KnownRouteType.Economy,
+                travelMode: KnownTravelMode.Bicycle,
+                useTrafficData: false,
+              },
+            },
+            {
+              routePoints: [
+                { latitude: 40.759856, longitude: -73.985108 },
+                { latitude: 40.771136, longitude: -73.973506 },
+              ],
+              options: {
+                routeType: KnownRouteType.Shortest,
+                travelMode: KnownTravelMode.Pedestrian,
+              },
+            },
+          ];
 
-        xit("should return a poller that can be used to retrieve the batchId", async function () {});
+          const poller = await client.beginRequestRouteDirectionsBatch(batchRequests, {
+            updateIntervalInMs: pollingInterval,
+          });
+
+          const batchResult = await poller.pollUntilDone();
+
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+        });
+
+        it("should return a poller that can be used to retrieve the batchId", async function () {
+          const batchRequests: RouteDirectionsRequest[] = [
+            {
+              routePoints: [
+                { latitude: 47.620659, longitude: -122.348934 },
+                { latitude: 47.610101, longitude: -122.342015 },
+              ],
+              options: {
+                routeType: KnownRouteType.Economy,
+                travelMode: KnownTravelMode.Bicycle,
+                useTrafficData: false,
+              },
+            },
+          ];
+
+          const poller = await client.beginRequestRouteDirectionsBatch(batchRequests, {
+            updateIntervalInMs: pollingInterval,
+          });
+
+          assert.isDefined(poller.getBatchId());
+
+          await poller.pollUntilDone();
+
+          assert.isDefined(poller.getBatchId());
+        });
       });
 
       describe("#beginGetRouteDirectionsBatchResult", function () {
-        xit("should throw error if batchId is missing", async function () {});
+        it("should throw error if batchId is missing", async function () {
+          // "query is missing or empty"
+          assert.isRejected(client.beginGetRouteDirectionsBatchResult(""));
+        });
 
-        xit("should throw error if invalid batchId is given", async function () {});
+        it("should throw error if invalid batchId is given", async function () {
+          // "Invalid value : [batchId] for parameter batchRequestId"
+          assert.isRejected(
+            client.beginGetRouteDirectionsBatchResult("11111111-2222-3333-4444-5555555555557")
+          );
+        });
 
-        xit("could retrieve a previous submitted batch results", async function () {});
+        it("could retrieve a previous submitted batch results", async function () {
+          const batchRequests: RouteDirectionsRequest[] = [
+            {
+              routePoints: [
+                { latitude: 47.639987, longitude: -122.128384 },
+                { latitude: 47.621252, longitude: -122.184408 },
+                { latitude: 47.596437, longitude: -122.332 },
+              ],
+              options: {
+                routeType: KnownRouteType.Fastest,
+                travelMode: KnownTravelMode.Car,
+                maxAlternatives: 3,
+              },
+            },
+            {
+              routePoints: [
+                { latitude: 47.620659, longitude: -122.348934 },
+                { latitude: 47.610101, longitude: -122.342015 },
+              ],
+              options: {
+                routeType: KnownRouteType.Economy,
+                travelMode: KnownTravelMode.Bicycle,
+                useTrafficData: false,
+              },
+            },
+          ];
 
-        xit("should obtain the same result as beginFuzzySearchBatch ", async function () {});
+          // Initiate route directions batch
+          const poller1 = await client.beginRequestRouteDirectionsBatch(batchRequests, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetRouteDirectionsBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const batchResult = await poller2.pollUntilDone();
+
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
+        });
+
+        it("should obtain the same result as beginRequestRouteDirectionsBatch ", async function () {
+          const batchRequests: RouteDirectionsRequest[] = [
+            {
+              routePoints: [
+                { latitude: 47.639987, longitude: -122.128384 },
+                { latitude: 47.621252, longitude: -122.184408 },
+                { latitude: 47.596437, longitude: -122.332 },
+              ],
+              options: {
+                routeType: KnownRouteType.Fastest,
+                travelMode: KnownTravelMode.Car,
+                maxAlternatives: 3,
+              },
+            },
+            {
+              routePoints: [
+                { latitude: 47.620659, longitude: -122.348934 },
+                { latitude: 47.610101, longitude: -122.342015 },
+              ],
+              options: {
+                routeType: KnownRouteType.Economy,
+                travelMode: KnownTravelMode.Bicycle,
+                useTrafficData: false,
+              },
+            },
+          ];
+
+          // Initiate route directions batch
+          const poller1 = await client.beginRequestRouteDirectionsBatch(batchRequests, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const batchResult1 = await poller1.pollUntilDone();
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetRouteDirectionsBatchResult(batchId, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const batchResult2 = await poller2.pollUntilDone();
+
+          assert.deepEqual(batchResult1, batchResult2);
+        });
       });
 
       describe("#beginRequestRouteMatrix", function () {
-        xit("should throw errors if given empty array as queries", async function () {});
+        it("should accept routeMatrixQuery as input", async function () {
+          const routeMatrixQuery: RouteMatrixQuery = {
+            origins: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85106, 52.36006],
+                [4.85056, 52.36187],
+              ],
+            },
+            destinations: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85003, 52.36241],
+                [13.42937, 52.50931],
+              ],
+            },
+          };
 
-        xit("could take an array of fuzzy search queries as input", async function () {});
+          const poller = await client.beginRequestRouteMatrix(routeMatrixQuery, {
+            updateIntervalInMs: pollingInterval,
+          });
 
-        xit("should return a poller that can be used to retrieve the batchId", async function () {});
+          const routeMatrixResult = await poller.pollUntilDone();
+
+          assert.isNotEmpty(routeMatrixResult.matrix);
+          assert.isNotEmpty(routeMatrixResult.summary);
+          assert.equal(routeMatrixResult.summary?.totalRoutes, 4);
+        });
+
+        it("should return a poller that can be used to retrieve the batchId", async function () {
+          const routeMatrixQuery: RouteMatrixQuery = {
+            origins: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85106, 52.36006],
+                [4.85056, 52.36187],
+              ],
+            },
+            destinations: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85003, 52.36241],
+                [13.42937, 52.50931],
+              ],
+            },
+          };
+
+          const poller = await client.beginRequestRouteMatrix(routeMatrixQuery, {
+            updateIntervalInMs: pollingInterval,
+          });
+
+          assert.isDefined(poller.getBatchId());
+
+          await poller.pollUntilDone();
+
+          assert.isDefined(poller.getBatchId());
+        });
       });
 
       describe("#beginGetRouteMatrixResult", function () {
-        xit("should throw error if batchId is missing", async function () {});
+        it("should throw error if matrixId is missing", async function () {
+          // "query is missing or empty"
+          assert.isRejected(client.beginGetRouteMatrixResult(""));
+        });
 
-        xit("should throw error if invalid batchId is given", async function () {});
+        it("should throw error if invalid batchId is given", async function () {
+          // "Invalid value : [batchId] for parameter batchRequestId"
+          assert.isRejected(
+            client.beginGetRouteDirectionsBatchResult("11111111-2222-3333-4444-5555555555557")
+          );
+        });
 
-        xit("could retrieve a previous submitted batch results", async function () {});
+        it("could retrieve a previous submitted batch results", async function () {
+          const routeMatrixQuery: RouteMatrixQuery = {
+            origins: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85106, 52.36006],
+                [4.85056, 52.36187],
+              ],
+            },
+            destinations: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85003, 52.36241],
+                [13.42937, 52.50931],
+              ],
+            },
+          };
 
-        xit("should obtain the same result as beginFuzzySearchBatch ", async function () {});
+          // Initiate route directions batch
+          const poller1 = await client.beginRequestRouteMatrix(routeMatrixQuery, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const batchId = poller1.getBatchId() as string;
+          assert.ok(batchId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetRouteMatrixResult(batchId, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const routeMatrixResult = await poller2.pollUntilDone();
+
+          assert.isNotEmpty(routeMatrixResult.matrix);
+          assert.isNotEmpty(routeMatrixResult.summary);
+          assert.equal(routeMatrixResult.summary?.totalRoutes, 4);
+        });
+
+        it("should obtain the same result as beginFuzzySearchBatch ", async function () {
+          const routeMatrixQuery: RouteMatrixQuery = {
+            origins: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85106, 52.36006],
+                [4.85056, 52.36187],
+              ],
+            },
+            destinations: {
+              type: "MultiPoint",
+              coordinates: [
+                [4.85003, 52.36241],
+                [13.42937, 52.50931],
+              ],
+            },
+          };
+
+          // Initiate route directions batch
+          const poller1 = await client.beginRequestRouteMatrix(routeMatrixQuery, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const routeMatrixResult1 = await poller1.pollUntilDone();
+          const matrixId = poller1.getBatchId() as string;
+          assert.ok(matrixId);
+
+          // Use saved batchId to retrieve the result
+          const poller2 = await client.beginGetRouteMatrixResult(matrixId, {
+            updateIntervalInMs: pollingInterval,
+          });
+          const routeMatrixResult2 = await poller2.pollUntilDone();
+
+          assert.deepEqual(routeMatrixResult1, routeMatrixResult2);
+        });
       });
     });
   });
