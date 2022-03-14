@@ -79,7 +79,7 @@ const client = new MapsSearchClient(new AzureKeyCredential("<subscription-key>")
 
 ### MapsSearchClient
 
-`MapsSearchClient` is the primary interface for developers using the Azure Maps Search client library. Explore the methods on this client object to understand the different features of the Azure Search service that you can access.
+`MapsSearchClient` is the primary interface for developers using the Azure Maps Search client library. Explore the methods on this client object to understand the different features of the Azure Maps Search service that you can access.
 
 ## Examples
 
@@ -95,19 +95,15 @@ The following sections provide several code snippets covering some of the most c
 You can use an authenticated client to convert an address into latitude and longitude coordinates. This process is also called geocoding. In addition to returning the coordinates, the response will also return detailed address properties such as street, postal code, municipality, and country/region information.
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 const searchResult = await client.searchAddress("400 Broad, Seattle");
 ```
 
 ### Search for an address or Point of Interest
 
-You can use Fuzzy Search to search an address or a point of interest (POI). The following examples demostrate how to search for `pizza` over the scope of a specific country (`Brazil`, in this example).
+You can use Fuzzy Search to search an address or a point of interest (POI). The following examples demostrate how to search for `pizza` over the scope of a specific country (`France`, in this example).
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-account-client-id>");
-const fuzzySearchResult = await client.fuzzySearch("pizza", "fr");
+const fuzzySearchResult = await client.fuzzySearch({ query: "pizza", countryFilter: ["fr"] });
 ```
 
 ### Make a Reverse Address Search to translate coordinate location to street address
@@ -116,13 +112,12 @@ You can translate coordinates into human readable street addresses. This process
 This is often used for applications that consume GPS feeds and want to discover addresses at specific coordinate points.
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-account-client-id>");
-const coordinate: LatLon = {
+const coordinates: LatLon = {
   latitude: 47.59118,
-  longitude: -122.3327
+  longitude: -122.3327,
 };
-const reverseSearchResult = await client.reverseSearchAddress(coordinate);
+
+const reverseSearchResult = await client.reverseSearchAddress(coordinates);
 ```
 
 ### Translate coordinate location into a human understandable cross street
@@ -130,14 +125,12 @@ const reverseSearchResult = await client.reverseSearchAddress(coordinate);
 Translate coordinate location into a human understandable cross street by using Search Address Reverse Cross Street API. Most often, this is needed in tracking applications that receive a GPS feed from a device or asset, and wish to know where the coordinate is located.
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-account-client-id>");
-const coordinate: LatLon = {
+const coordinates: LatLon = {
   latitude: 47.59118,
-  longitude: -122.3327
+  longitude: -122.3327,
 };
 
-const reverseSearchResult = await client.reverseSearchCrossStreetAddress(coordinate);
+const reverseSearchResult = await client.reverseSearchCrossStreetAddress(coordinates);
 ```
 
 ## Troubleshooting
