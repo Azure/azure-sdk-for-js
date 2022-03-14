@@ -45,12 +45,6 @@ const sanitizerOptions: SanitizerOptions = {
   uriSanitizers: [
     {
       regex: true,
-      target: `/(https://)(?<host_name>[^/',]*)/`,
-      value: "endpoint",
-      groupForReplace: "host_name",
-    },
-    {
-      regex: true,
       target: `(.*)/identities/(?<secret_content>.*?)[/|?](.*)`,
       value: "sanitized",
       groupForReplace: "secret_content",
