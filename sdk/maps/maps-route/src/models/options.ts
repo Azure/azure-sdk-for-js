@@ -413,15 +413,10 @@ export interface RouteMatrixOptions extends OperationOptions {
    * This parameter is currently only considered for travelMode=truck.
    */
   vehicleLoadType?: VehicleLoadType;
-  /** Boolean to indicate whether to execute the request synchronously. If set to true, user will get a 200 response if the request is finished under 120 seconds. Otherwise, user will get a 202 response right away. Please refer to the API description for more details on 202 response. **Supported only for async request**. */
-  waitForResults?: boolean;
 }
 
 /** Options for requesting route directions in batch */
 export interface RouteDirectionsBatchOptions extends OperationOptions {}
-
-/** Options for retrieving route matrix results */
-export interface GetRouteMatrixOptions extends OperationOptions {}
 
 /**
  * Request object containing parameters for making route directions calls

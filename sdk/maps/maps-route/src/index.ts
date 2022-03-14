@@ -6,6 +6,5 @@ export * from "./mapsRouteClient";
 export * from "./models/options";
 export * from "./models/models";
 export * from "./models/results";
-// export * from "./models/batchQueries";
 export * from "./models/geojsons";
-// export { BatchPoller } from "./models/pollers";
+export { BatchPoller } from "./models/pollers";
