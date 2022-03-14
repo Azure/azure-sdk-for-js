@@ -17,6 +17,9 @@ export function createMockedMessagingClient<MessageT>(
   }
   let message: MessageT;
   return {
+    async initialize(): Promise<void> {
+      /** empty body */
+    },
     async send(inputMessage: MessageT): Promise<void> {
       message = inputMessage;
       return;
@@ -29,7 +32,7 @@ export function createMockedMessagingClient<MessageT>(
       }
     },
     async cleanup(): Promise<void> {
-      return;
+      /** empty body */
     },
   };
 }

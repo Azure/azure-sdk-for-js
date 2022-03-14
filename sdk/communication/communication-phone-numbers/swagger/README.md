@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-phone-numbers
+package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.2.0-beta.2
+package-version: 1.2.0-beta.3
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
@@ -23,7 +23,6 @@ azure-arm: false
 skip-enum-validation: true
 title: Phone Numbers Client
 v3: true
-use-core-v2: true
 ```
 
 ## Customizations

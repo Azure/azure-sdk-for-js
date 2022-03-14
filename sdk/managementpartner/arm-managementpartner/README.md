@@ -49,8 +49,7 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { ACEProvisioningManagementPartnerAPI } = require("@azure/arm-managementpartner");
 const { DefaultAzureCredential } = require("@azure/identity");
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ACEProvisioningManagementPartnerAPI(new DefaultAzureCredential(), subscriptionId);
+const client = new ACEProvisioningManagementPartnerAPI(new DefaultAzureCredential());
 ```
 
 

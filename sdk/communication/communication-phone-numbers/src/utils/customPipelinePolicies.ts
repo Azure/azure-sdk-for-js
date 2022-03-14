@@ -34,27 +34,3 @@ export function createPhoneNumbersPagingPolicy(host: string): PipelinePolicy {
     },
   };
 }
-
-/**
- * A `PipelinePolicy` that adds the `azure-asyncoperation` header to the request with the
- * same value as the `operation-location` header, if it exists.
- *
- * This is used because the phone-numbers API uses LROs with status monitors, but
- * the Core V2 LRO implementation only supports this pattern if the legacy
- * `azure-asyncoperation` header is present.
- *
- * For more information on the LRO guidelines, refer to: https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md#long-running-operations-with-status-monitor
- */
-export const phoneNumbersLroPolicy: PipelinePolicy = {
-  name: "phoneNumbersLroPolicy",
-  async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-    const response = await next(request);
-
-    const operationLocation = response.headers?.get("operation-location");
-    if (operationLocation) {
-      response.headers.set("azure-asyncoperation", operationLocation);
-    }
-
-    return response;
-  },
-};

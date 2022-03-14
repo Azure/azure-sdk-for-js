@@ -12,6 +12,7 @@ import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import LRUCache from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { isMessageWithMetadata } from "./utility";
+import { logger } from "./logger";
 
 type AVSCSerializer = avro.Type;
 
@@ -26,6 +27,14 @@ interface CacheEntry {
 const avroMimeType = "avro/binary";
 const cacheOptions: LRUCacheOptions<string, any> = {
   max: 128,
+  /**
+   * This is needed in order to specify `sizeCalculation` but we do not intend
+   * to limit the size just yet.
+   */
+  maxSize: Number.MAX_VALUE,
+  sizeCalculation: (_value: any, key: string) => {
+    return key.length;
+  },
 };
 
 /**
@@ -52,7 +61,6 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
   private readonly messageAdapter?: MessageAdapter<MessageT>;
   private readonly cacheBySchemaDefinition = new LRUCache<string, CacheEntry>(cacheOptions);
   private readonly cacheById = new LRUCache<string, AVSCSerializer>(cacheOptions);
-
   /**
    * serializes the value parameter according to the input schema and creates a message
    * with the serialized data.
@@ -182,6 +190,9 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     const entry = { id, serializer };
     this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, serializer);
+    logger.verbose(
+      `Cache entry added or updated. Total number of entries: ${this.cacheBySchemaDefinition.size}; Total schema length ${this.cacheBySchemaDefinition.calculatedSize}`
+    );
     return entry;
   }
 }
