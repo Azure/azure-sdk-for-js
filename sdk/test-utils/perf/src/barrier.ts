@@ -14,7 +14,7 @@ export type Stage =
   | "cleanup"
   | "globalCleanup";
 
-export type BarrierMessageType = "enter" | "exit" | "complete";
+export type BarrierMessageType = "enter" | "exit" | "complete" | "acknowledgeCompletion";
 
 export type BarrierMessage = {
   tag: "barrier";
@@ -51,11 +51,17 @@ export const performStage = async (stage: Stage) => {
 
   await allComplete;
 
+  const allAcked = multicoreUtils.getMessageFromAll(
+    (msg) => msg.tag === "barrier" && msg.stage === stage && msg.message === "acknowledgeCompletion"
+  );
+
   multicoreUtils.broadcastMessage({
     tag: "barrier",
     message: "complete",
     stage,
   });
+
+  await allAcked;
 };
 
 export const enterStage = async (stage: Stage): Promise<void> => {
@@ -80,4 +86,10 @@ export const exitStage = async (stage: Stage): Promise<void> => {
   });
 
   await getBarrierMessage("complete", stage);
+
+  multicoreUtils.sendMessage({
+    tag: "barrier",
+    message: "acknowledgeCompletion",
+    stage,
+  });
 };
