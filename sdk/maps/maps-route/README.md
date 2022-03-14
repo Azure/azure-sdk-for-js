@@ -36,9 +36,9 @@ Install the Azure Maps Route client library with `npm`:
 npm install @azure/maps-route
 ```
 
-### Create and authenticate a `RouteClient`
+### Create and authenticate a `MapsRouteClient`
 
-To create a client object to access the Azure Maps Route API, you will need a `credential` object. The Azure Maps Route client can use an Azure Active Directory credential to authenticate.
+To create a client object to access the Azure Maps Route API, you will need a `credential` object. The Azure Maps Route client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
 
 #### Using an Azure Active Directory Credential
 
@@ -52,17 +52,34 @@ You will also need to register a new AAD application and grant access to Azure M
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
+You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
+The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
+
 ```javascript
-const { RouteClient } = require("@azure/maps-route");
+const { MapsRouteClient } = require("@azure/maps-route");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new RouteClient(new DefaultAzureCredential());
+const client = new MapsRouteClient(new DefaultAzureCredential(), "<maps-account-client-id>");
+```
+
+#### Using a Subscription Key Credential
+
+You can authenticate with your Azure Maps Subscription Key. Please install the `@azure/core-auth` package:
+
+```bash
+npm install @azure/core-auth
+```
+
+```javascript
+const { MapsRouteClient } = require("@azure/maps-route");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const client = new MapsRouteClient(new AzureKeyCredential("<subscription-key>"));
 ```
 
 ## Key concepts
 
-### RouteClient
+### MapsRouteClient
 
-`RouteClient` is the primary interface for developers using the Azure Maps Route client library. Explore the methods on this client object to understand the different features of the Azure Maps Route service that you can access.
+`MapsRouteClient` is the primary interface for developers using the Azure Maps Route client library. Explore the methods on this client object to understand the different features of the Azure Maps Route service that you can access.
 
 ## Examples
 
@@ -81,79 +98,10 @@ To retrieve the route direction, you need to pass in the parameters the coordina
 By default, the Route service will return an array of coordinates. The response will contain the coordinates that make up the path in a list named points. Route response also includes the distance from the start of the route and the estimated elapsed time. These values can be used to calculate the average speed for the entire route.
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const operationOptions = {
-  requestOptions: {
-    customHeaders: { "x-ms-client-id": process.env.MAPS_CLIENT_ID },
-  },
-};
-
-const client = new RouteClient(credential).route;
-const response = await client.getRouteDirections(
-  "json",
-  "52.50931,13.42936:52.50274,13.43872",
-  operationOptions
-);
-```
-
-Response
-
-```yaml
-{
-  "formatVersion": "0.0.12",
-  "routes":
-    [
-      {
-        "summary":
-          {
-            "lengthInMeters": 1147,
-            "travelTimeInSeconds": 131,
-            "trafficDelayInSeconds": 0,
-            "departureTime": "2021-08-22T06:09:32+02:00",
-            "arrivalTime": "2021-08-22T06:11:42+02:00",
-            "trafficLengthInMeters": 0,
-          },
-        "legs":
-          [
-            {
-              "summary":
-                {
-                  "lengthInMeters": 1147,
-                  "travelTimeInSeconds": 131,
-                  "trafficDelayInSeconds": 0,
-                  "departureTime": "2021-08-22T06:09:32+02:00",
-                  "arrivalTime": "2021-08-22T06:11:42+02:00",
-                  "trafficLengthInMeters": 0,
-                },
-              "points":
-                [
-                  { "latitude": 52.5093, "longitude": 13.42937 },
-                  { "latitude": 52.50904, "longitude": 13.42913 },
-                  { "latitude": 52.50895, "longitude": 13.42904 },
-                  { "latitude": 52.50868, "longitude": 13.4288 },
-                  { "latitude": 52.5084, "longitude": 13.42857 },
-                  { "latitude": 52.50816, "longitude": 13.42839 },
-                  { "latitude": 52.50791, "longitude": 13.42825 },
-                  { "latitude": 52.50757, "longitude": 13.42772 },
-                  { "latitude": 52.50752, "longitude": 13.42785 },
-                  { "latitude": 52.50742, "longitude": 13.42809 },
-                  { "latitude": 52.50735, "longitude": 13.42824 },
-                  ...,
-                ],
-            },
-          ],
-        "sections":
-          [
-            {
-              "startPointIndex": 0,
-              "endPointIndex": 28,
-              "sectionType": "TRAVEL_MODE",
-              "travelMode": "car",
-            },
-          ],
-      },
-    ],
-}
+const routeDirectionsResult = await client.getRouteDirections([
+  { latitude: 51.368752, longitude: -0.118332 },
+  { latitude: 41.385426, longitude: -0.128929 },
+]);
 ```
 
 ### Request a route for a commercial vehicle
@@ -161,24 +109,17 @@ Response
 The service supports commercial vehicle routing, covering commercial trucks routing. The APIs consider specified limits. Such as, the height and weight of the vehicle, and if the vehicle is carrying hazardous cargo. For example, if a vehicle is carrying flammable, the routing engine avoid certain tunnels that are near residential areas.
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const operationOptions = {
-  requestOptions: {
-    customHeaders: { "x-ms-client-id": process.env.MAPS_CLIENT_ID },
-  },
-};
-
-const client = new RouteClient(credential).route;
-const response = await client.getRouteDirections(
-  "json",
-  "51.368752,-0.118332:41.385426,-0.128929",
+const routeDirectionsResult = await client.getRouteDirections(
+  [
+    { latitude: 51.368752, longitude: -0.118332 },
+    { latitude: 41.385426, longitude: -0.128929 },
+  ],
   {
     vehicleWidth: 2,
     vehicleHeight: 2,
-    vehicleCommercial: true,
-    vehicleLoadType: "USHazmatClass1",
+    isCommercialVehicle: true,
+    vehicleLoadType: KnownVehicleLoadType.USHazmatClass1,
     travelMode: "truck",
-    ...operationOptions,
   }
 );
 ```
@@ -192,23 +133,18 @@ Azure Maps currently provides two forms of route optimizations:
 
 For multi-stop routing, up to 150 waypoints may be specified in a single route request. The starting and ending coordinate locations can be the same, as would be the case with a round trip. But you need to provide at least one additional waypoint to make the route calculation. Waypoints can be added to the query in-between the origin and destination coordinates.
 
-If you want to optimize the best order to visit the given waypoints, then you need to specify `computeBestOrder=true`. This scenario is also known as the traveling salesman optimization problem.
+If you want to optimize the best order to visit the given waypoints, then you need to specify `computeBestWaypointOrder=true`. This scenario is also known as the traveling salesman optimization problem.
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const operationOptions = {
-  requestOptions: {
-    customHeaders: { "x-ms-client-id": process.env.MAPS_CLIENT_ID },
-  },
-};
-
-const client = new RouteClient(credential).route;
-const response = await client.getRouteDirections(
-  "json",
-  "47.606544,-122.336502:47.759892,-122.204821:47.670682,-122.120415:47.480133,-122.213369",
+const routeDirectionsResult = await client.getRouteDirections(
+  [
+    { latitude: 47.606544, longitude: -122.336502 },
+    { latitude: 47.759892, longitude: -122.204821 },
+    { latitude: 47.670682, longitude: -122.120415 },
+    { latitude: 47.480133, longitude: -122.213369 },
+  ],
   {
-    computeBestOrder: false,
-    ...operationOptions,
+    computeBestWaypointOrder: false,
   }
 );
 ```
