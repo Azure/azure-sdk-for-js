@@ -6,11 +6,11 @@ import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
-  createHttpHeaders,
   RestError,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
   retryPolicy,
 } from "../src";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";

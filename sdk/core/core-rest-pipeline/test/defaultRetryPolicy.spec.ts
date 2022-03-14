@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { createPipelineRequest, SendRequest, RestError, defaultRetryPolicy } from "../src";
+import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("defaultRetryPolicy", function () {
