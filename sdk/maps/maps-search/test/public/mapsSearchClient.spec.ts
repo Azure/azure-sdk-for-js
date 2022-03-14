@@ -114,16 +114,16 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             assert.isRejected(client.searchAddressBatch([]));
           });
           it("could take an array of fuzzy search requests as input", async function () {
-            const requests = [
+            const batchRequests = [
               { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
               { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
               { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
             ];
 
-            const batchResult = await client.searchAddressBatch(requests);
+            const batchResult = await client.searchAddressBatch(batchRequests);
 
-            assert.equal(batchResult.totalRequests, requests.length);
-            assert.equal(batchResult.batchItems?.length, requests.length);
+            assert.equal(batchResult.totalRequests, batchRequests.length);
+            assert.equal(batchResult.batchItems?.length, batchRequests.length);
           });
         });
 
@@ -178,7 +178,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           });
 
           it("could take an array of fuzzy search requests as input", async function () {
-            const requests = [
+            const batchRequests = [
               { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
               {
                 coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -187,10 +187,10 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
               { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
             ];
 
-            const batchResult = await client.reverseSearchAddressBatch(requests);
+            const batchResult = await client.reverseSearchAddressBatch(batchRequests);
 
-            assert.equal(batchResult.totalRequests, requests.length);
-            assert.equal(batchResult.batchItems?.length, requests.length);
+            assert.equal(batchResult.totalRequests, batchRequests.length);
+            assert.equal(batchResult.batchItems?.length, batchRequests.length);
           });
         });
 
@@ -428,7 +428,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           });
 
           it("could take an array of fuzzy search requests as input", async function () {
-            const requests = [
+            const batchRequests = [
               { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
               { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
               {
@@ -440,10 +440,10 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
               },
             ];
 
-            const batchResult = await client.fuzzySearchBatch(requests);
+            const batchResult = await client.fuzzySearchBatch(batchRequests);
 
-            assert.equal(batchResult.totalRequests, requests.length);
-            assert.equal(batchResult.batchItems?.length, requests.length);
+            assert.equal(batchResult.totalRequests, batchRequests.length);
+            assert.equal(batchResult.batchItems?.length, batchRequests.length);
           });
         });
 
@@ -561,7 +561,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           assert.isRejected(client.beginFuzzySearchBatch([]));
         });
         it("could take an array of fuzzy search requests as input", async function () {
-          const requests = [
+          const batchRequests = [
             { searchQuery: { query: "pizza", countryFilter: ["fr"] } },
             { searchQuery: { query: "pizza", coordinates: { latitude: 25, longitude: 121 } } },
             {
@@ -573,14 +573,14 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             },
           ];
 
-          const poller = await client.beginFuzzySearchBatch(requests, {
+          const poller = await client.beginFuzzySearchBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
 
           const batchResult = await poller.pollUntilDone();
 
-          assert.equal(batchResult.totalRequests, requests.length);
-          assert.equal(batchResult.batchItems?.length, requests.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -676,20 +676,20 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           assert.isRejected(client.beginSearchAddressBatch([]));
         });
         it("could take an array of fuzzy search requests as input", async function () {
-          const requests = [
+          const batchRequests = [
             { query: "400 Broad St, Seattle, WA 98109", options: { top: 3 } },
             { query: "One, Microsoft Way, Redmond, WA 98052", options: { top: 3 } },
             { query: "350 5th Ave, New York, NY 10118", options: { top: 1 } },
           ];
 
-          const poller = await client.beginSearchAddressBatch(requests, {
+          const poller = await client.beginSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
 
           const batchResult = await poller.pollUntilDone();
 
-          assert.equal(batchResult.totalRequests, requests.length);
-          assert.equal(batchResult.batchItems?.length, requests.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
@@ -774,7 +774,7 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
         });
 
         it("could take an array of fuzzy search requests as input", async function () {
-          const requests = [
+          const batchRequests = [
             { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
             {
               coordinates: { latitude: 47.639765, longitude: -122.127896 },
@@ -783,14 +783,14 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             { coordinates: { latitude: 47.621028, longitude: -122.34817 } },
           ];
 
-          const poller = await client.beginReverseSearchAddressBatch(requests, {
+          const poller = await client.beginReverseSearchAddressBatch(batchRequests, {
             updateIntervalInMs: pollingInterval,
           });
 
           const batchResult = await poller.pollUntilDone();
 
-          assert.equal(batchResult.totalRequests, requests.length);
-          assert.equal(batchResult.batchItems?.length, requests.length);
+          assert.equal(batchResult.totalRequests, batchRequests.length);
+          assert.equal(batchResult.batchItems?.length, batchRequests.length);
         });
 
         it("should return a poller that can be used to retrieve the batchId", async function () {
