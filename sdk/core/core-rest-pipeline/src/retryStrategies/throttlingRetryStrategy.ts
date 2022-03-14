@@ -23,11 +23,16 @@ const RetryAfterHeader = "Retry-After";
 function parseRetryAfterHeader(response: PipelineResponse): number | undefined {
   try {
     let parsedRetryAfterHeader = undefined;
+
     // "retry-after-ms", "x-ms-retry-after-ms", "Retry-After"
     for (const header of RetryAfterMillisecondsHeaders.concat([RetryAfterHeader])) {
       parsedRetryAfterHeader = parseHeaderValueAsNumber(response, header);
+
       if (!parsedRetryAfterHeader || Number.isNaN(parsedRetryAfterHeader)) continue;
-      const multiplyingFactor = header === RetryAfterHeader ? 1000 : 1; // RetryAfterHeader ==> seconds, other headers ==> milli-seconds
+
+      // "Retry-After" header ==> seconds,
+      // "retry-after-ms", "x-ms-retry-after-ms" headers ==> milli-seconds
+      const multiplyingFactor = header === RetryAfterHeader ? 1000 : 1;
       return parsedRetryAfterHeader * multiplyingFactor; // in milli-seconds
     }
 
