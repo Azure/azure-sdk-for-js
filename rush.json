@@ -1659,6 +1659,11 @@
       "packageName": "@azure/arm-databoxedge-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicelinker",
+      "projectFolder": "sdk/servicelinker/arm-servicelinker",
+      "versionPolicyName": "management"
     }
   ]
 }
