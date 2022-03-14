@@ -14,8 +14,8 @@ const RetryAfterHeader = "Retry-After";
  * The headers that come back from Azure services representing
  * the amount of time (minimum) to wait to retry.
  *
- * "retry-after-ms", "x-ms-retry-after-ms" ==> milliseconds
- * "Retry-After" ==> seconds or timestamp
+ * "retry-after-ms", "x-ms-retry-after-ms" : milliseconds
+ * "Retry-After" : seconds or timestamp
  */
 const AllRetryAfterHeaders: string[] = ["retry-after-ms", "x-ms-retry-after-ms", RetryAfterHeader];
 
