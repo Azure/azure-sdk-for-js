@@ -17,23 +17,28 @@ const RetryAfterMillisecondsHeaders: string[] = ["retry-after-ms", "x-ms-retry-a
 const RetryAfterHeader = "Retry-After";
 
 /**
- * Returns the `retryAfterInMs` value from the given throttling retry response.
- * If no-valid value is parsed, returns undefined.
+ * A response is a throttling retry response if it has a throttling status code (429 or 503),
+ * as long as one of the [ "Retry-After" or "retry-after-ms" or "x-ms-retry-after-ms" ] headers has a valid value.
+ *
+ * Returns the `retryAfterInMs` value if the response is a throttling retry response.
+ * If not throttling retry response, returns `undefined`.
+ *
+ * @internal
  */
-function parseRetryAfterHeader(response: PipelineResponse): number | undefined {
+function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
+  if (!(response && [429, 503].includes(response.status))) return undefined;
   try {
-    let parsedRetryAfterHeader = undefined;
+    let retryAfterValue = undefined;
 
     // "retry-after-ms", "x-ms-retry-after-ms", "Retry-After"
     for (const header of RetryAfterMillisecondsHeaders.concat([RetryAfterHeader])) {
-      parsedRetryAfterHeader = parseHeaderValueAsNumber(response, header);
+      retryAfterValue = parseHeaderValueAsNumber(response, header);
+      if (!retryAfterValue) continue;
 
-      if (!parsedRetryAfterHeader || Number.isNaN(parsedRetryAfterHeader)) continue;
-
-      // "Retry-After" header ==> seconds,
+      // "Retry-After" header ==> seconds
       // "retry-after-ms", "x-ms-retry-after-ms" headers ==> milli-seconds
       const multiplyingFactor = header === RetryAfterHeader ? 1000 : 1;
-      return parsedRetryAfterHeader * multiplyingFactor; // in milli-seconds
+      return retryAfterValue * multiplyingFactor; // in milli-seconds
     }
 
     // RetryAfterHeader ("Retry-After") has a special case where it might be formatted as a date instead of a number of seconds
@@ -48,20 +53,6 @@ function parseRetryAfterHeader(response: PipelineResponse): number | undefined {
   } catch (e) {
     return undefined;
   }
-}
-
-/**
- * A response is a throttling retry response if it has a throttling status code (429 or 503),
- * as long as one of the [ "Retry-After" or "retry-after-ms" or "x-ms-retry-after-ms" ] headers has a valid value.
- *
- * Returns the `retryAfterInMs` value if the response is a throttling retry response.
- * If not throttling retry response, returns `undefined`.
- *
- * @internal
- */
-function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
-  if (!(response && [429, 503].includes(response.status))) return undefined;
-  return parseRetryAfterHeader(response);
 }
 
 /**
