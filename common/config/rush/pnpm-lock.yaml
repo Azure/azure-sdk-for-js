@@ -50,6 +50,7 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:./projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
@@ -320,6 +321,7 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
@@ -10148,6 +10150,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-dataprotectionplatform.tgz:
+    resolution: {integrity: sha512-vsafAe/WaiuUUIBAutBU8ty73z4pSy5TO5xFLNb+ku/wjpRsoUuNQUxjRMztPRLNCEbdPBgEFKT34Jq04D04Tg==, tarball: file:projects/arm-dataprotectionplatform.tgz}
+    name: '@rush-temp/arm-dataprotectionplatform'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-deploymentmanager.tgz:
     resolution: {integrity: sha512-3qBWLOJC4MIXY97IjYjkIaozKwRv9P74Ylj6t6XAM9mQKBnFZ+hxz6vuB/dnsAnQdlSzd1ZqRmqzrnN2O7Ce+Q==, tarball: file:projects/arm-deploymentmanager.tgz}
     name: '@rush-temp/arm-deploymentmanager'
@@ -16278,7 +16307,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-96Xam8lJb1jErVL0xBDzRuX9hQ8P2243eNi2b4TT0wiS5I/PsBWWSkDKIpAQjQA/4NU21WDTIc0+VOemWbk84w==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-tVSwWmt4vYzGltbigwdCvqdreJfrbJOrMNIKCw3PDcfBwXWInLdOsiBk9lL82qEYkNJnQJO1yl3INLKhOlQLdg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
