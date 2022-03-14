@@ -9,7 +9,7 @@ import { Context } from "mocha";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
 import { Span } from "@opentelemetry/sdk-trace-base";
 import { assert } from "chai";
-import { environment } from "../../src/configuration";
+import { environmentCache } from "../../src/configuration";
 import { inMemoryExporter } from "./util/setup";
 import { isTracingSuppressed } from "@opentelemetry/core";
 import sinon from "sinon";
@@ -202,12 +202,12 @@ describe("OpenTelemetryInstrumenter", () => {
 
     describe("environment variables", () => {
       afterEach(() => {
-        environment.clear();
+        environmentCache.clear();
       });
 
       describe("when AZURE_TRACING_DISABLED is set", () => {
         it("suppresses tracing for our spans", () => {
-          environment.set("AZURE_TRACING_DISABLED", "1");
+          environmentCache.set("AZURE_TRACING_DISABLED", "1");
           const { tracingContext, span } = instrumenter.startSpan("test", {
             packageName,
           });
@@ -218,7 +218,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
       describe("when AZURE_HTTP_TRACING_DISABLED is set", () => {
         beforeEach(() => {
-          environment.set("AZURE_HTTP_TRACING_DISABLED", "1");
+          environmentCache.set("AZURE_HTTP_TRACING_DISABLED", "1");
         });
 
         it("suppresses tracing for downstream spans", () => {
@@ -242,8 +242,8 @@ describe("OpenTelemetryInstrumenter", () => {
 
       describe("when both AZURE_TRACING_DISABLED and AZURE_HTTP_TRACING_DISABLED are set", () => {
         beforeEach(() => {
-          environment.set("AZURE_TRACING_DISABLED", "true");
-          environment.set("AZURE_HTTP_TRACING_DISABLED", "True");
+          environmentCache.set("AZURE_TRACING_DISABLED", "true");
+          environmentCache.set("AZURE_HTTP_TRACING_DISABLED", "True");
         });
 
         it("creates a non-recording span", () => {
