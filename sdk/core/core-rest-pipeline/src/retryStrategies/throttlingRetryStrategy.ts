@@ -46,12 +46,10 @@ function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
     const retryAfterHeader = response.headers.get(RetryAfterHeader);
     if (!retryAfterHeader) return;
 
-    const retryAfterInMS = undefined;
-    const now: number = Date.now();
-    const date: number = Date.parse(retryAfterHeader);
-    const diff = date - now;
-    if (Number.isFinite(diff)) return Math.max(0, diff); // negative diff would mean a date in the past, so retry asap with 0 milliseconds
-    return retryAfterInMS;
+    const date = Date.parse(retryAfterHeader);
+    const diff = date - Date.now();
+    // negative diff would mean a date in the past, so retry asap with 0 milliseconds
+    return Number.isFinite(diff) ? Math.max(0, diff) : undefined; 
   } catch (e) {
     return undefined;
   }
