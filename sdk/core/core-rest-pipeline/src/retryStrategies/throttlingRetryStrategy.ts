@@ -99,7 +99,7 @@ function getThrottlingInfo(response?: PipelineResponse): ThrottlingInfoInternal 
 
 /**
  * A response is a retry response if it has a throttling status code (429 or 503),
- * as long as the Retry-After header has a valid value.
+ * as long as one of the [ "Retry-After" or "retry-after-ms" or "x-ms-retry-after-ms" ] headers has a valid value.
  */
 export function isThrottlingRetryResponse(response?: PipelineResponse): boolean {
   return getThrottlingInfo(response).isThrottlingRetryResponse;
