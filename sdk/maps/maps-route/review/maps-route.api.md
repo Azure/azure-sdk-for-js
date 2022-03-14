@@ -47,6 +47,11 @@ export interface BatchItem<TResult> {
 }
 
 // @public
+export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
+    getBatchId(): string | undefined;
+}
+
+// @public
 export interface BatchPollerOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -171,10 +176,6 @@ export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
 
 // @public
 export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
-
-// @public
-export interface GetRouteMatrixOptions extends OperationOptions {
-}
 
 // @public
 export type InclineLevel = string;
@@ -305,10 +306,10 @@ export interface LatLon {
 export class MapsRouteClient {
     constructor(credential: AzureKeyCredential, options?: MapsRouteClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsRouteClientOptions);
-    beginGetRouteDirectionsBatchResult(batchId: string, options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>>;
-    beginGetRouteMatrixResult(matrixId: string, options?: GetRouteMatrixOptions): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>>;
-    beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<PollerLike<PollOperationState<RouteDirectionsBatchResult>, RouteDirectionsBatchResult>>;
-    beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixOptions): Promise<PollerLike<PollOperationState<RouteMatrixResult>, RouteMatrixResult>>;
+    beginGetRouteDirectionsBatchResult(batchId: string, options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
+    beginGetRouteMatrixResult(matrixId: string, options?: RouteMatrixOptions & BatchPollerOptions): Promise<BatchPoller<RouteMatrixResult>>;
+    beginRequestRouteDirectionsBatch(requests: RouteDirectionsRequest[], options?: RouteDirectionsBatchOptions & BatchPollerOptions): Promise<BatchPoller<BatchResult<RouteDirections>>>;
+    beginRequestRouteMatrix(routeMatrixQuery: RouteMatrixQuery, options?: RouteMatrixOptions & BatchPollerOptions): Promise<BatchPoller<RouteMatrixResult>>;
     getRouteDirections(routePoints: LatLon[], options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteDirectionsWithAdditionalParameters(routePoints: LatLon[], routeDirectionParameters: RouteDirectionParameters, options?: RouteDirectionsOptions & OperationOptions): Promise<RouteDirections>;
     getRouteRange(coordinates: LatLon, budget: RouteRangeBudget, options?: RouteRangeOptions): Promise<RouteRangeResult>;
@@ -487,7 +488,6 @@ export interface RouteMatrixOptions extends OperationOptions {
     vehicleMaxSpeed?: number;
     vehicleWeight?: number;
     vehicleWidth?: number;
-    waitForResults?: boolean;
     windingness?: WindingnessLevel_2;
 }
 
