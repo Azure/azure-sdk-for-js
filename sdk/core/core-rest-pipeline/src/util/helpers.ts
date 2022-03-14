@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { PipelineResponse } from "../interfaces";
 
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.
@@ -105,4 +106,15 @@ export function isObject(input: unknown): input is UnknownObject {
     !(input instanceof RegExp) &&
     !(input instanceof Date)
   );
+}
+
+export function parseHeaderValueAsNumber(
+  response: PipelineResponse,
+  headerName: string
+): number | undefined {
+  const value = response.headers.get(headerName);
+  if (!value) return;
+  const valueAsNum = Number(value);
+  if (Number.isNaN(valueAsNum)) return;
+  return valueAsNum;
 }
