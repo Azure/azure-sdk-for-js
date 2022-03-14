@@ -350,18 +350,21 @@ async function main() {
 
   const fuzzySearchRequests = [
     {
-      query: "atm",
-      coordinates: { latitude: 48.858561, longitude: 2.294911 },
+      searchQuery: { query: "atm", coordinates: { latitude: 48.858561, longitude: 2.294911 } },
       options: { radiusInMeters: 5000, top: 5 },
     },
     {
-      query: "Statue Of Liberty",
-      countryFilter: ["us"],
+      searchQuery: {
+        query: "Statue Of Liberty",
+        countryFilter: ["us"],
+      },
       options: { top: 2 },
     },
     {
-      query: "Starbucks",
-      coordinates: { latitude: 47.621028, longitude: -122.34817 },
+      searchQuery: {
+        query: "Starbucks",
+        coordinates: { latitude: 47.621028, longitude: -122.34817 },
+      },
       options: { radiusInMeters: 5000 },
     },
   ];
