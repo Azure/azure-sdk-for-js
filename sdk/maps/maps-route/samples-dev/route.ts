@@ -15,6 +15,7 @@ import {
   RouteDirectionsRequest,
   KnownRouteType,
   KnownTravelMode,
+  KnownVehicleLoadType,
 } from "@azure/maps-route";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -58,7 +59,7 @@ async function main() {
       vehicleWidth: 2,
       vehicleHeight: 2,
       isCommercialVehicle: true,
-      vehicleLoadType: "USHazmatClass1",
+      vehicleLoadType: KnownVehicleLoadType.USHazmatClass1,
       travelMode: "truck",
     }
   );
