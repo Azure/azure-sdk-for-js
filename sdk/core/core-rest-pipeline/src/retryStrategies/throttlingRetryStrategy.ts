@@ -51,7 +51,6 @@ function parseRetryAfterMSHeader(retryAfterMSHeaderValue: string | undefined): n
 
 /**
  * Type denoting whether a reponse is throttling retry response along with the `retryAfterInMs` value if it is indeed a throttling retry response.
- * @internal
  */
 type ThrottlingInfoInternal =
   | {
