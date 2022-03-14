@@ -6,15 +6,18 @@ import { parseHeaderValueAsNumber } from "../util/helpers";
 import { RetryStrategy } from "./retryStrategy";
 
 /**
- * The headers that come back from Azure services representing
- * the amount of time (minimum) to wait to retry (in milliseconds).
- */
-const RetryAfterMillisecondsHeaders: string[] = ["retry-after-ms", "x-ms-retry-after-ms"];
-/**
- * The headers that come back from Azure services representing
+ * The header that comes back from Azure services representing
  * the amount of time (minimum) to wait to retry (in seconds or timestamp after which we can retry).
  */
 const RetryAfterHeader = "Retry-After";
+/**
+ * The headers that come back from Azure services representing
+ * the amount of time (minimum) to wait to retry.
+ *
+ * "retry-after-ms", "x-ms-retry-after-ms" ==> milliseconds
+ * "Retry-After" ==> seconds or timestamp
+ */
+const AllRetryAfterHeaders: string[] = ["retry-after-ms", "x-ms-retry-after-ms", RetryAfterHeader];
 
 /**
  * A response is a throttling retry response if it has a throttling status code (429 or 503),
@@ -28,11 +31,9 @@ const RetryAfterHeader = "Retry-After";
 function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
   if (!(response && [429, 503].includes(response.status))) return undefined;
   try {
-    let retryAfterValue = undefined;
-
     // "retry-after-ms", "x-ms-retry-after-ms", "Retry-After"
-    for (const header of RetryAfterMillisecondsHeaders.concat([RetryAfterHeader])) {
-      retryAfterValue = parseHeaderValueAsNumber(response, header);
+    for (const header of AllRetryAfterHeaders) {
+      const retryAfterValue = parseHeaderValueAsNumber(response, header);
       if (!retryAfterValue) continue;
 
       // "Retry-After" header ==> seconds

@@ -108,6 +108,10 @@ export function isObject(input: unknown): input is UnknownObject {
   );
 }
 
+/**
+ * @internal
+ * @returns the parsed value or undefined if the parsed value is invalid.
+ */
 export function parseHeaderValueAsNumber(
   response: PipelineResponse,
   headerName: string
