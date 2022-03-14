@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./certificates";
-export * from "./webApps";
-export * from "./appServicePlans";
-export * from "./provider";
-export * from "./recommendations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { WebSiteManagementClient } from "./webSiteManagementClient";
+export * from "./operationsInterfaces";
