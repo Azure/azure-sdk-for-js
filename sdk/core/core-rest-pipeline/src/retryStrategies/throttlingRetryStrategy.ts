@@ -40,17 +40,11 @@ function parseRetryAfterHeader(headerValue: string): number | undefined {
  * @internal
  */
 function parseRetryAfterMSHeader(retryAfterMSHeaderValue: string | undefined): number | undefined {
-  const delayValueString = retryAfterMSHeaderValue;
+  if (!retryAfterMSHeaderValue) return;
 
-  if (delayValueString == null) {
-    return;
-  }
+  const delayValueMs: number = Number(retryAfterMSHeaderValue);
 
-  const delayValueMs: number = Number(delayValueString);
-
-  if (Number.isNaN(delayValueMs)) {
-    return;
-  }
+  if (Number.isNaN(delayValueMs)) return;
 
   return delayValueMs;
 }
