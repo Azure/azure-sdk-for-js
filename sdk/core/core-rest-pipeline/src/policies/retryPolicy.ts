@@ -109,7 +109,7 @@ export function retryPolicy(
             throw errorToThrow;
           }
 
-          if (retryAfterInMs) {
+          if (retryAfterInMs || retryAfterInMs === 0) {
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
             );

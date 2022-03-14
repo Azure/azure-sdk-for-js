@@ -31,26 +31,27 @@ const AllRetryAfterHeaders: string[] = ["retry-after-ms", "x-ms-retry-after-ms",
 function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
   if (!(response && [429, 503].includes(response.status))) return undefined;
   try {
-    // "retry-after-ms", "x-ms-retry-after-ms", "Retry-After"
+    // Headers: "retry-after-ms", "x-ms-retry-after-ms", "Retry-After"
     for (const header of AllRetryAfterHeaders) {
       const retryAfterValue = parseHeaderValueAsNumber(response, header);
-      if (!retryAfterValue) continue;
-
-      // "Retry-After" header ==> seconds
-      // "retry-after-ms", "x-ms-retry-after-ms" headers ==> milli-seconds
-      const multiplyingFactor = header === RetryAfterHeader ? 1000 : 1;
-      return retryAfterValue * multiplyingFactor; // in milli-seconds
+      if (retryAfterValue === 0 || retryAfterValue) {
+        // "Retry-After" header ==> seconds
+        // "retry-after-ms", "x-ms-retry-after-ms" headers ==> milli-seconds
+        const multiplyingFactor = header === RetryAfterHeader ? 1000 : 1;
+        return retryAfterValue * multiplyingFactor; // in milli-seconds
+      }
     }
 
     // RetryAfterHeader ("Retry-After") has a special case where it might be formatted as a date instead of a number of seconds
     const retryAfterHeader = response.headers.get(RetryAfterHeader);
     if (!retryAfterHeader) return;
 
+    const retryAfterInMS = undefined;
     const now: number = Date.now();
     const date: number = Date.parse(retryAfterHeader);
     const diff = date - now;
-
-    return Number.isNaN(diff) ? undefined : diff;
+    if (Number.isFinite(diff)) return Math.max(0, diff); // negative diff would mean a date in the past, so retry asap with 0 milliseconds
+    return retryAfterInMS;
   } catch (e) {
     return undefined;
   }
