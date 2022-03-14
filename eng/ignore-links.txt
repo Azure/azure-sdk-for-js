@@ -26,3 +26,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-authorization-profile-2020-
 https://docs.microsoft.com/javascript/api/@azure/arm-iothub-profile-2020-09-01-hybrid?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-monitor-profile-2020-09-01-hybrid?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge-profile-2020-09-01-hybrid
+https://docs.microsoft.com/javascript/api/@azure/arm-appservice-profile-2020-09-01-hybrid

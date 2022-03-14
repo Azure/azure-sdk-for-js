@@ -16,6 +16,7 @@ specifiers:
   '@rush-temp/arm-appinsights': file:./projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
+  '@rush-temp/arm-appservice-profile-2020-09-01-hybrid': file:./projects/arm-appservice-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
@@ -286,6 +287,7 @@ dependencies:
   '@rush-temp/arm-appinsights': file:projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
+  '@rush-temp/arm-appservice-profile-2020-09-01-hybrid': file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
@@ -9202,6 +9204,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-KnhU/nKZTrD9DJbzUQwC1bQCmb9J9/no66173AdZp6L6uIQ0QZJiSfpvDyCDxefpoAaxBxRco9vBjTe/INu41Q==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-appservice.tgz:
     resolution: {integrity: sha512-GPnOzswKgnWDjjtbybT7jXD7lWUnwNUYPXHzQG/tgscRIS23nXs2Wsp6ZGyTyDgBIE0mgnf30iVeUwKUKz6LLg==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
@@ -16278,7 +16308,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-96Xam8lJb1jErVL0xBDzRuX9hQ8P2243eNi2b4TT0wiS5I/PsBWWSkDKIpAQjQA/4NU21WDTIc0+VOemWbk84w==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-tVSwWmt4vYzGltbigwdCvqdreJfrbJOrMNIKCw3PDcfBwXWInLdOsiBk9lL82qEYkNJnQJO1yl3INLKhOlQLdg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
