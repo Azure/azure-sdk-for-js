@@ -7,15 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Table,
   TablesListByWorkspaceOptionalParams,
+  TablesCreateOrUpdateOptionalParams,
+  TablesCreateOrUpdateResponse,
   TablesUpdateOptionalParams,
   TablesUpdateResponse,
-  TablesCreateOptionalParams,
-  TablesCreateResponse,
   TablesGetOptionalParams,
-  TablesGetResponse
+  TablesGetResponse,
+  TablesDeleteOptionalParams,
+  TablesMigrateOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,35 +36,72 @@ export interface Tables {
     options?: TablesListByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<Table>;
   /**
-   * Updates a Log Analytics workspace table properties.
+   * Update or Create a Log Analytics workspace table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param tableName The name of the table.
    * @param parameters The parameters required to update table properties.
    * @param options The options parameters.
    */
-  update(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<TablesCreateOrUpdateResponse>,
+      TablesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Update or Create a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesCreateOrUpdateOptionalParams
+  ): Promise<TablesCreateOrUpdateResponse>;
+  /**
+   * Update a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesUpdateOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>
+  >;
+  /**
+   * Update a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
     parameters: Table,
     options?: TablesUpdateOptionalParams
   ): Promise<TablesUpdateResponse>;
-  /**
-   * Updates a Log Analytics workspace table properties.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param tableName The name of the table.
-   * @param parameters The parameters required to update table properties.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    workspaceName: string,
-    tableName: string,
-    parameters: Table,
-    options?: TablesCreateOptionalParams
-  ): Promise<TablesCreateResponse>;
   /**
    * Gets a Log Analytics workspace table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -75,4 +115,44 @@ export interface Tables {
     tableName: string,
     options?: TablesGetOptionalParams
   ): Promise<TablesGetResponse>;
+  /**
+   * Delete a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to
+   * support of Data Collection Rule-based Custom Logs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  migrate(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesMigrateOptionalParams
+  ): Promise<void>;
 }

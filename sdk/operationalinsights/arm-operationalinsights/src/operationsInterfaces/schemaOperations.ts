@@ -8,8 +8,8 @@
 
 import { SchemaGetOptionalParams, SchemaGetResponse } from "../models";
 
-/** Interface representing a Schema. */
-export interface Schema {
+/** Interface representing a SchemaOperations. */
+export interface SchemaOperations {
   /**
    * Gets the schema for a given workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

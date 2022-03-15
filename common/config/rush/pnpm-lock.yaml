@@ -647,6 +647,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-operationalinsights/8.0.0:
+    resolution: {integrity: sha512-YYeOOCajQvqaK/boY8VYkGK0SX5k+QUUtDvRYfmQBBLVPbLHiM5PsoWkIrb/1GpRyl+E+KX0n1o+yZDWU7pPLQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.5.0
+      '@azure/core-lro': 2.2.3
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.5.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-storage/17.0.0:
     resolution: {integrity: sha512-WS9eT3/vDQ7a1z/8K5BkPhoAi0ilo94yCSws4KyWq6UIA3RaXBDpYYAlN0TOxad9rPeOnWXWcB9gLw3DmjZ4wg==}
     engines: {node: '>=12.0.0'}
@@ -11751,11 +11766,12 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-sfxCB/Jzd3T1hg/Lzn8jowP0QgvNSmgZfMazqQo2T+t0tgCml2c8cwzscIhPcqt5meE/e6YirRLrCSt1AiS+8Q==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Pj32JFCXn7ec0HXGWjKEKXtlpQEhkt1/0QI1H5NNqLf6qS+JHFAD8C7sPQ6Q1oPikt8jcMUH6LzRqI2HhZCpIQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-operationalinsights': 8.0.0
       '@azure/arm-storage': 17.0.0
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
@@ -11970,23 +11986,23 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-r4oyapjF/4b7RKBAUXHEnuSNjfo8sZiD3na4lXZSMEEo7UhW8WYG/XkdQ6UwxKdICqdQnFfo9INzA/nM6tCJTg==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-SaZIFL2pBNA6KghabLeoeF8iVRDFD7S5zdRbj7J0cv41iKiEoB2IjzPCHElNoZZsubh2agw4OjtuQ/A7ymGAPg==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
@@ -12457,7 +12473,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-lRPMNQ6X2zNGHkn4+nUXsiXRde6JISO5YjFzhycdJL/3NCg9F4m94x+VbYyNtbvW5a7oVbGmyu4lW+I8qlqszQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-L96UyCle2mXUwU1QCXkofA0Yl4jBo8ElH3wdfGQBGHvDnDGkb1wNzcyuMsNncmPePr3fWsM50xCYuaMASfy0Ag==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
