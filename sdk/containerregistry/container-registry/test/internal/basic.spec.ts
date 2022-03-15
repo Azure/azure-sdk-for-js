@@ -6,6 +6,7 @@
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { assert } from "chai";
 import { calculateDigest } from "../../src/utils/digest";
+import { Readable } from "stream";
 
 describe("ContainerRegistryClient functional test", async function () {
   ["", null, undefined].forEach((value) => {
@@ -112,10 +113,18 @@ describe("RegistryArtifact functional test", async function () {
 });
 
 describe("digest calculation helper", () => {
-  it("should calculate the digest correctly", async () => {
+  it.only("should calculate the digest correctly from a buffer", async () => {
     const buf = Buffer.from("Hello world!", "utf8");
     const expectedChecksum = "c0535e4be2b79ffd93291305436bf889314e4a3faec05ecffcbb7df31ad9e51a";
 
     assert.equal(await calculateDigest(buf), `sha256:${expectedChecksum}`);
+  });
+
+  it.only("should calculate the digest correctly from a stream", async () => {
+    const buf = Buffer.from("Hello world!", "utf8");
+    const stream = Readable.from(buf);
+    const expectedChecksum = "c0535e4be2b79ffd93291305436bf889314e4a3faec05ecffcbb7df31ad9e51a";
+
+    assert.equal(await calculateDigest(stream), `sha256:${expectedChecksum}`);
   });
 });
