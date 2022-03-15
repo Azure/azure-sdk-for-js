@@ -1,15 +1,18 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-03-15)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
+  - Added Type Alias CapabilityType
+  - Added Enum KnownCapabilityType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AvailableGroundStations.listByCapability has a new signature
+  - Removed Enum KnownEnum6
+    
+    
 ## 1.0.0-beta.2 (2021-12-27)
     
 The package of @azure/arm-orbital is using our next generation design principles since version 1.0.0-beta.2, which contains breaking changes.

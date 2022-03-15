@@ -605,21 +605,21 @@ export enum KnownProtocol {
  */
 export type Protocol = string;
 
-/** Known values of {@link Enum6} that the service accepts. */
-export enum KnownEnum6 {
+/** Known values of {@link CapabilityType} that the service accepts. */
+export enum KnownCapabilityType {
   EarthObservation = "EarthObservation",
   Communication = "Communication"
 }
 
 /**
- * Defines values for Enum6. \
- * {@link KnownEnum6} can be used interchangeably with Enum6,
+ * Defines values for CapabilityType. \
+ * {@link KnownCapabilityType} can be used interchangeably with CapabilityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **EarthObservation** \
  * **Communication**
  */
-export type Enum6 = string;
+export type CapabilityType = string;
 
 /** Known values of {@link Capability} that the service accepts. */
 export enum KnownCapability {

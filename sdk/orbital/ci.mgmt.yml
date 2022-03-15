@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/orbital/ci.mgmt.yml
       - sdk/orbital/arm-orbital/
+      - sdk/orbital/arm-orbital
 pr:
   branches:
     include:
@@ -23,7 +24,7 @@ pr:
     include:
       - sdk/orbital/ci.mgmt.yml
       - sdk/orbital/arm-orbital/
-
+      - sdk/orbital/arm-orbital
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

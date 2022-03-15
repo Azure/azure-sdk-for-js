@@ -62,7 +62,7 @@ export interface AvailableGroundStationListResult {
 // @public
 export interface AvailableGroundStations {
     get(groundStationName: string, options?: AvailableGroundStationsGetOptionalParams): Promise<AvailableGroundStationsGetResponse>;
-    listByCapability(capability: Enum6, options?: AvailableGroundStationsListByCapabilityOptionalParams): PagedAsyncIterableIterator<AvailableGroundStation>;
+    listByCapability(capability: CapabilityType, options?: AvailableGroundStationsListByCapabilityOptionalParams): PagedAsyncIterableIterator<AvailableGroundStation>;
 }
 
 // @public
@@ -116,6 +116,9 @@ export interface AzureOrbitalOptionalParams extends coreClient.ServiceClientOpti
 
 // @public
 export type Capability = string;
+
+// @public
+export type CapabilityType = string;
 
 // @public
 export interface CloudError {
@@ -317,9 +320,6 @@ export interface EndPoint {
 }
 
 // @public
-export type Enum6 = string;
-
-// @public
 export enum KnownActionType {
     // (undocumented)
     Internal = "Internal"
@@ -327,6 +327,14 @@ export enum KnownActionType {
 
 // @public
 export enum KnownCapability {
+    // (undocumented)
+    Communication = "Communication",
+    // (undocumented)
+    EarthObservation = "EarthObservation"
+}
+
+// @public
+export enum KnownCapabilityType {
     // (undocumented)
     Communication = "Communication",
     // (undocumented)
@@ -351,14 +359,6 @@ export enum KnownDirection {
     Downlink = "downlink",
     // (undocumented)
     Uplink = "uplink"
-}
-
-// @public
-export enum KnownEnum6 {
-    // (undocumented)
-    Communication = "Communication",
-    // (undocumented)
-    EarthObservation = "EarthObservation"
 }
 
 // @public
