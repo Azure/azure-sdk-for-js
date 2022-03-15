@@ -14,7 +14,7 @@ import {
   RouteSection,
   RouteSummary,
 } from "src/generated/models";
-import { LatLon } from "./models";
+import { LatLon } from "@azure/maps-common";
 
 /** This object is returned from a successful Route Reachable Range call */
 export interface RouteRangeResult {

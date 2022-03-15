@@ -14,7 +14,7 @@ import {
   RouteRange as RouteRangeInternal,
   RouteRangeResult as RouteRangeResultInternal,
 } from "src/generated";
-import { LatLon } from "./models";
+import { LatLon } from "@azure/maps-common";
 import { RouteDirectionsOptions, RouteDirectionsRequest } from "./options";
 import {
   BatchResult,

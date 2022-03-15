@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLon } from "./models";
+import { BoundingBox, LatLon } from "@azure/maps-common";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   ElectricVehicleConnector,

@@ -6,17 +6,20 @@
 
 import { AlternativeRouteType as AlternativeRouteType_2 } from 'src/generated';
 import { AzureKeyCredential } from '@azure/core-auth';
+import { BatchPoller } from '@azure/maps-common';
 import { CommonClientOptions } from '@azure/core-client';
 import { ComputeTravelTime as ComputeTravelTime_2 } from 'src/generated';
 import { DrivingSide } from 'src/generated/models';
 import { ErrorResponse } from 'src/generated/models';
+import { GeoJsonGeometryCollection } from '@azure/maps-common';
+import { GeoJsonMultiPoint } from '@azure/maps-common';
+import { GeoJsonMultiPolygon } from '@azure/maps-common';
 import { GuidanceInstructionType } from 'src/generated/models';
 import { GuidanceManeuver } from 'src/generated/models';
 import { InclineLevel as InclineLevel_2 } from 'src/generated';
 import { JunctionType } from 'src/generated/models';
+import { LatLon } from '@azure/maps-common';
 import { OperationOptions } from '@azure/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 import { Report as Report_2 } from 'src/generated';
 import { RouteAvoidType as RouteAvoidType_2 } from 'src/generated';
 import { RouteInstructionGroup } from 'src/generated/models';
@@ -47,11 +50,6 @@ export interface BatchItem<TResult> {
 }
 
 // @public
-export interface BatchPoller<TBatchResult> extends PollerLike<PollOperationState<TBatchResult>, TBatchResult> {
-    getBatchId(): string | undefined;
-}
-
-// @public
 export interface BatchPollerOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -71,111 +69,7 @@ export interface BatchResult<TResult> {
 }
 
 // @public
-export type BBox = BBox2D | BBox3D;
-
-// @public
-export type BBox2D = [number, number, number, number];
-
-// @public
-export type BBox3D = [number, number, number, number, number, number];
-
-// @public
 export type ComputeTravelTime = string;
-
-// @public
-export interface GeoJsonFeature extends GeoJsonObject {
-    // (undocumented)
-    geometry?: GeoJsonGeometry;
-    // (undocumented)
-    id?: number | string;
-    // (undocumented)
-    properties?: {
-        [name: string]: any;
-    };
-    // (undocumented)
-    type: "Feature";
-}
-
-// @public
-export interface GeoJsonFeatureCollection extends GeoJsonObject {
-    // (undocumented)
-    features: GeoJsonFeature[];
-    // (undocumented)
-    type: "FeatureCollection";
-}
-
-// @public
-export type GeoJsonGeometry = GeoJsonPoint | GeoJsonMultiPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon;
-
-// @public
-export interface GeoJsonGeometryCollection extends GeoJsonObject {
-    // (undocumented)
-    geometries: GeoJsonGeometry[];
-    // (undocumented)
-    type: "GeometryCollection";
-}
-
-// @public
-export interface GeoJsonLineString extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[];
-    // (undocumented)
-    type: "LineString";
-}
-
-// @public
-export interface GeoJsonMultiLineString extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[][];
-    // (undocumented)
-    type: "MultiLineString";
-}
-
-// @public
-export interface GeoJsonMultiPoint extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[];
-    // (undocumented)
-    type: "MultiPoint";
-}
-
-// @public
-export interface GeoJsonMultiPolygon extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[][][];
-    // (undocumented)
-    type: "MultiPolygon";
-}
-
-// @public
-export interface GeoJsonObject {
-    // (undocumented)
-    bbox?: BBox;
-    // (undocumented)
-    type: GeoJsonType;
-}
-
-// @public
-export interface GeoJsonPoint extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position;
-    // (undocumented)
-    type: "Point";
-}
-
-// @public
-export interface GeoJsonPolygon extends GeoJsonObject {
-    // (undocumented)
-    coordinates: Position[][];
-    // (undocumented)
-    type: "Polygon";
-}
-
-// @public
-export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
-
-// @public
-export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
 
 // @public
 export type InclineLevel = string;
@@ -295,14 +189,6 @@ export enum KnownWindingnessLevel {
 }
 
 // @public
-export interface LatLon {
-    // (undocumented)
-    latitude: number;
-    // (undocumented)
-    longitude: number;
-}
-
-// @public
 export class MapsRouteClient {
     constructor(credential: AzureKeyCredential, options?: MapsRouteClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsRouteClientOptions);
@@ -319,15 +205,6 @@ export class MapsRouteClient {
 
 // @public
 export type MapsRouteClientOptions = CommonClientOptions;
-
-// @public
-export type Position = Position2D | Position3D;
-
-// @public
-export type Position2D = [number, number];
-
-// @public
-export type Position3D = [number, number, number];
 
 // @public
 export type Report = string;

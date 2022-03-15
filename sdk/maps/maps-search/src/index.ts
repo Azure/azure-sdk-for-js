@@ -6,5 +6,3 @@ export * from "./mapsSearchClient";
 export * from "./models/options";
 export * from "./models/models";
 export * from "./models/results";
-export * from "./models/geojsons";
-export { BatchPoller } from "./models/pollers";
