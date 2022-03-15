@@ -3,7 +3,8 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { createPipelineRequest, SendRequest, RestError, defaultRetryPolicy } from "../src";
+import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("defaultRetryPolicy", function () {
   afterEach(function () {
@@ -53,8 +54,7 @@ describe("defaultRetryPolicy", function () {
       assert.strictEqual(e, testError);
     });
     await clock.runAllAsync();
-    // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 });

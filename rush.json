@@ -1609,6 +1609,61 @@
       "packageName": "@azure/arm-subscriptions-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storage-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/storage/arm-storage-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-network-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/network/arm-network-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commerce-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/commerce/arm-commerce-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-compute-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/compute/arm-compute-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventhub-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-authorization-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/authorization/arm-authorization-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/monitor/arm-monitor-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/iothub/arm-iothub-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoxedge-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appservice-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
     }
   ]
 }
