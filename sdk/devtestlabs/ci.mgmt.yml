@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/devtestlabs/ci.mgmt.yml
       - sdk/devtestlabs/arm-devtestlabs/
+      - sdk/devtestlabs/arm-devtestlabs
 pr:
   branches:
     include:
@@ -23,11 +24,11 @@ pr:
     include:
       - sdk/devtestlabs/ci.mgmt.yml
       - sdk/devtestlabs/arm-devtestlabs/
-
+      - sdk/devtestlabs/arm-devtestlabs
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: devtestlabs
     Artifacts:
       - name: azure-arm-devtestlabs
-        safeName: azurearmdevtestlabs        
+        safeName: azurearmdevtestlabs
