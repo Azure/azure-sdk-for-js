@@ -70,10 +70,10 @@ describe("With messaging clients", function () {
           height: 13.5,
           randb: Buffer.from("\u00FF"),
         };
-        const message = await serializer.serializeMessageData(value, schema);
+        const message = await serializer.serialize(value, schema);
         await testInfo.client.send(message);
         const receivedMessage = await testInfo.client.receive();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage);
+        const deserializedValue = await serializer.deserialize(receivedMessage);
         assert.deepStrictEqual(deserializedValue, value);
       });
 
@@ -98,10 +98,10 @@ describe("With messaging clients", function () {
           ],
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        const message = await serializer.serializeMessageData(value, writerSchema);
+        const message = await serializer.serialize(value, writerSchema);
         await testInfo.client.send(message);
         const receivedMessage = await testInfo.client.receive();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
+        const deserializedValue = await serializer.deserialize(receivedMessage, {
           schema: readerSchema,
         });
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -131,10 +131,10 @@ describe("With messaging clients", function () {
           ],
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        const message = await serializer.serializeMessageData(value, writerSchema);
+        const message = await serializer.serialize(value, writerSchema);
         await testInfo.client.send(message);
         const receivedMessage = await testInfo.client.receive();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
+        const deserializedValue = await serializer.deserialize(receivedMessage, {
           schema: readerSchema,
         });
         assert.deepStrictEqual(deserializedValue, { ...value, favorite_city: "Redmond" });

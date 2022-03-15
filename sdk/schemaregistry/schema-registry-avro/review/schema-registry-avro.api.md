@@ -9,8 +9,8 @@ import { SchemaRegistry } from '@azure/schema-registry';
 // @public
 export class AvroSerializer<MessageT = MessageWithMetadata> {
     constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
-    deserializeMessageData(message: MessageT, options?: DeserializeMessageDataOptions): Promise<unknown>;
-    serializeMessageData(value: unknown, schema: string): Promise<MessageT>;
+    deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown>;
+    serialize(value: unknown, schema: string): Promise<MessageT>;
 }
 
 // @public
@@ -21,7 +21,7 @@ export interface AvroSerializerOptions<MessageT> {
 }
 
 // @public
-export interface DeserializeMessageDataOptions {
+export interface DeserializeOptions {
     schema?: string;
 }
 
