@@ -11,7 +11,7 @@ import {
   ThreatIntelligenceInformationUnion,
   ThreatIntelligenceFilteringCriteria,
   ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
-  ThreatIntelligenceIndicatorModelForRequestBody,
+  ThreatIntelligenceIndicatorModel,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorResponse,
   ThreatIntelligenceIndicatorGetOptionalParams,
@@ -53,7 +53,7 @@ export interface ThreatIntelligenceIndicator {
   createIndicator(
     resourceGroupName: string,
     workspaceName: string,
-    threatIntelligenceProperties: ThreatIntelligenceIndicatorModelForRequestBody,
+    threatIntelligenceProperties: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorCreateIndicatorOptionalParams
   ): Promise<ThreatIntelligenceIndicatorCreateIndicatorResponse>;
   /**
@@ -82,7 +82,7 @@ export interface ThreatIntelligenceIndicator {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    threatIntelligenceProperties: ThreatIntelligenceIndicatorModelForRequestBody,
+    threatIntelligenceProperties: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorCreateOptionalParams
   ): Promise<ThreatIntelligenceIndicatorCreateResponse>;
   /**
@@ -125,7 +125,7 @@ export interface ThreatIntelligenceIndicator {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModelForRequestBody,
+    threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorReplaceTagsOptionalParams
   ): Promise<ThreatIntelligenceIndicatorReplaceTagsResponse>;
 }
