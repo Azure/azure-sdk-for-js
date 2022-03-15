@@ -394,6 +394,9 @@ export interface DnsConfiguration {
 }
 
 // @public
+export type DnsNameLabelReusePolicy = string;
+
+// @public
 export interface EncryptionProperties {
     keyName: string;
     keyVersion: string;
@@ -470,6 +473,7 @@ export interface InitContainerPropertiesDefinitionInstanceView {
 // @public
 export interface IpAddress {
     dnsNameLabel?: string;
+    dnsNameLabelReusePolicy?: DnsNameLabelReusePolicy;
     readonly fqdn?: string;
     ip?: string;
     ports: Port[];
@@ -524,6 +528,20 @@ export enum KnownContainerNetworkProtocol {
     TCP = "TCP",
     // (undocumented)
     UDP = "UDP"
+}
+
+// @public
+export enum KnownDnsNameLabelReusePolicy {
+    // (undocumented)
+    Noreuse = "Noreuse",
+    // (undocumented)
+    ResourceGroupReuse = "ResourceGroupReuse",
+    // (undocumented)
+    SubscriptionReuse = "SubscriptionReuse",
+    // (undocumented)
+    TenantReuse = "TenantReuse",
+    // (undocumented)
+    Unsecure = "Unsecure"
 }
 
 // @public

@@ -295,6 +295,8 @@ export interface IpAddress {
   ip?: string;
   /** The Dns name label for the IP. */
   dnsNameLabel?: string;
+  /** The value representing the security enum. */
+  dnsNameLabelReusePolicy?: DnsNameLabelReusePolicy;
   /**
    * The FQDN for the IP.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -833,6 +835,28 @@ export enum KnownContainerGroupIpAddressType {
  * **Private**
  */
 export type ContainerGroupIpAddressType = string;
+
+/** Known values of {@link DnsNameLabelReusePolicy} that the service accepts. */
+export enum KnownDnsNameLabelReusePolicy {
+  Unsecure = "Unsecure",
+  TenantReuse = "TenantReuse",
+  SubscriptionReuse = "SubscriptionReuse",
+  ResourceGroupReuse = "ResourceGroupReuse",
+  Noreuse = "Noreuse"
+}
+
+/**
+ * Defines values for DnsNameLabelReusePolicy. \
+ * {@link KnownDnsNameLabelReusePolicy} can be used interchangeably with DnsNameLabelReusePolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unsecure** \
+ * **TenantReuse** \
+ * **SubscriptionReuse** \
+ * **ResourceGroupReuse** \
+ * **Noreuse**
+ */
+export type DnsNameLabelReusePolicy = string;
 
 /** Known values of {@link OperatingSystemTypes} that the service accepts. */
 export enum KnownOperatingSystemTypes {
