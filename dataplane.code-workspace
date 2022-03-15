@@ -141,6 +141,10 @@
       "path": "sdk/core/logger"
     },
     {
+      "name": "maps-common",
+      "path": "sdk/maps/maps-common"
+    },
+    {
       "name": "maps-search",
       "path": "sdk/maps/maps-search"
     },
