@@ -15,13 +15,14 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
+core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.16"
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
---use-core-v2: true
+use-core-v2: true
 ```
 
 ### Patch endpoints for exception handling
