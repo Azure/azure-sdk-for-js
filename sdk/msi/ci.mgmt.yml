@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/msi/ci.mgmt.yml
       - sdk/msi/arm-msi/
+      - sdk/msi/arm-msi
 pr:
   branches:
     include:
@@ -23,7 +24,7 @@ pr:
     include:
       - sdk/msi/ci.mgmt.yml
       - sdk/msi/arm-msi/
-
+      - sdk/msi/arm-msi
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

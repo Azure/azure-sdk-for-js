@@ -6,7 +6,7 @@ The Managed Service Identity Client.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/msi/arm-msi) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-msi) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-msi) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-msi?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
