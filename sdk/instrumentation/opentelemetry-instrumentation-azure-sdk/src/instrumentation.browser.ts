@@ -7,7 +7,7 @@ import {
   InstrumentationConfig,
 } from "@opentelemetry/instrumentation";
 import { OpenTelemetryInstrumenter } from "./instrumenter";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION } from "./configuration";
 import { useInstrumenter } from "@azure/core-tracing";
 
 /**

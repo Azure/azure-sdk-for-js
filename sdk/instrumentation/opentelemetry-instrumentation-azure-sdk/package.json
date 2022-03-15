@@ -12,7 +12,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/constants.ts",
+        "path": "src/configuration.ts",
         "prefix": "SDK_VERSION"
       }
     ]
