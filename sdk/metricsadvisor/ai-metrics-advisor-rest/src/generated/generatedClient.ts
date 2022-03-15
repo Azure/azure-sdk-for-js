@@ -2,26 +2,25 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { GeneratedClientLike } from "./clientDefinitions";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { MetricsAdvisorRestClientLike } from "./clientDefinitions";
 import {
   createMetricsAdvisorKeyCredentialPolicy,
   MetricsAdvisorKeyCredential,
   X_API_KEY_HEADER_NAME,
 } from "../metricsAdvisorKeyCredentialPolicy";
 
-export default function MetricsAdvisorRestClient(
+export default function GeneratedClient(
   endpoint: string,
   credentials: TokenCredential | MetricsAdvisorKeyCredential,
   options: ClientOptions = {}
-): MetricsAdvisorRestClientLike {
+): GeneratedClientLike {
   const baseUrl = options.baseUrl ?? `${endpoint}/metricsadvisor/v1.0`;
 
   options = {
     ...options,
     credentials: {
       scopes: ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: X_API_KEY_HEADER_NAME
     }
   };
 
@@ -29,10 +28,8 @@ export default function MetricsAdvisorRestClient(
     baseUrl,
     credentials,
     options
-  ) as MetricsAdvisorRestClientLike;
-  if (!isTokenCredential(credentials)) {
-    client.pipeline.addPolicy(createMetricsAdvisorKeyCredentialPolicy(credentials));
-  }
+  ) as GeneratedClientLike;
+  
 
   return {
     ...client,

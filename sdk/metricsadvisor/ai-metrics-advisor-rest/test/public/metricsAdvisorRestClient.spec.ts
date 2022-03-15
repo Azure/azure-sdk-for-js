@@ -8,13 +8,13 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { MetricsAdvisorClient } from "../../src/metricsAdvisorClient";
 import { createRecorder, createClient } from "./util/recordedClient";
-import { MetricsAdvisorRestClientLike } from "../../src/generated";
 
 
 describe("MetricsAdvisorRestClient", () => {
   let recorder: Recorder;
-  let client: MetricsAdvisorRestClientLike;
+  let client: MetricsAdvisorClient;
 
   beforeEach(async function () {
     recorder = createRecorder(this);
@@ -28,13 +28,13 @@ describe("MetricsAdvisorRestClient", () => {
     client = createClient(true);
     const res = await client.getActiveSeriesCount();
     // console.log(res);
-    assert.equal("200", res.status);
+    assert.equal(true, !!res);
   });
 
   it("should get latest status by Api Key auth", async function () {
     client = createClient(false);
     const res = await client.getActiveSeriesCount();
     // console.log(res);
-    assert.equal("200", res.status);
+    assert.equal(true, !!res);
   });
 });

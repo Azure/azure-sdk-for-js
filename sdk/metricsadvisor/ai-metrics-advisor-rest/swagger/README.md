@@ -17,6 +17,7 @@ rlc-shortcut: true
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c8a9d7277a795543e2960ed58963769f95945096/specification/cognitiveservices/data-plane/MetricsAdvisor/stable/v1.0/MetricsAdvisor.json
 package-version: 1.0.0-beta.2
 rest-level-client: true
+override-client-name: GeneratedClient
 add-credentials: true
 credential-scopes: https://cognitiveservices.azure.com/.default
 use-extension:

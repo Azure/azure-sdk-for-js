@@ -908,6 +908,6 @@ export interface Routes {
   ): GetEnrichmentStatusByMetric;
 }
 
-export type MetricsAdvisorRestClientLike = Client & {
+export type GeneratedClientLike = Client & {
   path: Routes;
 } & ClientOperations;
