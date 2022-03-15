@@ -12246,7 +12246,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-6h8nQYrJ5TBrSiaJm7IcD//um6u3ebp6VBNRO/F736DPPr1nZoPFEQiLa5JYGSujqiqu4dY+CUqklTYXvx3dWQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-L96UyCle2mXUwU1QCXkofA0Yl4jBo8ElH3wdfGQBGHvDnDGkb1wNzcyuMsNncmPePr3fWsM50xCYuaMASfy0Ag==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -12255,18 +12255,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
       '@rollup/plugin-json': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
