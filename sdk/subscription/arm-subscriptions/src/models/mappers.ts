@@ -181,7 +181,6 @@ export const SubscriptionListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }

@@ -396,7 +396,7 @@ export type SubscriptionEnableResponse = EnabledSubscriptionId;
 
 // @public
 export interface SubscriptionListResult {
-    nextLink: string;
+    nextLink?: string;
     value?: Subscription[];
 }
 

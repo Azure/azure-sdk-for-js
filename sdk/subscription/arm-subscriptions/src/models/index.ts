@@ -100,7 +100,7 @@ export interface SubscriptionListResult {
   /** An array of subscriptions. */
   value?: Subscription[];
   /** The URL to get the next set of results. */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Tenant Ids information. */

@@ -11,6 +11,7 @@ trigger:
       - sdk/subscription/ci.mgmt.yml
       - sdk/subscription/arm-subscription/
       - sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid
+      - sdk/subscription/arm-subscriptions
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/subscription/ci.mgmt.yml
       - sdk/subscription/arm-subscription/
       - sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid
+      - sdk/subscription/arm-subscriptions
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

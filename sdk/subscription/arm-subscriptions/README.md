@@ -6,7 +6,7 @@ The subscription client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/subscription/arm-subscriptions) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-subscriptions) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-subscriptions) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-subscriptions?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -49,7 +49,8 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new SubscriptionClient(new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new SubscriptionClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 
