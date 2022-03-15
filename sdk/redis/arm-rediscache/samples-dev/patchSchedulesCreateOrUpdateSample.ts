@@ -36,8 +36,8 @@ async function redisCachePatchSchedulesCreateOrUpdate() {
   const result = await client.patchSchedules.createOrUpdate(
     resourceGroupName,
     name,
-    defaultParam,
-    parameters
+    parameters,
+    defaultParam
   );
   console.log(result);
 }

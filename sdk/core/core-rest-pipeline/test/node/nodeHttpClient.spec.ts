@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { PassThrough } from "stream";
-import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from "http";
+import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import * as https from "https";
 import * as http from "http";
 import { AbortController } from "@azure/abort-controller";

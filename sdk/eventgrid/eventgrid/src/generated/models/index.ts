@@ -2717,14 +2717,16 @@ export type MediaJobErrorCode =
   | "UploadTransientError"
   | "ConfigurationUnsupported"
   | "ContentMalformed"
-  | "ContentUnsupported";
+  | "ContentUnsupported"
+  | "IdentityUnsupported";
 /** Defines values for MediaJobErrorCategory. */
 export type MediaJobErrorCategory =
   | "Service"
   | "Download"
   | "Upload"
   | "Configuration"
-  | "Content";
+  | "Content"
+  | "Account";
 /** Defines values for MediaJobRetry. */
 export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
@@ -2734,7 +2736,10 @@ export interface GeneratedClientPublishEventsOptionalParams
 
 /** Optional parameters. */
 export interface GeneratedClientPublishCloudEventEventsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Required only when publishing to partner namespaces with partner topic routing mode ChannelNameHeader. */
+  aegChannelName?: string;
+}
 
 /** Optional parameters. */
 export interface GeneratedClientPublishCustomEventEventsOptionalParams

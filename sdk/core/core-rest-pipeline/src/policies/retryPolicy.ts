@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
@@ -9,9 +9,9 @@ import { RetryStrategy } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogger } from "@azure/logger";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
-const DEFAULT_MAX_RETRIES = 10;
 
 /**
  * The programmatic identifier of the retryPolicy.
@@ -23,7 +23,7 @@ const retryPolicyName = "retryPolicy";
  */
 export interface RetryPolicyOptions {
   /**
-   * Maximum number of retries. If not specified, it will limit to 10 retries.
+   * Maximum number of retries. If not specified, it will limit to 3 retries.
    */
   maxRetries?: number;
   /**
@@ -37,7 +37,7 @@ export interface RetryPolicyOptions {
  */
 export function retryPolicy(
   strategies: RetryStrategy[],
-  options: RetryPolicyOptions = { maxRetries: DEFAULT_MAX_RETRIES }
+  options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT }
 ): PipelinePolicy {
   const logger = options.logger || retryPolicyLogger;
   return {
@@ -72,7 +72,7 @@ export function retryPolicy(
           throw abortError;
         }
 
-        if (retryCount >= (options.maxRetries ?? DEFAULT_MAX_RETRIES)) {
+        if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
           logger.info(
             `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
           );
@@ -109,11 +109,11 @@ export function retryPolicy(
             throw errorToThrow;
           }
 
-          if (retryAfterInMs) {
+          if (retryAfterInMs || retryAfterInMs === 0) {
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
             );
-            await delay(retryAfterInMs);
+            await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
           }
 

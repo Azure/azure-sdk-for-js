@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.8.0-beta.2",
+  "version": "5.8.0-beta.3",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -172,7 +172,7 @@
     "moment": "^2.24.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^10.2.0",
+    "puppeteer": "^13.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",
     "rollup-plugin-shim": "^1.0.0",

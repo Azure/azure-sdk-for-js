@@ -12,12 +12,13 @@
    "responseHeaders": {
     "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json",
-    "date": "Tue, 11 Jan 2022 17:27:48 GMT",
-    "ms-cv": "FRoVOdmGcESH4vvjebO6AQ.0",
+    "date": "Wed, 02 Mar 2022 21:21:02 GMT",
+    "ms-cv": "SnFD9yfDy0iixV8o5iPytg.0",
     "request-context": "appId=",
-    "x-azure-ref": "0Er7dYQAAAABFbMnjfgnFT72x48T7EIJQU0FPMDNFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vt8fYgAAAADI0JvHODUnTpDyCurwcprhTEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1405ms"
+    "x-processing-time": "1508ms"
    }
   }
  ],
