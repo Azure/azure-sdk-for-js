@@ -232,7 +232,7 @@ export function serializeAsConfigurationSettingParam(
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
   kvp: T,
-  status: number
+  status: number | undefined
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   return {
     ...transformKeyValue(kvp),

@@ -205,7 +205,7 @@ export class AppConfigurationClient {
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
     return this._trace("deleteConfigurationSetting", options, async (newOptions) => {
-      let status: number = 0;
+      let status;
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
@@ -234,7 +234,7 @@ export class AppConfigurationClient {
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
     return this._trace("getConfigurationSetting", options, async (newOptions) => {
-      let status = 0;
+      let status;
       const originalResponse = await this.client.getKeyValue(id.key, {
         ...newOptions,
         label: id.label,
