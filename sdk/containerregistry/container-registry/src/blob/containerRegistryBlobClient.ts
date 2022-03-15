@@ -30,6 +30,7 @@ import {
   UploadManifestResult,
 } from "./models";
 import { FullOperationResponse } from "@azure/core-client";
+import { readStreamToEnd } from "../utils/helpers";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -186,14 +187,30 @@ export class ContainerRegistryBlobClient {
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult>;
 
+  /**
+   * Upload a manifest for an OCI artifact.
+   *
+   * @param manifestStreamFactory - a function which returns a stream of the raw manifest. This function may be called multiple times; each time the function is called a fresh stream should be returned.
+   * @param options - optional configuration used to send requests to the service
+   */
   public async uploadManifest(
-    manifestOrManifestStream: NodeJS.ReadableStream | OciManifest,
+    manifestStreamFactory: () => NodeJS.ReadableStream,
+    options?: UploadManifestOptions
+  ): Promise<UploadManifestResult>;
+
+  public async uploadManifest(
+    manifestOrManifestStream: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult> {
     let manifestBody: Buffer | NodeJS.ReadableStream;
+    let tagOrDigest = options?.tag;
 
     if (isReadableStream(manifestOrManifestStream)) {
-      manifestBody = manifestOrManifestStream;
+      manifestBody = await readStreamToEnd(manifestOrManifestStream);
+      tagOrDigest ??= await calculateDigest(manifestBody);
+    } else if (typeof manifestOrManifestStream === "function") {
+      manifestBody = manifestOrManifestStream();
+      tagOrDigest ??= await calculateDigest(manifestOrManifestStream());
     } else {
       const { schemaVersion, config, layers } = manifestOrManifestStream;
 
@@ -215,9 +232,10 @@ export class ContainerRegistryBlobClient {
           annotations,
         })
       );
+
+      tagOrDigest ??= await calculateDigest(manifestBody);
     }
 
-    const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
     const { dockerContentDigest } = await this.client.containerRegistry.createManifest(
       this.repositoryName,
       tagOrDigest,
@@ -310,29 +328,49 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload an artifact blob.
    *
+   * @param blob - a factory which produces a stream containing the blob data.
+   */
+  public async uploadBlob(
+    blobStreamFactory: () => NodeJS.ReadableStream
+  ): Promise<UploadBlobResult>;
+
+  /**
+   * Upload an artifact blob.
+   *
    * @param blob - the stream containing the blob data.
    */
-  public async uploadBlob(blob: NodeJS.ReadableStream): Promise<UploadBlobResult> {
+  public async uploadBlob(blobStream: NodeJS.ReadableStream): Promise<UploadBlobResult>;
+
+  public async uploadBlob(
+    blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream
+  ): Promise<UploadBlobResult> {
     const startUploadResult = await this.client.containerRegistryBlob.startUpload(
       this.repositoryName
     );
+
+    let requestBody: NodeJS.ReadableStream | Buffer;
+    let digest: string;
+
+    if (typeof blobStreamOrFactory === "function") {
+      requestBody = blobStreamOrFactory();
+      digest = await calculateDigest(blobStreamOrFactory());
+    } else {
+      requestBody = await readStreamToEnd(blobStreamOrFactory);
+      digest = await calculateDigest(requestBody);
+    }
 
     if (!startUploadResult.location) {
       throw new Error("startUpload did not return a location");
     }
 
-    const digestCallback = calculateDigest(blob);
-
     const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
       startUploadResult.location,
-      blob
+      requestBody
     );
 
     if (!uploadChunkResult.location) {
       throw new Error("uploadChunk did not return a location");
     }
-
-    const digest = await digestCallback;
 
     const { dockerContentDigest: digestFromResponse } =
       await this.client.containerRegistryBlob.completeUpload(digest, uploadChunkResult.location);
