@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -51,7 +52,7 @@ import {
 } from "./models";
 
 /** @internal */
-export class AppConfiguration extends coreClient.ServiceClient {
+export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   syncToken?: string;
   apiVersion: ApiVersion10;

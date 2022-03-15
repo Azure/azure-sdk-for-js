@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The result of a list request. */
 export interface KeyListResult {
@@ -666,7 +667,7 @@ export type GetRevisionsNextResponse = AppConfigurationGetRevisionsNextHeaders &
 
 /** Optional parameters. */
 export interface AppConfigurationOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Used to guarantee real-time consistency between requests. */
   syncToken?: string;
   /** Overrides client endpoint. */
