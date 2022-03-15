@@ -2,23 +2,24 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode, WebResourceLike } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
 import sinon from "sinon";
 import { ShortCodesClient } from "../../src/shortCodesClient";
 import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
+import { isNode } from "@azure/test-utils";
 
-describe("PhoneNumbersClient - headers", function () {
+describe("ShortCodesClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client = new ShortCodesClient(endpoint, new AzureKeyCredential(accessKey), {
     httpClient: getUSProgramBriefHttpClient,
   });
-  let request: WebResourceLike;
+  let request: PipelineRequest;
 
   afterEach(function () {
     sinon.restore();
