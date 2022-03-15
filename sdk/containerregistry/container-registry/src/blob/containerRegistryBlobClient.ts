@@ -328,7 +328,8 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload an artifact blob.
    *
-   * @param blob - a factory which produces a stream containing the blob data.
+   * @param blobStreamFactory - a factory which produces a stream containing the blob data. This function may be called multiple times; each time the function is called a fresh stream should be returned.
+
    */
   public async uploadBlob(
     blobStreamFactory: () => NodeJS.ReadableStream
@@ -337,7 +338,7 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload an artifact blob.
    *
-   * @param blob - the stream containing the blob data.
+   * @param blobStream - the stream containing the blob data.
    */
   public async uploadBlob(blobStream: NodeJS.ReadableStream): Promise<UploadBlobResult>;
 

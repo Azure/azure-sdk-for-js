@@ -66,9 +66,11 @@ export class ContainerRegistryBlobClient {
     downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
     readonly endpoint: string;
     readonly repositoryName: string;
-    uploadBlob(blob: NodeJS.ReadableStream): Promise<UploadBlobResult>;
+    uploadBlob(blobStreamFactory: () => NodeJS.ReadableStream): Promise<UploadBlobResult>;
+    uploadBlob(blobStream: NodeJS.ReadableStream): Promise<UploadBlobResult>;
     uploadManifest(manifest: OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
     uploadManifest(manifestStream: NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+    uploadManifest(manifestStreamFactory: () => NodeJS.ReadableStream, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -230,7 +232,7 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 
 // @public
 export interface OciAnnotations {
-    additionalProperties: Record<string, unknown>;
+    additionalProperties?: Record<string, unknown>;
     authors?: string;
     createdAt?: Date;
     description?: string;
