@@ -35,6 +35,39 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Identity for the resource. */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+  };
+}
+
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** Additional Map account properties */
 export interface MapsAccountProperties {
   /**
@@ -45,10 +78,34 @@ export interface MapsAccountProperties {
   /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage. */
   disableLocalAuth?: boolean;
   /**
-   * the state of the provisioning.
+   * The provisioning state of the Map account resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+  /** Sets the resources to be used for Managed Identities based operations for the Map account resource. */
+  linkedResources?: LinkedResource[];
+  /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
+  cors?: CorsRules;
+}
+
+/** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
+export interface LinkedResource {
+  /** A provided name which uniquely identifies the linked resource. */
+  uniqueName: string;
+  /** ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'. */
+  id: string;
+}
+
+/** Sets the CORS rules. You can include up to five CorsRule elements in the request. */
+export interface CorsRules {
+  /** The list of CORS rules. You can include up to five CorsRule elements in the request. */
+  corsRules?: CorsRule[];
+}
+
+/** Specifies a CORS rule for the Map Account. */
+export interface CorsRule {
+  /** Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*" to allow all domains */
+  allowedOrigins: string[];
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -127,6 +184,8 @@ export interface MapsAccountUpdateParameters {
   kind?: Kind;
   /** The SKU of this account. */
   sku?: Sku;
+  /** Sets the identity property for maps account. */
+  identity?: ManagedServiceIdentity;
   /**
    * A unique identifier for the maps account
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -135,10 +194,14 @@ export interface MapsAccountUpdateParameters {
   /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage. */
   disableLocalAuth?: boolean;
   /**
-   * the state of the provisioning.
+   * The provisioning state of the Map account resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+  /** Sets the resources to be used for Managed Identities based operations for the Map account resource. */
+  linkedResources?: LinkedResource[];
+  /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
+  cors?: CorsRules;
 }
 
 /** A list of Maps Accounts. */
@@ -153,6 +216,31 @@ export interface MapsAccounts {
    * It's null for now, added for future use.
    */
   nextLink?: string;
+}
+
+/** Parameters used to create an account Shared Access Signature (SAS) token. The REST API access control is provided by Azure Maps Role Based Access (RBAC) identity and access. */
+export interface AccountSasParameters {
+  /** The Map account key to use for signing. */
+  signingKey: SigningKey;
+  /** The principal Id also known as the object Id of a User Assigned Managed Identity currently assigned to the Map Account. To assign a Managed Identity of the account, use operation Create or Update an assign a User Assigned Identity resource Id. */
+  principalId: string;
+  /** Optional, allows control of which region locations are permitted access to Azure Maps REST APIs with the SAS token. Example: "eastus", "westus2". Omitting this parameter will allow all region locations to be accessible. */
+  regions?: string[];
+  /** Required parameter which represents the desired maximum request per second to allowed for the given SAS token. This does not guarantee perfect accuracy in measurements but provides application safe guards of abuse with eventual enforcement. */
+  maxRatePerSecond: number;
+  /** The date time offset of when the token validity begins. For example "2017-05-24T10:42:03.1567373Z". */
+  start: string;
+  /** The date time offset of when the token validity expires. For example "2017-05-24T10:42:03.1567373Z" */
+  expiry: string;
+}
+
+/** A new Sas token which can be used to access the Maps REST APIs and is controlled by the specified Managed identity permissions on Azure (IAM) Role Based Access Control. */
+export interface MapsAccountSasToken {
+  /**
+   * The shared access signature access token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountSasToken?: string;
 }
 
 /** The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption. */
@@ -251,6 +339,10 @@ export interface MetricSpecification {
   category?: string;
   /** Account Resource Id. */
   resourceIdDimensionNameOverride?: string;
+  /** Source metrics account. */
+  sourceMdmAccount?: string;
+  /** Internal metric name. */
+  internalMetricName?: string;
 }
 
 /** Dimension of map account, for example API Category, Api Name, Result Type, and Response Code. */
@@ -326,6 +418,8 @@ export type MapsAccount = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** Sets the identity property for maps account. */
+  identity?: ManagedServiceIdentity;
   /** The map account properties. */
   properties?: MapsAccountProperties;
 };
@@ -334,6 +428,11 @@ export type MapsAccount = TrackedResource & {
 export type Creator = TrackedResource & {
   /** The Creator resource properties. */
   properties: CreatorProperties;
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 };
 
 /** Known values of {@link Name} that the service accepts. */
@@ -390,6 +489,22 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link SigningKey} that the service accepts. */
+export enum KnownSigningKey {
+  PrimaryKey = "primaryKey",
+  SecondaryKey = "secondaryKey"
+}
+
+/**
+ * Defines values for SigningKey. \
+ * {@link KnownSigningKey} can be used interchangeably with SigningKey,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **primaryKey** \
+ * **secondaryKey**
+ */
+export type SigningKey = string;
+
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
   Primary = "primary",
@@ -405,6 +520,12 @@ export enum KnownKeyType {
  * **secondary**
  */
 export type KeyType = string;
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /** Optional parameters. */
 export interface AccountsCreateOrUpdateOptionalParams
@@ -444,6 +565,13 @@ export interface AccountsListBySubscriptionOptionalParams
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = MapsAccounts;
+
+/** Optional parameters. */
+export interface AccountsListSasOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSas operation. */
+export type AccountsListSasResponse = MapsAccountSasToken;
 
 /** Optional parameters. */
 export interface AccountsListKeysOptionalParams
