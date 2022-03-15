@@ -116,7 +116,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01-preview";
+    this.apiVersion = options.apiVersion || "2022-03-01-preview";
     this.services = new ServicesImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
