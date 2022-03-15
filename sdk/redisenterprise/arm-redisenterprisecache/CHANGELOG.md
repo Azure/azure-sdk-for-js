@@ -1,5 +1,21 @@
 # Release History
     
+## 2.1.0 (2022-03-15)
+    
+**Features**
+
+  - Added operation Databases.beginForceUnlink
+  - Added operation Databases.beginForceUnlinkAndWait
+  - Added Interface DatabasePropertiesGeoReplication
+  - Added Interface DatabasesForceUnlinkOptionalParams
+  - Added Interface ForceUnlinkParameters
+  - Added Interface LinkedDatabase
+  - Added Type Alias LinkState
+  - Interface DatabaseUpdate has a new optional parameter geoReplication
+  - Type Alias Database has a new parameter geoReplication
+  - Added Enum KnownLinkState
+    
+    
 ## 2.0.0 (2022-01-20)
 
 The package of @azure/arm-redisenterprisecache is using our next generation design principles since version 2.0.0, which contains breaking changes.

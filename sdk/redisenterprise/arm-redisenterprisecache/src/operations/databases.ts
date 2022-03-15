@@ -36,6 +36,8 @@ import {
   DatabasesImportOptionalParams,
   ExportClusterParameters,
   DatabasesExportOptionalParams,
+  ForceUnlinkParameters,
+  DatabasesForceUnlinkOptionalParams,
   DatabasesListByClusterNextResponse
 } from "../models";
 
@@ -735,6 +737,97 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
+   * Forcibly removes the link to the specified database resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param parameters Information identifying the database to be unlinked.
+   * @param options The options parameters.
+   */
+  async beginForceUnlink(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    parameters: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, databaseName, parameters, options },
+      forceUnlinkOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+  }
+
+  /**
+   * Forcibly removes the link to the specified database resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param parameters Information identifying the database to be unlinked.
+   * @param options The options parameters.
+   */
+  async beginForceUnlinkAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    parameters: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginForceUnlink(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the RedisEnterprise cluster.
@@ -990,6 +1083,32 @@ const exportOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const forceUnlinkOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/forceUnlink",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

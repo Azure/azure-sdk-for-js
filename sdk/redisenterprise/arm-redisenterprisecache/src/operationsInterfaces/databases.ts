@@ -27,7 +27,9 @@ import {
   ImportClusterParameters,
   DatabasesImportOptionalParams,
   ExportClusterParameters,
-  DatabasesExportOptionalParams
+  DatabasesExportOptionalParams,
+  ForceUnlinkParameters,
+  DatabasesForceUnlinkOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -260,5 +262,35 @@ export interface Databases {
     databaseName: string,
     parameters: ExportClusterParameters,
     options?: DatabasesExportOptionalParams
+  ): Promise<void>;
+  /**
+   * Forcibly removes the link to the specified database resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param parameters Information identifying the database to be unlinked.
+   * @param options The options parameters.
+   */
+  beginForceUnlink(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    parameters: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Forcibly removes the link to the specified database resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param databaseName The name of the database.
+   * @param parameters Information identifying the database to be unlinked.
+   * @param options The options parameters.
+   */
+  beginForceUnlinkAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    parameters: ForceUnlinkParameters,
+    options?: DatabasesForceUnlinkOptionalParams
   ): Promise<void>;
 }

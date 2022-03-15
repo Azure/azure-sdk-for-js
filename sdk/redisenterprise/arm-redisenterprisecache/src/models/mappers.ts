@@ -543,6 +543,55 @@ export const Module: coreClient.CompositeMapper = {
   }
 };
 
+export const DatabasePropertiesGeoReplication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabasePropertiesGeoReplication",
+    modelProperties: {
+      groupNickname: {
+        serializedName: "groupNickname",
+        type: {
+          name: "String"
+        }
+      },
+      linkedDatabases: {
+        serializedName: "linkedDatabases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedDatabase"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LinkedDatabase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedDatabase",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -603,6 +652,13 @@ export const DatabaseUpdate: coreClient.CompositeMapper = {
               className: "Module"
             }
           }
+        }
+      },
+      geoReplication: {
+        serializedName: "properties.geoReplication",
+        type: {
+          name: "Composite",
+          className: "DatabasePropertiesGeoReplication"
         }
       }
     }
@@ -720,6 +776,27 @@ export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ForceUnlinkParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ForceUnlinkParameters",
+    modelProperties: {
+      ids: {
+        serializedName: "ids",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }
@@ -969,6 +1046,13 @@ export const Database: coreClient.CompositeMapper = {
               className: "Module"
             }
           }
+        }
+      },
+      geoReplication: {
+        serializedName: "properties.geoReplication",
+        type: {
+          name: "Composite",
+          className: "DatabasePropertiesGeoReplication"
         }
       }
     }

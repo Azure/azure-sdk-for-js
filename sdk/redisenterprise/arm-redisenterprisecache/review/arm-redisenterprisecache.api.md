@@ -70,12 +70,19 @@ export type Database = ProxyResource & {
     evictionPolicy?: EvictionPolicy;
     persistence?: Persistence;
     modules?: Module[];
+    geoReplication?: DatabasePropertiesGeoReplication;
 };
 
 // @public
 export interface DatabaseList {
     readonly nextLink?: string;
     value?: Database[];
+}
+
+// @public
+export interface DatabasePropertiesGeoReplication {
+    groupNickname?: string;
+    linkedDatabases?: LinkedDatabase[];
 }
 
 // @public
@@ -86,6 +93,8 @@ export interface Databases {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
     beginExport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginExportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams): Promise<void>;
+    beginForceUnlink(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginForceUnlinkAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams): Promise<void>;
     beginImport(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginImportAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams): Promise<void>;
     beginRegenerateKey(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<DatabasesRegenerateKeyResponse>, DatabasesRegenerateKeyResponse>>;
@@ -114,6 +123,12 @@ export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptio
 
 // @public
 export interface DatabasesExportOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabasesForceUnlinkOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -175,6 +190,7 @@ export interface DatabaseUpdate {
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
     evictionPolicy?: EvictionPolicy;
+    geoReplication?: DatabasePropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
@@ -208,6 +224,11 @@ export type EvictionPolicy = string;
 // @public
 export interface ExportClusterParameters {
     sasUri: string;
+}
+
+// @public
+export interface ForceUnlinkParameters {
+    ids: string[];
 }
 
 // @public
@@ -255,6 +276,20 @@ export enum KnownEvictionPolicy {
     VolatileRandom = "VolatileRandom",
     // (undocumented)
     VolatileTTL = "VolatileTTL"
+}
+
+// @public
+export enum KnownLinkState {
+    // (undocumented)
+    Linked = "Linked",
+    // (undocumented)
+    LinkFailed = "LinkFailed",
+    // (undocumented)
+    Linking = "Linking",
+    // (undocumented)
+    UnlinkFailed = "UnlinkFailed",
+    // (undocumented)
+    Unlinking = "Unlinking"
 }
 
 // @public
@@ -378,6 +413,15 @@ export enum KnownTlsVersion {
     // (undocumented)
     One2 = "1.2"
 }
+
+// @public
+export interface LinkedDatabase {
+    id?: string;
+    readonly state?: LinkState;
+}
+
+// @public
+export type LinkState = string;
 
 // @public
 export interface Module {

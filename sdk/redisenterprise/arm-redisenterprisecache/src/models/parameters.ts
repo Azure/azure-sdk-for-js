@@ -19,6 +19,7 @@ import {
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
   ImportClusterParameters as ImportClusterParametersMapper,
   ExportClusterParameters as ExportClusterParametersMapper,
+  ForceUnlinkParameters as ForceUnlinkParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
@@ -49,7 +50,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2022-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -188,6 +189,11 @@ export const parameters5: OperationParameter = {
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExportClusterParametersMapper
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ForceUnlinkParametersMapper
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
