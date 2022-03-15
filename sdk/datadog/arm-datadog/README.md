@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datadog/arm-datadog) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-datadog) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datadog) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datadog?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
