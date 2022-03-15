@@ -142,6 +142,301 @@ import {
 } from "./responses";
 import { Client } from "@azure-rest/core-client";
 
+/** Contains operations for Client operations */
+export interface ClientOperations {
+  /** Get latest usage stats */
+  getActiveSeriesCount(
+    options?: GetActiveSeriesCountParameters
+  ): Promise<
+    GetActiveSeriesCount200Response | GetActiveSeriesCountdefaultResponse
+  >;
+  /** Query a single anomaly alerting configuration */
+  getAnomalyAlertingConfiguration(
+    configurationId: string,
+    options?: GetAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | GetAnomalyAlertingConfiguration200Response
+    | GetAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Update anomaly alerting configuration */
+  updateAnomalyAlertingConfiguration(
+    configurationId: string,
+    options: UpdateAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | UpdateAnomalyAlertingConfiguration200Response
+    | UpdateAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Delete anomaly alerting configuration */
+  deleteAnomalyAlertingConfiguration(
+    configurationId: string,
+    options?: DeleteAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | DeleteAnomalyAlertingConfiguration204Response
+    | DeleteAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Create anomaly alerting configuration */
+  createAnomalyAlertingConfiguration(
+    options: CreateAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | CreateAnomalyAlertingConfiguration201Response
+    | CreateAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Query alerts under anomaly alerting configuration */
+  getAlertsByAnomalyAlertingConfiguration(
+    configurationId: string,
+    options: GetAlertsByAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | GetAlertsByAnomalyAlertingConfiguration200Response
+    | GetAlertsByAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Query anomalies under a specific alert */
+  getAnomaliesFromAlertByAnomalyAlertingConfiguration(
+    configurationId: string,
+    alertId: string,
+    options?: GetAnomaliesFromAlertByAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | GetAnomaliesFromAlertByAnomalyAlertingConfiguration200Response
+    | GetAnomaliesFromAlertByAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Query incidents under a specific alert */
+  getIncidentsFromAlertByAnomalyAlertingConfiguration(
+    configurationId: string,
+    alertId: string,
+    options?: GetIncidentsFromAlertByAnomalyAlertingConfigurationParameters
+  ): Promise<
+    | GetIncidentsFromAlertByAnomalyAlertingConfiguration200Response
+    | GetIncidentsFromAlertByAnomalyAlertingConfigurationdefaultResponse
+  >;
+  /** Query a single anomaly detection configuration */
+  getAnomalyDetectionConfiguration(
+    configurationId: string,
+    options?: GetAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetAnomalyDetectionConfiguration200Response
+    | GetAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Update anomaly detection configuration */
+  updateAnomalyDetectionConfiguration(
+    configurationId: string,
+    options: UpdateAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | UpdateAnomalyDetectionConfiguration200Response
+    | UpdateAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Delete anomaly detection configuration */
+  deleteAnomalyDetectionConfiguration(
+    configurationId: string,
+    options?: DeleteAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | DeleteAnomalyDetectionConfiguration204Response
+    | DeleteAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Create anomaly detection configuration */
+  createAnomalyDetectionConfiguration(
+    options: CreateAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | CreateAnomalyDetectionConfiguration201Response
+    | CreateAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** List all anomaly alerting configurations for specific anomaly detection configuration */
+  getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
+    configurationId: string,
+    options?: GetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration200Response
+    | GetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Query series enriched by anomaly detection */
+  getSeriesByAnomalyDetectionConfiguration(
+    configurationId: string,
+    options: GetSeriesByAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetSeriesByAnomalyDetectionConfiguration200Response
+    | GetSeriesByAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Query anomalies under anomaly detection configuration */
+  getAnomaliesByAnomalyDetectionConfiguration(
+    configurationId: string,
+    options: GetAnomaliesByAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetAnomaliesByAnomalyDetectionConfiguration200Response
+    | GetAnomaliesByAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Query dimension values of anomalies */
+  getDimensionOfAnomaliesByAnomalyDetectionConfiguration(
+    configurationId: string,
+    options: GetDimensionOfAnomaliesByAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetDimensionOfAnomaliesByAnomalyDetectionConfiguration200Response
+    | GetDimensionOfAnomaliesByAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Query incidents under anomaly detection configuration */
+  getIncidentsByAnomalyDetectionConfiguration(
+    configurationId: string,
+    options: GetIncidentsByAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetIncidentsByAnomalyDetectionConfiguration200Response
+    | GetIncidentsByAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Query incidents under anomaly detection configuration */
+  getIncidentsByAnomalyDetectionConfigurationNextPages(
+    configurationId: string,
+    options?: GetIncidentsByAnomalyDetectionConfigurationNextPagesParameters
+  ): Promise<
+    | GetIncidentsByAnomalyDetectionConfigurationNextPages200Response
+    | GetIncidentsByAnomalyDetectionConfigurationNextPagesdefaultResponse
+  >;
+  /** Query root cause for incident */
+  getRootCauseOfIncidentByAnomalyDetectionConfiguration(
+    configurationId: string,
+    incidentId: string,
+    options?: GetRootCauseOfIncidentByAnomalyDetectionConfigurationParameters
+  ): Promise<
+    | GetRootCauseOfIncidentByAnomalyDetectionConfiguration200Response
+    | GetRootCauseOfIncidentByAnomalyDetectionConfigurationdefaultResponse
+  >;
+  /** Create a new data source credential */
+  createCredential(
+    options: CreateCredentialParameters
+  ): Promise<CreateCredential201Response | CreateCredentialdefaultResponse>;
+  /** List all credentials */
+  listCredentials(
+    options?: ListCredentialsParameters
+  ): Promise<ListCredentials200Response | ListCredentialsdefaultResponse>;
+  /** Update a data source credential */
+  updateCredential(
+    credentialId: string,
+    options: UpdateCredentialParameters
+  ): Promise<UpdateCredential200Response | UpdateCredentialdefaultResponse>;
+  /** Delete a data source credential */
+  deleteCredential(
+    credentialId: string,
+    options?: DeleteCredentialParameters
+  ): Promise<DeleteCredential204Response | DeleteCredentialdefaultResponse>;
+  /** Get a data source credential */
+  getCredential(
+    credentialId: string,
+    options?: GetCredentialParameters
+  ): Promise<GetCredential200Response | GetCredentialdefaultResponse>;
+  /** List all data feeds */
+  listDataFeeds(
+    options?: ListDataFeedsParameters
+  ): Promise<ListDataFeeds200Response | ListDataFeedsdefaultResponse>;
+  /** Create a new data feed */
+  createDataFeed(
+    options: CreateDataFeedParameters
+  ): Promise<CreateDataFeed201Response | CreateDataFeeddefaultResponse>;
+  /** Get a data feed by its id */
+  getDataFeedById(
+    dataFeedId: string,
+    options?: GetDataFeedByIdParameters
+  ): Promise<GetDataFeedById200Response | GetDataFeedByIddefaultResponse>;
+  /** Update a data feed */
+  updateDataFeed(
+    dataFeedId: string,
+    options: UpdateDataFeedParameters
+  ): Promise<UpdateDataFeed200Response | UpdateDataFeeddefaultResponse>;
+  /** Delete a data feed */
+  deleteDataFeed(
+    dataFeedId: string,
+    options?: DeleteDataFeedParameters
+  ): Promise<DeleteDataFeed204Response | DeleteDataFeeddefaultResponse>;
+  /** Get a metric feedback by its id */
+  getMetricFeedback(
+    feedbackId: string,
+    options?: GetMetricFeedbackParameters
+  ): Promise<GetMetricFeedback200Response | GetMetricFeedbackdefaultResponse>;
+  /** List feedback on the given metric */
+  listMetricFeedbacks(
+    options: ListMetricFeedbacksParameters
+  ): Promise<
+    ListMetricFeedbacks200Response | ListMetricFeedbacksdefaultResponse
+  >;
+  /** Create a new metric feedback */
+  createMetricFeedback(
+    options: CreateMetricFeedbackParameters
+  ): Promise<
+    CreateMetricFeedback201Response | CreateMetricFeedbackdefaultResponse
+  >;
+  /** List all hooks */
+  listHooks(
+    options?: ListHooksParameters
+  ): Promise<ListHooks200Response | ListHooksdefaultResponse>;
+  /** Create a new hook */
+  createHook(
+    options: CreateHookParameters
+  ): Promise<CreateHook201Response | CreateHookdefaultResponse>;
+  /** Get a hook by its id */
+  getHook(
+    hookId: string,
+    options?: GetHookParameters
+  ): Promise<GetHook200Response | GetHookdefaultResponse>;
+  /** Update a hook */
+  updateHook(
+    hookId: string,
+    options: UpdateHookParameters
+  ): Promise<UpdateHook200Response | UpdateHookdefaultResponse>;
+  /** Delete a hook */
+  deleteHook(
+    hookId: string,
+    options?: DeleteHookParameters
+  ): Promise<DeleteHook204Response | DeleteHookdefaultResponse>;
+  /** Get data ingestion status by data feed */
+  getDataFeedIngestionStatus(
+    dataFeedId: string,
+    options: GetDataFeedIngestionStatusParameters
+  ): Promise<
+    | GetDataFeedIngestionStatus200Response
+    | GetDataFeedIngestionStatusdefaultResponse
+  >;
+  /** Reset data ingestion status by data feed to backfill data */
+  resetDataFeedIngestionStatus(
+    dataFeedId: string,
+    options: ResetDataFeedIngestionStatusParameters
+  ): Promise<
+    | ResetDataFeedIngestionStatus204Response
+    | ResetDataFeedIngestionStatusdefaultResponse
+  >;
+  /** Get data last success ingestion job timestamp by data feed */
+  getIngestionProgress(
+    dataFeedId: string,
+    options?: GetIngestionProgressParameters
+  ): Promise<
+    GetIngestionProgress200Response | GetIngestionProgressdefaultResponse
+  >;
+  /** Get time series data from metric */
+  getMetricData(
+    metricId: string,
+    options: GetMetricDataParameters
+  ): Promise<GetMetricData200Response | GetMetricDatadefaultResponse>;
+  /** List series (dimension combinations) from metric */
+  getMetricSeries(
+    metricId: string,
+    options: GetMetricSeriesParameters
+  ): Promise<GetMetricSeries200Response | GetMetricSeriesdefaultResponse>;
+  /** List dimension from certain metric */
+  getMetricDimension(
+    metricId: string,
+    options: GetMetricDimensionParameters
+  ): Promise<GetMetricDimension200Response | GetMetricDimensiondefaultResponse>;
+  /** List all anomaly detection configurations for specific metric */
+  getAnomalyDetectionConfigurationsByMetric(
+    metricId: string,
+    options?: GetAnomalyDetectionConfigurationsByMetricParameters
+  ): Promise<
+    | GetAnomalyDetectionConfigurationsByMetric200Response
+    | GetAnomalyDetectionConfigurationsByMetricdefaultResponse
+  >;
+  /** Query anomaly detection status */
+  getEnrichmentStatusByMetric(
+    metricId: string,
+    options: GetEnrichmentStatusByMetricParameters
+  ): Promise<
+    | GetEnrichmentStatusByMetric200Response
+    | GetEnrichmentStatusByMetricdefaultResponse
+  >;
+}
+
 export interface GetActiveSeriesCount {
   /** Get latest usage stats */
   get(
@@ -615,4 +910,4 @@ export interface Routes {
 
 export type MetricsAdvisorRestClientLike = Client & {
   path: Routes;
-};
+} & ClientOperations;

@@ -14,75 +14,11 @@ export const X_API_KEY_HEADER_NAME = "x-api-key";
 /**
  * Interface parameters for updateKey function
  */
-export interface MetricsAdvisorKeys extends KeyCredential {
+export interface MetricsAdvisorKeyCredential extends KeyCredential {
   /** API key from the Metrics Advisor web portal */
-  // key?: string;
+  // key?: string; // extended from KeyCredential
   /** Subscription access key from the Azure portal */
   subscriptionKey?: string;
-}
-
-/**
- * Credential used to authenticate and authorize with Metrics Advisor service
- */
-export class MetricsAdvisorKeyCredential implements MetricsAdvisorKeys {
-  /**
-   * Subscription access key from the Azure portal
-   */
-  private _subscriptionKey: string;
-
-  /**
-   * API key from the Metrics Advisor web portal
-   */
-  private _apiKey: string;
-
-  /**
-   * Creates an instance of MetricsAdvisorKeyCredential
-   *
-   * @param subscriptionKey - Subscription access key from the Azure portal
-   * @param apiKey - API key from the Metrics Advisor web portal
-   */
-  constructor(subscriptionKey: string, apiKey: string) {
-    if (!subscriptionKey || !apiKey) {
-      throw new RangeError("Subscription Key or Api Key doesn't have a valid value");
-    }
-    this._subscriptionKey = subscriptionKey;
-    this._apiKey = apiKey;
-  }
-
-  /**
-   * Get Api Key
-   */
-  public get key(): string {
-    return this._apiKey;
-  }
-
-  /**
-   * Get Subscription key
-   */
-  public get subscriptionKey(): string {
-    return this._subscriptionKey;
-  }
-
-  /**
-   * Change the value of the subscription and/or api keys.
-   *
-   * Updates will take effect upon the next request after
-   * updating the key value.
-   *
-   * @param subscriptionKey - The new subscription key value to be used
-   * @param apiKey - The new api key value to be used
-   */
-  public updateKey(metricAdvisorKeys: MetricsAdvisorKeys): void {
-    if (!metricAdvisorKeys.subscriptionKey && !metricAdvisorKeys.key) {
-      throw new Error("At least one of the subscriptionKey and apiKey must be a non-empty string");
-    }
-    if (metricAdvisorKeys.subscriptionKey) {
-      this._subscriptionKey = metricAdvisorKeys.subscriptionKey;
-    }
-    if (metricAdvisorKeys.key) {
-      this._apiKey = metricAdvisorKeys.key;
-    }
-  }
 }
 
 /**

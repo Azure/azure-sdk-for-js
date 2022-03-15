@@ -5,7 +5,7 @@
 
 import "./env";
 
-import MetricsAdvisorRestClient, { MetricsAdvisorRestClientLike } from "../../../src";
+import MetricsAdvisorRestClient, { MetricsAdvisorRestClientLike } from "../../../src/generated";
 import {
   Recorder,
   RecorderEnvironmentSetup,
@@ -107,9 +107,8 @@ export function makeCredential(useAad: boolean): TokenCredential | MetricsAdviso
       {
         httpClient,
       }
-    )
-    : new MetricsAdvisorKeyCredential(
-      env.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-      env.METRICS_ADVISOR_API_KEY
-    );
+    ) : {
+      key: env.METRICS_ADVISOR_API_KEY,
+      subscriptionKey: env.METRICS_ADVISOR_SUBSCRIPTION_KEY
+    } as MetricsAdvisorKeyCredential
 }

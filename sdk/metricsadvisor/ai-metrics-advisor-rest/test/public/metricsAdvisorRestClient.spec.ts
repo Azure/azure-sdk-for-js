@@ -9,7 +9,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./util/recordedClient";
-import { MetricsAdvisorRestClientLike } from "../../src";
+import { MetricsAdvisorRestClientLike } from "../../src/generated";
 
 
 describe("MetricsAdvisorRestClient", () => {
@@ -26,14 +26,14 @@ describe("MetricsAdvisorRestClient", () => {
 
   it("should get latest status by AAD auth", async function () {
     client = createClient(true);
-    const res = await client.path("/stats/latest").get();
+    const res = await client.getActiveSeriesCount();
     // console.log(res);
     assert.equal("200", res.status);
   });
 
   it("should get latest status by Api Key auth", async function () {
     client = createClient(false);
-    const res = await client.path("/stats/latest").get();
+    const res = await client.getActiveSeriesCount();
     // console.log(res);
     assert.equal("200", res.status);
   });
