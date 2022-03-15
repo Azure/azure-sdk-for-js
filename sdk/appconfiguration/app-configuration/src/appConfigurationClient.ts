@@ -57,8 +57,6 @@ import {
 import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**
- * This constant should always be the same as the package.json's version - we use it when forming the
- * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
 export const packageVersion = "1.4.0";
