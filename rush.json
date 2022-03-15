@@ -612,6 +612,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/maps-common",
+      "projectFolder": "sdk/maps/maps-common",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/maps-search",
       "projectFolder": "sdk/maps/maps-search",
       "versionPolicyName": "client"
