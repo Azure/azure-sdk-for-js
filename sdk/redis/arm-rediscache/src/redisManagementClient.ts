@@ -15,7 +15,8 @@ import {
   PatchSchedulesImpl,
   LinkedServerImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  AsyncOperationStatusImpl
 } from "./operations";
 import {
   Operations,
@@ -24,7 +25,8 @@ import {
   PatchSchedules,
   LinkedServer,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  AsyncOperationStatus
 } from "./operationsInterfaces";
 import { RedisManagementClientOptionalParams } from "./models";
 
@@ -61,7 +63,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-rediscache/6.0.0`;
+    const packageDetails = `azsdk-js-arm-rediscache/6.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,7 +86,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-12-01";
+    this.apiVersion = options.apiVersion || "2021-06-01";
     this.operations = new OperationsImpl(this);
     this.redis = new RedisImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
@@ -92,6 +94,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
     this.linkedServer = new LinkedServerImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.asyncOperationStatus = new AsyncOperationStatusImpl(this);
   }
 
   operations: Operations;
@@ -101,4 +104,5 @@ export class RedisManagementClient extends coreClient.ServiceClient {
   linkedServer: LinkedServer;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  asyncOperationStatus: AsyncOperationStatus;
 }

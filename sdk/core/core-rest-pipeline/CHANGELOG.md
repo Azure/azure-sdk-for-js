@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Supports the `"retry-after-ms"` and `"x-ms-retry-after-ms"` headers along with the `"Retry-After"` header from throttling retry responses from the services. [#20817](https://github.com/Azure/azure-sdk-for-js/issues/20817)
+
 ### Breaking Changes
 
 ### Bugs Fixed
