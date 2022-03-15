@@ -14,6 +14,7 @@ import * as Parameters from "../models/parameters";
 import { PolicyInsightsClient } from "../policyInsightsClient";
 import {
   PolicyEvent,
+  PolicyEventsResourceType,
   PolicyEventsListQueryResultsForManagementGroupNextOptionalParams,
   PolicyEventsListQueryResultsForManagementGroupOptionalParams,
   PolicyEventsListQueryResultsForSubscriptionNextOptionalParams,
@@ -63,14 +64,18 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the resources under the management group.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param managementGroupName Management group name.
    * @param options The options parameters.
    */
   public listQueryResultsForManagementGroup(
+    policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForManagementGroupPagingAll(
+      policyEventsResource,
       managementGroupName,
       options
     );
@@ -83,6 +88,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForManagementGroupPagingPage(
+          policyEventsResource,
           managementGroupName,
           options
         );
@@ -91,10 +97,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForManagementGroupPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForManagementGroup(
+      policyEventsResource,
       managementGroupName,
       options
     );
@@ -102,6 +110,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForManagementGroupNext(
+        policyEventsResource,
         managementGroupName,
         continuationToken,
         options
@@ -112,10 +121,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForManagementGroupPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForManagementGroupPagingPage(
+      policyEventsResource,
       managementGroupName,
       options
     )) {
@@ -125,14 +136,18 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the resources under the subscription.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param options The options parameters.
    */
   public listQueryResultsForSubscription(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForSubscriptionPagingAll(
+      policyEventsResource,
       subscriptionId,
       options
     );
@@ -145,6 +160,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForSubscriptionPagingPage(
+          policyEventsResource,
           subscriptionId,
           options
         );
@@ -153,10 +169,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForSubscriptionPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForSubscription(
+      policyEventsResource,
       subscriptionId,
       options
     );
@@ -164,6 +182,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionNext(
+        policyEventsResource,
         subscriptionId,
         continuationToken,
         options
@@ -174,10 +193,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForSubscriptionPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForSubscriptionPagingPage(
+      policyEventsResource,
       subscriptionId,
       options
     )) {
@@ -187,16 +208,20 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the resources under the resource group.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param options The options parameters.
    */
   public listQueryResultsForResourceGroup(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForResourceGroupPagingAll(
+      policyEventsResource,
       subscriptionId,
       resourceGroupName,
       options
@@ -210,6 +235,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForResourceGroupPagingPage(
+          policyEventsResource,
           subscriptionId,
           resourceGroupName,
           options
@@ -219,11 +245,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForResourceGroupPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForResourceGroup(
+      policyEventsResource,
       subscriptionId,
       resourceGroupName,
       options
@@ -232,6 +260,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupNext(
+        policyEventsResource,
         subscriptionId,
         resourceGroupName,
         continuationToken,
@@ -243,11 +272,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForResourceGroupPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForResourceGroupPagingPage(
+      policyEventsResource,
       subscriptionId,
       resourceGroupName,
       options
@@ -258,14 +289,21 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the resource.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param resourceId Resource ID.
    * @param options The options parameters.
    */
   public listQueryResultsForResource(
+    policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     options?: PolicyEventsListQueryResultsForResourceOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
-    const iter = this.listQueryResultsForResourcePagingAll(resourceId, options);
+    const iter = this.listQueryResultsForResourcePagingAll(
+      policyEventsResource,
+      resourceId,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -274,20 +312,30 @@ export class PolicyEventsImpl implements PolicyEvents {
         return this;
       },
       byPage: () => {
-        return this.listQueryResultsForResourcePagingPage(resourceId, options);
+        return this.listQueryResultsForResourcePagingPage(
+          policyEventsResource,
+          resourceId,
+          options
+        );
       }
     };
   }
 
   private async *listQueryResultsForResourcePagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     options?: PolicyEventsListQueryResultsForResourceOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
-    let result = await this._listQueryResultsForResource(resourceId, options);
+    let result = await this._listQueryResultsForResource(
+      policyEventsResource,
+      resourceId,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForResourceNext(
+        policyEventsResource,
         resourceId,
         continuationToken,
         options
@@ -298,10 +346,12 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForResourcePagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     options?: PolicyEventsListQueryResultsForResourceOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForResourcePagingPage(
+      policyEventsResource,
       resourceId,
       options
     )) {
@@ -311,16 +361,20 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the subscription level policy set definition.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param options The options parameters.
    */
   public listQueryResultsForPolicySetDefinition(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForPolicySetDefinitionPagingAll(
+      policyEventsResource,
       subscriptionId,
       policySetDefinitionName,
       options
@@ -334,6 +388,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForPolicySetDefinitionPagingPage(
+          policyEventsResource,
           subscriptionId,
           policySetDefinitionName,
           options
@@ -343,11 +398,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForPolicySetDefinitionPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForPolicySetDefinition(
+      policyEventsResource,
       subscriptionId,
       policySetDefinitionName,
       options
@@ -356,6 +413,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForPolicySetDefinitionNext(
+        policyEventsResource,
         subscriptionId,
         policySetDefinitionName,
         continuationToken,
@@ -367,11 +425,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForPolicySetDefinitionPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForPolicySetDefinitionPagingPage(
+      policyEventsResource,
       subscriptionId,
       policySetDefinitionName,
       options
@@ -382,16 +442,20 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the subscription level policy definition.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param options The options parameters.
    */
   public listQueryResultsForPolicyDefinition(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForPolicyDefinitionPagingAll(
+      policyEventsResource,
       subscriptionId,
       policyDefinitionName,
       options
@@ -405,6 +469,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForPolicyDefinitionPagingPage(
+          policyEventsResource,
           subscriptionId,
           policyDefinitionName,
           options
@@ -414,11 +479,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForPolicyDefinitionPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForPolicyDefinition(
+      policyEventsResource,
       subscriptionId,
       policyDefinitionName,
       options
@@ -427,6 +494,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForPolicyDefinitionNext(
+        policyEventsResource,
         subscriptionId,
         policyDefinitionName,
         continuationToken,
@@ -438,11 +506,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForPolicyDefinitionPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForPolicyDefinitionPagingPage(
+      policyEventsResource,
       subscriptionId,
       policyDefinitionName,
       options
@@ -453,16 +523,20 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the subscription level policy assignment.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   public listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingAll(
+      policyEventsResource,
       subscriptionId,
       policyAssignmentName,
       options
@@ -476,6 +550,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
+          policyEventsResource,
           subscriptionId,
           policyAssignmentName,
           options
@@ -485,11 +560,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForSubscriptionLevelPolicyAssignment(
+      policyEventsResource,
       subscriptionId,
       policyAssignmentName,
       options
@@ -498,6 +575,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
+        policyEventsResource,
         subscriptionId,
         policyAssignmentName,
         continuationToken,
@@ -509,11 +587,13 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForSubscriptionLevelPolicyAssignmentPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForSubscriptionLevelPolicyAssignmentPagingPage(
+      policyEventsResource,
       subscriptionId,
       policyAssignmentName,
       options
@@ -524,18 +604,22 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the resource group level policy assignment.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   public listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent> {
     const iter = this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingAll(
+      policyEventsResource,
       subscriptionId,
       resourceGroupName,
       policyAssignmentName,
@@ -550,6 +634,7 @@ export class PolicyEventsImpl implements PolicyEvents {
       },
       byPage: () => {
         return this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
+          policyEventsResource,
           subscriptionId,
           resourceGroupName,
           policyAssignmentName,
@@ -560,12 +645,14 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
   ): AsyncIterableIterator<PolicyEvent[]> {
     let result = await this._listQueryResultsForResourceGroupLevelPolicyAssignment(
+      policyEventsResource,
       subscriptionId,
       resourceGroupName,
       policyAssignmentName,
@@ -575,6 +662,7 @@ export class PolicyEventsImpl implements PolicyEvents {
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
       result = await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
+        policyEventsResource,
         subscriptionId,
         resourceGroupName,
         policyAssignmentName,
@@ -587,12 +675,14 @@ export class PolicyEventsImpl implements PolicyEvents {
   }
 
   private async *listQueryResultsForResourceGroupLevelPolicyAssignmentPagingAll(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
   ): AsyncIterableIterator<PolicyEvent> {
     for await (const page of this.listQueryResultsForResourceGroupLevelPolicyAssignmentPagingPage(
+      policyEventsResource,
       subscriptionId,
       resourceGroupName,
       policyAssignmentName,
@@ -604,107 +694,133 @@ export class PolicyEventsImpl implements PolicyEvents {
 
   /**
    * Queries policy events for the resources under the management group.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param managementGroupName Management group name.
    * @param options The options parameters.
    */
   private _listQueryResultsForManagementGroup(
+    policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
   ): Promise<PolicyEventsListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
-      { managementGroupName, options },
+      { policyEventsResource, managementGroupName, options },
       listQueryResultsForManagementGroupOperationSpec
     );
   }
 
   /**
    * Queries policy events for the resources under the subscription.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param options The options parameters.
    */
   private _listQueryResultsForSubscription(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
   ): Promise<PolicyEventsListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, options },
+      { policyEventsResource, subscriptionId, options },
       listQueryResultsForSubscriptionOperationSpec
     );
   }
 
   /**
    * Queries policy events for the resources under the resource group.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceGroup(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
   ): Promise<PolicyEventsListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, options },
+      { policyEventsResource, subscriptionId, resourceGroupName, options },
       listQueryResultsForResourceGroupOperationSpec
     );
   }
 
   /**
    * Queries policy events for the resource.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param resourceId Resource ID.
    * @param options The options parameters.
    */
   private _listQueryResultsForResource(
+    policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     options?: PolicyEventsListQueryResultsForResourceOptionalParams
   ): Promise<PolicyEventsListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
-      { resourceId, options },
+      { policyEventsResource, resourceId, options },
       listQueryResultsForResourceOperationSpec
     );
   }
 
   /**
    * Queries policy events for the subscription level policy set definition.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param options The options parameters.
    */
   private _listQueryResultsForPolicySetDefinition(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
   ): Promise<PolicyEventsListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, policySetDefinitionName, options },
+      {
+        policyEventsResource,
+        subscriptionId,
+        policySetDefinitionName,
+        options
+      },
       listQueryResultsForPolicySetDefinitionOperationSpec
     );
   }
 
   /**
    * Queries policy events for the subscription level policy definition.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param options The options parameters.
    */
   private _listQueryResultsForPolicyDefinition(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
   ): Promise<PolicyEventsListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, policyDefinitionName, options },
+      { policyEventsResource, subscriptionId, policyDefinitionName, options },
       listQueryResultsForPolicyDefinitionOperationSpec
     );
   }
 
   /**
    * Queries policy events for the subscription level policy assignment.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   private _listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
@@ -712,19 +828,22 @@ export class PolicyEventsImpl implements PolicyEvents {
     PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
   > {
     return this.client.sendOperationRequest(
-      { subscriptionId, policyAssignmentName, options },
+      { policyEventsResource, subscriptionId, policyAssignmentName, options },
       listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec
     );
   }
 
   /**
    * Queries policy events for the resource group level policy assignment.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
@@ -733,49 +852,63 @@ export class PolicyEventsImpl implements PolicyEvents {
     PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
   > {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, policyAssignmentName, options },
+      {
+        policyEventsResource,
+        subscriptionId,
+        resourceGroupName,
+        policyAssignmentName,
+        options
+      },
       listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForManagementGroupNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param managementGroupName Management group name.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListQueryResultsForManagementGroup method.
    * @param options The options parameters.
    */
   private _listQueryResultsForManagementGroupNext(
+    policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     nextLink: string,
     options?: PolicyEventsListQueryResultsForManagementGroupNextOptionalParams
   ): Promise<PolicyEventsListQueryResultsForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { managementGroupName, nextLink, options },
+      { policyEventsResource, managementGroupName, nextLink, options },
       listQueryResultsForManagementGroupNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForSubscriptionNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListQueryResultsForSubscription method.
    * @param options The options parameters.
    */
   private _listQueryResultsForSubscriptionNext(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     nextLink: string,
     options?: PolicyEventsListQueryResultsForSubscriptionNextOptionalParams
   ): Promise<PolicyEventsListQueryResultsForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, nextLink, options },
+      { policyEventsResource, subscriptionId, nextLink, options },
       listQueryResultsForSubscriptionNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForResourceGroupNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -783,37 +916,49 @@ export class PolicyEventsImpl implements PolicyEvents {
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceGroupNext(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     nextLink: string,
     options?: PolicyEventsListQueryResultsForResourceGroupNextOptionalParams
   ): Promise<PolicyEventsListQueryResultsForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, nextLink, options },
+      {
+        policyEventsResource,
+        subscriptionId,
+        resourceGroupName,
+        nextLink,
+        options
+      },
       listQueryResultsForResourceGroupNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForResourceNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param resourceId Resource ID.
    * @param nextLink The nextLink from the previous successful call to the ListQueryResultsForResource
    *                 method.
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceNext(
+    policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     nextLink: string,
     options?: PolicyEventsListQueryResultsForResourceNextOptionalParams
   ): Promise<PolicyEventsListQueryResultsForResourceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceId, nextLink, options },
+      { policyEventsResource, resourceId, nextLink, options },
       listQueryResultsForResourceNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForPolicySetDefinitionNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -821,19 +966,28 @@ export class PolicyEventsImpl implements PolicyEvents {
    * @param options The options parameters.
    */
   private _listQueryResultsForPolicySetDefinitionNext(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     nextLink: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams
   ): Promise<PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, policySetDefinitionName, nextLink, options },
+      {
+        policyEventsResource,
+        subscriptionId,
+        policySetDefinitionName,
+        nextLink,
+        options
+      },
       listQueryResultsForPolicySetDefinitionNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForPolicyDefinitionNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -841,19 +995,28 @@ export class PolicyEventsImpl implements PolicyEvents {
    * @param options The options parameters.
    */
   private _listQueryResultsForPolicyDefinitionNext(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     nextLink: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams
   ): Promise<PolicyEventsListQueryResultsForPolicyDefinitionNextResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, policyDefinitionName, nextLink, options },
+      {
+        policyEventsResource,
+        subscriptionId,
+        policyDefinitionName,
+        nextLink,
+        options
+      },
       listQueryResultsForPolicyDefinitionNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForSubscriptionLevelPolicyAssignmentNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -861,6 +1024,7 @@ export class PolicyEventsImpl implements PolicyEvents {
    * @param options The options parameters.
    */
   private _listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     nextLink: string,
@@ -869,13 +1033,21 @@ export class PolicyEventsImpl implements PolicyEvents {
     PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse
   > {
     return this.client.sendOperationRequest(
-      { subscriptionId, policyAssignmentName, nextLink, options },
+      {
+        policyEventsResource,
+        subscriptionId,
+        policyAssignmentName,
+        nextLink,
+        options
+      },
       listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec
     );
   }
 
   /**
    * ListQueryResultsForResourceGroupLevelPolicyAssignmentNext
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
@@ -884,6 +1056,7 @@ export class PolicyEventsImpl implements PolicyEvents {
    * @param options The options parameters.
    */
   private _listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
@@ -894,6 +1067,7 @@ export class PolicyEventsImpl implements PolicyEvents {
   > {
     return this.client.sendOperationRequest(
       {
+        policyEventsResource,
         subscriptionId,
         resourceGroupName,
         policyAssignmentName,
