@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "61d541665c20a60987b081ad6e799cb6";
+module.exports.hash = "7fa36a450749a307bd8381fef58a4e03";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,15 +23,15 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 89245769AB7A481196C1D93329A0ACAD Ref B: TPE30EDGE0408 Ref C: 2022-03-10T06:34:00Z',
+  'Ref A: 5CB61E8FC09544479B5A0281C4179AFF Ref B: TPE30EDGE0620 Ref C: 2022-03-15T05:29:28Z',
   'Date',
-  'Thu, 10 Mar 2022 06:34:00 GMT'
+  'Tue, 15 Mar 2022 05:29:28 GMT'
 ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/search/address/reverse/batch/<batch-id>')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":5,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"16000","streetNumber":"16000","routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","streetNameAndNumber":"16000 Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98008","country":"United States","countryCodeISO3":"USA","freeformAddress":"16000 Northeast 31st Street, Bellevue, WA 98008","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Bellevue"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"summary":{"queryTime":5,"numResults":1},"addresses":[{"address":{"buildingNumber":"5","streetNumber":"5","routeNumbers":[],"street":"Esplanade des Ouvriers de la Tour Eiffel","streetName":"Esplanade des Ouvriers de la Tour Eiffel","streetNameAndNumber":"5 Esplanade des Ouvriers de la Tour Eiffel","countryCode":"FR","countrySubdivision":"Île-de-France","countrySecondarySubdivision":"Paris","municipality":"Paris","postalCode":"75007","municipalitySubdivision":"7ème Arrondissement","country":"France","countryCodeISO3":"FRA","freeformAddress":"5 Esplanade des Ouvriers de la Tour Eiffel, 75007 Paris","boundingBox":{"northEast":"48.858576,2.295027","southWest":"48.858321,2.294559","entity":"position"},"localName":"Paris"},"position":"48.858582,2.294525"}]}},{"statusCode":200,"response":{"summary":{"queryTime":4,"numResults":1},"addresses":[{"address":{"buildingNumber":"16000","streetNumber":"16000","routeNumbers":[],"street":"Northeast 31st Street","streetName":"Northeast 31st Street","streetNameAndNumber":"16000 Northeast 31st Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Redmond","postalCode":"98008","country":"United States","countryCodeISO3":"USA","freeformAddress":"16000 Northeast 31st Street, Bellevue, WA 98008","boundingBox":{"northEast":"47.638988,-122.126617","southWest":"47.638122,-122.127537","entity":"position"},"countrySubdivisionName":"Washington","localName":"Bellevue"},"position":"47.638988,-122.127541"}]}},{"statusCode":200,"response":{"summary":{"queryTime":7,"numResults":1},"addresses":[{"address":{"buildingNumber":"410","streetNumber":"410","routeNumbers":[],"street":"Thomas Street","streetName":"Thomas Street","streetNameAndNumber":"410 Thomas Street","countryCode":"US","countrySubdivision":"WA","countrySecondarySubdivision":"King","municipality":"Seattle","postalCode":"98109","municipalitySubdivision":"Queen Anne","country":"United States","countryCodeISO3":"USA","freeformAddress":"410 Thomas Street, Seattle, WA 98109","boundingBox":{"northEast":"47.620954,-122.347601","southWest":"47.620944,-122.348498","entity":"position"},"countrySubdivisionName":"Washington","localName":"Seattle"},"position":"47.620945,-122.348175"}]}}],"summary":{"successfulRequests":3,"totalRequests":3}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -45,7 +45,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: EAF9AFC980CA46CFB6BE5DF0DD602DC4 Ref B: TPE30EDGE0408 Ref C: 2022-03-10T06:34:00Z',
+  'Ref A: 15F6F379A76E4171B3652FA5028AA65E Ref B: TPE30EDGE0620 Ref C: 2022-03-15T05:29:28Z',
   'Date',
-  'Thu, 10 Mar 2022 06:34:00 GMT'
+  'Tue, 15 Mar 2022 05:29:28 GMT'
 ]);

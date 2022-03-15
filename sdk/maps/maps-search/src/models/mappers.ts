@@ -27,7 +27,7 @@ import {
   SearchAddressResult as SearchAddressResultInternal,
   SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams,
 } from "../generated/models";
-import { BoundingBox, LatLon } from "./models";
+import { BoundingBox, LatLon } from "@azure/maps-common";
 import {
   FuzzySearchOptions,
   FuzzySearchRequest,

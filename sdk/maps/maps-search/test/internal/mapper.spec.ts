@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLon } from "../../src/models/models";
+import { BoundingBox, LatLon } from "@azure/maps-common";
 import { assert } from "chai";
 import {
   createFuzzySearchBatchRequest,

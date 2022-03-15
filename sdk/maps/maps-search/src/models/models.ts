@@ -6,8 +6,8 @@ import {
   GeoJsonFeatureCollection,
   GeoJsonGeometryCollection,
   GeoJsonPoint,
-  GeoJsonPolygon
-} from "./geojsons";
+  GeoJsonPolygon,
+} from "@azure/maps-common";
 
 export {
   SearchIndexes,
@@ -41,26 +41,8 @@ export {
   OperatingHoursTimeRange,
   OperatingHoursTime,
   PointOfInterestCategoryTreeResult,
-  PointOfInterestCategory
+  PointOfInterestCategory,
 } from "../generated/models";
-
-/**
- * Bounding Box
- */
-export interface BoundingBox {
-  /** Top left corner of the bounding box */
-  topLeft: LatLon;
-  /** Bottom right corner of the bounding box */
-  bottomRight: LatLon;
-}
-
-/**
- * Latitude/Longitude Pair
- */
-export interface LatLon {
-  latitude: number;
-  longitude: number;
-}
 
 /**
  * Structured address

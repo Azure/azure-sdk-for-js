@@ -6,8 +6,13 @@ import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
-import { mapsAzureKeyCredentialPolicy } from "./credential/mapsAzureKeyCredentialPolicy";
-import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
+import {
+  createMapsAzureKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+  LatLon,
+  BatchPoller,
+  BatchPollerProxy,
+} from "@azure/maps-common";
 import { GeneratedClient, RouteDirectionsBatchResult, RouteMatrixResult } from "./generated";
 import {
   RouteDirectionsOptions,
@@ -23,7 +28,7 @@ import {
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { LatLon, RouteDirectionParameters } from "./models/models";
+import { RouteDirectionParameters } from "./models/models";
 import {
   createRouteDirectionsBatchRequest,
   mapRouteDirections,
@@ -34,7 +39,6 @@ import {
 } from "./models/mappers";
 import { BatchResult, RouteDirections, RouteRangeResult } from "./models/results";
 import { OperationOptions } from "@azure/core-client";
-import { BatchPoller, BatchPollerProxy } from "./models/pollers";
 
 const isMapsRouteClientOptions = (
   clientIdOrOptions: any
@@ -113,9 +117,9 @@ export class MapsRouteClient {
           scopes: "https://atlas.microsoft.com/.default",
         })
       );
-      this.client.pipeline.addPolicy(mapsClientIdPolicy(clientId));
+      this.client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     } else {
-      this.client.pipeline.addPolicy(mapsAzureKeyCredentialPolicy(credential));
+      this.client.pipeline.addPolicy(createMapsAzureKeyCredentialPolicy(credential));
     }
   }
 

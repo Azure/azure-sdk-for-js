@@ -7,6 +7,15 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import {
+  createMapsAzureKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+  LatLon,
+  GeoJsonFeatureCollection,
+  GeoJsonLineString,
+  BatchPoller,
+  BatchPollerProxy,
+} from "@azure/maps-common";
+import {
   mapFuzzySearchOptions,
   mapReverseSearchAddressBatchResult,
   mapReverseSearchAddressResult,
@@ -29,8 +38,7 @@ import {
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
 } from "./generated/models";
-import { LatLon, SearchGeometry, StructuredAddress } from "./models/models";
-import { GeoJsonFeatureCollection, GeoJsonLineString } from "./models/geojsons";
+import { SearchGeometry, StructuredAddress } from "./models/models";
 import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
@@ -67,9 +75,6 @@ import {
   SearchAddressRequest,
   ReverseSearchAddressRequest,
 } from "./models/options";
-import { BatchPoller, BatchPollerProxy } from "./models/pollers";
-import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
-import { mapsAzureKeyCredentialPolicy } from "./credential/mapsAzureKeyCredentialPolicy";
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -152,9 +157,9 @@ export class MapsSearchClient {
           scopes: "https://atlas.microsoft.com/.default",
         })
       );
-      this.client.pipeline.addPolicy(mapsClientIdPolicy(clientId));
+      this.client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     } else {
-      this.client.pipeline.addPolicy(mapsAzureKeyCredentialPolicy(credential));
+      this.client.pipeline.addPolicy(createMapsAzureKeyCredentialPolicy(credential));
     }
   }
 

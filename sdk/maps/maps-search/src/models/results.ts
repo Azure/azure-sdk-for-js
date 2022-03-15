@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLon } from "./models";
+import { BoundingBox, LatLon, GeoJsonFeatureCollection } from "@azure/maps-common";
 import {
   DataSource,
   EntryPointType,
@@ -13,7 +13,6 @@ import {
   RoadUseType,
   SearchAddressResultType,
 } from "../generated/models";
-import { GeoJsonFeatureCollection } from "./geojsons";
 
 /** This object is returned from a successful Search calls. */
 export interface SearchAddressResult {
