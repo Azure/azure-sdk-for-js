@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeoJsonGeometryCollection, GeoJsonMultiPolygon } from "./geojsons";
+import { GeoJsonGeometryCollection, GeoJsonMultiPolygon } from "@azure/maps-common";
 
 export {
   BatchRequest,
@@ -36,14 +36,6 @@ export {
   KnownVehicleLoadType,
   KnownWindingnessLevel,
 } from "../generated/models";
-
-/**
- * Latitude/Longitude Pair
- */
-export interface LatLon {
-  latitude: number;
-  longitude: number;
-}
 
 /** Post body parameters for Route directions. */
 export interface RouteDirectionParameters {

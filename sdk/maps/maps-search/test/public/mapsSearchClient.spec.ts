@@ -8,11 +8,10 @@ import { MapsSearchClient } from "src/mapsSearchClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
+import { GeoJsonLineString, GeoJsonPolygon } from "@azure/maps-common";
 import {
-  GeoJsonLineString,
   KnownSearchAddressResultType,
   SearchAddressResultItem,
-  GeoJsonPolygon,
   GeoJsonPolygonCollection,
   GeoJsonCircleOrPolygonFeatureCollection,
 } from "../../src";
