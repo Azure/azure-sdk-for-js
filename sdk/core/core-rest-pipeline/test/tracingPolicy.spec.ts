@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
-
 import {
-  PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   RestError,
@@ -17,6 +14,7 @@ import { SpanStatus, TracingContext, TracingSpan, TracingSpanOptions } from "@az
 import chai, { assert } from "chai";
 
 import chaiAsPromised from "chai-as-promised";
+import sinon from "sinon";
 import { tracingClient } from "../src/policies/tracingPolicy";
 
 chai.use(chaiAsPromised);
@@ -28,199 +26,159 @@ class MockSpan implements TracingSpan {
   constructor(public name: string, spanOptions: TracingSpanOptions = {}) {
     this.spanAttributes = spanOptions.spanAttributes || {};
   }
-  end() {
+  end(): void {
     this.endCalled = true;
   }
-  isRecording() {
+  isRecording(): boolean {
     return true;
   }
-  recordException() {
+  recordException(): void {
     // no-op for now
   }
-  setAttribute(name: string, value: unknown) {
+  setAttribute(name: string, value: unknown): void {
     this.spanAttributes[name] = value;
   }
-  getAttribute(name: string) {
+  getAttribute(name: string): unknown {
     return this.spanAttributes[name];
   }
-  setStatus(status: SpanStatus) {
+  setStatus(status: SpanStatus): void {
     this.status = status;
   }
 }
 
-function createTracingContext(initialValues: Map<symbol, unknown> = new Map()): TracingContext {
-  const data = new Map(initialValues);
-  return {
-    deleteValue(key) {
-      const newData = new Map(data);
-      data.delete(key);
-      return createTracingContext(newData);
-    },
-    getValue(key) {
-      return data.get(key);
-    },
-    setValue(key, value) {
-      const newData = new Map(data);
-      newData.set(key, value);
-      return createTracingContext(newData);
-    },
-  };
-}
-
 describe("tracingPolicy", function () {
+  /** The span instance that will be returned by {@link tracingClient.startSpan}. */
+  let mockSpan: MockSpan;
+
+  /** The tracing context instance that will be returned by {@link tracingClient.startSpan}. */
+  let tracingContext: TracingContext;
+
+  let startSpanStub: sinon.SinonStub<any>;
+
+  function createTestRequest(): { request: PipelineRequest; next: sinon.SinonStub } {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      method: "POST",
+      tracingOptions: { tracingContext },
+    });
+
+    const response: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request: request,
+      status: 200,
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(response);
+    return { request, next };
+  }
+
   afterEach(() => {
     sinon.restore();
   });
 
-  describe("without tracingContext", () => {
-    it("will not create a span if tracingContext is missing", async () => {
-      const startSpanSpy = sinon.spy(tracingClient, "startSpan");
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-      });
-      const response: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request: request,
-        status: 200,
-      };
-      const policy = tracingPolicy();
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(response);
-      await policy.sendRequest(request, next);
+  beforeEach(() => {
+    tracingContext = {
+      deleteValue() {
+        return this;
+      },
+      getValue() {
+        return undefined;
+      },
+      setValue() {
+        return this;
+      },
+    };
 
-      assert.isFalse(startSpanSpy.called);
-    });
+    startSpanStub = sinon
+      .stub(tracingClient, "startSpan")
+      .callsFake((name, operationOptions, spanOptions) => {
+        mockSpan = new MockSpan(name, spanOptions);
+        return {
+          span: mockSpan,
+          updatedOptions: {
+            ...operationOptions,
+            tracingOptions: {
+              tracingContext: tracingContext,
+            },
+          },
+        };
+      });
   });
 
-  describe("with a tracingContext and recording span", () => {
-    let tracingContext: TracingContext;
-    let startSpanStub: sinon.SinonStub;
+  it("will create a span with the correct data", async () => {
+    const policy = tracingPolicy();
+    const { request, next } = createTestRequest();
+    await policy.sendRequest(request, next);
 
-    beforeEach(() => {
-      tracingContext = createTracingContext().setValue(
-        Symbol.for("@azure/core-tracing namespace"),
-        "test"
-      );
-      assert.equal(tracingContext.getValue(Symbol.for("@azure/core-tracing namespace")), "test");
+    assert.isTrue(startSpanStub.called);
+    assert.equal(mockSpan.name, "HTTP POST");
+    assert.equal(mockSpan.getAttribute("http.method"), "POST");
+    assert.equal(mockSpan.getAttribute("http.url"), request.url);
+    assert.equal(mockSpan.getAttribute("requestId"), request.requestId);
+    assert.equal(mockSpan.getAttribute("http.status_code"), 200); // createTestRequest's response will return 200 OK
+  });
 
-      startSpanStub = sinon
-        .stub(tracingClient, "startSpan")
-        .callsFake((name, options, spanOptions) => {
-          return {
-            span: new MockSpan(name, spanOptions),
-            updatedOptions: { ...options, tracingOptions: { tracingContext } },
-          };
-        });
+  it("will set request headers correctly", async () => {
+    sinon.stub(tracingClient, "createRequestHeaders").returns({
+      testheader: "testvalue",
+    });
+    const { request, next } = createTestRequest();
+
+    const policy = tracingPolicy();
+    await policy.sendRequest(request, next);
+    assert.equal(request.headers.get("testheader"), "testvalue");
+  });
+
+  it("will close a span if an error is encountered", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      tracingOptions: {
+        tracingContext,
+      },
     });
 
-    it("will create a span with the correct data", async () => {
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        method: "POST",
-        tracingOptions: {
-          tracingContext,
-        },
-      });
+    const policy = tracingPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(new RestError("Bad Request.", { statusCode: 400 }));
 
-      const response: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request: request,
-        status: 200,
-      };
-      const policy = tracingPolicy();
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(response);
+    try {
       await policy.sendRequest(request, next);
-
+      throw new Error("Test Failure");
+    } catch (err) {
+      assert.notEqual(err.message, "Test Failure", "expected `next` to throw, but it did not.");
       assert.isTrue(startSpanStub.called);
-      const span = startSpanStub.getCall(0).returnValue.span as MockSpan;
-      assert.equal(span.name, "HTTP POST");
-      assert.equal(span.getAttribute("az.namespace"), "test");
-      assert.equal(span.getAttribute("http.method"), "POST");
-      assert.equal(span.getAttribute("http.url"), request.url);
-      assert.equal(span.getAttribute("requestId"), request.requestId);
-      assert.equal(span.getAttribute("http.status_code"), response.status);
-    });
+      assert.isTrue(mockSpan.endCalled);
+      assert.equal(mockSpan.getAttribute("http.status_code"), 400);
+      assert.equal(mockSpan.status?.status, "error");
+    }
+  });
 
-    it("will set request headers", async () => {
-      sinon.stub(tracingClient, "createRequestHeaders").returns({
-        testheader: "testvalue",
-      });
-
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        method: "POST",
-        tracingOptions: {
-          tracingContext,
-        },
-      });
-
-      const response: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request: request,
-        status: 200,
-      };
+  describe("span errors", () => {
+    it("will not fail the request when creating a span throws", async () => {
+      startSpanStub.throws("boom");
+      const { request, next } = createTestRequest();
       const policy = tracingPolicy();
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(response);
-      await policy.sendRequest(request, next);
-      assert.equal(request.headers.get("testheader"), "testvalue");
+
+      await assert.isFulfilled(policy.sendRequest(request, next));
     });
 
-    it("will close a span if an error is encountered", async () => {
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        tracingOptions: {
-          tracingContext,
-        },
-      });
-
+    it("will not fail the request when post-processing success fails", async () => {
+      const { request, next } = createTestRequest();
       const policy = tracingPolicy();
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.rejects(new RestError("Bad Request.", { statusCode: 400 }));
 
-      try {
-        await policy.sendRequest(request, next);
-        throw new Error("Test Failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test Failure");
-        assert.isTrue(startSpanStub.called);
-        const span = startSpanStub.getCall(0).returnValue.span as MockSpan;
-        assert.isTrue(span.endCalled);
-        assert.equal(span.getAttribute("http.status_code"), 400);
-        assert.equal(span.status?.status, "error");
-      }
+      sinon.stub(mockSpan, "end").throwsException(new Error("end is not a function"));
+      await assert.isFulfilled(policy.sendRequest(request, next));
     });
 
-    describe("span errors", () => {
-      let policy: PipelinePolicy;
-      let request: PipelineRequest;
-      let next: sinon.SinonStub;
+    it("will not fail the request when post-processing error fails", async () => {
+      const { request, next } = createTestRequest();
+      const policy = tracingPolicy();
+      const expectedError = new RestError("Bad Request.", { statusCode: 400 });
+      next.rejects(expectedError);
 
-      beforeEach(() => {
-        request = createPipelineRequest({
-          url: "https://bing.com",
-          method: "POST",
-          tracingOptions: {
-            tracingContext,
-          },
-        });
-
-        const response: PipelineResponse = {
-          headers: createHttpHeaders(),
-          request: request,
-          status: 200,
-        };
-        policy = tracingPolicy();
-        next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-        next.resolves(response);
-      });
-
-      it("will not fail the request when creating a span throws", async () => {
-        sinon.stub(tracingClient, "startSpan").throws("boom");
-        await assert.isFulfilled(policy.sendRequest(request, next));
-      });
-      // todo: find a way to test the failure case when processing a span...
+      // Expect the pipeline request error, _not_ the error that is thrown when ending a span.
+      sinon.stub(mockSpan, "end").throwsException(new Error("end is not a function"));
+      await assert.isRejected(policy.sendRequest(request, next), expectedError);
     });
   });
 });

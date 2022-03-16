@@ -45,18 +45,14 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.tracingOptions?.tracingContext) {
-        return next(request);
-      }
-
       const { span, tracingContext } = tryCreateSpan(request, userAgent);
 
-      if (!span || !tracingContext) {
+      if (!span) {
         return next(request);
       }
 
       try {
-        const response = await tracingClient.withContext(tracingContext, () => next(request));
+        const response = await tracingClient.withContext(tracingContext!, next, request);
         tryProcessResponse(span, response);
         return response;
       } catch (err) {
