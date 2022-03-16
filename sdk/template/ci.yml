@@ -10,7 +10,7 @@ trigger:
     include:
       - sdk/template/      
       # eng/common code changes trigger template pipeline for basic checking.
-      - eng/common
+      - eng/common/
 
 pr:
   branches:
@@ -23,7 +23,7 @@ pr:
     include:
       - sdk/template/
       # eng/common code changes trigger template pipeline for basic checking.
-      - eng/common
+      - eng/common/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
