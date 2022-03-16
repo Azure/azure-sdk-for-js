@@ -627,6 +627,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/maps-render",
+      "projectFolder": "sdk/maps/maps-render",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/notification-hubs",
       "projectFolder": "sdk/notificationhubs/notification-hubs",
       "versionPolicyName": "client"
