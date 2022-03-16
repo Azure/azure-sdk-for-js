@@ -58,7 +58,6 @@ export {
 } from "./credentials/interactiveBrowserCredentialOptions";
 export {
   ManagedIdentityCredential,
-  ManagedIdentityCredentialOptions,
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
 } from "./credentials/managedIdentityCredential";

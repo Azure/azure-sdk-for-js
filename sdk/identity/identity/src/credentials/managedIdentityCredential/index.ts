@@ -46,13 +46,6 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
 }
 
 /**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- */
-export type ManagedIdentityCredentialOptions =
-  | ManagedIdentityCredentialClientIdOptions
-  | ManagedIdentityCredentialResourceIdOptions;
-
-/**
  * Attempts authentication using a managed identity available at the deployment environment.
  * This authentication type works in Azure VMs, App Service instances, Azure Functions applications,
  * Azure Kubernetes Services, Azure Service Fabric instances and inside of the Azure Cloud Shell.
@@ -74,7 +67,10 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(clientId: string, options?: TokenCredentialOptions);
+  constructor(
+    clientId: string,
+    options?: ManagedIdentityCredentialResourceIdOptions | TokenCredentialOptions
+  );
   /**
    * Creates an instance of ManagedIdentityCredential with clientId
    *
@@ -88,19 +84,15 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(options?: ManagedIdentityCredentialResourceIdOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential with options
-   *
-   * @param options- Options for configuring the resource which makes the access token request.
-   */
-  constructor(
-    options?: ManagedIdentityCredentialClientIdOptions | ManagedIdentityCredentialResourceIdOptions
-  );
-  /**
    * @internal
    * @hidden
    */
   constructor(
-    clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
+    clientIdOrOptions:
+      | string
+      | ManagedIdentityCredentialClientIdOptions
+      | ManagedIdentityCredentialResourceIdOptions
+      | undefined,
     options?: TokenCredentialOptions
   ) {
     let _options: TokenCredentialOptions | undefined;
