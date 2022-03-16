@@ -152,18 +152,18 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 }
 
 // @public
-export interface DefaultAzureCredentialClientIdOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityClientId?: string;
+}
+
+// @public
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
     tenantId?: string;
 }
 
 // @public
-export type DefaultAzureCredentialOptions = DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions;
-
-// @public
-export interface DefaultAzureCredentialResourceIdOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityResourceId?: string;
-    tenantId?: string;
 }
 
 // @public

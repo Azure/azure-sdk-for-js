@@ -21,12 +21,7 @@ import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
  * Provides options to configure the {@link DefaultAzureCredential} class.
  * This variation supports `managedIdentityClientId` and not `managedIdentityResourceId`, since only one of both is supported.
  */
-export interface DefaultAzureCredentialClientIdOptions extends TokenCredentialOptions {
-  /**
-   * Optionally pass in a Tenant ID to be used as part of the credential.
-   * By default it may use a generic tenant ID depending on the underlying credential.
-   */
-  tenantId?: string;
+export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
   /**
    * Optionally pass in a user assigned client ID to be used by the {@link ManagedIdentityCredential}.
    * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
@@ -38,12 +33,7 @@ export interface DefaultAzureCredentialClientIdOptions extends TokenCredentialOp
  * Provides options to configure the {@link DefaultAzureCredential} class.
  * This variation supports `managedIdentityResourceId` and not `managedIdentityClientId`, since only one of both is supported.
  */
-export interface DefaultAzureCredentialOptionsWithResourceId extends TokenCredentialOptions {
-  /**
-   * Optionally pass in a Tenant ID to be used as part of the credential.
-   * By default it may use a generic tenant ID depending on the underlying credential.
-   */
-  tenantId?: string;
+export interface DefaultAzureCredentialOptionsWithResourceId extends DefaultAzureCredentialOptions {
   /**
    * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
    * In scenarios such as when user assigned identities are created using an ARM template,
@@ -57,9 +47,13 @@ export interface DefaultAzureCredentialOptionsWithResourceId extends TokenCreden
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
-export type DefaultAzureCredentialOptions =
-  | DefaultAzureCredentialClientIdOptions
-  | DefaultAzureCredentialOptionsWithResourceId;
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Optionally pass in a Tenant ID to be used as part of the credential.
+   * By default it may use a generic tenant ID depending on the underlying credential.
+   */
+  tenantId?: string;
+}
 
 /**
  * The type of a class that implements TokenCredential and accepts
