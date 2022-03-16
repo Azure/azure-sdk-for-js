@@ -23,11 +23,11 @@ export interface MessageAdapter<MessageT> {
   /**
    * defines how to create a message from a payload and a content type
    */
-  produceMessage: (messageContent: MessageContent) => MessageT;
+  produce: (messageContent: MessageContent) => MessageT;
   /**
    * defines how to access the payload and the content type of a message
    */
-  consumeMessage: (message: MessageT) => MessageContent;
+  consume: (message: MessageT) => MessageContent;
 }
 
 /**
