@@ -28,10 +28,6 @@ export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentia
    * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
    */
   clientId?: string;
-  /**
-   * Having both client Id and resource Id is not supported
-   */
-  resourceId?: never;
 }
 
 /**
@@ -47,10 +43,6 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
    * without having to first determine the client Id of the created identity.
    */
   resourceId?: string;
-  /**
-   * Having both client Id and resource Id is not supported
-   */
-  clientId?: never;
 }
 
 /**
@@ -84,11 +76,24 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential
+   * Creates an instance of ManagedIdentityCredential with clientId
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: ManagedIdentityCredentialOptions);
+  constructor(options?: ManagedIdentityCredentialClientIdOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with Resource Id
+   *
+   * @param options - Options for configuring the resource which makes the access token request.
+   */
+  constructor(options?: ManagedIdentityCredentialResourceIdOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with options
+   *
+   * @param options
+   */
+  constructor(options?: TokenCredentialOptions);
+  //TokenCredentialOptions;
   /**
    * @internal
    * @hidden

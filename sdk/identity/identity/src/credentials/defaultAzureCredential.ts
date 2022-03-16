@@ -12,7 +12,8 @@ import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import {
   ManagedIdentityCredential,
-  ManagedIdentityCredentialOptions,
+  ManagedIdentityCredentialClientIdOptions,
+  ManagedIdentityCredentialResourceIdOptions,
 } from "./managedIdentityCredential";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
@@ -83,13 +84,21 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
       ?.managedIdentityResourceId;
 
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
-    const managedIdentityOptions: ManagedIdentityCredentialOptions = {
-      resourceId: managedResourceId,
-      clientId: managedIdentityClientId,
-      ...options,
-    };
-
-    super(managedIdentityOptions);
+    // let managedIdentityOptions;
+    if (managedResourceId) {
+      let managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
+        ...options,
+      };
+      managedIdentityResourceIdOptions.resourceId = managedResourceId;
+      super(managedIdentityResourceIdOptions);
+    }
+    if (managedIdentityClientId) {
+      let managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
+        ...options,
+      };
+      managedIdentityClientOptions.clientId = managedIdentityClientId;
+      super(managedIdentityClientOptions);
+    }
   }
 }
 
