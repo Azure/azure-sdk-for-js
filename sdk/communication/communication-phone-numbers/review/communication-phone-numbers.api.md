@@ -31,6 +31,15 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
+export interface CommunicationError {
+    code: string;
+    readonly details?: CommunicationError[];
+    readonly innerError?: CommunicationError;
+    message: string;
+    readonly target?: string;
+}
+
+// @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
@@ -131,6 +140,38 @@ export interface ReleasePhoneNumberResult {
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
+}
+
+// @public
+export class SipRoutingClient {
+    constructor(connectionString: string, options?: SipRoutingClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
+    deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
+    getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
+    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk | null>;
+    getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
+    setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
+    setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
+    setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
+}
+
+// @public
+export interface SipRoutingClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface SipTrunk {
+    fqdn: string;
+    sipSignalingPort: number;
+}
+
+// @public
+export interface SipTrunkRoute {
+    description?: string;
+    name: string;
+    numberPattern: string;
+    trunks?: string[];
 }
 
 // (No @packageDocumentation comment for this package)
