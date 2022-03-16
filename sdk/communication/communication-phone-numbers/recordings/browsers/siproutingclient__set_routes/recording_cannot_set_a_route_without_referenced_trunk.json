@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"routes\":[{\"name\":\"invalidRoutingTrunkRoute\",\"numberPattern\":\"^+[1-9][0-9]{3,23}$\",\"trunks\":[\"notExisting.fqdn.com\"]}]}",
+   "status": 422,
+   "response": "{\"error\":{\"code\":\"UnprocessableConfiguration\",\"message\":\"One or more request inputs are not valid.\",\"innererror\":{\"code\":\"MissingTrunk\",\"message\":\"Route targeting a missing trunk.\"}}}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json",
+    "date": "Wed, 31 Aug 2022 19:51:23 GMT",
+    "ms-cv": "+FjRYe/DLEqBCuu6/yMqNg.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vLsPYwAAAACsK1qacSOAQo24sKFZvck9UFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "239ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/sip",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"trunks\":{\"111.fqdn.com\":{\"sipSignalingPort\":8239},\"222.fqdn.com\":{\"sipSignalingPort\":7348}},\"routes\":[]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 31 Aug 2022 19:51:24 GMT",
+    "ms-cv": "PhozLTq3BUasK+okzmYtpQ.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vLsPYwAAAABPRcjBsus2S6dxOFrO9q61UFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "167ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9c4acd8dbc67b75acae6426ae9ea677c"
+}
