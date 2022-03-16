@@ -212,7 +212,7 @@ function getSchemaId(contentType: string): string {
  * returns it as is.
  * @param data - The message content
  * @param contentType - The message content type
- * @returns a message with metadata
+ * @returns a message
  */
 function convertPayload(data: Uint8Array, contentType: string): MessageContent {
   try {

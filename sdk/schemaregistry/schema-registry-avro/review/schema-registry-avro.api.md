@@ -28,7 +28,7 @@ export interface DeserializeOptions {
 // @public
 export interface MessageAdapter<MessageT> {
     consumeMessage: (message: MessageT) => MessageContent;
-    produceMessage: (messageWithMetadata: MessageContent) => MessageT;
+    produceMessage: (messageContent: MessageContent) => MessageT;
 }
 
 // @public

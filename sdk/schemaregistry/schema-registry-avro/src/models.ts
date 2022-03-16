@@ -17,13 +17,13 @@ export interface MessageContent {
 
 /**
  * MessageAdapter is an interface that converts to/from a concrete message type
- * to a message with metadata
+ * to a MessageContent
  */
 export interface MessageAdapter<MessageT> {
   /**
    * defines how to create a message from a payload and a content type
    */
-  produceMessage: (messageWithMetadata: MessageContent) => MessageT;
+  produceMessage: (messageContent: MessageContent) => MessageT;
   /**
    * defines how to access the payload and the content type of a message
    */
