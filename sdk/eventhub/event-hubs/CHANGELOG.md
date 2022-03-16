@@ -5,6 +5,8 @@
 ### Features Added
 
 ### Breaking Changes
+- `MessageWithMetadata` has been renamed to `MessageContent`
+- `MessageContent`'s `body` has been renamed to `data`
 
 ### Bugs Fixed
 

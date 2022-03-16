@@ -234,14 +234,14 @@ export const logger: AzureLogger;
 
 // @public
 export interface MessageAdapter<MessageT> {
-    consumeMessage: (message: MessageT) => MessageWithMetadata;
-    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+    consumeMessage: (message: MessageT) => MessageContent;
+    produceMessage: (MessageContent: MessageContent) => MessageT;
 }
 
 // @public
-export interface MessageWithMetadata {
-    body: Uint8Array;
+export interface MessageContent {
     contentType: string;
+    data: Uint8Array;
 }
 
 export { MessagingError }

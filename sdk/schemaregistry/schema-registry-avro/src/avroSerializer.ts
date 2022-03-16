@@ -6,12 +6,12 @@ import {
   AvroSerializerOptions,
   DeserializeOptions,
   MessageAdapter,
-  MessageWithMetadata,
+  MessageContent,
 } from "./models";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import LRUCache from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
-import { isMessageWithMetadata } from "./utility";
+import { isMessageContent } from "./utility";
 import { logger } from "./logger";
 
 type AVSCSerializer = avro.Type;
@@ -41,7 +41,7 @@ const cacheOptions: LRUCacheOptions<string, any> = {
  * Avro serializer that obtains schemas from a schema registry and does not
  * pack schemas into its payloads.
  */
-export class AvroSerializer<MessageT = MessageWithMetadata> {
+export class AvroSerializer<MessageT = MessageContent> {
   /**
    * Creates a new serializer.
    *
@@ -73,7 +73,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
   async serialize(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = entry.serializer.toBuffer(value);
-    const payload = new Uint8Array(
+    const data = new Uint8Array(
       buffer.buffer,
       buffer.byteOffset,
       buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
@@ -82,17 +82,17 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     return this.messageAdapter
       ? this.messageAdapter.produceMessage({
           contentType,
-          body: payload,
+          data,
         })
       : /**
-         * If no message consumer was provided, then a MessageWithMetadata will be
+         * If no message consumer was provided, then a MessageContent will be
          * returned. This should work because the MessageT type parameter defaults
-         * to MessageWithMetadata.
+         * to MessageContent.
          */
         ({
-          body: payload,
+          data,
           contentType: contentType,
-        } as unknown as MessageT);
+        } as MessageContent as unknown as MessageT);
   }
 
   /**
@@ -105,8 +105,8 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    */
   async deserialize(message: MessageT, options: DeserializeOptions = {}): Promise<unknown> {
     const { schema: readerSchema } = options;
-    const { body, contentType } = convertMessage(message, this.messageAdapter);
-    const buffer = Buffer.from(body);
+    const { data, contentType } = convertMessage(message, this.messageAdapter);
+    const buffer = Buffer.from(data);
     const writerSchemaId = getSchemaId(contentType);
     const writerSchemaSerializer = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
@@ -208,18 +208,18 @@ function getSchemaId(contentType: string): string {
 }
 
 /**
- * Tries to deserialize a body in the preamble format. If that does not succeed, it
+ * Tries to deserialize data in the preamble format. If that does not succeed, it
  * returns it as is.
- * @param body - The message body
+ * @param data - The message content
  * @param contentType - The message content type
  * @returns a message with metadata
  */
-function convertPayload(body: Uint8Array, contentType: string): MessageWithMetadata {
+function convertPayload(data: Uint8Array, contentType: string): MessageContent {
   try {
-    return tryReadingPreambleFormat(Buffer.from(body));
+    return tryReadingPreambleFormat(Buffer.from(data));
   } catch (_e: unknown) {
     return {
-      body,
+      data,
       contentType,
     };
   }
@@ -228,16 +228,16 @@ function convertPayload(body: Uint8Array, contentType: string): MessageWithMetad
 function convertMessage<MessageT>(
   message: MessageT,
   adapter?: MessageAdapter<MessageT>
-): MessageWithMetadata {
+): MessageContent {
   const messageConsumer = adapter?.consumeMessage;
   if (messageConsumer) {
-    const { body, contentType } = messageConsumer(message);
-    return convertPayload(body, contentType);
-  } else if (isMessageWithMetadata(message)) {
-    return convertPayload(message.body, message.contentType);
+    const { data, contentType } = messageConsumer(message);
+    return convertPayload(data, contentType);
+  } else if (isMessageContent(message)) {
+    return convertPayload(message.data, message.contentType);
   } else {
     throw new Error(
-      `Expected either a message adapter to be provided to the serializer or the input message to have body and contentType fields`
+      `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`
     );
   }
 }
@@ -246,9 +246,9 @@ function convertMessage<MessageT>(
  * Maintains backward compatability by supporting the serialized value format created
  * by earlier beta serializers
  * @param buffer - The input buffer
- * @returns a message that contains the body and content type with the schema ID
+ * @returns a message that contains the data and content type with the schema ID
  */
-function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
+function tryReadingPreambleFormat(buffer: Buffer): MessageContent {
   const FORMAT_INDICATOR = 0;
   const SCHEMA_ID_OFFSET = 4;
   const PAYLOAD_OFFSET = 36;
@@ -263,7 +263,7 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
   const schemaId = schemaIdBuffer.toString("utf-8");
   const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
   return {
-    body: payloadBuffer,
+    data: payloadBuffer,
     contentType: `${avroMimeType}+${schemaId}`,
   };
 }

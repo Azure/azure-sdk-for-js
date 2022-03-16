@@ -8,6 +8,7 @@ import {
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
 import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
+import { MessageContent } from "../src/models";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
@@ -19,10 +20,10 @@ const noAutoRegisterOptions: CreateTestSerializerOptions<any> = {
 
 describe("AvroSerializer", function () {
   it("rejects invalid format", async () => {
-    const serializer = await createTestSerializer();
+    const serializer = await createTestSerializer<MessageContent>();
     await assert.isRejected(
       serializer.deserialize({
-        body: Buffer.alloc(1),
+        data: Buffer.alloc(1),
         contentType: "application/json+1234",
       }),
       /application\/json.*avro\/binary/
@@ -37,7 +38,7 @@ describe("AvroSerializer", function () {
 
   it("rejects a schema with different format", async () => {
     const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
-    const serializer = await createTestSerializer({
+    const serializer = await createTestSerializer<MessageContent>({
       ...noAutoRegisterOptions,
       registry,
     });
@@ -50,7 +51,7 @@ describe("AvroSerializer", function () {
 
     await assert.isRejected(
       serializer.deserialize({
-        body: Buffer.alloc(1),
+        data: Buffer.alloc(1),
         contentType: `avro/binary+${schema.id}`,
       }),
       new RegExp(`${schema.id}.*NotAvro.*avro`)
@@ -69,11 +70,11 @@ describe("AvroSerializer", function () {
   });
 
   it("rejects deserializing when schema is not found", async () => {
-    const serializer = await createTestSerializer(noAutoRegisterOptions);
-    const payload = testAvroType.toBuffer(testValue);
+    const serializer = await createTestSerializer<MessageContent>(noAutoRegisterOptions);
+    const data = testAvroType.toBuffer(testValue);
     await assert.isRejected(
       serializer.deserialize({
-        body: payload,
+        data,
         contentType: `avro/binary+${testSchemaIds[1]}`,
       }),
       /does not exist/
@@ -83,11 +84,14 @@ describe("AvroSerializer", function () {
   it("serializes to the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer({ ...noAutoRegisterOptions, registry });
-    const message = await serializer.serialize(testValue, testSchema);
-    assert.isUndefined((message.body as Buffer).readBigInt64BE);
-    const buffer = Buffer.from(message.body);
-    assert.strictEqual(`avro/binary+${schemaId}`, message.contentType);
+    const serializer = await createTestSerializer<MessageContent>({
+      ...noAutoRegisterOptions,
+      registry,
+    });
+    const { contentType, data } = await serializer.serialize(testValue, testSchema);
+    assert.isUndefined((data as Buffer).readBigInt64BE);
+    const buffer = Buffer.from(data);
+    assert.strictEqual(`avro/binary+${schemaId}`, contentType);
     assert.deepStrictEqual(testAvroType.fromBuffer(buffer), testValue);
     assert.equal(serializer["cacheById"].size, 1);
     assert.equal(
@@ -101,11 +105,14 @@ describe("AvroSerializer", function () {
   it("deserializes from the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer({ ...noAutoRegisterOptions, registry });
-    const payload = testAvroType.toBuffer(testValue);
+    const serializer = await createTestSerializer<MessageContent>({
+      ...noAutoRegisterOptions,
+      registry,
+    });
+    const data = testAvroType.toBuffer(testValue);
     assert.deepStrictEqual(
       await serializer.deserialize({
-        body: payload,
+        data,
         contentType: `avro/binary+${schemaId}`,
       }),
       testValue
@@ -211,15 +218,18 @@ describe("AvroSerializer", function () {
   it("deserializes from the old format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer({ ...noAutoRegisterOptions, registry });
+    const serializer = await createTestSerializer<MessageContent>({
+      ...noAutoRegisterOptions,
+      registry,
+    });
     const payload = testAvroType.toBuffer(testValue);
-    const buffer = Buffer.alloc(36 + payload.length);
+    const data = Buffer.alloc(36 + payload.length);
 
-    buffer.write(schemaId, 4, 32, "utf-8");
-    payload.copy(buffer, 36);
+    data.write(schemaId, 4, 32, "utf-8");
+    payload.copy(data, 36);
     assert.deepStrictEqual(
       await serializer.deserialize({
-        body: buffer,
+        data,
         contentType: "avro/binary+000",
       }),
       testValue
