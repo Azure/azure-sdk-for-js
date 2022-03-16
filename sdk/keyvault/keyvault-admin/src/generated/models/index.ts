@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** The key vault error exception. */
 export interface KeyVaultError {
@@ -519,55 +520,54 @@ export interface RoleAssignmentsListForScopeNextOptionalParams
 export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullBackupOptionalParams
-  extends coreClient.OperationOptions {
+export interface FullBackupOptionalParams extends coreClient.OperationOptions {
   /** Azure blob shared access signature token pointing to a valid Azure blob container where full backup needs to be stored. This token needs to be valid for at least next 24 hours from the time of making this call */
   azureStorageBlobContainerUri?: SASTokenParameter;
 }
 
 /** Contains response data for the fullBackup operation. */
-export type KeyVaultClientFullBackupResponse = KeyVaultClientFullBackupHeaders &
+export type FullBackupResponse = KeyVaultClientFullBackupHeaders &
   FullBackupOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullBackupStatusOptionalParams
+export interface FullBackupStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the fullBackupStatus operation. */
-export type KeyVaultClientFullBackupStatusResponse = FullBackupOperation;
+export type FullBackupStatusResponse = FullBackupOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullRestoreOperationOptionalParams
+export interface FullRestoreOperationOptionalParams
   extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: RestoreOperationParameters;
 }
 
 /** Contains response data for the fullRestoreOperation operation. */
-export type KeyVaultClientFullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
+export type FullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
   RestoreOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientRestoreStatusOptionalParams
+export interface RestoreStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the restoreStatus operation. */
-export type KeyVaultClientRestoreStatusResponse = RestoreOperation;
+export type RestoreStatusResponse = RestoreOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
+export interface SelectiveKeyRestoreOperationOptionalParams
   extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: SelectiveKeyRestoreOperationParameters;
 }
 
 /** Contains response data for the selectiveKeyRestoreOperation operation. */
-export type KeyVaultClientSelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
+export type SelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
   SelectiveKeyRestoreOperation;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -7,27 +7,29 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 import { RoleDefinitionsImpl, RoleAssignmentsImpl } from "./operations";
 import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
-  KeyVaultClientOptionalParams,
   ApiVersion73Preview,
-  KeyVaultClientFullBackupOptionalParams,
-  KeyVaultClientFullBackupResponse,
-  KeyVaultClientFullBackupStatusOptionalParams,
-  KeyVaultClientFullBackupStatusResponse,
-  KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientFullRestoreOperationResponse,
-  KeyVaultClientRestoreStatusOptionalParams,
-  KeyVaultClientRestoreStatusResponse,
-  KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
-  KeyVaultClientSelectiveKeyRestoreOperationResponse
+  KeyVaultClientOptionalParams,
+  FullBackupOptionalParams,
+  FullBackupResponse,
+  FullBackupStatusOptionalParams,
+  FullBackupStatusResponse,
+  FullRestoreOperationOptionalParams,
+  FullRestoreOperationResponse,
+  RestoreStatusOptionalParams,
+  RestoreStatusResponse,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreOperationResponse
 } from "./models";
 
-export class KeyVaultClient extends KeyVaultClientContext {
+export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
+  apiVersion: ApiVersion73Preview;
+
   /**
    * Initializes a new instance of the KeyVaultClient class.
    * @param apiVersion Api Version
@@ -37,7 +39,35 @@ export class KeyVaultClient extends KeyVaultClientContext {
     apiVersion: ApiVersion73Preview,
     options?: KeyVaultClientOptionalParams
   ) {
-    super(apiVersion, options);
+    if (apiVersion === undefined) {
+      throw new Error("'apiVersion' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: KeyVaultClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-keyvault-admin/4.2.0-beta.4`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{vaultBaseUrl}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.apiVersion = apiVersion;
     this.roleDefinitions = new RoleDefinitionsImpl(this);
     this.roleAssignments = new RoleAssignmentsImpl(this);
   }
@@ -49,8 +79,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   fullBackup(
     vaultBaseUrl: string,
-    options?: KeyVaultClientFullBackupOptionalParams
-  ): Promise<KeyVaultClientFullBackupResponse> {
+    options?: FullBackupOptionalParams
+  ): Promise<FullBackupResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, options },
       fullBackupOperationSpec
@@ -66,8 +96,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   fullBackupStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: KeyVaultClientFullBackupStatusOptionalParams
-  ): Promise<KeyVaultClientFullBackupStatusResponse> {
+    options?: FullBackupStatusOptionalParams
+  ): Promise<FullBackupStatusResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       fullBackupStatusOperationSpec
@@ -82,8 +112,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   fullRestoreOperation(
     vaultBaseUrl: string,
-    options?: KeyVaultClientFullRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientFullRestoreOperationResponse> {
+    options?: FullRestoreOperationOptionalParams
+  ): Promise<FullRestoreOperationResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, options },
       fullRestoreOperationOperationSpec
@@ -99,8 +129,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: KeyVaultClientRestoreStatusOptionalParams
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
+    options?: RestoreStatusOptionalParams
+  ): Promise<RestoreStatusResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       restoreStatusOperationSpec
@@ -117,8 +147,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   selectiveKeyRestoreOperation(
     vaultBaseUrl: string,
     keyName: string,
-    options?: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
+    options?: SelectiveKeyRestoreOperationOptionalParams
+  ): Promise<SelectiveKeyRestoreOperationResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, keyName, options },
       selectiveKeyRestoreOperationOperationSpec

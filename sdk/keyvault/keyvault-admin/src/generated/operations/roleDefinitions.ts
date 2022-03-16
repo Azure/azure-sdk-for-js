@@ -10,7 +10,7 @@ import { RoleDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultClientContext } from "../keyVaultClientContext";
+import { KeyVaultClient } from "../keyVaultClient";
 import {
   RoleDefinitionsDeleteOptionalParams,
   RoleDefinitionCreateParameters,
@@ -24,15 +24,15 @@ import {
   RoleDefinitionsListNextResponse
 } from "../models";
 
-/** Class representing a RoleDefinitions. */
+/** Class containing RoleDefinitions operations. */
 export class RoleDefinitionsImpl implements RoleDefinitions {
-  private readonly client: KeyVaultClientContext;
+  private readonly client: KeyVaultClient;
 
   /**
    * Initialize a new instance of the class RoleDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultClientContext) {
+  constructor(client: KeyVaultClient) {
     this.client = client;
   }
 
