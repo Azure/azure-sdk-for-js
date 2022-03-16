@@ -90,10 +90,9 @@ export class ManagedIdentityCredential implements TokenCredential {
   /**
    * Creates an instance of ManagedIdentityCredential with options
    *
-   * @param options
+   * @param options- Options for configuring the resource which makes the access token request.
    */
   constructor(options?: TokenCredentialOptions);
-  //TokenCredentialOptions;
   /**
    * @internal
    * @hidden

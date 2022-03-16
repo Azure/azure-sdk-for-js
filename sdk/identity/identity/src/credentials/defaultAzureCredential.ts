@@ -80,14 +80,14 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
     // let managedIdentityOptions;
     if (managedResourceId) {
-      let managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
+      const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
         ...options,
       };
       managedIdentityResourceIdOptions.resourceId = managedResourceId;
       super(managedIdentityResourceIdOptions);
     }
     if (managedIdentityClientId) {
-      let managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
+      const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
         ...options,
       };
       managedIdentityClientOptions.clientId = managedIdentityClientId;
