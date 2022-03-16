@@ -70,10 +70,13 @@ describe("UsernamePasswordCredential", function () {
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());
     assert.ok(spy.getCall(spy.callCount - 2).args[0]);
-    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: ${env.AZURE_USERNAME}. Object ID (user): HIDDEN`;
+    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${env.AZURE_CLIENT_ID}. Tenant ID: ${env.AZURE_TENANT_ID}. User Principal Name: ${env.AZURE_USERNAME}. Object ID (user): HIDDEN`;
     assert.equal(
       (spy.getCall(spy.callCount - 2).args[0] as any as string)
-        .replace(/[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g, "HIDDEN")
+        .replace(
+          /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
+          "Object ID (user): HIDDEN"
+        )
         .trim(),
       expectedMessage
     );
