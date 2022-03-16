@@ -3,9 +3,9 @@
 
 import {
   FullBackupOperation,
-  KeyVaultClientFullBackupOptionalParams,
-  KeyVaultClientFullBackupResponse,
-  KeyVaultClientFullBackupStatusResponse,
+  FullBackupOptionalParams,
+  FullBackupResponse,
+  FullBackupStatusResponse,
 } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
@@ -61,8 +61,8 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
    * Tracing the fullBackup operation
    */
   private fullBackup(
-    options: KeyVaultClientFullBackupOptionalParams
-  ): Promise<KeyVaultClientFullBackupResponse> {
+    options: FullBackupOptionalParams
+  ): Promise<FullBackupResponse> {
     return withTrace("fullBackup", options, (updatedOptions) =>
       this.client.fullBackup(this.vaultUrl, updatedOptions)
     );
@@ -74,7 +74,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
   private fullBackupStatus(
     jobId: string,
     options: KeyVaultBeginBackupOptions
-  ): Promise<KeyVaultClientFullBackupStatusResponse> {
+  ): Promise<FullBackupStatusResponse> {
     return withTrace("fullBackupStatus", options, (updatedOptions) =>
       this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
     );
