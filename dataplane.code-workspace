@@ -153,6 +153,10 @@
       "path": "sdk/maps/maps-route"
     },
     {
+      "name": "maps-render",
+      "path": "sdk/maps/maps-render"
+    },
+    {
       "name": "metrics-advisor",
       "path": "sdk/metricsadvisor/ai-metrics-advisor"
     },
