@@ -7,6 +7,8 @@
 ### Breaking Changes
 - The `encodeMessageData` method has been renamed to `serialize`
 - The `decodeMessageData` method has been renamed to `deserialize`
+- The `MessageWithMetadata` interface has been renamed to `MessageContent`
+- `MessageContent`'s `body` has been renamed to `data`
 
 ### Bugs Fixed
 

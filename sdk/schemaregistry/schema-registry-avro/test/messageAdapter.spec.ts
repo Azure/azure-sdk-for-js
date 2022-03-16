@@ -2,19 +2,10 @@
 // Licensed under the MIT license.
 
 import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
+import { AssertEqualKeys } from "./utils/utils";
 import { MessageAdapter } from "../src/models";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-
-/**
- * A type predicate to check whether two record types have the same keys
- */
-type AssertEqualKeys<T1 extends Record<string, any>, T2 extends Record<string, any>> = [
-  keyof T1 extends keyof T2 ? 1 : 0,
-  keyof T2 extends keyof T1 ? 1 : 0
-] extends [1, 1]
-  ? true
-  : false;
 
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
   return typeof obj.produceMessage === "function" && typeof obj.consumeMessage === "function";
@@ -58,14 +49,14 @@ describe("Message Adapters", function () {
       it("implements MessageAdapter", async () => {
         assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
       });
-      it("consumeMessage rejects undefined body", async () => {
+      it("consumeMessage rejects undefined data", async () => {
         assert.throws(
           () =>
             adapter.consumeMessage({
               body: undefined,
               contentType: "",
             }),
-          /Expected the body field to be defined/
+          /Expected the data field to be defined/
         );
       });
       it("consumeMessage rejects messages with no contentType", async () => {

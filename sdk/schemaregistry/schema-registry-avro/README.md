@@ -42,7 +42,7 @@ to get schema IDs from schema definition or vice versa. The provided API has int
 
 By default, the serializer will create messages structured as follows:
 
-- `body`: a byte array containing data in the Avro Binary Encoding. Note that it
+- `data`: a byte array containing data in the Avro Binary Encoding. Note that it
   is NOT Avro Object Container File. The latter includes the schema and creating
   it defeats the purpose of using this serializer to move the schema out of the
   message payload and into the schema registry.

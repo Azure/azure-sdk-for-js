@@ -4,11 +4,11 @@
 /**
  * A message that contains binary data and a content type.
  */
-export interface MessageWithMetadata {
+export interface MessageContent {
   /**
    * The message's binary data
    */
-  body: Uint8Array;
+  data: Uint8Array;
   /**
    * The message's content type
    */
@@ -17,17 +17,17 @@ export interface MessageWithMetadata {
 
 /**
  * MessageAdapter is an interface that converts to/from a concrete message type
- * to a message with metadata
+ * to a MessageContent
  */
 export interface MessageAdapter<MessageT> {
   /**
    * defines how to create a message from a payload and a content type
    */
-  produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+  produceMessage: (messageContent: MessageContent) => MessageT;
   /**
    * defines how to access the payload and the content type of a message
    */
-  consumeMessage: (message: MessageT) => MessageWithMetadata;
+  consumeMessage: (message: MessageT) => MessageContent;
 }
 
 /**
