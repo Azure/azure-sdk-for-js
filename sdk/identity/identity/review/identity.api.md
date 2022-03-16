@@ -259,7 +259,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: ManagedIdentityCredentialClientIdOptions);
     constructor(options?: ManagedIdentityCredentialResourceIdOptions);
-    constructor(options?: TokenCredentialOptions);
+    constructor(options?: ManagedIdentityCredentialClientIdOptions | ManagedIdentityCredentialResourceIdOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
