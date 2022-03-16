@@ -6,7 +6,7 @@ import { MessageContent as EHMessageContent } from "@azure/event-hubs";
 import { MessageContent } from "../src/models";
 import { assert } from "chai";
 
-describe("MessageContent types are identically the same", function () {
+describe("MessageContent types are identical", function () {
   it("Event Hubs", function () {
     const areEqual: AssertEqualKeys<MessageContent, EHMessageContent> = true;
     assert.isTrue(

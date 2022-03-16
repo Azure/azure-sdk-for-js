@@ -80,7 +80,7 @@ export class AvroSerializer<MessageT = MessageContent> {
     );
     const contentType = `${avroMimeType}+${entry.id}`;
     return this.messageAdapter
-      ? this.messageAdapter.produceMessage({
+      ? this.messageAdapter.produce({
           contentType,
           data,
         })
@@ -229,7 +229,7 @@ function convertMessage<MessageT>(
   message: MessageT,
   adapter?: MessageAdapter<MessageT>
 ): MessageContent {
-  const messageConsumer = adapter?.consumeMessage;
+  const messageConsumer = adapter?.consume;
   if (messageConsumer) {
     const { data, contentType } = messageConsumer(message);
     return convertPayload(data, contentType);

@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
+import {
+  MessageAdapter as EHMessageAdapter,
+  EventData,
+  EventDataAdapterParameters,
+  createEventDataAdapter,
+} from "@azure/event-hubs";
 import { AssertEqualKeys } from "./utils/utils";
 import { MessageAdapter } from "../src/models";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
-  return typeof obj.produceMessage === "function" && typeof obj.consumeMessage === "function";
+  return typeof obj.produce === "function" && typeof obj.consume === "function";
 }
 
 /**
@@ -31,6 +36,15 @@ describe("Message Adapters", function () {
     adapterFactory: createEventDataAdapter(),
     adapterFactoryName: createEventDataAdapter.name,
   };
+  describe("MessageAdapter types are identical", function () {
+    it("Event Hubs", function () {
+      const areEqual: AssertEqualKeys<MessageAdapter<unknown>, EHMessageAdapter<unknown>> = true;
+      assert.isTrue(
+        areEqual,
+        "MessageAdapter should have the same shape as @azure/event-hubs's MessageAdapter."
+      );
+    });
+  });
   describe("Input types for message adapter factories are sound", function () {
     it("EventDataAdapterParameters", function () {
       const areEqual: AssertEqualKeys<
@@ -52,7 +66,7 @@ describe("Message Adapters", function () {
       it("consumeMessage rejects undefined data", async () => {
         assert.throws(
           () =>
-            adapter.consumeMessage({
+            adapter.consume({
               body: undefined,
               contentType: "",
             }),
@@ -62,7 +76,7 @@ describe("Message Adapters", function () {
       it("consumeMessage rejects messages with no contentType", async () => {
         assert.throws(
           () =>
-            adapter.consumeMessage({
+            adapter.consume({
               body: dummyUint8Array,
             }),
           /Expected the contentType field to be defined/
