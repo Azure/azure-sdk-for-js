@@ -7,7 +7,8 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
+import { ShortCodesOperations } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ShortCodesClientContext } from "../shortCodesClientContext";
@@ -21,19 +22,23 @@ import {
   ShortCodesGetShortCodesResponse,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   ShortCodesUpsertUSProgramBriefResponse,
+  ShortCodesDeleteUSProgramBriefOptionalParams,
+  ShortCodesGetUSProgramBriefOptionalParams,
   ShortCodesGetUSProgramBriefResponse,
+  ShortCodesSubmitUSProgramBriefOptionalParams,
   ShortCodesSubmitUSProgramBriefResponse,
   ShortCodesGetUSProgramBriefsResponse,
   ShortCodesGetShortCodesNextResponse,
   ShortCodesGetUSProgramBriefsNextResponse
 } from "../models";
 
-/** Class representing a ShortCodes. */
-export class ShortCodes {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing ShortCodesOperations operations. */
+export class ShortCodesOperationsImpl implements ShortCodesOperations {
   private readonly client: ShortCodesClientContext;
 
   /**
-   * Initialize a new instance of the class ShortCodes class.
+   * Initialize a new instance of the class ShortCodesOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ShortCodesClientContext) {
@@ -131,13 +136,10 @@ export class ShortCodes {
   private _getShortCodes(
     options?: ShortCodesGetShortCodesOptionalParams
   ): Promise<ShortCodesGetShortCodesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getShortCodesOperationSpec
-    ) as Promise<ShortCodesGetShortCodesResponse>;
+    );
   }
 
   /**
@@ -149,14 +151,10 @@ export class ShortCodes {
     programBriefId: string,
     options?: ShortCodesUpsertUSProgramBriefOptionalParams
   ): Promise<ShortCodesUpsertUSProgramBriefResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      programBriefId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { programBriefId, options },
       upsertUSProgramBriefOperationSpec
-    ) as Promise<ShortCodesUpsertUSProgramBriefResponse>;
+    );
   }
 
   /**
@@ -166,52 +164,42 @@ export class ShortCodes {
    */
   deleteUSProgramBrief(
     programBriefId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      programBriefId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: ShortCodesDeleteUSProgramBriefOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { programBriefId, options },
       deleteUSProgramBriefOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
-   * @param programBriefId
+   * Get a US Program Brief by id.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
   getUSProgramBrief(
     programBriefId: string,
-    options?: coreHttp.OperationOptions
+    options?: ShortCodesGetUSProgramBriefOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      programBriefId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { programBriefId, options },
       getUSProgramBriefOperationSpec
-    ) as Promise<ShortCodesGetUSProgramBriefResponse>;
+    );
   }
 
   /**
-   * @param programBriefId
+   * Submits a US Program Brief for review.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
   submitUSProgramBrief(
     programBriefId: string,
-    options?: coreHttp.OperationOptions
+    options?: ShortCodesSubmitUSProgramBriefOptionalParams
   ): Promise<ShortCodesSubmitUSProgramBriefResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      programBriefId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { programBriefId, options },
       submitUSProgramBriefOperationSpec
-    ) as Promise<ShortCodesSubmitUSProgramBriefResponse>;
+    );
   }
 
   /**
@@ -221,13 +209,10 @@ export class ShortCodes {
   private _getUSProgramBriefs(
     options?: ShortCodesGetUSProgramBriefsOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getUSProgramBriefsOperationSpec
-    ) as Promise<ShortCodesGetUSProgramBriefsResponse>;
+    );
   }
 
   /**
@@ -239,14 +224,10 @@ export class ShortCodes {
     nextLink: string,
     options?: ShortCodesGetShortCodesNextOptionalParams
   ): Promise<ShortCodesGetShortCodesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getShortCodesNextOperationSpec
-    ) as Promise<ShortCodesGetShortCodesNextResponse>;
+    );
   }
 
   /**
@@ -258,20 +239,16 @@ export class ShortCodes {
     nextLink: string,
     options?: ShortCodesGetUSProgramBriefsNextOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getUSProgramBriefsNextOperationSpec
-    ) as Promise<ShortCodesGetUSProgramBriefsNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getShortCodesOperationSpec: coreHttp.OperationSpec = {
+const getShortCodesOperationSpec: coreClient.OperationSpec = {
   path: "/shortCodes",
   httpMethod: "GET",
   responses: {
@@ -287,7 +264,7 @@ const getShortCodesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const upsertUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
+const upsertUSProgramBriefOperationSpec: coreClient.OperationSpec = {
   path: "/shortCodes/countries/US/programBriefs/{programBriefId}",
   httpMethod: "PATCH",
   responses: {
@@ -308,7 +285,7 @@ const upsertUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
+const deleteUSProgramBriefOperationSpec: coreClient.OperationSpec = {
   path: "/shortCodes/countries/US/programBriefs/{programBriefId}",
   httpMethod: "DELETE",
   responses: {
@@ -322,7 +299,7 @@ const deleteUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
+const getUSProgramBriefOperationSpec: coreClient.OperationSpec = {
   path: "/shortCodes/countries/US/programBriefs/{programBriefId}",
   httpMethod: "GET",
   responses: {
@@ -338,7 +315,7 @@ const getUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const submitUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
+const submitUSProgramBriefOperationSpec: coreClient.OperationSpec = {
   path: "/shortCodes/countries/US/programBriefs/{programBriefId}/:submit",
   httpMethod: "POST",
   responses: {
@@ -354,7 +331,7 @@ const submitUSProgramBriefOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getUSProgramBriefsOperationSpec: coreHttp.OperationSpec = {
+const getUSProgramBriefsOperationSpec: coreClient.OperationSpec = {
   path: "/shortCodes/countries/US/programBriefs",
   httpMethod: "GET",
   responses: {
@@ -370,7 +347,7 @@ const getUSProgramBriefsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getShortCodesNextOperationSpec: coreHttp.OperationSpec = {
+const getShortCodesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -386,7 +363,7 @@ const getShortCodesNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getUSProgramBriefsNextOperationSpec: coreHttp.OperationSpec = {
+const getUSProgramBriefsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

@@ -807,11 +807,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/iot-device-update",
-      "projectFolder": "sdk/deviceupdate/iot-device-update",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -1458,7 +1453,8 @@
     },
     {
       "packageName": "@azure/arm-redisenterprisecache",
-      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-reservations",

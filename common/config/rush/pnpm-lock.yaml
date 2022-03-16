@@ -207,7 +207,6 @@ specifiers:
   '@rush-temp/identity-cache-persistence': file:./projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
-  '@rush-temp/iot-device-update-1': file:./projects/iot-device-update-1.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:./projects/keyvault-certificates.tgz
@@ -478,7 +477,6 @@ dependencies:
   '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
-  '@rush-temp/iot-device-update-1': file:projects/iot-device-update-1.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
@@ -12457,7 +12455,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-lRPMNQ6X2zNGHkn4+nUXsiXRde6JISO5YjFzhycdJL/3NCg9F4m94x+VbYyNtbvW5a7oVbGmyu4lW+I8qlqszQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-L96UyCle2mXUwU1QCXkofA0Yl4jBo8ElH3wdfGQBGHvDnDGkb1wNzcyuMsNncmPePr3fWsM50xCYuaMASfy0Ag==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -15313,32 +15311,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
-
-  file:projects/iot-device-update-1.tgz:
-    resolution: {integrity: sha512-Bk5qTBsWfWqB+pS/MoKu0LL6pdJt5dVZRGeWupzgnwhdJO1zAu+ORURESK54rlQiHiMBuiktW1+RnBNbknVWNQ==, tarball: file:projects/iot-device-update-1.tgz}
-    name: '@rush-temp/iot-device-update-1'
-    version: 0.0.0
-    dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.19.4
-      '@types/node': 12.20.43
-      '@types/uuid': 8.3.4
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      eslint: 7.32.0
-      mkdirp: 1.0.4
-      prettier: 2.5.1
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      tslib: 2.3.1
-      typescript: 4.2.4
-      uglify-js: 3.15.1
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/iot-device-update.tgz:
