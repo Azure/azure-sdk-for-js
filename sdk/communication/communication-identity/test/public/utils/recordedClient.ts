@@ -88,7 +88,6 @@ export async function createRecordedCommunicationIdentityClient(
     recorder.configureClientOptions({})
   );
 
-  // casting is a workaround to enable min-max testing
   return {
     client,
     recorder,
@@ -120,6 +119,5 @@ export async function createRecordedCommunicationIdentityClientWithToken(
     recorder.configureClientOptions({})
   );
 
-  // casting is a workaround to enable min-max testing
   return { client, recorder };
 }
