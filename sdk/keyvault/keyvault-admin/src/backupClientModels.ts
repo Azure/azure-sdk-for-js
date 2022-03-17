@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { OperationOptions } from "@azure/core-client";
 import { SUPPORTED_API_VERSIONS } from "./constants";
 
 /**
