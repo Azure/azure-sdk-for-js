@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   PipelinePolicy,
   PipelineRequest,
@@ -10,12 +13,12 @@ export function createMSUserAgentPolicy(): PipelinePolicy {
   return {
     name: "msUserAgentPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let useragent = env.AZURE_USERAGENT_OVERRIDE;
+      const useragent = env.AZURE_USERAGENT_OVERRIDE;
       if (useragent){
         request.headers.set("x-ms-useragent", useragent);
       }
 
-      return await next(request);
+      return next(request);
     },
   };
 }
