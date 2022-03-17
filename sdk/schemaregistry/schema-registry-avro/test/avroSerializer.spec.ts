@@ -13,11 +13,10 @@ import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 chaiUse(chaiPromises);
 
-const noAutoRegisterOptions: CreateTestSerializerOptions<any> = {
-  serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
-};
-
 describe("AvroSerializer", function () {
+  const noAutoRegisterOptions: CreateTestSerializerOptions<any> = {
+    serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
+  };
   it("rejects invalid format", async () => {
     const serializer = await createTestSerializer();
     await assert.isRejected(
@@ -242,7 +241,7 @@ describe("AvroSerializer", function () {
      * The standard tier resource supports registering up to 25 schemas per a schema group.
      */
     const maxSchemaCount = 25;
-    const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2 - 1);
+    const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2 - 5);
     (serializer["cacheById"] as any).max = maxCacheEntriesCount;
     (serializer["cacheBySchemaDefinition"] as any).max = maxCacheEntriesCount;
     const itersCount = 2 * maxCacheEntriesCount;

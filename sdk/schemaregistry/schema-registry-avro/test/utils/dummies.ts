@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as avro from "avsc/";
+import { env } from "./env";
 
 export const testSchemaObject: avro.schema.RecordType = {
   type: "record",
@@ -19,7 +20,7 @@ export const testSchemaObject: avro.schema.RecordType = {
   ],
 };
 
-export const testGroup = "azsdk_js_test_group";
+export const testGroup = env.SCHEMA_REGISTRY_GROUP || "azsdk_js_test_group";
 
 export const testSchemaIds = [
   "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",
