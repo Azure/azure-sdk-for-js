@@ -80,7 +80,6 @@ import {
   AnalyzeActionsPollerLike,
   AnalyzeLro,
   BeginAnalyzeActionsOptions,
-  isAnalyzeDone,
   processAnalyzeResult,
   updateAnalyzeState,
 } from "./analyzeLro";
@@ -1163,7 +1162,6 @@ export class TextAnalyticsClient {
         tracingOptions,
         includeStatistics,
       }),
-      isDone: isAnalyzeDone,
       updateState: updateAnalyzeState,
     });
 
