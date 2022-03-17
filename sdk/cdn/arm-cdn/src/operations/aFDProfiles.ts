@@ -17,7 +17,7 @@ import {
   AFDProfilesListResourceUsageNextOptionalParams,
   AFDProfilesListResourceUsageOptionalParams,
   AFDProfilesListResourceUsageResponse,
-  ValidateCustomDomainInput,
+  CheckHostNameAvailabilityInput,
   AFDProfilesCheckHostNameAvailabilityOptionalParams,
   AFDProfilesCheckHostNameAvailabilityResponse,
   AFDProfilesListResourceUsageNextResponse
@@ -39,7 +39,8 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   public listResourceUsage(
@@ -110,7 +111,8 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   private _listResourceUsage(
@@ -127,14 +129,15 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
   checkHostNameAvailability(
     resourceGroupName: string,
     profileName: string,
-    checkHostNameAvailabilityInput: ValidateCustomDomainInput,
+    checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
     options?: AFDProfilesCheckHostNameAvailabilityOptionalParams
   ): Promise<AFDProfilesCheckHostNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
@@ -151,7 +154,8 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
    */
@@ -198,7 +202,7 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateCustomDomainOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput
     },
     default: {
       bodyMapper: Mappers.AfdErrorResponse
@@ -212,7 +216,7 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

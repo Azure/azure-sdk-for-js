@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Usage,
   AFDProfilesListResourceUsageOptionalParams,
-  ValidateCustomDomainInput,
+  CheckHostNameAvailabilityInput,
   AFDProfilesCheckHostNameAvailabilityOptionalParams,
   AFDProfilesCheckHostNameAvailabilityResponse
 } from "../models";
@@ -21,7 +21,8 @@ export interface AFDProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   listResourceUsage(
@@ -32,14 +33,15 @@ export interface AFDProfiles {
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
   checkHostNameAvailability(
     resourceGroupName: string,
     profileName: string,
-    checkHostNameAvailabilityInput: ValidateCustomDomainInput,
+    checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
     options?: AFDProfilesCheckHostNameAvailabilityOptionalParams
   ): Promise<AFDProfilesCheckHostNameAvailabilityResponse>;
 }
