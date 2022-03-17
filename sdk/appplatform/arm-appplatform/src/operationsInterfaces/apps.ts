@@ -20,6 +20,9 @@ import {
   AppsUpdateResponse,
   AppsGetResourceUploadUrlOptionalParams,
   AppsGetResourceUploadUrlResponse,
+  ActiveDeploymentCollection,
+  AppsSetActiveDeploymentsOptionalParams,
+  AppsSetActiveDeploymentsResponse,
   CustomDomainValidatePayload,
   AppsValidateDomainOptionalParams,
   AppsValidateDomainResponse
@@ -167,6 +170,43 @@ export interface Apps {
     appName: string,
     options?: AppsGetResourceUploadUrlOptionalParams
   ): Promise<AppsGetResourceUploadUrlResponse>;
+  /**
+   * Set existing Deployment under the app as active
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param activeDeploymentCollection A list of Deployment name to be active.
+   * @param options The options parameters.
+   */
+  beginSetActiveDeployments(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    activeDeploymentCollection: ActiveDeploymentCollection,
+    options?: AppsSetActiveDeploymentsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<AppsSetActiveDeploymentsResponse>,
+      AppsSetActiveDeploymentsResponse
+    >
+  >;
+  /**
+   * Set existing Deployment under the app as active
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param activeDeploymentCollection A list of Deployment name to be active.
+   * @param options The options parameters.
+   */
+  beginSetActiveDeploymentsAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    activeDeploymentCollection: ActiveDeploymentCollection,
+    options?: AppsSetActiveDeploymentsOptionalParams
+  ): Promise<AppsSetActiveDeploymentsResponse>;
   /**
    * Check the resource name is valid as well as not in use.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

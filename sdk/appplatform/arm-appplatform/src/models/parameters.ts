@@ -17,15 +17,27 @@ import {
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
   ConfigServerResource as ConfigServerResourceMapper,
   ConfigServerSettings as ConfigServerSettingsMapper,
+  ConfigurationServiceResource as ConfigurationServiceResourceMapper,
+  ConfigurationServiceSettings as ConfigurationServiceSettingsMapper,
+  Build as BuildMapper,
+  BuildpackBindingResource as BuildpackBindingResourceMapper,
+  BuilderResource as BuilderResourceMapper,
+  BuildServiceAgentPoolResource as BuildServiceAgentPoolResourceMapper,
   MonitoringSettingResource as MonitoringSettingResourceMapper,
   AppResource as AppResourceMapper,
+  ActiveDeploymentCollection as ActiveDeploymentCollectionMapper,
   CustomDomainValidatePayload as CustomDomainValidatePayloadMapper,
   BindingResource as BindingResourceMapper,
   StorageResource as StorageResourceMapper,
   CertificateResource as CertificateResourceMapper,
   CustomDomainResource as CustomDomainResourceMapper,
   DeploymentResource as DeploymentResourceMapper,
-  DiagnosticParameters as DiagnosticParametersMapper
+  DiagnosticParameters as DiagnosticParametersMapper,
+  GatewayResource as GatewayResourceMapper,
+  GatewayRouteConfigResource as GatewayRouteConfigResourceMapper,
+  GatewayCustomDomainResource as GatewayCustomDomainResourceMapper,
+  ApiPortalResource as ApiPortalResourceMapper,
+  ApiPortalCustomDomainResource as ApiPortalCustomDomainResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -55,7 +67,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01-preview",
+    defaultValue: "2022-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -157,6 +169,146 @@ export const configServerSettings: OperationParameter = {
   mapper: ConfigServerSettingsMapper
 };
 
+export const configurationServiceName: OperationURLParameter = {
+  parameterPath: "configurationServiceName",
+  mapper: {
+    serializedName: "configurationServiceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const configurationServiceResource: OperationParameter = {
+  parameterPath: "configurationServiceResource",
+  mapper: ConfigurationServiceResourceMapper
+};
+
+export const settings: OperationParameter = {
+  parameterPath: "settings",
+  mapper: ConfigurationServiceSettingsMapper
+};
+
+export const serviceRegistryName: OperationURLParameter = {
+  parameterPath: "serviceRegistryName",
+  mapper: {
+    serializedName: "serviceRegistryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildServiceName: OperationURLParameter = {
+  parameterPath: "buildServiceName",
+  mapper: {
+    serializedName: "buildServiceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildName: OperationURLParameter = {
+  parameterPath: "buildName",
+  mapper: {
+    serializedName: "buildName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const build: OperationParameter = {
+  parameterPath: "build",
+  mapper: BuildMapper
+};
+
+export const buildResultName: OperationURLParameter = {
+  parameterPath: "buildResultName",
+  mapper: {
+    serializedName: "buildResultName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildpackName: OperationURLParameter = {
+  parameterPath: "buildpackName",
+  mapper: {
+    serializedName: "buildpackName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const stackName: OperationURLParameter = {
+  parameterPath: "stackName",
+  mapper: {
+    serializedName: "stackName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const builderName: OperationURLParameter = {
+  parameterPath: "builderName",
+  mapper: {
+    serializedName: "builderName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildpackBindingName: OperationURLParameter = {
+  parameterPath: "buildpackBindingName",
+  mapper: {
+    serializedName: "buildpackBindingName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const buildpackBinding: OperationParameter = {
+  parameterPath: "buildpackBinding",
+  mapper: BuildpackBindingResourceMapper
+};
+
+export const builderResource: OperationParameter = {
+  parameterPath: "builderResource",
+  mapper: BuilderResourceMapper
+};
+
+export const agentPoolName: OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    serializedName: "agentPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const agentPoolResource: OperationParameter = {
+  parameterPath: "agentPoolResource",
+  mapper: BuildServiceAgentPoolResourceMapper
+};
+
 export const monitoringSettingResource: OperationParameter = {
   parameterPath: "monitoringSettingResource",
   mapper: MonitoringSettingResourceMapper
@@ -186,6 +338,11 @@ export const syncStatus: OperationQueryParameter = {
 export const appResource: OperationParameter = {
   parameterPath: "appResource",
   mapper: AppResourceMapper
+};
+
+export const activeDeploymentCollection: OperationParameter = {
+  parameterPath: "activeDeploymentCollection",
+  mapper: ActiveDeploymentCollectionMapper
 };
 
 export const validatePayload: OperationParameter = {
@@ -292,4 +449,62 @@ export const version: OperationQueryParameter = {
 export const diagnosticParameters: OperationParameter = {
   parameterPath: "diagnosticParameters",
   mapper: DiagnosticParametersMapper
+};
+
+export const gatewayName: OperationURLParameter = {
+  parameterPath: "gatewayName",
+  mapper: {
+    serializedName: "gatewayName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const gatewayResource: OperationParameter = {
+  parameterPath: "gatewayResource",
+  mapper: GatewayResourceMapper
+};
+
+export const routeConfigName: OperationURLParameter = {
+  parameterPath: "routeConfigName",
+  mapper: {
+    serializedName: "routeConfigName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const gatewayRouteConfigResource: OperationParameter = {
+  parameterPath: "gatewayRouteConfigResource",
+  mapper: GatewayRouteConfigResourceMapper
+};
+
+export const gatewayCustomDomainResource: OperationParameter = {
+  parameterPath: "gatewayCustomDomainResource",
+  mapper: GatewayCustomDomainResourceMapper
+};
+
+export const apiPortalName: OperationURLParameter = {
+  parameterPath: "apiPortalName",
+  mapper: {
+    serializedName: "apiPortalName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiPortalResource: OperationParameter = {
+  parameterPath: "apiPortalResource",
+  mapper: ApiPortalResourceMapper
+};
+
+export const apiPortalCustomDomainResource: OperationParameter = {
+  parameterPath: "apiPortalCustomDomainResource",
+  mapper: ApiPortalCustomDomainResourceMapper
 };

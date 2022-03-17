@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable sort-imports */
 
 import * as path from "path";
 import {
@@ -9,12 +10,12 @@ import {
   TokenCachePersistenceOptions,
 } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { ConfidentialClientApplication } from "@azure/msal-node";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
+import { createPersistence } from "./setup.spec";
+import { ConfidentialClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import assert from "assert";
-import { createPersistence } from "./setup.spec";
 
 const ASSET_PATH = "assets";
 
@@ -22,10 +23,12 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
+  let recorder: Recorder;
 
-  beforeEach(function (this: Mocha.Context) {
-    const setup = msalNodeTestSetup(this);
+  beforeEach(async function (this: Mocha.Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
+    recorder = setup.recorder;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
@@ -67,10 +70,10 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
     persistence?.save("{}");
 
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
       certificatePath,
-      { tokenCachePersistenceOptions }
+      recorder.configureClientOptions({ tokenCachePersistenceOptions })
     );
 
     await credential.getToken(scope);
@@ -102,10 +105,10 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
     await persistence?.save("{}");
 
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
       certificatePath,
-      { tokenCachePersistenceOptions }
+      recorder.configureClientOptions({ tokenCachePersistenceOptions })
     );
 
     await credential.getToken(scope);
@@ -114,6 +117,7 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 2);
+
     // Even though we're providing a file persistence cache,
     // The Client Credential flow does not return the account information from the authentication service,
     // so each time getToken gets called, we will have to acquire a new token through the service.

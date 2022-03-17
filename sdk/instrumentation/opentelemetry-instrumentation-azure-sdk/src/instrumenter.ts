@@ -2,15 +2,23 @@
 // Licensed under the MIT license.
 
 import {
+  INVALID_SPAN_CONTEXT,
+  Span,
+  context,
+  defaultTextMapGetter,
+  defaultTextMapSetter,
+  trace,
+} from "@opentelemetry/api";
+import {
   Instrumenter,
   InstrumenterSpanOptions,
   TracingContext,
   TracingSpan,
 } from "@azure/core-tracing";
-import { context, defaultTextMapGetter, defaultTextMapSetter, trace } from "@opentelemetry/api";
+import { W3CTraceContextPropagator, suppressTracing } from "@opentelemetry/core";
 
 import { OpenTelemetrySpanWrapper } from "./spanWrapper";
-import { W3CTraceContextPropagator } from "@opentelemetry/core";
+import { envVarToBoolean } from "./configuration";
 import { toSpanOptions } from "./transformations";
 
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
@@ -21,11 +29,23 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     name: string,
     spanOptions: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    const span = trace
-      .getTracer(spanOptions.packageName, spanOptions.packageVersion)
-      .startSpan(name, toSpanOptions(spanOptions));
-
     let ctx = spanOptions?.tracingContext || context.active();
+    let span: Span;
+
+    if (envVarToBoolean("AZURE_TRACING_DISABLED")) {
+      // disable only our spans but not any downstream spans
+      span = trace.wrapSpanContext(INVALID_SPAN_CONTEXT);
+    } else {
+      // Create our span
+      span = trace
+        .getTracer(spanOptions.packageName, spanOptions.packageVersion)
+        .startSpan(name, toSpanOptions(spanOptions), ctx);
+
+      if (envVarToBoolean("AZURE_HTTP_TRACING_DISABLED") && name.toUpperCase().startsWith("HTTP")) {
+        // disable downstream spans
+        ctx = suppressTracing(ctx);
+      }
+    }
 
     // COMPAT: remove when core-rest-pipeline has upgraded to core-tracing 1.0
     // https://github.com/Azure/azure-sdk-for-js/issues/20567

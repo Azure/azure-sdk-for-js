@@ -5,13 +5,11 @@
 ```ts
 
 /// <reference lib="esnext.asynciterable" />
-
-import * as coreHttp from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -149,7 +147,7 @@ export class ShortCodesClient {
     constructor(endpoint: string, credential: KeyCredential, options?: ShortCodesClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: ShortCodesClientOptions);
     // (undocumented)
-    deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<RestResponse>;
+    deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<void>;
     // (undocumented)
     getUSProgramBrief(programBriefId: string, options?: GetUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
@@ -157,23 +155,23 @@ export class ShortCodesClient {
     // (undocumented)
     listUSProgramBriefs(options?: ListUSProgramBriefsOptions): PagedAsyncIterableIterator<USProgramBrief>;
     // (undocumented)
-    submitUSProgramBrief(programBriefId: string, options?: SubmitUSProgramBriefOptions): Promise<RestResponse>;
+    submitUSProgramBrief(programBriefId: string, options?: SubmitUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
-    upsertUSProgramBrief(programBriefId: string, options?: ShortCodesUpsertUSProgramBriefOptionalParams): Promise<RestResponse>;
+    upsertUSProgramBrief(programBriefId: string, options?: ShortCodesUpsertUSProgramBriefOptionalParams): Promise<USProgramBrief>;
 }
 
 // @public
-export interface ShortCodesClientOptions extends PipelineOptions {
+export interface ShortCodesClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface ShortCodesGetShortCodesOptionalParams extends coreHttp.OperationOptions {
+export interface ShortCodesGetShortCodesOptionalParams extends coreClient.OperationOptions {
     skip?: number;
     top?: number;
 }
 
 // @public
-export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreHttp.OperationOptions {
+export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreClient.OperationOptions {
     body?: USProgramBrief;
 }
 

@@ -9,7 +9,7 @@ import {
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
 } from "../../../src/constructorHelpers";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { createConnectionContextForTestsWithSessionId } from "./unittestUtils";
 import {

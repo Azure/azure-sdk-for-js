@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AvroEncoder } from "./schemaRegistryAvroEncoder";
+export { AvroSerializer } from "./avroSerializer";
 
 export * from "./models";

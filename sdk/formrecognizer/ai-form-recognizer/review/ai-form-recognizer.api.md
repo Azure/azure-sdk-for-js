@@ -383,8 +383,8 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
     beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BuildModelOptions): Promise<TrainingPoller>;
-    beginComposeModel(modelId: string, componentModels: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
-    beginCopyModel(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<TrainingPoller>;
+    beginComposeModel(modelId: string, componentModelIds: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
+    beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<TrainingPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getInfo(options?: GetInfoOptions): Promise<GetInfoResponse>;

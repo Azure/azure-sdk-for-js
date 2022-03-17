@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.61.2",
+  "rushVersion": "5.63.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.19.1",
+  "pnpmVersion": "6.32.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -807,11 +807,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/iot-device-update",
-      "projectFolder": "sdk/deviceupdate/iot-device-update",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -1458,7 +1453,8 @@
     },
     {
       "packageName": "@azure/arm-redisenterprisecache",
-      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-reservations",
@@ -1583,6 +1579,86 @@
     {
       "packageName": "@azure/arm-mobilenetwork",
       "projectFolder": "sdk/mobilenetwork/arm-mobilenetwork",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/resources/arm-resources-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dns-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/dns/arm-dns-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-locks-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/locks/arm-locks-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policy-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/policy/arm-policy-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storage-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/storage/arm-storage-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-network-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/network/arm-network-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commerce-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/commerce/arm-commerce-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-compute-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/compute/arm-compute-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventhub-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-authorization-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/authorization/arm-authorization-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/monitor/arm-monitor-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/iothub/arm-iothub-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoxedge-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appservice-profile-2020-09-01-hybrid",
+      "projectFolder": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
       "versionPolicyName": "management"
     }
   ]

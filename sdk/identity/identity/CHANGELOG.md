@@ -1,6 +1,18 @@
 # Release History
 
-## 2.1.0-beta.1 (Unreleased)
+## 2.1.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a bug that caused [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775) authentication to fail with newer versions of MSAL.
+
+### Other Changes
+
+## 2.1.0-beta.1 (2022-03-02)
 
 ### Features Added
 
@@ -8,12 +20,7 @@
   - In some scenarios where a user-assigned managed identity is required, the identity may be known by an ARM resource ID, but not a client ID (such as when user-assigned identities are created using an ARM template). The `resourceId` option allows an app to select its managed identity by its ARM resource ID to support such scenarios.
   - If `resourceId` is provided, the managed identity providers for Azure App Service (2017), Azure Arc, Azure Cloud Shell, Azure Service Fabric and Token Exchange authentication will log a warning since this parameter is not supported by the identity endpoints in those services. The authentication attempts will be sent, but the parameter will be ignored by the service.
 - Added `clientId` to the optional parameters of the `ManagedIdentityCredential`.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated the Troubleshoot guide to have error codes and error messages for the Identity Customer Service Support.
 
 ## 2.0.4 (2022-02-18)
 
@@ -62,7 +69,7 @@
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
 
 ### Features Added
 
@@ -143,7 +150,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - `InteractiveBrowserCredential` has a new `loginHint` constructor option, which allows a username to be pre-selected for interactive logins.
 - In `AzureCliCredential`, we allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.
 - A new error, named `AuthenticationRequiredError`, has been added. This error shows up when a credential fails to authenticate silently.
-- Errors and logged exceptions may point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+- Errors and logged exceptions may point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
 - On all of the credentials we're providing, the initial authentication attempt in the lifetime of your app will include an additional request to first discover relevant endpoint metadata information from Azure.
 
 ### Breaking changes
