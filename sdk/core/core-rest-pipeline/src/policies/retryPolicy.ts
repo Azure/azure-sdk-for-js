@@ -59,10 +59,15 @@ export function retryPolicy(
           logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
         } catch (e) {
           logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
+
+          // RestErrors are valid targets for the retry strategies.
+          // If none of the retry strategies can work with them, they will be thrown later in this policy.
+          // If the received error is not a RestError, it is immediately thrown.
           responseError = e as RestError;
           if (!e || responseError.name !== "RestError") {
             throw e;
           }
+
           response = responseError.response;
         }
 
