@@ -24,7 +24,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/keyvault-admin/src/index.js",
   "types": "./types/keyvault-admin.d.ts",
   "engines": {
     "node": ">=12.0.0"
