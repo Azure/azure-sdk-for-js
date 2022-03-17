@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { SecurityCenter } from "./securityCenter";
 export * from "./operationsInterfaces";
