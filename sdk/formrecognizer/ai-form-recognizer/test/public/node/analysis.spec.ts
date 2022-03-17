@@ -15,7 +15,7 @@ import {
   ModelInfo,
   PrebuiltModels,
 } from "../../../src";
-import { DocumentDateField, DocumentSelectionMarkField } from "../../../src/models/fields";
+import { DocumentSelectionMarkField } from "../../../src/models/fields";
 import {
   createRecorder,
   getRandomNumber,
@@ -228,6 +228,31 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("custom forms", () => {
+      const validator = createValidator({
+        customerName: "Microsoft",
+        invoiceId: "34278587",
+        invoiceDate: "2017-06-18T00:00:00.000Z",
+        dueDate: "2017-06-24T00:00:00.000Z",
+        vendorName: "Contoso",
+        vendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
+        customerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
+        customerAddressRecipient: "Microsoft",
+        invoiceTotal: {
+          amount: 56651.49,
+          currencySymbol: "$",
+        },
+        items: [
+          {
+            amount: {
+              amount: 56651.49,
+              currencySymbol: "$",
+            },
+            date: "2017-06-18T00:00:00.000Z",
+            productCode: "34278587",
+            tax: {},
+          },
+        ],
+      });
       let _model: ModelInfo;
       let modelName: string;
 
@@ -290,9 +315,53 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
       });
+
+      it("png file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.Invoice,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [receipt],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        assert.equal(receipt.docType, "invoice");
+
+        validator(receipt as AnalyzedDocument);
+      });
     });
 
     describe("receipts", () => {
+      const validator = createValidator({
+        locale: "en-US",
+        merchantName: "Contoso",
+        merchantPhoneNumber: "+11234567890",
+        merchantAddress: "123 Main Street Redmond, WA 98052",
+        total: 1203.39,
+        transactionDate: "2019-06-10T00:00:00.000Z",
+        transactionTime: "13:59:00",
+        subtotal: 1098.99,
+        items: [
+          {
+            totalPrice: 999,
+            description: "Surface Pro 6",
+            quantity: 1,
+          },
+          {
+            totalPrice: 99.99,
+            description: "SurfacePen",
+            quantity: 1,
+          },
+        ],
+      });
       it("png file stream", async () => {
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
         const stream = fs.createReadStream(filePath);
@@ -306,19 +375,11 @@ matrix([[true, false]] as const, async (useAad) => {
           documents,
           documents: [receiptNaive],
         } = await poller.pollUntilDone();
-
         assert.isNotEmpty(documents);
+
         assert.equal(receiptNaive.docType, "receipt.retailMeal");
 
-        const receipt = receiptNaive as Extract<
-          typeof receiptNaive,
-          { docType: "receipt.retailMeal" }
-        >;
-
-        assert.ok(receipt.fields.total, "Expecting valid 'Total' field");
-        assert.equal(receipt.fields.total?.kind, "number");
-
-        assert.equal(receipt.fields.total?.value, 1203.39);
+        validator(receiptNaive as AnalyzedDocument);
       });
 
       it("jpeg file stream", async () => {
@@ -405,19 +466,23 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("business cards", () => {
-      const expectedArrayFieldValues = {
-        jobTitles: "Senior Researcher",
-        departments: "Cloud & Al Department",
-        emails: "avery.smith@contoso.com",
-        websites: "https://www.contoso.com/",
-        // TODO: service bug causes phone numbers not to be normalized
-        // Faxes: "+44 (0) 20 6789 2345",
-        // WorkPhones: "+44 (0) 20 9876 5432",
-        // MobilePhones: "+44 (0) 7911 123456",
-        addresses: "2 Kingdom Street Paddington, London, W2 6BD",
-        companyNames: "Contoso",
-      } as const;
-
+      const validator = createValidator({
+        contactNames: [
+          {
+            firstName: "Avery",
+            lastName: "Smith",
+          },
+        ],
+        companyNames: ["Contoso"],
+        jobTitles: ["Senior Researcher"],
+        departments: ["Cloud & Al Department"],
+        addresses: ["2 Kingdom Street Paddington, London, W2 6BD"],
+        workPhones: [undefined],
+        mobilePhones: [undefined],
+        faxes: [undefined],
+        emails: ["avery.smith@contoso.com"],
+        websites: ["https://www.contoso.com/"],
+      });
       it("jpg file stream", async () => {
         const filePath = path.join(ASSET_PATH, "businessCard", "business-card-english.jpg");
         const stream = fs.createReadStream(filePath);
@@ -438,22 +503,10 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assertDefined(contactNames);
 
-        assert.equal(contactNames.kind, "array");
-        assert.equal(contactNames.values.length, 1);
+        assert.isNotEmpty(documents);
+        assert.equal(businessCard.docType, "businessCard");
 
-        const nameItem = contactNames.values[0];
-        assert.equal(nameItem.properties.firstName?.value, "Avery");
-        assert.equal(nameItem.properties.lastName?.value, "Smith");
-
-        for (const [fieldName, expectedValue] of Object.entries(expectedArrayFieldValues) as [
-          keyof typeof expectedArrayFieldValues,
-          string
-        ][]) {
-          const field = businessCard.fields[fieldName];
-          assert.isNotEmpty(field?.values);
-          const value = field?.values[0].value;
-          assert.equal(value, expectedValue);
-        }
+        validator(businessCard as AnalyzedDocument);
       });
 
       it("url", async () => {
@@ -470,27 +523,9 @@ matrix([[true, false]] as const, async (useAad) => {
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
+        assert.equal(businessCard.docType, "businessCard");
 
-        const contactNames = businessCard.fields.contactNames;
-
-        assertDefined(contactNames);
-
-        assert.equal(contactNames.kind, "array");
-        assert.equal(contactNames.values.length, 1);
-
-        const nameItem = contactNames.values[0];
-        assert.equal(nameItem.properties.firstName?.value, "Avery");
-        assert.equal(nameItem.properties.lastName?.value, "Smith");
-
-        for (const [fieldName, expectedValue] of Object.entries(expectedArrayFieldValues) as [
-          keyof typeof expectedArrayFieldValues,
-          string
-        ][]) {
-          const field = businessCard.fields[fieldName];
-          assert.isNotEmpty(field?.values);
-          const value = field?.values[0].value;
-          assert.equal(value, expectedValue);
-        }
+        validator(businessCard as AnalyzedDocument);
       });
 
       it("specifying locale", async () => {
@@ -524,21 +559,31 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("invoices", () => {
-      const expectedFieldValues = {
-        vendorName: "Contoso",
-        vendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
-        customerAddressRecipient: "Microsoft",
-        customerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
+      const validator = createValidator({
         customerName: "Microsoft",
         invoiceId: "34278587",
-        // TODO: model regression
-        // InvoiceTotal: 56651.49
-      } as const;
-
-      const expectedDateValues = {
-        invoiceDate: new Date("June 18, 2017 00:00:00+0000"),
-        dueDate: new Date("June 24, 2017 00:00:00+0000"),
-      } as const;
+        invoiceDate: "2017-06-18T00:00:00.000Z",
+        dueDate: "2017-06-24T00:00:00.000Z",
+        vendorName: "Contoso",
+        vendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
+        customerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
+        customerAddressRecipient: "Microsoft",
+        invoiceTotal: {
+          amount: 56651.49,
+          currencySymbol: "$",
+        },
+        items: [
+          {
+            amount: {
+              amount: 56651.49,
+              currencySymbol: "$",
+            },
+            date: "2017-06-18T00:00:00.000Z",
+            productCode: "34278587",
+            tax: {},
+          },
+        ],
+      });
 
       it("pdf file stream", async () => {
         const filePath = path.join(ASSET_PATH, "invoice", "Invoice_1.pdf");
@@ -563,23 +608,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(table.boundingRegions?.[0].boundingBox);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = invoice.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
-
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = invoice.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(invoice as AnalyzedDocument);
       });
 
       it("url", async () => {
@@ -604,23 +633,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(table.boundingRegions?.[0].boundingBox);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = invoice.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
-
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = invoice.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(invoice as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
@@ -642,20 +655,19 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("identityDocuments", () => {
-      const expectedFieldValues = {
-        firstName: "LIAM R.",
-        lastName: "TALBOT",
-        documentNumber: "WDLABCD456DG",
-        sex: "M",
-        address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+      const validator = createValidator({
         countryRegion: "USA",
         region: "Washington",
-      } as const;
-
-      const expectedDateValues = {
-        dateOfBirth: new Date("January 6, 1958 00:00:00+0000"),
-        dateOfExpiration: new Date("August 12, 2020 00:00:00+0000"),
-      } as const;
+        documentNumber: "WDLABCD456DG",
+        firstName: "LIAM R.",
+        lastName: "TALBOT",
+        address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+        dateOfBirth: "1958-01-06T00:00:00.000Z",
+        dateOfExpiration: "2020-08-12T00:00:00.000Z",
+        sex: "M",
+        endorsements: "L",
+        restrictions: "B",
+      });
 
       it("jpg file stream", async () => {
         const filePath = path.join(ASSET_PATH, "identityDocument", "license.jpg");
@@ -666,40 +678,17 @@ matrix([[true, false]] as const, async (useAad) => {
           stream,
           testPollingOptions
         );
+
         const {
           documents,
-          documents: [idDocumentNaive],
-          pages,
+          documents: [receipt],
         } = await poller.pollUntilDone();
 
         assert.isNotEmpty(documents);
 
-        assert.equal(idDocumentNaive.docType, "idDocument.driverLicense");
+        assert.equal(receipt.docType, "idDocument.driverLicense");
 
-        const idDocument = idDocumentNaive as Extract<
-          IdentityDocument,
-          { docType: "idDocument.driverLicense" }
-        >;
-
-        assert.isNotEmpty(pages);
-
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = idDocument.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
-
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = idDocument.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(receipt as AnalyzedDocument);
       });
 
       it("url", async () => {
@@ -727,23 +716,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(pages);
 
-        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues) as [
-          keyof typeof expectedFieldValues,
-          string
-        ][]) {
-          const field = idDocument.fields[fieldName];
-          assert.equal(field?.value, expectedValue);
-        }
+        assert.equal(idDocument.docType, "idDocument.driverLicense");
 
-        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues) as [
-          keyof typeof expectedDateValues,
-          Date
-        ][]) {
-          const { value: date } = idDocument.fields[fieldName] as DocumentDateField;
-          assert.equal(date?.getDate(), expectedDate.getDate());
-          assert.equal(date?.getMonth(), expectedDate.getMonth());
-          assert.equal(date?.getFullYear(), expectedDate.getFullYear());
-        }
+        validator(idDocument as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
@@ -764,350 +739,96 @@ matrix([[true, false]] as const, async (useAad) => {
       });
     });
 
-    describe("validators", () => {
-      describe("tax - US - w2", () => {
-        const validator = createValidator({
-          w2FormVariant: "W-2",
-          taxYear: "2018",
-          w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
-          employee: {
-            name: "BONNIE F HERNANDEZ",
-            address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
-            zipCode: "98631-5293",
-            socialSecurityNumber: "986-62-1002",
+    describe("tax - US - w2", () => {
+      const validator = createValidator({
+        w2FormVariant: "W-2",
+        taxYear: "2018",
+        w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
+        employee: {
+          name: "BONNIE F HERNANDEZ",
+          address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
+          zipCode: "98631-5293",
+          socialSecurityNumber: "986-62-1002",
+        },
+        controlNumber: "000086242",
+        employer: {
+          idNumber: "48-1069918",
+          name: "BLUE BEACON USA, LP",
+          address: "PO BOX 856 SALINA, KS",
+          zipCode: "67402-0856",
+        },
+        wagesTipsAndOtherCompensation: 37160.56,
+        federalIncomeTaxWithheld: 3894.54,
+        socialSecurityWages: 37160.56,
+        socialSecurityTaxWithheld: 2303.95,
+        medicareWagesAndTips: 37160.56,
+        medicareTaxWithheld: 538.83,
+        socialSecurityTips: 302.3,
+        allocatedTips: 874.2,
+        dependentCareBenefits: 9873.2,
+        nonQualifiedPlans: 653.21,
+        additionalInfo: [
+          {
+            letterCode: "DD",
+            amount: 6939.68,
           },
-          controlNumber: "000086242",
-          employer: {
-            idNumber: "48-1069918",
-            name: "BLUE BEACON USA, LP",
-            address: "PO BOX 856 SALINA, KS",
-            zipCode: "67402-0856",
+          {
+            letterCode: "F",
+            amount: 5432,
           },
-          wagesTipsAndOtherCompensation: 37160.56,
-          federalIncomeTaxWithheld: 3894.54,
-          socialSecurityWages: 37160.56,
-          socialSecurityTaxWithheld: 2303.95,
-          medicareWagesAndTips: 37160.56,
-          medicareTaxWithheld: 538.83,
-          socialSecurityTips: 302.3,
-          allocatedTips: 874.2,
-          dependentCareBenefits: 9873.2,
-          nonQualifiedPlans: 653.21,
-          additionalInfo: [
-            {
-              letterCode: "DD",
-              amount: 6939.68,
-            },
-            {
-              letterCode: "F",
-              amount: 5432,
-            },
-            {
-              letterCode: "D",
-              amount: 876.3,
-            },
-            {
-              letterCode: "C",
-              amount: 123.3,
-            },
-          ],
-          other: "DISINS 170.85",
-          stateTaxInfos: [
-            {
-              state: "PA",
-              employerStateIdNumber: "18574095",
-            },
-            {
-              state: "WA",
-              employerStateIdNumber: "18743231",
-            },
-          ],
-          localTaxInfos: [
-            {
-              localWagesTipsEtc: 37160.56,
-              localIncomeTax: 51,
-              localityName: "Cmberland Vly/Mddl",
-            },
-            {
-              localWagesTipsEtc: 37160.56,
-              localIncomeTax: 594.54,
-              localityName: "|E.Pennsboro/E.Pnns",
-            },
-          ],
-        });
-        it("png file stream", async () => {
-          const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
-          const stream = fs.createReadStream(filePath);
-
-          const poller = await client.beginAnalyzeDocument(
-            PrebuiltModels.TaxUsW2,
-            stream,
-            testPollingOptions
-          );
-
-          const {
-            documents,
-            documents: [w2Naive],
-          } = await poller.pollUntilDone();
-
-          assert.isNotEmpty(documents);
-
-          assert.equal(w2Naive.docType, "tax.us.w2");
-
-          validator(w2Naive as AnalyzedDocument);
-        });
+          {
+            letterCode: "D",
+            amount: 876.3,
+          },
+          {
+            letterCode: "C",
+            amount: 123.3,
+          },
+        ],
+        other: "DISINS 170.85",
+        stateTaxInfos: [
+          {
+            state: "PA",
+            employerStateIdNumber: "18574095",
+          },
+          {
+            state: "WA",
+            employerStateIdNumber: "18743231",
+          },
+        ],
+        localTaxInfos: [
+          {
+            localWagesTipsEtc: 37160.56,
+            localIncomeTax: 51,
+            localityName: "Cmberland Vly/Mddl",
+          },
+          {
+            localWagesTipsEtc: 37160.56,
+            localIncomeTax: 594.54,
+            localityName: "|E.Pennsboro/E.Pnns",
+          },
+        ],
       });
+      it("png file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
+        const stream = fs.createReadStream(filePath);
 
-      describe("receipt", () => {
-        const validator = createValidator({
-          locale: "en-US",
-          merchantName: "Contoso",
-          merchantPhoneNumber: "+11234567890",
-          merchantAddress: "123 Main Street Redmond, WA 98052",
-          total: 1203.39,
-          transactionDate: "2019-06-10T00:00:00.000Z",
-          transactionTime: "13:59:00",
-          subtotal: 1098.99,
-          items: [
-            {
-              totalPrice: 999,
-              description: "Surface Pro 6",
-              quantity: 1,
-            },
-            {
-              totalPrice: 99.99,
-              description: "SurfacePen",
-              quantity: 1,
-            },
-          ],
-        });
-        it("png file stream", async () => {
-          const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
-          const stream = fs.createReadStream(filePath);
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.TaxUsW2,
+          stream,
+          testPollingOptions
+        );
 
-          const poller = await client.beginAnalyzeDocument(
-            PrebuiltModels.Receipt,
-            stream,
-            testPollingOptions
-          );
+        const {
+          documents,
+          documents: [w2Naive],
+        } = await poller.pollUntilDone();
 
-          const {
-            documents,
-            documents: [receipt],
-          } = await poller.pollUntilDone();
+        assert.isNotEmpty(documents);
 
-          assert.isNotEmpty(documents);
+        assert.equal(w2Naive.docType, "tax.us.w2");
 
-          assert.equal(receipt.docType, "receipt.retailMeal");
-
-          validator(receipt as AnalyzedDocument);
-        });
-      });
-
-      describe("forms - invoice", () => {
-        const validator = createValidator({
-          customerName: "Microsoft",
-          invoiceId: "34278587",
-          invoiceDate: "2017-06-18T00:00:00.000Z",
-          dueDate: "2017-06-24T00:00:00.000Z",
-          vendorName: "Contoso",
-          vendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
-          customerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
-          customerAddressRecipient: "Microsoft",
-          invoiceTotal: {
-            amount: 56651.49,
-            currencySymbol: "$",
-          },
-          items: [
-            {
-              amount: {
-                amount: 56651.49,
-                currencySymbol: "$",
-              },
-              date: "2017-06-18T00:00:00.000Z",
-              productCode: "34278587",
-              tax: {},
-            },
-          ],
-        });
-        it("png file stream", async () => {
-          const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-          const stream = fs.createReadStream(filePath);
-
-          const poller = await client.beginAnalyzeDocument(
-            PrebuiltModels.Invoice,
-            stream,
-            testPollingOptions
-          );
-
-          const {
-            documents,
-            documents: [receipt],
-          } = await poller.pollUntilDone();
-
-          assert.isNotEmpty(documents);
-
-          assert.equal(receipt.docType, "invoice");
-
-          validator(receipt as AnalyzedDocument);
-        });
-      });
-
-      describe("identityDocument - license", () => {
-        const validator = createValidator({
-          countryRegion: "USA",
-          region: "Washington",
-          documentNumber: "WDLABCD456DG",
-          firstName: "LIAM R.",
-          lastName: "TALBOT",
-          address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
-          dateOfBirth: "1958-01-06T00:00:00.000Z",
-          dateOfExpiration: "2020-08-12T00:00:00.000Z",
-          sex: "M",
-          endorsements: "L",
-          restrictions: "B",
-        });
-        it("png file stream", async () => {
-          const filePath = path.join(ASSET_PATH, "identityDocument", "license.jpg");
-          const stream = fs.createReadStream(filePath);
-
-          const poller = await client.beginAnalyzeDocument(
-            PrebuiltModels.IdentityDocument,
-            stream,
-            testPollingOptions
-          );
-
-          const {
-            documents,
-            documents: [receipt],
-          } = await poller.pollUntilDone();
-
-          assert.isNotEmpty(documents);
-
-          assert.equal(receipt.docType, "idDocument.driverLicense");
-
-          validator(receipt as AnalyzedDocument);
-        });
-      });
-
-      describe("business card", () => {
-        const validator = createValidator({
-          contactNames: [
-            {
-              firstName: "Avery",
-              lastName: "Smith",
-            },
-          ],
-          companyNames: ["Contoso"],
-          jobTitles: ["Senior Researcher"],
-          departments: ["Cloud & Al Department"],
-          addresses: ["2 Kingdom Street Paddington, London, W2 6BD"],
-          workPhones: [undefined],
-          mobilePhones: [undefined],
-          faxes: [undefined],
-          emails: ["avery.smith@contoso.com"],
-          websites: ["https://www.contoso.com/"],
-        });
-        it("jpg file stream", async () => {
-          const filePath = path.join(ASSET_PATH, "businessCard", "business-card-english.jpg");
-          const stream = fs.createReadStream(filePath);
-
-          const poller = await client.beginAnalyzeDocument(
-            PrebuiltModels.BusinessCard,
-            stream,
-            testPollingOptions
-          );
-
-          const {
-            documents,
-            documents: [receipt],
-          } = await poller.pollUntilDone();
-
-          assert.isNotEmpty(documents);
-          assert.equal(receipt.docType, "businessCard");
-
-          validator(receipt as AnalyzedDocument);
-        });
-      });
-
-      describe("invoice", () => {
-        const validator = createValidator({
-          customerName: "MICROSOFT CORPORATION",
-          customerId: "CID-12345",
-          purchaseOrder: "PO-3333",
-          invoiceId: "INV-100",
-          invoiceDate: "2019-11-15T00:00:00.000Z",
-          dueDate: "2019-12-15T00:00:00.000Z",
-          vendorName: "CONTOSO LTD.",
-          vendorAddress: "123 456th St New York, NY, 10001",
-          vendorAddressRecipient: "Contoso Headquarters",
-          customerAddress: "123 Other St, Redmond WA, 98052",
-          customerAddressRecipient: "Microsoft Corp",
-          billingAddress: "123 Bill St, Redmond WA, 98052",
-          billingAddressRecipient: "Microsoft Finance",
-          shippingAddress: "123 Ship St, Redmond WA, 98052",
-          shippingAddressRecipient: "Microsoft Delivery",
-          subTotal: {
-            amount: 100,
-            currencySymbol: "$",
-          },
-          totalTax: {
-            amount: 10,
-            currencySymbol: "$",
-          },
-          invoiceTotal: {
-            amount: 110,
-            currencySymbol: "$",
-          },
-          amountDue: {
-            amount: 610,
-            currencySymbol: "$",
-          },
-          previousUnpaidBalance: {
-            amount: 500,
-            currencySymbol: "$",
-          },
-          remittanceAddress: "123 Remit St New York, NY, 10001",
-          remittanceAddressRecipient: "Contoso Billing",
-          serviceAddress: "123 Service St, Redmond WA, 98052",
-          serviceAddressRecipient: "Microsoft Services",
-          serviceStartDate: "2019-10-14T00:00:00.000Z",
-          serviceEndDate: "2019-11-14T00:00:00.000Z",
-          items: [
-            {
-              amount: {
-                amount: 100,
-                currencySymbol: "$",
-              },
-              description: "Consulting service",
-              quantity: 1,
-              unitPrice: {
-                amount: 1,
-              },
-            },
-          ],
-        });
-        it("jpg file stream", async () => {
-          const filePath = path.join(ASSET_PATH, "invoice", "sample_invoice.jpg");
-          const stream = fs.createReadStream(filePath);
-
-          const poller = await client.beginAnalyzeDocument(
-            PrebuiltModels.Invoice,
-            stream,
-            testPollingOptions
-          );
-
-          const {
-            documents,
-            documents: [receipt],
-          } = await poller.pollUntilDone();
-
-          assert.isNotEmpty(documents);
-
-          assert.equal(receipt.docType, "invoice");
-
-          validator(receipt as AnalyzedDocument);
-        });
+        validator(w2Naive as AnalyzedDocument);
       });
     });
   }).timeout(60000);
