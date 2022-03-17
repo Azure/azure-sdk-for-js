@@ -12754,7 +12754,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-7lvKA7MyvV7RVnbkD4/7ciPIAGy5DnWgcorvjaVCKvp5sgmRhcP8nJJWlNqMBD/XTG64SfTR5/NFEbwB/3W6IQ==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-o8GXo8iTYRHmFw5LCcas7PYtBKFQ1/rLg8iIEeD06a2es9f53Vju1xOD3rz6N9klpu8xRYG3peTSdbhhx6ehmg==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -12763,18 +12763,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13909,7 +13910,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-WwFds5Jll5VrVjGgeeodQu8a5k6lqUQw4pRKCGHJ+cU6ZjjfMuHGIk6r5g0YfXuq+Dioi05TcLphC21D1Cpl2g==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-SsNyYtLexrtLt4/pDhHBfg1dnwGlNMIUHhc8GDvnHHUyufkKdCxU1q8mEGQCdY1D4Dbd/Q01vhpHaxFNYeehIg==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -14347,7 +14348,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-0FVqqxMmaS5b9gJAQBmon4VGSa8vMDyR2wqukGCB27gvIw8ciyzEg8GTyqWDlXs/9qs02FDrl2qJOvyirN8TIw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-jiD6yigzItg43NzPs/AN8oxAa8fXDsZPx920Sq7DGPlslluxiFzwdrLV1AGEVLZJAtxr+hIQIozsQBm5MHBOhg==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
