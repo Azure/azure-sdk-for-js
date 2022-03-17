@@ -256,7 +256,7 @@ export const logger: AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(clientId: string, options?: ManagedIdentityCredentialResourceIdOptions | TokenCredentialOptions);
+    constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: ManagedIdentityCredentialClientIdOptions);
     constructor(options?: ManagedIdentityCredentialResourceIdOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;

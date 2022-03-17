@@ -67,10 +67,7 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param clientId - The client ID of the user-assigned identity, or app registration (when working with AKS pod-identity).
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(
-    clientId: string,
-    options?: ManagedIdentityCredentialResourceIdOptions | TokenCredentialOptions
-  );
+  constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential with clientId
    *
