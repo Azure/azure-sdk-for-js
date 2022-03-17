@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** A wrapper for a list of short code entities. */
 export interface ShortCodes {
@@ -320,7 +320,7 @@ export type MessageDirection = "toUser" | "fromUser";
 
 /** Optional parameters. */
 export interface ShortCodesGetShortCodesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. */
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. */
@@ -328,63 +328,39 @@ export interface ShortCodesGetShortCodesOptionalParams
 }
 
 /** Contains response data for the getShortCodes operation. */
-export type ShortCodesGetShortCodesResponse = ShortCodes & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ShortCodes;
-  };
-};
+export type ShortCodesGetShortCodesResponse = ShortCodes;
 
 /** Optional parameters. */
 export interface ShortCodesUpsertUSProgramBriefOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Data to create new a Program Brief or fields to update an existing Program Brief */
   body?: USProgramBrief;
 }
 
 /** Contains response data for the upsertUSProgramBrief operation. */
-export type ShortCodesUpsertUSProgramBriefResponse = USProgramBrief & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ShortCodesUpsertUSProgramBriefResponse = USProgramBrief;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: USProgramBrief;
-  };
-};
+/** Optional parameters. */
+export interface ShortCodesDeleteUSProgramBriefOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ShortCodesGetUSProgramBriefOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUSProgramBrief operation. */
-export type ShortCodesGetUSProgramBriefResponse = USProgramBrief & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ShortCodesGetUSProgramBriefResponse = USProgramBrief;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: USProgramBrief;
-  };
-};
+/** Optional parameters. */
+export interface ShortCodesSubmitUSProgramBriefOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the submitUSProgramBrief operation. */
-export type ShortCodesSubmitUSProgramBriefResponse = USProgramBrief & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: USProgramBrief;
-  };
-};
+export type ShortCodesSubmitUSProgramBriefResponse = USProgramBrief;
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. */
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. */
@@ -392,20 +368,11 @@ export interface ShortCodesGetUSProgramBriefsOptionalParams
 }
 
 /** Contains response data for the getUSProgramBriefs operation. */
-export type ShortCodesGetUSProgramBriefsResponse = USProgramBriefs & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: USProgramBriefs;
-  };
-};
+export type ShortCodesGetUSProgramBriefsResponse = USProgramBriefs;
 
 /** Optional parameters. */
 export interface ShortCodesGetShortCodesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. */
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. */
@@ -413,20 +380,11 @@ export interface ShortCodesGetShortCodesNextOptionalParams
 }
 
 /** Contains response data for the getShortCodesNext operation. */
-export type ShortCodesGetShortCodesNextResponse = ShortCodes & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ShortCodes;
-  };
-};
+export type ShortCodesGetShortCodesNextResponse = ShortCodes;
 
 /** Optional parameters. */
 export interface ShortCodesGetUSProgramBriefsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. */
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. */
@@ -434,20 +392,11 @@ export interface ShortCodesGetUSProgramBriefsNextOptionalParams
 }
 
 /** Contains response data for the getUSProgramBriefsNext operation. */
-export type ShortCodesGetUSProgramBriefsNextResponse = USProgramBriefs & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: USProgramBriefs;
-  };
-};
+export type ShortCodesGetUSProgramBriefsNextResponse = USProgramBriefs;
 
 /** Optional parameters. */
 export interface ShortCodesClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

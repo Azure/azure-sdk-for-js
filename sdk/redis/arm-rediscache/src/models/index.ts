@@ -134,6 +134,8 @@ export interface RedisCreateParameters {
   location: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The identity of the resource. */
+  identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
@@ -221,6 +223,53 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maxclients?: string;
+  /**
+   * Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preferredDataArchiveAuthMethod?: string;
+  /**
+   * Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preferredDataPersistenceAuthMethod?: string;
+  /**
+   * Zonal Configuration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zonalConfiguration?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Redis cache access keys. */
@@ -322,6 +371,8 @@ export interface Resource {
 export interface RedisUpdateParameters {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The identity of the resource. */
+  identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
@@ -473,6 +524,55 @@ export interface PrivateLinkResourceListResult {
   value?: PrivateLinkResource[];
 }
 
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetailAutoGenerated;
+}
+
+/** The error detail. */
+export interface ErrorDetailAutoGenerated {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetailAutoGenerated[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
 /** Properties supplied to Create Redis operation. */
 export type RedisCreateProperties = RedisCommonProperties & {
   /** The SKU of the Redis cache to deploy. */
@@ -538,6 +638,12 @@ export type RedisLinkedServerProperties = RedisLinkedServerCreateProperties & {
   readonly provisioningState?: string;
 };
 
+/** Asynchronous operation status */
+export type OperationStatus = OperationStatusResult & {
+  /** Additional properties from RP, only when operation is successful */
+  properties?: { [propertyName: string]: any };
+};
+
 /** Properties of the redis cache. */
 export type RedisProperties = RedisCreateProperties & {
   /**
@@ -586,6 +692,8 @@ export type RedisProperties = RedisCreateProperties & {
 export type RedisResource = TrackedResource & {
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: string[];
+  /** The identity of the resource. */
+  identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
@@ -662,6 +770,11 @@ export type RedisFirewallRule = ProxyResource & {
 
 /** Response to put/get patch schedules for Redis cache. */
 export type RedisPatchSchedule = ProxyResource & {
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
   /** List of patch schedules for a Redis cache. */
   scheduleEntries: ScheduleEntry[];
 };
@@ -751,6 +864,26 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -1141,6 +1274,13 @@ export interface PrivateLinkResourcesListByRedisCacheOptionalParams
 
 /** Contains response data for the listByRedisCache operation. */
 export type PrivateLinkResourcesListByRedisCacheResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface AsyncOperationStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AsyncOperationStatusGetResponse = OperationStatus;
 
 /** Optional parameters. */
 export interface RedisManagementClientOptionalParams

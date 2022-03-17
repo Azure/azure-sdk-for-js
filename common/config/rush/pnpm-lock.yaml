@@ -16,6 +16,7 @@ specifiers:
   '@rush-temp/arm-appinsights': file:./projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
+  '@rush-temp/arm-appservice-profile-2020-09-01-hybrid': file:./projects/arm-appservice-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
@@ -206,7 +207,6 @@ specifiers:
   '@rush-temp/identity-cache-persistence': file:./projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
-  '@rush-temp/iot-device-update-1': file:./projects/iot-device-update-1.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:./projects/keyvault-certificates.tgz
@@ -286,6 +286,7 @@ dependencies:
   '@rush-temp/arm-appinsights': file:projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
+  '@rush-temp/arm-appservice-profile-2020-09-01-hybrid': file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
@@ -476,7 +477,6 @@ dependencies:
   '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
-  '@rush-temp/iot-device-update-1': file:projects/iot-device-update-1.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
@@ -9412,6 +9412,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz:
+    resolution: {integrity: sha512-KnhU/nKZTrD9DJbzUQwC1bQCmb9J9/no66173AdZp6L6uIQ0QZJiSfpvDyCDxefpoAaxBxRco9vBjTe/INu41Q==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-appservice.tgz:
     resolution: {integrity: sha512-GPnOzswKgnWDjjtbybT7jXD7lWUnwNUYPXHzQG/tgscRIS23nXs2Wsp6ZGyTyDgBIE0mgnf30iVeUwKUKz6LLg==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
@@ -12427,7 +12455,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-6h8nQYrJ5TBrSiaJm7IcD//um6u3ebp6VBNRO/F736DPPr1nZoPFEQiLa5JYGSujqiqu4dY+CUqklTYXvx3dWQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-L96UyCle2mXUwU1QCXkofA0Yl4jBo8ElH3wdfGQBGHvDnDGkb1wNzcyuMsNncmPePr3fWsM50xCYuaMASfy0Ag==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -12436,18 +12464,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13879,7 +13908,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-WwFds5Jll5VrVjGgeeodQu8a5k6lqUQw4pRKCGHJ+cU6ZjjfMuHGIk6r5g0YfXuq+Dioi05TcLphC21D1Cpl2g==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-SsNyYtLexrtLt4/pDhHBfg1dnwGlNMIUHhc8GDvnHHUyufkKdCxU1q8mEGQCdY1D4Dbd/Q01vhpHaxFNYeehIg==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -14317,7 +14346,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-0FVqqxMmaS5b9gJAQBmon4VGSa8vMDyR2wqukGCB27gvIw8ciyzEg8GTyqWDlXs/9qs02FDrl2qJOvyirN8TIw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-jiD6yigzItg43NzPs/AN8oxAa8fXDsZPx920Sq7DGPlslluxiFzwdrLV1AGEVLZJAtxr+hIQIozsQBm5MHBOhg==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -15281,32 +15310,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
-
-  file:projects/iot-device-update-1.tgz:
-    resolution: {integrity: sha512-Bk5qTBsWfWqB+pS/MoKu0LL6pdJt5dVZRGeWupzgnwhdJO1zAu+ORURESK54rlQiHiMBuiktW1+RnBNbknVWNQ==, tarball: file:projects/iot-device-update-1.tgz}
-    name: '@rush-temp/iot-device-update-1'
-    version: 0.0.0
-    dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.19.4
-      '@types/node': 12.20.43
-      '@types/uuid': 8.3.4
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      eslint: 7.32.0
-      mkdirp: 1.0.4
-      prettier: 2.5.1
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      tslib: 2.3.1
-      typescript: 4.2.4
-      uglify-js: 3.15.1
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/iot-device-update.tgz:

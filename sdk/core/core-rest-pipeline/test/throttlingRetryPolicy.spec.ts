@@ -21,42 +21,59 @@ describe("throttlingRetryPolicy", function () {
     sinon.restore();
   });
 
-  it("It should retry after a given number of seconds on a response with status code 429", async () => {
-    const request = createPipelineRequest({
-      url: "https://bing.com",
+  const defaultDurations = [0, 10 * 1000]; // milliseconds
+
+  defaultDurations.forEach((defaultDuration) => {
+    const headersWithDefaultDuration = [
+      {
+        "Retry-After": String(defaultDuration / 1000),
+      },
+      {
+        "retry-after-ms": String(defaultDuration),
+      },
+      {
+        "x-ms-retry-after-ms": String(defaultDuration),
+      },
+    ] as const;
+    headersWithDefaultDuration.forEach((headers) => {
+      it(`(${
+        Object.keys(headers)[0]
+      }) - should retry after a given number of seconds/milliseconds on a response with status code 429`, async () => {
+        const request = createPipelineRequest({
+          url: "https://bing.com",
+        });
+        const retryResponse: PipelineResponse = {
+          headers: createHttpHeaders(headers),
+          request,
+          status: 429,
+        };
+        const successResponse: PipelineResponse = {
+          headers: createHttpHeaders(),
+          request,
+          status: 200,
+        };
+
+        const policy = throttlingRetryPolicy();
+        const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+        next.onFirstCall().resolves(retryResponse);
+        next.onSecondCall().resolves(successResponse);
+
+        const clock = sinon.useFakeTimers();
+
+        const promise = policy.sendRequest(request, next);
+        assert.isTrue(next.calledOnce, "next wasn't called once");
+
+        // allow the delay to occur
+        const time = await clock.nextAsync();
+        assert.strictEqual(time, defaultDuration);
+        assert.isTrue(next.calledTwice, "next wasn't called twice");
+
+        const result = await promise;
+
+        assert.strictEqual(result, successResponse);
+        clock.restore();
+      });
     });
-    const retryResponse: PipelineResponse = {
-      headers: createHttpHeaders({
-        "Retry-After": "10",
-      }),
-      request,
-      status: 429,
-    };
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
-    };
-
-    const policy = throttlingRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(retryResponse);
-    next.onSecondCall().resolves(successResponse);
-
-    const clock = sinon.useFakeTimers();
-
-    const promise = policy.sendRequest(request, next);
-    assert.isTrue(next.calledOnce);
-
-    // allow the delay to occur
-    const time = await clock.nextAsync();
-    assert.strictEqual(time, 10 * 1000);
-    assert.isTrue(next.calledTwice);
-
-    const result = await promise;
-
-    assert.strictEqual(result, successResponse);
-    clock.restore();
   });
 
   it("It should retry after a given date occurs on a response with status code 429", async () => {
@@ -174,6 +191,41 @@ describe("throttlingRetryPolicy", function () {
       "It should now be the time from the header."
     );
     assert.isTrue(next.calledTwice);
+
+    const result = await promise;
+
+    assert.strictEqual(result, successResponse);
+    clock.restore();
+  });
+
+  it("It should retry after 0 seconds with status code 503 for a past date", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+    });
+    const retryResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "Retry-After": "Wed, 21 Oct 2015 07:28:00 GMT",
+      }),
+      request,
+      status: 503,
+    };
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const policy = throttlingRetryPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
+
+    const promise = policy.sendRequest(request, next);
+    const clock = sinon.useFakeTimers();
+
+    assert.isTrue(next.calledOnce, "next wasn't called once");
+    await clock.nextAsync();
+    assert.isTrue(next.calledTwice, "next wasn't called twice");
 
     const result = await promise;
 
