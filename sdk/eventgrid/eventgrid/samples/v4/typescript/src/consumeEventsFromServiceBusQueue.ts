@@ -62,9 +62,9 @@ async function main() {
   // Stop processing events and exit.
   await closer.close();
   await receiver.close();
-  process.exit();
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
+  process.exit(1);
 });
