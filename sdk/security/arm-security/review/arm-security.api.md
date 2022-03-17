@@ -988,11 +988,11 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAWS";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "InformationProtectionAws";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | InformationProtectionAwsOffering;
 
 // @public
 export type Compliance = Resource & {
@@ -1420,7 +1420,7 @@ export interface DefenderForContainersAwsOfferingKubernetesService {
 
 // @public
 export type DefenderForServersAwsOffering = CloudOffering & {
-    offeringType: "DefenderForServersAWS";
+    offeringType: "DefenderForServersAws";
     defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
     arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
 };
@@ -1584,15 +1584,6 @@ export type EnforcementMode = string;
 export type EnforcementSupport = string;
 
 // @public
-export type Enum15 = string;
-
-// @public
-export type Enum17 = string;
-
-// @public
-export type Enum73 = string;
-
-// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -1750,6 +1741,17 @@ export interface HybridComputeSettingsProperties {
 export type ImplementationEffort = string;
 
 // @public
+export type InformationProtectionAwsOffering = CloudOffering & {
+    offeringType: "InformationProtectionAws";
+    informationProtection?: InformationProtectionAwsOfferingInformationProtection;
+};
+
+// @public
+export interface InformationProtectionAwsOfferingInformationProtection {
+    cloudRoleArn?: string;
+}
+
+// @public
 export interface InformationProtectionKeyword {
     canBeNumeric?: boolean;
     custom?: boolean;
@@ -1759,8 +1761,8 @@ export interface InformationProtectionKeyword {
 
 // @public
 export interface InformationProtectionPolicies {
-    createOrUpdate(scope: string, informationProtectionPolicyName: Enum17, informationProtectionPolicy: InformationProtectionPolicy, options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams): Promise<InformationProtectionPoliciesCreateOrUpdateResponse>;
-    get(scope: string, informationProtectionPolicyName: Enum17, options?: InformationProtectionPoliciesGetOptionalParams): Promise<InformationProtectionPoliciesGetResponse>;
+    createOrUpdate(scope: string, informationProtectionPolicyName: InformationProtectionPolicyName, informationProtectionPolicy: InformationProtectionPolicy, options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams): Promise<InformationProtectionPoliciesCreateOrUpdateResponse>;
+    get(scope: string, informationProtectionPolicyName: InformationProtectionPolicyName, options?: InformationProtectionPoliciesGetOptionalParams): Promise<InformationProtectionPoliciesGetResponse>;
     list(scope: string, options?: InformationProtectionPoliciesListOptionalParams): PagedAsyncIterableIterator<InformationProtectionPolicy>;
 }
 
@@ -1809,6 +1811,9 @@ export interface InformationProtectionPolicyList {
     readonly nextLink?: string;
     value?: InformationProtectionPolicy[];
 }
+
+// @public
+export type InformationProtectionPolicyName = string;
 
 // @public
 export interface InformationType {
@@ -2609,40 +2614,6 @@ export enum KnownEnforcementSupport {
 }
 
 // @public
-export enum KnownEnum15 {
-    // (undocumented)
-    Activate = "Activate",
-    // (undocumented)
-    Close = "Close",
-    // (undocumented)
-    Dismiss = "Dismiss",
-    // (undocumented)
-    Resolve = "Resolve",
-    // (undocumented)
-    Start = "Start"
-}
-
-// @public
-export enum KnownEnum17 {
-    // (undocumented)
-    Custom = "custom",
-    // (undocumented)
-    Effective = "effective"
-}
-
-// @public
-export enum KnownEnum73 {
-    // (undocumented)
-    Mcas = "MCAS",
-    // (undocumented)
-    Sentinel = "Sentinel",
-    // (undocumented)
-    Wdatp = "WDATP",
-    // (undocumented)
-    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW"
-}
-
-// @public
 export enum KnownEventSource {
     // (undocumented)
     Alerts = "Alerts",
@@ -2728,6 +2699,14 @@ export enum KnownImplementationEffort {
 }
 
 // @public
+export enum KnownInformationProtectionPolicyName {
+    // (undocumented)
+    Custom = "custom",
+    // (undocumented)
+    Effective = "effective"
+}
+
+// @public
 export enum KnownIntent {
     Collection = "Collection",
     CommandAndControl = "CommandAndControl",
@@ -2759,7 +2738,9 @@ export enum KnownOfferingType {
     // (undocumented)
     DefenderForContainersAws = "DefenderForContainersAws",
     // (undocumented)
-    DefenderForServersAws = "DefenderForServersAws"
+    DefenderForServersAws = "DefenderForServersAws",
+    // (undocumented)
+    InformationProtectionAws = "InformationProtectionAws"
 }
 
 // @public
@@ -2990,6 +2971,18 @@ export enum KnownSettingKind {
 }
 
 // @public
+export enum KnownSettingName {
+    // (undocumented)
+    Mcas = "MCAS",
+    // (undocumented)
+    Sentinel = "Sentinel",
+    // (undocumented)
+    Wdatp = "WDATP",
+    // (undocumented)
+    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW"
+}
+
+// @public
 export enum KnownSeverity {
     // (undocumented)
     High = "High",
@@ -3066,7 +3059,9 @@ export enum KnownSubAssessmentStatusCode {
 // @public
 export enum KnownSupportedCloudEnum {
     // (undocumented)
-    AWS = "AWS"
+    AWS = "AWS",
+    // (undocumented)
+    GCP = "GCP"
 }
 
 // @public
@@ -3099,6 +3094,20 @@ export enum KnownTactics {
     Reconnaissance = "Reconnaissance",
     // (undocumented)
     ResourceDevelopment = "Resource Development"
+}
+
+// @public
+export enum KnownTaskUpdateActionType {
+    // (undocumented)
+    Activate = "Activate",
+    // (undocumented)
+    Close = "Close",
+    // (undocumented)
+    Dismiss = "Dismiss",
+    // (undocumented)
+    Resolve = "Resolve",
+    // (undocumented)
+    Start = "Start"
 }
 
 // @public
@@ -4731,10 +4740,13 @@ export type Setting = Resource & {
 export type SettingKind = string;
 
 // @public
+export type SettingName = string;
+
+// @public
 export interface Settings {
-    get(settingName: Enum73, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
+    get(settingName: SettingName, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
     list(options?: SettingsListOptionalParams): PagedAsyncIterableIterator<SettingUnion>;
-    update(settingName: Enum73, setting: SettingUnion, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
+    update(settingName: SettingName, setting: SettingUnion, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
 }
 
 // @public
@@ -5042,8 +5054,8 @@ export interface Tasks {
     list(options?: TasksListOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
     listByHomeRegion(options?: TasksListByHomeRegionOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
     listByResourceGroup(resourceGroupName: string, options?: TasksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
-    updateResourceGroupLevelTaskState(resourceGroupName: string, taskName: string, taskUpdateActionType: Enum15, options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams): Promise<void>;
-    updateSubscriptionLevelTaskState(taskName: string, taskUpdateActionType: Enum15, options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams): Promise<void>;
+    updateResourceGroupLevelTaskState(resourceGroupName: string, taskName: string, taskUpdateActionType: TaskUpdateActionType, options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams): Promise<void>;
+    updateSubscriptionLevelTaskState(taskName: string, taskUpdateActionType: TaskUpdateActionType, options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams): Promise<void>;
 }
 
 // @public
@@ -5115,6 +5127,9 @@ export interface TasksUpdateResourceGroupLevelTaskStateOptionalParams extends co
 // @public
 export interface TasksUpdateSubscriptionLevelTaskStateOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type TaskUpdateActionType = string;
 
 // @public
 export type Techniques = string;

@@ -24,7 +24,7 @@ import {
   TasksListByHomeRegionResponse,
   TasksGetSubscriptionLevelTaskOptionalParams,
   TasksGetSubscriptionLevelTaskResponse,
-  Enum15,
+  TaskUpdateActionType,
   TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   TasksListByResourceGroupResponse,
   TasksGetResourceGroupLevelTaskOptionalParams,
@@ -230,7 +230,7 @@ export class TasksImpl implements Tasks {
    */
   updateSubscriptionLevelTaskState(
     taskName: string,
-    taskUpdateActionType: Enum15,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
@@ -284,7 +284,7 @@ export class TasksImpl implements Tasks {
   updateResourceGroupLevelTaskState(
     resourceGroupName: string,
     taskName: string,
-    taskUpdateActionType: Enum15,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(

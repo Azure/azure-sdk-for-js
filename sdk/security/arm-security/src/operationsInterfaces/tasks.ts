@@ -14,7 +14,7 @@ import {
   TasksListByResourceGroupOptionalParams,
   TasksGetSubscriptionLevelTaskOptionalParams,
   TasksGetSubscriptionLevelTaskResponse,
-  Enum15,
+  TaskUpdateActionType,
   TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   TasksGetResourceGroupLevelTaskOptionalParams,
   TasksGetResourceGroupLevelTaskResponse,
@@ -65,7 +65,7 @@ export interface Tasks {
    */
   updateSubscriptionLevelTaskState(
     taskName: string,
-    taskUpdateActionType: Enum15,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams
   ): Promise<void>;
   /**
@@ -91,7 +91,7 @@ export interface Tasks {
   updateResourceGroupLevelTaskState(
     resourceGroupName: string,
     taskName: string,
-    taskUpdateActionType: Enum15,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams
   ): Promise<void>;
 }
