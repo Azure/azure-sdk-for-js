@@ -5954,8 +5954,8 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /lru-cache/7.5.1:
-    resolution: {integrity: sha512-q1TS8IqKvcg3aScamKCHpepSrHF537Ww7nHahBOxhDu9D2YoBXAsj/7uFdZFj1xJr9LmyeJ62AdyofCHafUbIA==}
+  /lru-cache/7.5.0:
+    resolution: {integrity: sha512-8neUvdgNtubJ+VNNqrqOLjUoIlN+NRPFtv1Vne2rQ4uPCxhp0W4TlqntzTLnVVezGXcSSdXTrKCTYooEQA7X6g==}
     engines: {node: '>=12'}
     dev: false
 
@@ -13752,7 +13752,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-SQZalYHe9QZ9rG3hoyRKP8ag5LmObnwwhw5hTh+4WajHnfUU2/35fQxMQjQD6Px6Q5cHSNbaEAL4JtzmG68j9w==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-1tM+0PEXI9NF2zGpjIrsxgtCPK/gDjPVpIzexRBiNUe+570eFeG1vaa0Oz01Wtyq9zX0jab5kiSC8ENssu9GBg==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -13795,7 +13795,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16565,7 +16564,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.15
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
-      lru-cache: 7.5.1
+      lru-cache: 7.5.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
