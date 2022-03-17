@@ -14,7 +14,8 @@ import {
   AutomationRulesGetResponse,
   AutomationRulesCreateOrUpdateOptionalParams,
   AutomationRulesCreateOrUpdateResponse,
-  AutomationRulesDeleteOptionalParams
+  AutomationRulesDeleteOptionalParams,
+  AutomationRulesDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,14 +50,12 @@ export interface AutomationRules {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
-   * @param automationRule The automation rule
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
     automationRuleId: string,
-    automationRule: AutomationRule,
     options?: AutomationRulesCreateOrUpdateOptionalParams
   ): Promise<AutomationRulesCreateOrUpdateResponse>;
   /**
@@ -71,5 +70,5 @@ export interface AutomationRules {
     workspaceName: string,
     automationRuleId: string,
     options?: AutomationRulesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<AutomationRulesDeleteResponse>;
 }
