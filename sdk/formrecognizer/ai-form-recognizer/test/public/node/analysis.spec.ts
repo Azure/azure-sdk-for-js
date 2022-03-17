@@ -340,29 +340,29 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     describe("receipts", () => {
-      const validator = createValidator({
-        locale: "en-US",
-        merchantName: "Contoso",
-        merchantPhoneNumber: "+11234567890",
-        merchantAddress: "123 Main Street Redmond, WA 98052",
-        total: 1203.39,
-        transactionDate: "2019-06-10T00:00:00.000Z",
-        transactionTime: "13:59:00",
-        subtotal: 1098.99,
-        items: [
-          {
-            totalPrice: 999,
-            description: "Surface Pro 6",
-            quantity: 1,
-          },
-          {
-            totalPrice: 99.99,
-            description: "SurfacePen",
-            quantity: 1,
-          },
-        ],
-      });
       it("png file stream", async () => {
+        const validator = createValidator({
+          locale: "en-US",
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+11234567890",
+          merchantAddress: "123 Main Street Redmond, WA 98052",
+          total: 1203.39,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 1098.99,
+          items: [
+            {
+              totalPrice: 999,
+              description: "Surface Pro 6",
+              quantity: 1,
+            },
+            {
+              totalPrice: 99.99,
+              description: "SurfacePen",
+              quantity: 1,
+            },
+          ],
+        });
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
         const stream = fs.createReadStream(filePath);
 
@@ -383,6 +383,29 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("jpeg file stream", async () => {
+        const validator = createValidator({
+          locale: "en-US",
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+19876543210",
+          merchantAddress: "123 Main Street Redmond, WA 98052",
+          total: 14.5,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 11.7,
+          tip: 1.63,
+          items: [
+            {
+              totalPrice: 2.2,
+              description: "Cappuccino",
+              quantity: 1,
+            },
+            {
+              totalPrice: 9.5,
+              description: "BACON & EGGS",
+              quantity: 1,
+            },
+          ],
+        });
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
         const stream = fs.createReadStream(filePath);
 
@@ -398,9 +421,34 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
         assert.equal(receipt.docType, "receipt.retailMeal");
+
+        validator(receipt as AnalyzedDocument);
       });
 
       it("url", async () => {
+        const validator = createValidator({
+          locale: "en-US",
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+19876543210",
+          merchantAddress: "123 Main Street Redmond, WA 98052",
+          total: 14.5,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 11.7,
+          tip: 1.63,
+          items: [
+            {
+              totalPrice: 2.2,
+              description: "Cappuccino",
+              quantity: 1,
+            },
+            {
+              totalPrice: 9.5,
+              description: "BACON & EGGS",
+              quantity: 1,
+            },
+          ],
+        });
         const url = makeTestUrl("/contoso-allinone.jpg");
 
         const poller = await client.beginAnalyzeDocument(
@@ -415,9 +463,49 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
         assert.equal(receipt.docType, "receipt.retailMeal");
+        validator(receipt as AnalyzedDocument);
       });
 
       it("multi-page receipt with blank page", async () => {
+        const validator = createValidator({
+          locale: "en-US",
+          merchantName: "Bilbo Baggins",
+          merchantPhoneNumber: "+15555555555",
+          merchantAddress: "123 Hobbit Lane Redmond, WA",
+          total: 430,
+          subtotal: 300,
+          tip: 100,
+          items: [
+            {
+              totalPrice: 10.99,
+              quantity: 1,
+            },
+            {
+              totalPrice: 14.67,
+              quantity: 2,
+            },
+            {
+              quantity: 4,
+              price: 15.66,
+            },
+            {
+              totalPrice: 12,
+              quantity: 1,
+            },
+            {
+              totalPrice: 10,
+              quantity: 4,
+            },
+            {
+              totalPrice: 12,
+              quantity: 6,
+            },
+            {
+              totalPrice: 22,
+              quantity: 8,
+            },
+          ],
+        });
         const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
         const stream = fs.createReadStream(filePath);
 
@@ -433,6 +521,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(documents);
         assert.equal(receipt.docType, "receipt.retailMeal");
+        validator(receipt as AnalyzedDocument);
       });
 
       it("specifying locale", async () => {
@@ -537,7 +626,12 @@ matrix([[true, false]] as const, async (useAad) => {
           ...testPollingOptions,
         });
 
-        await poller.pollUntilDone();
+        const {
+          documents: _,
+          documents: [businessCard],
+        } = await poller.pollUntilDone();
+
+        validator(businessCard as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
