@@ -19,6 +19,7 @@ api-version-parameter: choice
 v3: true
 hide-clients: true
 use-core-v2: true
+core-http-compat-mode: true
 ```
 
 ## Customizations for Track 2 Generator
