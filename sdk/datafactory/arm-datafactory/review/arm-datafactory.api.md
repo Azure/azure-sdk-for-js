@@ -8193,6 +8193,7 @@ export type WebActivity = ExecutionActivity & {
     headers?: Record<string, unknown>;
     body?: Record<string, unknown>;
     authentication?: WebActivityAuthentication;
+    disableCertValidation?: boolean;
     datasets?: DatasetReference[];
     linkedServices?: LinkedServiceReference[];
     connectVia?: IntegrationRuntimeReference;

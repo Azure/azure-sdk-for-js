@@ -1,15 +1,12 @@
 # Release History
+    
+## 10.3.0 (2022-03-17)
+    
+**Features**
 
-## 10.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type Alias WebActivity has a new parameter disableCertValidation
+    
+    
 ## 10.2.0 (2022-02-22)
     
 **Features**

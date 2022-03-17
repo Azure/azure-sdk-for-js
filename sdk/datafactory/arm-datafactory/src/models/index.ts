@@ -9573,6 +9573,8 @@ export type WebActivity = ExecutionActivity & {
   body?: Record<string, unknown>;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
+  /** When set to true, Certificate validation will be disabled. */
+  disableCertValidation?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */

@@ -24850,6 +24850,12 @@ export const WebActivity: coreClient.CompositeMapper = {
           className: "WebActivityAuthentication"
         }
       },
+      disableCertValidation: {
+        serializedName: "typeProperties.disableCertValidation",
+        type: {
+          name: "Boolean"
+        }
+      },
       datasets: {
         serializedName: "typeProperties.datasets",
         type: {
