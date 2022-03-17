@@ -14,7 +14,7 @@ export function createMSUserAgentPolicy(): PipelinePolicy {
     name: "msUserAgentPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const useragent = env.AZURE_USERAGENT_OVERRIDE;
-      if (useragent){
+      if (useragent) {
         request.headers.set("x-ms-useragent", useragent);
       }
 

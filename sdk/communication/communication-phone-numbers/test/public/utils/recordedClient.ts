@@ -56,8 +56,8 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 const additionalPolicies: AdditionalPolicyConfig[] = [
   {
     policy: createMSUserAgentPolicy(),
-    position: "perRetry"
-  }
+    position: "perRetry",
+  },
 ];
 
 export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
@@ -111,7 +111,7 @@ export function createRecordedClientWithToken(
       { httpClient }
     );
   }
-  
+
   // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(endpoint, credential, {
