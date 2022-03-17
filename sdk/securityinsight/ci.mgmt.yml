@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/securityinsight/ci.mgmt.yml
-      - sdk/securityinsight/arm-securityinsight/
       - sdk/securityinsight/arm-securityinsight
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/securityinsight/ci.mgmt.yml
-      - sdk/securityinsight/arm-securityinsight/
       - sdk/securityinsight/arm-securityinsight
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

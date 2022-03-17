@@ -10,7 +10,7 @@ import {
   InstrumentationNodeModuleDefinition,
 } from "@opentelemetry/instrumentation";
 import { OpenTelemetryInstrumenter } from "./instrumenter";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION } from "./configuration";
 
 /**
  * Configuration options that can be passed to {@link createAzureSdkInstrumentation} function.

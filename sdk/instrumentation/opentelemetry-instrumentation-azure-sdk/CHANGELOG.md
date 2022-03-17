@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added the ability to disable Azure SDK Spans from being recorded by setting the `AZURE_TRACING_DISABLED` environment variable to true.
+- Added support for `AZURE_HTTP_TRACING_DISABLED` environment variable which allows disabling all children of our core HTTP spans from being recorded.
+
 ### Breaking Changes
 
 ### Bugs Fixed

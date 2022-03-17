@@ -15,7 +15,7 @@
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-09-01-preview/examples/threatintelligence/CreateThreatIntelligence.json
  */
 import {
-  ThreatIntelligenceIndicatorModelForRequestBody,
+  ThreatIntelligenceIndicatorModel,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -24,7 +24,7 @@ async function createANewThreatIntelligence() {
   const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
   const resourceGroupName = "myRg";
   const workspaceName = "myWorkspace";
-  const threatIntelligenceProperties: ThreatIntelligenceIndicatorModelForRequestBody = {
+  const threatIntelligenceProperties: ThreatIntelligenceIndicatorModel = {
     description: "debugging indicators",
     confidence: 78,
     createdByRef: "contoso@contoso.com",

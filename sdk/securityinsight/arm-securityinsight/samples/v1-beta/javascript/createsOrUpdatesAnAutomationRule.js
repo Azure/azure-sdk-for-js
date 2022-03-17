@@ -67,7 +67,9 @@ async function createsOrUpdatesAnAutomationRule() {
     resourceGroupName,
     workspaceName,
     automationRuleId,
-    automationRule
+    {
+      automationRuleToUpsert: automationRule,
+    }
   );
   console.log(result);
 }

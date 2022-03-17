@@ -15,7 +15,7 @@
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-09-01-preview/examples/threatintelligence/ReplaceTagsThreatIntelligence.json
  */
 import {
-  ThreatIntelligenceIndicatorModelForRequestBody,
+  ThreatIntelligenceIndicatorModel,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -25,7 +25,7 @@ async function replaceTagsToAThreatIntelligence() {
   const resourceGroupName = "myRg";
   const workspaceName = "myWorkspace";
   const name = "d9cd6f0b-96b9-3984-17cd-a779d1e15a93";
-  const threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModelForRequestBody = {
+  const threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel = {
     etag: '"0000262c-0000-0800-0000-5e9767060000"',
     kind: "indicator",
     threatIntelligenceTags: ["patching tags"]
