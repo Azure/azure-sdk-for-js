@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { BoundingBox, LatLon } from "@azure/maps-common";
 import {
   IncludeText,
   LocalizedMapView,
@@ -83,30 +84,24 @@ export interface GetMapStaticImageOptions extends OperationOptions {
   /** Desired zoom level of the map. Zoom value must be in the range: 0-20 (inclusive). Default value is 12. */
   zoom?: number;
   /**
-   * Coordinates of the center point. Format: 'lon,lat'. Projection used
-   * - EPSG:3857. Longitude range: -180 to 180. Latitude range: -85 to 85.
-   *
-   * Note: Either center or bbox are required parameters. They are
+   * Coordinates of the center point.
+   * Note: Either center or boundingBox are required parameters. They are
    * mutually exclusive.
    */
-  center?: number[];
+  center?: LatLon;
   /**
-   * Bounding box. Projection used - EPSG:3857. Format : 'minLon, minLat,
-   * maxLon, maxLat'.
+   * Bounding box
    *
-   * Note: Either bbox or center are required
+   * Note: Either boundingBox or center are required
    * parameters. They are mutually exclusive. It shouldn’t be used with
    * height or width.
-   *
-   * The maximum allowed ranges for Lat and Lon are defined for each zoom level
-   * in the table at the top of this page.
    */
-  boundingBoxPrivate?: number[];
+  boundingBox?: BoundingBox;
   /**
-   * Height of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with bbox.
+   * Height of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with boundingBox.
    */
   height?: number;
-  /** Width of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with bbox. */
+  /** Width of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with boundingBox. */
   width?: number;
   /**
    * Pushpin style and instances. Use this parameter to optionally add pushpins to the image.

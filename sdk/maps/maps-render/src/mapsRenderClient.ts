@@ -6,9 +6,12 @@ import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
-import { createMapsAzureKeyCredentialPolicy, createMapsClientIdPolicy } from "@azure/maps-common";
 import {
   BoundingBox,
+  createMapsAzureKeyCredentialPolicy,
+  createMapsClientIdPolicy,
+} from "@azure/maps-common";
+import {
   Copyright,
   CopyrightCaption,
   GeneratedClient,
@@ -181,7 +184,7 @@ export class MapsRenderClient {
   public async getMapAttribution(
     tilesetId: TilesetID,
     zoom: number,
-    bounds: number[], // TODO: BoundingBox
+    boundingBox: BoundingBox,
     options: GetAttributionOptions = {}
   ): Promise<MapAttribution> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapAttribution", options);
@@ -189,7 +192,12 @@ export class MapsRenderClient {
       const result = await this.client.renderV2.getMapAttribution(
         tilesetId,
         zoom,
-        bounds,
+        [
+          boundingBox.topLeft.longitude,
+          boundingBox.bottomRight.latitude,
+          boundingBox.bottomRight.longitude,
+          boundingBox.topLeft.latitude,
+        ],
         updatedOptions
       );
       return result;
@@ -273,7 +281,20 @@ export class MapsRenderClient {
   ): Promise<MapTile> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapStaticImage", options);
     try {
-      const result = await this.client.renderV2.getMapStaticImage(format, updatedOptions);
+      const result = await this.client.renderV2.getMapStaticImage(format, {
+        ...updatedOptions,
+        center: updatedOptions.center
+          ? [updatedOptions.center.longitude, updatedOptions.center.latitude]
+          : undefined,
+        boundingBoxPrivate: updatedOptions.boundingBox
+          ? [
+              updatedOptions.boundingBox.topLeft.longitude,
+              updatedOptions.boundingBox.bottomRight.latitude,
+              updatedOptions.boundingBox.bottomRight.longitude,
+              updatedOptions.boundingBox.topLeft.latitude,
+            ]
+          : undefined,
+      });
       return result;
     } catch (e) {
       span.setStatus({
@@ -293,7 +314,7 @@ export class MapsRenderClient {
    * @param options - Optional parameters for the operation
    */
   public async getCopyrightFromBoundingBox(
-    boundingBox: BoundingBox, // TODO: use maps-common bounding box
+    boundingBox: BoundingBox,
     options: GetCopyrightOptions = {}
   ): Promise<Copyright> {
     const { span, updatedOptions } = createSpan(
@@ -303,7 +324,10 @@ export class MapsRenderClient {
     try {
       const result = await this.client.renderV2.getCopyrightFromBoundingBox(
         this.defaultFormat,
-        boundingBox,
+        {
+          southWest: [boundingBox.bottomRight.latitude, boundingBox.topLeft.longitude],
+          northEast: [boundingBox.topLeft.latitude, boundingBox.bottomRight.longitude],
+        },
         updatedOptions
       );
       return result;

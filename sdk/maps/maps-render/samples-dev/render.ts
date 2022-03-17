@@ -10,7 +10,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { MapsRenderClient, KnownTilesetID, KnownRasterTileFormat } from "@azure/maps-render";
 import * as dotenv from "dotenv";
-import {} from "src/generated/models";
 dotenv.config();
 
 /**
@@ -53,7 +52,10 @@ async function main() {
   console.log(await client.getCopyrightForWorld());
 
   console.log(" --- Get copyright from bounding box:");
-  const boundingBox = { southWest: [52.41064, 4.84228], northEast: [52.41072, 4.84239] };
+  const boundingBox = {
+    bottomRight: { latitude: 52.41064, longitude: 4.84239 },
+    topLeft: { latitude: 52.41072, longitude: 4.84228 },
+  };
   console.log(await client.getCopyrightFromBoundingBox(boundingBox));
 
   if (!fs.existsSync("tmp")) fs.mkdirSync("tmp");
@@ -71,7 +73,10 @@ async function main() {
     layer: "basic",
     style: "dark",
     zoom: 2,
-    boundingBoxPrivate: [1.355233, 42.982261, 24.980233, 56.526017],
+    boundingBox: {
+      bottomRight: { latitude: 42.982261, longitude: 24.980233 },
+      topLeft: { latitude: 56.526017, longitude: 1.355233 },
+    },
   };
   let result = await client.getMapStaticImage(KnownRasterTileFormat.Png, mapStaticImageOptions);
   // use result.blobBody for Browser, readableStreamBody for Node.js:
@@ -86,11 +91,10 @@ async function main() {
   result.readableStreamBody?.pipe(fs.createWriteStream("tmp/tile_v2.vector.pbf"));
 
   console.log(" --- Get attribution:");
-  const attribution = await client.getMapAttribution(
-    KnownTilesetID.MicrosoftBase,
-    6,
-    [-122.414162, 47.57949, -122.247157, 47.668372]
-  );
+  const attribution = await client.getMapAttribution(KnownTilesetID.MicrosoftBase, 6, {
+    bottomRight: { latitude: 47.57949, longitude: -122.247157 },
+    topLeft: { latitude: 47.668372, longitude: -122.414162 },
+  });
   console.log(attribution);
 
   console.log(" --- Get tileset metadata:");
