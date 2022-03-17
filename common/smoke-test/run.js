@@ -5,13 +5,12 @@ async function main() {
   // Read manifest
   const manifest = require("./run-manifest.json");
 
-  let exitCode = 0;
   const samplesToExecute = [];
   const failures = [];
 
   // Bring all samples and includes into memory
   for (const entry of manifest) {
-    // filter out `arm-` for now
+    // TODO: do we want to run management samples as well? filter out `arm-` for now
     if (entry.Name.startsWith("arm-")) {
       continue;
     }
@@ -45,7 +44,6 @@ async function main() {
     const result = await executeSample(sample);
 
     if (!result.success) {
-      exitCode++;
       failures.push({
         sample,
         result,
@@ -62,17 +60,18 @@ async function main() {
       console.log(`Exception: ${failure.result.exception}`);
       console.log(failure);
     }
+    process.exit(1);
   }
 
   // TODO: Don't do it this way if possible?
-  process.exit(exitCode);
+  process.exit();
 }
 
 async function executeSample(sample) {
   const { name, sampleFile, directory } = sample;
   console.log("============== SMOKE TESTS ==============");
-  console.log(`Sample Name: ${name}`);
-  console.log(`Sample File: ${sampleFile}`);
+  console.log(`  Sample Name: ${name}`);
+  console.log(`  Sample File: ${sampleFile}`);
 
   const currentDir = process.cwd();
 
@@ -83,7 +82,7 @@ async function executeSample(sample) {
     const entryPoint = require(`${directory}/${sampleFile}`).main;
     await entryPoint();
   } catch (exception) {
-    console.log("FAILURE");
+    console.log("  FAILURE");
     return {
       success: false,
       exception,
