@@ -126,6 +126,10 @@ export function retryPolicy(
           }
         }
 
+        if (responseError) {
+          logger.info(`Throwing the last received error.`);
+          throw responseError;
+        }
         if (response) {
           logger.info(`Returning the last received response.`);
           return response;

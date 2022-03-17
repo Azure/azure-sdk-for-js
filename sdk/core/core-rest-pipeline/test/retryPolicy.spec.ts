@@ -363,7 +363,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -371,34 +371,17 @@ describe("retryPolicy", function () {
       [
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
-        "Retry 1: Attempting to send request [Request Id]",
-        "Retry 1: Processing 1 retry strategies.",
-        "Retry 2: Attempting to send request [Request Id]",
-        "Retry 2: Processing 1 retry strategies.",
-        "Retry 3: Attempting to send request [Request Id]",
-        "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
+        "Throwing the last received error.",
       ]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      [
-        "Retry 0: Received an error from request [Request Id]",
-        "Retry 1: Received an error from request [Request Id]",
-        "Retry 2: Received an error from request [Request Id]",
-        "Retry 3: Received an error from request [Request Id]",
-      ]
+      ["Retry 0: Received an error from request [Request Id]"]
     );
 
     assert.deepEqual(strategyLogger.params, {
-      info: [
-        "Retry 0: Processing retry strategy testRetryStrategy.",
-        "Retry 0: Skipped.",
-        "Retry 1: Processing retry strategy testRetryStrategy.",
-        "Retry 1: Skipped.",
-        "Retry 2: Processing retry strategy testRetryStrategy.",
-        "Retry 2: Skipped.",
-      ],
+      info: ["Retry 0: Processing retry strategy testRetryStrategy.", "Retry 0: Skipped."],
       error: [],
     });
   });
