@@ -1,24 +1,8 @@
 # Release History
+    
+## 4.0.0-beta.3 (2022-03-17)
 
-## 4.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.0.0-beta.2 (2022-01-26)
-
-**Feature**
-
-  - Update link
-
-## 4.0.0-beta.1 (2022-01-17)
-
-The package of @azure/arm-deploymentmanager is using our next generation design principles since version 4.0.0-beta.1, which contains breaking changes.
+The package of @azure/arm-deploymentmanager is using our next generation design principles since version 4.0.0-beta.3, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 
