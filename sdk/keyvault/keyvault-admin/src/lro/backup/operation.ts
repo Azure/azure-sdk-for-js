@@ -60,9 +60,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullBackup operation
    */
-  private fullBackup(
-    options: FullBackupOptionalParams
-  ): Promise<FullBackupResponse> {
+  private fullBackup(options: FullBackupOptionalParams): Promise<FullBackupResponse> {
     return withTrace("fullBackup", options, (updatedOptions) =>
       this.client.fullBackup(this.vaultUrl, updatedOptions)
     );

@@ -10,10 +10,10 @@ import {
   KeyVaultSelectiveKeyRestoreResult,
 } from "../../backupClientModels";
 import {
+  RestoreOperation,
   RestoreStatusResponse,
   SelectiveKeyRestoreOperationOptionalParams,
   SelectiveKeyRestoreOperationResponse,
-  RestoreOperation,
 } from "../../generated/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
