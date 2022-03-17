@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import PurviewCatalog, { PurviewCatalogRestClient } from "../../../src";
+import PurviewCatalog, { PurviewCatalogLike } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 
@@ -23,7 +23,7 @@ const recorderOptions: RecorderStartOptions = {
 export async function createClient(
   recorder: Recorder,
   options?: ClientOptions
-): Promise<PurviewCatalogRestClient> {
+): Promise<PurviewCatalogLike> {
   const credential = createTestCredential();
 
   await recorder.start(recorderOptions);
