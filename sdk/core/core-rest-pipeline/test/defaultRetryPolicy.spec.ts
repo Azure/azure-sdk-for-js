@@ -68,16 +68,7 @@ describe("defaultRetryPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
-    const clock = sinon.useFakeTimers();
-
-    let catchCalled = false;
-    const promise = policy.sendRequest(request, next);
-    promise.catch((e) => {
-      catchCalled = true;
-      assert.strictEqual(e, testError);
-    });
-    await clock.runAllAsync();
+    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
     assert.strictEqual(next.callCount, 1);
-    assert.isTrue(catchCalled);
   });
 });

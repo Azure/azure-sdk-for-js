@@ -33,17 +33,8 @@ describe("exponentialRetryPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
-    const clock = sinon.useFakeTimers();
-
-    let catchCalled = false;
-    const promise = policy.sendRequest(request, next);
-    promise.catch((e) => {
-      catchCalled = true;
-      assert.strictEqual(e, testError);
-    });
-    await clock.runAllAsync();
+    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
     assert.strictEqual(next.callCount, 1);
-    assert.isTrue(catchCalled);
   });
 
   it("It should retry with a 503 response", async () => {
@@ -63,14 +54,9 @@ describe("exponentialRetryPolicy", function () {
 
     const clock = sinon.useFakeTimers();
 
-    let catchCalled = false;
     const promise = policy.sendRequest(request, next);
-    promise.catch((e) => {
-      catchCalled = true;
-      assert.strictEqual(e, testError);
-    });
     await clock.runAllAsync();
+    await promise;
     assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
-    assert.isFalse(catchCalled);
   });
 });
