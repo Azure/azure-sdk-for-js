@@ -6,7 +6,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { CommonClientOptions } from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
@@ -14,7 +14,7 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccessControlClientOptions extends CommonClientOptions {
+export interface AccessControlClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
@@ -71,7 +71,7 @@ export class KeyVaultBackupClient {
 }
 
 // @public
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ExtendedCommonClientOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 

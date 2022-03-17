@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import {
   DataAction as KeyVaultDataAction,
   RoleScope as KeyVaultRoleScope,
@@ -15,7 +16,7 @@ export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKe
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
  */
-export interface AccessControlClientOptions extends CommonClientOptions {
+export interface AccessControlClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
