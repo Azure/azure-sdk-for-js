@@ -371,7 +371,7 @@ describe("retryPolicy", function () {
       [
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
-        "Throwing the last received error.",
+        "None of the retry strategies could work with the received error. Throwing it.",
       ]
     );
 

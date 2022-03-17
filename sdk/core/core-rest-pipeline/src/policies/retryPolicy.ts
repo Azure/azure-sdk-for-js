@@ -132,11 +132,15 @@ export function retryPolicy(
         }
 
         if (responseError) {
-          logger.info(`Throwing the last received error.`);
+          logger.info(
+            `None of the retry strategies could work with the received error. Throwing it.`
+          );
           throw responseError;
         }
         if (response) {
-          logger.info(`Returning the last received response.`);
+          logger.info(
+            `None of the retry strategies could work with the received response. Returning it.`
+          );
           return response;
         }
 
