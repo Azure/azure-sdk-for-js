@@ -10,7 +10,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     // beforeEach hook.
     let client: ContainerRegistryBlobClient;
     let recorder: Recorder;
-    const repositoryName = "library/busybox";
+    const repositoryName = "oci-artifact";
 
     // NOTE: use of "function" and not ES6 arrow-style functions with the
     // beforeEach hook is IMPORTANT due to the use of `this` in the function
@@ -51,13 +51,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
           digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
           size: 28,
           annotations: {
-            name: "artifact.txt",
-          },
+            "org.opencontainers.image.ref.name": "artifact.txt",
+          } as unknown as any,
         },
       ],
     };
 
-    it.skip("can upload OCI manifest", async () => {
+    it.only("can upload OCI manifest", async () => {
       const { digest: uploadedDigest } = await client.uploadManifest(manifest);
 
       const { digest: downloadedDigest, manifest: downloadedManifest } =

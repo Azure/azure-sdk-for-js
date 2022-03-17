@@ -233,6 +233,8 @@ export class ContainerRegistryBlobClient {
         })
       );
 
+      console.log(manifestBody.toString("utf8"));
+
       tagOrDigest ??= await calculateDigest(manifestBody);
     }
 
