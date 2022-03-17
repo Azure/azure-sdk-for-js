@@ -764,96 +764,350 @@ matrix([[true, false]] as const, async (useAad) => {
       });
     });
 
-    describe("tax - US - w2", () => {
-      const validator = createValidator({
-        w2FormVariant: "W-2",
-        taxYear: "2018",
-        w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
-        employee: {
-          name: "BONNIE F HERNANDEZ",
-          address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
-          zipCode: "98631-5293",
-          socialSecurityNumber: "986-62-1002",
-        },
-        controlNumber: "000086242",
-        employer: {
-          idNumber: "48-1069918",
-          name: "BLUE BEACON USA, LP",
-          address: "PO BOX 856 SALINA, KS",
-          zipCode: "67402-0856",
-        },
-        wagesTipsAndOtherCompensation: 37160.56,
-        federalIncomeTaxWithheld: 3894.54,
-        socialSecurityWages: 37160.56,
-        socialSecurityTaxWithheld: 2303.95,
-        medicareWagesAndTips: 37160.56,
-        medicareTaxWithheld: 538.83,
-        socialSecurityTips: 302.3,
-        allocatedTips: 874.2,
-        dependentCareBenefits: 9873.2,
-        nonQualifiedPlans: 653.21,
-        additionalInfo: [
-          {
-            letterCode: "DD",
-            amount: 6939.68,
+    describe("validators", () => {
+      describe("tax - US - w2", () => {
+        const validator = createValidator({
+          w2FormVariant: "W-2",
+          taxYear: "2018",
+          w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
+          employee: {
+            name: "BONNIE F HERNANDEZ",
+            address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
+            zipCode: "98631-5293",
+            socialSecurityNumber: "986-62-1002",
           },
-          {
-            letterCode: "F",
-            amount: 5432,
+          controlNumber: "000086242",
+          employer: {
+            idNumber: "48-1069918",
+            name: "BLUE BEACON USA, LP",
+            address: "PO BOX 856 SALINA, KS",
+            zipCode: "67402-0856",
           },
-          {
-            letterCode: "D",
-            amount: 876.3,
-          },
-          {
-            letterCode: "C",
-            amount: 123.3,
-          },
-        ],
-        other: "DISINS 170.85",
-        stateTaxInfos: [
-          {
-            state: "PA",
-            employerStateIdNumber: "18574095",
-          },
-          {
-            state: "WA",
-            employerStateIdNumber: "18743231",
-          },
-        ],
-        localTaxInfos: [
-          {
-            localWagesTipsEtc: 37160.56,
-            localIncomeTax: 51,
-            localityName: "Cmberland Vly/Mddl",
-          },
-          {
-            localWagesTipsEtc: 37160.56,
-            localIncomeTax: 594.54,
-            localityName: "|E.Pennsboro/E.Pnns",
-          },
-        ],
+          wagesTipsAndOtherCompensation: 37160.56,
+          federalIncomeTaxWithheld: 3894.54,
+          socialSecurityWages: 37160.56,
+          socialSecurityTaxWithheld: 2303.95,
+          medicareWagesAndTips: 37160.56,
+          medicareTaxWithheld: 538.83,
+          socialSecurityTips: 302.3,
+          allocatedTips: 874.2,
+          dependentCareBenefits: 9873.2,
+          nonQualifiedPlans: 653.21,
+          additionalInfo: [
+            {
+              letterCode: "DD",
+              amount: 6939.68,
+            },
+            {
+              letterCode: "F",
+              amount: 5432,
+            },
+            {
+              letterCode: "D",
+              amount: 876.3,
+            },
+            {
+              letterCode: "C",
+              amount: 123.3,
+            },
+          ],
+          other: "DISINS 170.85",
+          stateTaxInfos: [
+            {
+              state: "PA",
+              employerStateIdNumber: "18574095",
+            },
+            {
+              state: "WA",
+              employerStateIdNumber: "18743231",
+            },
+          ],
+          localTaxInfos: [
+            {
+              localWagesTipsEtc: 37160.56,
+              localIncomeTax: 51,
+              localityName: "Cmberland Vly/Mddl",
+            },
+            {
+              localWagesTipsEtc: 37160.56,
+              localIncomeTax: 594.54,
+              localityName: "|E.Pennsboro/E.Pnns",
+            },
+          ],
+        });
+        it("png file stream", async () => {
+          const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
+          const stream = fs.createReadStream(filePath);
+
+          const poller = await client.beginAnalyzeDocument(
+            PrebuiltModels.TaxUsW2,
+            stream,
+            testPollingOptions
+          );
+
+          const {
+            documents,
+            documents: [w2Naive],
+          } = await poller.pollUntilDone();
+
+          assert.isNotEmpty(documents);
+
+          assert.equal(w2Naive.docType, "tax.us.w2");
+
+          validator(w2Naive as AnalyzedDocument);
+        });
       });
-      it("png file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
-        const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginAnalyzeDocument(
-          PrebuiltModels.TaxUsW2,
-          stream,
-          testPollingOptions
-        );
+      describe("receipt", () => {
+        const validator = createValidator({
+          locale: "en-US",
+          merchantName: "Contoso",
+          merchantPhoneNumber: "+11234567890",
+          merchantAddress: "123 Main Street Redmond, WA 98052",
+          total: 1203.39,
+          transactionDate: "2019-06-10T00:00:00.000Z",
+          transactionTime: "13:59:00",
+          subtotal: 1098.99,
+          items: [
+            {
+              totalPrice: 999,
+              description: "Surface Pro 6",
+              quantity: 1,
+            },
+            {
+              totalPrice: 99.99,
+              description: "SurfacePen",
+              quantity: 1,
+            },
+          ],
+        });
+        it("png file stream", async () => {
+          const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
+          const stream = fs.createReadStream(filePath);
 
-        const {
-          documents,
-          documents: [w2Naive],
-        } = await poller.pollUntilDone();
+          const poller = await client.beginAnalyzeDocument(
+            PrebuiltModels.Receipt,
+            stream,
+            testPollingOptions
+          );
 
-        assert.isNotEmpty(documents);
+          const {
+            documents,
+            documents: [receipt],
+          } = await poller.pollUntilDone();
 
-        assert.equal(w2Naive.docType, "tax.us.w2");
+          assert.isNotEmpty(documents);
 
-        validator(w2Naive as AnalyzedDocument);
+          assert.equal(receipt.docType, "receipt.retailMeal");
+
+          validator(receipt as AnalyzedDocument);
+        });
+      });
+
+      describe("forms - invoice", () => {
+        const validator = createValidator({
+          customerName: "Microsoft",
+          invoiceId: "34278587",
+          invoiceDate: "2017-06-18T00:00:00.000Z",
+          dueDate: "2017-06-24T00:00:00.000Z",
+          vendorName: "Contoso",
+          vendorAddress: "1 Redmond way Suite 6000 Redmond, WA 99243",
+          customerAddress: "1020 Enterprise Way Sunnayvale, CA 87659",
+          customerAddressRecipient: "Microsoft",
+          invoiceTotal: {
+            amount: 56651.49,
+            currencySymbol: "$",
+          },
+          items: [
+            {
+              amount: {
+                amount: 56651.49,
+                currencySymbol: "$",
+              },
+              date: "2017-06-18T00:00:00.000Z",
+              productCode: "34278587",
+              tax: {},
+            },
+          ],
+        });
+        it("png file stream", async () => {
+          const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
+          const stream = fs.createReadStream(filePath);
+
+          const poller = await client.beginAnalyzeDocument(
+            PrebuiltModels.Invoice,
+            stream,
+            testPollingOptions
+          );
+
+          const {
+            documents,
+            documents: [receipt],
+          } = await poller.pollUntilDone();
+
+          assert.isNotEmpty(documents);
+
+          assert.equal(receipt.docType, "invoice");
+
+          validator(receipt as AnalyzedDocument);
+        });
+      });
+
+      describe("identityDocument - license", () => {
+        const validator = createValidator({
+          countryRegion: "USA",
+          region: "Washington",
+          documentNumber: "WDLABCD456DG",
+          firstName: "LIAM R.",
+          lastName: "TALBOT",
+          address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+          dateOfBirth: "1958-01-06T00:00:00.000Z",
+          dateOfExpiration: "2020-08-12T00:00:00.000Z",
+          sex: "M",
+          endorsements: "L",
+          restrictions: "B",
+        });
+        it("png file stream", async () => {
+          const filePath = path.join(ASSET_PATH, "identityDocument", "license.jpg");
+          const stream = fs.createReadStream(filePath);
+
+          const poller = await client.beginAnalyzeDocument(
+            PrebuiltModels.IdentityDocument,
+            stream,
+            testPollingOptions
+          );
+
+          const {
+            documents,
+            documents: [receipt],
+          } = await poller.pollUntilDone();
+
+          assert.isNotEmpty(documents);
+
+          assert.equal(receipt.docType, "idDocument.driverLicense");
+
+          validator(receipt as AnalyzedDocument);
+        });
+      });
+
+      describe("business card", () => {
+        const validator = createValidator({
+          contactNames: [
+            {
+              firstName: "Avery",
+              lastName: "Smith",
+            },
+          ],
+          companyNames: ["Contoso"],
+          jobTitles: ["Senior Researcher"],
+          departments: ["Cloud & Al Department"],
+          addresses: ["2 Kingdom Street Paddington, London, W2 6BD"],
+          workPhones: [undefined],
+          mobilePhones: [undefined],
+          faxes: [undefined],
+          emails: ["avery.smith@contoso.com"],
+          websites: ["https://www.contoso.com/"],
+        });
+        it("jpg file stream", async () => {
+          const filePath = path.join(ASSET_PATH, "businessCard", "business-card-english.jpg");
+          const stream = fs.createReadStream(filePath);
+
+          const poller = await client.beginAnalyzeDocument(
+            PrebuiltModels.BusinessCard,
+            stream,
+            testPollingOptions
+          );
+
+          const {
+            documents,
+            documents: [receipt],
+          } = await poller.pollUntilDone();
+
+          assert.isNotEmpty(documents);
+          assert.equal(receipt.docType, "businessCard");
+
+          validator(receipt as AnalyzedDocument);
+        });
+      });
+
+      describe("invoice", () => {
+        const validator = createValidator({
+          customerName: "MICROSOFT CORPORATION",
+          customerId: "CID-12345",
+          purchaseOrder: "PO-3333",
+          invoiceId: "INV-100",
+          invoiceDate: "2019-11-15T00:00:00.000Z",
+          dueDate: "2019-12-15T00:00:00.000Z",
+          vendorName: "CONTOSO LTD.",
+          vendorAddress: "123 456th St New York, NY, 10001",
+          vendorAddressRecipient: "Contoso Headquarters",
+          customerAddress: "123 Other St, Redmond WA, 98052",
+          customerAddressRecipient: "Microsoft Corp",
+          billingAddress: "123 Bill St, Redmond WA, 98052",
+          billingAddressRecipient: "Microsoft Finance",
+          shippingAddress: "123 Ship St, Redmond WA, 98052",
+          shippingAddressRecipient: "Microsoft Delivery",
+          subTotal: {
+            amount: 100,
+            currencySymbol: "$",
+          },
+          totalTax: {
+            amount: 10,
+            currencySymbol: "$",
+          },
+          invoiceTotal: {
+            amount: 110,
+            currencySymbol: "$",
+          },
+          amountDue: {
+            amount: 610,
+            currencySymbol: "$",
+          },
+          previousUnpaidBalance: {
+            amount: 500,
+            currencySymbol: "$",
+          },
+          remittanceAddress: "123 Remit St New York, NY, 10001",
+          remittanceAddressRecipient: "Contoso Billing",
+          serviceAddress: "123 Service St, Redmond WA, 98052",
+          serviceAddressRecipient: "Microsoft Services",
+          serviceStartDate: "2019-10-14T00:00:00.000Z",
+          serviceEndDate: "2019-11-14T00:00:00.000Z",
+          items: [
+            {
+              amount: {
+                amount: 100,
+                currencySymbol: "$",
+              },
+              description: "Consulting service",
+              quantity: 1,
+              unitPrice: {
+                amount: 1,
+              },
+            },
+          ],
+        });
+        it("jpg file stream", async () => {
+          const filePath = path.join(ASSET_PATH, "invoice", "sample_invoice.jpg");
+          const stream = fs.createReadStream(filePath);
+
+          const poller = await client.beginAnalyzeDocument(
+            PrebuiltModels.Invoice,
+            stream,
+            testPollingOptions
+          );
+
+          const {
+            documents,
+            documents: [receipt],
+          } = await poller.pollUntilDone();
+
+          assert.isNotEmpty(documents);
+
+          assert.equal(receipt.docType, "invoice");
+
+          validator(receipt as AnalyzedDocument);
+        });
       });
     });
   }).timeout(60000);
