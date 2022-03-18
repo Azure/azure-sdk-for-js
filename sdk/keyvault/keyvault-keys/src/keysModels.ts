@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
+
 import {
   DeletionRecoveryLevel,
+  JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation,
 } from "./generated/models";
+
 import { KeyCurveName } from "./cryptographyClientModels";
 
 export { KeyType, KnownKeyTypes, KeyOperation };
@@ -285,7 +287,13 @@ export interface KeyReleasePolicy {
    */
   contentType?: string;
 
-  /** Blob encoding the policy rules under which the key can be released. */
+  /**
+   * The policy rules under which the key can be released. Encoded based on the {@link KeyReleasePolicy.contentType}.
+   *
+   * For more information regarding the release policy grammar for Azure Key Vault, please refer to:
+   * - https://aka.ms/policygrammarkeys for Azure Key Vault release policy grammar.
+   * - https://aka.ms/policygrammarmhsm for Azure Managed HSM release policy grammar.
+   */
   encodedPolicy?: Uint8Array;
 
   /** Marks a release policy as immutable. An immutable release policy cannot be changed or updated after marked immutable. */
