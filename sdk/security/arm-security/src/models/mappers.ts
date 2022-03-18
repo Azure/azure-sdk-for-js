@@ -4718,6 +4718,21 @@ export const DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSec
   }
 };
 
+export const InformationProtectionAwsOfferingInformationProtection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InformationProtectionAwsOfferingInformationProtection",
+    modelProperties: {
+      cloudRoleArn: {
+        serializedName: "cloudRoleArn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MdeOnboardingData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8028,7 +8043,7 @@ export const DefenderForContainersAwsOffering: coreClient.CompositeMapper = {
 };
 
 export const DefenderForServersAwsOffering: coreClient.CompositeMapper = {
-  serializedName: "DefenderForServersAWS",
+  serializedName: "DefenderForServersAws",
   type: {
     name: "Composite",
     className: "DefenderForServersAwsOffering",
@@ -8048,6 +8063,26 @@ export const DefenderForServersAwsOffering: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DefenderForServersAwsOfferingArcAutoProvisioning"
+        }
+      }
+    }
+  }
+};
+
+export const InformationProtectionAwsOffering: coreClient.CompositeMapper = {
+  serializedName: "InformationProtectionAws",
+  type: {
+    name: "Composite",
+    className: "InformationProtectionAwsOffering",
+    uberParent: "CloudOffering",
+    polymorphicDiscriminator: CloudOffering.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CloudOffering.type.modelProperties,
+      informationProtection: {
+        serializedName: "informationProtection",
+        type: {
+          name: "Composite",
+          className: "InformationProtectionAwsOfferingInformationProtection"
         }
       }
     }
@@ -8708,7 +8743,8 @@ export let discriminators = {
   "AlertSimulatorRequestProperties.Bundles": AlertSimulatorBundlesRequestProperties,
   "CloudOffering.CspmMonitorAws": CspmMonitorAwsOffering,
   "CloudOffering.DefenderForContainersAws": DefenderForContainersAwsOffering,
-  "CloudOffering.DefenderForServersAWS": DefenderForServersAwsOffering,
+  "CloudOffering.DefenderForServersAws": DefenderForServersAwsOffering,
+  "CloudOffering.InformationProtectionAws": InformationProtectionAwsOffering,
   "Resource.CEF": CefExternalSecuritySolution,
   "Resource.ATA": AtaExternalSecuritySolution,
   "Resource.AAD": AadExternalSecuritySolution,

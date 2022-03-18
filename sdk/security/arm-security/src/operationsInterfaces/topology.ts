@@ -27,20 +27,26 @@ export interface Topology {
   ): PagedAsyncIterableIterator<TopologyResource>;
   /**
    * Gets a list that allows to build a topology view of a subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   listByHomeRegion(
+    ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams
   ): PagedAsyncIterableIterator<TopologyResource>;
   /**
    * Gets a specific topology component.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param topologyResourceName Name of a topology resources collection.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     topologyResourceName: string,
     options?: TopologyGetOptionalParams
   ): Promise<TopologyGetResponse>;

@@ -9038,7 +9038,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-p5c3Fvz/1TsAf39TR5Ob1MKEeCRfnLTepqV1LW/Hq1VZQ1AGvRbPSZAaUX9KbLtmfas+T4RkAs2NLYagTV5YWw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-8nfO8GUFtqYDD3IZqe/e2skZAdyrGmMILxiBu5J97qbpBEHtR78QWfaBwH0wQjwB3qYvqtyxKO76G3OXPaNTPw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -12755,7 +12755,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-7lvKA7MyvV7RVnbkD4/7ciPIAGy5DnWgcorvjaVCKvp5sgmRhcP8nJJWlNqMBD/XTG64SfTR5/NFEbwB/3W6IQ==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-j/Plp7yL9w2UNzRaKK1P2c9PSzowhLFUTBBAT22F4JlG7vKQd+C1tEf2n21O7ML4F4DcDjo/2G/1WbrFh8DzBw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -12764,18 +12764,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -14716,7 +14717,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-2cfUMl2pp6rxlhzwxWiTvxuR3rE7/6PnHFqemx0G3XhFPcjNVmG86akuP53lYbCfZzrJ4zfIuiAm+TDhCEVYcg==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-+zq/iyIQMvsNStPKiIdnhkC2EZfg5sUJAJoSF8UO7J7mnpNNMGqKy83bgVct89h9RQJ8ffvLvj8qOD+BOz0P+w==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -14953,7 +14954,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-opYvozUeyklN6hWR3v+QKZ/yADTfwHXKp81KqpQODwrHWI6UosjIKDuSI6NaBQl8YGLL+KCCW8RtSoNeLWLTnw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-WB+YXTl5pugC7LFJojH/xLjFnP99t0VTU7dUNFHnCWFfqsd8zDwQkhnbcuIsDBzTwcH6yOrN12pHod6Gec89lA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -15847,7 +15848,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-VBSR9nowFkwZxweaxyAfHs5845rwQss3+lKzEkswtJ6/fapsdB3/yCyCgjSk/wjFIQ+TmR0L1E7uxq2mj9kIdg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-/zqXms1lqA4XHzV+tTJGpUrpT7aikkmGbNfpBYlHu3WaoqBht8uSTvXX0eLqbeN9F/fGIy82DVt4OSSmCfxKKg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -17355,7 +17356,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-HFiYA5WMTZ5uV7heu6jS7nPDXibcYDUwYY9BmsgPkSewJqaZrFZGq7VsrpEsT5LrKpbWTN79sQJI8ziiyaIXWA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-+Br/j0LW6HPO8FtcZA318RDXzwVmFvhoVTH2MyExmFcT2ZQ0taJtGd7HeW9IPHVKxVRnPAnSrv1dT5tnOgCy1w==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -17491,7 +17492,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-6YltGfIt/N0fCMBst9a1WUIdPHEd1P07BVbpdSywL40SvBUrIl5KPmupCINQAYHCf6BvExke3q712AwIb3BGcA==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-qF48UapaRaIx/JiHpf1Qpqrx/ef89BjKdakW4mKBEQOLBmcSkyA0mDhfZDaKuDuzfxDar+wkz1AlW03FeP+cBg==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:

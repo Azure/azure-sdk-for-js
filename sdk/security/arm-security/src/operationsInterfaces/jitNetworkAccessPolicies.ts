@@ -35,9 +35,12 @@ export interface JitNetworkAccessPolicies {
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   listByRegion(
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
@@ -54,21 +57,27 @@ export interface JitNetworkAccessPolicies {
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   listByResourceGroupAndRegion(
     resourceGroupName: string,
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     options?: JitNetworkAccessPoliciesGetOptionalParams
   ): Promise<JitNetworkAccessPoliciesGetResponse>;
@@ -76,12 +85,15 @@ export interface JitNetworkAccessPolicies {
    * Create a policy for protecting resources using Just-in-Time access control
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param body
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     body: JitNetworkAccessPolicy,
     options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams
@@ -90,11 +102,14 @@ export interface JitNetworkAccessPolicies {
    * Delete a Just-in-Time access control policy.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     options?: JitNetworkAccessPoliciesDeleteOptionalParams
   ): Promise<void>;
@@ -102,12 +117,15 @@ export interface JitNetworkAccessPolicies {
    * Initiate a JIT access from a specific Just-in-Time policy configuration.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param body
    * @param options The options parameters.
    */
   initiate(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     body: JitNetworkAccessPolicyInitiateRequest,
     options?: JitNetworkAccessPoliciesInitiateOptionalParams
