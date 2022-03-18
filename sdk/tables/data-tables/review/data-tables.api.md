@@ -160,6 +160,8 @@ export interface Metrics {
     version?: string;
 }
 
+export { NamedKeyCredential }
+
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
