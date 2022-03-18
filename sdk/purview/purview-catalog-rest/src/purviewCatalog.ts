@@ -15,8 +15,8 @@ export default function PurviewCatalog(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"]
-    }
+      scopes: ["https://purview.azure.net/.default"],
+    },
   };
 
   const client = getClient(baseUrl, credentials, options) as PurviewCatalogLike;
