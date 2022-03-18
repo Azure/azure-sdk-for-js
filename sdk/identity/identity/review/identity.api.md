@@ -281,7 +281,8 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
 
 // @public
 export class OnBehalfOfCredential implements TokenCredential {
-    constructor(options: OnBehalfOfCredentialOptions);
+    constructor(options: OnBehalfOfCredentialCertificateOptions & TokenCredentialOptions & CredentialPersistenceOptions);
+    constructor(options: OnBehalfOfCredentialSecretOptions & TokenCredentialOptions & CredentialPersistenceOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -289,7 +290,6 @@ export class OnBehalfOfCredential implements TokenCredential {
 export interface OnBehalfOfCredentialCertificateOptions {
     certificatePath: string;
     clientId: string;
-    clientSecret?: never;
     sendCertificateChain?: boolean;
     tenantId: string;
     userAssertionToken: string;
@@ -300,10 +300,8 @@ export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | O
 
 // @public
 export interface OnBehalfOfCredentialSecretOptions {
-    certificatePath?: never;
     clientId: string;
     clientSecret: string;
-    sendCertificateChain?: never;
     tenantId: string;
     userAssertionToken: string;
 }
