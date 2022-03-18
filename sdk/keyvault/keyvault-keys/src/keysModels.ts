@@ -296,7 +296,7 @@ export interface KeyReleasePolicy {
    */
   encodedPolicy?: Uint8Array;
 
-  /** Marks a release policy as immutable. An immutable release policy cannot be changed or updated after marked immutable. */
+  /** Marks a release policy as immutable. An immutable release policy cannot be changed or updated after being marked immutable. */
   immutable?: boolean;
 }
 
