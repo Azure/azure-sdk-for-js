@@ -105,6 +105,7 @@ describe("ClientSecretCredential (internal)", function () {
   });
 
   // This test can only run on playback mode since we're manually changing the recordings to match the authorityHost
+  // to cover the scenarios in which the authority host needs to be changed to a private endpoint.
   it("Authenticates with authorityHost with validation disabled", async function (this: Context) {
     if (!isPlaybackMode()) {
       this.skip();
