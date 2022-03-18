@@ -14,6 +14,11 @@ describe("continuation token utils", () => {
     assert.equal(encoded, "eyJuZXh0UGFydGl0aW9uS2V5IjoiZm9vIiwibmV4dFJvd0tleSI6ImJhciJ9");
   });
 
+  it("should not encode nextRowKey if it is empty string", () => {
+    const encoded = encodeContinuationToken("foo", "");
+    assert.deepEqual(decodeContinuationToken(encoded!), { nextPartitionKey: "foo" });
+  });
+
   it("should encode nextPartitionKey and undefined nextRowKey", () => {
     const encoded = encodeContinuationToken("foo");
     assert.equal(encoded, "eyJuZXh0UGFydGl0aW9uS2V5IjoiZm9vIn0=");

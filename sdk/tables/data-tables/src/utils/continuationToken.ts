@@ -21,7 +21,8 @@ export function encodeContinuationToken(
 
   const continuationToken = {
     nextPartitionKey,
-    ...{ nextRowKey },
+    // Only add nextRowKey if the value is not null, undefined or empty string.
+    ...(nextRowKey && { nextRowKey }),
   };
 
   return base64Encode(JSON.stringify(continuationToken));
