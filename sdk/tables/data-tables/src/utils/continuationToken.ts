@@ -3,7 +3,7 @@
 
 import { base64Decode, base64Encode } from "./bufferSerializer";
 
-export interface ContinuationToken {
+interface ContinuationToken {
   nextPartitionKey: string;
   nextRowKey?: string;
 }
