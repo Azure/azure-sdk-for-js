@@ -33,7 +33,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
  * Provides options to configure the {@link DefaultAzureCredential} class.
  * This variation supports `managedIdentityResourceId` and not `managedIdentityClientId`, since only one of both is supported.
  */
-export interface DefaultAzureCredentialOptionsWithResourceId extends DefaultAzureCredentialOptions {
+export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
   /**
    * Optionally pass in a resource ID to be used by the {@link ManagedIdentityCredential}.
    * In scenarios such as when user assigned identities are created using an ARM template,
@@ -57,10 +57,24 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 
 /**
  * The type of a class that implements TokenCredential and accepts
- * `DefaultAzureCredentialOptions`.
+ * {@link DefaultAzureCredentialOptions}.
  */
 interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialOptions): TokenCredential;
+}
+/**
+ * The type of a class that implements TokenCredential and accepts
+ * {@link DefaultAzureCredentialResourceIdOptions}.
+ */
+interface DefaultCredentialConstructor {
+  new (options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
+}
+/**
+ * The type of a class that implements TokenCredential and accepts
+ * {@link DefaultAzureCredentialClientIdOptions}.
+ */
+interface DefaultCredentialConstructor {
+  new (options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
 }
 
 /**
@@ -70,11 +84,13 @@ interface DefaultCredentialConstructor {
  * @internal
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
+  constructor(options?: DefaultAzureCredentialClientIdOptions);
+  constructor(options?: DefaultAzureCredentialResourceIdOptions);
   constructor(options?: DefaultAzureCredentialOptions) {
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
       process.env.AZURE_CLIENT_ID;
-    const managedResourceId = (options as DefaultAzureCredentialOptionsWithResourceId)
+    const managedResourceId = (options as DefaultAzureCredentialResourceIdOptions)
       ?.managedIdentityResourceId;
 
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
@@ -110,7 +126,57 @@ export const defaultCredentials: DefaultCredentialConstructor[] = [
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
-   * Creates an instance of the DefaultAzureCredential class.
+   * Creates an instance of the DefaultAzureCredential class with {@link DefaultAzureCredentialClientIdOptions}
+   *
+   * This credential provides a default {@link ChainedTokenCredential} configuration that should
+   * work for most applications that use the Azure SDK.
+   *
+   * The following credential types will be tried, in order:
+   *
+   * - {@link EnvironmentCredential}
+   * - {@link ManagedIdentityCredential}
+   * - {@link VisualStudioCodeCredential}
+   * - {@link AzureCliCredential}
+   * - {@link AzurePowerShellCredential}
+   *
+   * Consult the documentation of these credential types for more information
+   * on how they attempt authentication.
+   *
+   * **Note**: `VisualStudioCodeCredential` is provided by a plugin package:
+   * `@azure/identity-vscode`. If this package is not installed and registered
+   * using the plugin API (`useIdentityPlugin`), then authentication using
+   * `VisualStudioCodeCredential` will not be available.
+   * @param options - Optional parameters. See {@link DefaultAzureCredentialClientIdOptions}.
+   */
+  constructor(options?: DefaultAzureCredentialClientIdOptions);
+
+  /**
+   *  Creates an instance of the DefaultAzureCredential class with {@link DefaultAzureCredentialResourceIdOptions}
+   *
+   * This credential provides a default {@link ChainedTokenCredential} configuration that should
+   * work for most applications that use the Azure SDK.
+   *
+   * The following credential types will be tried, in order:
+   *
+   * - {@link EnvironmentCredential}
+   * - {@link ManagedIdentityCredential}
+   * - {@link VisualStudioCodeCredential}
+   * - {@link AzureCliCredential}
+   * - {@link AzurePowerShellCredential}
+   *
+   * Consult the documentation of these credential types for more information
+   * on how they attempt authentication.
+   *
+   * **Note**: `VisualStudioCodeCredential` is provided by a plugin package:
+   * `@azure/identity-vscode`. If this package is not installed and registered
+   * using the plugin API (`useIdentityPlugin`), then authentication using
+   * `VisualStudioCodeCredential` will not be available.
+   * @param options - Optional parameters. See {@link DefaultAzureCredentialResourceIdOptions}.
+   */
+  constructor(options?: DefaultAzureCredentialResourceIdOptions);
+
+  /**
+   * Creates an instance of the DefaultAzureCredential class with {@link DefaultAzureCredentialOptions}
    *
    * This credential provides a default {@link ChainedTokenCredential} configuration that should
    * work for most applications that use the Azure SDK.
@@ -133,7 +199,19 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialOptions}.
    */
-  constructor(options?: DefaultAzureCredentialOptions) {
+  constructor(options?: DefaultAzureCredentialOptions);
+
+  /**
+   * Creates an instance of the DefaultAzureCredential class.
+   * @internal
+   * @hidden
+   */
+  constructor(
+    options?:
+      | DefaultAzureCredentialOptions
+      | DefaultAzureCredentialResourceIdOptions
+      | DefaultAzureCredentialClientIdOptions
+  ) {
     super(...defaultCredentials.map((ctor) => new ctor(options)));
     this.UnavailableMessage =
       "DefaultAzureCredential => failed to retrieve a token from the included credentials. To troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot.";

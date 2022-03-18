@@ -34,7 +34,7 @@ export {
   DefaultAzureCredential,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
-  DefaultAzureCredentialOptionsWithResourceId as DefaultAzureCredentialResourceIdOptions,
+  DefaultAzureCredentialResourceIdOptions,
 } from "./credentials/defaultAzureCredential";
 export {
   EnvironmentCredential,

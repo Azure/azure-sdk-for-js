@@ -148,6 +148,8 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
+    constructor(options?: DefaultAzureCredentialClientIdOptions);
+    constructor(options?: DefaultAzureCredentialResourceIdOptions);
     constructor(options?: DefaultAzureCredentialOptions);
 }
 
