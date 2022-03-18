@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions } from "@azure/core-client";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 /**
  * Provides options to configure how the Identity library makes authentication
@@ -18,4 +19,10 @@ export interface TokenCredentialOptions extends CommonClientOptions {
    * If set to true, disables the automatic validation of the authority host.
    */
   disableAuthorityValidation?: boolean;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    allowLoggingAccountIdentifiers?: boolean;
+  };
 }

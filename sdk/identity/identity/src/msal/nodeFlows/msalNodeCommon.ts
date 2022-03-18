@@ -5,6 +5,7 @@ import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
@@ -39,6 +40,12 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    * If the property is not specified, uses a non-regional authority endpoint.
    */
   regionalAuthority?: string;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    allowLoggingAccountIdentifiers?: boolean;
+  };
 }
 
 /**
@@ -126,6 +133,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
       authorityHost: authority,
+      loggingOptions: options.loggingOptions,
     });
 
     let clientCapabilities: string[] = ["cp1"];
