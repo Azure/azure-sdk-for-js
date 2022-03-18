@@ -69,27 +69,26 @@ export class ClientCertificateCredential implements TokenCredential {
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
-   * @param configuration - Other parameters required, including the PEM-encoded certificate as a string, or as a path on the filesystem.
-   *                        If the type is ignored, we will throw if both the value of the PEM certificate and the path to a PEM certificate are provided at the same time.
+   * @param certificate - The PEM-encoded certificate as a string.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string,
     clientId: string,
-    configuration: ClientCertificateCredentialPEMConfiguration,
+    certificate: string, //DOUBT: renamed this, is this a breaking change?
     options?: ClientCertificateCredentialOptions
   );
   constructor(
     tenantId: string,
     clientId: string,
-    certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration,
+    certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration, //DOUBT: Should I remove the 2nd type here?
     options: ClientCertificateCredentialOptions = {}
   ) {
     if (!tenantId || !clientId) {
       throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
     }
     const configuration: ClientCertificateCredentialPEMConfiguration = {
-      ...(typeof certificatePathOrConfiguration === "string"
+      ...(typeof certificatePathOrConfiguration === "string" // DOUBT: now everything will be string, how to write this logic?
         ? {
             certificatePath: certificatePathOrConfiguration,
           }
@@ -131,3 +130,5 @@ export class ClientCertificateCredential implements TokenCredential {
     });
   }
 }
+// DOUBT: How to differentiate whether the 3rd string parameter will be a certificate or certificatePath??
+// const client = new ClientCertificateCredential("tenantId","clientId","sfsfsf");
