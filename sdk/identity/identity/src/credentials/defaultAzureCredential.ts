@@ -84,8 +84,12 @@ interface DefaultCredentialConstructor {
  * @internal
  */
 export class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
+  // Constructor overload with just client id options
   constructor(options?: DefaultAzureCredentialClientIdOptions);
+  // Constructor overload with just resource id options
   constructor(options?: DefaultAzureCredentialResourceIdOptions);
+  // Constructor overload with just the other default options
+  // Last constructor overload with Union of all options not required since the above two constructor overloads have optional properties
   constructor(options?: DefaultAzureCredentialOptions) {
     const managedIdentityClientId =
       (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
@@ -94,19 +98,17 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
       ?.managedIdentityResourceId;
 
     // ManagedIdentityCredential throws if both the resourceId and the clientId are provided.
-    // let managedIdentityOptions;
     if (managedResourceId) {
       const managedIdentityResourceIdOptions: ManagedIdentityCredentialResourceIdOptions = {
         ...options,
+        resourceId: managedResourceId,
       };
-      managedIdentityResourceIdOptions.resourceId = managedResourceId;
       super(managedIdentityResourceIdOptions);
-    }
-    if (managedIdentityClientId) {
+    } else if (managedIdentityClientId) {
       const managedIdentityClientOptions: ManagedIdentityCredentialClientIdOptions = {
         ...options,
+        clientId: managedIdentityClientId,
       };
-      managedIdentityClientOptions.clientId = managedIdentityClientId;
       super(managedIdentityClientOptions);
     }
   }

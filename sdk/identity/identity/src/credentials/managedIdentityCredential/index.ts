@@ -85,11 +85,10 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @hidden
    */
   constructor(
-    clientIdOrOptions:
+    clientIdOrOptions?:
       | string
       | ManagedIdentityCredentialClientIdOptions
-      | ManagedIdentityCredentialResourceIdOptions
-      | undefined,
+      | ManagedIdentityCredentialResourceIdOptions,
     options?: TokenCredentialOptions
   ) {
     let _options: TokenCredentialOptions | undefined;
