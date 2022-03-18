@@ -54,7 +54,7 @@ describe("exponentialRetryPolicy", function () {
 
     const clock = sinon.useFakeTimers();
 
-    const promise = policy.sendRequest(request, next);
+    const promise = assert.isRejected(policy.sendRequest(request, next), /Test Error/);
     await clock.runAllAsync();
     await promise;
     assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);

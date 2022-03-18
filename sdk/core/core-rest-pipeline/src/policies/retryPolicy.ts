@@ -81,10 +81,13 @@ export function retryPolicy(
           logger.info(
             `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
           );
-          if (response !== undefined) {
+          if (responseError) {
+            throw responseError;
+          } else if (response) {
             return response;
+          } else {
+            throw new Error("Maximum retries reached with no response or error to throw");
           }
-          throw responseError;
         }
 
         logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);

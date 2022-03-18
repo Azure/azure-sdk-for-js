@@ -17,6 +17,7 @@
 ### Other Changes
 
 - Changed the default number of retries from 10 to 3.
+- The retry policies now throw errors (if encountered) at the time they stop retrying, rather than merely returning the response.
 
 ## 1.6.0 (2022-03-03)
 
