@@ -490,7 +490,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
       if (isDefined(omitMessageBody)) {
         const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
-        messageBody[omitMessageBodyKey] = omitMessageBody; // TODO: do we need to wrap or not?
+        messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
       }
       const request: RheaMessage = {
         body: messageBody,
