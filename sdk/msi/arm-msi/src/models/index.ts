@@ -81,6 +81,59 @@ export interface UserAssignedIdentitiesListResult {
   nextLink?: string;
 }
 
+/** Azure resources returned by the resource action to get a list of assigned resources. */
+export interface AssociatedResourcesListResult {
+  /**
+   * Total number of Azure resources assigned to the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCount?: number;
+  /**
+   * The collection of Azure resources returned by the resource action to get a list of assigned resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: AzureResource[];
+  /**
+   * The url to get the next page of results, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes an Azure resource that is attached to an identity. */
+export interface AzureResource {
+  /**
+   * The ID of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The name of the resource group this resource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGroup?: string;
+  /**
+   * The ID of the subscription this resource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The name of the subscription this resource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionDisplayName?: string;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export type ProxyResource = Resource & {};
 
@@ -198,6 +251,24 @@ export interface UserAssignedIdentitiesListByResourceGroupOptionalParams
 export type UserAssignedIdentitiesListByResourceGroupResponse = UserAssignedIdentitiesListResult;
 
 /** Optional parameters. */
+export interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter expression to apply to the query. */
+  filter?: string;
+  /** OData orderBy expression to apply to the query. */
+  orderby?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listAssociatedResources operation. */
+export type UserAssignedIdentitiesListAssociatedResourcesResponse = AssociatedResourcesListResult;
+
+/** Optional parameters. */
 export interface UserAssignedIdentitiesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -235,6 +306,24 @@ export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type UserAssignedIdentitiesListByResourceGroupNextResponse = UserAssignedIdentitiesListResult;
+
+/** Optional parameters. */
+export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter expression to apply to the query. */
+  filter?: string;
+  /** OData orderBy expression to apply to the query. */
+  orderby?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listAssociatedResourcesNext operation. */
+export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
 
 /** Optional parameters. */
 export interface ManagedServiceIdentityClientOptionalParams
