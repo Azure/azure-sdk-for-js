@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { GetTokenOptions } from "@azure/core-auth";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay, Recorder } from "@azure-tools/test-recorder";
+import { env, delay, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -97,6 +97,26 @@ describe("ClientSecretCredential (internal)", function () {
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
       recorder.configureClientOptions({})
+    );
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1);
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  // This test can only run on playback mode since we're manually changing the recordings to match the authorityHost
+  it("Authenticates with authorityHost with validation disabled", async function () {
+    if (!isPlaybackMode()) {
+      this.skip();
+    }
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({
+        authorityHost: "https://private.host/path",
+        disableAuthorityValidation: true,
+      })
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);

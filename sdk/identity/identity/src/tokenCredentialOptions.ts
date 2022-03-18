@@ -14,4 +14,8 @@ export interface TokenCredentialOptions extends CommonClientOptions {
    * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
+  /**
+   * If set to true, disables the automatic validation of the authority host.
+   */
+  disableAuthorityValidation?: boolean;
 }

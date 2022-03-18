@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `disableAuthorityValidation`, which allows passing any `authorityHost` regardless of whether it can be validated or not. This is specially useful in private clouds.
+
 ### Breaking Changes
 
 ### Bugs Fixed
