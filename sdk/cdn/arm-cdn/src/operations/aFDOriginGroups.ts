@@ -51,7 +51,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Lists all of the existing origin groups within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -122,7 +123,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -202,7 +204,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Lists all of the existing origin groups within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -219,7 +222,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Gets an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -238,7 +242,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param originGroup Origin group properties
    * @param options The options parameters.
@@ -309,7 +314,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param originGroup Origin group properties
    * @param options The options parameters.
@@ -334,7 +340,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originGroupUpdateProperties Origin group properties
    * @param options The options parameters.
@@ -411,7 +418,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originGroupUpdateProperties Origin group properties
    * @param options The options parameters.
@@ -436,7 +444,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -500,7 +509,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -522,7 +532,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -541,7 +552,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -560,7 +572,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
@@ -647,7 +660,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  requestBody: Parameters.originGroup1,
+  requestBody: Parameters.originGroup,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -656,7 +669,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.originGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -681,7 +694,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  requestBody: Parameters.originGroupUpdateProperties1,
+  requestBody: Parameters.originGroupUpdateProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -690,7 +703,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.originGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

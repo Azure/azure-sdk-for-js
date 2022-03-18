@@ -46,7 +46,8 @@ export class RulesImpl implements Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -126,7 +127,8 @@ export class RulesImpl implements Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -145,7 +147,8 @@ export class RulesImpl implements Rules {
   /**
    * Gets an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -166,7 +169,8 @@ export class RulesImpl implements Rules {
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -236,7 +240,8 @@ export class RulesImpl implements Rules {
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -264,7 +269,8 @@ export class RulesImpl implements Rules {
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -341,7 +347,8 @@ export class RulesImpl implements Rules {
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -369,7 +376,8 @@ export class RulesImpl implements Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -435,7 +443,8 @@ export class RulesImpl implements Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -460,7 +469,8 @@ export class RulesImpl implements Rules {
   /**
    * ListByRuleSetNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param nextLink The nextLink from the previous successful call to the ListByRuleSet method.
    * @param options The options parameters.
@@ -559,7 +569,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -594,7 +604,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

@@ -9,14 +9,6 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ProfilesImpl,
-  EndpointsImpl,
-  OriginsImpl,
-  OriginGroupsImpl,
-  CustomDomainsImpl,
-  ResourceUsageOperationsImpl,
-  OperationsImpl,
-  EdgeNodesImpl,
   AFDProfilesImpl,
   AFDCustomDomainsImpl,
   AFDEndpointsImpl,
@@ -29,18 +21,18 @@ import {
   SecretsImpl,
   ValidateImpl,
   LogAnalyticsImpl,
+  ProfilesImpl,
+  EndpointsImpl,
+  OriginsImpl,
+  OriginGroupsImpl,
+  CustomDomainsImpl,
+  ResourceUsageOperationsImpl,
+  OperationsImpl,
+  EdgeNodesImpl,
   PoliciesImpl,
   ManagedRuleSetsImpl
 } from "./operations";
 import {
-  Profiles,
-  Endpoints,
-  Origins,
-  OriginGroups,
-  CustomDomains,
-  ResourceUsageOperations,
-  Operations,
-  EdgeNodes,
   AFDProfiles,
   AFDCustomDomains,
   AFDEndpoints,
@@ -53,6 +45,14 @@ import {
   Secrets,
   Validate,
   LogAnalytics,
+  Profiles,
+  Endpoints,
+  Origins,
+  OriginGroups,
+  CustomDomains,
+  ResourceUsageOperations,
+  Operations,
+  EdgeNodes,
   Policies,
   ManagedRuleSets
 } from "./operationsInterfaces";
@@ -60,6 +60,9 @@ import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   CdnManagementClientOptionalParams,
+  CheckEndpointNameAvailabilityInput,
+  CheckEndpointNameAvailabilityOptionalParams,
+  CheckEndpointNameAvailabilityResponse,
   CheckNameAvailabilityInput,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityResponse,
@@ -102,7 +105,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/6.0.0`;
+    const packageDetails = `azsdk-js-arm-cdn/7.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,15 +128,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-09-01";
-    this.profiles = new ProfilesImpl(this);
-    this.endpoints = new EndpointsImpl(this);
-    this.origins = new OriginsImpl(this);
-    this.originGroups = new OriginGroupsImpl(this);
-    this.customDomains = new CustomDomainsImpl(this);
-    this.resourceUsageOperations = new ResourceUsageOperationsImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.edgeNodes = new EdgeNodesImpl(this);
+    this.apiVersion = options.apiVersion || "2021-06-01";
     this.aFDProfiles = new AFDProfilesImpl(this);
     this.aFDCustomDomains = new AFDCustomDomainsImpl(this);
     this.aFDEndpoints = new AFDEndpointsImpl(this);
@@ -146,8 +141,34 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     this.secrets = new SecretsImpl(this);
     this.validate = new ValidateImpl(this);
     this.logAnalytics = new LogAnalyticsImpl(this);
+    this.profiles = new ProfilesImpl(this);
+    this.endpoints = new EndpointsImpl(this);
+    this.origins = new OriginsImpl(this);
+    this.originGroups = new OriginGroupsImpl(this);
+    this.customDomains = new CustomDomainsImpl(this);
+    this.resourceUsageOperations = new ResourceUsageOperationsImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.edgeNodes = new EdgeNodesImpl(this);
     this.policies = new PoliciesImpl(this);
     this.managedRuleSets = new ManagedRuleSetsImpl(this);
+  }
+
+  /**
+   * Check the availability of a resource name. This is needed for resources where name is globally
+   * unique, such as a afdx endpoint.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param checkEndpointNameAvailabilityInput Input to check.
+   * @param options The options parameters.
+   */
+  checkEndpointNameAvailability(
+    resourceGroupName: string,
+    checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput,
+    options?: CheckEndpointNameAvailabilityOptionalParams
+  ): Promise<CheckEndpointNameAvailabilityResponse> {
+    return this.sendOperationRequest(
+      { resourceGroupName, checkEndpointNameAvailabilityInput, options },
+      checkEndpointNameAvailabilityOperationSpec
+    );
   }
 
   /**
@@ -199,14 +220,6 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     );
   }
 
-  profiles: Profiles;
-  endpoints: Endpoints;
-  origins: Origins;
-  originGroups: OriginGroups;
-  customDomains: CustomDomains;
-  resourceUsageOperations: ResourceUsageOperations;
-  operations: Operations;
-  edgeNodes: EdgeNodes;
   aFDProfiles: AFDProfiles;
   aFDCustomDomains: AFDCustomDomains;
   aFDEndpoints: AFDEndpoints;
@@ -219,12 +232,43 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   secrets: Secrets;
   validate: Validate;
   logAnalytics: LogAnalytics;
+  profiles: Profiles;
+  endpoints: Endpoints;
+  origins: Origins;
+  originGroups: OriginGroups;
+  customDomains: CustomDomains;
+  resourceUsageOperations: ResourceUsageOperations;
+  operations: Operations;
+  edgeNodes: EdgeNodes;
   policies: Policies;
   managedRuleSets: ManagedRuleSets;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse
+    }
+  },
+  requestBody: Parameters.checkEndpointNameAvailabilityInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Cdn/checkNameAvailability",
   httpMethod: "POST",
@@ -239,7 +283,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.checkNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -258,7 +302,7 @@ const checkNameAvailabilityWithSubscriptionOperationSpec: coreClient.OperationSp
   requestBody: Parameters.checkNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -276,7 +320,7 @@ const validateProbeOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.validateProbeInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
