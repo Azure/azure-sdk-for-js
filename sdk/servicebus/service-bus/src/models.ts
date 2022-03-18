@@ -267,4 +267,8 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
    * The sequence number to start peeking messages from (inclusive).
    */
   fromSequenceNumber?: Long;
+  /**
+   * (Experimental for diagnostic purpose) Specifies whether to omit the body when peeking messages.
+   */
+  omitMessageBody?: boolean;
 }

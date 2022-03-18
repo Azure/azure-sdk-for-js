@@ -207,6 +207,7 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long_2;
+    omitMessageBody?: boolean;
 }
 
 // @public
