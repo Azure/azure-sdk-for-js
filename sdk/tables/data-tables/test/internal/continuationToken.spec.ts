@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
   decodeContinuationToken,
   encodeContinuationToken,
 } from "../../src/utils/continuationToken";
+
+import { assert } from "chai";
 
 describe("continuation token utils", () => {
   it("should encode nextPartitionKey and nextRowKey", () => {
