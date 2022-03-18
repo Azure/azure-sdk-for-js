@@ -105,7 +105,10 @@ export class ChainedTokenCredential implements TokenCredential {
 // @public
 export class ClientCertificateCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, certificatePath: string, options?: ClientCertificateCredentialOptions);
-    constructor(tenantId: string, clientId: string, configuration: ClientCertificateCredentialPEMConfiguration, options?: ClientCertificateCredentialOptions);
+    // Warning: (ae-forgotten-export) The symbol "ClientCertificatePEMCertificatePath" needs to be exported by the entry point index.d.ts
+    constructor(tenantId: string, clientId: string, configuration: ClientCertificatePEMCertificatePath, options?: ClientCertificateCredentialOptions);
+    // Warning: (ae-forgotten-export) The symbol "ClientCertificatePEMCertificate" needs to be exported by the entry point index.d.ts
+    constructor(tenantId: string, clientId: string, configuration: ClientCertificatePEMCertificate, options?: ClientCertificateCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -115,13 +118,7 @@ export interface ClientCertificateCredentialOptions extends TokenCredentialOptio
 }
 
 // @public
-export type ClientCertificateCredentialPEMConfiguration = {
-    certificate: string;
-    certificatePath?: never;
-} | {
-    certificate?: never;
-    certificatePath: string;
-};
+export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
