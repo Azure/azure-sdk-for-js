@@ -34,9 +34,4 @@ describe("continuation token utils", () => {
     const decoded = decodeContinuationToken("eyJuZXh0UGFydGl0aW9uS2V5IjoiZm9vIn0=");
     assert.deepEqual(decoded, { nextPartitionKey: "foo" } as any);
   });
-
-  it("should return undefined if nextPartitionKey and nextRowKey are empty", () => {
-    const encoded = encodeContinuationToken();
-    assert.equal(encoded, undefined);
-  });
 });

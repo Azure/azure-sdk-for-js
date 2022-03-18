@@ -19,7 +19,7 @@ export function encodeContinuationToken(
     return undefined;
   }
 
-  const continuationToken: { nextPartitionKey: string; nextRowKey?: string } = {
+  const continuationToken = {
     nextPartitionKey,
     ...{ nextRowKey },
   };
