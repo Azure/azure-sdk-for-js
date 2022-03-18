@@ -1253,6 +1253,22 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/search-documents/11.3.0-beta.7:
+    resolution: {integrity: sha512-y+8GS1hjdWZA+ObTjyJIUZW+GB/be2LHBKy0VRajAGP2eJOSTVMBzzJmI19/B+DKQQvR/Sm/xyXJ6J68R+NMKQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.5.0
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.5.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      events: 3.3.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/service-bus/7.4.0:
     resolution: {integrity: sha512-dznAohud/t7qT4KuQ9LsJ7ZKRpecXbunpCJi+kcfqA6aY1ffB2gYXg8odMJoIZPcxLBZiBvJIXp5P9y5IhEMgg==}
     engines: {node: '>=12.0.0'}
@@ -16206,11 +16222,12 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-fDGQFcgVitwZW22LuRwj1sHE0wCl34WzYcSfeZAnr+k/lf9LCZKPxmDkCejI+PV5N2MY1bnoKw873zzOma8Adw==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-FJDX0jP1sZP2TEal8mZeMWqkomOSt9yAhhdiOpFb3WgO30ZTs1IGDu6hkzulejcycVhvhJ08X6sjL+2LKab3iQ==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
+      '@azure/search-documents': 11.3.0-beta.7
       '@types/node': 12.20.43
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16631,7 +16648,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-g7P8eMjaPiq++oG1NdRPwvXRH7c2LnWSoiIaX0VWmoCQ209BInpGURnShvnRIEp9JPb2ojo8S9Ob/XCzf0V/qA==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
