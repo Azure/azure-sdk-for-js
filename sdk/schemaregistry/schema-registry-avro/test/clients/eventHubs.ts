@@ -7,7 +7,8 @@ import {
   EventHubConsumerClient,
   MessagingError,
   OnSendEventsErrorContext,
-  earliestEventPosition,
+  Subscription,
+  latestEventPosition,
 } from "@azure/event-hubs";
 import { MessagingTestClient } from "./models";
 import { delay } from "@azure-tools/test-recorder";
@@ -18,10 +19,13 @@ export function createEventHubsClient(
 ): MessagingTestClient<EventData> {
   let producer: EventHubBufferedProducerClient;
   let consumer: EventHubConsumerClient;
+  let subscription: Subscription;
+  const eventsBuffer: EventData[] = [];
   return {
     async initialize() {
       producer = new EventHubBufferedProducerClient(eventHubsConnectionString, eventHubName, {
         onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
+          this.cleanup();
           throw ctx.error;
         },
       });
@@ -30,39 +34,41 @@ export function createEventHubsClient(
         eventHubsConnectionString,
         eventHubName
       );
-    },
-    async send(message: EventData) {
-      await producer.enqueueEvent(message);
-    },
-    async receive() {
-      let firstEvent: EventData | undefined = undefined;
-      const subscription = consumer.subscribe(
+      subscription = consumer.subscribe(
         {
-          // The callback where you add your code to process incoming events
           processEvents: async (events: EventData[]) => {
-            for (const event of events) {
-              firstEvent = event;
-              break;
-            }
+            eventsBuffer.push(...events);
           },
           processError: async (err: Error | MessagingError) => {
             this.cleanup();
             throw err;
           },
         },
-        { startPosition: earliestEventPosition }
+        { startPosition: latestEventPosition }
       );
-      await delay(3000);
-      await subscription.close();
-      if (firstEvent !== undefined) {
-        return firstEvent;
-      } else {
+    },
+    async send(message: EventData) {
+      await producer.enqueueEvent(message);
+    },
+    receive: async function* ({ eventCount = 1, waitIntervalInMs = 1000 } = {}) {
+      let currEventCount = 0;
+      try {
+        while (currEventCount < eventCount) {
+          await delay(waitIntervalInMs);
+          const event = eventsBuffer.shift();
+          if (event !== undefined) {
+            yield event;
+            ++currEventCount;
+          }
+        }
+      } catch (error) {
         await this.cleanup();
-        throw new Error(`no event received!`);
+        throw error;
       }
     },
     async cleanup() {
       await producer.close();
+      await subscription.close();
       await consumer.close();
     },
   };

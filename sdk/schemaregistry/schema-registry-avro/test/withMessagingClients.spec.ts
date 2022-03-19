@@ -17,16 +17,16 @@ import { testGroup } from "./utils/dummies";
  * An interface to group different bits needed by the tests for each messaging service
  */
 interface ScenariosTestInfo<T> {
-  adapterFactory: MessageAdapter<T>;
+  messageAdapter: MessageAdapter<T>;
   messagingServiceName: string;
   client: MessagingTestClient<T>;
 }
 
-describe("With messaging clients", function () {
+describe.only("With messaging clients", function () {
   const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const eventDataTestInfo: ScenariosTestInfo<EventData> = {
-    adapterFactory: createEventDataAdapter({
+    messageAdapter: createEventDataAdapter({
       properties: {
         language: "js",
       },
@@ -37,25 +37,48 @@ describe("With messaging clients", function () {
     ),
   };
   matrix([[eventDataTestInfo]] as const, async (testInfo: ScenariosTestInfo<any>) => {
-    describe(testInfo.messagingServiceName, async function () {
+    const { messageAdapter, client, messagingServiceName } = testInfo;
+    describe(messagingServiceName, async function () {
       let serializer: AvroSerializer<any>;
+
+      async function roundtrip(settings: {
+        value: unknown;
+        writerSchema: string;
+        processMessage: (p: Promise<unknown>) => Promise<void>;
+        readerSchema?: string;
+        eventCount?: number;
+      }): Promise<void> {
+        const { value, readerSchema, processMessage, writerSchema, eventCount = 1 } = settings;
+        const message = await serializer.serializeMessageData(value, writerSchema);
+        await client.send(message);
+        for await (const receivedMessage of client.receive({
+          eventCount,
+        })) {
+          await processMessage(
+            serializer.deserializeMessageData(receivedMessage, {
+              schema: readerSchema,
+            })
+          );
+        }
+      }
+
       before(async function () {
         serializer = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: true,
             groupName: testGroup,
-            messageAdapter: testInfo.adapterFactory,
+            messageAdapter,
           },
         });
-        await testInfo.client.initialize();
+        await client.initialize();
       });
 
       after(async function () {
-        await testInfo.client.cleanup();
+        await client.cleanup();
       });
 
       it("Test schema with fields of type int/string/boolean/float/bytes", async () => {
-        const schema = JSON.stringify({
+        const writerSchema = JSON.stringify({
           name: "RecordWithFieldTypes",
           namespace: "interop.avro",
           type: "record",
@@ -74,11 +97,11 @@ describe("With messaging clients", function () {
           height: 13.5,
           randb: Buffer.from("\u00FF"),
         };
-        const message = await serializer.serializeMessageData(value, schema);
-        await testInfo.client.send(message);
-        const receivedMessage = await testInfo.client.receive();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage);
-        assert.deepStrictEqual(deserializedValue, value);
+        await roundtrip({
+          value,
+          writerSchema,
+          processMessage: async (p: Promise<unknown>) => assert.deepStrictEqual(await p, value),
+        });
       });
 
       it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field removed.", async () => {
@@ -102,14 +125,14 @@ describe("With messaging clients", function () {
           ],
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        const message = await serializer.serializeMessageData(value, writerSchema);
-        await testInfo.client.send(message);
-        const receivedMessage = await testInfo.client.receive();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
-          schema: readerSchema,
+        await roundtrip({
+          value,
+          writerSchema,
+          readerSchema,
+          processMessage: async (p: Promise<unknown>) =>
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            assert.deepStrictEqual(await p, (({ favorite_color, ...rest }) => rest)(value)),
         });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        assert.deepStrictEqual(deserializedValue, (({ favorite_color, ...rest }) => rest)(value));
       });
 
       it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field added.", async () => {
@@ -135,13 +158,13 @@ describe("With messaging clients", function () {
           ],
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        const message = await serializer.serializeMessageData(value, writerSchema);
-        await testInfo.client.send(message);
-        const receivedMessage = await testInfo.client.receive();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage, {
-          schema: readerSchema,
+        await roundtrip({
+          value,
+          writerSchema,
+          readerSchema,
+          processMessage: async (p: Promise<unknown>) =>
+            assert.deepStrictEqual(await p, { ...value, favorite_city: "Redmond" }),
         });
-        assert.deepStrictEqual(deserializedValue, { ...value, favorite_city: "Redmond" });
       });
 
       it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field (with no default value) added.", async () => {
@@ -167,15 +190,13 @@ describe("With messaging clients", function () {
           ],
         });
         const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        const message = await serializer.serializeMessageData(value, writerSchema);
-        await testInfo.client.send(message);
-        const receivedMessage = await testInfo.client.receive();
-        await assert.isRejected(
-          serializer.deserializeMessageData(receivedMessage, {
-            schema: readerSchema,
-          }),
-          /no matching field for default-less/
-        );
+        await roundtrip({
+          value,
+          writerSchema,
+          readerSchema,
+          processMessage: async (p: Promise<unknown>) =>
+            assert.isRejected(p, /no matching field for default-less/),
+        });
       });
     });
   });

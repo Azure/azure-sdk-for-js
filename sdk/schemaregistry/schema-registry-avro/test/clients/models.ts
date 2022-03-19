@@ -7,6 +7,6 @@
 export interface MessagingTestClient<MessageT> {
   initialize: () => Promise<void>;
   send: (message: MessageT) => Promise<void>;
-  receive: () => Promise<MessageT>;
+  receive(options?: { eventCount?: number; waitIntervalInMs?: number }): AsyncGenerator<MessageT>;
   cleanup: () => Promise<void>;
 }
