@@ -524,6 +524,8 @@ describe("ManagedIdentityCredential", function () {
     });
 
     const authRequest = authDetails.requests[0];
+    console.log(`authDetails = ${authDetails}`);
+    console.log(`authRequest = ${authRequest}`);
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
@@ -562,6 +564,8 @@ describe("ManagedIdentityCredential", function () {
     });
 
     const authRequest = authDetails.requests[0];
+    console.log(`authDetails = ${authDetails}`);
+    console.log(`authRequest = ${authRequest}`);
     const query = new URLSearchParams(authRequest.url.split("?")[1]);
 
     assert.equal(authRequest.method, "GET");
