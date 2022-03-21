@@ -319,6 +319,7 @@ export { TokenCredential }
 // @public
 export interface TokenCredentialOptions extends CommonClientOptions {
     authorityHost?: string;
+    disableAuthorityValidation?: boolean;
     loggingOptions?: LogPolicyOptions & {
         allowLoggingAccountIdentifiers?: boolean;
     };
