@@ -81,7 +81,6 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       {
         processEvents: async (events: ReceivedEventData[], _context: PartitionContext) => {
           for (const _event of events) {
-            console.log(_event.sequenceNumber, _context.partitionId);
             this.eventRaised();
           }
         },
@@ -123,14 +122,13 @@ async function sendBatch(
     const batch = await producer.createBatch({ partitionId });
     let numberOfEventsSent = 0;
     // add events to our batch
-    while (numberOfEventsSent <= numberOfEventsPerPartition) {
+    while (numberOfEventsSent < numberOfEventsPerPartition) {
       while (
         batch.tryAdd({ body: _payload }) &&
         numberOfEventsSent + batch.count <= numberOfEventsPerPartition
       );
       await producer.sendBatch(batch);
       numberOfEventsSent = numberOfEventsSent + batch.count;
-      console.log(numberOfEventsSent);
     }
   }
 
