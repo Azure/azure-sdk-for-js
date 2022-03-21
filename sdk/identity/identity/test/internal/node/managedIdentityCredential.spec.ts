@@ -541,7 +541,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }
@@ -581,7 +581,7 @@ describe("ManagedIdentityCredential", function () {
       "URL does not have expected version"
     );
     if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }
