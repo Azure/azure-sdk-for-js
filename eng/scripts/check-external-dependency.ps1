@@ -58,7 +58,6 @@ function Set-GitHubIssue($Package) {
   if ($issue) {
     if ($issue.body -ne $issueDesc) {
       # Copy over current lables to avoid removing manually tagged labels
-      Write-Host "Labels: $($issue.labels)"
       foreach($lbl in $issue.labels)
       {
         $labels += ",$($lbl.name)"
@@ -101,7 +100,7 @@ Write-Host "Running rush update"
 $rushUpdateOutput = node common/scripts/install-run-rush.js update --full
 write-host $rushUpdateOutput
 foreach ($line in $rushUpdateOutput) {
-  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure") -and $matches['pkg'].StartsWith('mocha')) {
+  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) {
     $p = New-Object PSObject -Property @{
       Name         = $matches['pkg']  
       OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])
