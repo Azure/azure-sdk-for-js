@@ -7,7 +7,7 @@
 - Added support for `KeyClient.getRandomBytes` which, when connected to a managed HSM, can be used to generate a byte array of a given length with random values.
 - Added support for Secure key Release from a Managed HSM.
   - Added `KeyClient.releaseKey` to release a key from a Managed HSM.
-  - Added `exportable` and `releasePolicy` to `KeyVaultKey.properties`, `createKeyOptions`, and `importKeyOptions` in order to specify whether the key is exportable and the associated release policy.
+  - Added `exportable` and `releasePolicy` to `KeyVaultKey.properties`, `createKeyOptions`, and `importKeyOptions` in order to specify whether the key is exportable and to associate a release policy to a given key.
 - Added support for automated key rotation in Azure Key Vault and Managed HSM.
   - Added `KeyClient.rotateKey` to rotate a key on-demand.
   - Added `KeyClient.updateKeyRotationPolicy` to update a key's automated rotation policy.
