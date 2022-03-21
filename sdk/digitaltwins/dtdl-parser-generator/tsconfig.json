@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-tools/dtdl-parser-generator": ["./src/index"]
+    },
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/*.ts"],
+  "exclude": ["test/node/**/expected/*.ts"]
+}

@@ -735,6 +735,10 @@
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository",
       "versionPolicyName": "client"
+    },   
+    {
+      "packageName": "@azure-tools/dtdl-parser-generator",
+      "projectFolder": "sdk/digitaltwins/dtdl-parser-generator"
     },
     {
       "packageName": "@azure/dtdl-parser",

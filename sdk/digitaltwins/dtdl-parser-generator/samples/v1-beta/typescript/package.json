@@ -1,0 +1,38 @@
+{
+  "name": "azure-dtdl-parser-generator-samples-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Digital Twins Model Parser Generator client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/digitaltwins/dtdl-parser-generator"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/dtdl-parser-generator",
+  "dependencies": {
+    "@azure-tools/dtdl-parser-generator": "next",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

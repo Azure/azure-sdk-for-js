@@ -38,3 +38,5 @@ extends:
         safeName: azuredigitaltwinscore
       - name: azure-dtdl-parser
         safeName: azuredtdlparser
+      - name: azure-dtdl-parser-generator
+        safeName: azuredtdlparsergenerator
