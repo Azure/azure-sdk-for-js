@@ -26,7 +26,11 @@ describe("With messaging clients", function () {
   const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const eventDataTestInfo: ScenariosTestInfo<EventData> = {
-    adapterFactory: createEventDataAdapter(),
+    adapterFactory: createEventDataAdapter({
+      properties: {
+        language: "js",
+      },
+    }),
     messagingServiceName: "Event Hub",
     client: createMockedMessagingClient(() =>
       createEventHubsClient(eventHubsConnectionString, eventHubName)
@@ -138,6 +142,40 @@ describe("With messaging clients", function () {
           schema: readerSchema,
         });
         assert.deepStrictEqual(deserializedValue, { ...value, favorite_city: "Redmond" });
+      });
+
+      it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field (with no default value) added.", async () => {
+        const writerSchema = JSON.stringify({
+          namespace: "interop.avro",
+          type: "record",
+          name: "ReaderSchema",
+          fields: [
+            { name: "name", type: "string" },
+            { name: "favorite_number", type: ["int", "null"] },
+            { name: "favorite_color", type: ["string", "null"] },
+          ],
+        });
+        const readerSchema = JSON.stringify({
+          namespace: "interop.avro",
+          type: "record",
+          name: "ReaderSchema",
+          fields: [
+            { name: "name", type: "string" },
+            { name: "favorite_number", type: ["int", "null"] },
+            { name: "favorite_color", type: ["string", "null"] },
+            { name: "favorite_city", type: ["string", "null"] },
+          ],
+        });
+        const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
+        const message = await serializer.serializeMessageData(value, writerSchema);
+        await testInfo.client.send(message);
+        const receivedMessage = await testInfo.client.receive();
+        await assert.isRejected(
+          serializer.deserializeMessageData(receivedMessage, {
+            schema: readerSchema,
+          }),
+          /no matching field for default-less/
+        );
       });
     });
   });

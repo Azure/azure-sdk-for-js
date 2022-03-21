@@ -12,6 +12,8 @@ import {
   BatchAccount,
   BatchAccountListOptionalParams,
   BatchAccountListByResourceGroupOptionalParams,
+  DetectorResponse,
+  BatchAccountListDetectorsOptionalParams,
   OutboundEnvironmentEndpoint,
   BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
   BatchAccountCreateParameters,
@@ -28,7 +30,9 @@ import {
   BatchAccountRegenerateKeyOptionalParams,
   BatchAccountRegenerateKeyResponse,
   BatchAccountGetKeysOptionalParams,
-  BatchAccountGetKeysResponse
+  BatchAccountGetKeysResponse,
+  BatchAccountGetDetectorOptionalParams,
+  BatchAccountGetDetectorResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,6 +54,17 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     options?: BatchAccountListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<BatchAccount>;
+  /**
+   * Gets information about the detectors available for a given Batch account.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param options The options parameters.
+   */
+  listDetectors(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BatchAccountListDetectorsOptionalParams
+  ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch
    * service administration. If you are deploying a Pool inside of a virtual network that you specify,
@@ -193,4 +208,17 @@ export interface BatchAccountOperations {
     accountName: string,
     options?: BatchAccountGetKeysOptionalParams
   ): Promise<BatchAccountGetKeysResponse>;
+  /**
+   * Gets information about the given detector for a given Batch account.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param detectorId The name of the detector.
+   * @param options The options parameters.
+   */
+  getDetector(
+    resourceGroupName: string,
+    accountName: string,
+    detectorId: string,
+    options?: BatchAccountGetDetectorOptionalParams
+  ): Promise<BatchAccountGetDetectorResponse>;
 }

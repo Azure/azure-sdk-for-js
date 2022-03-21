@@ -6,190 +6,127 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 export interface CommunicationIdentityCreateRequest {
-  /**
-   * Also create access token for the created identity.
-   */
+  /** Also create access token for the created identity. */
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
 }
 
-/**
- * A communication identity with access token.
- */
+/** A communication identity with access token. */
 export interface CommunicationIdentityAccessTokenResult {
-  /**
-   * A communication identity.
-   */
+  /** A communication identity. */
   identity: CommunicationIdentity;
-  /**
-   * An access token.
-   */
+  /** An access token. */
   accessToken?: CommunicationIdentityAccessToken;
 }
 
-/**
- * A communication identity.
- */
+/** A communication identity. */
 export interface CommunicationIdentity {
-  /**
-   * Identifier of the identity.
-   */
+  /** Identifier of the identity. */
   id: string;
 }
 
-/**
- * An access token.
- */
+/** An access token. */
 export interface CommunicationIdentityAccessToken {
-  /**
-   * The access token issued for the identity.
-   */
+  /** The access token issued for the identity. */
   token: string;
-  /**
-   * The expiry time of the token.
-   */
+  /** The expiry time of the token. */
   expiresOn: Date;
 }
 
-/**
- * The Communication Services error.
- */
+/** The Communication Services error. */
 export interface CommunicationErrorResponse {
-  /**
-   * The Communication Services error.
-   */
+  /** The Communication Services error. */
   error: CommunicationError;
 }
 
-/**
- * The Communication Services error.
- */
+/** The Communication Services error. */
 export interface CommunicationError {
-  /**
-   * The error code.
-   */
+  /** The error code. */
   code: string;
-  /**
-   * The error message.
-   */
+  /** The error message. */
   message: string;
   /**
    * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * Further details about specific errors that led to this error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: CommunicationError[];
   /**
    * The inner error if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly innerError?: CommunicationError;
 }
 
 export interface TeamsUserAccessTokenRequest {
-  /**
-   * AAD access token of a Teams User to acquire a new Communication Identity access token.
-   */
+  /** AAD access token of a Teams User to acquire a new Communication Identity access token. */
   token: string;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {
-  /**
-   * List of scopes attached to the token.
-   */
+  /** List of scopes attached to the token. */
   scopes: CommunicationIdentityTokenScope[];
 }
 
-/**
- * Defines values for CommunicationIdentityTokenScope.
- */
-export type CommunicationIdentityTokenScope = "chat" | "voip";
-
-/**
- * Optional parameters.
- */
-export interface CommunicationIdentityCreateOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * If specified, creates also a Communication Identity access token associated with the identity and containing the requested scopes.
-   */
-  body?: CommunicationIdentityCreateRequest;
+/** Known values of {@link CommunicationIdentityTokenScope} that the service accepts. */
+export enum KnownCommunicationIdentityTokenScope {
+  Chat = "chat",
+  Voip = "voip"
 }
 
 /**
- * Contains response data for the create operation.
+ * Defines values for CommunicationIdentityTokenScope. \
+ * {@link KnownCommunicationIdentityTokenScope} can be used interchangeably with CommunicationIdentityTokenScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **chat** \
+ * **voip**
  */
-export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTokenResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type CommunicationIdentityTokenScope = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CommunicationIdentityAccessTokenResult;
-  };
-};
+/** Optional parameters. */
+export interface CommunicationIdentityCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Also create access token for the created identity. */
+  createTokenWithScopes?: CommunicationIdentityTokenScope[];
+}
 
-/**
- * Contains response data for the exchangeTeamsUserAccessToken operation.
- */
-export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the create operation. */
+export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTokenResult;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CommunicationIdentityAccessToken;
-  };
-};
+/** Optional parameters. */
+export interface CommunicationIdentityDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the issueAccessToken operation.
- */
-export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentityAccessToken & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface CommunicationIdentityRevokeAccessTokensOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CommunicationIdentityAccessToken;
-  };
-};
+/** Optional parameters. */
+export interface CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Optional parameters.
- */
+/** Contains response data for the exchangeTeamsUserAccessToken operation. */
+export type CommunicationIdentityExchangeTeamsUserAccessTokenResponse = CommunicationIdentityAccessToken;
+
+/** Optional parameters. */
+export interface CommunicationIdentityIssueAccessTokenOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the issueAccessToken operation. */
+export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentityAccessToken;
+
+/** Optional parameters. */
 export interface IdentityRestClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
-  /**
-   * Api Version
-   */
+  extends coreClient.ServiceClientOptions {
+  /** Api Version */
   apiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

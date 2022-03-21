@@ -5,26 +5,26 @@ import {
   CommunicationUserIdentifier,
   isCommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { CommunicationIdentityClient } from "../../src";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
+import { CommunicationIdentityClient } from "../../src";
 import { Context } from "mocha";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       if (useAad) {
-        ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
       } else {
-        ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClient(this));
       }
     });
 

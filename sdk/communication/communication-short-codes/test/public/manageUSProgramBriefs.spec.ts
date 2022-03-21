@@ -5,12 +5,23 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
+import { USProgramBrief } from "../../src/generated/src";
 import { createRecordedClient } from "./utils/recordedClient";
 import {
   assertEditableFieldsAreEqual,
   doesProgramBriefExist,
   getTestUSProgramBrief,
 } from "./utils/testUSProgramBrief";
+
+function getExpectedResponseFor(programBrief: USProgramBrief): USProgramBrief {
+  return {
+    ...programBrief,
+
+    // Currently, the server rejects payloads that include preferredVanityNumbers if isVanity=false.
+    // However, the response always includes preferredVanityNumbers, regardless of the isVanity flag.
+    programDetails: { ...programBrief.programDetails, preferredVanityNumbers: [] },
+  };
+}
 
 describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;
@@ -56,15 +67,11 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     // create program brief by calling upsert
     const submitResult = await client.upsertUSProgramBrief(uspb.id, createRequest);
     assert.isOk(submitResult, "Failed to create program brief");
-    assert.equal(
-      uspb.id,
-      submitResult._response.parsedBody["id"],
-      "Program brief creation returned the wrong Id"
-    );
+    assert.equal(uspb.id, submitResult.id, "Program brief creation returned the wrong Id");
 
     // get program brief, verify it was created correctly
     let getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(uspb, getRes, "get after initial create");
+    assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), getRes, "get after initial create");
 
     // update program brief by calling upsert
     if (uspb.programDetails) {
@@ -75,22 +82,18 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     const updateResult = await client.upsertUSProgramBrief(uspb.id, updateRequest);
     assert.isOk(updateResult, "Update program brief failed");
-    assert.equal(
-      uspb.id,
-      updateResult._response.parsedBody["id"],
-      "Update program brief returned the wrong Id"
-    );
+    assert.equal(uspb.id, updateResult.id, "Update program brief returned the wrong Id");
 
     // get program brief, verify it was updated correctly
     getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(uspb, getRes, "get after update");
+    assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), getRes, "get after update");
 
     // list program briefs, validate test program brief is in the list
     let foundTestProgramBrief = false;
     for await (const pb of client.listUSProgramBriefs()) {
       if (pb.id === uspb.id) {
         foundTestProgramBrief = true;
-        assertEditableFieldsAreEqual(uspb, pb, "list all program briefs");
+        assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), pb, "list all program briefs");
       }
     }
     assert.isTrue(
@@ -105,5 +108,5 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       await doesProgramBriefExist(client, uspb.id),
       "Delete program brief was unsuccessful, program brief is still returned"
     );
-  }).timeout(15000);
+  }).timeout(35000);
 });
