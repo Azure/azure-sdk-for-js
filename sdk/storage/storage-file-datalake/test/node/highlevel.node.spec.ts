@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
@@ -24,6 +24,7 @@ import { AbortController } from "@azure/abort-controller";
 import { Readable, PassThrough } from "stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("Highlevel Node.js only", () => {
   let fileSystemName: string;
@@ -78,6 +79,86 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
     await recorder.stop();
+  });
+
+  it("upload and read with cpk", async () => {
+    const content = "Hello, World!";
+    await fileClient.upload(Buffer.from(content), {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await fileClient.read(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("upload large data with cpk", async function (this: Context) {
+    if (!isLiveMode()) {
+      // recorder doesn't support saving the file
+      this.skip();
+    }
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    await fileClient.upload(uploadedBuffer, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const readResponse = await fileClient.read(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+    const readBuffer = await fs.readFileSync(readFile);
+    assert.ok(uploadedBuffer.equals(readBuffer));
+
+    fs.unlinkSync(readFile);
+  });
+
+  it("uploadFile with CPK", async function (this: Context) {
+    if (!isLiveMode()) {
+      // recorder doesn't support saving the file
+      this.skip();
+    }
+    await fileClient.uploadFile(tempFileSmall, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const readBuffer = await fileClient.readToBuffer(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    assert.ok(uploadedBuffer.equals(readBuffer));
+  });
+
+  it("readToFile with CPK", async function (this: Context) {
+    if (!isLiveMode()) {
+      // recorder doesn't support saving the file
+      this.skip();
+    }
+    await fileClient.uploadFile(tempFileSmall, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const readFilePath = recorder.getUniqueName("readFilePath");
+    const readResponse = await fileClient.readToFile(readFilePath, 0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.ok(
+      readResponse.contentLength === tempFileSmallLength,
+      "readResponse.contentLength doesn't match tempFileSmallLength"
+    );
+    assert.equal(
+      readResponse.readableStreamBody,
+      undefined,
+      "Expecting readResponse.readableStreamBody to be undefined."
+    );
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const readFileContent = fs.readFileSync(readFilePath);
+    assert.ok(localFileContent.equals(readFileContent));
+
+    fs.unlinkSync(readFilePath);
   });
 
   it("upload should work for large data", async () => {

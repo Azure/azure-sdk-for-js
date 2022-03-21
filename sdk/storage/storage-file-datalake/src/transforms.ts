@@ -2,9 +2,13 @@
 // Licensed under the MIT license.
 import { URLBuilder } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
+import {
+  ContainerItem,
+  CpkInfo as BlobCpkInfo,
+  PublicAccessType as ContainerPublicAccessType,
+} from "@azure/storage-blob";
 
-import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
+import { AclFailedEntry, CpkInfo, PathGetPropertiesResponse } from "./generated/src/models";
 import {
   AccessControlChangeError,
   FileSystemItem,
@@ -449,4 +453,14 @@ export function toAccessControlChangeFailureArray(
       message: aclFailedEntry.errorMessage || "",
     };
   });
+}
+
+export function toBlobCpkInfo(input?: CpkInfo): BlobCpkInfo | undefined {
+  return input
+    ? {
+        encryptionKey: input.encryptionKey,
+        encryptionKeySha256: input.encryptionKeySha256,
+        encryptionAlgorithm: "AES256",
+      }
+    : undefined;
 }

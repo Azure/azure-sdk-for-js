@@ -221,6 +221,7 @@ export const ToDfsEndpointHostMappings = [
 export const ETagAny = "*";
 
 export const DeletionIdKey = "deletionid";
+export const EncryptionAlgorithmAES25 = "AES256";
 
 export const PathResultTypeConstants = {
   FileResourceType: "file",

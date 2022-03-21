@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/6bacb496a7c84297e72747c52f82e4a0e6c8930d/specification/storage/data-plane/Microsoft.StorageDataLake/preview/2021-06-08/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -323,11 +323,12 @@ directive:
       delete $["properties"]["DeleteTime"]
 ```
 
-### Update service version from "2020-06-12" to "2021-04-10"
+### Use model enum as string for EncryptionAlgorithm
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-04-10" ];
+    where: $.parameters.EncryptionAlgorithm
+    transform: >
+      $["x-ms-enum"]["modelAsString"] = true;
 ```

@@ -114,7 +114,7 @@ export const timeout: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-04-10",
+    defaultValue: "2021-06-08",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -507,6 +507,39 @@ export const sourceIfUnmodifiedSince: OperationParameter = {
     xmlName: "x-ms-source-if-unmodified-since",
     type: {
       name: "DateTimeRfc1123"
+    }
+  }
+};
+
+export const encryptionKey: OperationParameter = {
+  parameterPath: ["options", "cpkInfo", "encryptionKey"],
+  mapper: {
+    serializedName: "x-ms-encryption-key",
+    xmlName: "x-ms-encryption-key",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const encryptionKeySha256: OperationParameter = {
+  parameterPath: ["options", "cpkInfo", "encryptionKeySha256"],
+  mapper: {
+    serializedName: "x-ms-encryption-key-sha256",
+    xmlName: "x-ms-encryption-key-sha256",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const encryptionAlgorithm: OperationParameter = {
+  parameterPath: ["options", "cpkInfo", "encryptionAlgorithm"],
+  mapper: {
+    serializedName: "x-ms-encryption-algorithm",
+    xmlName: "x-ms-encryption-algorithm",
+    type: {
+      name: "String"
     }
   }
 };

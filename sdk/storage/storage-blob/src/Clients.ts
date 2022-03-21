@@ -98,6 +98,7 @@ import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
+  BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
@@ -1280,7 +1281,8 @@ export class BlobClient extends StorageClient {
         return false;
       } else if (
         e.statusCode === 409 &&
-        e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg
+        (e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
+          e.details.errorCode === BlobDoesNotUseCustomerSpecifiedEncryption)
       ) {
         // Expected exception when checking blob existence
         return true;
@@ -3753,7 +3755,7 @@ export class BlockBlobClient extends BlobClient {
       if (!isNode) {
         throw new Error("This operation currently is only supported in Node.js.");
       }
-
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
@@ -3767,6 +3769,7 @@ export class BlockBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
         },
+        cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return new BlobQueryResponse(response, {
