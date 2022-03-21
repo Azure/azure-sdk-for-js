@@ -372,7 +372,7 @@ export enum KnownCertificateKeyTypes {
 }
 
 // @public
-export const enum KnownDeletionRecoveryLevels {
+export enum KnownDeletionRecoveryLevels {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",

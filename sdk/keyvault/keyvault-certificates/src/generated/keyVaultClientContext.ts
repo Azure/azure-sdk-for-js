@@ -12,7 +12,7 @@ import { ApiVersion73, KeyVaultClientOptionalParams } from "./models";
 const packageName = "@azure/keyvault-certificates";
 export const packageVersion = "4.4.0";
 
-/** @hidden */
+/** @internal */
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
   apiVersion: ApiVersion73;
 
@@ -21,7 +21,10 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
    * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(apiVersion: ApiVersion73, options?: KeyVaultClientOptionalParams) {
+  constructor(
+    apiVersion: ApiVersion73,
+    options?: KeyVaultClientOptionalParams
+  ) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -31,17 +34,20 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      /@.*\//,
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    super(undefined, options);
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "{vaultBaseUrl}";
-
     // Parameter assignments
     this.apiVersion = apiVersion;
   }

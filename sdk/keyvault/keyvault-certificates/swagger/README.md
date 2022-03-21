@@ -7,6 +7,7 @@ typescript:
   package-name: "@azure/keyvault-certificates"
 disable-async-iterators: true
 api-version-parameter: choice
+use-core-v2: false
 v3: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
