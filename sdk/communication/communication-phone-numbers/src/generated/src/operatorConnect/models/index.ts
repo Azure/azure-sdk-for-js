@@ -233,7 +233,7 @@ export type GetConsentsResponse = OperatorConnectClientGetConsentsHeaders &
   ListOfConsents;
 
 /** Optional parameters. */
-export interface GetConsentOptionalParams extends coreClient.OperationOptions { }
+export interface GetConsentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getConsent operation. */
 export type GetConsentResponse = OperatorConnectClientGetConsentHeaders &
