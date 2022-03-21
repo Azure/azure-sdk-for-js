@@ -4,7 +4,7 @@
       "method": "POST",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "",
       "status": 401,
@@ -48,7 +48,7 @@
       "method": "POST",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "{\"kty\":\"RSA\"}",
       "status": 200,
@@ -71,7 +71,7 @@
       "method": "GET",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/43396df1ad1f02b9286d96c8055c1c12",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "",
       "status": 401,
@@ -116,7 +116,7 @@
       "method": "GET",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/43396df1ad1f02b9286d96c8055c1c12",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -140,7 +140,7 @@
       "method": "POST",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/43396df1ad1f02b9286d96c8055c1c12/encrypt",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "{\"alg\":\"RSA1_5\",\"value\":\"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIFJTQQ\"}",
       "status": 200,
@@ -163,7 +163,7 @@
       "method": "POST",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/43396df1ad1f02b9286d96c8055c1c12/decrypt",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "{\"alg\":\"RSA1_5\",\"value\":\"LstgSlbHU5hAf4QU4k4ICzqRFuMI-H0c-p4oVzxrB3rwEurUN1OTEQAjzeg3C7uF68QGNBodn27Ibe4sfd_68lidOhUH7pOBa8ztt3XPOefbzc2T5im4a_gosHlB9GF-nhgQ0ayfXYtzaq8M3OS-FitoYVZ1aYKCV7qBJF20_u7s4_PBXqiUSO3C7VC416m6fLjA7q5_ftDQt_o7wFmNZwCEadzcFRFeq4XKVWxuYWClvcYFRQVO_eAAr30UqBDgph88G2Kqw_z33ZMhzQLuKFRJjo8I3ZnxhA5Rm95JNeJR-ZLwc7Fec6RpmpDL9ora59IOSh50VWCoNsLKfh9vYA\"}",
       "status": 200,
@@ -186,7 +186,7 @@
       "method": "DELETE",
       "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -209,7 +209,7 @@
       "method": "GET",
       "url": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -233,7 +233,7 @@
       "method": "DELETE",
       "url": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
