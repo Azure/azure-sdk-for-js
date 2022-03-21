@@ -9,7 +9,7 @@ generate-metadata: false
 add-credentials: false
 use-core-v2: false
 license-header: MICROSOFT_MIT_NO_VERSION
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b1d0d6d2aa9bcfce71544d32ef007d8e7805a19b/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/keys.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e2ef44b87405b412403ccb005bfb3975411adf60/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.3/keys.json
 output-folder: ../
 source-code-folder-path: ./src/generated
 disable-async-iterators: true
