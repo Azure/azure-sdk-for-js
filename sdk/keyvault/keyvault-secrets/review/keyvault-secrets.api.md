@@ -69,7 +69,7 @@ export interface KeyVaultSecretIdentifier {
 }
 
 // @public
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
