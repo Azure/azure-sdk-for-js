@@ -414,10 +414,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreDataPlaneName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -437,10 +437,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreDataPlaneName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -470,10 +470,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreDataPlaneName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -495,10 +495,10 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreDataPlaneName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -519,9 +519,9 @@ const listByPacketCoreControlPlaneOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreControlPlaneName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -540,9 +540,9 @@ const listByPacketCoreControlPlaneNextOperationSpec: coreClient.OperationSpec = 
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

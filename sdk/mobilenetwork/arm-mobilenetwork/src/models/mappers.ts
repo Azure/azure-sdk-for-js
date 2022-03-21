@@ -115,6 +115,39 @@ export const InterfaceProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      ipv4Address: {
+        constraints: {
+          Pattern: new RegExp(
+            "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$"
+          )
+        },
+        serializedName: "ipv4Address",
+        type: {
+          name: "String"
+        }
+      },
+      ipv4Subnet: {
+        constraints: {
+          Pattern: new RegExp(
+            "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$"
+          )
+        },
+        serializedName: "ipv4Subnet",
+        type: {
+          name: "String"
+        }
+      },
+      ipv4Gateway: {
+        constraints: {
+          Pattern: new RegExp(
+            "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$"
+          )
+        },
+        serializedName: "ipv4Gateway",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -291,6 +324,58 @@ export const Resource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -1426,42 +1511,6 @@ export const AttachedDataNetwork: coreClient.CompositeMapper = {
     className: "AttachedDataNetwork",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1533,42 +1582,6 @@ export const DataNetwork: coreClient.CompositeMapper = {
     className: "DataNetwork",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1592,42 +1605,6 @@ export const MobileNetwork: coreClient.CompositeMapper = {
     className: "MobileNetwork",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1659,42 +1636,6 @@ export const Site: coreClient.CompositeMapper = {
     className: "Site",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1724,42 +1665,6 @@ export const Sim: coreClient.CompositeMapper = {
     className: "Sim",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1767,8 +1672,8 @@ export const Sim: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      configurationState: {
-        serializedName: "properties.configurationState",
+      simState: {
+        serializedName: "properties.simState",
         readOnly: true,
         type: {
           name: "String"
@@ -1857,42 +1762,6 @@ export const PacketCoreControlPlane: coreClient.CompositeMapper = {
     className: "PacketCoreControlPlane",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1943,42 +1812,6 @@ export const PacketCoreDataPlane: coreClient.CompositeMapper = {
     className: "PacketCoreDataPlane",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2003,42 +1836,6 @@ export const Service: coreClient.CompositeMapper = {
     className: "Service",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2091,42 +1888,6 @@ export const SimPolicy: coreClient.CompositeMapper = {
     className: "SimPolicy",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2195,42 +1956,6 @@ export const Slice: coreClient.CompositeMapper = {
     className: "Slice",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      createdBy: {
-        serializedName: "systemData.createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "systemData.createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "systemData.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "systemData.lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "systemData.lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "systemData.lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,

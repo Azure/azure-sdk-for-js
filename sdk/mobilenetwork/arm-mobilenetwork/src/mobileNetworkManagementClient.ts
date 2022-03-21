@@ -38,8 +38,8 @@ import { MobileNetworkManagementClientOptionalParams } from "./models";
 
 export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the MobileNetworkManagementClient class.
@@ -68,7 +68,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -91,7 +91,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01-preview";
+    this.apiVersion = options.apiVersion || "2022-03-01-preview";
     this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
     this.dataNetworks = new DataNetworksImpl(this);
     this.mobileNetworks = new MobileNetworksImpl(this);

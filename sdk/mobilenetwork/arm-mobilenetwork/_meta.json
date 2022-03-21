@@ -1,7 +1,8 @@
 {
-  "commit": "bb9f1204f9a337404ff7e7b73b4c7b4ddde7f8f1",
+  "commit": "162460648e39b3cd20ef3d302008add138e90223",
   "readme": "specification/mobilenetwork/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\mydev\\azure-sdk-for-js ../azure-rest-api-specs/specification/mobilenetwork/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.16.20220218.1 --generate-sample=true",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/home/vsts/work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/mobilenetwork/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.16.20220105.1",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "use": "@autorest/typescript@6.0.0-alpha.16.20220218.1"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.1.3",
+  "use": "@autorest/typescript@6.0.0-alpha.16.20220105.1"
 }
