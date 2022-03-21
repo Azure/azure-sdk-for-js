@@ -16,6 +16,10 @@ export interface TokenCredentialOptions extends CommonClientOptions {
    */
   authorityHost?: string;
   /**
+   * If set to true, disables the automatic validation of the authority host.
+   */
+  disableAuthorityValidation?: boolean;
+  /**
    * Allows logging account information once the authentication flow succeeds.
    */
   loggingOptions?: LogPolicyOptions & {

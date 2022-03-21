@@ -141,12 +141,16 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       clientCapabilities = [];
     }
 
-    return {
+    const configuration: msalNode.Configuration = {
       auth: {
         clientId,
         authority,
-        knownAuthorities: getKnownAuthorities(tenantId, authority),
         clientCapabilities,
+        knownAuthorities: getKnownAuthorities(
+          tenantId,
+          authority,
+          options.disableAuthorityValidation
+        ),
       },
       // Cache is defined in this.prepare();
       system: {
@@ -156,6 +160,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         },
       },
     };
+
+    return configuration;
   }
 
   /**
