@@ -68,12 +68,20 @@ export function getAuthority(tenantId: string, host?: string): string {
 
 /**
  * Generates the known authorities.
+ * If `disableAuthorityValidation` is passed, it returns the authority host as a known host, thus disabling the authority validation.
  * If the Tenant Id is `adfs`, the authority can't be validated since the format won't match the expected one.
  * For that reason, we have to force MSAL to disable validating the authority
  * by sending it within the known authorities in the MSAL configuration.
  * @internal
  */
-export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
+export function getKnownAuthorities(
+  tenantId: string,
+  authorityHost: string,
+  disableAuthorityValidation: boolean
+): string[] {
+  if (disableAuthorityValidation) {
+    return [authorityHost];
+  }
   if (tenantId === "adfs" && authorityHost) {
     return [authorityHost];
   }

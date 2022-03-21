@@ -146,7 +146,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         clientId,
         authority,
         clientCapabilities,
-        knownAuthorities: getKnownAuthorities(tenantId, authority),
+        knownAuthorities: getKnownAuthorities(
+          tenantId,
+          authority,
+          Boolean(options.disableAuthorityValidation)
+        ),
       },
       // Cache is defined in this.prepare();
       system: {
@@ -156,11 +160,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         },
       },
     };
-
-    // TODO: This type isn't part of the NodeAuthOptions. Should it be? Reach out to the MSAL team.
-    if (options.disableAuthorityValidation) {
-      (configuration.auth as any).validateAuthority = !options.disableAuthorityValidation;
-    }
 
     return configuration;
   }
