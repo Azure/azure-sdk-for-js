@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 5.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.0.0-beta.3 (2022-03-15)
 
 The package of @azure/arm-appinsights is using our next generation design principles since version 5.0.0-beta.3, which contains breaking changes.
