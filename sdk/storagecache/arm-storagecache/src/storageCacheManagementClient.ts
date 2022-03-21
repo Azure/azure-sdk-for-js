@@ -13,6 +13,7 @@ import {
   SkusImpl,
   UsageModelsImpl,
   AscOperationsImpl,
+  AscUsagesImpl,
   CachesImpl,
   StorageTargetsImpl,
   StorageTargetOperationsImpl
@@ -22,6 +23,7 @@ import {
   Skus,
   UsageModels,
   AscOperations,
+  AscUsages,
   Caches,
   StorageTargets,
   StorageTargetOperations
@@ -61,7 +63,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storagecache/5.0.0`;
+    const packageDetails = `azsdk-js-arm-storagecache/5.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,11 +86,12 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01";
+    this.apiVersion = options.apiVersion || "2022-01-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.usageModels = new UsageModelsImpl(this);
     this.ascOperations = new AscOperationsImpl(this);
+    this.ascUsages = new AscUsagesImpl(this);
     this.caches = new CachesImpl(this);
     this.storageTargets = new StorageTargetsImpl(this);
     this.storageTargetOperations = new StorageTargetOperationsImpl(this);
@@ -98,6 +101,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
   skus: Skus;
   usageModels: UsageModels;
   ascOperations: AscOperations;
+  ascUsages: AscUsages;
   caches: Caches;
   storageTargets: StorageTargets;
   storageTargetOperations: StorageTargetOperations;
