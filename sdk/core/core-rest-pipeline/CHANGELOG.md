@@ -11,10 +11,13 @@
 ### Bugs Fixed
 
 - [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Customers can provide abort signals in the options bags for the client libraries but they were not being checked when requests were being retried. The issue is fixed in [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781).
+- Fixed a bug introduced on 1.4.0 that prevented the retry policies from throwing errors after all the retry steps are exhausted.
+- Fixed a bug introduced on 1.4.0 that prevented the exponential retry policy to retry when the server answered with some expected errors.
 
 ### Other Changes
 
 - Changed the default number of retries from 10 to 3.
+- The retry policies now throw errors (if encountered) at the time they stop retrying, rather than merely returning the response.
 
 ## 1.6.0 (2022-03-03)
 
