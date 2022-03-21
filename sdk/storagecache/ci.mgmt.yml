@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/storagecache/ci.mgmt.yml
-      - sdk/storagecache/arm-storagecache/
       - sdk/storagecache/arm-storagecache
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/storagecache/ci.mgmt.yml
-      - sdk/storagecache/arm-storagecache/
       - sdk/storagecache/arm-storagecache
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
