@@ -54,6 +54,23 @@ export async function drainStream(stream: NodeJS.ReadableStream): Promise<void> 
     stream.on("error", reject);
   });
 }
+
+/**
+ * Reads a readable stream. Doesn't save to a buffer.
+ *
+ * @export
+ * @param {ReadableStream} stream A Readable stream
+ */
+export async function drainReadableStream(stream: ReadableStream): Promise<void> {
+  return new Promise((resolve, reject) => {
+    stream
+      .getReader()
+      .read()
+      .then((_) => resolve())
+      .catch(reject);
+  });
+}
+
 export async function makeRequest(
   uri: string,
   requestOptions: RequestOptions,

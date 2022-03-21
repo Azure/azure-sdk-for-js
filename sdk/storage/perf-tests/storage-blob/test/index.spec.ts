@@ -10,6 +10,7 @@ import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import { CoreHTTPDownloadWithSASTest } from "./core-http.spec";
 import { NodeFetchDownloadWithSASTest } from "./node-fetch.spec";
 import { CoreHTTPSDownloadWithSASTest } from "./core-rest-pipeline.spec";
+import { FetchDownloadWithSASTest } from "./fetch.spec";
 
 console.log("=== Starting the perf test ===");
 
@@ -23,6 +24,7 @@ const perfProgram = new PerfProgram(
     CoreHTTPDownloadWithSASTest,
     CoreHTTPSDownloadWithSASTest,
     NodeFetchDownloadWithSASTest,
+    FetchDownloadWithSASTest,
   ])
 );
 

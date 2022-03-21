@@ -21,3 +21,5 @@
      - `npm run perf-test:node -- CoreHTTPDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - download using sas with core-rest-pipeline
      - `npm run perf-test:node -- CoreHTTPSDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
+   - download using sas with Node's native fetch (requires Node.js 17.5+)
+     - `npm run perf-test:node -- FetchDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
