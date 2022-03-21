@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for App Service 2019 resource in Managed Identity Credential.
+
 ### Breaking Changes
 
 ### Bugs Fixed
