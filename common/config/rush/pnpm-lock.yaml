@@ -14637,7 +14637,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser-generator.tgz:
-    resolution: {integrity: sha512-MAGcnueL/PqWbwQ+fbGtmoi0/1ILC0tku7MtA4NYKg0MEv15Ls5Mh8VAhK3epfyg9WYvgCyC8BQnypxQJreG7g==, tarball: file:projects/dtdl-parser-generator.tgz}
+    resolution: {integrity: sha512-8cE3Tv0253LJRZwglqSDWQJvq9vvFhIO4BJkbbDJGzhbxEnI2aeZz7bNDK0zPuw1/ADcLsMPdw3mGEaVIJ0klw==, tarball: file:projects/dtdl-parser-generator.tgz}
     name: '@rush-temp/dtdl-parser-generator'
     version: 0.0.0
     dependencies:
@@ -14652,6 +14652,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
+      downlevel-dts: 0.8.0
       eslint: 7.32.0
       inherits: 2.0.4
       karma: 6.3.17
@@ -14681,7 +14682,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false

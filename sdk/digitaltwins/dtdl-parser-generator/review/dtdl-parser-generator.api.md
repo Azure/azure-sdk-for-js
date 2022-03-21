@@ -99,7 +99,7 @@ export enum ModelParsingOption {
 export class ParserCodeGenerator {
     // (undocumented)
     static execute(inputDigest: string, outputDirectory: string, _dtdlVersion: string): void;
-    }
+}
 
 // @public (undocumented)
 export function pascalToCamel(text: string): string;
@@ -124,7 +124,7 @@ export class TsCatch extends TsScope {
     finally(): TsFinally;
     // (undocumented)
     line(text: string): this;
-    }
+}
 
 // @public
 export class TsClass extends TsDeclaration {
@@ -255,7 +255,7 @@ export class TsElseIf extends TsScope {
     elseIf(text: string): TsElseIf;
     // (undocumented)
     line(text: string): this;
-    }
+}
 
 // @public (undocumented)
 export class TsEnum {
@@ -376,7 +376,7 @@ export class TsFunction implements TsStatement {
     summary(text: string): this;
     // (undocumented)
     get summaryLines(): TsMultiLineDocString | undefined;
-    }
+}
 
 // @public (undocumented)
 export interface TsFunctionParams {
@@ -417,7 +417,7 @@ export class TsIf extends TsScope {
     elseIf(text: string): TsElseIf;
     // (undocumented)
     line(text: string): this;
-    }
+}
 
 // @public (undocumented)
 export class TsImport {
@@ -426,28 +426,28 @@ export class TsImport {
     addTsImport(text: string): void;
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export class TsImportGeneric {
     constructor(text: string);
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export class TsImportObjectES6 {
     constructor(location: string, objectName?: string);
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export class TsImportStatementES6 {
     constructor(location: string, importStatement: string);
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export interface TsInheritanceType {
@@ -462,7 +462,7 @@ export class TsInline implements TsStatement {
     constructor(filepath: string, identifier: string);
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export class TsInterface extends TsDeclaration {
@@ -480,7 +480,7 @@ export class TsInterface extends TsDeclaration {
         name: string;
         returnType?: string;
     }): TsFunction;
-    }
+}
 
 // @public (undocumented)
 export interface TsInterfaceParams {
@@ -524,7 +524,7 @@ export class TsLine implements TsStatement {
     generateCode(codeWriter: CodeWriter): void;
     // (undocumented)
     get text(): string;
-    }
+}
 
 // @public (undocumented)
 export class TsMultiLine implements TsStatement {
@@ -533,7 +533,7 @@ export class TsMultiLine implements TsStatement {
     generateCode(codeWriter: CodeWriter): void;
     // (undocumented)
     line(text: string): this;
-    }
+}
 
 // @public (undocumented)
 export class TsMultiLineDocString extends TsMultiLine {
@@ -557,7 +557,7 @@ export class TsParameter {
     toString(): string;
     // (undocumented)
     get type(): string | undefined;
-    }
+}
 
 // @public (undocumented)
 export interface TsParameterParams {
@@ -578,7 +578,7 @@ export class TsRequireCommonJS {
     constructor(location: string, importName: string);
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export class TsScope implements TsStatement {
@@ -632,14 +632,14 @@ export class TsTry extends TsScope {
     finally(): TsFinally;
     // (undocumented)
     line(text: string): this;
-    }
+}
 
 // @public (undocumented)
 export class TsTypeAlias extends TsDeclaration {
     constructor({ name, typeToBeAliased, exports }: TsTypeAliasParams);
     // (undocumented)
     generateCode(codeWriter: CodeWriter): void;
-    }
+}
 
 // @public (undocumented)
 export interface TsTypeAliasParams {
@@ -657,7 +657,6 @@ export class TsWhile extends TsScope {
     // (undocumented)
     line(text: string): this;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
