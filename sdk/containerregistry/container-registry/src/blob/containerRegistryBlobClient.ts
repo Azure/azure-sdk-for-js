@@ -367,7 +367,7 @@ export class ContainerRegistryBlobClient {
     }
 
     const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
-      startUploadResult.location,
+      startUploadResult.location.substring(1),
       requestBody
     );
 
@@ -376,7 +376,7 @@ export class ContainerRegistryBlobClient {
     }
 
     const { dockerContentDigest: digestFromResponse } =
-      await this.client.containerRegistryBlob.completeUpload(digest, uploadChunkResult.location);
+      await this.client.containerRegistryBlob.completeUpload(digest, uploadChunkResult.location.substring(1));
 
     if (!digestFromResponse) {
       throw new Error("completeUpload did not provide a digest");

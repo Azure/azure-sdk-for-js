@@ -1,8 +1,9 @@
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
-import { ContainerRegistryBlobClient, OciManifest } from "@azure/container-registry";
+import { ContainerRegistryBlobClient } from "@azure/container-registry";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
+import fs from "fs";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
   onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryBlobClient", function () {
@@ -31,6 +32,15 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         serviceVersion,
         recorder
       );
+
+      // const configStream = fs.createReadStream("test/data/oci-artifact/config.json");
+      // const layerStream =
+      //   fs.createReadStream(
+      //     "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+      //   );
+
+      // await client.uploadBlob(configStream);
+      // await client.uploadBlob(layerStream);
     });
 
     // After each test, we need to stop the recording.
@@ -38,35 +48,43 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await recorder.stop();
     });
 
-    const manifest: OciManifest = {
-      schemaVersion: 2,
-      config: {
-        mediaType: "application/vnd.acme.rocket.config",
-        digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
-        size: 171,
-      },
-      layers: [
-        {
-          mediaType: "application/vnd.oci.image.layer.v1.tar",
-          digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
-          size: 28,
-          annotations: {
-            "org.opencontainers.image.ref.name": "artifact.txt",
-          } as unknown as any,
-        },
-      ],
-    };
+    // const manifest: OciManifest = {
+    //   schemaVersion: 2,
+    //   config: {
+    //     mediaType: "application/vnd.acme.rocket.config",
+    //     digest: "sha256:d25b42d3dbad5361ed2d909624d899e7254a822c9a632b582ebd3a44f9b0dbc8",
+    //     size: 171,
+    //   },
+    //   layers: [
+    //     {
+    //       mediaType: "application/vnd.oci.image.layer.v1.tar",
+    //       digest: "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
+    //       size: 28,
+    //       annotations: {
+    //         "org.opencontainers.image.ref.name": "artifact.txt",
+    //       } as unknown as any,
+    //     },
+    //   ],
+    // };
 
-    it.only("can upload OCI manifest", async () => {
-      const { digest: uploadedDigest } = await client.uploadManifest(manifest);
+    it("can upload OCI manifest", async () => {
+      const manifest = () => fs.createReadStream("test/data/oci-artifact/manifest.json");
+      const { digest: uploadedDigest } = await client.uploadManifest(manifest, { tag: "aaaaa" });
 
       const { digest: downloadedDigest, manifest: downloadedManifest } =
-        await client.downloadManifest(uploadedDigest);
+        await client.downloadManifest("aaaaa");
 
       assert.equal(uploadedDigest, downloadedDigest);
-      assert.deepStrictEqual(downloadedManifest, manifest);
+      assert.deepStrictEqual(downloadedManifest, {} as unknown as any);
 
-      await client.deleteManifest(uploadedDigest);
+      await client.deleteManifest("aaaaa");
+    });
+
+    it.only("can upload blob", async () => {
+      const blob = () => fs.createReadStream("test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed");
+      const { digest } = await client.uploadBlob(blob);
+      const downloadResult = await client.downloadBlob("654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed");
+      assert.equal(digest, downloadResult.digest);
     });
   });
 });
