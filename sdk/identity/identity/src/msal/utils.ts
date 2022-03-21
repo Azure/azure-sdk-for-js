@@ -77,7 +77,7 @@ export function getAuthority(tenantId: string, host?: string): string {
 export function getKnownAuthorities(
   tenantId: string,
   authorityHost: string,
-  disableAuthorityValidation: boolean
+  disableAuthorityValidation?: boolean
 ): string[] {
   if (disableAuthorityValidation) {
     return [authorityHost];

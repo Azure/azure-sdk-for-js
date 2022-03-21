@@ -149,7 +149,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         knownAuthorities: getKnownAuthorities(
           tenantId,
           authority,
-          Boolean(options.disableAuthorityValidation)
+          options.disableAuthorityValidation
         ),
       },
       // Cache is defined in this.prepare();
