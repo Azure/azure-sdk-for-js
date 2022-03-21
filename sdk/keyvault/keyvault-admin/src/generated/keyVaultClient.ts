@@ -11,9 +11,10 @@ import { RoleDefinitionsImpl, RoleAssignmentsImpl } from "./operations";
 import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
+import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
-  ApiVersion73,
   KeyVaultClientOptionalParams,
+  ApiVersion73,
   FullBackupOptionalParams,
   FullBackupResponse,
   FullBackupStatusOptionalParams,
@@ -26,9 +27,7 @@ import {
   SelectiveKeyRestoreOperationResponse
 } from "./models";
 
-export class KeyVaultClient extends coreClient.ServiceClient {
-  apiVersion: ApiVersion73;
-
+export class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
    * @param apiVersion Api Version
@@ -38,35 +37,7 @@ export class KeyVaultClient extends coreClient.ServiceClient {
     apiVersion: ApiVersion73,
     options?: KeyVaultClientOptionalParams
   ) {
-    if (apiVersion === undefined) {
-      throw new Error("'apiVersion' cannot be null");
-    }
-
-    // Initializing default values for options
-    if (!options) {
-      options = {};
-    }
-    const defaults: KeyVaultClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
-    };
-
-    const packageDetails = `azsdk-js-keyvault-admin/4.2.0`;
-    const userAgentPrefix =
-      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
-        : `${packageDetails}`;
-
-    const optionsWithDefaults = {
-      ...defaults,
-      ...options,
-      userAgentOptions: {
-        userAgentPrefix
-      },
-      baseUri: options.endpoint ?? options.baseUri ?? "{vaultBaseUrl}"
-    };
-    super(optionsWithDefaults);
-    // Parameter assignments
-    this.apiVersion = apiVersion;
+    super(apiVersion, options);
     this.roleDefinitions = new RoleDefinitionsImpl(this);
     this.roleAssignments = new RoleAssignmentsImpl(this);
   }
