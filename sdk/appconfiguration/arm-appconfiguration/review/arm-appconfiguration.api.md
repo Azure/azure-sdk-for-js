@@ -78,6 +78,9 @@ export type ConfigurationStore = TrackedResource & {
     readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
     publicNetworkAccess?: PublicNetworkAccess;
     disableLocalAuth?: boolean;
+    softDeleteRetentionInDays?: number;
+    enablePurgeProtection?: boolean;
+    createMode?: CreateMode;
 };
 
 // @public
@@ -92,11 +95,15 @@ export interface ConfigurationStores {
     beginCreateAndWait(resourceGroupName: string, configStoreName: string, configStoreCreationParameters: ConfigurationStore, options?: ConfigurationStoresCreateOptionalParams): Promise<ConfigurationStoresCreateResponse>;
     beginDelete(resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresDeleteOptionalParams): Promise<void>;
+    beginPurgeDeleted(location: string, configStoreName: string, options?: ConfigurationStoresPurgeDeletedOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurgeDeletedAndWait(location: string, configStoreName: string, options?: ConfigurationStoresPurgeDeletedOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: ConfigurationStoreUpdateParameters, options?: ConfigurationStoresUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationStoresUpdateResponse>, ConfigurationStoresUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: ConfigurationStoreUpdateParameters, options?: ConfigurationStoresUpdateOptionalParams): Promise<ConfigurationStoresUpdateResponse>;
     get(resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresGetOptionalParams): Promise<ConfigurationStoresGetResponse>;
+    getDeleted(location: string, configStoreName: string, options?: ConfigurationStoresGetDeletedOptionalParams): Promise<ConfigurationStoresGetDeletedResponse>;
     list(options?: ConfigurationStoresListOptionalParams): PagedAsyncIterableIterator<ConfigurationStore>;
     listByResourceGroup(resourceGroupName: string, options?: ConfigurationStoresListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConfigurationStore>;
+    listDeleted(options?: ConfigurationStoresListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedConfigurationStore>;
     listKeys(resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresListKeysOptionalParams): PagedAsyncIterableIterator<ApiKey>;
     regenerateKey(resourceGroupName: string, configStoreName: string, regenerateKeyParameters: RegenerateKeyParameters, options?: ConfigurationStoresRegenerateKeyOptionalParams): Promise<ConfigurationStoresRegenerateKeyResponse>;
 }
@@ -115,6 +122,13 @@ export interface ConfigurationStoresDeleteOptionalParams extends coreClient.Oper
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface ConfigurationStoresGetDeletedOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationStoresGetDeletedResponse = DeletedConfigurationStore;
 
 // @public
 export interface ConfigurationStoresGetOptionalParams extends coreClient.OperationOptions {
@@ -138,6 +152,20 @@ export interface ConfigurationStoresListByResourceGroupOptionalParams extends co
 
 // @public
 export type ConfigurationStoresListByResourceGroupResponse = ConfigurationStoreListResult;
+
+// @public
+export interface ConfigurationStoresListDeletedNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationStoresListDeletedNextResponse = DeletedConfigurationStoreListResult;
+
+// @public
+export interface ConfigurationStoresListDeletedOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationStoresListDeletedResponse = DeletedConfigurationStoreListResult;
 
 // @public
 export interface ConfigurationStoresListKeysNextOptionalParams extends coreClient.OperationOptions {
@@ -172,6 +200,12 @@ export interface ConfigurationStoresListOptionalParams extends coreClient.Operat
 export type ConfigurationStoresListResponse = ConfigurationStoreListResult;
 
 // @public
+export interface ConfigurationStoresPurgeDeletedOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ConfigurationStoresRegenerateKeyOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -190,6 +224,7 @@ export type ConfigurationStoresUpdateResponse = ConfigurationStore;
 // @public
 export interface ConfigurationStoreUpdateParameters {
     disableLocalAuth?: boolean;
+    enablePurgeProtection?: boolean;
     encryption?: EncryptionProperties;
     identity?: ResourceIdentity;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -204,6 +239,30 @@ export type ConnectionStatus = string;
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export type CreateMode = "Recover" | "Default";
+
+// @public
+export interface DeletedConfigurationStore {
+    readonly configurationStoreId?: string;
+    readonly deletionDate?: Date;
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly purgeProtectionEnabled?: boolean;
+    readonly scheduledPurgeDate?: Date;
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface DeletedConfigurationStoreListResult {
+    nextLink?: string;
+    value?: DeletedConfigurationStore[];
+}
 
 // @public
 export interface EncryptionProperties {
@@ -445,6 +504,7 @@ export interface OperationProperties {
 export interface Operations {
     checkNameAvailability(checkNameAvailabilityParameters: CheckNameAvailabilityParameters, options?: OperationsCheckNameAvailabilityOptionalParams): Promise<OperationsCheckNameAvailabilityResponse>;
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDefinition>;
+    regionalCheckNameAvailability(location: string, checkNameAvailabilityParameters: CheckNameAvailabilityParameters, options?: OperationsRegionalCheckNameAvailabilityOptionalParams): Promise<OperationsRegionalCheckNameAvailabilityResponse>;
 }
 
 // @public
@@ -469,6 +529,13 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationDefinitionListResult;
+
+// @public
+export interface OperationsRegionalCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsRegionalCheckNameAvailabilityResponse = NameAvailabilityStatus;
 
 // @public
 export interface PrivateEndpoint {

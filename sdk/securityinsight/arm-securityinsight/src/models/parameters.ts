@@ -15,29 +15,30 @@ import {
   AlertRule as AlertRuleMapper,
   ActionRequest as ActionRequestMapper,
   AutomationRule as AutomationRuleMapper,
+  ManualTriggerRequestBody as ManualTriggerRequestBodyMapper,
+  Incident as IncidentMapper,
+  TeamProperties as TeamPropertiesMapper,
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
-  CustomEntityQuery as CustomEntityQueryMapper,
   EntityExpandParameters as EntityExpandParametersMapper,
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
-  Incident as IncidentMapper,
-  TeamProperties as TeamPropertiesMapper,
+  CustomEntityQuery as CustomEntityQueryMapper,
   IncidentComment as IncidentCommentMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
   Settings as SettingsMapper,
   SourceControl as SourceControlMapper,
+  ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
+  ThreatIntelligenceFilteringCriteria as ThreatIntelligenceFilteringCriteriaMapper,
+  ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
-  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper,
-  ThreatIntelligenceIndicatorModelForRequestBody as ThreatIntelligenceIndicatorModelForRequestBodyMapper,
-  ThreatIntelligenceFilteringCriteria as ThreatIntelligenceFilteringCriteriaMapper,
-  ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper
+  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -67,7 +68,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01-preview",
+    defaultValue: "2022-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -198,25 +199,25 @@ export const automationRuleId: OperationURLParameter = {
   }
 };
 
-export const automationRule: OperationParameter = {
-  parameterPath: "automationRule",
+export const automationRuleToUpsert: OperationParameter = {
+  parameterPath: ["options", "automationRuleToUpsert"],
   mapper: AutomationRuleMapper
 };
 
-export const bookmarkId: OperationURLParameter = {
-  parameterPath: "bookmarkId",
+export const requestBody: OperationParameter = {
+  parameterPath: ["options", "requestBody"],
+  mapper: ManualTriggerRequestBodyMapper
+};
+
+export const incidentIdentifier: OperationURLParameter = {
+  parameterPath: "incidentIdentifier",
   mapper: {
-    serializedName: "bookmarkId",
+    serializedName: "incidentIdentifier",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const bookmark: OperationParameter = {
-  parameterPath: "bookmark",
-  mapper: BookmarkMapper
 };
 
 export const filter: OperationQueryParameter = {
@@ -257,6 +258,43 @@ export const skipToken: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const incidentId: OperationURLParameter = {
+  parameterPath: "incidentId",
+  mapper: {
+    serializedName: "incidentId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const incident: OperationParameter = {
+  parameterPath: "incident",
+  mapper: IncidentMapper
+};
+
+export const teamProperties: OperationParameter = {
+  parameterPath: "teamProperties",
+  mapper: TeamPropertiesMapper
+};
+
+export const bookmarkId: OperationURLParameter = {
+  parameterPath: "bookmarkId",
+  mapper: {
+    serializedName: "bookmarkId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const bookmark: OperationParameter = {
+  parameterPath: "bookmark",
+  mapper: BookmarkMapper
 };
 
 export const relationName: OperationURLParameter = {
@@ -302,7 +340,44 @@ export const domain: OperationQueryParameter = {
   }
 };
 
+export const entityId: OperationURLParameter = {
+  parameterPath: "entityId",
+  mapper: {
+    serializedName: "entityId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EntityExpandParametersMapper
+};
+
 export const kind: OperationQueryParameter = {
+  parameterPath: "kind",
+  mapper: {
+    serializedName: "kind",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EntityGetInsightsParametersMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EntityTimelineParametersMapper
+};
+
+export const kind1: OperationQueryParameter = {
   parameterPath: ["options", "kind"],
   mapper: {
     serializedName: "kind",
@@ -328,62 +403,27 @@ export const entityQuery: OperationParameter = {
   mapper: CustomEntityQueryMapper
 };
 
-export const entityId: OperationURLParameter = {
-  parameterPath: "entityId",
+export const kind2: OperationQueryParameter = {
+  parameterPath: ["options", "kind"],
   mapper: {
-    serializedName: "entityId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EntityExpandParametersMapper
-};
-
-export const kind1: OperationQueryParameter = {
-  parameterPath: "kind",
-  mapper: {
+    defaultValue: "Activity",
+    isConstant: true,
     serializedName: "kind",
-    required: true,
     type: {
       name: "String"
     }
   }
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EntityGetInsightsParametersMapper
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EntityTimelineParametersMapper
-};
-
-export const incidentId: OperationURLParameter = {
-  parameterPath: "incidentId",
+export const entityQueryTemplateId: OperationURLParameter = {
+  parameterPath: "entityQueryTemplateId",
   mapper: {
-    serializedName: "incidentId",
+    serializedName: "entityQueryTemplateId",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const incident: OperationParameter = {
-  parameterPath: "incident",
-  mapper: IncidentMapper
-};
-
-export const teamProperties: OperationParameter = {
-  parameterPath: "teamProperties",
-  mapper: TeamPropertiesMapper
 };
 
 export const incidentCommentId: OperationURLParameter = {
@@ -431,6 +471,17 @@ export const metadata: OperationParameter = {
 export const metadataPatch: OperationParameter = {
   parameterPath: "metadataPatch",
   mapper: MetadataPatchMapper
+};
+
+export const consentId: OperationURLParameter = {
+  parameterPath: "consentId",
+  mapper: {
+    serializedName: "consentId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const sentinelOnboardingStateName: OperationURLParameter = {
@@ -492,6 +543,37 @@ export const sourceControl: OperationParameter = {
   mapper: SourceControlMapper
 };
 
+export const threatIntelligenceProperties: OperationParameter = {
+  parameterPath: "threatIntelligenceProperties",
+  mapper: ThreatIntelligenceIndicatorModelMapper
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const threatIntelligenceFilteringCriteria: OperationParameter = {
+  parameterPath: "threatIntelligenceFilteringCriteria",
+  mapper: ThreatIntelligenceFilteringCriteriaMapper
+};
+
+export const threatIntelligenceAppendTags: OperationParameter = {
+  parameterPath: "threatIntelligenceAppendTags",
+  mapper: ThreatIntelligenceAppendTagsMapper
+};
+
+export const threatIntelligenceReplaceTags: OperationParameter = {
+  parameterPath: "threatIntelligenceReplaceTags",
+  mapper: ThreatIntelligenceIndicatorModelMapper
+};
+
 export const watchlistAlias: OperationURLParameter = {
   parameterPath: "watchlistAlias",
   mapper: {
@@ -548,69 +630,4 @@ export const connectBody: OperationParameter = {
 export const dataConnectorsCheckRequirements: OperationParameter = {
   parameterPath: "dataConnectorsCheckRequirements",
   mapper: DataConnectorsCheckRequirementsMapper
-};
-
-export const threatIntelligenceProperties: OperationParameter = {
-  parameterPath: "threatIntelligenceProperties",
-  mapper: ThreatIntelligenceIndicatorModelForRequestBodyMapper
-};
-
-export const name: OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const threatIntelligenceFilteringCriteria: OperationParameter = {
-  parameterPath: "threatIntelligenceFilteringCriteria",
-  mapper: ThreatIntelligenceFilteringCriteriaMapper
-};
-
-export const threatIntelligenceAppendTags: OperationParameter = {
-  parameterPath: "threatIntelligenceAppendTags",
-  mapper: ThreatIntelligenceAppendTagsMapper
-};
-
-export const threatIntelligenceReplaceTags: OperationParameter = {
-  parameterPath: "threatIntelligenceReplaceTags",
-  mapper: ThreatIntelligenceIndicatorModelForRequestBodyMapper
-};
-
-export const consentId: OperationURLParameter = {
-  parameterPath: "consentId",
-  mapper: {
-    serializedName: "consentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const kind2: OperationQueryParameter = {
-  parameterPath: ["options", "kind"],
-  mapper: {
-    defaultValue: "Activity",
-    isConstant: true,
-    serializedName: "kind",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const entityQueryTemplateId: OperationURLParameter = {
-  parameterPath: "entityQueryTemplateId",
-  mapper: {
-    serializedName: "entityQueryTemplateId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

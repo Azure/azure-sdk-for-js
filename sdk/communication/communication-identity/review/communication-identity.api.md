@@ -4,10 +4,10 @@
 
 ```ts
 
+import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -30,7 +30,7 @@ export class CommunicationIdentityClient {
 }
 
 // @public
-export interface CommunicationIdentityClientOptions extends PipelineOptions {
+export interface CommunicationIdentityClientOptions extends CommonClientOptions {
 }
 
 // @public

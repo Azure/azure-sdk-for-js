@@ -5,6 +5,7 @@ import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
@@ -39,6 +40,12 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    * If the property is not specified, uses a non-regional authority endpoint.
    */
   regionalAuthority?: string;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    allowLoggingAccountIdentifiers?: boolean;
+  };
 }
 
 /**
@@ -80,6 +87,13 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
+  /**
+   * MSAL currently caches the tokens depending on the claims used to retrieve them.
+   * In cases like CAE, in which we use claims to update the tokens, trying to retrieve the token without the claims will yield the original token.
+   * To ensure we always get the latest token, we have to keep track of the claims.
+   */
+  private cachedClaims: string | undefined;
+
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
@@ -119,6 +133,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
       authorityHost: authority,
+      loggingOptions: options.loggingOptions,
     });
 
     let clientCapabilities: string[] = ["cp1"];
@@ -291,6 +306,17 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     await this.init(options);
 
     try {
+      // MSAL now caches tokens based on their claims,
+      // so now one has to keep track fo claims in order to retrieve the newer tokens from acquireTokenSilent
+      // This update happened on PR: https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/4533
+      const optionsClaims = (options as any).claims;
+      if (optionsClaims) {
+        this.cachedClaims = optionsClaims;
+      }
+      if (this.cachedClaims && !optionsClaims) {
+        (options as any).claims = this.cachedClaims;
+      }
+      // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);
     } catch (err) {
       if (err.name !== "AuthenticationRequiredError") {

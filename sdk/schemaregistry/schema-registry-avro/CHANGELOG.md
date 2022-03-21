@@ -1,5 +1,22 @@
 # Release History
 
+## 1.0.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.7 (2022-03-10)
+
+### Breaking Changes
+- `AvroEncoder` has been renamed to `AvroSerializer`
+- The `encodeMessageData` method has been renamed to `serializeMessageData`
+- The `decodeMessageData` method has been renamed to `deserializeMessageData`
+
 ## 1.0.0-beta.6 (2022-02-10)
 
 ### Features Added
