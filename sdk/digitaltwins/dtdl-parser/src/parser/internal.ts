@@ -10,7 +10,6 @@ export * from "./type/propertyInstanceBinder";
 export * from "./type/propertyValueConstrainer";
 export * from "./type/supplementalInfoTypeParams";
 export * from "./type/propertyConstraint";
-export * from "./type/dtmiResolver";
 export * from "./type/typeChecker";
 export * from "./type/langstringType";
 
