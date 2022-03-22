@@ -18,7 +18,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 package-version: 4.2.0
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-beta.16"
 ```
 
 ### Hide LROs

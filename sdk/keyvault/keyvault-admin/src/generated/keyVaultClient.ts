@@ -13,7 +13,7 @@ import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion73Preview,
+  ApiVersion73,
   KeyVaultClientOptionalParams,
   FullBackupOptionalParams,
   FullBackupResponse,
@@ -28,7 +28,7 @@ import {
 } from "./models";
 
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion73Preview;
+  apiVersion: ApiVersion73;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -51,7 +51,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-admin/4.2.0-beta.3`;
+    const packageDetails = `azsdk-js-keyvault-admin/4.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
