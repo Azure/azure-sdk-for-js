@@ -20,7 +20,7 @@ stages:
       - job: GenerateReports
         timeoutInMinutes: 120
         variables:
-          - template: ../variables/globals.yml        
+          - template: /eng/pipelines/templates/variables/globals.yml        
         steps:
           - template: /eng/pipelines/templates/steps/common.yml
 
