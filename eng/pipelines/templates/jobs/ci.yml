@@ -25,6 +25,9 @@ parameters:
   - name: IncludeRelease
     type: boolean
     default: true
+  - name: SDKType
+    type: string
+    default: not-specified
 
 jobs:
   - job: "Build"
@@ -49,6 +52,7 @@ jobs:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
           IncludeRelease: ${{ parameters.IncludeRelease }}
+          SDKType: ${{ parameters.SDKType }}
 
   - job: "Analyze"
     variables:
@@ -66,6 +70,7 @@ jobs:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
+          SDKType: ${{ parameters.SDKType }}
 
   - job: Compliance
     pool:
@@ -89,3 +94,4 @@ jobs:
             ServiceDirectory: ${{ parameters.ServiceDirectory }}
             Artifacts: ${{ parameters.Artifacts }}
             TestProxy: ${{ parameters.TestProxy }}
+            SDKType: ${{ parameters.SDKType }}

@@ -56,26 +56,37 @@ const parseArgs = () => {
   }
 
   let inFlags = false;
+  let isTypeFiltered = false;
+  let sdkType = "";
   const services = [],
     flags = [];
   const [scriptPath, action, ...givenArgs] = process.argv.slice(1);
   const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
 
   for (const arg of givenArgs) {
-    if (!inFlags && arg.startsWith("-")) {
+    if (arg === "-sdkType") {
+      isTypeFiltered = true;
+      continue;
+    }
+    else if (!inFlags && arg.startsWith("-")) {
       inFlags = true;
     }
 
     if (inFlags) {
       flags.push(arg);
-    } else {
+    }
+    else if (isTypeFiltered) {
+      sdkType = arg;
+      isTypeFiltered = false;
+    }
+    else {
       if (arg && arg !== "*") {
         // exclude empty value and special value "*" meaning all libraries
         services.push(arg);
       }
     }
   }
-  return [baseDir, action, services, flags];
+  return [baseDir, action, services, flags, sdkType];
 };
 
 const getPackageJsons = (searchDir) => {
@@ -97,10 +108,22 @@ const getPackageJsons = (searchDir) => {
   return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
-const getServicePackages = (baseDir, serviceDirs) => {
+const getServicePackages = (baseDir, serviceDirs, sdkType) => {
   const packageNames = [];
   const packageDirs = [];
-  const validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
+  let validSdkTypes = []; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
+  console.log(`SDK type: ${sdkType}`);
+  switch (sdkType) {
+    case "client":
+      validSdkTypes = ["client", "perf-test", "utility"];
+      break;
+    case "mgmt":
+      validSdkTypes = ["mgmt"];
+      break;
+    default:
+      validSdkTypes = ["client", "mgmt", "perf-test", "utility"];
+      break;
+  }
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
@@ -134,9 +157,9 @@ const flatMap = (arr, f) => {
   return [].concat(...result);
 };
 
-const [baseDir, action, serviceDirs, rushParams] = parseArgs();
+const [baseDir, action, serviceDirs, rushParams, filterType] = parseArgs();
 
-const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs);
+const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, filterType);
 
 /**
  * Helper function to provide the rush logic that is used frequently below

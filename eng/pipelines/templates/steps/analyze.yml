@@ -2,6 +2,7 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   TestPipeline: false
+  SDKType: not-specified
 
 steps:
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
@@ -63,11 +64,11 @@ steps:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - pwsh: |
-      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" --verbose
+      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -sdkType "${{parameters.SDKType}}" --verbose
     displayName: "Check Format in Libraries"
 
   - script: |
-      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
+      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}" -sdkType "${{parameters.SDKType}}"
     condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
     displayName: "Audit libraries"
 

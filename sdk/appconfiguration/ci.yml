@@ -30,6 +30,7 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: appconfiguration
+    SDKType: client
     Artifacts:
       - name: azure-app-configuration
         safeName: azureappconfiguration
