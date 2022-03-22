@@ -864,7 +864,7 @@ export enum KnownCertificateKeyTypes {
 }
 
 /** Known values of {@link KeyUsageType} that the service accepts. */
-export const enum KnownKeyUsageTypes {
+export enum KnownKeyUsageTypes {
   /**
    * DigitalSignature Usage Type.
    */
