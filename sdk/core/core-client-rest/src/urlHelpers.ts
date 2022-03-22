@@ -18,39 +18,13 @@ export function buildRequestUrl(
   pathParameters: string[],
   options: RequestParameters = {}
 ): string {
-  let path = routePath;
-
-  if (path.startsWith("https://") || path.startsWith("http://")) {
-    return path;
+  if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
+    return routePath;
   }
-
   baseUrl = buildBaseUrl(baseUrl, options);
-
-  for (const pathParam of pathParameters) {
-    let value = pathParam;
-    if (!options.skipUrlEncoding) {
-      value = encodeURIComponent(pathParam);
-    }
-
-    path = path.replace(/{([^/]+)}/, value);
-  }
-
-  const url = new URL(`${baseUrl}/${path}`);
-
-  if (options.queryParameters) {
-    const queryParams = options.queryParameters;
-    for (const key of Object.keys(queryParams)) {
-      const param = queryParams[key] as any;
-      if (param === undefined || param === null) {
-        continue;
-      }
-      if (!param.toString || typeof param.toString !== "function") {
-        throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
-      }
-      const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
-      url.searchParams.append(key, value);
-    }
-  }
+  routePath = buildRoutePath(routePath, pathParameters, options);
+  const requestUrl = appendQueryParams(`${baseUrl}/${routePath}`, options);
+  const url = new URL(requestUrl);
 
   return (
     url
@@ -58,6 +32,40 @@ export function buildRequestUrl(
       // Remove double forward slashes
       .replace(/([^:]\/)\/+/g, "$1")
   );
+}
+
+function appendQueryParams(
+  url: string,
+  options: RequestParameters = {}
+) {
+  if (!options.queryParameters) {
+    return url;
+  }
+  const parsedUrl = new URL(url);
+  const queryParams = options.queryParameters;
+  for (const key of Object.keys(queryParams)) {
+    const param = queryParams[key] as any;
+    if (param === undefined || param === null) {
+      continue;
+    }
+    if (!param.toString || typeof param.toString !== "function") {
+      throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+    }
+    const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
+    parsedUrl.searchParams.append(key, value);
+  }
+
+  const searchPieces: string[] = [];
+  for (let [name, value] of parsedUrl.searchParams) {
+    // QUIRK: encode only values by default
+    if (!options.skipUrlEncoding) {
+      value = encodeURIComponent(value);
+    }
+    searchPieces.push(`${name}=${value}`);
+  }
+  // QUIRK: we have to set search manually as searchParams will encode comma when it shouldn't.
+  parsedUrl.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+  return parsedUrl.toString();
 }
 
 export function buildBaseUrl(baseUrl: string, options: RequestParameters): string {
@@ -79,6 +87,20 @@ export function buildBaseUrl(baseUrl: string, options: RequestParameters): strin
     baseUrl = replaceAll(baseUrl, `{${key}}`, value) ?? "";
   }
   return baseUrl;
+}
+
+function buildRoutePath(routePath: string,
+  pathParameters: string[],
+  options: RequestParameters = {}) {
+  for (const pathParam of pathParameters) {
+    let value = pathParam;
+    if (!options.skipUrlEncoding) {
+      value = encodeURIComponent(pathParam);
+    }
+
+    routePath = routePath.replace(/{([^/]+)}/, value);
+  }
+  return routePath;
 }
 
 /**
