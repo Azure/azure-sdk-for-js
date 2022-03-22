@@ -57,7 +57,7 @@ function Set-GitHubIssue($Package) {
   $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
     if ($issue.body -ne $issueDesc) {
-      # Copy over current lables to avoid removing manually tagged labels
+      # Copy over current labels to avoid removing manually tagged labels
       foreach($lbl in $issue.labels)
       {
         $labels += ",$($lbl.name)"
