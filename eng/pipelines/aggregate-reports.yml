@@ -9,7 +9,8 @@ pr:
       - eng/pipelines/aggregate-reports.yml
 
 pool:
-  vmImage: 'windows-2019'
+  name: azsdk-pool-mms-ubuntu-2004-general
+  vmImage: MMSUbuntu20.04
 
 stages:
   - stage: AggregateReports
@@ -18,10 +19,10 @@ stages:
     jobs:
       - job: GenerateReports
         timeoutInMinutes: 120
+        variables:
+          - template: ../variables/globals.yml        
         steps:
-          - template: /eng/pipelines/templates/steps/use-node-version.yml
-            parameters:
-              NodeVersion: 16.x
+          - template: /eng/pipelines/templates/steps/common.yml
 
           - task: PowerShell@2
             inputs:
@@ -29,10 +30,6 @@ stages:
               filePath: eng/scripts/spell-check-public-api.ps1
               pwsh: true
             displayName: Spell check public API
-
-          - template: /eng/pipelines/templates/steps/use-node-version.yml
-            parameters:
-              NodeVersion: 10.x
 
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:
