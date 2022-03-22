@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
 import {
-  Operation,
+  OperationDetail,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
@@ -34,12 +34,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Healthcare service REST API operations.
+   * Lists all of the available operations supported by Microsoft Healthcare resource provider.
    * @param options The options parameters.
    */
   public list(
     options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+  ): PagedAsyncIterableIterator<OperationDetail> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -56,7 +56,7 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation[]> {
+  ): AsyncIterableIterator<OperationDetail[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -69,14 +69,14 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+  ): AsyncIterableIterator<OperationDetail> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all of the available Healthcare service REST API operations.
+   * Lists all of the available operations supported by Microsoft Healthcare resource provider.
    * @param options The options parameters.
    */
   private _list(
@@ -108,7 +108,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.ListOperations
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -124,7 +124,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.ListOperations
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
