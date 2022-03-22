@@ -8,7 +8,7 @@ Run `rushx generate:client` to generate code.
 
 ```yaml
 package-name: "@azure/synapse-artifacts"
-package-version: "1.0.0-beta.9"
+package-version: "1.0.0-beta.10"
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION
 credential-scopes: https://dev.azuresynapse.net/.default

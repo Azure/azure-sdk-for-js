@@ -6,12 +6,12 @@ import { PipelineRetryOptions } from "./interfaces";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
+import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
+import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { isNode } from "./util/helpers";
 

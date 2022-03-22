@@ -16,7 +16,8 @@ import { LroImpl } from "../lroImpl";
 import {
   StorageTargetFlushOptionalParams,
   StorageTargetSuspendOptionalParams,
-  StorageTargetResumeOptionalParams
+  StorageTargetResumeOptionalParams,
+  StorageTargetInvalidateOptionalParams
 } from "../models";
 
 /** Class containing StorageTargetOperations operations. */
@@ -296,6 +297,96 @@ export class StorageTargetOperationsImpl implements StorageTargetOperations {
     );
     return poller.pollUntilDone();
   }
+
+  /**
+   * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
+   * back end on the next request.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  async beginInvalidate(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetInvalidateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, cacheName, storageTargetName, options },
+      invalidateOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+  }
+
+  /**
+   * Invalidate all cached data for a storage target. Cached files are discarded and fetched from the
+   * back end on the next request.
+   * @param resourceGroupName Target resource group.
+   * @param cacheName Name of Cache. Length of name must not be greater than 80 and chars must be from
+   *                  the [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of Storage Target.
+   * @param options The options parameters.
+   */
+  async beginInvalidateAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: StorageTargetInvalidateOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginInvalidate(
+      resourceGroupName,
+      cacheName,
+      storageTargetName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -351,6 +442,30 @@ const suspendOperationSpec: coreClient.OperationSpec = {
 const resumeOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/resume",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.cacheName,
+    Parameters.storageTargetName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const invalidateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/invalidate",
   httpMethod: "POST",
   responses: {
     200: {},

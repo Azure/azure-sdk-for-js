@@ -280,8 +280,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.relationName,
-    Parameters.incidentId
+    Parameters.incidentId,
+    Parameters.relationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -308,8 +308,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.relationName,
-    Parameters.incidentId
+    Parameters.incidentId,
+    Parameters.relationName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -332,8 +332,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.relationName,
-    Parameters.incidentId
+    Parameters.incidentId,
+    Parameters.relationName
   ],
   headerParameters: [Parameters.accept],
   serializer

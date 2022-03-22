@@ -893,10 +893,28 @@ export interface LoadedCertificate {
 export interface ManagedIdentityProperties {
   /** Type of the managed identity */
   type?: ManagedIdentityType;
-  /** Principal Id */
+  /** Principal Id of system-assigned managed identity. */
   principalId?: string;
-  /** Tenant Id */
+  /** Tenant Id of system-assigned managed identity. */
   tenantId?: string;
+  /** Properties of user-assigned managed identities */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedManagedIdentity;
+  };
+}
+
+/** The details of the user-assigned managed identity assigned to an App. */
+export interface UserAssignedManagedIdentity {
+  /**
+   * Principal Id of user-assigned managed identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * Client Id of user-assigned managed identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Object that includes an array of App resources and a possible link for next set */
@@ -1744,6 +1762,8 @@ export interface CustomContainer {
   args?: string[];
   /** Credential of the image registry */
   imageRegistryCredential?: ImageRegistryCredential;
+  /** Language framework of the container image uploaded */
+  languageFramework?: string;
 }
 
 /** Credential of the image registry */
@@ -2022,6 +2042,8 @@ export type NetCoreZipUploadedUserSourceInfo = UploadedUserSourceInfo & {
 export enum KnownProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
+  Starting = "Starting",
+  Stopping = "Stopping",
   Deleting = "Deleting",
   Deleted = "Deleted",
   Succeeded = "Succeeded",
@@ -2038,6 +2060,8 @@ export enum KnownProvisioningState {
  * ### Known values supported by the service
  * **Creating** \
  * **Updating** \
+ * **Starting** \
+ * **Stopping** \
  * **Deleting** \
  * **Deleted** \
  * **Succeeded** \

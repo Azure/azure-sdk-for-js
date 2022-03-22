@@ -4,7 +4,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/keys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "",
       "status": 401,
@@ -32,7 +32,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/keys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "",
       "status": 401,
@@ -108,7 +108,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/keys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -135,7 +135,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/keys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,

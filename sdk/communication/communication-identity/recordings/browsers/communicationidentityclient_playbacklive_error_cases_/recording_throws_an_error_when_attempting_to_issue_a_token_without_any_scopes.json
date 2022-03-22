@@ -1,54 +1,99 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities",
-   "query": {
-    "api-version": "2021-10-31-preview"
-   },
-   "requestBody": null,
-   "status": 201,
-   "response": "{\"identity\":{\"id\":\"sanitized\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
-    "content-length": "101",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:03 GMT",
-    "ms-cv": "AKQlfyJ0UECLjwi/8QfAnQ.0",
-    "request-context": "appId=",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0LOluYQAAAACoBBYD307/T6T26IvWgxLAUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "97ms"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities/sanitized/:issueAccessToken",
-   "query": {
-    "api-version": "2021-10-31-preview"
-   },
-   "requestBody": "{\"scopes\":[]}",
-   "status": 400,
-   "response": "{\"error\":{\"code\":\"ValidationError\",\"message\":\"Invalid scopes - Scopes field is required.\",\"target\":\"scopes\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
-    "content-type": "application/json",
-    "date": "Tue, 19 Oct 2021 15:50:04 GMT",
-    "ms-cv": "9NFf33nFnUOhvsobWCoLZw.0",
-    "request-context": "appId=",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0LOluYQAAAAAh6Eju1bBRS7sAygz9D9A/UFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "27ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "232c6a275a8bb301c5fb204cd5ea835a"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2021-10-31-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 14 Mar 2022 08:16:36 GMT",
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Length": "31",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Mar 2022 08:16:38 GMT",
+        "MS-CV": "SuTmDiPQfk2gyriCFb3Saw.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "05/kuYgAAAACf0zlrO5ZLSJKFhzoXTO1eUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "35ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "sanitized"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "60\u002BXGy/KS72mYCMozQDW1tzfkFvdp5Qzbvub34UOQ5s=",
+        "x-ms-date": "Mon, 14 Mar 2022 08:16:36 GMT",
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "scopes": []
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Type": "application/json",
+        "Date": "Mon, 14 Mar 2022 08:16:38 GMT",
+        "MS-CV": "5xtvYkIXk0STTji4Iqsjxg.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "05/kuYgAAAABH8P4QhsmlQpkYEi0m\u002B2yZUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "21ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ValidationError",
+          "message": "Invalid scopes - Scopes field is required.",
+          "target": "scopes"
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

@@ -2,14 +2,8 @@
 // Licensed under the MIT license.
 
 import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
-import { testGroup, testSchema, testValue } from "./utils/dummies";
 import { MessageAdapter } from "../src/models";
-import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
-import { createEventHubsClient } from "./clients/eventHubs";
-import { createMockedMessagingClient } from "./clients/mocked";
-import { createTestSerializer } from "./utils/mockedSerializer";
-import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
 
 /**
@@ -39,18 +33,12 @@ const dummyUint8Array = Uint8Array.from([0]);
 interface AdapterTestInfo<T> {
   adapterFactory: MessageAdapter<T>;
   adapterFactoryName: string;
-  client: MessagingTestClient<T>;
 }
 
 describe("Message Adapters", function () {
-  const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
-  const eventHubName = env.EVENTHUB_NAME || "";
   const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
     adapterFactory: createEventDataAdapter(),
     adapterFactoryName: createEventDataAdapter.name,
-    client: createMockedMessagingClient(() =>
-      createEventHubsClient(eventHubsConnectionString, eventHubName)
-    ),
   };
   describe("Input types for message adapter factories are sound", function () {
     it("EventDataAdapterParameters", function () {
@@ -88,21 +76,6 @@ describe("Message Adapters", function () {
             }),
           /Expected the contentType field to be defined/
         );
-      });
-      it("round-tripping with the messaging client", async () => {
-        const serializer = await createTestSerializer({
-          serializerOptions: {
-            autoRegisterSchemas: false,
-            groupName: testGroup,
-            messageAdapter: createEventDataAdapter(),
-          },
-        });
-        const message = serializer.serializeMessageData(testValue, testSchema);
-        await adapterTestInfo.client.send(message);
-        const receivedMessage = await adapterTestInfo.client.receive();
-        await adapterTestInfo.client.cleanup();
-        const deserializedValue = await serializer.deserializeMessageData(receivedMessage);
-        assert.deepStrictEqual(deserializedValue, testValue);
       });
     });
   });

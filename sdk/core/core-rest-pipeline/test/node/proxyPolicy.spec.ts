@@ -4,17 +4,17 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  proxyPolicy,
-  createPipelineRequest,
-  SendRequest,
   ProxySettings,
-  getDefaultProxySettings,
+  SendRequest,
   createHttpHeaders,
+  createPipelineRequest,
+  getDefaultProxySettings,
+  proxyPolicy,
 } from "../../src";
 import {
+  getProxyAgentOptions,
   globalNoProxyList,
   loadNoProxy,
-  getProxyAgentOptions,
 } from "../../src/policies/proxyPolicy";
 
 describe("proxyPolicy (node)", function () {
