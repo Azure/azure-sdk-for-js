@@ -4,8 +4,8 @@
 
 ### Features Added
 
-- Enforced types restrictions on constructors of Managed Identity and Default Azure Credentials to discourage Typescript user to pass in client id and resource id at the same time through the editor.
-- Enforced types restrictions on constructors of Client Certificate and On Behalf Of Credentials to discourage Typescript user to pass in certificate and certificate path at the same time though the editor.
+- Added stronger types to the `DefaultAzureCredential` and `ManagedIdentityCredential` constructors so that TypeScript users will trigger a type error by providing both a Managed Identity client ID and resource ID to the same credential instance.
+- Added stronger types to the `ClientCertificateCredential` and `OnBehalfOfCredential` constructors so that TypeScript users will trigger a type error by providing both a Client certificate and certificate path to the same credential instance.
 - Added support for App Service 2019 resource in Managed Identity Credential.
 - All of our credentials now support a new option on their constructor: `loggingOptions`, which allows configuring the logging options of the HTTP pipelines.
 - Within the new `loggingOptions` we have also added `allowLoggingAccountIdentifiers`, a property that if set to true logs information specific to the authenticated account after each successful authentication, including: the Client ID, the Tenant ID, the Object ID of the authenticated user, and if possible the User Principal Name.
