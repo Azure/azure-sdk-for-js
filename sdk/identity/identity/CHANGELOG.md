@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Enforced types restrictions on constructors of Managed Identity and Default Azure Credentials to discourage Typescript user to pass in client id and resource id at the same time through the editor.
+- Enforced types restrictions on constructors of Client Certificate and On Behalf Of Credentials to discourage Typescript user to pass in certificate and certificate path at the same time though the editor.
+
 ### Breaking Changes
 
 ### Bugs Fixed
