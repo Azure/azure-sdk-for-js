@@ -8,20 +8,27 @@ import {
   MessagingError,
   OnSendEventsErrorContext,
   Subscription,
+  earliestEventPosition,
   latestEventPosition,
 } from "@azure/event-hubs";
 import { MessagingTestClient } from "./models";
 import { delay } from "@azure-tools/test-recorder";
 
-export function createEventHubsClient(
-  eventHubsConnectionString: string,
-  eventHubName: string
-): MessagingTestClient<EventData> {
+export function createEventHubsClient(settings: {
+  eventHubsConnectionString: string;
+  eventHubName: string;
+  crossLanguage: boolean;
+}): MessagingTestClient<EventData> {
+  const { crossLanguage, eventHubName, eventHubsConnectionString } = settings;
   let producer: EventHubBufferedProducerClient;
   let consumer: EventHubConsumerClient;
   let subscription: Subscription;
+  let initialized = false;
   const eventsBuffer: EventData[] = [];
   return {
+    isInitialized() {
+      return initialized;
+    },
     async initialize() {
       producer = new EventHubBufferedProducerClient(eventHubsConnectionString, eventHubName, {
         onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
@@ -44,8 +51,9 @@ export function createEventHubsClient(
             throw err;
           },
         },
-        { startPosition: latestEventPosition }
+        { startPosition: crossLanguage ? earliestEventPosition : latestEventPosition }
       );
+      initialized = true;
     },
     async send(message: EventData) {
       await producer.enqueueEvent(message);
@@ -70,6 +78,7 @@ export function createEventHubsClient(
       await producer.close();
       await subscription.close();
       await consumer.close();
+      initialized = false;
     },
   };
 }

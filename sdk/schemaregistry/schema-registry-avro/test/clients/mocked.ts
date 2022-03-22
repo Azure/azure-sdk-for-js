@@ -16,24 +16,29 @@ export function createMockedMessagingClient<MessageT>(
     return createLiveClient();
   }
   const messageBuffer: MessageT[] = [];
+  let initialized = false;
   return {
+    isInitialized(): boolean {
+      return initialized;
+    },
     async initialize(): Promise<void> {
-      /** empty body */
+      initialized = true;
     },
     async send(inputMessage: MessageT): Promise<void> {
       messageBuffer.push(inputMessage);
     },
     receive: async function* ({ eventCount = 1 } = {}) {
-      const currEventCount = 0;
+      let currEventCount = 0;
       while (currEventCount < eventCount) {
         const message = messageBuffer.shift();
         if (message !== undefined) {
+          ++currEventCount;
           yield message;
         }
       }
     },
     async cleanup(): Promise<void> {
-      /** empty body */
+      initialized = false;
     },
   };
 }
