@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AFDCustomDomains } from "../operationsInterfaces";
+import { AfdCustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,29 +16,28 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   AFDDomain,
-  AFDCustomDomainsListByProfileNextOptionalParams,
-  AFDCustomDomainsListByProfileOptionalParams,
-  AFDCustomDomainsListByProfileResponse,
-  AFDCustomDomainsGetOptionalParams,
-  AFDCustomDomainsGetResponse,
-  AFDCustomDomainsCreateOptionalParams,
-  AFDCustomDomainsCreateResponse,
+  AfdCustomDomainsListByProfileNextOptionalParams,
+  AfdCustomDomainsListByProfileOptionalParams,
+  AfdCustomDomainsListByProfileResponse,
+  AfdCustomDomainsGetOptionalParams,
+  AfdCustomDomainsGetResponse,
+  AfdCustomDomainsCreateOptionalParams,
+  AfdCustomDomainsCreateResponse,
   AFDDomainUpdateParameters,
-  AFDCustomDomainsUpdateOptionalParams,
-  AFDCustomDomainsUpdateResponse,
-  AFDCustomDomainsDeleteOptionalParams,
-  AFDCustomDomainsRefreshValidationTokenOptionalParams,
-  AFDCustomDomainsRefreshValidationTokenResponse,
-  AFDCustomDomainsListByProfileNextResponse
+  AfdCustomDomainsUpdateOptionalParams,
+  AfdCustomDomainsUpdateResponse,
+  AfdCustomDomainsDeleteOptionalParams,
+  AfdCustomDomainsRefreshValidationTokenOptionalParams,
+  AfdCustomDomainsListByProfileNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AFDCustomDomains operations. */
-export class AFDCustomDomainsImpl implements AFDCustomDomains {
+/** Class containing AfdCustomDomains operations. */
+export class AfdCustomDomainsImpl implements AfdCustomDomains {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AFDCustomDomains class.
+   * Initialize a new instance of the class AfdCustomDomains class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -48,13 +47,14 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   /**
    * Lists existing AzureFrontDoor domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile or CDN
+   *                    profile which is unique within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDDomain> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
@@ -81,7 +81,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDDomain[]> {
     let result = await this._listByProfile(
       resourceGroupName,
@@ -105,7 +105,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDDomain> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
@@ -119,14 +119,15 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   /**
    * Lists existing AzureFrontDoor domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile or CDN
+   *                    profile which is unique within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
-  ): Promise<AFDCustomDomainsListByProfileResponse> {
+    options?: AfdCustomDomainsListByProfileOptionalParams
+  ): Promise<AfdCustomDomainsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
       listByProfileOperationSpec
@@ -137,7 +138,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
    * Gets an existing AzureFrontDoor domain with the specified domain name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -145,8 +147,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsGetOptionalParams
-  ): Promise<AFDCustomDomainsGetResponse> {
+    options?: AfdCustomDomainsGetOptionalParams
+  ): Promise<AfdCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, customDomainName, options },
       getOperationSpec
@@ -156,7 +158,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   /**
    * Creates a new domain within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomain Domain properties
    * @param options The options parameters.
@@ -166,17 +169,17 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AFDCustomDomainsCreateOptionalParams
+    options?: AfdCustomDomainsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDCustomDomainsCreateResponse>,
-      AFDCustomDomainsCreateResponse
+      PollOperationState<AfdCustomDomainsCreateResponse>,
+      AfdCustomDomainsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDCustomDomainsCreateResponse> => {
+    ): Promise<AfdCustomDomainsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -223,17 +226,20 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates a new domain within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomain Domain properties
    * @param options The options parameters.
@@ -243,8 +249,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AFDCustomDomainsCreateOptionalParams
-  ): Promise<AFDCustomDomainsCreateResponse> {
+    options?: AfdCustomDomainsCreateOptionalParams
+  ): Promise<AfdCustomDomainsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
@@ -258,7 +264,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   /**
    * Updates an existing domain within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomainUpdateProperties Domain properties
    * @param options The options parameters.
@@ -268,17 +275,17 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AFDCustomDomainsUpdateOptionalParams
+    options?: AfdCustomDomainsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDCustomDomainsUpdateResponse>,
-      AFDCustomDomainsUpdateResponse
+      PollOperationState<AfdCustomDomainsUpdateResponse>,
+      AfdCustomDomainsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDCustomDomainsUpdateResponse> => {
+    ): Promise<AfdCustomDomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -325,17 +332,20 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Updates an existing domain within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomainUpdateProperties Domain properties
    * @param options The options parameters.
@@ -345,8 +355,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AFDCustomDomainsUpdateOptionalParams
-  ): Promise<AFDCustomDomainsUpdateResponse> {
+    options?: AfdCustomDomainsUpdateOptionalParams
+  ): Promise<AfdCustomDomainsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
@@ -361,7 +371,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
    * Deletes an existing AzureFrontDoor domain with the specified domain name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -369,7 +380,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -415,18 +426,21 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
       { resourceGroupName, profileName, customDomainName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an existing AzureFrontDoor domain with the specified domain name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -434,7 +448,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -448,7 +462,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   /**
    * Updates the domain validation token.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -456,17 +471,12 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsRefreshValidationTokenOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<AFDCustomDomainsRefreshValidationTokenResponse>,
-      AFDCustomDomainsRefreshValidationTokenResponse
-    >
-  > {
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDCustomDomainsRefreshValidationTokenResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -507,17 +517,20 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
       { resourceGroupName, profileName, customDomainName, options },
       refreshValidationTokenOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Updates the domain validation token.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -525,8 +538,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsRefreshValidationTokenOptionalParams
-  ): Promise<AFDCustomDomainsRefreshValidationTokenResponse> {
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
+  ): Promise<void> {
     const poller = await this.beginRefreshValidationToken(
       resourceGroupName,
       profileName,
@@ -539,7 +552,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile or CDN
+   *                    profile which is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -547,8 +561,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AFDCustomDomainsListByProfileNextOptionalParams
-  ): Promise<AFDCustomDomainsListByProfileNextResponse> {
+    options?: AfdCustomDomainsListByProfileNextOptionalParams
+  ): Promise<AfdCustomDomainsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
       listByProfileNextOperationSpec
@@ -633,7 +647,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.customDomainName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -667,7 +681,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.customDomainName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -700,18 +714,10 @@ const refreshValidationTokenOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}/refreshValidationToken",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.ValidationToken
-    },
-    201: {
-      bodyMapper: Mappers.ValidationToken
-    },
-    202: {
-      bodyMapper: Mappers.ValidationToken
-    },
-    204: {
-      bodyMapper: Mappers.ValidationToken
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.AfdErrorResponse
     }

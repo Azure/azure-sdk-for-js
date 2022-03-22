@@ -10,38 +10,39 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AFDDomain,
-  AFDCustomDomainsListByProfileOptionalParams,
-  AFDCustomDomainsGetOptionalParams,
-  AFDCustomDomainsGetResponse,
-  AFDCustomDomainsCreateOptionalParams,
-  AFDCustomDomainsCreateResponse,
+  AfdCustomDomainsListByProfileOptionalParams,
+  AfdCustomDomainsGetOptionalParams,
+  AfdCustomDomainsGetResponse,
+  AfdCustomDomainsCreateOptionalParams,
+  AfdCustomDomainsCreateResponse,
   AFDDomainUpdateParameters,
-  AFDCustomDomainsUpdateOptionalParams,
-  AFDCustomDomainsUpdateResponse,
-  AFDCustomDomainsDeleteOptionalParams,
-  AFDCustomDomainsRefreshValidationTokenOptionalParams,
-  AFDCustomDomainsRefreshValidationTokenResponse
+  AfdCustomDomainsUpdateOptionalParams,
+  AfdCustomDomainsUpdateResponse,
+  AfdCustomDomainsDeleteOptionalParams,
+  AfdCustomDomainsRefreshValidationTokenOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AFDCustomDomains. */
-export interface AFDCustomDomains {
+/** Interface representing a AfdCustomDomains. */
+export interface AfdCustomDomains {
   /**
    * Lists existing AzureFrontDoor domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile or CDN
+   *                    profile which is unique within the resource group.
    * @param options The options parameters.
    */
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDDomain>;
   /**
    * Gets an existing AzureFrontDoor domain with the specified domain name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -49,12 +50,13 @@ export interface AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsGetOptionalParams
-  ): Promise<AFDCustomDomainsGetResponse>;
+    options?: AfdCustomDomainsGetOptionalParams
+  ): Promise<AfdCustomDomainsGetResponse>;
   /**
    * Creates a new domain within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomain Domain properties
    * @param options The options parameters.
@@ -64,17 +66,18 @@ export interface AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AFDCustomDomainsCreateOptionalParams
+    options?: AfdCustomDomainsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDCustomDomainsCreateResponse>,
-      AFDCustomDomainsCreateResponse
+      PollOperationState<AfdCustomDomainsCreateResponse>,
+      AfdCustomDomainsCreateResponse
     >
   >;
   /**
    * Creates a new domain within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomain Domain properties
    * @param options The options parameters.
@@ -84,12 +87,13 @@ export interface AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AFDCustomDomainsCreateOptionalParams
-  ): Promise<AFDCustomDomainsCreateResponse>;
+    options?: AfdCustomDomainsCreateOptionalParams
+  ): Promise<AfdCustomDomainsCreateResponse>;
   /**
    * Updates an existing domain within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomainUpdateProperties Domain properties
    * @param options The options parameters.
@@ -99,17 +103,18 @@ export interface AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AFDCustomDomainsUpdateOptionalParams
+    options?: AfdCustomDomainsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDCustomDomainsUpdateResponse>,
-      AFDCustomDomainsUpdateResponse
+      PollOperationState<AfdCustomDomainsUpdateResponse>,
+      AfdCustomDomainsUpdateResponse
     >
   >;
   /**
    * Updates an existing domain within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally
    * @param customDomainUpdateProperties Domain properties
    * @param options The options parameters.
@@ -119,13 +124,14 @@ export interface AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AFDCustomDomainsUpdateOptionalParams
-  ): Promise<AFDCustomDomainsUpdateResponse>;
+    options?: AfdCustomDomainsUpdateOptionalParams
+  ): Promise<AfdCustomDomainsUpdateResponse>;
   /**
    * Deletes an existing AzureFrontDoor domain with the specified domain name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -133,13 +139,14 @@ export interface AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing AzureFrontDoor domain with the specified domain name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -147,12 +154,13 @@ export interface AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<void>;
   /**
    * Updates the domain validation token.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -160,17 +168,13 @@ export interface AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsRefreshValidationTokenOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<AFDCustomDomainsRefreshValidationTokenResponse>,
-      AFDCustomDomainsRefreshValidationTokenResponse
-    >
-  >;
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Updates the domain validation token.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param customDomainName Name of the domain under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -178,6 +182,6 @@ export interface AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsRefreshValidationTokenOptionalParams
-  ): Promise<AFDCustomDomainsRefreshValidationTokenResponse>;
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
+  ): Promise<void>;
 }

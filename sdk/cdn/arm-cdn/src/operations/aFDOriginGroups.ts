@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AFDOriginGroups } from "../operationsInterfaces";
+import { AfdOriginGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,32 +16,32 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   AFDOriginGroup,
-  AFDOriginGroupsListByProfileNextOptionalParams,
-  AFDOriginGroupsListByProfileOptionalParams,
+  AfdOriginGroupsListByProfileNextOptionalParams,
+  AfdOriginGroupsListByProfileOptionalParams,
   Usage,
-  AFDOriginGroupsListResourceUsageNextOptionalParams,
-  AFDOriginGroupsListResourceUsageOptionalParams,
-  AFDOriginGroupsListByProfileResponse,
-  AFDOriginGroupsGetOptionalParams,
-  AFDOriginGroupsGetResponse,
-  AFDOriginGroupsCreateOptionalParams,
-  AFDOriginGroupsCreateResponse,
+  AfdOriginGroupsListResourceUsageNextOptionalParams,
+  AfdOriginGroupsListResourceUsageOptionalParams,
+  AfdOriginGroupsListByProfileResponse,
+  AfdOriginGroupsGetOptionalParams,
+  AfdOriginGroupsGetResponse,
+  AfdOriginGroupsCreateOptionalParams,
+  AfdOriginGroupsCreateResponse,
   AFDOriginGroupUpdateParameters,
-  AFDOriginGroupsUpdateOptionalParams,
-  AFDOriginGroupsUpdateResponse,
-  AFDOriginGroupsDeleteOptionalParams,
-  AFDOriginGroupsListResourceUsageResponse,
-  AFDOriginGroupsListByProfileNextResponse,
-  AFDOriginGroupsListResourceUsageNextResponse
+  AfdOriginGroupsUpdateOptionalParams,
+  AfdOriginGroupsUpdateResponse,
+  AfdOriginGroupsDeleteOptionalParams,
+  AfdOriginGroupsListResourceUsageResponse,
+  AfdOriginGroupsListByProfileNextResponse,
+  AfdOriginGroupsListResourceUsageNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AFDOriginGroups operations. */
-export class AFDOriginGroupsImpl implements AFDOriginGroups {
+/** Class containing AfdOriginGroups operations. */
+export class AfdOriginGroupsImpl implements AfdOriginGroups {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AFDOriginGroups class.
+   * Initialize a new instance of the class AfdOriginGroups class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -51,13 +51,14 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Lists all of the existing origin groups within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDOriginGroupsListByProfileOptionalParams
+    options?: AfdOriginGroupsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDOriginGroup> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
@@ -84,7 +85,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDOriginGroupsListByProfileOptionalParams
+    options?: AfdOriginGroupsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDOriginGroup[]> {
     let result = await this._listByProfile(
       resourceGroupName,
@@ -108,7 +109,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDOriginGroupsListByProfileOptionalParams
+    options?: AfdOriginGroupsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDOriginGroup> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
@@ -122,7 +123,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -130,7 +132,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsListResourceUsageOptionalParams
+    options?: AfdOriginGroupsListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
@@ -160,7 +162,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsListResourceUsageOptionalParams
+    options?: AfdOriginGroupsListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage[]> {
     let result = await this._listResourceUsage(
       resourceGroupName,
@@ -187,7 +189,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsListResourceUsageOptionalParams
+    options?: AfdOriginGroupsListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
@@ -202,14 +204,15 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Lists all of the existing origin groups within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDOriginGroupsListByProfileOptionalParams
-  ): Promise<AFDOriginGroupsListByProfileResponse> {
+    options?: AfdOriginGroupsListByProfileOptionalParams
+  ): Promise<AfdOriginGroupsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
       listByProfileOperationSpec
@@ -219,7 +222,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Gets an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -227,8 +231,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsGetOptionalParams
-  ): Promise<AFDOriginGroupsGetResponse> {
+    options?: AfdOriginGroupsGetOptionalParams
+  ): Promise<AfdOriginGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, options },
       getOperationSpec
@@ -238,7 +242,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param originGroup Origin group properties
    * @param options The options parameters.
@@ -248,17 +253,17 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AFDOriginGroupsCreateOptionalParams
+    options?: AfdOriginGroupsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDOriginGroupsCreateResponse>,
-      AFDOriginGroupsCreateResponse
+      PollOperationState<AfdOriginGroupsCreateResponse>,
+      AfdOriginGroupsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDOriginGroupsCreateResponse> => {
+    ): Promise<AfdOriginGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -299,17 +304,20 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
       { resourceGroupName, profileName, originGroupName, originGroup, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param originGroup Origin group properties
    * @param options The options parameters.
@@ -319,8 +327,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AFDOriginGroupsCreateOptionalParams
-  ): Promise<AFDOriginGroupsCreateResponse> {
+    options?: AfdOriginGroupsCreateOptionalParams
+  ): Promise<AfdOriginGroupsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
@@ -334,7 +342,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originGroupUpdateProperties Origin group properties
    * @param options The options parameters.
@@ -344,17 +353,17 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AFDOriginGroupsUpdateOptionalParams
+    options?: AfdOriginGroupsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDOriginGroupsUpdateResponse>,
-      AFDOriginGroupsUpdateResponse
+      PollOperationState<AfdOriginGroupsUpdateResponse>,
+      AfdOriginGroupsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDOriginGroupsUpdateResponse> => {
+    ): Promise<AfdOriginGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -401,17 +410,20 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originGroupUpdateProperties Origin group properties
    * @param options The options parameters.
@@ -421,8 +433,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AFDOriginGroupsUpdateOptionalParams
-  ): Promise<AFDOriginGroupsUpdateResponse> {
+    options?: AfdOriginGroupsUpdateOptionalParams
+  ): Promise<AfdOriginGroupsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
@@ -436,7 +448,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -444,7 +457,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsDeleteOptionalParams
+    options?: AfdOriginGroupsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -490,17 +503,20 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
       { resourceGroupName, profileName, originGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -508,7 +524,7 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsDeleteOptionalParams
+    options?: AfdOriginGroupsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -522,7 +538,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -530,8 +547,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsListResourceUsageOptionalParams
-  ): Promise<AFDOriginGroupsListResourceUsageResponse> {
+    options?: AfdOriginGroupsListResourceUsageOptionalParams
+  ): Promise<AfdOriginGroupsListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, options },
       listResourceUsageOperationSpec
@@ -541,7 +558,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -549,8 +567,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AFDOriginGroupsListByProfileNextOptionalParams
-  ): Promise<AFDOriginGroupsListByProfileNextResponse> {
+    options?: AfdOriginGroupsListByProfileNextOptionalParams
+  ): Promise<AfdOriginGroupsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
       listByProfileNextOperationSpec
@@ -560,7 +578,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
@@ -570,8 +589,8 @@ export class AFDOriginGroupsImpl implements AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     nextLink: string,
-    options?: AFDOriginGroupsListResourceUsageNextOptionalParams
-  ): Promise<AFDOriginGroupsListResourceUsageNextResponse> {
+    options?: AfdOriginGroupsListResourceUsageNextOptionalParams
+  ): Promise<AfdOriginGroupsListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, nextLink, options },
       listResourceUsageNextOperationSpec
@@ -647,7 +666,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  requestBody: Parameters.originGroup1,
+  requestBody: Parameters.originGroup,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -656,7 +675,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.originGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -681,7 +700,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  requestBody: Parameters.originGroupUpdateProperties1,
+  requestBody: Parameters.originGroupUpdateProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -690,7 +709,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.originGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

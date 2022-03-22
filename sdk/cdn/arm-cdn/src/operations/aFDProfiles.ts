@@ -7,29 +7,29 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AFDProfiles } from "../operationsInterfaces";
+import { AfdProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
 import {
   Usage,
-  AFDProfilesListResourceUsageNextOptionalParams,
-  AFDProfilesListResourceUsageOptionalParams,
-  AFDProfilesListResourceUsageResponse,
-  ValidateCustomDomainInput,
-  AFDProfilesCheckHostNameAvailabilityOptionalParams,
-  AFDProfilesCheckHostNameAvailabilityResponse,
-  AFDProfilesListResourceUsageNextResponse
+  AfdProfilesListResourceUsageNextOptionalParams,
+  AfdProfilesListResourceUsageOptionalParams,
+  AfdProfilesListResourceUsageResponse,
+  CheckHostNameAvailabilityInput,
+  AfdProfilesCheckHostNameAvailabilityOptionalParams,
+  AfdProfilesCheckHostNameAvailabilityResponse,
+  AfdProfilesListResourceUsageNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AFDProfiles operations. */
-export class AFDProfilesImpl implements AFDProfiles {
+/** Class containing AfdProfiles operations. */
+export class AfdProfilesImpl implements AfdProfiles {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AFDProfiles class.
+   * Initialize a new instance of the class AfdProfiles class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -39,13 +39,14 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   public listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
@@ -72,7 +73,7 @@ export class AFDProfilesImpl implements AFDProfiles {
   private async *listResourceUsagePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage[]> {
     let result = await this._listResourceUsage(
       resourceGroupName,
@@ -96,7 +97,7 @@ export class AFDProfilesImpl implements AFDProfiles {
   private async *listResourceUsagePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
@@ -110,14 +111,15 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   private _listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
-  ): Promise<AFDProfilesListResourceUsageResponse> {
+    options?: AfdProfilesListResourceUsageOptionalParams
+  ): Promise<AfdProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
       listResourceUsageOperationSpec
@@ -127,16 +129,17 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
   checkHostNameAvailability(
     resourceGroupName: string,
     profileName: string,
-    checkHostNameAvailabilityInput: ValidateCustomDomainInput,
-    options?: AFDProfilesCheckHostNameAvailabilityOptionalParams
-  ): Promise<AFDProfilesCheckHostNameAvailabilityResponse> {
+    checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+  ): Promise<AfdProfilesCheckHostNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +154,8 @@ export class AFDProfilesImpl implements AFDProfiles {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
    */
@@ -159,8 +163,8 @@ export class AFDProfilesImpl implements AFDProfiles {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AFDProfilesListResourceUsageNextOptionalParams
-  ): Promise<AFDProfilesListResourceUsageNextResponse> {
+    options?: AfdProfilesListResourceUsageNextOptionalParams
+  ): Promise<AfdProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
       listResourceUsageNextOperationSpec
@@ -198,7 +202,7 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateCustomDomainOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput
     },
     default: {
       bodyMapper: Mappers.AfdErrorResponse
@@ -212,7 +216,7 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

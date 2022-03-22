@@ -10,37 +10,39 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AFDOriginGroup,
-  AFDOriginGroupsListByProfileOptionalParams,
+  AfdOriginGroupsListByProfileOptionalParams,
   Usage,
-  AFDOriginGroupsListResourceUsageOptionalParams,
-  AFDOriginGroupsGetOptionalParams,
-  AFDOriginGroupsGetResponse,
-  AFDOriginGroupsCreateOptionalParams,
-  AFDOriginGroupsCreateResponse,
+  AfdOriginGroupsListResourceUsageOptionalParams,
+  AfdOriginGroupsGetOptionalParams,
+  AfdOriginGroupsGetResponse,
+  AfdOriginGroupsCreateOptionalParams,
+  AfdOriginGroupsCreateResponse,
   AFDOriginGroupUpdateParameters,
-  AFDOriginGroupsUpdateOptionalParams,
-  AFDOriginGroupsUpdateResponse,
-  AFDOriginGroupsDeleteOptionalParams
+  AfdOriginGroupsUpdateOptionalParams,
+  AfdOriginGroupsUpdateResponse,
+  AfdOriginGroupsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AFDOriginGroups. */
-export interface AFDOriginGroups {
+/** Interface representing a AfdOriginGroups. */
+export interface AfdOriginGroups {
   /**
    * Lists all of the existing origin groups within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDOriginGroupsListByProfileOptionalParams
+    options?: AfdOriginGroupsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDOriginGroup>;
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -48,12 +50,13 @@ export interface AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsListResourceUsageOptionalParams
+    options?: AfdOriginGroupsListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Gets an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param options The options parameters.
    */
@@ -61,12 +64,13 @@ export interface AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsGetOptionalParams
-  ): Promise<AFDOriginGroupsGetResponse>;
+    options?: AfdOriginGroupsGetOptionalParams
+  ): Promise<AfdOriginGroupsGetResponse>;
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param originGroup Origin group properties
    * @param options The options parameters.
@@ -76,17 +80,18 @@ export interface AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AFDOriginGroupsCreateOptionalParams
+    options?: AfdOriginGroupsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDOriginGroupsCreateResponse>,
-      AFDOriginGroupsCreateResponse
+      PollOperationState<AfdOriginGroupsCreateResponse>,
+      AfdOriginGroupsCreateResponse
     >
   >;
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the endpoint.
    * @param originGroup Origin group properties
    * @param options The options parameters.
@@ -96,12 +101,13 @@ export interface AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AFDOriginGroupsCreateOptionalParams
-  ): Promise<AFDOriginGroupsCreateResponse>;
+    options?: AfdOriginGroupsCreateOptionalParams
+  ): Promise<AfdOriginGroupsCreateResponse>;
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originGroupUpdateProperties Origin group properties
    * @param options The options parameters.
@@ -111,17 +117,18 @@ export interface AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AFDOriginGroupsUpdateOptionalParams
+    options?: AfdOriginGroupsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDOriginGroupsUpdateResponse>,
-      AFDOriginGroupsUpdateResponse
+      PollOperationState<AfdOriginGroupsUpdateResponse>,
+      AfdOriginGroupsUpdateResponse
     >
   >;
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originGroupUpdateProperties Origin group properties
    * @param options The options parameters.
@@ -131,12 +138,13 @@ export interface AFDOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AFDOriginGroupsUpdateOptionalParams
-  ): Promise<AFDOriginGroupsUpdateResponse>;
+    options?: AfdOriginGroupsUpdateOptionalParams
+  ): Promise<AfdOriginGroupsUpdateResponse>;
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -144,12 +152,13 @@ export interface AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsDeleteOptionalParams
+    options?: AfdOriginGroupsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -157,6 +166,6 @@ export interface AFDOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AFDOriginGroupsDeleteOptionalParams
+    options?: AfdOriginGroupsDeleteOptionalParams
   ): Promise<void>;
 }
