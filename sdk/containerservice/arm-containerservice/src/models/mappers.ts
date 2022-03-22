@@ -397,6 +397,12 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
           name: "String"
         }
       },
+      messageOfTheDay: {
+        serializedName: "messageOfTheDay",
+        type: {
+          name: "String"
+        }
+      },
       vnetSubnetID: {
         serializedName: "vnetSubnetID",
         type: {
@@ -616,6 +622,18 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
         type: {
           name: "Composite",
           className: "CreationData"
+        }
+      },
+      capacityReservationGroupID: {
+        serializedName: "capacityReservationGroupID",
+        type: {
+          name: "String"
+        }
+      },
+      hostGroupID: {
+        serializedName: "hostGroupID",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1354,6 +1372,28 @@ export const ManagedClusterPodIdentityException: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedClusterOidcIssuerProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterOidcIssuerProfile",
+    modelProperties: {
+      issuerURL: {
+        serializedName: "issuerURL",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2033,6 +2073,13 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ManagedClusterSecurityProfileAzureDefender"
         }
+      },
+      azureKeyVaultKms: {
+        serializedName: "azureKeyVaultKms",
+        type: {
+          name: "Composite",
+          className: "AzureKeyVaultKms"
+        }
       }
     }
   }
@@ -2051,6 +2098,27 @@ export const ManagedClusterSecurityProfileAzureDefender: coreClient.CompositeMap
       },
       logAnalyticsWorkspaceResourceId: {
         serializedName: "logAnalyticsWorkspaceResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureKeyVaultKms: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureKeyVaultKms",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      keyId: {
+        serializedName: "keyId",
         type: {
           name: "String"
         }
@@ -2085,6 +2153,13 @@ export const Resource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       location: {
         serializedName: "location",
         required: true,
@@ -2097,6 +2172,51 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -2299,51 +2419,6 @@ export const MaintenanceConfigurationListResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -2972,6 +3047,103 @@ export const SnapshotListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedClusterSnapshotListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSnapshotListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedClusterSnapshot"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterPropertiesForSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterPropertiesForSnapshot",
+    modelProperties: {
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSKU"
+        }
+      },
+      enableRbac: {
+        serializedName: "enableRbac",
+        type: {
+          name: "Boolean"
+        }
+      },
+      networkProfile: {
+        serializedName: "networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfileForSnapshot"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkProfileForSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkProfileForSnapshot",
+    modelProperties: {
+      networkPlugin: {
+        defaultValue: "kubenet",
+        serializedName: "networkPlugin",
+        type: {
+          name: "String"
+        }
+      },
+      networkPolicy: {
+        serializedName: "networkPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      networkMode: {
+        serializedName: "networkMode",
+        type: {
+          name: "String"
+        }
+      },
+      loadBalancerSku: {
+        serializedName: "loadBalancerSku",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerServiceMasterProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3162,6 +3334,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      currentKubernetesVersion: {
+        serializedName: "properties.currentKubernetesVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       dnsPrefix: {
         serializedName: "properties.dnsPrefix",
         type: {
@@ -3244,6 +3423,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           className: "ManagedClusterPodIdentityProfile"
         }
       },
+      oidcIssuerProfile: {
+        serializedName: "properties.oidcIssuerProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterOidcIssuerProfile"
+        }
+      },
       nodeResourceGroup: {
         serializedName: "properties.nodeResourceGroup",
         type: {
@@ -3258,6 +3444,12 @@ export const ManagedCluster: coreClient.CompositeMapper = {
       },
       enablePodSecurityPolicy: {
         serializedName: "properties.enablePodSecurityPolicy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNamespaceResources: {
+        serializedName: "properties.enableNamespaceResources",
         type: {
           name: "Boolean"
         }
@@ -3376,13 +3568,6 @@ export const Snapshot: coreClient.CompositeMapper = {
     className: "Snapshot",
     modelProperties: {
       ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
       creationData: {
         serializedName: "properties.creationData",
         type: {
@@ -3438,6 +3623,37 @@ export const Snapshot: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSnapshot",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      creationData: {
+        serializedName: "properties.creationData",
+        type: {
+          name: "Composite",
+          className: "CreationData"
+        }
+      },
+      snapshotType: {
+        defaultValue: "NodePool",
+        serializedName: "properties.snapshotType",
+        type: {
+          name: "String"
+        }
+      },
+      managedClusterPropertiesReadOnly: {
+        serializedName: "properties.managedClusterPropertiesReadOnly",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterPropertiesForSnapshot"
         }
       }
     }
@@ -3527,6 +3743,12 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       workloadRuntime: {
         serializedName: "properties.workloadRuntime",
+        type: {
+          name: "String"
+        }
+      },
+      messageOfTheDay: {
+        serializedName: "properties.messageOfTheDay",
         type: {
           name: "String"
         }
@@ -3750,6 +3972,18 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CreationData"
+        }
+      },
+      capacityReservationGroupID: {
+        serializedName: "properties.capacityReservationGroupID",
+        type: {
+          name: "String"
+        }
+      },
+      hostGroupID: {
+        serializedName: "properties.hostGroupID",
+        type: {
+          name: "String"
         }
       }
     }

@@ -178,6 +178,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   kubeletDiskType?: KubeletDiskType;
   /** Determines the type of workload a node can run. */
   workloadRuntime?: WorkloadRuntime;
+  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
   /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
@@ -250,6 +252,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
+  capacityReservationGroupID?: string;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
+  hostGroupID?: string;
 }
 
 /** Settings for upgrading an agentpool */
@@ -501,6 +507,17 @@ export interface ManagedClusterPodIdentityException {
   podLabels: { [propertyName: string]: string };
 }
 
+/** The OIDC issuer profile of the Managed Cluster. */
+export interface ManagedClusterOidcIssuerProfile {
+  /**
+   * The OIDC issuer url of the Managed Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issuerURL?: string;
+  /** Whether the OIDC issuer is enabled. */
+  enabled?: boolean;
+}
+
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
@@ -704,6 +721,8 @@ export interface ManagedClusterHttpProxyConfig {
 export interface ManagedClusterSecurityProfile {
   /** Azure Defender settings for the security profile. */
   azureDefender?: ManagedClusterSecurityProfileAzureDefender;
+  /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
+  azureKeyVaultKms?: AzureKeyVaultKms;
 }
 
 /** Azure Defender settings for the security profile. */
@@ -714,27 +733,56 @@ export interface ManagedClusterSecurityProfileAzureDefender {
   logAnalyticsWorkspaceResourceId?: string;
 }
 
-/** The Resource model definition. */
+/** Azure Key Vault key management service settings for the security profile. */
+export interface AzureKeyVaultKms {
+  /** Whether to enable Azure Key Vault key management service. The default is false. */
+  enabled?: boolean;
+  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  keyId?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Resource Id
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Resource name
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** Resource location */
   location: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The list of available upgrades for compute pools. */
@@ -817,22 +865,6 @@ export interface MaintenanceConfigurationListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The UTC timestamp of resource creation. */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The type of identity that last modified the resource. */
-  lastModifiedAt?: Date;
 }
 
 /** Time in a week. */
@@ -1098,6 +1130,44 @@ export interface SnapshotListResult {
   readonly nextLink?: string;
 }
 
+/** The response from the List Managed Cluster Snapshots operation. */
+export interface ManagedClusterSnapshotListResult {
+  /** The list of managed cluster snapshots. */
+  value?: ManagedClusterSnapshot[];
+  /**
+   * The URL to get the next set of managed cluster snapshot results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** managed cluster properties for snapshot, these properties are read only. */
+export interface ManagedClusterPropertiesForSnapshot {
+  /** The current kubernetes version. */
+  kubernetesVersion?: string;
+  /** The current managed cluster sku. */
+  sku?: ManagedClusterSKU;
+  /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
+  enableRbac?: boolean;
+  /**
+   * The current network profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkProfile?: NetworkProfileForSnapshot;
+}
+
+/** network profile for managed cluster snapshot, these properties are read only. */
+export interface NetworkProfileForSnapshot {
+  /** networkPlugin for managed cluster snapshot. */
+  networkPlugin?: NetworkPlugin;
+  /** networkPolicy for managed cluster snapshot. */
+  networkPolicy?: NetworkPolicy;
+  /** networkMode for managed cluster snapshot. */
+  networkMode?: NetworkMode;
+  /** loadBalancerSku for managed cluster snapshot. */
+  loadBalancerSku?: LoadBalancerSku;
+}
+
 /** Profile for the container service master. */
 export interface ContainerServiceMasterProfile {
   /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
@@ -1172,6 +1242,11 @@ export type ManagedCluster = Resource & {
   readonly maxAgentPools?: number;
   /** When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
   kubernetesVersion?: string;
+  /**
+   * The version of Kubernetes the Managed Cluster is running.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentKubernetesVersion?: string;
   /** This cannot be updated once the Managed Cluster has been created. */
   dnsPrefix?: string;
   /** This cannot be updated once the Managed Cluster has been created. */
@@ -1203,12 +1278,16 @@ export type ManagedCluster = Resource & {
   addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
   /** See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
   podIdentityProfile?: ManagedClusterPodIdentityProfile;
+  /** The OIDC issuer profile of the Managed Cluster. */
+  oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
   /** The name of the resource group containing agent pool nodes. */
   nodeResourceGroup?: string;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
   /** (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy. */
   enablePodSecurityPolicy?: boolean;
+  /** The default value is false. It can be enabled/disabled on creation and updation of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
+  enableNamespaceResources?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -1243,11 +1322,6 @@ export type ManagedClusterAccessProfile = Resource & {
 
 /** A node pool snapshot resource. */
 export type Snapshot = Resource & {
-  /**
-   * The system metadata relating to this snapshot.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
@@ -1284,6 +1358,19 @@ export type Snapshot = Resource & {
   readonly enableFips?: boolean;
 };
 
+/** A managed cluster snapshot resource. */
+export type ManagedClusterSnapshot = Resource & {
+  /** CreationData to be used to specify the source resource ID to create this snapshot. */
+  creationData?: CreationData;
+  /** The type of a snapshot. The default is NodePool. */
+  snapshotType?: SnapshotType;
+  /**
+   * What the properties will be showed when getting managed cluster snapshot. Those properties are read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
+};
+
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export type MaintenanceConfiguration = SubResource & {
   /**
@@ -1311,6 +1398,8 @@ export type AgentPool = SubResource & {
   kubeletDiskType?: KubeletDiskType;
   /** Determines the type of workload a node can run. */
   workloadRuntime?: WorkloadRuntime;
+  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
   /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
@@ -1383,6 +1472,10 @@ export type AgentPool = SubResource & {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
+  capacityReservationGroupID?: string;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
+  hostGroupID?: string;
 };
 
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
@@ -1698,7 +1791,9 @@ export enum KnownNetworkPlugin {
   /** Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https://docs.microsoft.com/azure/aks/concepts-network#azure-cni-advanced-networking) for more information. */
   Azure = "azure",
   /** Use the Kubenet network plugin. See [Kubenet (basic) networking](https://docs.microsoft.com/azure/aks/concepts-network#kubenet-basic-networking) for more information. */
-  Kubenet = "kubenet"
+  Kubenet = "kubenet",
+  /** Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality. */
+  None = "none"
 }
 
 /**
@@ -1707,7 +1802,8 @@ export enum KnownNetworkPlugin {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **azure**: Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#azure-cni-advanced-networking) for more information. \
- * **kubenet**: Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information.
+ * **kubenet**: Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\/\/docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information. \
+ * **none**: Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality.
  */
 export type NetworkPlugin = string;
 
@@ -1872,24 +1968,6 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
-/** Known values of {@link Format} that the service accepts. */
-export enum KnownFormat {
-  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
-  Azure = "azure",
-  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
-  Exec = "exec"
-}
-
-/**
- * Defines values for Format. \
- * {@link KnownFormat} can be used interchangeably with Format,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
- * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
- */
-export type Format = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   User = "User",
@@ -1909,6 +1987,24 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link Format} that the service accepts. */
+export enum KnownFormat {
+  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
+  Azure = "azure",
+  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
+  Exec = "exec"
+}
+
+/**
+ * Defines values for Format. \
+ * {@link KnownFormat} can be used interchangeably with Format,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
+ * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
+ */
+export type Format = string;
 
 /** Known values of {@link WeekDay} that the service accepts. */
 export enum KnownWeekDay {
@@ -1979,7 +2075,9 @@ export type ConnectionStatus = string;
 /** Known values of {@link SnapshotType} that the service accepts. */
 export enum KnownSnapshotType {
   /** The snapshot is a snapshot of a node pool. */
-  NodePool = "NodePool"
+  NodePool = "NodePool",
+  /** The snapshot is a snapshot of a managed cluster. */
+  ManagedCluster = "ManagedCluster"
 }
 
 /**
@@ -1987,7 +2085,8 @@ export enum KnownSnapshotType {
  * {@link KnownSnapshotType} can be used interchangeably with SnapshotType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NodePool**: The snapshot is a snapshot of a node pool.
+ * **NodePool**: The snapshot is a snapshot of a node pool. \
+ * **ManagedCluster**: The snapshot is a snapshot of a managed cluster.
  */
 export type SnapshotType = string;
 
@@ -2773,6 +2872,59 @@ export interface SnapshotsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type SnapshotsListByResourceGroupNextResponse = SnapshotListResult;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedClusterSnapshotsListResponse = ManagedClusterSnapshotListResult;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ManagedClusterSnapshotsListByResourceGroupResponse = ManagedClusterSnapshotListResult;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagedClusterSnapshotsGetResponse = ManagedClusterSnapshot;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagedClusterSnapshotsCreateOrUpdateResponse = ManagedClusterSnapshot;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type ManagedClusterSnapshotsUpdateTagsResponse = ManagedClusterSnapshot;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagedClusterSnapshotsListNextResponse = ManagedClusterSnapshotListResult;
+
+/** Optional parameters. */
+export interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ManagedClusterSnapshotsListByResourceGroupNextResponse = ManagedClusterSnapshotListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams

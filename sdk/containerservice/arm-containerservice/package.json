@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceClient.",
-  "version": "15.1.1",
+  "version": "15.2.0-beta.1",
   "engines": {
     "node": ">=12.0.0"
   },
