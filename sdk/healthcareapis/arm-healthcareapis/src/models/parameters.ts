@@ -15,7 +15,16 @@ import {
   ServicesDescription as ServicesDescriptionMapper,
   ServicesPatchDescription as ServicesPatchDescriptionMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  Workspace as WorkspaceMapper,
+  WorkspacePatchResource as WorkspacePatchResourceMapper,
+  DicomService as DicomServiceMapper,
+  DicomServicePatchResource as DicomServicePatchResourceMapper,
+  IotConnector as IotConnectorMapper,
+  IotConnectorPatchResource as IotConnectorPatchResourceMapper,
+  IotFhirDestination as IotFhirDestinationMapper,
+  FhirService as FhirServiceMapper,
+  FhirServicePatchResource as FhirServicePatchResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -45,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-11",
+    defaultValue: "2021-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -135,28 +144,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const locationName: OperationURLParameter = {
-  parameterPath: "locationName",
-  mapper: {
-    serializedName: "locationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const operationResultId: OperationURLParameter = {
-  parameterPath: "operationResultId",
-  mapper: {
-    serializedName: "operationResultId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -177,6 +164,148 @@ export const groupName: OperationURLParameter = {
   parameterPath: "groupName",
   mapper: {
     serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspaceName: OperationURLParameter = {
+  parameterPath: "workspaceName",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "workspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workspace: OperationParameter = {
+  parameterPath: "workspace",
+  mapper: WorkspaceMapper
+};
+
+export const workspacePatchResource: OperationParameter = {
+  parameterPath: "workspacePatchResource",
+  mapper: WorkspacePatchResourceMapper
+};
+
+export const dicomServiceName: OperationURLParameter = {
+  parameterPath: "dicomServiceName",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "dicomServiceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const dicomservice: OperationParameter = {
+  parameterPath: "dicomservice",
+  mapper: DicomServiceMapper
+};
+
+export const dicomservicePatchResource: OperationParameter = {
+  parameterPath: "dicomservicePatchResource",
+  mapper: DicomServicePatchResourceMapper
+};
+
+export const iotConnectorName: OperationURLParameter = {
+  parameterPath: "iotConnectorName",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "iotConnectorName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const iotConnector: OperationParameter = {
+  parameterPath: "iotConnector",
+  mapper: IotConnectorMapper
+};
+
+export const iotConnectorPatchResource: OperationParameter = {
+  parameterPath: "iotConnectorPatchResource",
+  mapper: IotConnectorPatchResourceMapper
+};
+
+export const fhirDestinationName: OperationURLParameter = {
+  parameterPath: "fhirDestinationName",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "fhirDestinationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const iotFhirDestination: OperationParameter = {
+  parameterPath: "iotFhirDestination",
+  mapper: IotFhirDestinationMapper
+};
+
+export const fhirServiceName: OperationURLParameter = {
+  parameterPath: "fhirServiceName",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 3
+    },
+    serializedName: "fhirServiceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fhirservice: OperationParameter = {
+  parameterPath: "fhirservice",
+  mapper: FhirServiceMapper
+};
+
+export const fhirservicePatchResource: OperationParameter = {
+  parameterPath: "fhirservicePatchResource",
+  mapper: FhirServicePatchResourceMapper
+};
+
+export const locationName: OperationURLParameter = {
+  parameterPath: "locationName",
+  mapper: {
+    serializedName: "locationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationResultId: OperationURLParameter = {
+  parameterPath: "operationResultId",
+  mapper: {
+    serializedName: "operationResultId",
     required: true,
     type: {
       name: "String"
