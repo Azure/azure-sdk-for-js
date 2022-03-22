@@ -1480,6 +1480,7 @@ export interface WorkbooksDeleteOptionalParams extends coreClient.OperationOptio
 
 // @public
 export interface WorkbooksGetOptionalParams extends coreClient.OperationOptions {
+    canFetchContent?: boolean;
 }
 
 // @public

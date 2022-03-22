@@ -52,7 +52,7 @@ onVersions({ minVer: "7.2" }).describe(
       await testClient.flushKey(keyName);
     });
 
-    onVersions({ minVer: "7.3-preview" }).describe("getRandomBytes", () => {
+    onVersions({ minVer: "7.3" }).describe("getRandomBytes", () => {
       it("can return the required number of bytes", async () => {
         const result = await hsmClient.getRandomBytes(10);
         assert.exists(result);
@@ -73,7 +73,7 @@ onVersions({ minVer: "7.2" }).describe(
       });
     });
 
-    onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
+    onVersions({ minVer: "7.3" }).describe("releaseKey", () => {
       let attestation: string;
       let encodedReleasePolicy: Uint8Array;
 
