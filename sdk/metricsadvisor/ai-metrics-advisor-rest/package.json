@@ -3,19 +3,27 @@
   "sdk-type": "mgmt",
   "version": "1.0.0-beta.2",
   "description": "",
-  "main": "dist-esm/index.js",
+  "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/ai-metrics-advisor.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "dom-shims.d.ts",
+    "types/ai-metrics-advisor.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "scripts": {
-    "build": "npm run clean && tsc --build && npm run extract-api",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "extract-api": "mkdirp ./review && api-extractor run --local",
     "pack": "npm pack 2>&1",
     "lint": "echo skipped",
     "audit": "echo skipped",
-    "clean": "echo skipped",
+    "clean": "rimraf dist dist-esm dist-browser dist-test dist-test temp types *.tgz *.log",
     "build:samples": "echo skipped.",
     "check-format": "echo skipped",
     "execute:samples": "echo skipped",
@@ -44,7 +52,8 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.3.0",
     "@azure/core-paging": "^1.2.0",
-    "@azure/core-client": "^1.0.0"
+    "@azure/core-client": "^1.0.0",
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",

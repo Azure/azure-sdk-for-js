@@ -7,8 +7,9 @@
  */
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { getYieldedValue } from "@azure/test-utils";
 import { MetricsAdvisorClient } from "../../src/metricsAdvisorClient";
+import { paginatePost } from "../../src/paginateHelper";
 import { createRecorder, createClient } from "./util/recordedClient";
 
 
@@ -27,14 +28,38 @@ describe("MetricsAdvisorRestClient", () => {
   it("should get latest status by AAD auth", async function () {
     client = createClient(true);
     const res = await client.getActiveSeriesCount();
-    // console.log(res);
-    assert.equal(true, !!res);
+    console.log(res);
+    // assert.equal(true, !!res);
   });
 
   it("should get latest status by Api Key auth", async function () {
     client = createClient(false);
     const res = await client.getActiveSeriesCount();
-    // console.log(res);
-    assert.equal(true, !!res);
+    console.log(res);
+    // assert.equal(true, !!res);
+  });
+
+  it("should list all data feeds", async function () {
+    client = createClient(true);
+    const response = await client.listDataFeeds({
+      queryParameters: {
+        dataFeedName: "js-test-",
+        $skip: 1,
+        $maxpagesize: 1
+      }
+    });
+    // console.log("init resp:", response);
+    const iter = paginatePost(client.client, response);
+    let result = getYieldedValue(await iter.next());
+    // console.log("1", result)
+    // assert.ok(result, "Expecting first data feed");
+    result = getYieldedValue(await iter.next());
+    console.log("2", result)
+    // assert.ok(result.status, "Expecting second data feed");
+    // Lof each farmer id
+    // console.log(iter);
+    // for await (const dataFeed of iter) {
+    //   console.log("dataFeed");
+    // }
   });
 });

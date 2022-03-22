@@ -1,14 +1,28 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "module": "es6",
-    "target": "es2015",
-    "moduleResolution": "node",
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "./dist-esm"
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/ai-metrics-advisor": [
+        "./src/index"
+      ]
+    }
   },
+  "exclude": [
+    "node_modules",
+    "types",
+    "temp",
+    "browser",
+    "dist",
+    "dist-esm",
+    "./samples/**/*.ts",
+    "./dist-samples/**/*.ts",
+    "./dom-shims.d.ts"
+  ],
   "include": [
     "src/**/*.ts",
-    "./test/**/*.ts"
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
   ]
 }

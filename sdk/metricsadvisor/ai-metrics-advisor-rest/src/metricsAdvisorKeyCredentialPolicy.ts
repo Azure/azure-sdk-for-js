@@ -34,7 +34,7 @@ export function createMetricsAdvisorKeyCredentialPolicy(
       if (!request) {
         throw new Error("webResource cannot be null or undefined");
       }
-      request.headers.set(API_KEY_HEADER_NAME, credential.subscriptionKey);
+      request.headers.set(API_KEY_HEADER_NAME, credential.subscriptionKey || "");
       request.headers.set(X_API_KEY_HEADER_NAME, credential.key);
       return next(request);
     },

@@ -3,11 +3,9 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { GeneratedClientLike } from "./clientDefinitions";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import {
-  createMetricsAdvisorKeyCredentialPolicy,
   MetricsAdvisorKeyCredential,
-  X_API_KEY_HEADER_NAME,
 } from "../metricsAdvisorKeyCredentialPolicy";
 
 export default function GeneratedClient(
@@ -16,20 +14,15 @@ export default function GeneratedClient(
   options: ClientOptions = {}
 ): GeneratedClientLike {
   const baseUrl = options.baseUrl ?? `${endpoint}/metricsadvisor/v1.0`;
-
-  options = {
-    ...options,
-    credentials: {
-      scopes: ["https://cognitiveservices.azure.com/.default"],
-    }
-  };
+  options.credentials = options.credentials || {};
+  options.credentials.scopes = ["https://cognitiveservices.azure.com/.default"];
 
   const client = getClient(
     baseUrl,
     credentials,
     options
   ) as GeneratedClientLike;
-  
+
 
   return {
     ...client,
