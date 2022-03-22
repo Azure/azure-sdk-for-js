@@ -16,9 +16,11 @@ import { CommonClientOptions } from "@azure/core-client";
 import { createSpan, logger } from "./utils";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 
+import { UpdateConsentOptionalParams } from "./";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
 import {
   KnownConsentStatus,
+  ConsentStatus,
   Contact,
   Operator,
   Consent,
@@ -178,7 +180,7 @@ export class OperatorConnectClient {
     consentedCountries: string[],
     consentedBy: Contact,
     contacts?: Contact[],
-    status?: string
+    status?: ConsentStatus
   ): Promise<Consent> {
     if (contacts == null) {
       contacts = [consentedBy]
@@ -247,26 +249,23 @@ export class OperatorConnectClient {
    * Update consent details.
    *
    * @param operatorId - OperatorConnect operator ID for which consent is created.
+   * @param lastModifiedBy - Contact of person that makes the cahange.
    * @param companyName - Consented company name.
    * @param consentedCountries - List of countries where consent is given.
-   * @param lastModifiedBy - Contact of person that makes the cahange.
    * @param contacts - List of contacts used for communication with operator.
    * @param status - Status of consent, can be 'Active', 'Suspended', 'Removed'.
    */
   public async updateConsent(
     operatorId: string,
-    companyName?: string,
-    consentedCountries?: string[],
-    lastModifiedBy?: Contact,
-    contacts?: Contact[],
-    status?: string
+    lastModifiedBy: Contact,
+    optionalParameters: UpdateConsentOptionalParams
   ): Promise<Consent> {
     const updateOptions: CreateOrUpdateConsentOptionalParams = {
-      companyName: companyName,
-      consentedCountries: consentedCountries,
-      status: status,
+      companyName: optionalParameters.companyName,
+      consentedCountries: optionalParameters.consentedCountries,
+      status: optionalParameters.status,
       lastModifiedBy: lastModifiedBy,
-      contacts: contacts,
+      contacts: optionalParameters.contacts,
     };
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-updateConsent",

@@ -160,7 +160,7 @@ export function createRecordedOcClientWithToken(
     client: new OperatorConnectClient(endpoint, credential, {
       httpClient,
       userAgentOptions: {
-        userAgentPrefix: "acs-mock-test"
+        userAgentPrefix: "acs-mock-test" // mark requests as test, so mocked response returned
       }
     }),
     recorder,
