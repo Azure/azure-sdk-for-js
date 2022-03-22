@@ -42,7 +42,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
    * this parameter allows programs to use these user assigned identities
    * without having to first determine the client Id of the created identity.
    */
-  resourceId?: string;
+  resourceId: string;
 }
 
 /**

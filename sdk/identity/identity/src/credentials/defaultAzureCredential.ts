@@ -41,7 +41,7 @@ export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCre
    * this parameter allows programs to use these user assigned identities
    * without having to first determine the client Id of the created identity.
    */
-  managedIdentityResourceId?: string;
+  managedIdentityResourceId: string;
 }
 
 /**
@@ -110,6 +110,8 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
         clientId: managedIdentityClientId,
       };
       super(managedIdentityClientOptions);
+    } else {
+      super(options);
     }
   }
 }
@@ -203,11 +205,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    */
   constructor(options?: DefaultAzureCredentialOptions);
 
-  /**
-   * Creates an instance of the DefaultAzureCredential class.
-   * @internal
-   * @hidden
-   */
   constructor(
     options?:
       | DefaultAzureCredentialOptions

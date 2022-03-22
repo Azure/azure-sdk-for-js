@@ -170,7 +170,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
-    managedIdentityResourceId?: string;
+    managedIdentityResourceId: string;
 }
 
 // @public
@@ -276,7 +276,7 @@ export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentia
 
 // @public
 export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
-    resourceId?: string;
+    resourceId: string;
 }
 
 // @public
