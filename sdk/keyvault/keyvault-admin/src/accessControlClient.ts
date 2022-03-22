@@ -415,9 +415,6 @@ export class KeyVaultAccessControlClient {
    * console.log(roleDefinition);
    * ```
    * @param roleScope - The scope of the role definition.
-   * @param name - The name of the role definition. Must be a UUID.
-   * @param permissions - The set of {@link KeyVaultPermission} for this role definition.
-   * @param description - The role definition description.
    * @param options - The optional parameters.
    */
   public setRoleDefinition(

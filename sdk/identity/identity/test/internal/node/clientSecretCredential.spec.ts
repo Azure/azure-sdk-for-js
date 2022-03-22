@@ -7,12 +7,13 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { GetTokenOptions } from "@azure/core-auth";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay, Recorder } from "@azure-tools/test-recorder";
+import { env, delay, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
+import { AzureLogger, setLogLevel } from "@azure/logger";
 
 describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -104,6 +105,27 @@ describe("ClientSecretCredential (internal)", function () {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
+  // This test can only run on playback mode since we're manually changing the recordings to match the authorityHost
+  // to cover the scenarios in which the authority host needs to be changed to a private endpoint.
+  it("Authenticates with authorityHost with validation disabled", async function (this: Context) {
+    if (!isPlaybackMode()) {
+      this.skip();
+    }
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({
+        authorityHost: "https://private.host/path",
+        disableAuthorityValidation: true,
+      })
+    );
+
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
+    assert.equal(getTokenSilentSpy.callCount, 1);
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
   // TODO: Enable again once we're ready to release this feature.
   it.skip("supports specifying the regional authority", async function () {
     const credential = new ClientSecretCredential(
@@ -130,5 +152,42 @@ describe("ClientSecretCredential (internal)", function () {
     }
 
     assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
+  });
+
+  it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (this: Context) {
+    if (isPlaybackMode()) {
+      // The recorder clears the access tokens.
+      this.skip();
+    }
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!,
+      recorder.configureClientOptions({
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
+      })
+    );
+    setLogLevel("info");
+    const spy = Sinon.spy(process.stderr, "write");
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    const expectedCall = spy
+      .getCalls()
+      .find((x) => (x.args[0] as any as string).match(/Authenticated account/));
+    assert.ok(expectedCall);
+    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${env.AZURE_CLIENT_ID}. Tenant ID: ${env.AZURE_TENANT_ID}. User Principal Name: No User Principal Name available. Object ID (user): HIDDEN`;
+    assert.equal(
+      (expectedCall!.args[0] as any as string)
+        .replace(
+          /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
+          "Object ID (user): HIDDEN"
+        )
+        .trim(),
+      expectedMessage
+    );
+    spy.restore();
+    AzureLogger.destroy();
   });
 });

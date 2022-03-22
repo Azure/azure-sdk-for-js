@@ -36,7 +36,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion73,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -73,7 +73,8 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
   }
 
   /**
-   * Creates a full backup using a user-provided SAS token to an Azure blob storage container.
+   * Creates a full backup using a user-provided SAS token to an Azure blob storage container. This
+   * operation is supported only by the Managed HSM service.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */

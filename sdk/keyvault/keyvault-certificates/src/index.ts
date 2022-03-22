@@ -87,12 +87,12 @@ import {
 } from "./certificatesModels";
 
 import {
-  KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetCertificateVersionsOptionalParams,
-  KeyVaultClientSetCertificateIssuerOptionalParams,
+  GetCertificatesOptionalParams,
+  GetCertificateIssuersOptionalParams,
+  GetCertificateVersionsOptionalParams,
+  SetCertificateIssuerOptionalParams,
   BackupCertificateResult,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
+  GetDeletedCertificatesOptionalParams,
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
@@ -296,7 +296,7 @@ export class CertificateClient {
     options: ListPropertiesOfCertificatesOptions = {}
   ): AsyncIterableIterator<CertificateProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
+      const optionsComplete: GetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         includePending: options.includePending,
         ...options,
@@ -385,7 +385,7 @@ export class CertificateClient {
     options: ListPropertiesOfCertificateVersionsOptions = {}
   ): AsyncIterableIterator<CertificateProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
+      const optionsComplete: GetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -610,7 +610,7 @@ export class CertificateClient {
     options: ListPropertiesOfIssuersOptions = {}
   ): AsyncIterableIterator<IssuerProperties[]> {
     if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
+      const requestOptionsComplete: GetCertificateIssuersOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -713,7 +713,7 @@ export class CertificateClient {
     return withTrace("createIssuer", options, async (updatedOptions) => {
       const { accountId, password } = updatedOptions;
 
-      const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
+      const generatedOptions: SetCertificateIssuerOptionalParams = {
         ...updatedOptions,
         credentials: {
           accountId,
@@ -777,7 +777,7 @@ export class CertificateClient {
     return withTrace("updateIssuer", options, async (updatedOptions) => {
       const { accountId, password } = options;
 
-      const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
+      const generatedOptions: SetCertificateIssuerOptionalParams = {
         ...updatedOptions,
         credentials: {
           accountId,
@@ -1330,7 +1330,7 @@ export class CertificateClient {
     options: ListDeletedCertificatesOptions = {}
   ): AsyncIterableIterator<DeletedCertificate[]> {
     if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
+      const requestOptionsComplete: GetDeletedCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         includePending: options.includePending,
         ...options,

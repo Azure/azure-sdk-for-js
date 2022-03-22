@@ -213,6 +213,52 @@ export interface ErrorResponse {
   message?: string;
 }
 
+/** Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results. */
+export interface ResourceUsagesListResult {
+  /**
+   * URL to get the next set of resource usage list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ResourceUsage[];
+}
+
+/** The usage and limit (quota) for a resource. */
+export interface ResourceUsage {
+  /**
+   * The limit (quota) for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly limit?: number;
+  /**
+   * Unit that the limit and usages are expressed in, such as 'Count'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+  /**
+   * The current usage of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentValue?: number;
+  /**
+   * Naming information for this resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: ResourceUsageName;
+}
+
+/** Naming information for this resource type. */
+export interface ResourceUsageName {
+  /** Canonical name for this resource type. */
+  value?: string;
+  /** Localized name for this resource type. */
+  localizedValue?: string;
+}
+
 /** Result of the request to list Caches. It contains a list of Caches and a URL link to get the next set of results. */
 export interface CachesListResult {
   /** URL to get the next set of Cache list results, if there are any. */
@@ -283,6 +329,8 @@ export interface Cache {
   securitySettings?: CacheSecuritySettings;
   /** Specifies Directory Services settings of the cache. */
   directoryServicesSettings?: CacheDirectorySettings;
+  /** Availability zones for resources. This field should only contain a single element in the array. */
+  zones?: string[];
 }
 
 /** Cache identity properties. */
@@ -964,6 +1012,20 @@ export interface AscOperationsGetOptionalParams
 export type AscOperationsGetResponse = AscOperation;
 
 /** Optional parameters. */
+export interface AscUsagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AscUsagesListResponse = ResourceUsagesListResult;
+
+/** Optional parameters. */
+export interface AscUsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AscUsagesListNextResponse = ResourceUsagesListResult;
+
+/** Optional parameters. */
 export interface CachesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
@@ -1146,6 +1208,15 @@ export interface StorageTargetSuspendOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetResumeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StorageTargetInvalidateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
