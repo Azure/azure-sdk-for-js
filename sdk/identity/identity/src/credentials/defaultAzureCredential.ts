@@ -56,24 +56,14 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 }
 
 /**
- * The type of a class that implements TokenCredential and accepts
+ * The type of a class that implements TokenCredential and accepts either
+ * {@link DefaultAzureCredentialClientIdOptions} or
+ * {@link DefaultAzureCredentialResourceIdOptions} or
  * {@link DefaultAzureCredentialOptions}.
  */
 interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialOptions): TokenCredential;
-}
-/**
- * The type of a class that implements TokenCredential and accepts
- * {@link DefaultAzureCredentialResourceIdOptions}.
- */
-interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialResourceIdOptions): TokenCredential;
-}
-/**
- * The type of a class that implements TokenCredential and accepts
- * {@link DefaultAzureCredentialClientIdOptions}.
- */
-interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialClientIdOptions): TokenCredential;
 }
 
