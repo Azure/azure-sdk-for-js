@@ -9,8 +9,7 @@ pr:
       - eng/pipelines/aggregate-reports.yml
 
 pool:
-  name: azsdk-pool-mms-ubuntu-2004-general
-  vmImage: MMSUbuntu20.04
+  vmImage: 'windows-2019'
 
 stages:
   - stage: AggregateReports
