@@ -73,18 +73,6 @@ export const accept1: OperationParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/vnd.docker.distribution.manifest.v2+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const payload: OperationParameter = {
   parameterPath: "payload",
   mapper: {
@@ -102,6 +90,16 @@ export const accept2: OperationParameter = {
     defaultValue: "application/json",
     isConstant: true,
     serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -243,8 +241,8 @@ export const mount: OperationQueryParameter = {
   }
 };
 
-export const location: OperationURLParameter = {
-  parameterPath: "location",
+export const nextLink1: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
     serializedName: "nextBlobUuidLink",
     required: true,

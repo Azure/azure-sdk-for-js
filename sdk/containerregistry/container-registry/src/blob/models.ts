@@ -118,7 +118,7 @@ export interface OciAnnotations {
   /** Human-readable description of the software packaged in the image */
   description?: string;
   /** Additional properties */
-  additionalProperties?: Record<string, unknown>;
+  [additionalProperties: string]: unknown;
 }
 
 /**

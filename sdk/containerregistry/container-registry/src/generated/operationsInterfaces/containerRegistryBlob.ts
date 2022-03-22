@@ -82,23 +82,23 @@ export interface ContainerRegistryBlob {
   /**
    * Retrieve status of upload identified by uuid. The primary purpose of this endpoint is to resolve the
    * current status of a resumable upload.
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
   getUploadStatus(
-    location: string,
+    nextLink: string,
     options?: ContainerRegistryBlobGetUploadStatusOptionalParams
   ): Promise<ContainerRegistryBlobGetUploadStatusResponse>;
   /**
    * Upload a stream of data without completing the upload.
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param value Raw data of blob
    * @param options The options parameters.
    */
   uploadChunk(
-    location: string,
+    nextLink: string,
     value: coreRestPipeline.RequestBodyType,
     options?: ContainerRegistryBlobUploadChunkOptionalParams
   ): Promise<ContainerRegistryBlobUploadChunkResponse>;
@@ -106,24 +106,24 @@ export interface ContainerRegistryBlob {
    * Complete the upload, providing all the data in the body, if necessary. A request without a body will
    * just complete the upload with previously uploaded content.
    * @param digest Digest of a BLOB
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
   completeUpload(
     digest: string,
-    location: string,
+    nextLink: string,
     options?: ContainerRegistryBlobCompleteUploadOptionalParams
   ): Promise<ContainerRegistryBlobCompleteUploadResponse>;
   /**
    * Cancel outstanding upload processes, releasing associated resources. If this is not called, the
    * unfinished uploads will eventually timeout.
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
   cancelUpload(
-    location: string,
+    nextLink: string,
     options?: ContainerRegistryBlobCancelUploadOptionalParams
   ): Promise<void>;
   /**
