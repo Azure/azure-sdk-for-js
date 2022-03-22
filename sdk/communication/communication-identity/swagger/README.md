@@ -5,10 +5,10 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-identity
+package-name: "@azure/communication-identity"
 override-client-name: IdentityRestClient
 description: Communication identity client
-package-version: 1.1.0-beta.1
+package-version: 1.1.0-beta.2
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
@@ -18,7 +18,7 @@ model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200623.2"
+  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
 azure-arm: false
 v3: true

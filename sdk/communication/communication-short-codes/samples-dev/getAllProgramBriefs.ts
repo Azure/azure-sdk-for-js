@@ -23,8 +23,20 @@ export async function main() {
   const client = new ShortCodesClient(connectionString);
 
   // get all program briefs for a resource
-  var programBriefs = await client.listUSProgramBriefs();
-
+  var programBriefs = await client.listUSProgramBriefs({
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 200) {
+          throw new Error(
+            `US Program briefs Listing failed.
+          Status code: ${res.status}; 
+          Error: ${res.bodyAsText}; 
+          CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
+  });
   // find draft program briefs, and delete them
   for await (const programBrief of programBriefs) {
     console.log(`Program Brief with Id ${programBrief.id} has status ${programBrief.status}`);

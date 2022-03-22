@@ -5,7 +5,9 @@
  * A simple messaging client that can send and receive messages
  */
 export interface MessagingTestClient<MessageT> {
+  isInitialized: () => boolean;
+  initialize: () => void;
   send: (message: MessageT) => Promise<void>;
-  receive: () => Promise<MessageT>;
+  receive(options?: { eventCount?: number; waitIntervalInMs?: number }): AsyncGenerator<MessageT>;
   cleanup: () => Promise<void>;
 }

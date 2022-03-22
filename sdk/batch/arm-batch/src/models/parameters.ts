@@ -95,7 +95,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2022-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -139,6 +139,17 @@ export const accountName1: OperationURLParameter = {
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: BatchAccountRegenerateKeyParametersMapper
+};
+
+export const detectorId: OperationURLParameter = {
+  parameterPath: "detectorId",
+  mapper: {
+    serializedName: "detectorId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {

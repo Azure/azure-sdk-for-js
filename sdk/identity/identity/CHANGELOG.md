@@ -1,19 +1,18 @@
 # Release History
 
-## 2.1.0-beta.2 (Unreleased)
+## 2.1.0-beta.2 (2022-03-22)
 
 ### Features Added
 
 - Enforced types restrictions on constructors of Managed Identity and Default Azure Credentials to discourage Typescript user to pass in client id and resource id at the same time through the editor.
 - Enforced types restrictions on constructors of Client Certificate and On Behalf Of Credentials to discourage Typescript user to pass in certificate and certificate path at the same time though the editor.
-
-### Breaking Changes
+- Added support for App Service 2019 resource in Managed Identity Credential.
+- All of our credentials now support a new option on their constructor: `loggingOptions`, which allows configuring the logging options of the HTTP pipelines.
+- Within the new `loggingOptions` we have also added `allowLoggingAccountIdentifiers`, a property that if set to true logs information specific to the authenticated account after each successful authentication, including: the Client ID, the Tenant ID, the Object ID of the authenticated user, and if possible the User Principal Name.
 
 ### Bugs Fixed
 
 - Fixed a bug that caused [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775) authentication to fail with newer versions of MSAL.
-
-### Other Changes
 
 ## 2.1.0-beta.1 (2022-03-02)
 

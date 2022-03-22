@@ -2,18 +2,19 @@
 // Licensed under the MIT license.
 
 import {
+  FullRestoreOperationOptionalParams,
+  FullRestoreOperationResponse,
+  RestoreOperation,
+  RestoreStatusResponse,
+} from "../../generated/models";
+import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState,
 } from "../keyVaultAdminPoller";
 import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
-import {
-  KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientRestoreStatusResponse,
-  RestoreOperation,
-} from "../../generated/models";
+
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import { OperationOptions } from "@azure/core-client";
 import { createTraceFunction } from "../../tracingHelpers";
 
@@ -70,8 +71,8 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
    * Tracing the fullRestore operation
    */
   private fullRestore(
-    options: KeyVaultClientFullRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientFullRestoreOperationResponse> {
+    options: FullRestoreOperationOptionalParams
+  ): Promise<FullRestoreOperationResponse> {
     return withTrace("fullRestore", options, (updatedOptions) =>
       this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
     );
@@ -83,7 +84,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
   private async restoreStatus(
     jobId: string,
     options: OperationOptions
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
+  ): Promise<RestoreStatusResponse> {
     return withTrace("restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );

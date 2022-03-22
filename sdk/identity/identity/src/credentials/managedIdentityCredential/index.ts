@@ -16,6 +16,7 @@ import { MSI } from "./models";
 import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
+import { appServiceMsi2019 } from "./appServiceMsi2019";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -125,7 +126,15 @@ export class ManagedIdentityCredential implements TokenCredential {
       return this.cachedMSI;
     }
 
-    const MSIs = [fabricMsi, appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
+    const MSIs = [
+      fabricMsi,
+      appServiceMsi2019,
+      appServiceMsi2017,
+      cloudShellMsi,
+      arcMsi,
+      tokenExchangeMsi(),
+      imdsMsi,
+    ];
 
     for (const msi of MSIs) {
       if (
