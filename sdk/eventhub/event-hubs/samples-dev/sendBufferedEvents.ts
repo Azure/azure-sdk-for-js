@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
   console.log("Enqueuing events...");
 
   for (const item of createData(2000)) {
-    client.enqueueEvent({ body: item });
+    await client.enqueueEvent({ body: item });
   }
 
   /**

@@ -96,8 +96,6 @@ stages:
               PublishAnalysisLogs: false
 
           - template: /eng/common/pipelines/templates/steps/credscan.yml
-            parameters:
-              BaselineFilePath: $(Build.SourcesDirectory)\eng\js.gdnbaselines
 
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
             displayName: 'Publish Security Analysis Logs'

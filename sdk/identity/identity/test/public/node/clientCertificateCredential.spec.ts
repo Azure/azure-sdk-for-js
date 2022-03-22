@@ -7,7 +7,7 @@ import * as path from "path";
 import fs from "fs";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -18,8 +18,13 @@ const ASSET_PATH = "assets";
 
 describe("ClientCertificateCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function (this: Context) {
-    cleanup = msalNodeTestSetup(this).cleanup;
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
+    cleanup = setup.cleanup;
+    recorder = setup.recorder;
+    await recorder.setMatcher("BodilessMatcher");
   });
   afterEach(async function () {
     await cleanup();
@@ -30,9 +35,10 @@ describe("ClientCertificateCredential", function () {
 
   it("authenticates", async function (this: Context) {
     const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID,
-      env.IDENTITY_SP_CERT_PEM || certificatePath
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+      env.IDENTITY_SP_CERT_PEM || certificatePath!,
+      recorder.configureClientOptions({})
     );
 
     const token = await credential.getToken(scope);
@@ -42,11 +48,12 @@ describe("ClientCertificateCredential", function () {
 
   it("authenticates with a PEM certificate string directly", async function (this: Context) {
     const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID,
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       {
         certificate: readFileSync(certificatePath, { encoding: "utf-8" }),
-      }
+      },
+      recorder.configureClientOptions({})
     );
 
     const token = await credential.getToken(scope);
@@ -63,9 +70,9 @@ describe("ClientCertificateCredential", function () {
     }
 
     const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID,
-      { certificatePath },
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+      recorder.configureClientOptions({ certificatePath }),
       { sendCertificateChain: true }
     );
 
@@ -81,17 +88,17 @@ describe("ClientCertificateCredential", function () {
       this.skip();
     }
     const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID,
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       certificatePath,
-      {
+      recorder.configureClientOptions({
         httpClient: {
           async sendRequest(): Promise<PipelineResponse> {
             await delay(100);
             throw new Error("Fake HTTP client.");
           },
         },
-      }
+      })
     );
 
     const controller = new AbortController();
@@ -122,9 +129,9 @@ describe("ClientCertificateCredential", function () {
     await testTracing({
       test: async (tracingOptions) => {
         const credential = new ClientCertificateCredential(
-          env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID,
-          env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID,
-          { certificatePath }
+          env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+          env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+          recorder.configureClientOptions({ certificatePath })
         );
 
         await credential.getToken(scope, {

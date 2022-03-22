@@ -10,6 +10,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   PipelineRequest,
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
@@ -75,10 +76,11 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
+  private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.1.0-beta.1`;
+    const packageDetails = `azsdk-js-identity/2.1.0-beta.2`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -102,6 +104,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     this.authorityHost = baseUri;
     this.abortControllers = new Map();
+    this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
   }
 
   async sendTokenRequest(
@@ -123,6 +126,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       if (!parsedBody.access_token) {
         return null;
       }
+
+      this.logIdentifiers(response);
 
       const token = {
         accessToken: {
@@ -280,6 +285,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     });
 
     const response = await this.sendRequest(request);
+
+    this.logIdentifiers(response);
+
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
@@ -301,10 +309,55 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     });
 
     const response = await this.sendRequest(request);
+
+    this.logIdentifiers(response);
+
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
       status: response.status,
     };
+  }
+
+  /**
+   * If allowLoggingAccountIdentifiers was set on the constructor options
+   * we try to log the account identifiers by parsing the received access token.
+   *
+   * The account identifiers we try to log are:
+   * - `appid`: The application or Client Identifier.
+   * - `upn`: User Principal Name.
+   *   - It might not be available in some authentication scenarios.
+   *   - If it's not available, we put a placeholder: "No User Principal Name available".
+   * - `tid`: Tenant Identifier.
+   * - `oid`: Object Identifier of the authenticated user.
+   */
+  private logIdentifiers(response: PipelineResponse): void {
+    if (!this.allowLoggingAccountIdentifiers || !response.bodyAsText) {
+      return;
+    }
+    const unavailableUpn = "No User Principal Name available";
+    try {
+      const parsed = (response as any).parsedBody || JSON.parse(response.bodyAsText);
+      const accessToken = parsed.access_token;
+      if (!accessToken) {
+        // Without an access token allowLoggingAccountIdentifiers isn't useful.
+        return;
+      }
+      const base64Metadata = accessToken.split(".")[1];
+      const { appid, upn, tid, oid } = JSON.parse(
+        Buffer.from(base64Metadata, "base64").toString("utf8")
+      );
+
+      logger.info(
+        `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
+          upn || unavailableUpn
+        }. Object ID (user): ${oid}`
+      );
+    } catch (e) {
+      logger.warning(
+        "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
+        e.message
+      );
+    }
   }
 }

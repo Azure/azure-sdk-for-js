@@ -13,7 +13,7 @@ export {
   WebSocketOptions,
 } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
-export { OperationOptions } from "@azure/core-http";
+export { OperationOptions } from "@azure/core-client";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
@@ -68,3 +68,11 @@ export {
   ServiceBusConnectionStringProperties,
 } from "./util/connectionStringUtils";
 export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
+export {
+  HttpResponse,
+  HttpHeader,
+  RawHttpHeaders,
+  HttpHeadersLike,
+  TransferProgressEvent,
+  WebResourceLike,
+} from "./util/compat";

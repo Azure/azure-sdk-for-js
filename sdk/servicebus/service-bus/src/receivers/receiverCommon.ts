@@ -108,7 +108,7 @@ export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: { [key: string]: any } | undefined,
+  propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -130,7 +130,7 @@ export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: { [key: string]: any } | undefined,
+  propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -152,7 +152,9 @@ export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: (DeadLetterOptions & { [key: string]: any }) | undefined,
+  propertiesToModify:
+    | (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null })
+    | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
