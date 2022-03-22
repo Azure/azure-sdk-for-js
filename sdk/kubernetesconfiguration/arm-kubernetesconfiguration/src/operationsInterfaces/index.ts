@@ -6,10 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusterExtensionType";
-export * from "./clusterExtensionTypes";
-export * from "./extensionTypeVersions";
-export * from "./locationExtensionTypes";
 export * from "./extensions";
 export * from "./operationStatus";
 export * from "./fluxConfigurations";
