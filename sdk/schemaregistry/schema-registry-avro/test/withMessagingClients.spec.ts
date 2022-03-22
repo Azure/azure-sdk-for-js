@@ -4,7 +4,7 @@
 /**
  * Cross-language testing makes sure payloads serialized in other languages is
  * still deserializable by the JavaScript serializer.
- * 
+ *
  * By default, the test will send and receive messages with serialized payload.
  * To enable cross-language testing mode:
  * 1. make sure the Event Hubs resource has one event hub corresponding to each
@@ -41,17 +41,19 @@ interface ScenariosTestInfo<T> {
   createScenario4Client: () => MessagingTestClient<T>;
 }
 
-describe.only("With messaging clients", function () {
+describe("With messaging clients", function () {
   const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
-  const crossLanguage = env.CROSS_LANGUAGE !== undefined;
+  const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
-  function createEventHubsTestClient(settings: { eventHubName: string; crossLanguage: boolean }) {
-    const { crossLanguage, eventHubName: inputEventHubName } = settings;
+  function createEventHubsTestClient(settings: {
+    eventHubName: string;
+  }): MessagingTestClient<EventData> {
+    const { eventHubName: inputEventHubName } = settings;
     const client = createMockedMessagingClient(() =>
       createEventHubsClient({
-        crossLanguage,
-        eventHubName: crossLanguage ? inputEventHubName : eventHubName,
+        alreadyEnqueued,
+        eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
         eventHubsConnectionString,
       })
     );
@@ -68,22 +70,18 @@ describe.only("With messaging clients", function () {
     messagingServiceName: "Event Hub",
     createScenario1Client: () =>
       createEventHubsTestClient({
-        crossLanguage,
         eventHubName: "scenario_1",
       }),
     createScenario2Client: () =>
       createEventHubsTestClient({
-        crossLanguage,
         eventHubName: "scenario_2",
       }),
     createScenario3Client: () =>
       createEventHubsTestClient({
-        crossLanguage,
         eventHubName: "scenario_3",
       }),
     createScenario4Client: () =>
       createEventHubsTestClient({
-        crossLanguage,
         eventHubName: "scenario_4",
       }),
   };
@@ -113,9 +111,14 @@ describe.only("With messaging clients", function () {
           readerSchema,
           processMessage,
           writerSchema,
-          eventCount = crossLanguage ? 4 : 1,
+          /**
+           * if messages are already enqueued, then we can expect they have been
+           * sent from all four languages and we would like receive from all four
+           * of them.
+           */
+          eventCount = alreadyEnqueued ? 4 : 1,
         } = settings;
-        if (!crossLanguage) {
+        if (!alreadyEnqueued) {
           const message = await serializer.serializeMessageData(value, writerSchema);
           await client.send(message);
         }

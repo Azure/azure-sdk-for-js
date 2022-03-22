@@ -17,9 +17,9 @@ import { delay } from "@azure-tools/test-recorder";
 export function createEventHubsClient(settings: {
   eventHubsConnectionString: string;
   eventHubName: string;
-  crossLanguage: boolean;
+  alreadyEnqueued: boolean;
 }): MessagingTestClient<EventData> {
-  const { crossLanguage, eventHubName, eventHubsConnectionString } = settings;
+  const { alreadyEnqueued, eventHubName, eventHubsConnectionString } = settings;
   let producer: EventHubBufferedProducerClient;
   let consumer: EventHubConsumerClient;
   let subscription: Subscription;
@@ -51,7 +51,7 @@ export function createEventHubsClient(settings: {
             throw err;
           },
         },
-        { startPosition: crossLanguage ? earliestEventPosition : latestEventPosition }
+        { startPosition: alreadyEnqueued ? earliestEventPosition : latestEventPosition }
       );
       initialized = true;
     },
