@@ -4,39 +4,15 @@
 
 ```ts
 
-import { AlternativeRouteType as AlternativeRouteType_2 } from 'src/generated';
 import { AzureKeyCredential } from '@azure/core-auth';
 import { BatchPoller } from '@azure/maps-common';
 import { CommonClientOptions } from '@azure/core-client';
-import { ComputeTravelTime as ComputeTravelTime_2 } from 'src/generated';
-import { DrivingSide } from 'src/generated/models';
-import { ErrorResponse } from 'src/generated/models';
 import { GeoJsonGeometryCollection } from '@azure/maps-common';
 import { GeoJsonMultiPoint } from '@azure/maps-common';
 import { GeoJsonMultiPolygon } from '@azure/maps-common';
-import { GuidanceInstructionType } from 'src/generated/models';
-import { GuidanceManeuver } from 'src/generated/models';
-import { InclineLevel as InclineLevel_2 } from 'src/generated';
-import { JunctionType } from 'src/generated/models';
 import { LatLon } from '@azure/maps-common';
 import { OperationOptions } from '@azure/core-client';
-import { Report as Report_2 } from 'src/generated';
-import { RouteAvoidType as RouteAvoidType_2 } from 'src/generated';
-import { RouteInstructionGroup } from 'src/generated/models';
-import { RouteInstructionsType as RouteInstructionsType_2 } from 'src/generated';
-import { RouteLegSummary } from 'src/generated/models';
-import { RouteOptimizedWaypoint as RouteOptimizedWaypoint_2 } from 'src/generated/models';
-import { RouteReport as RouteReport_2 } from 'src/generated/models';
-import { RouteRepresentationForBestOrder as RouteRepresentationForBestOrder_2 } from 'src/generated';
-import { RouteSection } from 'src/generated/models';
-import { RouteSummary } from 'src/generated/models';
-import { RouteType as RouteType_2 } from 'src/generated';
-import { SectionType as SectionType_2 } from 'src/generated';
 import { TokenCredential } from '@azure/core-auth';
-import { TravelMode as TravelMode_2 } from 'src/generated';
-import { VehicleEngineType as VehicleEngineType_2 } from 'src/generated';
-import { VehicleLoadType as VehicleLoadType_2 } from 'src/generated';
-import { WindingnessLevel as WindingnessLevel_2 } from 'src/generated';
 
 // @public
 export type AlternativeRouteType = string;
@@ -56,12 +32,6 @@ export interface BatchPollerOptions {
 }
 
 // @public
-export interface BatchRequest {
-    // Warning: (ae-forgotten-export) The symbol "BatchRequestItem" needs to be exported by the entry point index.d.ts
-    batchItems?: BatchRequestItem[];
-}
-
-// @public
 export interface BatchResult<TResult> {
     readonly batchItems?: BatchItem<TResult>[];
     readonly successfulRequests?: number;
@@ -72,7 +42,48 @@ export interface BatchResult<TResult> {
 export type ComputeTravelTime = string;
 
 // @public
+export type DelayMagnitude = string;
+
+// @public
+export type DrivingSide = string;
+
+// @public
+export interface EffectiveSetting {
+    readonly key?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export type GuidanceInstructionType = string;
+
+// @public
+export type GuidanceManeuver = string;
+
+// @public
 export type InclineLevel = string;
+
+// @public
+export type JunctionType = string;
 
 // @public
 export enum KnownAlternativeRouteType {
@@ -87,6 +98,68 @@ export enum KnownComputeTravelTime {
 }
 
 // @public
+export enum KnownDelayMagnitude {
+    Major = "3",
+    Minor = "1",
+    Moderate = "2",
+    Undefined = "4",
+    Unknown = "0"
+}
+
+// @public
+export enum KnownDrivingSide {
+    Left = "LEFT",
+    Right = "RIGHT"
+}
+
+// @public
+export enum KnownGuidanceInstructionType {
+    DirectionInfo = "DIRECTION_INFO",
+    LocationArrival = "LOCATION_ARRIVAL",
+    LocationDeparture = "LOCATION_DEPARTURE",
+    LocationWaypoint = "LOCATION_WAYPOINT",
+    RoadChange = "ROAD_CHANGE",
+    Turn = "TURN"
+}
+
+// @public
+export enum KnownGuidanceManeuver {
+    Arrive = "ARRIVE",
+    ArriveLeft = "ARRIVE_LEFT",
+    ArriveRight = "ARRIVE_RIGHT",
+    BearLeft = "BEAR_LEFT",
+    BearRight = "BEAR_RIGHT",
+    Depart = "DEPART",
+    EnterFreeway = "ENTER_FREEWAY",
+    EnterHighway = "ENTER_HIGHWAY",
+    EnterMotorway = "ENTER_MOTORWAY",
+    EntranceRamp = "ENTRANCE_RAMP",
+    Follow = "FOLLOW",
+    KeepLeft = "KEEP_LEFT",
+    KeepRight = "KEEP_RIGHT",
+    MakeUTurn = "MAKE_UTURN",
+    MotorwayExitLeft = "MOTORWAY_EXIT_LEFT",
+    MotorwayExitRight = "MOTORWAY_EXIT_RIGHT",
+    RoundaboutBack = "ROUNDABOUT_BACK",
+    RoundaboutCross = "ROUNDABOUT_CROSS",
+    RoundaboutLeft = "ROUNDABOUT_LEFT",
+    RoundaboutRight = "ROUNDABOUT_RIGHT",
+    SharpLeft = "SHARP_LEFT",
+    SharpRight = "SHARP_RIGHT",
+    Straight = "STRAIGHT",
+    SwitchMainRoad = "SWITCH_MAIN_ROAD",
+    SwitchParallelRoad = "SWITCH_PARALLEL_ROAD",
+    TakeExit = "TAKE_EXIT",
+    TakeFerry = "TAKE_FERRY",
+    TryMakeUTurn = "TRY_MAKE_UTURN",
+    TurnLeft = "TURN_LEFT",
+    TurnRight = "TURN_RIGHT",
+    WaypointLeft = "WAYPOINT_LEFT",
+    WaypointReached = "WAYPOINT_REACHED",
+    WaypointRight = "WAYPOINT_RIGHT"
+}
+
+// @public
 export enum KnownInclineLevel {
     High = "high",
     Low = "low",
@@ -94,8 +167,44 @@ export enum KnownInclineLevel {
 }
 
 // @public
+export enum KnownJunctionType {
+    Bifurcation = "BIFURCATION",
+    Regular = "REGULAR",
+    Roundabout = "ROUNDABOUT"
+}
+
+// @public
 export enum KnownReport {
     EffectiveSettings = "effectiveSettings"
+}
+
+// @public
+export enum KnownResponseSectionType {
+    CarOrTrain = "CAR_TRAIN",
+    Carpool = "CARPOOL",
+    Country = "COUNTRY",
+    Ferry = "FERRY",
+    Motorway = "MOTORWAY",
+    Pedestrian = "PEDESTRIAN",
+    TollRoad = "TOLL_ROAD",
+    TollVignette = "TOLL_VIGNETTE",
+    Traffic = "TRAFFIC",
+    TravelMode = "TRAVEL_MODE",
+    Tunnel = "TUNNEL",
+    Urban = "URBAN"
+}
+
+// @public
+export enum KnownResponseTravelMode {
+    Bicycle = "bicycle",
+    Bus = "bus",
+    Car = "car",
+    Motorcycle = "motorcycle",
+    Other = "other",
+    Pedestrian = "pedestrian",
+    Taxi = "taxi",
+    Truck = "truck",
+    Van = "van"
 }
 
 // @public
@@ -145,6 +254,14 @@ export enum KnownSectionType {
     TravelMode = "travelMode",
     Tunnel = "tunnel",
     Urban = "urban"
+}
+
+// @public
+export enum KnownSimpleCategory {
+    Jam = "JAM",
+    Other = "OTHER",
+    RoadClosure = "ROAD_CLOSURE",
+    RoadWork = "ROAD_WORK"
 }
 
 // @public
@@ -214,6 +331,12 @@ export type RequireOnlyOne<T> = {
     [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
 }[keyof T];
 
+// @public
+export type ResponseSectionType = string;
+
+// @public
+export type ResponseTravelMode = string;
+
 // @public (undocumented)
 export interface Route {
     readonly guidance?: RouteGuidance;
@@ -230,7 +353,7 @@ export interface RouteBaseOptions {
     accelerationEfficiency?: number;
     auxiliaryPowerInKw?: number;
     auxiliaryPowerInLitersPerHour?: number;
-    avoid?: RouteAvoidType_2[];
+    avoid?: RouteAvoidType[];
     constantSpeedConsumptionInKwHPerHundredKm?: string;
     constantSpeedConsumptionInLitersPerHundredKm?: string;
     currentChargeInKwH?: number;
@@ -239,22 +362,22 @@ export interface RouteBaseOptions {
     departAt?: Date;
     downhillEfficiency?: number;
     fuelEnergyDensityInMegajoulesPerLiter?: number;
-    inclineLevel?: InclineLevel_2;
+    inclineLevel?: InclineLevel;
     isCommercialVehicle?: boolean;
     maxChargeInKwH?: number;
-    routeType?: RouteType_2;
-    travelMode?: TravelMode_2;
+    routeType?: RouteType;
+    travelMode?: TravelMode;
     uphillEfficiency?: number;
     useTrafficData?: boolean;
     vehicleAxleWeight?: number;
-    vehicleEngineType?: VehicleEngineType_2;
+    vehicleEngineType?: VehicleEngineType;
     vehicleHeight?: number;
     vehicleLength?: number;
-    vehicleLoadType?: VehicleLoadType_2;
+    vehicleLoadType?: VehicleLoadType;
     vehicleMaxSpeed?: number;
     vehicleWeight?: number;
     vehicleWidth?: number;
-    windingness?: WindingnessLevel_2;
+    windingness?: WindingnessLevel;
 }
 
 // @public
@@ -268,8 +391,8 @@ export interface RouteDirectionParameters {
 // @public
 export interface RouteDirections {
     readonly formatVersion?: string;
-    readonly optimizedWaypoints?: RouteOptimizedWaypoint_2[];
-    report?: RouteReport_2;
+    readonly optimizedWaypoints?: RouteOptimizedWaypoint[];
+    report?: RouteReport;
     readonly routes?: Route[];
 }
 
@@ -277,27 +400,20 @@ export interface RouteDirections {
 export interface RouteDirectionsBatchOptions extends OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "BatchResult" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type RouteDirectionsBatchResult = BatchResult_2 & {
-    readonly batchItems?: RouteDirectionsBatchItem[];
-};
-
 // @public
 export interface RouteDirectionsOptions extends RouteBaseOptions {
-    alternativeType?: AlternativeRouteType_2;
+    alternativeType?: AlternativeRouteType;
     arriveAt?: Date;
     computeBestWaypointOrder?: boolean;
-    computeTravelTime?: ComputeTravelTime_2;
-    filterSectionType?: SectionType_2;
-    instructionsType?: RouteInstructionsType_2;
+    computeTravelTime?: ComputeTravelTime;
+    filterSectionType?: SectionType;
+    instructionsType?: RouteInstructionsType;
     language?: string;
     maxAlternatives?: number;
     minDeviationDistance?: number;
     minDeviationTime?: number;
-    report?: Report_2;
-    routeRepresentationForBestOrder?: RouteRepresentationForBestOrder_2;
+    report?: Report;
+    routeRepresentationForBestOrder?: RouteRepresentationForBestOrder;
     vehicleHeading?: number;
 }
 
@@ -339,6 +455,14 @@ export interface RouteInstruction {
 }
 
 // @public
+export interface RouteInstructionGroup {
+    readonly firstInstructionIndex?: number;
+    readonly groupLengthInMeters?: number;
+    readonly groupMessage?: string;
+    readonly lastInstructionIndex?: number;
+}
+
+// @public
 export type RouteInstructionsType = string;
 
 // @public
@@ -348,24 +472,44 @@ export interface RouteLeg {
 }
 
 // @public
+export interface RouteLegSummary {
+    readonly arrivalTime?: Date;
+    readonly batteryConsumptionInKwH?: number;
+    readonly departureTime?: Date;
+    readonly fuelConsumptionInLiters?: number;
+    readonly historicTrafficTravelTimeInSeconds?: number;
+    readonly lengthInMeters?: number;
+    readonly liveTrafficIncidentsTravelTimeInSeconds?: number;
+    readonly noTrafficTravelTimeInSeconds?: number;
+    readonly trafficDelayInSeconds?: number;
+    readonly travelTimeInSeconds?: number;
+}
+
+// @public
+export interface RouteMatrix {
+    readonly routeLegSummary?: RouteLegSummary;
+    readonly statusCode?: number;
+}
+
+// @public
 export interface RouteMatrixOptions extends OperationOptions {
     arriveAt?: Date;
-    avoid?: RouteAvoidType_2[];
-    computeTravelTime?: ComputeTravelTime_2;
+    avoid?: RouteAvoidType[];
+    computeTravelTime?: ComputeTravelTime;
     departAt?: Date;
-    filterSectionType?: SectionType_2;
-    inclineLevel?: InclineLevel_2;
-    routeType?: RouteType_2;
-    travelMode?: TravelMode_2;
+    filterSectionType?: SectionType;
+    inclineLevel?: InclineLevel;
+    routeType?: RouteType;
+    travelMode?: TravelMode;
     useTrafficData?: boolean;
     vehicleAxleWeight?: number;
     vehicleHeight?: number;
     vehicleLength?: number;
-    vehicleLoadType?: VehicleLoadType_2;
+    vehicleLoadType?: VehicleLoadType;
     vehicleMaxSpeed?: number;
     vehicleWeight?: number;
     vehicleWidth?: number;
-    windingness?: WindingnessLevel_2;
+    windingness?: WindingnessLevel;
 }
 
 // @public
@@ -377,10 +521,14 @@ export interface RouteMatrixQuery {
 // @public
 export interface RouteMatrixResult {
     readonly formatVersion?: string;
-    // Warning: (ae-forgotten-export) The symbol "RouteMatrix" needs to be exported by the entry point index.d.ts
     readonly matrix?: RouteMatrix[][];
-    // Warning: (ae-forgotten-export) The symbol "RouteMatrixSummary" needs to be exported by the entry point index.d.ts
     readonly summary?: RouteMatrixSummary;
+}
+
+// @public
+export interface RouteMatrixSummary {
+    readonly successfulRoutes?: number;
+    readonly totalRoutes?: number;
 }
 
 // @public
@@ -410,12 +558,11 @@ export type RouteRangeOptions = RouteBaseOptions & OperationOptions;
 export interface RouteRangeResult {
     readonly formatVersion?: string;
     reachableRange?: RouteRange;
-    report?: RouteReport_2;
+    report?: RouteReport;
 }
 
 // @public
 export interface RouteReport {
-    // Warning: (ae-forgotten-export) The symbol "EffectiveSetting" needs to be exported by the entry point index.d.ts
     readonly effectiveSettings?: EffectiveSetting[];
 }
 
@@ -423,10 +570,47 @@ export interface RouteReport {
 export type RouteRepresentationForBestOrder = string;
 
 // @public
+export interface RouteSection {
+    readonly delayInSeconds?: number;
+    readonly delayMagnitude?: DelayMagnitude;
+    readonly effectiveSpeedInKmh?: number;
+    readonly endPointIndex?: number;
+    readonly sectionType?: ResponseSectionType;
+    readonly simpleCategory?: SimpleCategory;
+    readonly startPointIndex?: number;
+    tec?: RouteSectionTec;
+    readonly travelMode?: ResponseTravelMode;
+}
+
+// @public
+export interface RouteSectionTec {
+    causes?: RouteSectionTecCause[];
+    readonly effectCode?: number;
+}
+
+// @public
+export interface RouteSectionTecCause {
+    readonly mainCauseCode?: number;
+    readonly subCauseCode?: number;
+}
+
+// @public
+export interface RouteSummary {
+    readonly arrivalTime?: Date;
+    readonly departureTime?: Date;
+    readonly lengthInMeters?: number;
+    readonly trafficDelayInSeconds?: number;
+    readonly travelTimeInSeconds?: number;
+}
+
+// @public
 export type RouteType = string;
 
 // @public
 export type SectionType = string;
+
+// @public
+export type SimpleCategory = string;
 
 // @public
 export type TravelMode = string;
@@ -440,10 +624,6 @@ export type VehicleLoadType = string;
 // @public
 export type WindingnessLevel = string;
 
-
-// Warnings were encountered during analysis:
-//
-// src/generated/models/index.ts:762:3 - (ae-forgotten-export) The symbol "RouteDirectionsBatchItem" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
