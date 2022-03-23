@@ -34,7 +34,6 @@ import {
 import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-
 import { MapTile } from "./models/results";
 
 const isMapsRenderClientOptions = (
@@ -132,7 +131,6 @@ export class MapsRenderClient {
     tileIndex: TileIndex,
     options: GetMapTileOptions = {}
   ): Promise<MapTile> {
-    // TODO: Is there any better return type?
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapTile", options);
     try {
       const result = await this.client.renderV2.getMapTile(tilesetId, tileIndex, updatedOptions);
@@ -277,7 +275,7 @@ export class MapsRenderClient {
    */
   public async getMapStaticImage(
     format: RasterTileFormat,
-    options: GetMapStaticImageOptions = {} // TODO: Options containing bounding box and some restrictions
+    options: GetMapStaticImageOptions = {}
   ): Promise<MapTile> {
     const { span, updatedOptions } = createSpan("MapsRenderClient-getMapStaticImage", options);
     try {
