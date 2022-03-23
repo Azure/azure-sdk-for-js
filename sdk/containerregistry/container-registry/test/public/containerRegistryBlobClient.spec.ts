@@ -6,7 +6,7 @@ import { createBlobClient, recorderStartOptions, serviceVersions } from "../util
 import fs from "fs";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
-  onVersions({ minVer: "2021-07-01" }).describe.only("ContainerRegistryBlobClient", function () {
+  onVersions({ minVer: "2021-07-01" }).describe("ContainerRegistryBlobClient", function () {
     // Declare the client and recorder instances.  We will set them using the
     // beforeEach hook.
     let client: ContainerRegistryBlobClient;
@@ -117,7 +117,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
-    it.only("can upload blob", async () => {
+    it("can upload blob", async () => {
       const blob = fs.createReadStream(
         "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
