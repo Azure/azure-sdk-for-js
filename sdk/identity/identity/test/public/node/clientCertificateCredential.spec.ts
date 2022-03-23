@@ -7,7 +7,7 @@ import * as path from "path";
 import fs from "fs";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, isLiveMode, delay, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -63,12 +63,6 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("authenticates with sendCertificateChain", async function (this: Context) {
-    if (isLiveMode()) {
-      // For this test to pass, we need to use the SNI certificate.
-      // At the moment, the SNI certificate is only provided to our tests in PFX form.
-      // We currently don't have PFX support.
-      this.skip();
-    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -79,7 +73,9 @@ describe("ClientCertificateCredential", function () {
     const credential = new ClientCertificateCredential(
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
-      recorder.configureClientOptions({ certificatePath }),
+      recorder.configureClientOptions({
+        certificatePath: env.IDENTITY_SP_CERT_SNI_PEM || certificatePath,
+      }),
       { sendCertificateChain: true }
     );
 
