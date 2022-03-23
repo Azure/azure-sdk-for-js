@@ -53,24 +53,36 @@ To parse a sample DTDL model, either start with one you have already written or 
 
 ```js
 // example.js
-async function main() {
-  const client = new ModelsRepositoryClient();
-  const dtmi = "dtmi:com:example:TemperatureController;1";
-  const models = await client.getModels(dtmi);
+const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
+const { ModelParsingOption, createParser } = require("@azure/dtdl-parser");
 
+async function main() {
+  const dtmi = "dtmi:com:example:TemperatureController;1";
+
+  const repositoryClient = new ModelsRepositoryClient();
   const modelParser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
-  modelParser.options = ModelParsingOption.PermitAnyTopLevelElement;
-  Object.entries(models).forEach(([key, value]) => {
-    console.log(`dtmi: ${key}`);
-    const modelDict = await modelParser.parse([value]);
-    Object.entries(modelDict).forEach(([key2, value2]) => {
-      console.log(key2);
-    });
-  });
+
+  // Bind the model repository to the parser so the parser can use it to load
+  // any dependant models.
+  modelParser.getModels = repositoryClient.getModels.bind(repositoryClient);
+
+  // Get the model from the repository.
+  const models = await repositoryClient.getModels(dtmi);
+
+  // Loop through the models and output the contents of each model
+  for (const [key, value] of Object.entries(models)) {
+    console.log()
+    console.log(`model: ${key}`);
+    const modelDict = await modelParser.parse([JSON.stringify(value)]);
+
+    for (const [key2, value2] of Object.entries(modelDict)) {
+      console.log(`-- ${value2.entityKind}: ${key2} = ${value2.description?.en}`);
+    }
+  }
 }
 
 main().catch((err) => {
-  console.error("The sample encountered an error:", err); 
+  console.error("The sample encountered an error:", err);
 });
 ```
 

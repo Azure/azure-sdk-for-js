@@ -6,7 +6,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable sort-imports */
 
-import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
 import {
   ElementPropertyConstraint,
   ModelParsingOption,
@@ -22,6 +21,7 @@ import {
   Model,
   ModelDict,
   ModelParser,
+  GetModelsFunctionType,
   ParsedObjectPropertyInfo,
   PartitionTypeCollection,
   StandardElements,
@@ -72,7 +72,7 @@ export class ModelParserImpl implements ModelParser {
   // codegen-outline-end
 
   // codegen-outline-begin methods
-  getModels?: ModelsRepositoryClient["getModels"];
+  getModels?: GetModelsFunctionType;
   options: ModelParsingOption;
   maxDtdlVersion?: number;
   static supplementalTypeCollection: SupplementalTypeCollectionImpl = new SupplementalTypeCollectionImpl();
@@ -205,12 +205,10 @@ export class ModelParserImpl implements ModelParser {
         );
       }
 
-      let dependencyMapping: { [dtmi: string]: unknown } | null;
-      try {
-        dependencyMapping = await this.getModels(undefinedIdentifiers);
-      } catch (e) {
-        dependencyMapping = null;
-      }
+      const dependencyMapping = await this.getModels(undefinedIdentifiers, {
+        dependencyResolution: "enabled"
+      });
+
       const additionalJsonTexts =
         dependencyMapping && Object.values(dependencyMapping).map((value) => JSON.stringify(value));
       if (additionalJsonTexts === null) {
