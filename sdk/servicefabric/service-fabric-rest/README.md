@@ -112,15 +112,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[product_documentation]: https://docs.microsoft.com/en-us/azure/service-fabric/
+[product_documentation]: https://docs.microsoft.com/azure/service-fabric/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/service-fabric-rest
 [npm]: https://www.npmjs.com/org/azure-rest
 [ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
-[resource]: https://docs.microsoft.com/en-us/azure/service-fabric/quickstart-managed-cluster-template
+[resource]: https://docs.microsoft.com/azure/service-fabric/quickstart-managed-cluster-template
 [authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
-[enable_aad]: https://docs.microsoft.com/en-us/azure/service-fabric/quickstart-managed-cluster-template
+[enable_aad]: https://docs.microsoft.com/azure/service-fabric/quickstart-managed-cluster-template
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
