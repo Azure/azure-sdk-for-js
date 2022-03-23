@@ -329,7 +329,7 @@ describe("shared receiver code", () => {
               );
               if (elapsed < retryDelayInMs) {
                 errorMessages.push(
-                  `Unexpected, Should've waited at least ${retryDelayInMs} ms between attempts. Only ${elapsed} ms passed (from ${previousAttemptTime} to ${currentTime})`
+                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected, the wait between attempts should have been at least ${retryDelayInMs} ms.`
                 );
               }
               previousAttemptTime = currentTime;
