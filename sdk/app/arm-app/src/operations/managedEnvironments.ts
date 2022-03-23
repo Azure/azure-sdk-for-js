@@ -249,10 +249,12 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       { resourceGroupName, name, environmentEnvelope, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -332,10 +334,12 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
