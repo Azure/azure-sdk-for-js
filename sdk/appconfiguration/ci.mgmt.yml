@@ -27,7 +27,6 @@ extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: appconfiguration
-    SDKType: mgmt
     Artifacts:
       - name: azure-arm-appconfiguration
         safeName: azurearmappconfiguration

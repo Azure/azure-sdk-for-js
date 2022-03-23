@@ -2,7 +2,6 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   TestPipeline: false
-  SDKType: not-specified
 
 steps:
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml

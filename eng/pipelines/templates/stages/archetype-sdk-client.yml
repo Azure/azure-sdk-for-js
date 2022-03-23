@@ -39,9 +39,6 @@ parameters:
   - name: MatrixReplace
     type: object
     default: []
-  - name: SDKType
-    type: string
-    default: not-specified
 
 stages:
   - stage: Build
@@ -66,7 +63,6 @@ stages:
               - ${{ filter}}
           MatrixReplace: ${{ parameters.MatrixReplace }}
           IncludeRelease: ${{ parameters.IncludeRelease }}
-          SDKType: ${{ parameters.SDKType }}
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
