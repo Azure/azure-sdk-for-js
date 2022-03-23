@@ -1,8 +1,10 @@
 # Release History
 
-## 1.7.1 (Unreleased)
+## 1.8.0 (Unreleased)
 
 ### Features Added
+
+- Support resettable streams in the form of `() => NodeJS.ReadableStream` for NodeJS and `() => ReadableStream` for browser.
 
 ### Breaking Changes
 
