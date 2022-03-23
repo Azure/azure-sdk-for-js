@@ -55,7 +55,6 @@ export { AzureKeyCredential }
 
 // @public
 export interface BatchItem<TResult> {
-    // Warning: (ae-forgotten-export) The symbol "ErrorResponse" needs to be exported by the entry point index.d.ts
     readonly response?: TResult & ErrorResponse;
     readonly statusCode?: number;
 }
@@ -112,6 +111,26 @@ export interface EntryPoint {
 
 // @public
 export type EntryPointType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions {

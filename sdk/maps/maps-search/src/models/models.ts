@@ -42,6 +42,9 @@ export {
   OperatingHoursTime,
   PointOfInterestCategoryTreeResult,
   PointOfInterestCategory,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
 } from "../generated/models";
 
 /**
