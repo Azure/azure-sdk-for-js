@@ -126,15 +126,11 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      this.skip();
-    }
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!,
+      env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
+      env.AZURE_IDENTITY_TEST_CLIENTID || env.AZURE_CLIENT_ID!,
+      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
       recorder.configureClientOptions({})
     );
 
