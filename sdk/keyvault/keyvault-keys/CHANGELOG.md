@@ -1,6 +1,6 @@
 # Release History
 
-## 4.4.0 (Unreleased)
+## 4.4.0 (2022-03-24)
 
 ### Features Added
 
