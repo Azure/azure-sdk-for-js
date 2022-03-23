@@ -247,7 +247,7 @@ describe("Error scenarios", function () {
     });
   });
   describe("Unserialized value validation", function () {
-    it("schema is not registered if serialization fails", async function () {
+    it.skip("schema is not registered if serialization fails", async function () {
       const unusedRegistry = createTestRegistry({
         registerSchemaOptions: {
           onResponse: () => assert.fail(`unexpected service call`),
