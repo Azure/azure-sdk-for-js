@@ -5,12 +5,11 @@
  * @summary Demonstrates Render API usage. Simple queries are performed.
  */
 
-import fs from "fs";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { MapsRenderClient, KnownTilesetID, KnownRasterTileFormat } from "@azure/maps-render";
-import * as dotenv from "dotenv";
-dotenv.config();
+const fs = require("fs");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { MapsRenderClient, KnownTilesetID, KnownRasterTileFormat } = require("@azure/maps-render");
+require("dotenv").config();
 
 /**
  * Azure Maps supports two ways to authenticate requests:
@@ -24,7 +23,7 @@ dotenv.config();
  */
 
 async function main() {
-  let client: MapsRenderClient;
+  let client;
 
   if (process.env.MAPS_SUBSCRIPTION_KEY) {
     // Use subscription key authentication

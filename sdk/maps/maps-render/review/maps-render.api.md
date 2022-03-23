@@ -5,16 +5,26 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { BoundingBox } from '@azure/maps-common';
 import { CommonClientOptions } from '@azure/core-client';
-import { IncludeText as IncludeText_2 } from 'src/generated/models';
-import { LocalizedMapView as LocalizedMapView_2 } from 'src/generated/models';
-import { MapImageStyle as MapImageStyle_2 } from 'src/generated/models';
-import { MapTileSize as MapTileSize_2 } from 'src/generated/models';
+import { LatLon } from '@azure/maps-common';
 import { OperationOptions } from '@azure/core-client';
-import { StaticMapLayer as StaticMapLayer_2 } from 'src/generated/models';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
+
+// @public
+export interface Copyright {
+    readonly formatVersion?: string;
+    readonly generalCopyrights?: string[];
+    readonly regions?: RegionCopyrights[];
+}
+
+// @public
+export interface CopyrightCaptionResult {
+    readonly copyrightsCaption?: string;
+    readonly formatVersion?: string;
+}
 
 // @public
 export interface GetAttributionOptions extends OperationOptions {
@@ -26,7 +36,7 @@ export interface GetCopyrightCaptionOptions extends OperationOptions {
 
 // @public
 export interface GetCopyrightOptions extends OperationOptions {
-    includeText?: IncludeText_2;
+    includeText?: IncludeText;
 }
 
 // @public
@@ -35,15 +45,15 @@ export interface GetMapStateTileOptions extends OperationOptions {
 
 // @public
 export interface GetMapStaticImageOptions extends OperationOptions {
-    boundingBoxPrivate?: number[];
-    center?: number[];
+    boundingBox?: BoundingBox;
+    center?: LatLon;
     height?: number;
     language?: string;
-    layer?: StaticMapLayer_2;
-    localizedMapView?: LocalizedMapView_2;
+    layer?: StaticMapLayer;
+    localizedMapView?: LocalizedMapView;
     path?: string[];
     pins?: string[];
-    style?: MapImageStyle_2;
+    style?: MapImageStyle;
     width?: number;
     zoom?: number;
 }
@@ -51,8 +61,8 @@ export interface GetMapStaticImageOptions extends OperationOptions {
 // @public
 export interface GetMapTileOptions extends OperationOptions {
     language?: string;
-    localizedMapView?: LocalizedMapView_2;
-    tileSize?: MapTileSize_2;
+    localizedMapView?: LocalizedMapView;
+    tileSize?: MapTileSize;
     timeStamp?: Date;
 }
 
@@ -147,27 +157,25 @@ export enum KnownTilesetID {
 export type LocalizedMapView = string;
 
 // @public
+export interface MapAttribution {
+    copyrights?: string[];
+}
+
+// @public
 export type MapImageStyle = string;
 
 // @public
 export class MapsRenderClient {
     constructor(credential: AzureKeyCredential, options?: MapsRenderClientOptions);
     constructor(credential: TokenCredential, mapsAccountClientId: string, options?: MapsRenderClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "CopyrightCaption" needs to be exported by the entry point index.d.ts
-    getCopyrightCaption(options?: GetCopyrightCaptionOptions): Promise<CopyrightCaption>;
+    getCopyrightCaption(options?: GetCopyrightCaptionOptions): Promise<CopyrightCaptionResult>;
     getCopyrightForTile(tileIndex: TileIndex, options?: GetCopyrightOptions): Promise<Copyright>;
     getCopyrightForWorld(options?: GetCopyrightOptions): Promise<Copyright>;
-    // Warning: (ae-forgotten-export) The symbol "BoundingBox" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Copyright" needs to be exported by the entry point index.d.ts
-    getCopyrightFromBoundingBox(boundingBox: BoundingBox, // TODO: use maps-common bounding box
-    options?: GetCopyrightOptions): Promise<Copyright>;
-    // Warning: (ae-forgotten-export) The symbol "MapAttribution" needs to be exported by the entry point index.d.ts
-    getMapAttribution(tilesetId: TilesetID, zoom: number, bounds: number[], // TODO: BoundingBox
-    options?: GetAttributionOptions): Promise<MapAttribution>;
+    getCopyrightFromBoundingBox(boundingBox: BoundingBox, options?: GetCopyrightOptions): Promise<Copyright>;
+    getMapAttribution(tilesetId: TilesetID, zoom: number, boundingBox: BoundingBox, options?: GetAttributionOptions): Promise<MapAttribution>;
     getMapStateTile(statesetId: string, tileIndex: TileIndex, options?: GetMapStateTileOptions): Promise<MapTile>;
     getMapStaticImage(format: RasterTileFormat, options?: GetMapStaticImageOptions): Promise<MapTile>;
     getMapTile(tilesetId: TilesetID, tileIndex: TileIndex, options?: GetMapTileOptions): Promise<MapTile>;
-    // Warning: (ae-forgotten-export) The symbol "MapTileset" needs to be exported by the entry point index.d.ts
     getMapTileset(tilesetId: TilesetID, options?: GetMapTilesetOptions): Promise<MapTileset>;
 }
 
@@ -182,10 +190,41 @@ export interface MapTile {
 }
 
 // @public
+export interface MapTileset {
+    attribution?: string;
+    bounds?: number[];
+    center?: number[];
+    data?: string[];
+    description?: string;
+    grids?: string[];
+    legend?: string;
+    maxZoom?: number;
+    minZoom?: number;
+    name?: string;
+    scheme?: string;
+    template?: string;
+    tilejson?: string;
+    tiles?: string[];
+    version?: string;
+}
+
+// @public
 export type MapTileSize = string;
 
 // @public
 export type RasterTileFormat = string;
+
+// @public (undocumented)
+export interface RegionCopyrights {
+    readonly copyrights?: string[];
+    readonly country?: RegionCopyrightsCountry;
+}
+
+// @public
+export interface RegionCopyrightsCountry {
+    readonly iso3?: string;
+    readonly label?: string;
+}
 
 // @public
 export type StaticMapLayer = string;

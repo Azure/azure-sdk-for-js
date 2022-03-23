@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CopyrightCaption as CopyrightCaptionResult } from "../generated/models";
+
 export {
   TilesetID,
   LocalizedMapView,
@@ -10,6 +12,11 @@ export {
   MapImageStyle,
   StaticMapLayer,
   IncludeText,
+  MapAttribution,
+  Copyright,
+  RegionCopyrights,
+  RegionCopyrightsCountry,
+  MapTileset,
   KnownTilesetID,
   KnownLocalizedMapView,
   KnownMapTileSize,
@@ -18,3 +25,5 @@ export {
   KnownStaticMapLayer,
   KnownIncludeText,
 } from "../generated/models";
+
+export { CopyrightCaptionResult };
