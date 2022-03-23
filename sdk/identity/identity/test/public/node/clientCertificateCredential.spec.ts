@@ -7,7 +7,7 @@ import * as path from "path";
 import fs from "fs";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, isLiveMode, delay, Recorder } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -63,6 +63,10 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("authenticates with sendCertificateChain", async function (this: Context) {
+    if (isLiveMode()) {
+      // Running this live causes "AADSTS700030: Invalid certificate - subject name in certificate is not authorized. SubjectNames/SubjectAlternativeNames (up to 10) in token certificate are: identitytestdomain.com"
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
