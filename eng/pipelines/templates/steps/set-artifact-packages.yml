@@ -8,6 +8,5 @@ steps:
       {
         $packages += "$($artifact.name),"
       }
-      $packages = $packagest.substring(0, $packages.length -1)
       echo "##vso[task.setvariable variable=ArtifactPackageNames]$packages"
     displayName: "Find Packages to build"
