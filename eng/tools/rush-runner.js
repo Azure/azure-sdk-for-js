@@ -56,16 +56,16 @@ const parseArgs = () => {
   }
 
   let inFlags = false;
-  let isTypeFiltered = false;
-  let sdkType = "";
+  let isPackageFilter = false;
+  let artifactNames = "";
   const services = [],
     flags = [];
   const [scriptPath, action, ...givenArgs] = process.argv.slice(1);
   const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
 
   for (const arg of givenArgs) {
-    if (arg === "-sdkType") {
-      isTypeFiltered = true;
+    if (arg === "-packages") {
+      isPackageFilter = true;
       continue;
     }
     else if (!inFlags && arg.startsWith("-")) {
@@ -75,9 +75,9 @@ const parseArgs = () => {
     if (inFlags) {
       flags.push(arg);
     }
-    else if (isTypeFiltered) {
-      sdkType = arg;
-      isTypeFiltered = false;
+    else if (isPackageFilter) {
+      artifactNames = arg;
+      isPackageFilter = false;
     }
     else {
       if (arg && arg !== "*") {
@@ -86,7 +86,7 @@ const parseArgs = () => {
       }
     }
   }
-  return [baseDir, action, services, flags, sdkType];
+  return [baseDir, action, services, flags, artifactNames];
 };
 
 const getPackageJsons = (searchDir) => {
@@ -108,34 +108,25 @@ const getPackageJsons = (searchDir) => {
   return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
-const getServicePackages = (baseDir, serviceDirs, sdkType) => {
+const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
   const packageNames = [];
   const packageDirs = [];
-  let validSdkTypes = []; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
-  console.log(`SDK type: ${sdkType}`);
-  switch (sdkType) {
-    case "client":
-      validSdkTypes = ["client", "perf-test", "utility"];
-      break;
-    case "mgmt":
-      validSdkTypes = ["mgmt"];
-      break;
-    default:
-      validSdkTypes = ["client", "mgmt", "perf-test", "utility"];
-      break;
-  }
+  let validSdkTypes = ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
+  console.log(`Packages to build: ${artifactNames}`);
+  const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (validSdkTypes.includes(contents["sdk-type"])) {
+      const artifactName = contents.name.replace("@", "").replace("/", "-");
+      if (validSdkTypes.includes(contents["sdk-type"]) && artifacts.includes(artifactName)) {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
     }
   }
-
+  console.log(`Packages eligible to run rush task: ${packageNames}`);
   return [packageNames, packageDirs];
 };
 
@@ -157,9 +148,9 @@ const flatMap = (arr, f) => {
   return [].concat(...result);
 };
 
-const [baseDir, action, serviceDirs, rushParams, filterType] = parseArgs();
+const [baseDir, action, serviceDirs, rushParams, artifactNames] = parseArgs();
 
-const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, filterType);
+const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, artifactNames);
 
 /**
  * Helper function to provide the rush logic that is used frequently below
