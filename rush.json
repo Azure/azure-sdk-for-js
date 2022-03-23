@@ -738,7 +738,8 @@
     },   
     {
       "packageName": "@azure-tools/dtdl-parser-generator",
-      "projectFolder": "sdk/digitaltwins/dtdl-parser-generator"
+      "projectFolder": "sdk/digitaltwins/dtdl-parser-generator",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/dtdl-parser",
