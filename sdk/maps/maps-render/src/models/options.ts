@@ -9,7 +9,7 @@ import {
   MapImageStyle,
   MapTileSize,
   StaticMapLayer,
-} from "src/generated/models";
+} from "../generated/models";
 
 /**
  * Client options used to configure the Maps Route Client
