@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types",
+    "declarationDir": "./types/latest",
     "paths": {
       "@azure-tools/dtdl-parser-generator": ["./src/index"]
     },
