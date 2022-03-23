@@ -2,26 +2,21 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { createRecordedOcClient, createRecordedOcClientWithToken } from "./utils/recordedClient";
-import { OperatorConnectClient } from "../../src";
+import { OperatorConnectRecordedClient } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
   describe(`OperatorConnectClient - get operators list${useAad ? " [AAD]" : ""}`, function () {
-    let recorder: Recorder;
-    let client: OperatorConnectClient;
+    let client: OperatorConnectRecordedClient;
 
     beforeEach(function (this: Context) {
-      ({ client, recorder } = useAad
-        ? createRecordedOcClientWithToken(this)!
-        : createRecordedOcClient(this));
+      client = new OperatorConnectRecordedClient(this, useAad);
     });
 
     afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
-        await recorder.stop();
+        await client.stopRecorder();
       }
     });
 

@@ -7,6 +7,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -30,11 +31,75 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends OperationOption
 export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOptions {
 }
 
+// @public (undocumented)
+export interface Consent {
+    companyName?: string;
+    consentedBy?: Contact;
+    consentedCountries?: string[];
+    consentedOn?: Date;
+    consentId?: string;
+    contacts?: Contact[];
+    lastModifiedBy?: Contact;
+    lastModifiedOn?: Date;
+    operatorId?: string;
+    resourceId?: string;
+    status?: ConsentStatus;
+}
+
+// @public
+export type ConsentStatus = string;
+
+// @public (undocumented)
+export interface Contact {
+    email?: string;
+    fullName?: string;
+    phoneNumber?: string;
+}
+
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
+export enum KnownConsentStatus {
+    // (undocumented)
+    Active = "Active",
+    // (undocumented)
+    Removed = "Removed",
+    // (undocumented)
+    Suspended = "Suspended"
+}
+
+// @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface Operator {
+    acquiredNumbersCount?: number;
+    friendlyName?: string;
+    landingPage?: string;
+    logoThumbnailUri?: string;
+    logoUri?: string;
+    // (undocumented)
+    offerings?: OperatorOffering[];
+    operatorId?: string;
+}
+
+// @public
+export class OperatorConnectClient {
+    constructor(connectionString: string, options?: OperatorConnectClientOptions);
+    constructor(url: string, credential: KeyCredential, options?: OperatorConnectClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: OperatorConnectClientOptions);
+    createConsent(operatorId: string, companyName: string, consentedCountries: string[], consentedBy: Contact, contacts?: Contact[], status?: ConsentStatus): Promise<Consent>;
+    getConsent(operatorId: string, options?: GetConsentOptionalParams): Promise<Consent>;
+    listConsents(options?: GetConsentsOptionalParams): PagedAsyncIterableIterator<Consent>;
+    listOperators(options?: GetOperatorsOptionalParams): PagedAsyncIterableIterator<Operator>;
+    removeConsent(operatorId: string, lastModifiedBy: Contact): Promise<Consent>;
+    updateConsent(operatorId: string, lastModifiedBy: Contact, optionalParameters: UpdateConsentOptionalParams): Promise<Consent>;
+}
+
+// @public
+export interface OperatorConnectClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -125,6 +190,15 @@ export interface ReleasePhoneNumberResult {
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
+}
+
+// @public
+export interface UpdateConsentOptionalParams {
+    // (undocumented)
+    companyName?: string;
+    consentedCountries?: string[];
+    contacts?: Contact[];
+    status?: ConsentStatus;
 }
 
 // (No @packageDocumentation comment for this package)

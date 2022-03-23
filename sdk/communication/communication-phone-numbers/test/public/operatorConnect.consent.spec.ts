@@ -2,30 +2,25 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { createRecordedOcClient, createRecordedOcClientWithToken } from "./utils/recordedClient";
+import { OperatorConnectRecordedClient } from "./utils/recordedClient";
 import {
-  OperatorConnectClient,
   KnownConsentStatus,
   Contact
-} from "../../src/";
+} from "../../src";
 
 matrix([[true, false]], async function (useAad) {
   describe(`OperatorConnectClient - get operators list${useAad ? " [AAD]" : ""}`, function () {
-    let recorder: Recorder;
-    let client: OperatorConnectClient;
+    let client: OperatorConnectRecordedClient;
 
     beforeEach(function (this: Context) {
-      ({ client, recorder } = useAad
-        ? createRecordedOcClientWithToken(this)!
-        : createRecordedOcClient(this));
+      client = new OperatorConnectRecordedClient(this, useAad);
     });
 
     afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
-        await recorder.stop();
+        await client.stopRecorder();
       }
     });
 
@@ -142,6 +137,18 @@ matrix([[true, false]], async function (useAad) {
       assert.equal(updateResponse.status, KnownConsentStatus.Suspended);
       assert.equal(updateResponse.consentedCountries?.length, 2);
       assert.equal(updateResponse.contacts?.length, 2);
+    }).timeout(60000);
+
+    it("can handle not found in get consent", async function (this: Context) {
+      assert.fail("Not implemented")
+    }).timeout(60000);
+
+    it("can handle error in get consent", async function (this: Context) {
+      assert.fail("Not implemented")
+    }).timeout(60000);
+
+    it("can handle error in create consent", async function (this: Context) {
+      assert.fail("Not implemented")
     }).timeout(60000);
   });
 });

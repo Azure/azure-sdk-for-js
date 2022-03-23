@@ -63,18 +63,6 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   };
 }
 
-export function createRecordedOcClient(context: Context): RecordedClient<OperatorConnectClient> {
-  const recorder = record(context, environmentSetup);
-
-  // casting is a workaround to enable min-max testing
-  return {
-    client: new OperatorConnectClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient
-    }),
-    recorder,
-  };
-}
-
 export function createMockToken(): TokenCredential {
   return {
     getToken: async (_scopes) => {
@@ -123,48 +111,44 @@ export function createRecordedClientWithToken(
   };
 }
 
-
-export function createRecordedOcClientWithToken(
-  context: Context
-): RecordedClient<OperatorConnectClient> | undefined {
-  const recorder = record(context, environmentSetup);
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
-  ).endpoint;
+export function getAadCredential(): TokenCredential {
   if (isPlaybackMode()) {
-    credential = createMockToken();
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new OperatorConnectClient(endpoint, credential, {
-        httpClient,
-      }),
-      recorder,
-    };
-  }
-
-  if (isNode) {
-    credential = new DefaultAzureCredential();
+    return createMockToken();
+  } else if (isNode) {
+    return new DefaultAzureCredential();
   } else {
-    credential = new ClientSecretCredential(
+    return new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET,
-      { httpClient }
-    );
+      { httpClient });
   }
+}
 
-  // casting is a workaround to enable min-max testing
-  return {
-    client: new OperatorConnectClient(endpoint, credential, {
+
+export class OperatorConnectRecordedClient extends OperatorConnectClient {
+  recorder: Recorder;
+
+  constructor(context: Context, useAad: boolean) {
+    if (!useAad) {
+      super(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, { httpClient });
+    }
+
+    let credential: TokenCredential = getAadCredential();
+    const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING).endpoint;
+    super(endpoint, credential, {
       httpClient,
       userAgentOptions: {
         userAgentPrefix: "acs-mock-test" // mark requests as test, so mocked response returned
       }
-    }),
-    recorder,
-  };
+    });
+
+    this.recorder = record(context, environmentSetup);
+  }
+
+  public stopRecorder() {
+    return this.recorder.stop();
+  }
 }
 
 export const testPollerOptions = {
