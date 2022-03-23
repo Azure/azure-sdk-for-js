@@ -80,8 +80,8 @@ export class ExtendedServiceClient extends ServiceClient {
   /**
    * Compatible send operation request function.
    *
-   * @param operationArguments
-   * @param operationSpec
+   * @param operationArguments - Operation arguments
+   * @param operationSpec - Operation Spec
    * @returns
    */
   async sendOperationRequest<T>(
@@ -111,9 +111,9 @@ export class ExtendedServiceClient extends ServiceClient {
   /**
    * Custom callback method to capture the raw response and then call the user provided callback.
    *
-   * @param rawResponse Raw response from the service
-   * @param flatResponse  Flat response from the service
-   * @param error Error returned from the service
+   * @param rawResponse - Raw response from the service
+   * @param flatResponse - Flat response from the service
+   * @param error - Error returned from the service
    */
   onResponse(rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown): void {
     this.response = rawResponse;
