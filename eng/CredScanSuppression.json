@@ -51,6 +51,12 @@
         "sdk/tables/data-tables/test/internal/node/generateSas.spec.ts"
       ],
       "_justification": "File contains private key used by test code."
+    },
+    {
+      "file": [
+        "sdk/servicefabric/service-fabric-rest/review/service-fabric.api.md"
+      ],
+      "_justification": "False positive when property name contains the word 'secret'. API Extractor files only contain type definitions"
     }
   ]
 }
