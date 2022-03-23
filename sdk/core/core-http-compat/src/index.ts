@@ -11,6 +11,7 @@ export {
   ExtendedServiceClientOptions,
   ExtendedCommonClientOptions,
   ExtendedClientOptions,
+  ModifiedResponseObject,
 } from "./extendedClient";
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
 export { RedirectOptions } from "./policies/redirectOptions";
