@@ -4,7 +4,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/keys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "",
       "status": 401,
@@ -56,7 +56,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/keys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -83,7 +83,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -110,7 +110,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -137,7 +137,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -164,7 +164,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -191,7 +191,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -218,7 +218,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -245,7 +245,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -272,7 +272,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -299,7 +299,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -326,7 +326,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -353,7 +353,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -380,7 +380,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -407,7 +407,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -434,7 +434,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -461,7 +461,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -488,7 +488,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -515,7 +515,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -542,7 +542,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -569,7 +569,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -596,7 +596,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -623,7 +623,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -650,7 +650,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -677,7 +677,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -704,7 +704,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -731,7 +731,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -758,7 +758,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -785,7 +785,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-supportstracing-09813470003748725",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
@@ -810,7 +810,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -837,7 +837,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -864,7 +864,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -891,7 +891,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -918,7 +918,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -945,7 +945,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -972,7 +972,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -999,7 +999,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1026,7 +1026,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1053,7 +1053,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1080,7 +1080,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1107,7 +1107,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1134,7 +1134,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1161,7 +1161,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1188,7 +1188,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1215,7 +1215,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -1242,7 +1242,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/importKeyName-canimportakey-3416957021747533",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
@@ -1267,7 +1267,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -1294,7 +1294,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1321,7 +1321,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1348,7 +1348,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1375,7 +1375,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1402,7 +1402,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1429,7 +1429,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1456,7 +1456,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1483,7 +1483,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1510,7 +1510,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1537,7 +1537,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1564,7 +1564,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1591,7 +1591,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -1618,7 +1618,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7783945276930928",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
@@ -1643,7 +1643,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -1670,7 +1670,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1697,7 +1697,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1724,7 +1724,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1751,7 +1751,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1778,7 +1778,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1805,7 +1805,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1832,7 +1832,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1859,7 +1859,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1886,7 +1886,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1913,7 +1913,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1940,7 +1940,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1967,7 +1967,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -1994,7 +1994,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2021,7 +2021,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -2048,7 +2048,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9037217917778813",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
@@ -2073,7 +2073,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -2100,7 +2100,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2127,7 +2127,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2154,7 +2154,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2181,7 +2181,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2208,7 +2208,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2235,7 +2235,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2262,7 +2262,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2289,7 +2289,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2316,7 +2316,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2343,7 +2343,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2370,7 +2370,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2397,7 +2397,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2424,7 +2424,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2451,7 +2451,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -2478,7 +2478,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -2505,7 +2505,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-9073237335553428",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
@@ -2530,7 +2530,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -2557,7 +2557,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-beforeeachhook-7744818452506113",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,

@@ -611,6 +611,99 @@ export const ErrorResponse: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceUsagesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceUsagesListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceUsage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceUsage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceUsage",
+    modelProperties: {
+      limit: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "limit",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      currentValue: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "currentValue",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "ResourceUsageName"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceUsageName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceUsageName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CachesListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -772,6 +865,17 @@ export const Cache: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CacheDirectorySettings"
+        }
+      },
+      zones: {
+        serializedName: "properties.zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

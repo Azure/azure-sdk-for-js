@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -1659,6 +1659,11 @@
     {
       "packageName": "@azure/arm-appservice-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mysql-flexible",
+      "projectFolder": "sdk/mysql/arm-mysql-flexible",
       "versionPolicyName": "management"
     },
     {

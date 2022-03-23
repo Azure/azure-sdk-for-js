@@ -263,20 +263,20 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ApiVersion73Preview} that the service accepts. */
-export enum KnownApiVersion73Preview {
-  /** Api Version '7.3-preview' */
-  Seven3Preview = "7.3-preview"
+/** Known values of {@link ApiVersion73} that the service accepts. */
+export enum KnownApiVersion73 {
+  /** Api Version '7.3' */
+  Seven3 = "7.3"
 }
 
 /**
- * Defines values for ApiVersion73Preview. \
- * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
+ * Defines values for ApiVersion73. \
+ * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.3-preview**: Api Version '7.3-preview'
+ * **7.3**: Api Version '7.3'
  */
-export type ApiVersion73Preview = string;
+export type ApiVersion73 = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
 export enum KnownRoleType {
@@ -519,50 +519,49 @@ export interface RoleAssignmentsListForScopeNextOptionalParams
 export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullBackupOptionalParams
-  extends coreClient.OperationOptions {
+export interface FullBackupOptionalParams extends coreClient.OperationOptions {
   /** Azure blob shared access signature token pointing to a valid Azure blob container where full backup needs to be stored. This token needs to be valid for at least next 24 hours from the time of making this call */
   azureStorageBlobContainerUri?: SASTokenParameter;
 }
 
 /** Contains response data for the fullBackup operation. */
-export type KeyVaultClientFullBackupResponse = KeyVaultClientFullBackupHeaders &
+export type FullBackupResponse = KeyVaultClientFullBackupHeaders &
   FullBackupOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullBackupStatusOptionalParams
+export interface FullBackupStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the fullBackupStatus operation. */
-export type KeyVaultClientFullBackupStatusResponse = FullBackupOperation;
+export type FullBackupStatusResponse = FullBackupOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullRestoreOperationOptionalParams
+export interface FullRestoreOperationOptionalParams
   extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: RestoreOperationParameters;
 }
 
 /** Contains response data for the fullRestoreOperation operation. */
-export type KeyVaultClientFullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
+export type FullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
   RestoreOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientRestoreStatusOptionalParams
+export interface RestoreStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the restoreStatus operation. */
-export type KeyVaultClientRestoreStatusResponse = RestoreOperation;
+export type RestoreStatusResponse = RestoreOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
+export interface SelectiveKeyRestoreOperationOptionalParams
   extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: SelectiveKeyRestoreOperationParameters;
 }
 
 /** Contains response data for the selectiveKeyRestoreOperation operation. */
-export type KeyVaultClientSelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
+export type SelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
   SelectiveKeyRestoreOperation;
 
 /** Optional parameters. */
