@@ -13,7 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClientContext } from "../artifactsClientContext";
+import { ArtifactsClient } from "../artifactsClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -35,13 +35,13 @@ import {
 /** Class containing SparkConfigurationOperations operations. */
 export class SparkConfigurationOperationsImpl
   implements SparkConfigurationOperations {
-  private readonly client: ArtifactsClientContext;
+  private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class SparkConfigurationOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClientContext) {
+  constructor(client: ArtifactsClient) {
     this.client = client;
   }
 
@@ -482,7 +482,7 @@ const getSparkConfigurationsByWorkspaceOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -508,7 +508,7 @@ const createOrUpdateSparkConfigurationOperationSpec: coreClient.OperationSpec = 
     }
   },
   requestBody: Parameters.sparkConfiguration,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [
     Parameters.accept,
@@ -530,7 +530,7 @@ const getSparkConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -547,7 +547,7 @@ const deleteSparkConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept],
   serializer
@@ -565,7 +565,7 @@ const renameSparkConfigurationOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -582,7 +582,7 @@ const getSparkConfigurationsByWorkspaceNextOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

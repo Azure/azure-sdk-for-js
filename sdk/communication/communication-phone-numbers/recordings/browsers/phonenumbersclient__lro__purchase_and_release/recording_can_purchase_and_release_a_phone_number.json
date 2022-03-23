@@ -4,416 +4,435 @@
    "method": "POST",
    "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
    "status": 202,
    "response": "",
    "responseHeaders": {
     "access-control-expose-headers": "Location,Operation-Location,operation-id,search-id",
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-length": "0",
-    "date": "Fri, 18 Jun 2021 16:39:53 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07",
-    "ms-cv": "57s/f5hy40anKMY/Gvb1Qw.0",
+    "date": "Thu, 03 Mar 2022 00:11:37 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-01-11-preview2",
+    "ms-cv": "7AloY2tWIEm64Vub2lzKeQ.0",
     "operation-id": "search_sanitized",
-    "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2021-03-07",
+    "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2022-01-11-preview2",
     "request-context": "appId=",
     "search-id": "sanitized",
-    "status": "202",
-    "x-azure-ref": "0V8zMYAAAAABseXURYwRfS5FRoa1Bhg5jWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0twcgYgAAAACA4ssqTk3URrKakPFloljZTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1740ms"
+    "x-processing-time": "2068ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07\",\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"search_sanitized\",\"operationType\":\"search\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"search\",\"status\":\"notStarted\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-01-11-preview2\",\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
     "access-control-expose-headers": "Location",
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:39:54 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07",
-    "ms-cv": "gErObopvEUWXV59PpEoaNg.0",
+    "date": "Thu, 03 Mar 2022 00:11:37 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-01-11-preview2",
+    "ms-cv": "Q6H6phTT20+aiL4jjvxIWQ.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0WczMYAAAAAA0u6Og8d2LRphi7e0bdmrEWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0uQcgYgAAAAAsaFywXNqqS5J1rv/p82P7TEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "628ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
-   "query": {
-    "api-version": "2021-03-07"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"status\":\"succeeded\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07\",\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"search_sanitized\",\"operationType\":\"search\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
-   "responseHeaders": {
-    "access-control-expose-headers": "Location",
-    "api-supported-versions": "2021-03-07",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:39:56 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07",
-    "ms-cv": "56hyq7kfTEq3db0TaI8nxw.0",
-    "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0XMzMYAAAAABAqO0qMtdTRJCcuMrhZJVSWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "367ms"
+    "x-processing-time": "430ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2021-06-18T16:55:55.1811708+00:00\"}",
+   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-03-03T00:11:40.3971204+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:39:59 GMT",
-    "ms-cv": "r8OA3p+8zEOjP4bSG8EHtA.0",
+    "date": "Thu, 03 Mar 2022 00:11:40 GMT",
+    "ms-cv": "CXp8SxiuPkKR2At6/HlY6g.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0XszMYAAAAABqD1AX/+JzQpZG/q3yIZWwWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vAcgYgAAAAAfc1tad/WiQLfWXd7k0/TvTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "885ms"
+    "x-processing-time": "740ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
+   "query": {
+    "api-version": "2022-01-11-preview2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-03-03T00:27:38.9552162+00:00\"}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 03 Mar 2022 00:11:43 GMT",
+    "ms-cv": "zGtKriHK1EuH3lybAwTsUw.0",
+    "request-context": "appId=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vgcgYgAAAAB+T8tQpQaLSq0v9LmEKOodTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "866ms"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/availablePhoneNumbers/:purchase",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": "{\"searchId\":\"sanitized\"}",
    "status": 202,
    "response": "",
    "responseHeaders": {
     "access-control-expose-headers": "Operation-Location,operation-id,purchase-id",
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-length": "0",
-    "date": "Fri, 18 Jun 2021 16:40:03 GMT",
-    "ms-cv": "1CDST4G+T0GSJj0apgWmHg.0",
+    "date": "Thu, 03 Mar 2022 00:11:45 GMT",
+    "ms-cv": "GhGNgTLEIE6r/I4YeLyYpg.0",
     "operation-id": "purchase_sanitized",
-    "operation-location": "/phoneNumbers/operations/purchase_sanitized?api-version=2021-03-07",
+    "operation-location": "/phoneNumbers/operations/purchase_sanitized?api-version=2022-01-11-preview2",
     "purchase-id": "sanitized",
     "request-context": "appId=",
-    "status": "202",
-    "x-azure-ref": "0YczMYAAAAADtUqa7DCvJRq+d+tHcTDTFWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vwcgYgAAAADzpR4NuaOFQ7gmYAStZr8uTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "2178ms"
+    "x-processing-time": "1785ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:04 GMT",
-    "ms-cv": "H5s/w7ueyEqZ+cZT8LMMLQ.0",
+    "date": "Thu, 03 Mar 2022 00:11:45 GMT",
+    "ms-cv": "HHgVO02HrUuPU9hnqXUzYQ.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0Y8zMYAAAAABm+PIqHj77QpTr4fqXyycDWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0wQcgYgAAAAAAZk/Fmc8bSL6usoeldA5zTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "364ms"
+    "x-processing-time": "426ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:06 GMT",
-    "ms-cv": "MJ1LCbWxBU6Kw+9z4qXKsg.0",
+    "date": "Thu, 03 Mar 2022 00:11:48 GMT",
+    "ms-cv": "+5qm5SLicESn8b2CtN/F/w.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0ZszMYAAAAACpmThvAKq9RYgNK48ohX7gWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0wwcgYgAAAAATho8bezN3QL0oJWj+/Q7TTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "416ms"
+    "x-processing-time": "389ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:09 GMT",
-    "ms-cv": "jU0AE7k1OUO4jmtTc3hGlQ.0",
+    "date": "Thu, 03 Mar 2022 00:11:50 GMT",
+    "ms-cv": "dBbjeX5Y+UyEgaD0gkst4A.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0aMzMYAAAAAAuYBF5YTKARLX+0SzKKkk9WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0xgcgYgAAAAAGre2OqQaMQYf4WRacJ2vATEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "615ms"
+    "x-processing-time": "395ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:11 GMT",
-    "ms-cv": "iKzxKh7ywE6rlYMC/LuvAQ.0",
+    "date": "Thu, 03 Mar 2022 00:11:52 GMT",
+    "ms-cv": "DF5oO7p4Vk+zim7nuOH8Jw.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0a8zMYAAAAACGT1mOMP5GSIFT6C0g3L+nWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0yAcgYgAAAACoJPFavwQ/SIds9EvGAvDZTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "384ms"
+    "x-processing-time": "363ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:14 GMT",
-    "ms-cv": "mKQuQSF6KEeiZTiCM/2hJw.0",
+    "date": "Thu, 03 Mar 2022 00:11:55 GMT",
+    "ms-cv": "m9sE8pnfxU+5ptD/kSdccw.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0bczMYAAAAAAIZw5rlCDeQIKcvjMLSr7WWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0ywcgYgAAAABjHBnX2/GlQ4TbFaK15M6JTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "388ms"
+    "x-processing-time": "444ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:16 GMT",
-    "ms-cv": "h4Y6zQQAyEGGPAyu6dAJgQ.0",
+    "date": "Thu, 03 Mar 2022 00:11:57 GMT",
+    "ms-cv": "qpz9suMr0UaIiiA1r9ABaw.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0cMzMYAAAAAAfrusJvEzfQYKLqJedlS3QWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0zQcgYgAAAABPLOOZn3CuRpjDAXA3Wq7VTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "680ms"
+    "x-processing-time": "366ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"notStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:19 GMT",
-    "ms-cv": "oSqwLQQZt0WKjsXkSjyAgg.0",
+    "date": "Thu, 03 Mar 2022 00:12:00 GMT",
+    "ms-cv": "Srod8CJ3aUqjeyOOgEUGrA.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0c8zMYAAAAAC0Im3BYXAxQrFIjItzP6pnWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "00AcgYgAAAABIKzZZuEDZT5D4OC2aYm42TEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "543ms"
+    "x-processing-time": "337ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"succeeded\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:39:53.1151841+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"purchase\",\"status\":\"succeeded\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:11:37.2016405+00:00\",\"id\":\"purchase_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:22 GMT",
-    "ms-cv": "twqfxXio60yo/ZkN5gkjPA.0",
+    "date": "Thu, 03 Mar 2022 00:12:03 GMT",
+    "ms-cv": "P5CYNiFxyE+j4mp7+rgo7A.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0dczMYAAAAAC7CMIxXGpCTY0m33BnvvCrWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "00gcgYgAAAACP7YTAF3URQ7PdQ0ulzG0wTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "634ms"
+    "x-processing-time": "305ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/%2B14155550100",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-06-18T16:40:19.3249552+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
+   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2022-03-03T00:11:59.6875652+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:28 GMT",
-    "ms-cv": "FTiIZg9yREObXl9yQsf/Rg.0",
+    "date": "Thu, 03 Mar 2022 00:12:05 GMT",
+    "ms-cv": "kSpqYoUC90y1+cqsIts2gg.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0eszMYAAAAABRXW9KfNf4RYJ48hh3sX/6WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "00wcgYgAAAAA1BlJkaRbiT7pkHtSTx1b5TEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "2385ms"
+    "x-processing-time": "1851ms"
    }
   },
   {
    "method": "DELETE",
    "url": "https://endpoint/phoneNumbers/%2B14155550100",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
     "access-control-expose-headers": "Operation-Location,operation-id,release-id",
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-length": "0",
-    "date": "Fri, 18 Jun 2021 16:40:29 GMT",
-    "ms-cv": "68LsZHlN2ki23H22wLDXtw.0",
+    "date": "Thu, 03 Mar 2022 00:12:05 GMT",
+    "ms-cv": "HT0L1Ek8qUmAeSDe2vrd9g.0",
     "operation-id": "release_sanitized",
-    "operation-location": "/phoneNumbers/operations/release_sanitized?api-version=2021-03-07",
+    "operation-location": "/phoneNumbers/operations/release_sanitized?api-version=2022-01-11-preview2",
     "release-id": "sanitized",
     "request-context": "appId=",
-    "status": "202",
-    "x-azure-ref": "0fMzMYAAAAAAxQ4bzDZipTYKAyvQxiXr4WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "01QcgYgAAAABaeLCzgURuSY5o7TFkr7gmTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1329ms"
+    "x-processing-time": "802ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:40:29.5428606+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"releasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"releasePhoneNumber\",\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:12:05.6604944+00:00\",\"id\":\"release_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:30 GMT",
-    "ms-cv": "w8/68MBd2EiZyWWw5Azc3A.0",
+    "date": "Thu, 03 Mar 2022 00:12:06 GMT",
+    "ms-cv": "vNH6dcQLCUKnDvmLt2Dd3w.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0fszMYAAAAAD92dxiY2KmS4uNPY39WI82WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "01gcgYgAAAAABd7+JpG5pT5Jzltui60NKTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "421ms"
+    "x-processing-time": "664ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:40:29.5428606+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"releasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"releasePhoneNumber\",\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:12:05.6604944+00:00\",\"id\":\"release_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:32 GMT",
-    "ms-cv": "rEaGIDZ0qE6E1+je7QPJAA.0",
+    "date": "Thu, 03 Mar 2022 00:12:08 GMT",
+    "ms-cv": "NmdQ9rSy6kOcJcABYfWN/A.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0gMzMYAAAAAAa1yS2I1w7QJwx5LEXf5ifWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "02AcgYgAAAAD+fActjSd/QKgRUqwyQ389TEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "316ms"
+    "x-processing-time": "301ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:40:29.5428606+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"releasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"releasePhoneNumber\",\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:12:05.6604944+00:00\",\"id\":\"release_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:35 GMT",
-    "ms-cv": "D6Sbrpgr7EC5Lpq+s6MMlg.0",
+    "date": "Thu, 03 Mar 2022 00:12:11 GMT",
+    "ms-cv": "/XoepIJj8EaSrxwNxxtOMg.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0g8zMYAAAAAD38WRkFGyNS6rfOWLZAfhXWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "02wcgYgAAAACpIC+ByJhRTKg5t5l5xwSeTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "348ms"
+    "x-processing-time": "337ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"status\":\"succeeded\",\"resourceLocation\":null,\"createdDateTime\":\"2021-06-18T16:40:29.5428606+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"releasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"releasePhoneNumber\",\"status\":\"running\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:12:05.6604944+00:00\",\"id\":\"release_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:40:37 GMT",
-    "ms-cv": "aVA3m72hO0+Mwb+jXv+D9Q.0",
+    "date": "Thu, 03 Mar 2022 00:12:13 GMT",
+    "ms-cv": "OjbWd23+W0e3O7UD5772Wg.0",
     "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0hczMYAAAAADIO5qsadWaSIWQ4T4KkjCgWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "03QcgYgAAAAB5NSWFSGOhRrW2+S289f5YTEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "307ms"
+    "x-processing-time": "301ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+   "query": {
+    "api-version": "2022-01-11-preview2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"operationType\":\"releasePhoneNumber\",\"status\":\"succeeded\",\"resourceLocation\":null,\"createdDateTime\":\"2022-03-03T00:12:05.6604944+00:00\",\"id\":\"release_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 03 Mar 2022 00:12:16 GMT",
+    "ms-cv": "koZjXUwOYkWglRhJq9EQhg.0",
+    "request-context": "appId=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "03wcgYgAAAAAu2w3Bo8O8S7PDL12uy8SATEFYMzExMDAwMTA4MDQ3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "442ms"
    }
   }
  ],
@@ -421,5 +440,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "416927590c0eb89a1bcfcaeaaa937d51"
+ "hash": "6ced0b61314a2989b97cff604ebd93db"
 }

@@ -8,11 +8,11 @@ import { Transform } from "stream";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
+  HttpHeaders,
   PipelineRequest,
   PipelineResponse,
+  RequestBodyType,
   TransferProgressEvent,
-  HttpHeaders,
-  RequestBodyType
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -129,7 +129,7 @@ class NodeHttpClient implements HttpClient {
       const response: PipelineResponse = {
         status,
         headers,
-        request
+        request,
       };
 
       // Responses to HEAD must not have a body.
@@ -208,7 +208,7 @@ class NodeHttpClient implements HttpClient {
       path: `${url.pathname}${url.search}`,
       port: url.port,
       method: request.method,
-      headers: request.headers.toJSON()
+      headers: request.headers.toJSON({ preserveCase: true }),
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {
@@ -248,7 +248,7 @@ class NodeHttpClient implements HttpClient {
       if (isInsecure) {
         if (!this.httpKeepAliveAgent) {
           this.httpKeepAliveAgent = new http.Agent({
-            keepAlive: true
+            keepAlive: true,
           });
         }
 
@@ -256,7 +256,7 @@ class NodeHttpClient implements HttpClient {
       } else {
         if (!this.httpsKeepAliveAgent) {
           this.httpsKeepAliveAgent = new https.Agent({
-            keepAlive: true
+            keepAlive: true,
           });
         }
 
@@ -323,7 +323,7 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
       } else {
         reject(
           new RestError(`Error reading response as text: ${e.message}`, {
-            code: RestError.PARSE_ERROR
+            code: RestError.PARSE_ERROR,
           })
         );
       }

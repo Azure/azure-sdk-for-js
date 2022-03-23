@@ -5,7 +5,7 @@ import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegist
 import { TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
+  InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
@@ -17,11 +17,10 @@ import {
   SchemaRegistry,
   RegisterSchemaOptions,
   SchemaProperties,
-  Schema
+  Schema,
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { getRawResponse, undefinedfyOn404 } from "./utils";
 
 /**
  * Client for Azure Schema Registry service.
@@ -52,14 +51,15 @@ export class SchemaRegistryClient implements SchemaRegistry {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
       endpoint: this.fullyQualifiedNamespace,
-      ...internalPipelineOptions
+      apiVersion: options.apiVersion,
+      ...internalPipelineOptions,
     });
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
@@ -80,9 +80,16 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this.client.schema
-      .register(schema.groupName, schema.name, schema.format, schema.schemaDefinition, options)
-      .then(convertSchemaIdResponse);
+      .register(
+        groupName,
+        schemaName,
+        `application/json; serialization=${format}`,
+        schemaContent,
+        options
+      )
+      .then(convertSchemaIdResponse(format));
   }
 
   /**
@@ -90,37 +97,42 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * definition.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID or undefined if no matching schema was found.
+   * @returns Matched schema's ID.
    */
   async getSchemaProperties(
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
-  ): Promise<SchemaProperties | undefined> {
-    return undefinedfyOn404(
-      this.client.schema
-        .queryIdByContent(
-          schema.groupName,
-          schema.name,
-          schema.format,
-          schema.schemaDefinition,
-          options
-        )
-        .then(convertSchemaIdResponse)
-    );
+  ): Promise<SchemaProperties> {
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
+    return this.client.schema
+      .queryIdByContent(
+        groupName,
+        schemaName,
+        `application/json; serialization=${format}`,
+        schemaContent,
+        options
+      )
+      .then(convertSchemaIdResponse(format));
   }
 
   /**
-   * Gets an existing schema by ID.
+   * Gets an existing schema by ID. If the schema was not found, a RestError with
+   * status code 404 will be thrown, which could be caught as follows:
+   * 
+   * ```js
+   * ...
+   * } catch (e) {
+    if (typeof e === "object" && e.statusCode === 404) {
+      ...;
+    }
+    throw e;
+  }
+   * ```
    *
-   * @param id - Unique schema ID.
-   * @returns Schema with given ID or undefined if no schema was found with the given ID.
+   * @param schemaId - Unique schema ID.
+   * @returns Schema with given ID.
    */
-  async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined> {
-    return undefinedfyOn404(
-      getRawResponse(
-        (paramOptions) => this.client.schema.getById(id, paramOptions),
-        options || {}
-      ).then(({ flatResponse, rawResponse }) => convertSchemaResponse(flatResponse, rawResponse))
-    );
+  async getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema> {
+    return this.client.schema.getById(schemaId, options).then(convertSchemaResponse);
   }
 }

@@ -15,7 +15,7 @@ export const HeaderConstants = {
   CONTENT_TRANSFER_ENCODING: "content-transfer-encoding",
   DATE: "date",
   X_MS_DATE: "x-ms-date",
-  X_MS_VERSION: "x-ms-version"
+  X_MS_VERSION: "x-ms-version",
 };
 
 export const TablesLoggingAllowedHeaderNames = [
@@ -99,5 +99,5 @@ export const TablesLoggingAllowedHeaderNames = [
   "x-ms-source-if-none-match",
   "x-ms-source-if-unmodified-since",
   "x-ms-tag-count",
-  "x-ms-encryption-key-sha256"
+  "x-ms-encryption-key-sha256",
 ];

@@ -11,7 +11,7 @@ import { CapacityReservationGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ComputeManagementClientContext } from "../computeManagementClientContext";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   CapacityReservationGroup,
   CapacityReservationGroupsListByResourceGroupNextOptionalParams,
@@ -36,13 +36,13 @@ import {
 /** Class containing CapacityReservationGroups operations. */
 export class CapacityReservationGroupsImpl
   implements CapacityReservationGroups {
-  private readonly client: ComputeManagementClientContext;
+  private readonly client: ComputeManagementClient;
 
   /**
    * Initialize a new instance of the class CapacityReservationGroups class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClientContext) {
+  constructor(client: ComputeManagementClient) {
     this.client = client;
   }
 
@@ -370,7 +370,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand4],
+  queryParameters: [Parameters.apiVersion, Parameters.expand5],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -392,7 +392,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand5],
+  queryParameters: [Parameters.apiVersion, Parameters.expand6],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -413,7 +413,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand5],
+  queryParameters: [Parameters.apiVersion, Parameters.expand6],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -429,7 +429,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand5],
+  queryParameters: [Parameters.apiVersion, Parameters.expand6],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -450,7 +450,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand5],
+  queryParameters: [Parameters.apiVersion, Parameters.expand6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

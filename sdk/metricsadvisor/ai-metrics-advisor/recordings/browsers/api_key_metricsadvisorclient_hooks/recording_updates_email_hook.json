@@ -2,38 +2,20 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/33b47ff4-4820-4724-9a3b-e6443045e857",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/d9fa30c6-fddd-4b58-b66e-a8562d8acbd9",
    "query": {},
    "requestBody": "{\"hookType\":\"Email\",\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
    "status": 200,
-   "response": "{\"hookId\":\"33b47ff4-4820-4724-9a3b-e6443045e857\",\"hookName\":\"js-test-emailHook-162266598935904618\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
+   "response": "{\"hookId\":\"d9fa30c6-fddd-4b58-b66e-a8562d8acbd9\",\"hookName\":\"js-test-emailHook-164264075828400701\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
    "responseHeaders": {
-    "apim-request-id": "652c0654-edb3-4b98-9bf9-ca5219c774a1",
+    "apim-request-id": "ff6491e4-55b9-4a3d-af3d-abc6a989ea74",
     "content-length": "268",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:33:10 GMT",
+    "date": "Thu, 20 Jan 2022 01:06:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "488",
-    "x-request-id": "652c0654-edb3-4b98-9bf9-ca5219c774a1"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/33b47ff4-4820-4724-9a3b-e6443045e857",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"hookId\":\"33b47ff4-4820-4724-9a3b-e6443045e857\",\"hookName\":\"js-test-emailHook-162266598935904618\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
-   "responseHeaders": {
-    "apim-request-id": "9e711b5c-4bec-4dce-a74a-40aa4fcd9e3c",
-    "content-length": "268",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:33:11 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "191",
-    "x-request-id": "9e711b5c-4bec-4dce-a74a-40aa4fcd9e3c"
+    "x-envoy-upstream-service-time": "445",
+    "x-request-id": "ff6491e4-55b9-4a3d-af3d-abc6a989ea74"
    }
   }
  ],
@@ -41,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6fd3a13182a77fad514c46eb16960f83"
+ "hash": "35ac6bfd469dac847ae4f179aec9085f"
 }

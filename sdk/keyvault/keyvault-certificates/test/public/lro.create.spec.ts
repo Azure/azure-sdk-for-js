@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - LRO - create", () => {
   const certificatePrefix = `lroCreate${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -18,21 +19,21 @@ describe("Certificates client - LRO - create", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+  beforeEach(async function (this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a certificate is created", async function(this: Context) {
+  it("can wait until a certificate is created", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -54,7 +55,7 @@ describe("Certificates client - LRO - create", () => {
     assert.equal(poller.getOperationState().result!.name, certificateName);
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -82,7 +83,7 @@ describe("Certificates client - LRO - create", () => {
       DefaultCertificatePolicy,
       {
         resumeFrom: serialized,
-        ...testPollerProperties
+        ...testPollerProperties,
       }
     );
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.10 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,29 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.9 (2022-03-14)
+
+### Features Added
+
+Added more supported types in `LinkedServiceOperations`
+
+### Other Changes
+
+Taking latest codegen changes which include merging Client and ClientContext classes
+
+## 1.0.0-beta.8 (2022-01-12)
+
+### Features Added
+
+Added `MetastoreOperations`
+
+## 1.0.0-beta.7 (2021-11-09)
+
+### Other Changes
+
+- Added data flow flowlet
+- `KqlScriptContentCurrentConnection` now has poolName and databaseName properties
 
 ## 1.0.0-beta.6 (2021-10-05)
 

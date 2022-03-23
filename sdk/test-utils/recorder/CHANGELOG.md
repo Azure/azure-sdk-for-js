@@ -1,114 +1,186 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0 (Unreleased)
 
-Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
+## 2022-03-02
 
-## 1.0.1 (2021-09-01)
+- Allows adding sanitizers in playback mode as well. [#20612](https://github.com/Azure/azure-sdk-for-js/pull/20612)
 
-Fix types in the published package.
+  - If the sanitizer options are passed as part of the `recorder.start()`, they'll only be used in "record" mode and will be applied on the recordings.
+  - Use the `recorder.addSanitizers()` call instead if you want the sanitizers to be added in a specific test mode or in a combination of modes by providing the optional "mode" argument.
+  - "live" mode has no impact as usual.
 
-## 1.0.0 (2021-08-30)
+## 2022-03-01
 
-Marks the first release of the @azure-tools/test-recorder package.
-This is not for the public consumption, releasing for the convenience of certain public pipelines.
-Read more at [#17127](https://github.com/Azure/azure-sdk-for-js/pull/17127).
+- Add support for `addTransform`, which allows for transforms to be applied to saved recordings in playback mode. The following transforms are supported:
+  - `ApiVersionTransform`: During playback mode, echoes back the `api-version` header provided by the request
+  - `ClientIdTransform`, `StorageRequestIdTransform`: these echo back the `X-MS-Client-Id` and the `X-MS-Client-Request-Id` headers respectively
+  - `HeaderTransform`: adds an arbitrary header and value to the returned request. These are provided by the `key` and `value` parameters to `addTransform`.
 
-## 2021-07-13
+## 2022-02-15
 
-- `pluginForClientSecretCredentialTests` now is exported, and takes an optional `tenantId` parameter with a default value of `env.AZURE_TENANT_ID` to allow handling other tenant Ids.
+- Bug Fix - Fixed the bug where the `recordingId` was being ignored in the add-sanitizer requests which led the test level sanitizers to be treated as session level sanitizers.
+  [#20393](https://github.com/Azure/azure-sdk-for-js/pull/20393)
+- `CustomDefaultMatcher`- exposes the default matcher in a customizable way. Currently, this includes enabling/disabling body match, adding additional excluded headers, and enable/disable matching the order of query params in the requests.
+  [#20404](https://github.com/Azure/azure-sdk-for-js/pull/20404)
 
-## 2021-05-12
+## 2022-02-04
 
-- Extended the `requestBodyTransformations` from [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897) to handle browser tests as well.
-  - Adds a default transformation to replace the scope URL in the request body with the string `"https://sanitized/"` for browser recordings.
-  - Adds a default customization on recording to replace the scope URL in the request body for node recordings.
-  - Removed `requestBodyTransformations` property from `RecorderEnvironmentSetup` since Nock doesn't support multiple `.filteringRequestBody` patches in the recordings.
+- [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.
+  By leveraging the new option, `configureClientOptions` method is added to the `Recorder`.
 
-## 2021-05-09
+  [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
 
-- Mocks msal auth for access_token by not matching the request body since it is too dynamic and has changes between versions.
-  - Exported a new `pluginForIdentitySDK` method for the tests in the identity SDK
-  - Added a new property called `onLoadCallbackForPlayback` in the `RecorderEnvironmentSetup` as a means by which identity SDK can mock differently(when compared to the regular SDKs) to cater all of its credentials.
-  - Also, removed the default request transformation of modifying the `client-request-id` since it is redundant if the request body itself is not matched.
-    [#14993](https://github.com/Azure/azure-sdk-for-js/pull/14993)
+  - With the support from the new `Recorder#configureClientOptions` method, we no longer need the `Recorder#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies.
+  - [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175) removes the `Recorder#configureClient` along with the new addition.
 
-## 2021-04-19
+## 2022-01-27
 
-- Helper method added for the transformations to be applied on the requestBody in record mode to be able to filter the requests in playback.
-  Extends the `RecorderEnvironmentSetup` with `requestBodyTransformations` property which takes the transformation callbacks to be applied on the request body.
-  [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897)
-  - Adds a default transformation to strip out the client-request-id in the request body with the string "client-request-body"
+Add support for the new string sanitizers, including **breaking changes**:
 
-## 2021-04-07
+- Removed the `Sanitizer` class, instead making the `addSanitizers` function in `sanitizer.ts` take in a `HttpClient` and recording ID as parameter.
+- Refactored the `addSanitizers` function to call smaller functions for each sanitizer (some of which are a bit FP-style) instead of using if statements + special cases. Hopefully this will make things a bit easier to maintain.
+- Some other minor refactors (e.g. extracting duplicated `createRecordingRequest` function into a utility).
+- Add support for the string sanitizers in what I think is the most logical way, but there is a **breaking change**:
+  - When calling `addSanitizers`, instead of specifying `generalRegexSanitizers: [...]` etc., you now specify `generalSanitizers: [...]`. Both regex sanitizers and string sanitizers can be used in this way, for example:
 
-- Relaxing `maskAccessTokenInBrowserRecording` method to ignore the access_token replacement if the response is not JSON parsable.
-  [#14793](https://github.com/Azure/azure-sdk-for-js/pull/14793)
+```ts
+recorder.addSanitizers({
+  generalSanitizers: [
+    {
+      regex: true, // Regex matching is enabled by setting the 'regex' option to true.
+      target: ".*regex",
+      value: "sanitized",
+    },
+    {
+      // Note that `regex` defaults to false and doesn't need to be specified when working with bare strings.
+      // In my experience, this is the most common scenario anyway.
+      target: "Not a regex",
+      value: "sanitized",
+    },
+  ],
+});
+```
 
-## 2021-03-17
+[#19954](https://github.com/Azure/azure-sdk-for-js/pull/19954)
 
-- Adds an internal helper method to mask "access_token" in the recorder rather than expecting users to provide it through the custom config `customizationsOnRecordings` from `RecorderEnvironmentSetup`. [#12759](https://github.com/Azure/azure-sdk-for-js/pull/12759)
-  With this change, users don't have to add callbacks(to mask `access_token`) in the `customizationsOnRecordings` array such as below.
+## 2022-01-06
+
+- Renaming the package `@azure-tools/test-recorder-new@1.0.0` as `@azure-tools/test-recorder@2.0.0`.
+  [#19561](https://github.com/Azure/azure-sdk-for-js/pull/19561)
+
+## 1.0.0 (Unreleased)
+
+## 2021-12-27
+
+- Allows passing `undefined` as keys in the sanitizer options so that devs don't have to add additional checks if a certain env variable exists in playback.
+- Exports `delay`
+  - waits for expected time in record/live modes
+  - no-op in playback
+
+[#19561](https://github.com/Azure/azure-sdk-for-js/pull/19561)
+
+## 2021-12-17
+
+- Refactoring the test proxy http clients for better clarity for the end users [#19446](https://github.com/Azure/azure-sdk-for-js/pull/19446)
+
+  - Client rename `TestProxyHttpClient` -> `Recorder`
+  - Removing the separate `TestProxyHttpClientCoreV1`
+    - Instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to call `recorder.configureClientOptionsCoreV1` on the client options while passing to the respective client(where `recorder` is an instantiation of `Recorder`). This modifies the httpClient in the options to allow redirecting the requests to the test-proxy tool.
+  - Duplicated helpers from old recorder to not depend on old recorder package.. with an intention to replace the recorder package as 2.0 and not merge since the old recorder is published already
+  - Makes the following members of `Recorder` private
+    - `httpClient`
+    - `redirectRequest`
+    - `recorderHttpPolicy`
+    - `createHttpClientCoreV1`
+
+- Moving `NoOpCredential` to the new `@azure-tools/test-credential` package.
+
+## 2021-12-15
+
+- Change the API for using variables. Variables can now be accessed using the syntax:
+
   ```ts
-  customizationsOnRecordings: [
-    (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-  ];
+  const variable = recorder.variable(<variable name>, <value in record mode>);
   ```
 
-## 2020-01-28
+  A shorthand is also added for when accessing a variable a second time in
+  the same test, which does not require an initial value be set, e.g.:
 
-- Single quotes can be present in the url path though unusual. When the url path has single quotes, the fixture generated by "nock" is incorrect leading to invalid recordings. [#13474](https://github.com/Azure/azure-sdk-for-js/pull/13474) introduces a workaround to be applied as part of the default customizations done on the generated recordings to fix the issue.
-  (Nock Bug 🐛: https://github.com/nock/nock/issues/2136)
+  ```ts
+  recorder.variable("variableName", <value in record mode>);
 
-## 2020-12-02
+  // later on in your code
+  const value = recorder.variable("variableName");
+  ```
 
-- Refactored the code to enable `"browser"` module replacement when used with bundlers. Previously, even browser bundled copies of the recorder would carry dependencies on several Node packages, which would lead to unresolved dependency warnings in Rollup regarding node builtins. With this change, the recorder's browser mappings will avoid this issue.
-- Initialized `dotenv` by default in the NockRecorder, since its use is ubiquitous. Clients using the recorder in Node no longer have to import and run `dotenv`, though packages that do import `dotenv` may continue to do so as always.
+  [#19388](https://github.com/Azure/azure-sdk-for-js/pull/19388)
 
-## 2020-08-27
+## 2021-12-14
 
-- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048) fixed the issue if the status code in the response is 200. Now, allowing the rest of the "successful" status codes(200-299).
-  [#10892](https://github.com/Azure/azure-sdk-for-js/pull/10892)
+- Add `configureClient` method to the `TestProxytHttpClient` to allow instrumenting the client with the recorder policy which helps in enabling the recorder to redirect the requests of your tests to the proxy tool.
+  - Also un-exports `recorderHttpPolicy` function.
+    [#19362](https://github.com/Azure/azure-sdk-for-js/pull/19362)
 
-## 2020-08-21
+## 2021-12-13
 
-- [Bug Fix] When the responses have binary content, "nock" library saves the fixture by converting them into hex values. Fixtures are now overridden before being saved as recordings by decoding the hex values into the buffer as expected if the "Content-Type" is "avro/binary".
-  [#10048](https://github.com/Azure/azure-sdk-for-js/pull/10048)
+- Add support for `setMatcher`, which can be used to instruct the proxy tool to ignore headers (using `HeaderlessMatcher`) or the request body (using `BodilessMatcher`) when matching requests to recordings.
 
-## 2020-07-10
+  Example:
 
-- [Bug Fix] Fixed an issue where the browser-recording file is saved before all the recorded requests are pushed to the array of recordings(request-response pairs). `await recorder.stop()` - stop() call is expected to be await-ed from now on.
-  [#10013](https://github.com/Azure/azure-sdk-for-js/pull/10013)
+  ```ts
+  await recorder.setMatcher("HeaderlessMatcher");
+  ```
 
-## 2020-04-30
+## 2021-12-10
 
-- Since Mocha 7.0.0, Mocha behaves as follows: "When conditionally skipping in the `it` test, related afterEach hooks are now executed"
-  ([Source](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#700--2020-01-05)), now the `recorder.stop()` calls in the `afterEach()` will always be executed. Calling `recorder.skip` should not call `recorder.stop()` anymore.
+- Loads the .env file using with the help of "dotenv" by default.
+  [#19139](https://github.com/Azure/azure-sdk-for-js/pull/19139)
 
-## 2020-02-06
+## 2021-11-30
 
-- If any URLs are meant to be replaced in the recordings with `replaceableVariables`, hostname from the URLs will be independently matched and replaced. [#7204](https://github.com/Azure/azure-sdk-for-js/issues/7204)
-  - Example - ENV_VAR `ACCOUNT_URL=https://azureaccount.com/` is supposed to be replaced with `https://endpoint/`, `azureaccount.com` will be independently matched and replaced with `endpoint` too.
-- Added the "soft-record" mode, which allows users to only record the tests that have changed. [#7213](https://github.com/Azure/azure-sdk-for-js/issues/7213)
-- Added TestContext, TestContextInterface, TestContextTest in exchange of Mocha.Context. They're compatible types, but ours are easier to test.
-- Added windowLens, a lens to modify and retrieve properties from the Window object. Useful for future refactorings.
+- Adds NoOp AAD Credential for playback `NoOpCredential`. Using this as your AAD credential in playback mode would avoid the AAD traffic in playback.
+  [#18904](https://github.com/Azure/azure-sdk-for-js/pull/18904)
 
-- [BUG FIX] Tests leveraging `coreHttp.requestOptions.timeout` with empty recordings(no nock scopes with request-responses defined in the recording) fail during the playback mode when executed along with other tests. Fixed the issue by resetting nock's global state. More info - [#7264](https://github.com/Azure/azure-sdk-for-js/issues/7264)
+## 2021-11-08
 
-## 2020-01-30
+- Allows storing dynamically created variables in record mode. The recorder registers the variables as part of the recording and stores their values in the recording file. Using the `variables` in playback mode produces the key-value pairs that were stored in the recording file.
 
-- [BUG FIX] Fixed a bug where the replacements aren't properly filtered in the JSON recordings. [#7175](https://github.com/Azure/azure-sdk-for-js/issues/7175)
+  Example:
 
-## 2020-01-29
+  ```ts
+  if (!isPlaybackMode()) {
+    recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
+  }
+  ```
 
-- [BREAKING] `replaceInRecordings` attribute of `RecorderEnvironmentSetup` interface has been renamed to `customizationsOnRecordings`.
+  Use `recorder.variables["random-1"]` to access the value of the variable after setting it. The variable can be accessed in all three modes -- record, playback, and live -- as long as it is set in record mode before it is accessed.
 
-## 2020-01-28
+## 2021-10-15
 
-- [BUG FIX] Fixed a bug where the replacements provided aren't being replaced in the query-param parts of recordings, which is an expectation for playback. This caused a few test failures during playback for new recordings. More info [#7108](https://github.com/Azure/azure-sdk-for-js/issues/7108)
+[#17379](https://github.com/Azure/azure-sdk-for-js/pull/17379)
 
-- [BREAKING] `setReplaceableVariables`, `setReplacements`, `skipQueryParams` methods of the recorder are no longer exposed.
+- Added `addSanitizers` method to support
+  - BodyKeySanitizer
+  - BodyRegexSanitizer
+  - GeneralRegexSanitizer
+  - HeaderRegexSanitizer
+  - RemoveHeaderSanitizer
+  - UriRegexSanitizer
+  - UriSubscriptionIdSanitizer
+  - Connection String sanitizer
+- Adds `SanitizerOptions`, env setup for playback as the options of the `start()` method
+  - Applies `generalRegexSanitizers` on the env setup for playback options by default to eliminate any plain text secrets in the recordings
+- Testing - All the tests are run in the `recorder-new` folder run in all three modes - "record", "playback" and "live" everytime the test commands are run
 
-  - Equivalent `RecorderEnvironmentSetup` type is being exported instead. An object of this type is expected to be passed in the `record()` call.
-  - `record(this)` changes to `record(this, recorderEnvSetup)`, where `recorderEnvSetup` is of type `RecorderEnvironmentSetup`.
-  - [PR #7083](https://github.com/Azure/azure-sdk-for-js/pull/7083)
+## 2021-09-27
+
+[#17388](https://github.com/Azure/azure-sdk-for-js/pull/17388)
+
+- `TestProxyClient` now takes the test context to determine the location of the recordings.
+- Adds a server for the tests, to play the role of an actual service to be able to test the proxy-tool end-to-end.
+
+## 2021-07-17
+
+- Building the unified recorder prototype leveraging the proxy-tool, works for both core-v1 and core-v2 SDKs. Shows data-tables and storage-queue as examples for core-v2 and core-v1 respectively.
+  [#15826](https://github.com/Azure/azure-sdk-for-js/pull/15826)

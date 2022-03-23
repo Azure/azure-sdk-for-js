@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 
@@ -38,7 +38,7 @@ export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePol
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
       return handleRedirect(next, response, maxRetries);
-    }
+    },
   };
 }
 

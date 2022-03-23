@@ -11,7 +11,7 @@ import { ContentKeyPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMediaServicesContext } from "../azureMediaServicesContext";
+import { AzureMediaServices } from "../azureMediaServices";
 import {
   ContentKeyPolicy,
   ContentKeyPoliciesListNextOptionalParams,
@@ -32,13 +32,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContentKeyPolicies operations. */
 export class ContentKeyPoliciesImpl implements ContentKeyPolicies {
-  private readonly client: AzureMediaServicesContext;
+  private readonly client: AzureMediaServices;
 
   /**
    * Initialize a new instance of the class ContentKeyPolicies class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMediaServicesContext) {
+  constructor(client: AzureMediaServices) {
     this.client = client;
   }
 

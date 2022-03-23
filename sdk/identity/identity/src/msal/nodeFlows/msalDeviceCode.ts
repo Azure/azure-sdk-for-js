@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-
 import { AccessToken } from "@azure/core-auth";
 
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through device codes.
@@ -39,11 +38,10 @@ export class MsalDeviceCode extends MsalNode {
         scopes,
         cancel: false,
         correlationId: options?.correlationId,
-        authority: options?.authority
+        authority: options?.authority,
+        claims: options?.claims,
       };
       const promise = this.publicApp!.acquireTokenByDeviceCode(requestOptions);
-      // TODO:
-      // This should work, but it currently doesn't. I'm waiting for an answer from the MSAL team.
       const deviceResponse = await this.withCancellation(promise, options?.abortSignal, () => {
         requestOptions.cancel = true;
       });

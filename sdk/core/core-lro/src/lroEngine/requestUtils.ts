@@ -12,8 +12,8 @@ import { LroConfig, RawResponse } from "./models";
 export function getPollingUrl(rawResponse: RawResponse, defaultPath: string): string {
   return (
     getAzureAsyncOperation(rawResponse) ??
-    getLocation(rawResponse) ??
     getOperationLocation(rawResponse) ??
+    getLocation(rawResponse) ??
     defaultPath
   );
 }
@@ -30,31 +30,45 @@ function getAzureAsyncOperation(rawResponse: RawResponse): string | undefined {
   return rawResponse.headers["azure-asyncoperation"];
 }
 
+function findResourceLocation(
+  requestMethod: string,
+  rawResponse: RawResponse,
+  requestPath: string
+): string | undefined {
+  switch (requestMethod) {
+    case "PUT": {
+      return requestPath;
+    }
+    case "POST":
+    case "PATCH": {
+      return getLocation(rawResponse);
+    }
+    default: {
+      return undefined;
+    }
+  }
+}
+
 export function inferLroMode(
   requestPath: string,
   requestMethod: string,
   rawResponse: RawResponse
 ): LroConfig {
-  if (getAzureAsyncOperation(rawResponse) !== undefined) {
-    return {
-      mode: "AzureAsync",
-      resourceLocation:
-        requestMethod === "PUT"
-          ? requestPath
-          : requestMethod === "POST"
-          ? getLocation(rawResponse)
-          : undefined
-    };
-  } else if (
-    getLocation(rawResponse) !== undefined ||
+  if (
+    getAzureAsyncOperation(rawResponse) !== undefined ||
     getOperationLocation(rawResponse) !== undefined
   ) {
     return {
-      mode: "Location"
+      mode: "Location",
+      resourceLocation: findResourceLocation(requestMethod, rawResponse, requestPath),
+    };
+  } else if (getLocation(rawResponse) !== undefined) {
+    return {
+      mode: "Location",
     };
   } else if (["PUT", "PATCH"].includes(requestMethod)) {
     return {
-      mode: "Body"
+      mode: "Body",
     };
   }
   return {};

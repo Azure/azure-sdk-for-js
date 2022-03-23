@@ -11,32 +11,32 @@ import { ExportPipelines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   ExportPipeline,
   ExportPipelinesListNextOptionalParams,
   ExportPipelinesListOptionalParams,
+  ExportPipelinesListResponse,
   ExportPipelinesGetOptionalParams,
   ExportPipelinesGetResponse,
   ExportPipelinesCreateOptionalParams,
   ExportPipelinesCreateResponse,
   ExportPipelinesDeleteOptionalParams,
-  ExportPipelinesListResponse,
   ExportPipelinesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExportPipelines operations. */
 export class ExportPipelinesImpl implements ExportPipelines {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class ExportPipelines class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -97,6 +97,23 @@ export class ExportPipelinesImpl implements ExportPipelines {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all export pipelines for the specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: ExportPipelinesListOptionalParams
+  ): Promise<ExportPipelinesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -305,23 +322,6 @@ export class ExportPipelinesImpl implements ExportPipelines {
   }
 
   /**
-   * Lists all export pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: ExportPipelinesListOptionalParams
-  ): Promise<ExportPipelinesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -343,6 +343,28 @@ export class ExportPipelinesImpl implements ExportPipelines {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExportPipelineListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
@@ -350,6 +372,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ExportPipeline
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -379,6 +404,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.ExportPipeline
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.exportPipelineCreateParameters,
@@ -398,24 +426,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.exportPipelineName
-  ],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines",
-  httpMethod: "GET",
   responses: {
-    200: {
-      bodyMapper: Mappers.ExportPipelineListResult
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -423,7 +440,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
+    Parameters.exportPipelineName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -434,6 +452,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ExportPipelineListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

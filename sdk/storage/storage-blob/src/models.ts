@@ -8,7 +8,7 @@ import {
   AppendPositionAccessConditions,
   AccessTier,
   CpkInfo,
-  BlobDownloadResponseModel
+  BlobDownloadResponseModel,
 } from "./generatedModels";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
@@ -116,7 +116,7 @@ export enum BlockBlobTier {
    * Optimized for storing data that is rarely accessed and stored for at least 180 days
    * with flexible latency requirements (on the order of hours).
    */
-  Archive = "Archive"
+  Archive = "Archive",
 }
 
 /**
@@ -168,7 +168,7 @@ export enum PremiumPageBlobTier {
   /**
    * P80 Tier.
    */
-  P80 = "P80"
+  P80 = "P80",
 }
 
 export function toAccessTier(
@@ -310,4 +310,18 @@ export interface HttpAuthorization {
    * the credentials containing the authentication information of the user agent for the resource being requested.
    */
   value: string;
+}
+
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageBlobAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Disk.
+   */
+  DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
 }

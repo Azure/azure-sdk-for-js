@@ -328,5 +328,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [event_grid]: https://docs.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
 [azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
-[cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/master/extensions/distributed-tracing.md
+[cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
 [eventgrid-on-kubernetes-using-azure-arc]: https://docs.microsoft.com/azure/event-grid/kubernetes/

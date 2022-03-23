@@ -15,7 +15,7 @@ export declare type Operation = () => Promise<any>;
  */
 enum BatchStates {
   Good,
-  Error
+  Error,
 }
 
 /**

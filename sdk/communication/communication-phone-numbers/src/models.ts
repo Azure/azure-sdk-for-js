@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { PhoneNumberSearchRequest } from "./generated/src/models/";
 
 /**
@@ -44,5 +44,5 @@ export {
   PhoneNumberCost,
   PhoneNumberSearchResult,
   PhoneNumberSearchRequest,
-  PhoneNumberType
+  PhoneNumberType,
 } from "./generated/src/models/";

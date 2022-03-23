@@ -1,22 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
+import {
+  HttpClient,
+  HttpHeaders,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 import { PurchasedPhoneNumber } from "../../../src";
+import { PurchasedPhoneNumbers } from "../../../src/generated/src/models";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
-  parsedBody?: T
+  parsedBody?: T,
+  headers?: HttpHeaders
 ): HttpClient => {
   return {
-    async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       return {
         status,
         request,
-        headers: request.headers,
-        parsedBody
+        headers: headers ?? request.headers,
+        bodyAsText: JSON.stringify(parsedBody),
       };
-    }
+    },
   };
 };
 
@@ -31,12 +38,35 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Purchas
     purchaseDate: new Date(),
     capabilities: {
       sms: "inbound+outbound",
-      calling: "none"
+      calling: "none",
     },
     cost: {
       amount: 5,
       currencyCode: "USD",
-      billingFrequency: "monthly"
-    }
+      billingFrequency: "monthly",
+    },
   }
 );
+
+export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhoneNumbers>(200, {
+  phoneNumbers: [
+    {
+      id: "16155550100",
+      phoneNumber: "+16155550100",
+      countryCode: "US",
+      assignmentType: "application",
+      phoneNumberType: "tollFree",
+      capabilities: {
+        calling: "inbound+outbound",
+        sms: "inbound",
+      },
+      purchaseDate: new Date(),
+      cost: {
+        amount: 0.8,
+        currencyCode: "USD",
+        billingFrequency: "monthly",
+      },
+    },
+  ],
+  nextLink: "/phoneNumbers?api-version=2022-01-11-preview2&skip=1&top=1",
+});

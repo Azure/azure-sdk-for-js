@@ -37,10 +37,9 @@
     },
     "hsmLocation": {
       "type": "string",
-      "defaultValue": "eastus",
-      "allowedValues": ["eastus", "eastus2", "southcentralus", "northeurope", "westeurope"],
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "The location of the Managed HSM. By default, this is 'eastus'."
+        "description": "The location of the Managed HSM. By default, this is the same as the resource group."
       }
     },
     "enableHsm": {
@@ -83,6 +82,8 @@
     "mgmtApiVersion": "2019-04-01",
     "blobContainerName": "hsmbackups",
     "primaryAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'prim')]",
+    "kvAdminDefinitionId": "00482a5a-887f-4fb3-b363-3b7fe8e74483",
+    "kvAdminAssignmentName": "[guid(resourceGroup().id, variables('kvAdminDefinitionId'), parameters('testApplicationOid'))]",
     "encryption": {
       "services": {
         "blob": {
@@ -118,57 +119,22 @@
           "name": "[parameters('keyVaultSku')]"
         },
         "tenantId": "[parameters('tenantId')]",
-        "accessPolicies": [
-          {
-            "tenantId": "[parameters('tenantId')]",
-            "objectId": "[parameters('testApplicationOid')]",
-            "permissions": {
-              "keys": [
-                "get",
-                "list",
-                "update",
-                "create",
-                "import",
-                "delete",
-                "recover",
-                "backup",
-                "restore",
-                "decrypt",
-                "encrypt",
-                "unwrapKey",
-                "wrapKey",
-                "verify",
-                "sign",
-                "purge",
-                "rotate"
-              ],
-              "secrets": ["get", "list", "set", "delete", "recover", "backup", "restore", "purge"],
-              "certificates": [
-                "get",
-                "list",
-                "update",
-                "create",
-                "import",
-                "delete",
-                "recover",
-                "backup",
-                "restore",
-                "managecontacts",
-                "manageissuers",
-                "getissuers",
-                "listissuers",
-                "setissuers",
-                "deleteissuers",
-                "purge"
-              ]
-            }
-          }
-        ],
         "enabledForDeployment": false,
         "enabledForDiskEncryption": false,
         "enabledForTemplateDeployment": false,
         "enableSoftDelete": true,
+        "enableRbacAuthorization": true,
         "softDeleteRetentionInDays": 7
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2020-04-01-preview",
+      "name": "[variables('kvAdminAssignmentName')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('kvAdminDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]",
+        "scope": "[resourceGroup().id]"
       }
     },
     {
@@ -244,7 +210,6 @@
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2020-12-01",
       "name": "[variables('attestationFarm')]",
-      "condition": "[parameters('enableHsm')]",
       "location": "[parameters('location')]",
       "kind": "linux",
       "sku": {
@@ -258,7 +223,6 @@
       "type": "Microsoft.Web/sites",
       "apiVersion": "2020-12-01",
       "name": "[variables('attestationSite')]",
-      "condition": "[parameters('enableHsm')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"
       ],
@@ -316,7 +280,6 @@
     },
     "AZURE_KEYVAULT_ATTESTATION_URI": {
       "type": "string",
-      "condition": "[parameters('enableHsm')]",
       "value": "[format('https://{0}/', reference(variables('attestationSite')).defaultHostName)]"
     }
   }

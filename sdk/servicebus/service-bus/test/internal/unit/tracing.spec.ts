@@ -9,14 +9,14 @@ import {
   getTracer,
   setSpanContext,
   SpanOptions,
-  SpanStatusCode
+  SpanStatusCode,
 } from "@azure/core-tracing";
 import { TestSpan, TestTracer } from "@azure/test-utils";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
   createProcessingSpan,
-  TRACEPARENT_PROPERTY
+  TRACEPARENT_PROPERTY,
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { OperationOptionsBase, trace } from "../../../src/modelsToBeSharedWithEventHubs";
 import { setTracerForTest } from "../../public/utils/misc";
@@ -41,8 +41,8 @@ describe("Tracing tests", () => {
     tracingContext: setSpanContext(otContext.active(), {
       spanId: "my parent span id",
       traceId: "my trace id",
-      traceFlags: 0
-    })
+      traceFlags: 0,
+    }),
   };
 
   beforeEach(() => {
@@ -60,32 +60,33 @@ describe("Tracing tests", () => {
     const br = new BatchingReceiverLite(
       createConnectionContextForTests(),
       "my entity path",
-      async () => (({} as any) as Receiver),
-      "peekLock"
+      async () => ({} as any as Receiver),
+      "peekLock",
+      false
     );
 
     br["_createAndEndProcessingSpan"] = createSpanStub;
 
     br["_receiveMessagesImpl"] = (_receiver, _args, resolve, _reject) => {
-      resolve(([
+      resolve([
         {
           applicationProperties: {
-            "Diagnostic-Id": "diagnostic id 1"
-          }
+            "Diagnostic-Id": "diagnostic id 1",
+          },
         },
         {
           applicationProperties: {
-            "Diagnostic-Id": "diagnostic id 2"
-          }
-        }
-      ] as any) as ServiceBusMessageImpl[]);
+            "Diagnostic-Id": "diagnostic id 2",
+          },
+        },
+      ] as any as ServiceBusMessageImpl[]);
     };
 
     await br.receiveMessages({
       maxMessageCount: 1,
       maxTimeAfterFirstMessageInMs: 1,
       maxWaitTimeInMs: 1,
-      tracingOptions
+      tracingOptions,
     });
 
     assert.isTrue(createSpanStub.calledOnce, "create span was called");
@@ -103,8 +104,12 @@ describe("Tracing tests", () => {
       ["diagnostic id 1", "diagnostic id 2"]
     );
 
+    if (!options?.tracingOptions?.tracingContext) {
+      throw new Error("TestError: options.tracingOptions.tracingContext should have been set");
+    }
+
     assert.equal(
-      getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
+      getSpanContext(options?.tracingOptions?.tracingContext)?.spanId,
       "my parent span id",
       "Parent span should be properly passed in."
     );
@@ -132,10 +137,10 @@ describe("Tracing tests", () => {
           },
           processError: async (_err) => {
             /** Nothing to do here */
-          }
+          },
         },
         {
-          tracingOptions
+          tracingOptions,
         }
       );
 
@@ -144,11 +149,11 @@ describe("Tracing tests", () => {
       }
 
       try {
-        await messageHandlers.processMessage(({
+        await messageHandlers.processMessage({
           applicationProperties: {
-            [TRACEPARENT_PROPERTY]: "should throw"
-          }
-        } as any) as ServiceBusMessageImpl);
+            [TRACEPARENT_PROPERTY]: "should throw",
+          },
+        } as any as ServiceBusMessageImpl);
         assert.fail("Error should propagate after being traced");
       } catch (err) {
         assert.equal(err.message, "This message failed when we tried to process it");
@@ -156,15 +161,15 @@ describe("Tracing tests", () => {
 
         assert.deepEqual(span?.status, {
           code: SpanStatusCode.ERROR,
-          message: "This message failed when we tried to process it"
+          message: "This message failed when we tried to process it",
         });
       }
 
-      await messageHandlers.processMessage!(({
+      await messageHandlers.processMessage!({
         applicationProperties: {
-          [TRACEPARENT_PROPERTY]: "should NOT throw"
-        }
-      } as any) as ServiceBusMessageImpl);
+          [TRACEPARENT_PROPERTY]: "should NOT throw",
+        },
+      } as any as ServiceBusMessageImpl);
 
       const [, span] = tracer.getKnownSpans();
       assert.equal(span!.status.code, SpanStatusCode.OK);
@@ -196,35 +201,35 @@ describe("Tracing tests", () => {
         },
         processError: async (_err) => {
           /** Nothing to do here */
-        }
+        },
       },
       {
-        tracingOptions
+        tracingOptions,
       }
     );
 
     assert.exists(processMessage, "subscribe call should have called _registerMessageHandler");
 
     try {
-      await processMessage!(({
+      await processMessage!({
         applicationProperties: {
-          [TRACEPARENT_PROPERTY]: "should throw"
-        }
-      } as any) as ServiceBusMessageImpl);
+          [TRACEPARENT_PROPERTY]: "should throw",
+        },
+      } as any as ServiceBusMessageImpl);
       assert.fail("Error should propagate after being traced");
     } catch (err) {
       assert.equal(err.message, "This message failed when we tried to process it");
       assert.deepEqual(testData.span!.status, {
         code: SpanStatusCode.ERROR,
-        message: "This message failed when we tried to process it"
+        message: "This message failed when we tried to process it",
       });
     }
 
-    await processMessage!(({
+    await processMessage!({
       applicationProperties: {
-        [TRACEPARENT_PROPERTY]: "should NOT throw"
-      }
-    } as any) as ServiceBusMessageImpl);
+        [TRACEPARENT_PROPERTY]: "should NOT throw",
+      },
+    } as any as ServiceBusMessageImpl);
 
     assert.equal(testData.span!.status.code, SpanStatusCode.OK);
   });
@@ -235,13 +240,19 @@ describe("Tracing tests", () => {
    * to validate tracing.
    */
   [
-    new ServiceBusReceiverImpl(createConnectionContextForTests(), "entity path", "peekLock", 1),
+    new ServiceBusReceiverImpl(
+      createConnectionContextForTests(),
+      "entity path",
+      "peekLock",
+      1,
+      false
+    ),
     new ServiceBusSessionReceiverImpl(
       {} as MessageSession,
       createConnectionContextForTests(),
       "entity path",
       "peekLock"
-    )
+    ),
   ].forEach((receiver) => {
     it(`iterator (${receiver.constructor.name})`, async () => {
       receiver["receiveMessages"] = async (_count, options) => {
@@ -252,7 +263,7 @@ describe("Tracing tests", () => {
       };
 
       const iterator = receiver.getMessageIterator({
-        tracingOptions
+        tracingOptions,
       });
 
       try {
@@ -267,9 +278,7 @@ describe("Tracing tests", () => {
     });
   });
 
-  function stubCreateProcessingSpan(
-    receiverToStub: any
-  ): {
+  function stubCreateProcessingSpan(receiverToStub: any): {
     span?: TestSpan;
   } {
     const data: {
@@ -286,10 +295,13 @@ describe("Tracing tests", () => {
       assert.equal(config.host, "fakeHost");
       assert.isFalse(Array.isArray(messages));
 
-      assert.equal(
-        getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
-        "my parent span id"
-      );
+      if (!options?.tracingOptions?.tracingContext) {
+        throw new Error("TestError: options.tracingOptions.tracingContext should have been set");
+      }
+
+      const context = getSpanContext(options?.tracingOptions?.tracingContext);
+      assert.ok(context);
+      assert.equal(context?.spanId, "my parent span id");
 
       data.span = getTracer().startSpan("some span") as TestSpan;
       return data.span;
@@ -301,11 +313,11 @@ describe("Tracing tests", () => {
 
   describe("telemetry", () => {
     const receiverProperties = {
-      entityPath: "entityPath"
+      entityPath: "entityPath",
     };
 
     const connectionConfig = {
-      host: "thehost"
+      host: "thehost",
     };
 
     it("basic span properties are set", async () => {
@@ -313,8 +325,8 @@ describe("Tracing tests", () => {
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
-          tracingContext: setSpanContext(otContext.active(), fakeParentSpanContext)
-        }
+          tracingContext: setSpanContext(otContext.active(), fakeParentSpanContext),
+        },
       });
 
       should.equal(tracer.spanName, "Azure.ServiceBus.process");
@@ -322,13 +334,14 @@ describe("Tracing tests", () => {
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
       getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
 
-      const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.ServiceBus.process")
-        ?.attributes;
+      const attributes = tracer
+        .getActiveSpans()
+        .find((s) => s.name === "Azure.ServiceBus.process")?.attributes;
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.ServiceBus",
         "message_bus.destination": receiverProperties.entityPath,
-        "peer.address": connectionConfig.host
+        "peer.address": connectionConfig.host,
       });
     });
 
@@ -337,8 +350,8 @@ describe("Tracing tests", () => {
         body: "hello",
         enqueuedTimeUtc: new Date(),
         applicationProperties: {
-          "Diagnostic-Id": "alreadyhasdiagnosticsid"
-        }
+          "Diagnostic-Id": "alreadyhasdiagnosticsid",
+        },
       };
 
       const { message, spanContext } = instrumentMessage(alreadyInstrumentedMessage, {}, "", "");
@@ -363,7 +376,7 @@ describe("Tracing tests", () => {
       const requiredMessageProperties = {
         body: "hello",
         enqueuedTimeUtc: new Date(),
-        applicationProperties: undefined
+        applicationProperties: undefined,
       };
 
       const originalMessage = { ...requiredMessageProperties };
@@ -385,7 +398,7 @@ describe("Tracing tests", () => {
 
       // messages have been received. Now we'll create a span and link the received spans to it.
       const processingSpan = createProcessingSpan(
-        ([message] as any) as ServiceBusReceivedMessage[],
+        [message] as any as ServiceBusReceivedMessage[],
         receiverProperties,
         connectionConfig,
         {}
@@ -410,7 +423,7 @@ describe("Tracing tests", () => {
       }, span);
 
       span.status!.code.should.equal(SpanStatusCode.OK);
-      span.endCalled.should.be.ok;
+      span.endCalled.should.equal(true);
     });
 
     it("trace - throws", async () => {
@@ -422,7 +435,7 @@ describe("Tracing tests", () => {
 
       span.status!.code.should.equal(SpanStatusCode.ERROR);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
+      span.endCalled.should.equal(true);
     });
   });
 });
@@ -433,7 +446,7 @@ class TestTracer2 extends TestTracer {
   span: TestSpan | undefined;
   context: OTContext | undefined;
 
-  clearTracingData() {
+  clearTracingData(): void {
     this.spanName = undefined;
     this.spanOptions = undefined;
     this.span = undefined;

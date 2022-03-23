@@ -1,6 +1,6 @@
 # Release History
 
-## 12.8.1 (Unreleased)
+## 12.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,39 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0 (2022-03-11)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1, 12.9.0-beta.2, 12.9.0-beta.3 and 12.9.0-beta.4.
+
+## 12.9.0-beta.4 (2022-03-04)
+
+### Bugs Fixed
+
+- Fixed bug where ShareFileClient.startCopyFromURL() was not sending the ignoreReadonly parameter correctly.
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
+
+## 12.9.0-beta.3 (2022-02-11)
+
+### Features Added
+
+- Added support for service version 2021-04-10.
+- Added support for renaming a file or a directory.
+
+## 12.9.0-beta.2 (2021-12-03)
+
+### Features Added
+
+- Added support for service version 2021-02-12.
+- Added support for premium file share `provisionedBandwidthMiBps` property.
+
+## 12.9.0-beta.1 (2021-11-09)
+
+### Features Added
+
+- Added support for service version 2020-12-06.
 
 ## 12.8.0 (2021-09-10)
 
@@ -193,14 +226,14 @@
   Before this change the option is specified as
   ```js
   fileServiceClient.listShares({
-    include: ["metadata", "snapshots"]
+    include: ["metadata", "snapshots"],
   });
   ```
   After this change:
   ```js
   fileServiceClient.listShares({
     includeMetadata: true,
-    includeSnapshots: true
+    includeSnapshots: true,
   });
   ```
 
@@ -231,7 +264,7 @@
 - Added `DirectoryClient.listHandlesSegment()` and `FileClient.listHandlesSegment()` to returns a list of open handles on a directory or a file.
 - Added `DirectoryClient.forceCloseHandlesSegment()`, `FileClient.forceCloseHandlesSegment()`, `DirectoryClient.forceCloseHandle()` and `FileClient.forceCloseHandle()` to close handles.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/src/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts)
+- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples-dev/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 12.0.0-preview.2 (2019-08-01)
@@ -272,7 +305,7 @@
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).
 
-  - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
+  - Please refer to the `proxyAuth.ts` sample in the `samples/v12/typescript` folder.
 
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `FileClient`.

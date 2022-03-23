@@ -10,7 +10,7 @@ import {
   isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder
+  URLBuilder,
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -60,7 +60,7 @@ import {
   RehydratePriority,
   SequenceNumberActionType,
   BlockBlobPutBlobFromUrlResponse,
-  BlobHTTPHeaders
+  BlobHTTPHeaders,
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -80,24 +80,25 @@ import {
   ModifiedAccessConditions,
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
-  HttpAuthorization
+  HttpAuthorization,
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  rangeResponseFromModel
+  rangeResponseFromModel,
 } from "./PageBlobRangeResponse";
 import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
+  CopyPollerBlobClient,
 } from "./pollers/BlobStartCopyFromUrlPoller";
 import { Range, rangeToString } from "./Range";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
+  BlobUsesCustomerSpecifiedEncryptionMsg,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
@@ -105,7 +106,7 @@ import {
   DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
-  URLConstants
+  URLConstants,
 } from "./utils/constants";
 import { createSpan, convertTracingToRequestOptionsBase } from "./utils/tracing";
 import {
@@ -121,13 +122,13 @@ import {
   toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
-  toTags
+  toTags,
 } from "./utils/utils.common";
 import {
   fsCreateReadStream,
   fsStat,
   readStreamToLocalFile,
-  streamToBuffer
+  streamToBuffer,
 } from "./utils/utils.node";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
@@ -137,7 +138,7 @@ import { BlobLeaseClient } from "./BlobLeaseClient";
 import {
   BlobDeleteImmutabilityPolicyResponse,
   BlobSetImmutabilityPolicyResponse,
-  BlobSetLegalHoldResponse
+  BlobSetLegalHoldResponse,
 } from "./generatedModels";
 
 /**
@@ -622,6 +623,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services.
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -758,6 +763,11 @@ export interface CommonGenerateSasUrlOptions {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
@@ -977,7 +987,10 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -1001,10 +1014,8 @@ export class BlobClient extends StorageClient {
     }
 
     super(url, pipeline);
-    ({
-      blobName: this._name,
-      containerName: this._containerName
-    } = this.getBlobAndContainerNamesFromUrl());
+    ({ blobName: this._name, containerName: this._containerName } =
+      this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new StorageBlob(this.storageClientContext);
 
     this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
@@ -1147,24 +1158,24 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+          onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
         cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const wrappedRes = {
         ...res,
         _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
-        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
       // Return browser response immediately
       if (!isNode) {
@@ -1199,16 +1210,16 @@ export class BlobClient extends StorageClient {
               ifModifiedSince: options.conditions!.ifModifiedSince,
               ifNoneMatch: options.conditions!.ifNoneMatch,
               ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
-              ifTags: options.conditions?.tagConditions
+              ifTags: options.conditions?.tagConditions,
             },
             range: rangeToString({
               count: offset + res.contentLength! - start,
-              offset: start
+              offset: start,
             }),
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCRC64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
-            cpkInfo: options.customerProvidedKey
+            cpkInfo: options.customerProvidedKey,
           };
 
           // Debug purpose only
@@ -1221,7 +1232,7 @@ export class BlobClient extends StorageClient {
           return (
             await this.blobContext.download({
               abortSignal: options.abortSignal,
-              ...updatedDownloadOptions
+              ...updatedDownloadOptions,
             })
           ).readableStreamBody!;
         },
@@ -1229,13 +1240,13 @@ export class BlobClient extends StorageClient {
         res.contentLength!,
         {
           maxRetryRequests: options.maxRetryRequests,
-          onProgress: options.onProgress
+          onProgress: options.onProgress,
         }
       );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1260,20 +1271,24 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
         conditions: options.conditions,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking blob existence"
-        });
+        // Expected exception when checking blob existence
         return false;
+      } else if (
+        e.statusCode === 409 &&
+        e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg
+      ) {
+        // Expected exception when checking blob existence
+        return true;
       }
+
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1305,22 +1320,22 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       return {
         ...res,
         _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
-        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1347,14 +1362,14 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1380,23 +1395,23 @@ export class BlobClient extends StorageClient {
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a blob or snapshot only if it exists."
+          message: "Expected exception when deleting a blob or snapshot only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1417,12 +1432,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.undelete({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1459,15 +1474,15 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1500,16 +1515,16 @@ export class BlobClient extends StorageClient {
         metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1534,15 +1549,15 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
-        tags: toBlobTags(tags)
+        tags: toBlobTags(tags),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1563,20 +1578,20 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
         _response: response._response, // _response is made non-enumerable
-        tags: toTags({ blobTagSet: response.blobTagSet }) || {}
+        tags: toTags({ blobTagSet: response.blobTagSet }) || {},
       };
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1613,16 +1628,16 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1711,7 +1726,7 @@ export class BlobClient extends StorageClient {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),
       getProperties: (...args) => this.getProperties(...args),
-      startCopyFromURL: (...args) => this.startCopyFromURL(...args)
+      startCopyFromURL: (...args) => this.startCopyFromURL(...args),
     };
     const poller = new BlobBeginCopyFromUrlPoller({
       blobClient: client,
@@ -1719,7 +1734,7 @@ export class BlobClient extends StorageClient {
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
-      startCopyFromURLOptions: options
+      startCopyFromURLOptions: options,
     });
 
     // Trigger the startCopyFromURL call by calling poll.
@@ -1746,12 +1761,12 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1782,13 +1797,13 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         sourceContentMD5: options.sourceContentMD5,
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
@@ -1796,12 +1811,13 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
         legalHold: options.legalHold,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        encryptionScope: options.encryptionScope,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1831,15 +1847,15 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         rehydratePriority: options.rehydratePriority,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1941,8 +1957,8 @@ export class BlobClient extends StorageClient {
           ...options,
           tracingOptions: {
             ...options.tracingOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions)
-          }
+            ...convertTracingToRequestOptionsBase(updatedOptions),
+          },
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -1985,8 +2001,8 @@ export class BlobClient extends StorageClient {
             customerProvidedKey: options.customerProvidedKey,
             tracingOptions: {
               ...options.tracingOptions,
-              ...convertTracingToRequestOptionsBase(updatedOptions)
-            }
+              ...convertTracingToRequestOptionsBase(updatedOptions),
+            },
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -2004,7 +2020,7 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2040,8 +2056,8 @@ export class BlobClient extends StorageClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+          ...convertTracingToRequestOptionsBase(updatedOptions),
+        },
       });
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
@@ -2053,7 +2069,7 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2142,14 +2158,14 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-          sourceIfTags: options.sourceConditions.tagConditions
+          sourceIfTags: options.sourceConditions.tagConditions,
         },
         immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
@@ -2158,12 +2174,12 @@ export class BlobClient extends StorageClient {
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         sealBlob: options.sealBlob,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2196,7 +2212,7 @@ export class BlobClient extends StorageClient {
           blobName: this._name,
           snapshotTime: this._snapshot,
           versionId: this._versionId,
-          ...options
+          ...options,
         },
         this.credential
       ).toString();
@@ -2217,12 +2233,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.deleteImmutabilityPolicy({
         abortSignal: options?.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2246,12 +2262,12 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
         immutabilityPolicyMode: immutabilityPolicy.policyMode,
         modifiedAccessConditions: options?.modifiedAccessCondition,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2272,12 +2288,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setLegalHold(legalHoldEnabled, {
         abortSignal: options?.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2637,7 +2653,11 @@ export class AppendBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -2709,7 +2729,7 @@ export class AppendBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -2717,12 +2737,12 @@ export class AppendBlobClient extends BlobClient {
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
         legalHold: options.legalHold,
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2745,29 +2765,29 @@ export class AppendBlobClient extends BlobClient {
     try {
       const res = await this.create({
         ...updatedOptions,
-        conditions
+        conditions,
       });
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist."
+          message: "Expected exception when creating a blob only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2790,14 +2810,14 @@ export class AppendBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2845,21 +2865,21 @@ export class AppendBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2902,23 +2922,23 @@ export class AppendBlobClient extends BlobClient {
         appendPositionAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3641,7 +3661,11 @@ export class BlockBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -3736,24 +3760,24 @@ export class BlockBlobClient extends BlobClient {
           queryType: "SQL",
           expression: query,
           inputSerialization: toQuerySerialization(options.inputTextConfiguration),
-          outputSerialization: toQuerySerialization(options.outputTextConfiguration)
+          outputSerialization: toQuerySerialization(options.outputTextConfiguration),
         },
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,
         onProgress: options.onProgress,
-        onError: options.onError
+        onError: options.onError,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3804,10 +3828,10 @@ export class BlockBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -3816,12 +3840,12 @@ export class BlockBlobClient extends BlobClient {
         legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3862,25 +3886,25 @@ export class BlockBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions.tagConditions
+          ifTags: options.conditions.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions?.ifMatch,
           sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
-          sourceIfTags: options.sourceConditions?.tagConditions
+          sourceIfTags: options.sourceConditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3912,18 +3936,18 @@ export class BlockBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3971,12 +3995,12 @@ export class BlockBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4013,7 +4037,7 @@ export class BlockBlobClient extends BlobClient {
           metadata: options.metadata,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
@@ -4022,13 +4046,13 @@ export class BlockBlobClient extends BlobClient {
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4057,9 +4081,9 @@ export class BlockBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       if (!res.committedBlocks) {
@@ -4074,7 +4098,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4132,7 +4156,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4174,7 +4198,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4262,29 +4286,27 @@ export class BlockBlobClient extends BlobClient {
 
       const batch = new Batch(options.concurrency);
       for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const blockID = generateBlockID(blockIDPrefix, i);
-            const start = options.blockSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.blockSize!;
-            const contentLength = end - start;
-            blockList.push(blockID);
-            await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
-              abortSignal: options.abortSignal,
-              conditions: options.conditions,
-              encryptionScope: options.encryptionScope,
-              tracingOptions: updatedOptions.tracingOptions
+        batch.addOperation(async (): Promise<any> => {
+          const blockID = generateBlockID(blockIDPrefix, i);
+          const start = options.blockSize! * i;
+          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+          const contentLength = end - start;
+          blockList.push(blockID);
+          await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
+            abortSignal: options.abortSignal,
+            conditions: options.conditions,
+            encryptionScope: options.encryptionScope,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          // TODO: Hook with convenience layer progress event in finer level
+          transferProgress += contentLength;
+          if (options.onProgress) {
+            options.onProgress!({
+              loadedBytes: transferProgress,
             });
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            // TODO: Hook with convenience layer progress event in finer level
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress!({
-                loadedBytes: transferProgress
-              });
-            }
           }
-        );
+        });
       }
       await batch.do();
 
@@ -4292,7 +4314,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4326,7 +4348,7 @@ export class BlockBlobClient extends BlobClient {
             fsCreateReadStream(filePath, {
               autoClose: true,
               end: count ? offset + count - 1 : Infinity,
-              start: offset
+              start: offset,
             });
         },
         size,
@@ -4334,14 +4356,14 @@ export class BlockBlobClient extends BlobClient {
           ...options,
           tracingOptions: {
             ...options!.tracingOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions)
-          }
+            ...convertTracingToRequestOptionsBase(updatedOptions),
+          },
         }
       );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4398,7 +4420,7 @@ export class BlockBlobClient extends BlobClient {
           await this.stageBlock(blockID, body, length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -4419,13 +4441,13 @@ export class BlockBlobClient extends BlobClient {
         ...options,
         tracingOptions: {
           ...options!.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+          ...convertTracingToRequestOptionsBase(updatedOptions),
+        },
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4887,7 +4909,11 @@ export class PageBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -4957,7 +4983,7 @@ export class PageBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -4966,12 +4992,12 @@ export class PageBlobClient extends BlobClient {
         legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4998,29 +5024,29 @@ export class PageBlobClient extends BlobClient {
       const res = await this.create(size, {
         ...options,
         conditions,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist."
+          message: "Expected exception when creating a blob only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5053,10 +5079,10 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
@@ -5064,12 +5090,12 @@ export class PageBlobClient extends BlobClient {
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5113,24 +5139,24 @@ export class PageBlobClient extends BlobClient {
           sequenceNumberAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           sourceModifiedAccessConditions: {
             sourceIfMatch: options.sourceConditions.ifMatch,
             sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
             sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5160,18 +5186,18 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5202,16 +5228,16 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5245,17 +5271,17 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5292,17 +5318,17 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5330,15 +5356,15 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5369,14 +5395,14 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5407,14 +5433,14 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

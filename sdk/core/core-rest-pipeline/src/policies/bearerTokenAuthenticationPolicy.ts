@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AzureLogger } from "@azure/logger";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { createTokenCycler } from "../util/tokenCycler";
 
@@ -27,6 +28,10 @@ export interface AuthorizeRequestOptions {
    * Request that the policy is trying to fulfill.
    */
   request: PipelineRequest;
+  /**
+   * A logger, if one was sent through the HTTP pipeline.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -49,6 +54,10 @@ export interface AuthorizeRequestOnChallengeOptions {
    * Response containing the challenge.
    */
   response: PipelineResponse;
+  /**
+   * A logger, if one was sent through the HTTP pipeline.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -86,6 +95,10 @@ export interface BearerTokenAuthenticationPolicyOptions {
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
   challengeCallbacks?: ChallengeCallbacks;
+  /**
+   * A logger can be sent for debugging purposes.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -95,7 +108,7 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
-    tracingOptions: request.tracingOptions
+    tracingOptions: request.tracingOptions,
   };
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
@@ -123,12 +136,12 @@ function getChallenge(response: PipelineResponse): string | undefined {
 export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
-  const { credential, scopes, challengeCallbacks } = options;
+  const { credential, scopes, challengeCallbacks, logger } = options;
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
     // keep all other properties
-    ...challengeCallbacks
+    ...challengeCallbacks,
   };
 
   // This function encapsulates the entire process of reliably retrieving the token
@@ -164,7 +177,8 @@ export function bearerTokenAuthenticationPolicy(
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
-        getAccessToken
+        getAccessToken,
+        logger,
       });
 
       let response: PipelineResponse;
@@ -186,7 +200,8 @@ export function bearerTokenAuthenticationPolicy(
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
           response,
-          getAccessToken
+          getAccessToken,
+          logger,
         });
 
         if (shouldSendRequest) {
@@ -199,6 +214,6 @@ export function bearerTokenAuthenticationPolicy(
       } else {
         return response;
       }
-    }
+    },
   };
 }

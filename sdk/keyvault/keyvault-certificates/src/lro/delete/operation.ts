@@ -6,11 +6,11 @@ import { OperationOptions } from "@azure/core-http";
 import {
   DeleteCertificateOptions,
   DeletedCertificate,
-  GetDeletedCertificateOptions
+  GetDeletedCertificateOptions,
 } from "../../certificatesModels";
 import {
   KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";

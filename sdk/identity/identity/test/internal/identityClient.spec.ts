@@ -6,34 +6,22 @@ import { isNode } from "@azure/core-util";
 import {
   getIdentityClientAuthorityHost,
   IdentityClient,
-  TokenResponse
+  TokenResponse,
 } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
 import { isExpectedError } from "../authTestUtils";
 import { PlaybackTenantId } from "../msalTestUtils";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests,
-  SendIndividualRequest,
-  SendIndividualRequestAndGetError
-} from "../httpRequestsCommon";
-import { prepareIdentityTests, prepareMSALResponses } from "../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../httpRequestsCommon";
+import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
 
-describe("IdentityClient", function() {
-  let testContext: IdentityTestContext;
-  let sendIndividualRequest: SendIndividualRequest;
-  let sendIndividualRequestAndGetError: SendIndividualRequestAndGetError;
-  let sendCredentialRequests: SendCredentialRequests;
+describe("IdentityClient", function () {
+  let testContext: IdentityTestContextInterface;
 
-  beforeEach(async function() {
-    testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
-    sendIndividualRequest = testContext.sendIndividualRequest;
-    sendIndividualRequestAndGetError = testContext.sendIndividualRequestAndGetError;
-    sendCredentialRequests = testContext.sendCredentialRequests;
+  beforeEach(async function () {
+    testContext = new IdentityTestContext({ replaceLogger: true, logLevel: "verbose" });
   });
-  afterEach(async function() {
+  afterEach(async function () {
     if (isNode) {
       delete process.env.AZURE_AUTHORITY_HOST;
     }
@@ -41,15 +29,15 @@ describe("IdentityClient", function() {
   });
 
   it("throws an exception if the credential is not available (can't resolve discovery endpoint)", async () => {
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
       secureResponses: [
         createResponse(400, {
           error: "test_error",
-          error_description: "This is a test error"
-        })
-      ]
+          error_description: "This is a test error",
+        }),
+      ],
     });
     if (isNode) {
       assert.strictEqual(error!.name, "CredentialUnavailableError");
@@ -62,16 +50,16 @@ describe("IdentityClient", function() {
   });
 
   it("throws an exception when an authentication request fails", async () => {
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
       credential: new ClientSecretCredential("adfs", "client", "secret"),
       secureResponses: [
         ...prepareMSALResponses(),
         createResponse(400, {
           error: "test_error",
-          error_description: "This is a test error"
-        })
-      ]
+          error_description: "This is a test error",
+        }),
+      ],
     });
     if (isNode) {
       assert.strictEqual(error!.name, "AuthenticationRequiredError");
@@ -101,7 +89,7 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("parses authority host environment variable as expected", function(this: Context) {
+  it("parses authority host environment variable as expected", function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -110,7 +98,7 @@ describe("IdentityClient", function() {
     return;
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -138,10 +126,10 @@ describe("IdentityClient", function() {
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const credential = new ClientSecretCredential("adfs", "client", "secret");
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential,
-      secureResponses: [...prepareMSALResponses(), createResponse(300)]
+      secureResponses: [...prepareMSALResponses(), createResponse(300)],
     });
     if (isNode) {
       assert.strictEqual(error?.name, "AuthenticationRequiredError");
@@ -154,7 +142,7 @@ describe("IdentityClient", function() {
     }
   });
 
-  it("parses authority host environment variable as expected", function(this: Context) {
+  it("parses authority host environment variable as expected", function (this: Context) {
     if (!isNode) {
       return this.skip();
     }
@@ -163,13 +151,13 @@ describe("IdentityClient", function() {
     return;
   });
 
-  it("returns null when the token refresh request returns an 'interaction_required' error", async function(this: Context) {
+  it("returns null when the token refresh request returns an 'interaction_required' error", async function (this: Context) {
     const client = new IdentityClient({ authorityHost: "https://authority" });
     const response = createResponse(401, {
       error: "interaction_required",
-      error_description: "Interaction required"
+      error_description: "Interaction required",
     });
-    const tokenResponse = await sendIndividualRequest<TokenResponse>(async () => {
+    const tokenResponse = await testContext.sendIndividualRequest<TokenResponse>(async () => {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);
 
@@ -179,7 +167,7 @@ describe("IdentityClient", function() {
       /.*azure:identity:info.*IdentityClient: refreshing access token with client ID: client, scopes: scopes started.*/,
       /.*azure:identity:info.*IdentityClient: sending token request to \[https:\/\/authority\/tenant\/oauth2\/v2.0\/token\].*/,
       /.*azure:identity:warning.*IdentityClient: authentication error. HTTP status: 401, Interaction required.*/,
-      /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/
+      /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/,
     ];
 
     const logMessages = testContext.logMessages.filter(
@@ -198,9 +186,9 @@ describe("IdentityClient", function() {
     const client = new IdentityClient();
     const response = createResponse(300, {
       error: "unknown_error",
-      error_description: "This error shouldn't be happening."
+      error_description: "This error shouldn't be happening.",
     });
-    const error = await sendIndividualRequestAndGetError(async () => {
+    const error = await testContext.sendIndividualRequestAndGetError(async () => {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);
     isExpectedError("unknown_error")(error);

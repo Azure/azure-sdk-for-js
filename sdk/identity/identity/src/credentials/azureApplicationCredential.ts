@@ -5,7 +5,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
@@ -34,7 +34,7 @@ interface AzureApplicationCredentialConstructor {
 
 export const AzureApplicationCredentials: AzureApplicationCredentialConstructor[] = [
   EnvironmentCredential,
-  DefaultManagedIdentityCredential
+  DefaultManagedIdentityCredential,
 ];
 
 /**
@@ -46,8 +46,7 @@ export class AzureApplicationCredential extends ChainedTokenCredential {
    * Creates an instance of the AzureApplicationCredential class.
    *
    * The AzureApplicationCredential provides a default {@link ChainedTokenCredential} configuration that should
-   * work for most applications that use the Azure SDK.  The following credential
-   * types will be tried, in order:
+   * work for most applications deployed on Azure. The following credential types will be tried, in order:
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}

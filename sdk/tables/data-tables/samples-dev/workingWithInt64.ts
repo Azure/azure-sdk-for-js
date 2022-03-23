@@ -37,7 +37,7 @@ async function workingWithInt64() {
     rowKey: "1",
     // To work with Int64 we need to use an object that includes
     // the value as a string and a notation of the type, in this case Int64
-    foo: { value: "12345", type: "Int64" }
+    foo: { value: "12345", type: "Int64" },
   });
 
   const entity = await client.getEntity<FooEntity>("p1", "1", { disableTypeConversion: true });

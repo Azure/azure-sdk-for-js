@@ -9,11 +9,11 @@ import {
   MetricChangePointFeedback,
   MetricCommentFeedback,
   MetricPeriodFeedback,
-  MetricsAdvisorClient
+  MetricsAdvisorClient,
 } from "../../src";
 import { createRecordedAdvisorClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "./util/matrix";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -21,34 +21,34 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(function(this: Context) {
+      beforeEach(function (this: Context) {
         ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 
-      afterEach(async function() {
+      afterEach(async function () {
         if (recorder) {
           await recorder.stop();
         }
       });
 
-      it("listAnomaliesForDetectionConfiguration()", async function() {
+      it("listAnomaliesForDetectionConfiguration()", async function () {
         const iterator = client.listAnomaliesForDetectionConfiguration(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          new Date(Date.UTC(2020, 0, 5)),
-          new Date(Date.UTC(2020, 10, 5))
+          new Date(Date.UTC(2021, 4, 5)),
+          new Date(Date.UTC(2021, 10, 1))
         );
-        let result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting first anomaly");
-        result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting second anomaly");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting first anomaly");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting second anomaly");
       });
 
-      it("listAnomaliesForDetectionConfiguration() by page", async function() {
+      it("listAnomaliesForDetectionConfiguration() by page", async function () {
         const iterator = client
           .listAnomaliesForDetectionConfiguration(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-            new Date(Date.UTC(2020, 0, 5)),
-            new Date(Date.UTC(2020, 10, 5))
+            new Date(Date.UTC(2021, 4, 5)),
+            new Date(Date.UTC(2021, 10, 1))
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -57,19 +57,19 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 2, "Expecting two anomalies in second page");
       });
 
-      it("listAnomaliesForDetectionConfiguration() with datetime strings", async function() {
+      it("listAnomaliesForDetectionConfiguration() with datetime strings", async function () {
         const iterator = client.listAnomaliesForDetectionConfiguration(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          "2020-01-05T00:00:00.000Z",
-          "2020-11-05T00:00:00.000Z"
+          "2021-05-05T00:00:00.000Z",
+          "2021-11-01T00:00:00.000Z"
         );
-        let result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting first anomaly");
-        result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting second anomaly");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting first anomaly");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting second anomaly");
       });
 
-      it("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async function() {
+      it("listAnomaliesForDetectionConfiguration() throws for invalid datetime strings", async function () {
         try {
           const iterator = client.listAnomaliesForDetectionConfiguration(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -79,28 +79,31 @@ matrix([[true, false]] as const, async (useAad) => {
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
         } catch (err) {
-          assert.equal(err.message, "Invalid time value");
+          assert.equal(
+            err.message,
+            'Error "Invalid time value" occurred in serializing the payload - undefined.'
+          );
         }
       });
 
-      it("listIncidentsForDetectionConfiguration()", async function() {
+      it("listIncidentsForDetectionConfiguration()", async function () {
         const iterator = client.listIncidentsForDetectionConfiguration(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          new Date(Date.UTC(2020, 0, 5)),
-          new Date(Date.UTC(2020, 10, 5))
+          new Date(Date.UTC(2021, 4, 5)),
+          new Date(Date.UTC(2021, 10, 1))
         );
-        let result = await iterator.next();
-        assert.ok(result.value.rootDimensionKey, "Expecting first incident");
-        result = await iterator.next();
-        assert.ok(result.value.rootDimensionKey, "Expecting second incident");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.rootDimensionKey, "Expecting first incident");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.rootDimensionKey, "Expecting second incident");
       });
 
-      it("listIncidentsForDetectionConfiguration() by page", async function() {
+      it("listIncidentsForDetectionConfiguration() by page", async function () {
         const iterator = client
           .listIncidentsForDetectionConfiguration(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-            new Date(Date.UTC(2020, 0, 5)),
-            new Date(Date.UTC(2020, 10, 5))
+            new Date(Date.UTC(2021, 4, 5)),
+            new Date(Date.UTC(2021, 10, 1))
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -109,19 +112,19 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 2, "Expecting two incidents in second page");
       });
 
-      it("listIncidentsForDetectionConfiguration() with datetime strings", async function() {
+      it("listIncidentsForDetectionConfiguration() with datetime strings", async function () {
         const iterator = client.listIncidentsForDetectionConfiguration(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          "2020-01-05T00:00:00.000Z",
-          "2020-11-05T00:00:00.000Z"
+          "2021-05-05T00:00:00.000Z",
+          "2021-11-01T00:00:00.000Z"
         );
-        let result = await iterator.next();
-        assert.ok(result.value.rootDimensionKey, "Expecting first incident");
-        result = await iterator.next();
-        assert.ok(result.value.rootDimensionKey, "Expecting second incident");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.rootDimensionKey, "Expecting first incident");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.rootDimensionKey, "Expecting second incident");
       });
 
-      it("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async function() {
+      it("listIncidentsForDetectionConfiguration() throws for invalid datetime string", async function () {
         try {
           const iterator = client.listIncidentsForDetectionConfiguration(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
@@ -135,12 +138,12 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       });
 
-      it("listAnomalyDimensionValues()", async function() {
+      it("listAnomalyDimensionValues()", async function () {
         const iterator = client.listAnomalyDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          new Date(Date.UTC(2020, 0, 5)),
-          new Date(Date.UTC(2020, 10, 5)),
-          "city"
+          new Date(Date.UTC(2021, 4, 5)),
+          new Date(Date.UTC(2021, 10, 1)),
+          "category"
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -148,12 +151,12 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listAnomalyDimensionValues() with datetime strings", async function() {
+      it("listAnomalyDimensionValues() with datetime strings", async function () {
         const iterator = client.listAnomalyDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-          "2020-01-05T00:00:00.000Z",
-          "2020-11-05T00:00:00.000Z",
-          "city"
+          "2021-01-05T00:00:00.000Z",
+          "2021-11-05T00:00:00.000Z",
+          "category"
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -161,13 +164,13 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listAnomalyDimensionValues() by page", async function() {
+      it("listAnomalyDimensionValues() by page", async function () {
         const iterator = client
           .listAnomalyDimensionValues(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
-            new Date(Date.UTC(2020, 0, 5)),
-            new Date(Date.UTC(2020, 10, 5)),
-            "city"
+            new Date(Date.UTC(2021, 4, 5)),
+            new Date(Date.UTC(2021, 10, 1)),
+            "category"
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -176,38 +179,38 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 2, "Expecting two dimension values in second page");
       });
 
-      it("lists alerts for alert configuration", async function() {
+      it("lists alerts for alert configuration", async function () {
         const iterator = client.listAlerts(
           testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-          new Date(Date.UTC(2020, 10, 1)),
-          new Date(Date.UTC(2020, 10, 5)),
+          new Date(Date.UTC(2021, 4, 5)),
+          new Date(Date.UTC(2021, 10, 1)),
           "AnomalyTime"
         );
-        let result = await iterator.next();
-        assert.ok(result.value.id, "Expecting first alert");
-        result = await iterator.next();
-        assert.ok(result.value.id, "Expecting second alert");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.id, "Expecting first alert");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.id, "Expecting second alert");
       });
 
-      it("lists alerts for alert configuration with datetime strings", async function() {
+      it("lists alerts for alert configuration with datetime strings", async function () {
         const iterator = client.listAlerts(
           testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-          "2020-11-01T00:00:00.000Z",
-          "2020-11-05T00:00:00.000Z",
+          "2021-05-05T00:00:00.000Z",
+          "2021-11-01T00:00:00.000Z",
           "AnomalyTime"
         );
-        let result = await iterator.next();
-        assert.ok(result.value.id, "Expecting first alert");
-        result = await iterator.next();
-        assert.ok(result.value.id, "Expecting second alert");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.id, "Expecting first alert");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.id, "Expecting second alert");
       });
 
-      it("lists alerts for alert configuration by page", async function() {
+      it("lists alerts for alert configuration by page", async function () {
         const iterator = client
           .listAlerts(
             testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-            new Date(Date.UTC(2020, 10, 1)),
-            new Date(Date.UTC(2020, 10, 5)),
+            new Date(Date.UTC(2021, 4, 5)),
+            new Date(Date.UTC(2021, 10, 1)),
             "AnomalyTime"
           )
           .byPage({ maxPageSize: 1 });
@@ -217,22 +220,22 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 1, "Expecting one alert in second page");
       });
 
-      it("lists anomalies for alert", async function() {
+      it("lists anomalies for alert", async function () {
         const iterator = client.listAnomaliesForAlert({
           alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-          id: testEnv.METRICS_ADVISOR_ALERT_ID
+          id: testEnv.METRICS_ADVISOR_ALERT_ID,
         });
-        let result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting first anomaly");
-        result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting second anomaly");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting first anomaly");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting second anomaly");
       });
 
-      it("lists anomalies for alert by page", async function() {
+      it("lists anomalies for alert by page", async function () {
         const iterator = client
           .listAnomaliesForAlert({
             alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-            id: testEnv.METRICS_ADVISOR_ALERT_ID
+            id: testEnv.METRICS_ADVISOR_ALERT_ID,
           })
           .byPage({ maxPageSize: 1 });
         let result = await iterator.next();
@@ -241,22 +244,22 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 1, "Expecting one anomaly in second page");
       });
 
-      it("lists incidents for alert", async function() {
+      it("lists incidents for alert", async function () {
         const iterator = client.listIncidentsForAlert({
           alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-          id: testEnv.METRICS_ADVISOR_ALERT_ID
+          id: testEnv.METRICS_ADVISOR_ALERT_ID,
         });
-        let result = await iterator.next();
-        assert.ok(result.value.id, "Expecting first incident");
-        result = await iterator.next();
-        assert.ok(result.value.id, "Expecting second incident");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.id, "Expecting first incident");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.id, "Expecting second incident");
       });
 
-      it("lists incidents for alert by page", async function() {
+      it("lists incidents for alert by page", async function () {
         const iterator = client
           .listIncidentsForAlert({
             alertConfigId: testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
-            id: testEnv.METRICS_ADVISOR_ALERT_ID
+            id: testEnv.METRICS_ADVISOR_ALERT_ID,
           })
           .byPage({ maxPageSize: 1 });
         let result = await iterator.next();
@@ -265,33 +268,33 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 1, "Expecting one incident in second page");
       });
 
-      it("listMetricSeriesDefinitions()", async function() {
+      it("listMetricSeriesDefinitions()", async function () {
         const iterator = client.listMetricSeriesDefinitions(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          new Date(Date.UTC(2020, 7, 5))
+          new Date(Date.UTC(2021, 7, 5))
         );
-        let result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting first definition");
-        result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting second definition");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting first definition");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting second definition");
       });
 
-      it("listMetricSeriesDefinitions() with datetime string", async function() {
+      it("listMetricSeriesDefinitions() with datetime string", async function () {
         const iterator = client.listMetricSeriesDefinitions(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          "2020-08-05T00:00:00.000Z"
+          "2021-08-05T00:00:00.000Z"
         );
-        let result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting first definition");
-        result = await iterator.next();
-        assert.ok(result.value.seriesKey, "Expecting second definition");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting first definition");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.seriesKey, "Expecting second definition");
       });
 
-      it("listMetricSeriesDefinitions() by page", async function() {
+      it("listMetricSeriesDefinitions() by page", async function () {
         const iterator = client
           .listMetricSeriesDefinitions(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-            new Date(Date.UTC(2020, 7, 5))
+            new Date(Date.UTC(2021, 7, 5))
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -300,10 +303,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 2, "Expecting two definitions in second page");
       });
 
-      it("listMetricDimensionValues()", async function() {
+      it("listMetricDimensionValues()", async function () {
         const iterator = client.listMetricDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          "city"
+          "category"
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -311,9 +314,12 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listMetricDimensionValues() by page", async function() {
+      it("listMetricDimensionValues() by page", async function () {
         const iterator = client
-          .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, "city")
+          .listMetricDimensionValues(
+            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
+            "category"
+          )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
         assert.equal(result.value.length, 2, "Expecting two dimension values in first page");
@@ -321,15 +327,15 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 2, "Expecting two dimension values in second page");
       });
 
-      it("lists series data for a metric", async function() {
+      it("lists series data for a metric", async function () {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { city: "Cairo", category: "Home & Garden" }
+            { region: "Delhi", category: "Handmade" },
+            { region: "Cairo", category: "Home & Garden" },
           ],
-          new Date(Date.UTC(2020, 7, 5)),
-          new Date(Date.UTC(2020, 8, 5))
+          new Date(Date.UTC(2021, 7, 5)),
+          new Date(Date.UTC(2021, 11, 5))
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
@@ -337,8 +343,8 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
-          city: "Manila",
-          category: "Shoes Handbags & Sunglasses"
+          region: "Delhi",
+          category: "Handmade",
         });
 
         assert.ok(
@@ -354,8 +360,8 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![1].definition.seriesKey, {
-          city: "Cairo",
-          category: "Home & Garden"
+          region: "Cairo",
+          category: "Home & Garden",
         });
 
         assert.ok(
@@ -367,15 +373,15 @@ matrix([[true, false]] as const, async (useAad) => {
         );
       });
 
-      it("lists series data for a metric with datetime strings", async function() {
+      it("lists series data for a metric with datetime strings", async function () {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { city: "Cairo", category: "Home & Garden" },
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" }
+            { category: "Home & Garden", region: "Cairo" },
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
           ],
-          "2020-08-05T00:00:00.000Z",
-          "2020-09-05T00:00:00.000Z"
+          "2021-08-05T00:00:00.000Z",
+          "2021-09-05T00:00:00.000Z"
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
@@ -383,8 +389,8 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
-          city: "Cairo",
-          category: "Home & Garden"
+          region: "Cairo",
+          category: "Home & Garden",
         });
 
         assert.ok(
@@ -396,21 +402,21 @@ matrix([[true, false]] as const, async (useAad) => {
         );
       });
 
-      it("list enriched data for a detection configuration", async function() {
+      it.skip("list enriched data for a detection configuration", async function () {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           [
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { city: "Cairo", category: "Home & Garden" }
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
+            { category: "Home & Garden", region: "Cairo" },
           ],
-          new Date(Date.UTC(2020, 7, 1)),
-          new Date(Date.UTC(2020, 7, 27))
+          new Date(Date.UTC(2021, 7, 1)),
+          new Date(Date.UTC(2021, 7, 27))
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
         assert.deepStrictEqual(data![0].seriesKey, {
-          city: "Manila",
-          category: "Shoes Handbags & Sunglasses"
+          region: "Manila",
+          category: "Shoes Handbags & Sunglasses",
         });
 
         assert.ok(
@@ -424,8 +430,8 @@ matrix([[true, false]] as const, async (useAad) => {
         );
 
         assert.deepStrictEqual(data![1].seriesKey, {
-          city: "Cairo",
-          category: "Home & Garden"
+          region: "Cairo",
+          category: "Home & Garden",
         });
 
         assert.ok(
@@ -439,54 +445,54 @@ matrix([[true, false]] as const, async (useAad) => {
         );
       });
 
-      it("list enriched data for a detection configuration with datetime strings", async function() {
+      it.skip("list enriched data for a detection configuration with datetime strings", async function () {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           [
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { city: "Cairo", category: "Home & Garden" }
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
+            { category: "Home & Garden", region: "Cairo" },
           ],
-          "2020-08-01T00:00:00.000Z",
-          "2020-08-27T00:00:00.000Z"
+          "2021-08-01T00:00:00.000Z",
+          "2021-08-27T00:00:00.000Z"
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
         assert.deepStrictEqual(data![0].seriesKey, {
-          city: "Manila",
-          category: "Shoes Handbags & Sunglasses"
+          region: "Manila",
+          category: "Shoes Handbags & Sunglasses",
         });
       });
 
-      it("list metric enrichment status", async function() {
+      it("list metric enrichment status", async function () {
         const iterator = client.listMetricEnrichmentStatus(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          new Date(Date.UTC(2020, 0, 1)),
-          new Date(Date.UTC(2020, 8, 18))
+          new Date(Date.UTC(2021, 0, 1)),
+          new Date(Date.UTC(2021, 8, 18))
         );
-        let result = await iterator.next();
-        assert.ok(result.value.status, "Expecting first status");
-        result = await iterator.next();
-        assert.ok(result.value.status, "Expecting second status");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.status, "Expecting first status");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.status, "Expecting second status");
       });
 
-      it("list metric enrichment status with datetime strings", async function() {
+      it("list metric enrichment status with datetime strings", async function () {
         const iterator = client.listMetricEnrichmentStatus(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          "2020-01-01T00:00:00.000Z",
-          "2020-09-18T00:00:00.000Z"
+          "2021-01-01T00:00:00.000Z",
+          "2021-09-18T00:00:00.000Z"
         );
-        let result = await iterator.next();
-        assert.ok(result.value.status, "Expecting first status");
-        result = await iterator.next();
-        assert.ok(result.value.status, "Expecting second status");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.status, "Expecting first status");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.status, "Expecting second status");
       });
 
-      it("list metric enrichment status by page", async function() {
+      it("list metric enrichment status by page", async function () {
         const iterator = client
           .listMetricEnrichmentStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-            new Date(Date.UTC(2020, 0, 1)),
-            new Date(Date.UTC(2020, 10, 5))
+            new Date(Date.UTC(2021, 0, 1)),
+            new Date(Date.UTC(2021, 10, 5))
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -495,7 +501,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(result.value.length, 2, "Expecting two results in second page");
       });
 
-      it("gets root causes of an incident", async function() {
+      it("gets root causes of an incident", async function () {
         const result = await client.getIncidentRootCauses(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID
@@ -506,24 +512,24 @@ matrix([[true, false]] as const, async (useAad) => {
           "Expecting non empty root cause list"
         );
         const first = result.rootCauses[0];
-        assert.deepStrictEqual(first.path, ["city"]);
+        assert.deepStrictEqual(first.path, ["category"]);
         assert.ok(first.score, "Expecting score");
         assert.equal(
           first.description,
-          "Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident."
+          "Increase on region = Beijing | category = Handmade contributes the most to current incident."
         );
       });
 
-      describe("Feedback", async function() {
+      (useAad ? describe.skip : describe)("Feedback", async function () {
         let createdFeedbackId: string;
-        it("creates Anomaly feedback", async function() {
+        it("creates Anomaly feedback", async function () {
           const anomalyFeedback: MetricAnomalyFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Anomaly",
-            startTime: new Date(Date.UTC(2020, 7, 5)),
-            endTime: new Date(Date.UTC(2020, 7, 7)),
+            startTime: new Date(Date.UTC(2021, 7, 5)),
+            endTime: new Date(Date.UTC(2021, 7, 7)),
             value: "NotAnomaly",
-            dimensionKey: { city: "Cairo", category: "Home & Garden" }
+            dimensionKey: { category: "Home & Garden", region: "Cairo" },
           };
           const actual = await client.addFeedback(anomalyFeedback);
 
@@ -535,16 +541,17 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates ChangePoint feedback", async function() {
+        // Skipped due to potential errors on service side
+        // Issue - https://github.com/Azure/azure-sdk-for-js/issues/19747
+        it.skip("creates ChangePoint feedback", async function () {
           const changePointFeedback: MetricChangePointFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "ChangePoint",
-            startTime: new Date(Date.UTC(2020, 7, 5)),
+            startTime: new Date(Date.UTC(2021, 7, 5)),
             value: "ChangePoint",
-            dimensionKey: { city: "Cairo", category: "Home & Garden" }
+            dimensionKey: { category: "Home & Garden", region: "Cairo" },
           };
           const actual = await client.addFeedback(changePointFeedback);
-
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "ChangePoint");
@@ -553,13 +560,15 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates Period feedback", async function() {
+        // Skipped due to potential errors on service side
+        // Issue - https://github.com/Azure/azure-sdk-for-js/issues/19747
+        it.skip("creates Period feedback", async function () {
           const periodFeedback: MetricPeriodFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Period",
             periodType: "AutoDetect",
             periodValue: 4,
-            dimensionKey: { city: "Cairo", category: "Home & Garden" }
+            dimensionKey: { category: "Home & Garden", region: "Cairo" },
           };
           const actual = await client.addFeedback(periodFeedback);
 
@@ -572,12 +581,12 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates Comment feedback", async function() {
+        it("creates Comment feedback", async function () {
           const expectedCommentFeedback: MetricCommentFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Comment",
-            dimensionKey: { city: "Cairo", category: "Home & Garden" },
-            comment: "This is a comment"
+            dimensionKey: { category: "Home & Garden", region: "Cairo" },
+            comment: "This is a comment",
           };
 
           const actual = await client.addFeedback(expectedCommentFeedback);
@@ -590,7 +599,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves Comment feedback", async function() {
+        it("retrieves Comment feedback", async function () {
           const actual = await client.getFeedback(createdFeedbackId);
 
           assert.ok(actual.id, "Expecting valid feedback");
@@ -601,42 +610,41 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        // service issue, skipping for now
-        it("lists Anomaly feedbacks", async function() {
+        it("lists Anomaly feedbacks", async function () {
           const iterator = client.listFeedback(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             {
               filter: {
-                startTime: new Date(Date.UTC(2020, 10, 1)),
-                endTime: new Date(Date.UTC(2020, 10, 5)),
-                timeMode: "FeedbackCreatedTime"
-              }
+                startTime: new Date(Date.UTC(2021, 10, 1)),
+                endTime: new Date(Date.UTC(2021, 10, 5)),
+                timeMode: "FeedbackCreatedTime",
+              },
             }
           );
-          let result = await iterator.next();
-          assert.ok(result.value.id, "Expecting first status");
-          result = await iterator.next();
-          assert.ok(result.value.id, "Expecting second status");
+          let result = getYieldedValue(await iterator.next());
+          assert.ok(result.id, "Expecting first status");
+          result = getYieldedValue(await iterator.next());
+          assert.ok(result.id, "Expecting second status");
         });
 
-        it("lists Anomaly feedbacks with datetime strings", async function() {
+        it("lists Anomaly feedbacks with datetime strings", async function () {
           const iterator = client.listFeedback(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             {
               filter: {
-                startTime: "2020-11-01T00:00:00.000Z",
-                endTime: "2020-11-05T00:00:00.000Z",
-                timeMode: "FeedbackCreatedTime"
-              }
+                startTime: "2021-11-01T00:00:00.000Z",
+                endTime: "2021-11-05T00:00:00.000Z",
+                timeMode: "FeedbackCreatedTime",
+              },
             }
           );
-          let result = await iterator.next();
-          assert.ok(result.value.id, "Expecting first status");
-          result = await iterator.next();
-          assert.ok(result.value.id, "Expecting second status");
+          let result = getYieldedValue(await iterator.next());
+          assert.ok(result.id, "Expecting first status");
+          result = getYieldedValue(await iterator.next());
+          assert.ok(result.id, "Expecting second status");
         });
 
-        it("lists Anomaly feedbacks by page", async function() {
+        it("lists Anomaly feedbacks by page", async function () {
           const iterator = client
             .listFeedback(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
             .byPage({ maxPageSize: 2 });

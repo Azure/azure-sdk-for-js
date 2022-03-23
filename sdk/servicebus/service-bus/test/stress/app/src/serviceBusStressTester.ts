@@ -10,7 +10,7 @@ import {
   ServiceBusReceiver,
   ServiceBusSender,
   ServiceBusSessionReceiver,
-  SubscribeOptions
+  SubscribeOptions,
 } from "@azure/service-bus";
 import util from "util";
 import {
@@ -20,7 +20,7 @@ import {
   OperationInfo,
   saveDiscrepanciesFromTrackedMessages,
   SnapshotOptions,
-  TrackedMessageIdsInfo
+  TrackedMessageIdsInfo,
 } from "./utils";
 
 import * as appInsights from "applicationinsights";
@@ -29,11 +29,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
-appInsights
-  .setup()
-  .setAutoCollectConsole(true)
-  .setUseDiskRetryCaching(true)
-  .start();
+appInsights.setup().setAutoCollectConsole(true).setUseDiskRetryCaching(true).start();
 
 const defaultClient = appInsights.defaultClient;
 
@@ -55,7 +51,7 @@ export function captureConsoleOutputToAppInsights() {
     // for some reason the appinsights console.log hook doesn't seem to be firing for me (or at least
     // it's inconsistent). For now I'll just add a hook in here and send the events myself.
     defaultClient.trackTrace({
-      message: util.format(...args)
+      message: util.format(...args),
     });
   };
 }
@@ -81,7 +77,7 @@ export class ServiceBusStressTester {
     sender: initializeOperationInfo(),
     receiver: initializeOperationInfo(),
     session: initializeOperationInfo(),
-    client: initializeOperationInfo()
+    client: initializeOperationInfo(),
   };
   // Message Lock Renewal
   messageLockRenewalInfo = initializeLockRenewalOperationInfo();
@@ -100,7 +96,7 @@ export class ServiceBusStressTester {
         "receive-info",
         "message-lock-renewal-info",
         "session-lock-renewal-info",
-        "close-info"
+        "close-info",
       ];
     }
 
@@ -119,7 +115,7 @@ export class ServiceBusStressTester {
 
     defaultClient.commonProperties = {
       // these will be reported with each event
-      testName: this.snapshotOptions.testName
+      testName: this.snapshotOptions.testName,
     };
 
     defaultClient.trackEvent({
@@ -127,8 +123,8 @@ export class ServiceBusStressTester {
       properties: {
         ...options?.additionalEventProperties,
         ...options?.createQueueOptions,
-        queueName: this.queueName
-      }
+        queueName: this.queueName,
+      },
     });
 
     await createRandomQueue(this.queueName, options?.createQueueOptions);
@@ -183,11 +179,13 @@ export class ServiceBusStressTester {
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.receiveMessages(maxMsgCount, {
-        maxWaitTimeInMs
+        maxWaitTimeInMs,
       });
       this.addReceivedMessage(messages);
       if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
-        await Promise.all(messages.map((msg) => this.completeMessage(receiver, msg)));
+        await Promise.all(
+          messages.map((msg: ServiceBusReceivedMessage) => this.completeMessage(receiver, msg))
+        );
       }
       return messages;
     } catch (error) {
@@ -216,7 +214,7 @@ export class ServiceBusStressTester {
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.peekMessages(maxMsgCount, {
-        fromSequenceNumber
+        fromSequenceNumber,
       });
       this.trackMessageIds(messages, "received");
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
@@ -272,7 +270,7 @@ export class ServiceBusStressTester {
     const subscriber = receiver.subscribe(
       {
         processMessage,
-        processError
+        processError,
       },
       options
     );
@@ -295,17 +293,16 @@ export class ServiceBusStressTester {
       | "lockrenewal"
       | "sessionlockrenewal"
       | "close",
-    exception: Error,
+    exception: Error | unknown,
     extraProperties?: Record<string, string>
   ) {
     ++this._numErrors;
-
     defaultClient.trackException({
-      exception,
+      exception: exception instanceof Error ? exception : new Error(`Unknown error\n ${exception}`),
       properties: {
         from,
-        ...extraProperties
-      }
+        ...extraProperties,
+      },
     });
   }
 
@@ -326,7 +323,7 @@ export class ServiceBusStressTester {
         const destination = (this.trackedMessageIds[msg.messageId as string] = {
           sentCount: 0,
           receivedCount: 0,
-          settledCount: 0
+          settledCount: 0,
         });
 
         destination.sentCount = destination.sentCount + 1;
@@ -357,9 +354,8 @@ export class ServiceBusStressTester {
         try {
           await receiver.renewMessageLock(message);
           this.messageLockRenewalInfo.numberOfSuccesses++;
-          const currentRenewalCount = this.messageLockRenewalInfo.renewalCount[
-            message.messageId as string
-          ];
+          const currentRenewalCount =
+            this.messageLockRenewalInfo.renewalCount[message.messageId as string];
           this.messageLockRenewalInfo.renewalCount[message.messageId as string] =
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
         } catch (error) {
@@ -439,7 +435,7 @@ export class ServiceBusStressTester {
       this.closeInfo[type].numberOfFailures++;
 
       this.trackError("close", error, {
-        type
+        type,
       });
     }
   }
@@ -484,7 +480,7 @@ export class ServiceBusStressTester {
 
     defaultClient.trackEvent({
       name: "summary",
-      properties: eventProperties
+      properties: eventProperties,
     });
 
     defaultClient.flush();
@@ -508,13 +504,11 @@ export class ServiceBusStressTester {
           messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
           messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
           messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
-          messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(
-            ","
-          ),
-          messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(
-            ","
-          )
-        }
+          messages_sent_once_but_received_multiple_times:
+            output.messages_sent_once_but_received_multiple_times.join(","),
+          messages_sent_once_and_received_once:
+            output.messages_sent_once_and_received_once.join(","),
+        },
       });
     }
 
@@ -553,7 +547,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by init`, err);
 
-        this.trackError("init", err as Error);
+        this.trackError("init", err);
         defaultClient.flush();
         throw err;
       }
@@ -564,7 +558,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by test`, err);
 
-        this.trackError("test", err as Error);
+        this.trackError("test", err);
         defaultClient.flush();
       }
     } finally {
@@ -574,10 +568,10 @@ export class ServiceBusStressTester {
         await serviceBusClient?.close();
       } catch (err) {
         defaultClient.trackException({
-          exception: err as Error,
+          exception: err instanceof Error ? err : new Error(`Unknown error\n ${err}`),
           properties: {
-            from: "end"
-          }
+            from: "end",
+          },
         });
         console.log(`FATAL ERROR: threw error trying to report final monitoring data.`, err);
       }

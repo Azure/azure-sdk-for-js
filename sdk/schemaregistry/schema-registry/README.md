@@ -63,12 +63,6 @@ const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new Default
 `SchemaRegistryClient` provides the API for storing and retrieving schemas in
 schema registry.
 
-### SchemaRegistry serializers
-
-- [@azure/schema-registry-avro](https://www.npmjs.com/package/@azure/schema-registry-avro)
-  is a separate package that uses `SchemaRegistryClient` to pair schema ID along
-  with Avro Binary Encoding.
-
 ## Examples
 
 ### Register a schema
@@ -83,7 +77,7 @@ const description = {
   name: "<name>",
   groupName: "<group name>",
   format: "<schema format>",
-  schemaDefinition: "<schema definition>"
+  definition: "<schema definition>"
 }
 
 const registered = await client.registerSchema(description);
@@ -102,7 +96,7 @@ const description = {
   name: "<name>",
   groupName: "<group name>",
   format: "<schema format>",
-  schemaDefinition: "<schema definition>"
+  definition: "<schema definition>"
 }
 
 const found = await client.getSchemaProperties(description);
@@ -120,7 +114,7 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 const foundSchema = await client.getSchema("<id>");
 if (foundSchema) {
-  console.log(`Got schema definition=${foundSchema.schemaDefinition}`);
+  console.log(`Got schema definition=${foundSchema.definition}`);
 }
 ```
 

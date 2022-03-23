@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/integrationRuntimes/AutoResolveIntegrationRuntime?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "530d813a-05dc-42fb-b4eb-ada42c627a72"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "456",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:59:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8cc064e1-d821-4338-a96a-70e257720c50",
+        "x-ms-request-id": "94577019-5581-41d8-bac4-83d79cbd6447",
+        "X-Powered-By": "ASP.NET"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/integrationruntimes/AutoResolveIntegrationRuntime",
+        "name": "AutoResolveIntegrationRuntime",
+        "type": "Microsoft.Synapse/workspaces/integrationruntimes",
+        "properties": {
+          "type": "Managed",
+          "typeProperties": {
+            "computeProperties": {
+              "location": "AutoResolve"
+            }
+          },
+          "provisioningState": null
+        },
+        "etag": "0a05f3ff-0000-0200-0000-61dc98c00000"
+      }
+    }
+  ],
+  "Variables": {}
+}

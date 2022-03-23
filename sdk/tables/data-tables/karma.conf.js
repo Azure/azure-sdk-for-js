@@ -1,14 +1,11 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode
-} = require("@azure-tools/test-recorder");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 
-module.exports = function(config) {
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -29,7 +26,7 @@ module.exports = function(config) {
       "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-preprocessor",
-      "karma-json-to-file-reporter"
+      "karma-json-to-file-reporter",
     ],
 
     // list of files / patterns to load in the browser
@@ -39,9 +36,9 @@ module.exports = function(config) {
         pattern: `pattern: "dist-test/index.browser.js.map`,
         type: "html",
         included: false,
-        served: true
-      }
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+        served: true,
+      },
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -50,7 +47,6 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // [`dist-test/${testMode}.index.browser.js`]: ["coverage"]
@@ -69,13 +65,14 @@ module.exports = function(config) {
       "ACCOUNT_CONNECTION_STRING",
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET"
+      "AZURE_CLIENT_SECRET",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
@@ -84,8 +81,8 @@ module.exports = function(config) {
         { type: "json", subdir: ".", file: "coverage.json" },
         { type: "lcovonly", subdir: ".", file: "lcov.info" },
         { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-      ]
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
+      ],
     },
 
     junitReporter: {
@@ -95,12 +92,7 @@ module.exports = function(config) {
       useBrowserName: false, // add browser name to report and classes names
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-      properties: {} // key value pair of properties to add to the <properties> section of the report
-    },
-
-    jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
-      outputPath: "."
+      properties: {}, // key value pair of properties to add to the <properties> section of the report
     },
 
     // web server port
@@ -125,8 +117,8 @@ module.exports = function(config) {
         base: "ChromeHeadless",
         //--no-sandbox allows our tests to run in Linux without having to change the system.
         // --disable-web-security allows us to authenticate from the browser without setting up special CORS configuration
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
     },
 
     // Continuous Integration mode
@@ -140,17 +132,14 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      terminal: !isRecordMode()
-    },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
-      }
+        timeout: "600000",
+      },
     },
-    args: config.testMode ? ["--testMode"] : []
+    args: config.testMode ? ["--testMode"] : [],
   });
 };

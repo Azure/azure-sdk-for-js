@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../../dist-esm/index";
-import { getUserAgent } from "../../../dist-esm/common";
-
+import { Constants } from "../../../src/common/constants";
+import { getUserAgent } from "../../../src/common/platform";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const packageJson = require("../../../package.json");
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 
-describe("getUserAgent", function() {
+describe("getUserAgent", function () {
   it("should contain the current SDK version", () => {
     assert(getUserAgent().includes(packageVersion));
   });
@@ -24,8 +23,8 @@ describe("getUserAgent", function() {
   });
 });
 
-describe("Version", function() {
-  it("should have matching constant version & package version", function() {
+describe("Version", function () {
+  it("should have matching constant version & package version", function () {
     assert.equal(
       constantVersion,
       packageVersion,

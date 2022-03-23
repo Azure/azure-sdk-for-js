@@ -1,5 +1,32 @@
 # Release History
 
+## 1.2.0-beta.3 (Unreleased)
+
+### Features Added
+
+- Added environment variable `AZURE_USERAGENT_OVERRIDE` that overrides the HTTP header `x-ms-useragent` during tests
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0-beta.2 (2022-03-10)
+
+### Features Added
+
+- Upgraded the package to use the Azure Core V2, bringing several improvements to the package's HTTP pipeline architecture.
+
+## 1.2.0-beta.1 (2022-01-24)
+
+- Users can now purchase United Kingdom (GB) toll free and geographic phone numbers for PSTN Calling
+- Users can now purchase Denmark (DK) toll free and geographic phone numbers for PSTN Calling
+
+### Features Added
+
+- Added support for the API version `2022-01-11-preview2`
+
 ## 1.1.0 (2021-10-05)
 
 ### Features Added

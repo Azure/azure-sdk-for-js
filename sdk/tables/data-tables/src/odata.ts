@@ -5,13 +5,17 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
   let result = input;
 
   if (typeof input === "string") {
-    result = input.replace(/'/g, "''");
+    result = escapeQuotes(input);
     // check if we need to escape this literal
     if (!previous.trim().endsWith("'")) {
       result = `'${result}'`;
     }
   }
   return result;
+}
+
+export function escapeQuotes(input: string): string {
+  return input.replace(/'/g, "''");
 }
 
 /**

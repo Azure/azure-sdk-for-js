@@ -62,6 +62,7 @@ import {
   DocumentExtractionSkill,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   DefaultCognitiveServicesAccount,
   CognitiveServicesAccountKey,
   HighWaterMarkChangeDetectionPolicy,
@@ -83,7 +84,9 @@ import {
   LexicalNormalizerName,
   CustomNormalizer,
   SearchIndexerKnowledgeStore,
-  SearchIndexerCache
+  SearchIndexerCache,
+  SemanticSettings,
+  SearchAlias,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -204,6 +207,46 @@ export type CreateIndexOptions = OperationOptions;
  * Options for create skillset operation.
  */
 export type CreateSkillsetOptions = OperationOptions;
+
+/**
+ * Options for create alias operation.
+ */
+export type CreateAliasOptions = OperationOptions;
+
+/**
+ * Options for create or update alias operation.
+ */
+export interface CreateOrUpdateAliasOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Options for delete alias operation.
+ */
+export interface DeleteAliasOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Options for get alias operation.
+ */
+export type GetAliasOptions = OperationOptions;
+
+/**
+ * Options for list aliases operation.
+ */
+export type ListAliasesOptions = OperationOptions;
+
+/**
+ * Search Alias object.
+ */
+export type SearchIndexAlias = SearchAlias;
 
 /**
  * Options for create synonymmap operation.
@@ -512,7 +555,8 @@ export type SearchIndexerSkill =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
-  | WebApiSkill;
+  | WebApiSkill
+  | AzureMachineLearningSkill;
 
 /**
  * Contains the possible cases for CognitiveServicesAccount.
@@ -933,6 +977,14 @@ export interface SynonymMap {
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
+ * An iterator for listing the aliases that exist in the Search service. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
+
+/**
  * An iterator for listing the indexes that exist in the Search service. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
@@ -1008,6 +1060,10 @@ export interface SearchIndex {
    * be modified on existing indexes. If null, the ClassicSimilarity algorithm is used.
    */
   similarity?: SimilarityAlgorithm;
+  /**
+   * Defines parameters for a search index that influence semantic capabilities.
+   */
+  semanticSettings?: SemanticSettings;
   /**
    * The ETag of the index.
    */
@@ -1256,7 +1312,7 @@ export enum KnownTokenizerNames {
    * Divides text at whitespace. See
    * http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceTokenizer.html
    */
-  Whitespace = "whitespace"
+  Whitespace = "whitespace",
 }
 
 /**
@@ -1439,7 +1495,7 @@ export enum KnownTokenFilterNames {
   /**
    * Splits words into subwords and performs optional transformations on subword groups.
    */
-  WordDelimiter = "word_delimiter"
+  WordDelimiter = "word_delimiter",
 }
 
 /**
@@ -1451,7 +1507,7 @@ export enum KnownCharFilterNames {
    * A character filter that attempts to strip out HTML constructs. See
    * https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/HTMLStripCharFilter.html
    */
-  HtmlStrip = "html_strip"
+  HtmlStrip = "html_strip",
 }
 
 /**
@@ -1830,7 +1886,7 @@ export enum KnownAnalyzerNames {
   /**
    * An analyzer that uses the whitespace tokenizer.
    */
-  Whitespace = "whitespace"
+  Whitespace = "whitespace",
 }
 
 /**

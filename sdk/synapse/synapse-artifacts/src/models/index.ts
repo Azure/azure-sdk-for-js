@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type DataFlowUnion = DataFlow | MappingDataFlow;
+export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
   | IntegrationRuntime
   | ManagedIntegrationRuntime
@@ -160,6 +160,10 @@ export type LinkedServiceUnion =
   | SapEccLinkedService
   | SapOpenHubLinkedService
   | RestServiceLinkedService
+  | TeamDeskLinkedService
+  | QuickbaseLinkedService
+  | SmartsheetLinkedService
+  | ZendeskLinkedService
   | AmazonS3LinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
@@ -247,14 +251,6 @@ export type DatasetStorageFormatUnion =
   | AvroFormat
   | OrcFormat
   | ParquetFormat;
-export type DatasetCompressionUnion =
-  | DatasetCompression
-  | DatasetBZip2Compression
-  | DatasetGZipCompression
-  | DatasetDeflateCompression
-  | DatasetZipDeflateCompression
-  | DatasetTarCompression
-  | DatasetTarGZipCompression;
 export type WebLinkedServiceTypePropertiesUnion =
   | WebLinkedServiceTypeProperties
   | WebAnonymousAuthentication
@@ -432,6 +428,7 @@ export type ExecutionActivityUnion =
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
   | ExecuteDataFlowActivity
+  | ScriptActivity
   | SynapseNotebookActivity
   | SynapseSparkJobDefinitionActivity;
 export type MultiplePipelineTriggerUnion =
@@ -533,6 +530,8 @@ export interface KqlScriptContentMetadata {
 
 export interface KqlScriptContentCurrentConnection {
   name?: string;
+  poolName?: string;
+  databaseName?: string;
   type?: string;
 }
 
@@ -591,12 +590,55 @@ export interface ArtifactRenameRequest {
   newName?: string;
 }
 
+export interface MetastoreRegisterObject {
+  /** The input folder containing CDM files. */
+  inputFolder: string;
+}
+
+export interface MetastoreRegistrationResponse {
+  /** Enumerates possible request statuses. */
+  status?: RequestStatus;
+}
+
+export interface MetastoreRequestSuccessResponse {
+  /** Enumerates possible Status of the resource. */
+  status?: ResourceStatus;
+}
+
+export interface MetastoreUpdateObject {
+  /** The input folder containing CDM files. */
+  inputFolder: string;
+}
+
+export interface MetastoreUpdationResponse {
+  /** Enumerates possible request statuses. */
+  status?: RequestStatus;
+}
+
 /** A list of sparkconfiguration resources. */
 export interface SparkConfigurationListResponse {
   /** List of sparkconfigurations. */
   value: SparkConfigurationResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
+}
+
+/** SparkConfiguration Artifact information */
+export interface SparkConfiguration {
+  /** Description about the SparkConfiguration. */
+  description?: string;
+  /** SparkConfiguration configs. */
+  configs: { [propertyName: string]: string };
+  /** Annotations for SparkConfiguration. */
+  annotations?: string[];
+  /** additional Notes. */
+  notes?: string;
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The timestamp of resource creation. */
+  created?: Date;
+  /** SparkConfiguration configMergeRule. */
+  configMergeRule?: { [propertyName: string]: string };
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -616,24 +658,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-}
-
-/** SparkConfiguration Artifact information */
-export interface SparkConfiguration {
-  /** Description about the SparkConfiguration. */
-  description?: string;
-  /** SparkConfiguration configs. */
-  configs: { [propertyName: string]: string };
-  /** Annotations for SparkConfiguration. */
-  annotations?: string[];
-  /** additional Notes. */
-  notes?: string;
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The timestamp of resource creation. */
-  created?: Date;
-  /** SparkConfiguration configMergeRule. */
-  configMergeRule?: { [propertyName: string]: string };
 }
 
 /** The object that defines the structure of an Azure Synapse error response. */
@@ -720,7 +744,7 @@ export interface LibraryInfo {
 /** Azure Synapse nested object which contains a flow with data movements and transformations. */
 export interface DataFlow {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MappingDataFlow";
+  type: "MappingDataFlow" | "Flowlet";
   /** The description of the data flow. */
   description?: string;
   /** List of tags that can be used for describing the data flow. */
@@ -767,12 +791,6 @@ export interface CreateDataFlowDebugSessionRequest {
   integrationRuntime?: IntegrationRuntimeDebugResource;
 }
 
-/** Azure Synapse nested debug resource. */
-export interface SubResourceDebugResource {
-  /** The resource name. */
-  name?: string;
-}
-
 /** Azure Synapse nested object which serves as a compute resource for activities. */
 export interface IntegrationRuntime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -781,6 +799,12 @@ export interface IntegrationRuntime {
   [property: string]: any;
   /** Integration runtime description. */
   description?: string;
+}
+
+/** Azure Synapse nested debug resource. */
+export interface SubResourceDebugResource {
+  /** The resource name. */
+  name?: string;
 }
 
 /** Response body structure for creating data flow debug session. */
@@ -829,6 +853,8 @@ export interface DataFlowDebugPackage {
   sessionId?: string;
   /** Data flow instance. */
   dataFlow?: DataFlowDebugResource;
+  /** List of Data flows */
+  dataFlows?: DataFlowDebugResource[];
   /** List of datasets. */
   datasets?: DatasetDebugResource[];
   /** List of linked services. */
@@ -1032,6 +1058,10 @@ export interface LinkedService {
     | "SapEcc"
     | "SapOpenHub"
     | "RestService"
+    | "TeamDesk"
+    | "Quickbase"
+    | "Smartsheet"
+    | "Zendesk"
     | "AmazonS3"
     | "AmazonRedshift"
     | "CustomDataSource"
@@ -1519,6 +1549,7 @@ export interface Activity {
     | "AzureFunctionActivity"
     | "WebHook"
     | "ExecuteDataFlow"
+    | "Script"
     | "SynapseNotebook"
     | "SparkJob"
     | "SqlPoolStoredProcedure";
@@ -2361,6 +2392,8 @@ export interface DataFlowReference {
   referenceName: string;
   /** Reference data flow parameters from dataset. */
   datasetParameters?: any;
+  /** Data flow parameters */
+  parameters?: { [propertyName: string]: any };
 }
 
 /** Rerun tumbling window trigger Parameters. */
@@ -2428,8 +2461,8 @@ export interface ExposureControlResponse {
 export interface SynapseNotebookReference {
   /** Synapse notebook reference type. */
   type: NotebookReferenceType;
-  /** Reference notebook name. */
-  referenceName: string;
+  /** Reference notebook name. Type: string (or Expression with resultType string). */
+  referenceName: any;
 }
 
 /** Synapse spark job reference type. */
@@ -2448,12 +2481,22 @@ export interface SqlPoolReference {
   referenceName: string;
 }
 
+/** Big data pool reference type. */
+export interface BigDataPoolParametrizationReference {
+  /** Big data pool reference type. */
+  type: BigDataPoolReferenceType;
+  /** Reference big data pool name. Type: string (or Expression with resultType string). */
+  referenceName: any;
+}
+
 /** Request body structure for starting data flow debug session. */
 export interface StartDataFlowDebugSessionRequest {
   /** The ID of data flow debug session. */
   sessionId?: string;
   /** Data flow instance. */
   dataFlow?: DataFlowResource;
+  /** List of Data flows */
+  dataFlows?: DataFlowResource[];
   /** List of datasets. */
   datasets?: DatasetResource[];
   /** List of linked services. */
@@ -2530,6 +2573,12 @@ export interface Transformation {
   name: string;
   /** Transformation description. */
   description?: string;
+  /** Dataset reference. */
+  dataset?: DatasetReference;
+  /** Linked service reference. */
+  linkedService?: LinkedServiceReference;
+  /** Flowlet Reference */
+  flowlet?: DataFlowReference;
 }
 
 /** Dataset location. */
@@ -2592,10 +2641,12 @@ export interface DatasetStorageFormat {
 
 /** The compression method used on a dataset. */
 export interface DatasetCompression {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BZip2" | "GZip" | "Deflate" | "ZipDeflate" | "Tar" | "TarGZip";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+  /** Type of dataset compression. Type: string (or Expression with resultType string). */
+  type: any;
+  /** The dataset compression level. Type: string (or Expression with resultType string). */
+  level?: any;
 }
 
 /** Base definition of WebLinkedServiceTypeProperties, this typeProperties is polymorphic based on authenticationType, so not flattened in SDK models. */
@@ -3068,6 +3119,14 @@ export interface ImportSettings {
   [property: string]: any;
 }
 
+/** Notebook parameter. */
+export interface NotebookParameter {
+  /** Notebook parameter value. Type: string (or Expression with resultType string). */
+  value?: any;
+  /** Notebook parameter type. */
+  type?: NotebookParameterType;
+}
+
 /** PolyBase settings. */
 export interface PolybaseSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3256,6 +3315,38 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
   computeType?: DataFlowComputeType;
   /** Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. */
   coreCount?: number;
+}
+
+/** Script block of scripts. */
+export interface ScriptActivityScriptBlock {
+  /** The query text. Type: string (or Expression with resultType string). */
+  text: any;
+  /** The type of the query. Type: string. */
+  type: ScriptType;
+  /** Array of script parameters. Type: array. */
+  parameters?: ScriptActivityParameter[];
+}
+
+/** Parameters of a script block. */
+export interface ScriptActivityParameter {
+  /** The name of the parameter. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** The type of the parameter. */
+  type?: ScriptActivityParameterType;
+  /** The value of the parameter. */
+  value?: any;
+  /** The direction of the parameter. */
+  direction?: ScriptActivityParameterDirection;
+  /** The size of the output direction parameter. */
+  size?: number;
+}
+
+/** Log settings of script activity. */
+export interface ScriptActivityTypePropertiesLogSettings {
+  /** The destination of logs. Type: string. */
+  logDestination: ScriptActivityLogDestination;
+  /** Log location settings customer needs to provide when enabling log. */
+  logLocationSettings?: LogLocationSettings;
 }
 
 /** The workflow trigger recurrence. */
@@ -3481,30 +3572,24 @@ export type MappingDataFlow = DataFlow & {
   transformations?: Transformation[];
   /** DataFlow script. */
   script?: string;
+  /** Data flow script lines. */
+  scriptLines?: string[];
 };
 
-/** Integration runtime debug resource. */
-export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
-  /** Integration runtime properties. */
-  properties: IntegrationRuntimeUnion;
-};
-
-/** Data flow debug resource. */
-export type DataFlowDebugResource = SubResourceDebugResource & {
-  /** Data flow properties. */
-  properties: DataFlowUnion;
-};
-
-/** Dataset debug resource. */
-export type DatasetDebugResource = SubResourceDebugResource & {
-  /** Dataset properties. */
-  properties: DatasetUnion;
-};
-
-/** Linked service debug resource. */
-export type LinkedServiceDebugResource = SubResourceDebugResource & {
-  /** Properties of linked service. */
-  properties: LinkedServiceUnion;
+/** Data flow flowlet */
+export type Flowlet = DataFlow & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Flowlet";
+  /** List of sources in Flowlet. */
+  sources?: DataFlowSource[];
+  /** List of sinks in Flowlet. */
+  sinks?: DataFlowSink[];
+  /** List of transformations in Flowlet. */
+  transformations?: Transformation[];
+  /** Flowlet script. */
+  script?: string;
+  /** Flowlet script lines. */
+  scriptLines?: string[];
 };
 
 /** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
@@ -3532,6 +3617,30 @@ export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
   linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
 };
 
+/** Integration runtime debug resource. */
+export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeUnion;
+};
+
+/** Data flow debug resource. */
+export type DataFlowDebugResource = SubResourceDebugResource & {
+  /** Data flow properties. */
+  properties: DataFlowUnion;
+};
+
+/** Dataset debug resource. */
+export type DatasetDebugResource = SubResourceDebugResource & {
+  /** Dataset properties. */
+  properties: DatasetUnion;
+};
+
+/** Linked service debug resource. */
+export type LinkedServiceDebugResource = SubResourceDebugResource & {
+  /** Properties of linked service. */
+  properties: LinkedServiceUnion;
+};
+
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
 export type AmazonS3Dataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3551,7 +3660,7 @@ export type AmazonS3Dataset = Dataset & {
   /** The format of files. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the Amazon S3 object. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** Avro dataset. */
@@ -3578,7 +3687,7 @@ export type ExcelDataset = Dataset & {
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
   firstRowAsHeader?: any;
   /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
   /** The null value string. Type: string (or Expression with resultType string). */
   nullValue?: any;
 };
@@ -3628,7 +3737,7 @@ export type JsonDataset = Dataset & {
   /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
   encodingName?: any;
   /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** Xml dataset. */
@@ -3642,7 +3751,7 @@ export type XmlDataset = Dataset & {
   /** The null value string. Type: string (or Expression with resultType string). */
   nullValue?: any;
   /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** ORC dataset. */
@@ -3662,7 +3771,7 @@ export type BinaryDataset = Dataset & {
   /** The location of the Binary storage. */
   location?: DatasetLocationUnion;
   /** The data compression method used for the binary dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Azure Blob storage. */
@@ -3682,7 +3791,7 @@ export type AzureBlobDataset = Dataset & {
   /** The format of the Azure Blob storage. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Azure Table storage dataset. */
@@ -3798,7 +3907,7 @@ export type AzureDataLakeStoreDataset = Dataset & {
   /** The format of the Data Lake Store. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the item(s) in the Azure Data Lake Store. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Azure Data Lake Storage Gen2 storage. */
@@ -3812,7 +3921,7 @@ export type AzureBlobFSDataset = Dataset & {
   /** The format of the Azure Data Lake Storage Gen2 storage. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Office365 account. */
@@ -3842,7 +3951,7 @@ export type FileShareDataset = Dataset & {
   /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
   fileFilter?: any;
   /** The data compression method used for the file system. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The MongoDB database dataset. */
@@ -4154,7 +4263,7 @@ export type HttpDataset = Dataset & {
   /** The format of files. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used on files. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** Amazon Marketplace Web Service dataset. */
@@ -5251,6 +5360,10 @@ export type AzureBlobFSLinkedService = LinkedService & {
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 };
@@ -5389,6 +5502,64 @@ export type RestServiceLinkedService = LinkedService & {
   azureCloudType?: any;
   /** The resource you are requesting authorization to use. */
   aadResourceId?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for TeamDesk. */
+export type TeamDeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TeamDesk";
+  /** The authentication type to use. */
+  authenticationType: TeamDeskAuthenticationType;
+  /** The url to connect TeamDesk source. Type: string (or Expression with resultType string). */
+  url: any;
+  /** The username of the TeamDesk source. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The password of the TeamDesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the TeamDesk source. */
+  apiToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for Quickbase. */
+export type QuickbaseLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Quickbase";
+  /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
+  url: any;
+  /** The user token for the Quickbase source. */
+  userToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for Smartsheet. */
+export type SmartsheetLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Smartsheet";
+  /** The api token for the Smartsheet source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for Zendesk. */
+export type ZendeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Zendesk";
+  /** The authentication type to use. */
+  authenticationType: ZendeskAuthenticationType;
+  /** The url to connect Zendesk source. Type: string (or Expression with resultType string). */
+  url: any;
+  /** The username of the Zendesk source. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The password of the Zendesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the Zendesk source. */
+  apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 };
@@ -6416,12 +6587,14 @@ export type OracleServiceCloudLinkedService = LinkedService & {
 export type GoogleAdWordsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
+  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
+  connectionProperties?: any;
   /** The Client customer ID of the AdWords account that you want to fetch report data for. */
-  clientCustomerID: any;
+  clientCustomerID?: any;
   /** The developer token associated with the manager account that you use to grant access to the AdWords API. */
-  developerToken: SecretBaseUnion;
+  developerToken?: SecretBaseUnion;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
-  authenticationType: GoogleAdWordsAuthenticationType;
+  authenticationType?: GoogleAdWordsAuthenticationType;
   /** The refresh token obtained from Google for authorizing access to AdWords for UserAuthentication. */
   refreshToken?: SecretBaseUnion;
   /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
@@ -6580,6 +6753,7 @@ export type ExecutionActivity = Activity & {
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
     | "ExecuteDataFlow"
+    | "Script"
     | "SynapseNotebook"
     | "SparkJob";
   /** Linked service reference. */
@@ -6687,20 +6861,12 @@ export type AzureKeyVaultSecretReference = SecretBase & {
 
 /** Transformation for data flow source. */
 export type DataFlowSource = Transformation & {
-  /** Dataset reference. */
-  dataset?: DatasetReference;
-  /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
 };
 
 /** Transformation for data flow sink. */
 export type DataFlowSink = Transformation & {
-  /** Dataset reference. */
-  dataset?: DatasetReference;
-  /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
 };
@@ -6841,50 +7007,6 @@ export type OrcFormat = DatasetStorageFormat & {
 export type ParquetFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetFormat";
-};
-
-/** The BZip2 compression method used on a dataset. */
-export type DatasetBZip2Compression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BZip2";
-};
-
-/** The GZip compression method used on a dataset. */
-export type DatasetGZipCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GZip";
-  /** The GZip compression level. Type: string (or Expression with resultType string). */
-  level?: any;
-};
-
-/** The Deflate compression method used on a dataset. */
-export type DatasetDeflateCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Deflate";
-  /** The Deflate compression level. Type: string (or Expression with resultType string). */
-  level?: any;
-};
-
-/** The ZipDeflate compression method used on a dataset. */
-export type DatasetZipDeflateCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ZipDeflate";
-  /** The ZipDeflate compression level. Type: string (or Expression with resultType string). */
-  level?: any;
-};
-
-/** The Tar archive method used on a dataset. */
-export type DatasetTarCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Tar";
-};
-
-/** The TarGZip compression method used on a dataset. */
-export type DatasetTarGZipCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TarGZip";
-  /** The TarGZip compression level. Type: string (or Expression with resultType string). */
-  level?: any;
 };
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
@@ -7115,6 +7237,8 @@ export type FtpReadSettings = StoreReadSettings & {
   fileListPath?: any;
   /** Specify whether to use binary transfer mode for FTP stores. */
   useBinaryTransfer?: boolean;
+  /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
+  disableChunking?: any;
 };
 
 /** Sftp read settings. */
@@ -7139,6 +7263,8 @@ export type SftpReadSettings = StoreReadSettings & {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
+  /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
+  disableChunking?: any;
 };
 
 /** Sftp read settings. */
@@ -8428,8 +8554,18 @@ export type SqlPool = TrackedResource & {
   status?: string;
   /** Snapshot time to restore */
   restorePointInTime?: string;
-  /** What is this? */
-  createMode?: string;
+  /**
+   * Specifies the mode of sql pool creation.
+   *
+   * Default: regular sql pool creation.
+   *
+   * PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified.
+   *
+   * Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified as the recoverableDatabaseId to restore.
+   *
+   * Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified.
+   */
+  createMode?: CreateMode;
   /** Date the SQL pool was created */
   creationDate?: Date;
 };
@@ -9059,14 +9195,26 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   runConcurrently?: any;
 };
 
+/** Script activity type. */
+export type ScriptActivity = ExecutionActivity & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Script";
+  /** Array of script blocks. Type: array. */
+  scripts?: ScriptActivityScriptBlock[];
+  /** Log settings of script activity. */
+  logSettings?: ScriptActivityTypePropertiesLogSettings;
+};
+
 /** Execute Synapse notebook activity. */
 export type SynapseNotebookActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SynapseNotebook";
   /** Synapse notebook reference. */
   notebook: SynapseNotebookReference;
+  /** The name of the big data pool which will be used to execute the notebook. */
+  sparkPool?: BigDataPoolParametrizationReference;
   /** Notebook parameters. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: NotebookParameter };
 };
 
 /** Execute spark job activity. */
@@ -9077,6 +9225,22 @@ export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
   sparkJob: SynapseSparkJobReference;
   /** User specified arguments to SynapseSparkJobDefinitionActivity. */
   arguments?: any[];
+  /** The main file used for the job, which will override the 'file' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  file?: any;
+  /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  className?: any;
+  /** Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
+  files?: any[];
+  /** The name of the big data pool which will be used to execute the spark batch job, which will override the 'targetBigDataPool' of the spark job definition you provide. */
+  targetBigDataPool?: BigDataPoolParametrizationReference;
+  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the job, which will be used for overriding 'executorCores' and 'executorMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  executorSize?: any;
+  /** Spark configuration properties, which will override the 'conf' of the spark job definition you provide. */
+  conf?: any;
+  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the job, which will be used for overriding 'driverCores' and 'driverMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  driverSize?: any;
+  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. */
+  numExecutors?: number;
 };
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -9809,6 +9973,42 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
   location?: string;
 }
 
+/** Known values of {@link RequestStatus} that the service accepts. */
+export enum KnownRequestStatus {
+  Running = "Running",
+  Completed = "Completed",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for RequestStatus. \
+ * {@link KnownRequestStatus} can be used interchangeably with RequestStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running** \
+ * **Completed** \
+ * **Failed**
+ */
+export type RequestStatus = string;
+
+/** Known values of {@link ResourceStatus} that the service accepts. */
+export enum KnownResourceStatus {
+  Creating = "Creating",
+  Created = "Created",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ResourceStatus. \
+ * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Created** \
+ * **Failed**
+ */
+export type ResourceStatus = string;
+
 /** Known values of {@link NodeSize} that the service accepts. */
 export enum KnownNodeSize {
   None = "None",
@@ -10249,6 +10449,26 @@ export enum KnownLivyStates {
  */
 export type LivyStates = string;
 
+/** Known values of {@link CreateMode} that the service accepts. */
+export enum KnownCreateMode {
+  Default = "Default",
+  PointInTimeRestore = "PointInTimeRestore",
+  Recovery = "Recovery",
+  Restore = "Restore"
+}
+
+/**
+ * Defines values for CreateMode. \
+ * {@link KnownCreateMode} can be used interchangeably with CreateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **PointInTimeRestore** \
+ * **Recovery** \
+ * **Restore**
+ */
+export type CreateMode = string;
+
 /** Known values of {@link SqlScriptType} that the service accepts. */
 export enum KnownSqlScriptType {
   SqlQuery = "SqlQuery"
@@ -10572,6 +10792,38 @@ export enum KnownRestServiceAuthenticationType {
  * **ManagedServiceIdentity**
  */
 export type RestServiceAuthenticationType = string;
+
+/** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
+export enum KnownTeamDeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for TeamDeskAuthenticationType. \
+ * {@link KnownTeamDeskAuthenticationType} can be used interchangeably with TeamDeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type TeamDeskAuthenticationType = string;
+
+/** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
+export enum KnownZendeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for ZendeskAuthenticationType. \
+ * {@link KnownZendeskAuthenticationType} can be used interchangeably with ZendeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type ZendeskAuthenticationType = string;
 
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {
@@ -11041,6 +11293,26 @@ export enum KnownNetezzaPartitionOption {
  */
 export type NetezzaPartitionOption = string;
 
+/** Known values of {@link NotebookParameterType} that the service accepts. */
+export enum KnownNotebookParameterType {
+  String = "string",
+  Int = "int",
+  Float = "float",
+  Bool = "bool"
+}
+
+/**
+ * Defines values for NotebookParameterType. \
+ * {@link KnownNotebookParameterType} can be used interchangeably with NotebookParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **string** \
+ * **int** \
+ * **float** \
+ * **bool**
+ */
+export type NotebookParameterType = string;
+
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
 export enum KnownSapCloudForCustomerSinkWriteBehavior {
   Insert = "Insert",
@@ -11248,6 +11520,92 @@ export enum KnownDataFlowComputeType {
  * **ComputeOptimized**
  */
 export type DataFlowComputeType = string;
+
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  Query = "Query",
+  NonQuery = "NonQuery"
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
+/** Known values of {@link ScriptActivityParameterType} that the service accepts. */
+export enum KnownScriptActivityParameterType {
+  Boolean = "Boolean",
+  DateTime = "DateTime",
+  DateTimeOffset = "DateTimeOffset",
+  Decimal = "Decimal",
+  Double = "Double",
+  Guid = "Guid",
+  Int16 = "Int16",
+  Int32 = "Int32",
+  Int64 = "Int64",
+  Single = "Single",
+  String = "String",
+  Timespan = "Timespan"
+}
+
+/**
+ * Defines values for ScriptActivityParameterType. \
+ * {@link KnownScriptActivityParameterType} can be used interchangeably with ScriptActivityParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Boolean** \
+ * **DateTime** \
+ * **DateTimeOffset** \
+ * **Decimal** \
+ * **Double** \
+ * **Guid** \
+ * **Int16** \
+ * **Int32** \
+ * **Int64** \
+ * **Single** \
+ * **String** \
+ * **Timespan**
+ */
+export type ScriptActivityParameterType = string;
+
+/** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
+export enum KnownScriptActivityParameterDirection {
+  Input = "Input",
+  Output = "Output",
+  InputOutput = "InputOutput"
+}
+
+/**
+ * Defines values for ScriptActivityParameterDirection. \
+ * {@link KnownScriptActivityParameterDirection} can be used interchangeably with ScriptActivityParameterDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Input** \
+ * **Output** \
+ * **InputOutput**
+ */
+export type ScriptActivityParameterDirection = string;
+
+/** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
+export enum KnownScriptActivityLogDestination {
+  ActivityOutput = "ActivityOutput",
+  ExternalStore = "ExternalStore"
+}
+
+/**
+ * Defines values for ScriptActivityLogDestination. \
+ * {@link KnownScriptActivityLogDestination} can be used interchangeably with ScriptActivityLogDestination,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActivityOutput** \
+ * **ExternalStore**
+ */
+export type ScriptActivityLogDestination = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
@@ -11583,6 +11941,22 @@ export enum KnownDynamicsAuthenticationType {
  */
 export type DynamicsAuthenticationType = string;
 
+/** Known values of {@link DynamicsServicePrincipalCredentialType} that the service accepts. */
+export enum KnownDynamicsServicePrincipalCredentialType {
+  ServicePrincipalKey = "ServicePrincipalKey",
+  ServicePrincipalCert = "ServicePrincipalCert"
+}
+
+/**
+ * Defines values for DynamicsServicePrincipalCredentialType. \
+ * {@link KnownDynamicsServicePrincipalCredentialType} can be used interchangeably with DynamicsServicePrincipalCredentialType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServicePrincipalKey** \
+ * **ServicePrincipalCert**
+ */
+export type DynamicsServicePrincipalCredentialType = string;
+
 /** Known values of {@link HdiNodeTypes} that the service accepts. */
 export enum KnownHdiNodeTypes {
   Headnode = "Headnode",
@@ -11732,6 +12106,31 @@ export interface KqlScriptRenameOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface MetastoreRegisterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the register operation. */
+export type MetastoreRegisterResponse = MetastoreRegistrationResponse;
+
+/** Optional parameters. */
+export interface MetastoreGetDatabaseOperationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDatabaseOperations operation. */
+export type MetastoreGetDatabaseOperationsResponse = MetastoreRequestSuccessResponse;
+
+/** Optional parameters. */
+export interface MetastoreUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type MetastoreUpdateResponse = MetastoreUpdationResponse;
+
+/** Optional parameters. */
+export interface MetastoreDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams

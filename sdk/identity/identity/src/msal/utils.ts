@@ -34,7 +34,7 @@ export function ensureValidMsalToken(
     return new AuthenticationRequiredError({
       scopes: Array.isArray(scopes) ? scopes : [scopes],
       getTokenOptions,
-      message
+      message,
     });
   };
   if (!msalToken) {
@@ -55,6 +55,9 @@ export function ensureValidMsalToken(
 export function getAuthority(tenantId: string, host?: string): string {
   if (!host) {
     host = DefaultAuthorityHost;
+  }
+  if (new RegExp(`${tenantId}/?$`).test(host)) {
+    return host;
   }
   if (host.endsWith("/")) {
     return host + tenantId;
@@ -85,28 +88,27 @@ export function getKnownAuthorities(tenantId: string, authorityHost: string): st
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
   platform?: "Node" | "Browser"
-) => msalCommon.ILoggerCallback = (
-  logger: CredentialLogger,
-  platform: "Node" | "Browser" = isNode ? "Node" : "Browser"
-) => (level, message, containsPii): void => {
-  if (containsPii) {
-    return;
-  }
-  switch (level) {
-    case msalCommon.LogLevel.Error:
-      logger.info(`MSAL ${platform} V2 error: ${message}`);
+) => msalCommon.ILoggerCallback =
+  (logger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
+  (level, message, containsPii): void => {
+    if (containsPii) {
       return;
-    case msalCommon.LogLevel.Info:
-      logger.info(`MSAL ${platform} V2 info message: ${message}`);
-      return;
-    case msalCommon.LogLevel.Verbose:
-      logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
-      return;
-    case msalCommon.LogLevel.Warning:
-      logger.info(`MSAL ${platform} V2 warning: ${message}`);
-      return;
-  }
-};
+    }
+    switch (level) {
+      case msalCommon.LogLevel.Error:
+        logger.info(`MSAL ${platform} V2 error: ${message}`);
+        return;
+      case msalCommon.LogLevel.Info:
+        logger.info(`MSAL ${platform} V2 info message: ${message}`);
+        return;
+      case msalCommon.LogLevel.Verbose:
+        logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
+        return;
+      case msalCommon.LogLevel.Warning:
+        logger.info(`MSAL ${platform} V2 warning: ${message}`);
+        return;
+    }
+  };
 
 /**
  * The common utility functions for the MSAL clients.
@@ -150,7 +152,7 @@ export class MsalBaseUtilities {
     this.logger.getToken.info(formatSuccess(scopes));
     return {
       token: result!.accessToken!,
-      expiresOnTimestamp: result!.expiresOn!.getTime()
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
     };
   }
 
@@ -200,7 +202,7 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
   return {
     ...account,
     localAccountId: account.homeAccountId,
-    environment
+    environment,
   };
 }
 
@@ -211,7 +213,7 @@ export function msalToPublic(clientId: string, account: MsalAccountInfo): Authen
     tenantId: account.tenantId || DefaultTenantId,
     username: account.username,
     clientId,
-    version: LatestAuthenticationRecordVersion
+    version: LatestAuthenticationRecordVersion,
   };
   return record;
 }

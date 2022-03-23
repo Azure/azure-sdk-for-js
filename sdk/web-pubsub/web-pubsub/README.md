@@ -2,7 +2,9 @@
 
 [Azure Web PubSub service](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe pattern. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests can also use Azure Web PubSub service.
 
-This library can be used to do the following actions. Details about the terms used here are described in [Key concepts](#key-concepts) section.
+You can use this library in your app server side to manage the WebSocket client connections, as shown in below diagram:
+
+![overflow](https://user-images.githubusercontent.com/668244/140014067-25a00959-04dc-47e8-ac25-6957bd0a71ce.png).
 
 - Send messages to hubs and groups.
 - Send messages to particular users and connections.
@@ -10,11 +12,13 @@ This library can be used to do the following actions. Details about the terms us
 - Close connections
 - Grant, revoke, and check permissions for an existing connection
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub) | 
-[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub) | 
+Details about the terms used here are described in [Key concepts](#key-concepts) section.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub) |
 [API reference documentation](https://aka.ms/awps/sdk/js) |
 [Product documentation](https://aka.ms/awps/doc) |
-[Samples][samples_ref] 
+[Samples][samples_ref]
 
 ## Getting started
 
@@ -54,7 +58,7 @@ Or authenticate the `WebPubSubServiceClient` using [Azure Active Directory][aad_
 
 1. Install the `@azure/identity` dependency
 
-```batch
+```bash
 npm install @azure/identity
 ```
 
@@ -62,6 +66,7 @@ npm install @azure/identity
 
 ```js
 const { WebPubSubServiceClient, AzureKeyCredential } = require("@azure/web-pubsub");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 const key = new DefaultAzureCredential();
 const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
@@ -188,7 +193,7 @@ const hasConnections = await serviceClient.groupExists("<groupName>");
 ```js
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 
-function onResponse(rawResponse: FullOperationResponse): void {
+function onResponse(rawResponse) {
   console.log(rawResponse);
 }
 const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
@@ -208,6 +213,10 @@ export AZURE_LOG_LEVEL=verbose
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+### Live Trace
+
+Use **Live Trace** from the Web PubSub service portal to view the live traffic.
 
 ## Next steps
 

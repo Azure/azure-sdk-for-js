@@ -3,12 +3,11 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { assert } from "chai";
 import "chai/register-should";
-
 import * as msRest from "../src/coreHttp";
-import { TestClient } from "./data/TestClient/src/testClient";
 import { Mappers } from "./data/TestClient/src/models/mappers";
+import { TestClient } from "./data/TestClient/src/testClient";
+import { assert } from "chai";
 
 const Serializer = new msRest.Serializer({});
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
@@ -21,16 +20,16 @@ function stringToByteArray(str: string): Uint8Array {
   }
 }
 
-describe("msrest", function() {
-  describe("serializeObject", function() {
+describe("msrest", function () {
+  describe("serializeObject", function () {
     it("should correctly serialize flattened properties", (done) => {
       const expected = {
         id: 1,
         name: "testProduct",
         details: {
           max_product_capacity: "Large",
-          max_product_display_name: "MaxDisplayName"
-        }
+          max_product_display_name: "MaxDisplayName",
+        },
       };
 
       const serialized = Serializer.serialize(
@@ -38,7 +37,7 @@ describe("msrest", function() {
         {
           id: 1,
           name: "testProduct",
-          maxProductDisplayName: "MaxDisplayName"
+          maxProductDisplayName: "MaxDisplayName",
         },
         "SimpleProduct"
       );
@@ -53,8 +52,8 @@ describe("msrest", function() {
         name: "testProduct",
         details: {
           max_product_capacity: "Large",
-          max_product_display_name: "MaxDisplayName"
-        }
+          max_product_display_name: "MaxDisplayName",
+        },
       };
 
       const serialized = Serializer.serialize(
@@ -62,7 +61,7 @@ describe("msrest", function() {
         {
           id: 1,
           name: "testProduct",
-          maxProductDisplayName: "MaxDisplayName"
+          maxProductDisplayName: "MaxDisplayName",
         },
         "SimpleProduct"
       );
@@ -71,27 +70,27 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a Date Object", function(done) {
+    it("should correctly serialize a Date Object", function (done) {
       const dateObj = new Date("2015-01-01");
       const dateISO = "2015-01-01T00:00:00.000Z";
       msRest.serializeObject(dateObj).should.equal(dateISO);
       done();
     });
 
-    it("should correctly serialize a Date object with max value", function(done) {
+    it("should correctly serialize a Date object with max value", function (done) {
       const serializedDateString = msRest.serializeObject(new Date("9999-12-31T23:59:59-12:00"));
       serializedDateString.should.equal("+010000-01-01T11:59:59.000Z");
       done();
     });
 
-    it("should correctly serialize a Uint8Array Object", function(done) {
+    it("should correctly serialize a Uint8Array Object", function (done) {
       const byteArray = stringToByteArray("Javascript");
       const base64str = "SmF2YXNjcmlwdA==";
       msRest.serializeObject(byteArray).should.equal(base64str);
       done();
     });
 
-    it("should correctly serialize Primitive types", function(done) {
+    it("should correctly serialize Primitive types", function (done) {
       msRest.serializeObject(true).should.equal(true);
       msRest.serializeObject(false).should.equal(false);
       msRest.serializeObject("true").should.equal("true");
@@ -101,13 +100,13 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize an empty array and an empty dictionary", function(done) {
+    it("should correctly serialize an empty array and an empty dictionary", function (done) {
       assert.deepEqual(msRest.serializeObject([]), []);
       assert.deepEqual(msRest.serializeObject({}), {});
       done();
     });
 
-    it("should correctly serialize a complex JSON object", function(done) {
+    it("should correctly serialize a complex JSON object", function (done) {
       const o1: unknown = {
         p1: "value1",
         p2: "value2",
@@ -121,7 +120,7 @@ describe("msrest", function() {
           "insider-dictionary": {
             k1: new Date("2015"),
             k2: new Date("2016"),
-            k3: new Date("2017")
+            k3: new Date("2017"),
           },
           "top-complex": {
             id: 1,
@@ -130,9 +129,9 @@ describe("msrest", function() {
             male: true,
             birthday: "1992-01-01T00:00:00.000Z",
             anniversary: new Date("2013-12-08"),
-            memory: stringToByteArray("Yadadadada")
-          }
-        }
+            memory: stringToByteArray("Yadadadada"),
+          },
+        },
       };
 
       const o2: unknown = {
@@ -148,7 +147,7 @@ describe("msrest", function() {
           "insider-dictionary": {
             k1: "2015-01-01T00:00:00.000Z",
             k2: "2016-01-01T00:00:00.000Z",
-            k3: "2017-01-01T00:00:00.000Z"
+            k3: "2017-01-01T00:00:00.000Z",
           },
           "top-complex": {
             id: 1,
@@ -157,66 +156,66 @@ describe("msrest", function() {
             male: true,
             birthday: "1992-01-01T00:00:00.000Z",
             anniversary: "2013-12-08T00:00:00.000Z",
-            memory: "WWFkYWRhZGFkYQ=="
-          }
-        }
+            memory: "WWFkYWRhZGFkYQ==",
+          },
+        },
       };
       assert.deepEqual(msRest.serializeObject(o1), o2);
       done();
     });
   });
 
-  describe("serialize", function() {
+  describe("serialize", function () {
     const invalid_uuid = "abcd-efgd90-90890jkh";
-    it("should correctly serialize a string if the type is 'any'", function(done) {
+    it("should correctly serialize a string if the type is 'any'", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "any" },
         required: false,
-        serializedName: "any"
+        serializedName: "any",
       };
       const serializedObject = Serializer.serialize(mapper, "foo", "anyBody");
       serializedObject.should.equal("foo");
       done();
     });
 
-    it("should correctly serialize an array if the type is 'any'", function(done) {
+    it("should correctly serialize an array if the type is 'any'", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "any" },
         required: false,
-        serializedName: "any"
+        serializedName: "any",
       };
       const serializedObject = Serializer.serialize(mapper, [1, 2], "anyBody");
       assert.deepEqual(serializedObject, [1, 2]);
       done();
     });
 
-    it("should correctly serialize a string", function(done) {
+    it("should correctly serialize a string", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "String" },
         required: false,
-        serializedName: "string"
+        serializedName: "string",
       };
       const serializedObject = Serializer.serialize(mapper, "foo", "stringBody");
       serializedObject.should.equal("foo");
       done();
     });
 
-    it("should correctly serialize a uuid", function(done) {
+    it("should correctly serialize a uuid", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "Uuid" },
         required: false,
-        serializedName: "Uuid"
+        serializedName: "Uuid",
       };
       const serializedObject = Serializer.serialize(mapper, valid_uuid, "uuidBody");
       serializedObject.should.equal(valid_uuid);
       done();
     });
 
-    it("should throw an error if the value is not a valid Uuid", function(done) {
+    it("should throw an error if the value is not a valid Uuid", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "Uuid" },
         required: false,
-        serializedName: "Uuid"
+        serializedName: "Uuid",
       };
       try {
         Serializer.serialize(mapper, invalid_uuid, "uuidBody");
@@ -226,44 +225,44 @@ describe("msrest", function() {
       }
     });
 
-    it("should correctly serialize a number", function(done) {
+    it("should correctly serialize a number", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "Number" },
         required: false,
-        serializedName: "Number"
+        serializedName: "Number",
       };
       const serializedObject = Serializer.serialize(mapper, 1.506, "stringBody");
       serializedObject.should.equal(1.506);
       done();
     });
 
-    it("should correctly serialize a boolean", function(done) {
+    it("should correctly serialize a boolean", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "Boolean" },
         required: false,
-        serializedName: "Boolean"
+        serializedName: "Boolean",
       };
       const serializedObject = Serializer.serialize(mapper, false, "stringBody");
       serializedObject.should.equal(false);
       done();
     });
 
-    it("should correctly serialize an Enum", function(done) {
+    it("should correctly serialize an Enum", function (done) {
       const mapper: msRest.EnumMapper = {
         type: { name: "Enum", allowedValues: [1, 2, 3, 4] },
         required: false,
-        serializedName: "Enum"
+        serializedName: "Enum",
       };
       const serializedObject = Serializer.serialize(mapper, 1, "enumBody");
       serializedObject.should.equal(1);
       done();
     });
 
-    it("should throw an error if the value is not valid for an Enum", function(done) {
+    it("should throw an error if the value is not valid for an Enum", function (done) {
       const mapper: msRest.EnumMapper = {
         type: { name: "Enum", allowedValues: [1, 2, 3, 4] },
         required: false,
-        serializedName: "Enum"
+        serializedName: "Enum",
       };
       try {
         Serializer.serialize(mapper, 6, "enumBody");
@@ -275,11 +274,11 @@ describe("msrest", function() {
       }
     });
 
-    it("should correctly serialize a ByteArray Object", function(done) {
+    it("should correctly serialize a ByteArray Object", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "ByteArray" },
         required: false,
-        serializedName: "ByteArray"
+        serializedName: "ByteArray",
       };
       const byteArray = stringToByteArray("Javascript");
       const base64str = "SmF2YXNjcmlwdA==";
@@ -288,23 +287,23 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a Date Object", function(done) {
+    it("should correctly serialize a Date Object", function (done) {
       const dateObj = new Date("2015-01-01");
       const dateISO = "2015-01-01";
       const mapper: msRest.Mapper = {
         type: { name: "Date" },
         required: false,
-        serializedName: "Date"
+        serializedName: "Date",
       };
       Serializer.serialize(mapper, dateObj, "dateObj").should.equal(dateISO);
       done();
     });
 
-    it("should correctly serialize a Date object with max value", function(done) {
+    it("should correctly serialize a Date object with max value", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "DateTime" },
         required: false,
-        serializedName: "DateTime"
+        serializedName: "DateTime",
       };
       const serializedDateString = Serializer.serialize(
         mapper,
@@ -315,11 +314,11 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a Date object with max value and format UnixTime", function(done) {
+    it("should correctly serialize a Date object with max value and format UnixTime", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "UnixTime" },
         required: false,
-        serializedName: "UnixTime"
+        serializedName: "UnixTime",
       };
       const serializedDate = Serializer.serialize(
         mapper,
@@ -330,11 +329,11 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a string in DateTimeRfc1123", function(done) {
+    it("should correctly serialize a string in DateTimeRfc1123", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "DateTimeRfc1123" },
         required: false,
-        serializedName: "DateTimeRfc1123"
+        serializedName: "DateTimeRfc1123",
       };
       const rfc = new Date("Wed, 01 Jan 2020 00:00:00 GMT");
       const serializedDateString = Serializer.serialize(mapper, rfc, "dateTimeObj");
@@ -342,22 +341,22 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize an ISO 8601 duration", function() {
+    it("should correctly serialize an ISO 8601 duration", function () {
       const mapper: msRest.Mapper = {
         type: { name: "TimeSpan" },
         required: false,
-        serializedName: "TimeSpan"
+        serializedName: "TimeSpan",
       };
       const duration = "P123DT22H14M12.011S";
       const serializedDateString = Serializer.serialize(mapper, duration, "dateTimeObj");
       serializedDateString.should.equal(duration);
     });
 
-    it("should throw an error when given an invalid ISO 8601 duration", function() {
+    it("should throw an error when given an invalid ISO 8601 duration", function () {
       const mapper: msRest.Mapper = {
         type: { name: "TimeSpan" },
         required: false,
-        serializedName: "TimeSpan"
+        serializedName: "TimeSpan",
       };
       const duration = "P123Z42DT22H14M12.011S";
       (() => Serializer.serialize(mapper, duration, "dateTimeObj")).should.throw(
@@ -365,7 +364,7 @@ describe("msrest", function() {
       );
     });
 
-    it("should correctly serialize an array of primitives", function(done) {
+    it("should correctly serialize an array of primitives", function (done) {
       const mapper: msRest.SequenceMapper = {
         required: false,
         serializedName: "Sequence",
@@ -374,9 +373,9 @@ describe("msrest", function() {
           element: {
             type: { name: "String" },
             required: true,
-            serializedName: "sequenceElement"
-          }
-        }
+            serializedName: "sequenceElement",
+          },
+        },
       };
       const array = ["One", "Two", "three"];
       const serializedArray = Serializer.serialize(mapper, array, "arrayObj");
@@ -384,7 +383,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize an array of array of primitives", function(done) {
+    it("should correctly serialize an array of array of primitives", function (done) {
       const mapper: msRest.SequenceMapper = {
         required: false,
         serializedName: "Sequence",
@@ -399,12 +398,12 @@ describe("msrest", function() {
                 required: true,
                 serializedName: "sequenceElement",
                 type: {
-                  name: "Number"
-                }
-              }
-            }
-          }
-        }
+                  name: "Number",
+                },
+              },
+            },
+          },
+        },
       };
       const array = [[1], [2], [1, 2, 3]];
       const serializedArray = Serializer.serialize(mapper, array, "arrayObj");
@@ -412,7 +411,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize an array of array of object types", function(done) {
+    it("should correctly serialize an array of array of object types", function (done) {
       const mapper: msRest.SequenceMapper = {
         serializedName: "arrayObj",
         required: true,
@@ -423,12 +422,12 @@ describe("msrest", function() {
               name: "Sequence",
               element: {
                 type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
+                  name: "Object",
+                },
+              },
+            },
+          },
+        },
       };
       const array = [[1], ["2"], [1, "2", {}, true, []]];
       const serializedArray = Serializer.serialize(mapper, array, mapper.serializedName);
@@ -436,7 +435,7 @@ describe("msrest", function() {
       done();
     });
 
-    it('should fail while serializing an array of array of "object" types when a null value is provided', function(done) {
+    it('should fail while serializing an array of array of "object" types when a null value is provided', function (done) {
       const mapper: msRest.Mapper = {
         serializedName: "arrayObj",
         required: true,
@@ -448,12 +447,12 @@ describe("msrest", function() {
               element: {
                 required: true,
                 type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
+                  name: "Object",
+                },
+              },
+            },
+          },
+        },
       };
       const array = [[1], ["2"], [undefined], [1, "2", {}, true, []]];
       try {
@@ -464,7 +463,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize an array of dictionary of primitives", function(done) {
+    it("should correctly serialize an array of dictionary of primitives", function (done) {
       const mapper: msRest.SequenceMapper = {
         required: false,
         serializedName: "Sequence",
@@ -479,12 +478,12 @@ describe("msrest", function() {
                 required: true,
                 serializedName: "valueElement",
                 type: {
-                  name: "Boolean"
-                }
-              }
-            }
-          }
-        }
+                  name: "Boolean",
+                },
+              },
+            },
+          },
+        },
       };
       const array = [{ 1: true }, { 2: false }, { 1: true, 2: false, 3: true }];
       const serializedArray = Serializer.serialize(mapper, array, "arrayObj");
@@ -492,7 +491,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a dictionary of primitives", function(done) {
+    it("should correctly serialize a dictionary of primitives", function (done) {
       const mapper: msRest.DictionaryMapper = {
         required: false,
         serializedName: "Dictionary",
@@ -502,10 +501,10 @@ describe("msrest", function() {
             required: true,
             serializedName: "valueElement",
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       };
       const dict = { 1: "One", 2: "Two", 3: "three" };
       const serializedDictionary = Serializer.serialize(mapper, dict, "dictObj");
@@ -513,7 +512,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a dictionary of array of primitives", function(done) {
+    it("should correctly serialize a dictionary of array of primitives", function (done) {
       const mapper: msRest.DictionaryMapper = {
         required: false,
         serializedName: "Dictionary",
@@ -528,12 +527,12 @@ describe("msrest", function() {
                 required: true,
                 serializedName: "sequenceElement",
                 type: {
-                  name: "Number"
-                }
-              }
-            }
-          }
-        }
+                  name: "Number",
+                },
+              },
+            },
+          },
+        },
       };
       const dict = { One: [1], Two: [1, 2], three: [1, 2, 3] };
       const serializedDictionary = Serializer.serialize(mapper, dict, "dictObj");
@@ -541,7 +540,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a dictionary of dictionary of primitives", function(done) {
+    it("should correctly serialize a dictionary of dictionary of primitives", function (done) {
       const mapper: msRest.DictionaryMapper = {
         required: false,
         serializedName: "Dictionary",
@@ -556,12 +555,12 @@ describe("msrest", function() {
                 required: true,
                 serializedName: "valueElement",
                 type: {
-                  name: "Boolean"
-                }
-              }
-            }
-          }
-        }
+                  name: "Boolean",
+                },
+              },
+            },
+          },
+        },
       };
       const dict = { 1: { One: true }, 2: { Two: false }, 3: { three: true } };
       const serializedDictionary = Serializer.serialize(mapper, dict, "dictObj");
@@ -569,7 +568,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize a composite type", function(done) {
+    it("should correctly serialize a composite type", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Product;
       const productObj = {
@@ -578,7 +577,7 @@ describe("msrest", function() {
         provisioningState: "Succeeded",
         tags: {
           tag1: "value1",
-          tag2: "value2"
+          tag2: "value2",
         },
         dispatchTime: new Date("2015-01-01T12:35:36.009Z"),
         invoiceInfo: {
@@ -588,16 +587,16 @@ describe("msrest", function() {
             {
               Product1: {
                 id: 101,
-                name: "TestProduct"
-              }
+                name: "TestProduct",
+              },
             },
             {
               Product2: {
                 id: 104,
-                name: "TestProduct1"
-              }
-            }
-          ]
+                name: "TestProduct1",
+              },
+            },
+          ],
         },
         subProducts: [
           {
@@ -606,8 +605,8 @@ describe("msrest", function() {
             makeTime: new Date("2015-12-21T01:01:01"),
             invoiceInfo: {
               invId: 1002,
-              invDate: "2015-12-25"
-            }
+              invDate: "2015-12-25",
+            },
           },
           {
             subId: 103,
@@ -615,10 +614,10 @@ describe("msrest", function() {
             makeTime: new Date("2015-12-21T01:01:01"),
             invoiceInfo: {
               invId: 1003,
-              invDate: "2015-12-25"
-            }
-          }
-        ]
+              invDate: "2015-12-25",
+            },
+          },
+        ],
       };
       const serializedProduct = client.serializer.serialize(mapper, productObj, "productObject");
       for (const prop in serializedProduct) {
@@ -649,7 +648,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize object version of polymorphic discriminator", function(done) {
+    it("should correctly serialize object version of polymorphic discriminator", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.SawShark;
       const sawshark = {
@@ -665,7 +664,7 @@ describe("msrest", function() {
             age: 6,
             birthday: new Date("2012-01-05T01:00:00Z"),
             length: 20.0,
-            species: "predator"
+            species: "predator",
           },
           {
             fishtype: "sawshark",
@@ -673,9 +672,9 @@ describe("msrest", function() {
             birthday: new Date("1900-01-05T01:00:00Z"),
             length: 10.0,
             picture: new Uint8Array([255, 255, 255, 255, 254]),
-            species: "dangerous"
-          }
-        ]
+            species: "dangerous",
+          },
+        ],
       };
       const serializedSawshark = client.serializer.serialize(mapper, sawshark, "result");
       serializedSawshark.age.should.equal(22);
@@ -696,7 +695,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly serialize additionalProperties when the mapper knows that additional properties are allowed", function() {
+    it("should correctly serialize additionalProperties when the mapper knows that additional properties are allowed", function () {
       const bodyParameter = {
         id: 5,
         name: "Funny",
@@ -704,12 +703,12 @@ describe("msrest", function() {
         additionalProperties1: {
           height: 5.61,
           weight: 599,
-          footsize: 11.5
+          footsize: 11.5,
         },
         color: "red",
         city: "Seattle",
         food: "tikka masala",
-        birthdate: "2017-12-13T02:29:51.000Z"
+        birthdate: "2017-12-13T02:29:51.000Z",
       };
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.PetAP;
@@ -728,7 +727,7 @@ describe("msrest", function() {
       result.birthdate.should.equal("2017-12-13T02:29:51.000Z");
     });
 
-    it("should allow null when required: true and nullable: true", function() {
+    it("should allow null when required: true and nullable: true", function () {
       const mapper: msRest.Mapper = {
         required: false,
         serializedName: "testmodel",
@@ -741,11 +740,11 @@ describe("msrest", function() {
               nullable: true,
               serializedName: "length",
               type: {
-                name: "Number"
-              }
-            }
-          }
-        }
+                name: "Number",
+              },
+            },
+          },
+        },
       };
 
       // tslint:disable-next-line
@@ -753,7 +752,7 @@ describe("msrest", function() {
       result.should.exist;
     });
 
-    it("should not allow undefined when required: true and nullable: true", function() {
+    it("should not allow undefined when required: true and nullable: true", function () {
       const mapper: msRest.Mapper = {
         required: false,
         serializedName: "testmodel",
@@ -766,19 +765,19 @@ describe("msrest", function() {
               nullable: true,
               serializedName: "length",
               type: {
-                name: "Number"
-              }
-            }
-          }
-        }
+                name: "Number",
+              },
+            },
+          },
+        },
       };
 
-      (function() {
+      (function () {
         Serializer.serialize(mapper, { length: undefined }, "testobj");
       }.should.throw("testobj.length cannot be undefined."));
     });
 
-    it("should not allow null when required: true and nullable: false", function() {
+    it("should not allow null when required: true and nullable: false", function () {
       const mapper: msRest.Mapper = {
         required: false,
         serializedName: "testmodel",
@@ -791,19 +790,19 @@ describe("msrest", function() {
               nullable: false,
               serializedName: "length",
               type: {
-                name: "Number"
-              }
-            }
-          }
-        }
+                name: "Number",
+              },
+            },
+          },
+        },
       };
 
-      (function() {
+      (function () {
         Serializer.serialize(mapper, { length: undefined }, "testobj");
       }.should.throw("testobj.length cannot be null or undefined."));
     });
 
-    it("should not allow undefined when required: true and nullable: false", function() {
+    it("should not allow undefined when required: true and nullable: false", function () {
       const mapper: msRest.Mapper = {
         required: false,
         serializedName: "testmodel",
@@ -816,99 +815,99 @@ describe("msrest", function() {
               nullable: false,
               serializedName: "length",
               type: {
-                name: "Number"
-              }
-            }
-          }
-        }
+                name: "Number",
+              },
+            },
+          },
+        },
       };
 
-      (function() {
+      (function () {
         Serializer.serialize(mapper, { length: undefined }, "testobj");
       }.should.throw("testobj.length cannot be null or undefined."));
     });
 
-    it("should not allow null when required: true and nullable is undefined", function() {
+    it("should not allow null when required: true and nullable is undefined", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
-      (function() {
+      (function () {
         Serializer.serialize(mapper, undefined, "testobj");
       }.should.throw("testobj cannot be null or undefined."));
     });
 
-    it("should not allow undefined when required: true and nullable is undefined", function() {
+    it("should not allow undefined when required: true and nullable is undefined", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
-      (function() {
+      (function () {
         Serializer.serialize(mapper, undefined, "testobj");
       }.should.throw("testobj cannot be null or undefined."));
     });
 
-    it("should allow null when required: false and nullable: true", function() {
+    it("should allow null when required: false and nullable: true", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
 
       Serializer.serialize(mapper, undefined, "testobj");
     });
 
-    it("should not allow null when required: false and nullable: false", function() {
+    it("should not allow null when required: false and nullable: false", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         nullable: false,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
 
       // tslint:disable-next-line
-      (function() {
+      (function () {
         Serializer.serialize(mapper, null, "testobj");
       }.should.throw("testobj cannot be null."));
     });
 
-    it("should allow null when required: false and nullable is undefined", function() {
+    it("should allow null when required: false and nullable is undefined", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
 
       Serializer.serialize(mapper, undefined, "testobj");
     });
 
-    it("should allow undefined when required: false and nullable: true", function() {
+    it("should allow undefined when required: false and nullable: true", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
 
       Serializer.serialize(mapper, undefined, "testobj");
     });
 
-    it("should allow undefined when required: false and nullable: false", function() {
+    it("should allow undefined when required: false and nullable: false", function () {
       const mapper: msRest.Mapper = {
         serializedName: "fooType",
         type: {
@@ -920,74 +919,74 @@ describe("msrest", function() {
               required: false,
               nullable: false,
               type: {
-                name: "String"
-              }
-            }
-          }
-        }
+                name: "String",
+              },
+            },
+          },
+        },
       };
 
       Serializer.serialize(mapper, { length: undefined }, "testobj");
     });
 
-    it("should allow undefined when required: false and nullable is undefined", function() {
+    it("should allow undefined when required: false and nullable is undefined", function () {
       const mapper: msRest.Mapper = {
         serializedName: "foo",
         required: false,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       };
 
       Serializer.serialize(mapper, undefined, "testobj");
     });
   });
 
-  describe("deserialize", function() {
-    it("should correctly deserialize a Date if the type is 'any'", function(done) {
+  describe("deserialize", function () {
+    it("should correctly deserialize a Date if the type is 'any'", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "any" },
         required: false,
-        serializedName: "any"
+        serializedName: "any",
       };
       const d = new Date();
       const deserializedObject = Serializer.deserialize(mapper, d, "anyResponseBody");
       deserializedObject.should.equal(d);
       done();
     });
-    it("should correctly deserialize an array if the type is 'any'", function(done) {
+    it("should correctly deserialize an array if the type is 'any'", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "any" },
         required: false,
-        serializedName: "any"
+        serializedName: "any",
       };
       const buf = [1, 2, 3];
       const deserializedObject = Serializer.deserialize(mapper, buf, "anyBody");
       deserializedObject.should.equal(buf);
       done();
     });
-    it("should correctly deserialize a uuid", function(done) {
+    it("should correctly deserialize a uuid", function (done) {
       const mapper: msRest.Mapper = {
         type: { name: "Uuid" },
         required: false,
-        serializedName: "Uuid"
+        serializedName: "Uuid",
       };
       const serializedObject = Serializer.deserialize(mapper, valid_uuid, "uuidBody");
       serializedObject.should.equal(valid_uuid);
       done();
     });
-    it("should correctly deserialize a composite type", function(done) {
+    it("should correctly deserialize a composite type", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Product;
       const responseBody = {
         id: 101,
         name: "TestProduct",
         properties: {
-          provisioningState: "Succeeded"
+          provisioningState: "Succeeded",
         },
         tags: {
           tag1: "value1",
-          tag2: "value2"
+          tag2: "value2",
         },
         dispatchTime: new Date("2015-01-01T12:35:36.009Z"),
         invoiceInfo: {
@@ -997,16 +996,16 @@ describe("msrest", function() {
             {
               Product1: {
                 id: 101,
-                name: "TestProduct"
-              }
+                name: "TestProduct",
+              },
             },
             {
               Product2: {
                 id: 104,
-                name: "TestProduct1"
-              }
-            }
-          ]
+                name: "TestProduct1",
+              },
+            },
+          ],
         },
         subProducts: [
           {
@@ -1015,8 +1014,8 @@ describe("msrest", function() {
             makeTime: new Date("2015-12-21T01:01:01"),
             invoiceInfo: {
               invoiceId: 1002,
-              invDate: "2015-12-25"
-            }
+              invDate: "2015-12-25",
+            },
           },
           {
             subId: 103,
@@ -1024,10 +1023,10 @@ describe("msrest", function() {
             makeTime: new Date("2015-12-21T01:01:01"),
             invoiceInfo: {
               invoiceId: 1003,
-              invDate: "2015-12-25"
-            }
-          }
-        ]
+              invDate: "2015-12-25",
+            },
+          },
+        ],
       };
       const deserializedProduct = client.serializer.deserialize(
         mapper,
@@ -1064,7 +1063,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize a pageable type without nextLink", function(done) {
+    it("should correctly deserialize a pageable type without nextLink", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.ProductListResult;
       const responseBody = {
@@ -1073,17 +1072,17 @@ describe("msrest", function() {
             id: 101,
             name: "TestProduct",
             properties: {
-              provisioningState: "Succeeded"
-            }
+              provisioningState: "Succeeded",
+            },
           },
           {
             id: 104,
             name: "TestProduct1",
             properties: {
-              provisioningState: "Failed"
-            }
-          }
-        ]
+              provisioningState: "Failed",
+            },
+          },
+        ],
       };
       const deserializedProduct = client.serializer.deserialize(
         mapper,
@@ -1106,7 +1105,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize a pageable type with nextLink", function(done) {
+    it("should correctly deserialize a pageable type with nextLink", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.ProductListResultNextLink;
       const responseBody = {
@@ -1115,18 +1114,18 @@ describe("msrest", function() {
             id: 101,
             name: "TestProduct",
             properties: {
-              provisioningState: "Succeeded"
-            }
+              provisioningState: "Succeeded",
+            },
           },
           {
             id: 104,
             name: "TestProduct1",
             properties: {
-              provisioningState: "Failed"
-            }
-          }
+              provisioningState: "Failed",
+            },
+          },
         ],
-        nextLink: "https://helloworld.com"
+        nextLink: "https://helloworld.com",
       };
       const deserializedProduct = client.serializer.deserialize(
         mapper,
@@ -1150,7 +1149,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize a pageable type with nextLink first in mapper", function(done) {
+    it("should correctly deserialize a pageable type with nextLink first in mapper", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.ProductListResultNextLinkFirst;
       const responseBody = {
@@ -1159,18 +1158,18 @@ describe("msrest", function() {
             id: 101,
             name: "TestProduct",
             properties: {
-              provisioningState: "Succeeded"
-            }
+              provisioningState: "Succeeded",
+            },
           },
           {
             id: 104,
             name: "TestProduct1",
             properties: {
-              provisioningState: "Failed"
-            }
-          }
+              provisioningState: "Failed",
+            },
+          },
         ],
-        nextLink: "https://helloworld.com"
+        nextLink: "https://helloworld.com",
       };
       const deserializedProduct = client.serializer.deserialize(
         mapper,
@@ -1194,7 +1193,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize object version of polymorphic discriminator", function(done) {
+    it("should correctly deserialize object version of polymorphic discriminator", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Fish;
       const responseBody = {
@@ -1210,7 +1209,7 @@ describe("msrest", function() {
             age: 6,
             birthday: new Date("2012-01-05T01:00:00Z"),
             length: 20.0,
-            species: "predator"
+            species: "predator",
           },
           {
             "fish.type": "sawshark",
@@ -1218,9 +1217,9 @@ describe("msrest", function() {
             birthday: new Date("1900-01-05T01:00:00Z").toISOString(),
             length: 10.0,
             picture: "/////g==",
-            species: "dangerous"
-          }
-        ]
+            species: "dangerous",
+          },
+        ],
       };
       const deserializedSawshark = client.serializer.deserialize(
         mapper,
@@ -1251,7 +1250,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize an array of array of object types", function(done) {
+    it("should correctly deserialize an array of array of object types", function (done) {
       const mapper: msRest.Mapper = {
         serializedName: "arrayObj",
         required: true,
@@ -1264,12 +1263,12 @@ describe("msrest", function() {
               element: {
                 serializedName: "ObjectElementType",
                 type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
+                  name: "Object",
+                },
+              },
+            },
+          },
+        },
       };
       const array = [[1], ["2"], [1, "2", {}, true, []]];
       const deserializedArray = Serializer.deserialize(mapper, array, mapper.serializedName!);
@@ -1277,7 +1276,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize without failing when encountering unrecognized discriminator", function(done) {
+    it("should correctly deserialize without failing when encountering unrecognized discriminator", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Fish;
       const responseBody = {
@@ -1300,11 +1299,11 @@ describe("msrest", function() {
                 "fish.type": "mutatedshark",
                 age: 6,
                 length: 20.0,
-                species: "predator"
-              }
-            ]
-          }
-        ]
+                species: "predator",
+              },
+            ],
+          },
+        ],
       };
       const deserializedSawshark = client.serializer.deserialize(
         mapper,
@@ -1323,7 +1322,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should correctly deserialize additionalProperties when the mapper knows that additional properties are allowed", function(done) {
+    it("should correctly deserialize additionalProperties when the mapper knows that additional properties are allowed", function (done) {
       const responseBody = {
         id: 5,
         name: "Funny",
@@ -1332,12 +1331,12 @@ describe("msrest", function() {
         additionalProperties: {
           height: 5.61,
           weight: 599,
-          footsize: 11.5
+          footsize: 11.5,
         },
         color: "red",
         city: "Seattle",
         food: "tikka masala",
-        birthdate: "2017-12-13T02:29:51Z"
+        birthdate: "2017-12-13T02:29:51Z",
       };
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.PetAP;
@@ -1358,7 +1357,7 @@ describe("msrest", function() {
       done();
     });
 
-    it("should deserialize headerCollectionPrefix", function() {
+    it("should deserialize headerCollectionPrefix", function () {
       const mapper: msRest.CompositeMapper = {
         serializedName: "something",
         type: {
@@ -1372,48 +1371,48 @@ describe("msrest", function() {
                 value: {
                   serializedName: "element",
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
+              headerCollectionPrefix: "foo-bar-",
             },
             unrelated: {
               serializedName: "unrelated",
               type: {
-                name: "Number"
-              }
-            }
-          }
-        }
+                name: "Number",
+              },
+            },
+          },
+        },
       };
 
       const rawHeaders = {
         "foo-bar-alpha": "hello",
         "foo-bar-beta": "world",
-        unrelated: "42"
+        unrelated: "42",
       };
 
       const expected = {
         metadata: {
           alpha: "hello",
-          beta: "world"
+          beta: "world",
         },
-        unrelated: 42
+        unrelated: 42,
       };
       const actual = Serializer.deserialize(mapper, rawHeaders, "headers");
       assert.deepEqual(actual, expected);
     });
 
     describe("composite type", () => {
-      it("should be deserialized properly when polymorphicDiscriminator specified", function() {
+      it("should be deserialized properly when polymorphicDiscriminator specified", function () {
         const fish: msRest.CompositeMapper = {
           serializedName: "Fish",
           type: {
             name: "Composite",
             polymorphicDiscriminator: {
               serializedName: "fishtype",
-              clientName: "fishtype"
+              clientName: "fishtype",
             },
             uberParent: "Fish",
             className: "Fish",
@@ -1422,11 +1421,11 @@ describe("msrest", function() {
                 required: true,
                 serializedName: "fishtype",
                 type: {
-                  name: "String"
-                }
-              }
-            }
-          }
+                  name: "String",
+                },
+              },
+            },
+          },
         };
 
         const shark: msRest.CompositeMapper = {
@@ -1441,11 +1440,11 @@ describe("msrest", function() {
               age: {
                 serializedName: "age",
                 type: {
-                  name: "Number"
-                }
-              }
-            }
-          }
+                  name: "Number",
+                },
+              },
+            },
+          },
         };
 
         const mappers = {
@@ -1453,15 +1452,15 @@ describe("msrest", function() {
           Shark: shark,
           discriminators: {
             Fish: fish,
-            "Fish.shark": shark
-          }
+            "Fish.shark": shark,
+          },
         };
         const serializer = new msRest.Serializer(mappers);
         const result = serializer.deserialize(
           fish,
           {
             fishtype: "shark",
-            age: 10
+            age: 10,
           },
           ""
         );
@@ -1470,14 +1469,14 @@ describe("msrest", function() {
         assert.strictEqual(10, result.age);
       });
 
-      it("should be deserialized properly when polymorphicDiscriminator specified in nested property", function() {
+      it("should be deserialized properly when polymorphicDiscriminator specified in nested property", function () {
         const fish: msRest.CompositeMapper = {
           serializedName: "Fish",
           type: {
             name: "Composite",
             polymorphicDiscriminator: {
               serializedName: "fishtype",
-              clientName: "fishtype"
+              clientName: "fishtype",
             },
             uberParent: "Fish",
             className: "Fish",
@@ -1489,21 +1488,21 @@ describe("msrest", function() {
                   name: "Composite",
                   polymorphicDiscriminator: {
                     serializedName: "fishtype",
-                    clientName: "fishtype"
+                    clientName: "fishtype",
                   },
                   uberParent: "Fish",
-                  className: "Fish"
-                }
+                  className: "Fish",
+                },
               },
               fishtype: {
                 required: true,
                 serializedName: "fishtype",
                 type: {
-                  name: "String"
-                }
-              }
-            }
-          }
+                  name: "String",
+                },
+              },
+            },
+          },
         };
 
         const shark: msRest.CompositeMapper = {
@@ -1518,11 +1517,11 @@ describe("msrest", function() {
               age: {
                 serializedName: "age",
                 type: {
-                  name: "Number"
-                }
-              }
-            }
-          }
+                  name: "Number",
+                },
+              },
+            },
+          },
         };
 
         const mappers = {
@@ -1530,8 +1529,8 @@ describe("msrest", function() {
           Shark: shark,
           discriminators: {
             Fish: fish,
-            "Fish.shark": shark
-          }
+            "Fish.shark": shark,
+          },
         };
         const serializer = new msRest.Serializer(mappers);
         const result = serializer.deserialize(
@@ -1539,7 +1538,7 @@ describe("msrest", function() {
           {
             fishtype: "shark",
             age: 10,
-            sibling: { fishtype: "shark", age: 15 }
+            sibling: { fishtype: "shark", age: 15 },
           },
           ""
         );
@@ -1550,14 +1549,14 @@ describe("msrest", function() {
         assert.strictEqual(15, result.sibling.age);
       });
 
-      it("should be deserialized properly when polymorphicDiscriminator specified in the parent", function() {
+      it("should be deserialized properly when polymorphicDiscriminator specified in the parent", function () {
         const fish: msRest.CompositeMapper = {
           serializedName: "Fish",
           type: {
             name: "Composite",
             polymorphicDiscriminator: {
               serializedName: "fishtype",
-              clientName: "fishtype"
+              clientName: "fishtype",
             },
             uberParent: "Fish",
             className: "Fish",
@@ -1568,18 +1567,18 @@ describe("msrest", function() {
                 type: {
                   name: "Composite",
                   uberParent: "Fish",
-                  className: "Fish"
-                }
+                  className: "Fish",
+                },
               },
               fishtype: {
                 required: true,
                 serializedName: "fishtype",
                 type: {
-                  name: "String"
-                }
-              }
-            }
-          }
+                  name: "String",
+                },
+              },
+            },
+          },
         };
 
         const shark: msRest.CompositeMapper = {
@@ -1594,11 +1593,11 @@ describe("msrest", function() {
               age: {
                 serializedName: "age",
                 type: {
-                  name: "Number"
-                }
-              }
-            }
-          }
+                  name: "Number",
+                },
+              },
+            },
+          },
         };
 
         const mappers = {
@@ -1606,8 +1605,8 @@ describe("msrest", function() {
           Shark: shark,
           discriminators: {
             Fish: fish,
-            "Fish.shark": shark
-          }
+            "Fish.shark": shark,
+          },
         };
         const serializer = new msRest.Serializer(mappers);
         const result = serializer.deserialize(
@@ -1615,7 +1614,7 @@ describe("msrest", function() {
           {
             fishtype: "shark",
             age: 10,
-            sibling: { fishtype: "shark", age: 15 }
+            sibling: { fishtype: "shark", age: 15 },
           },
           ""
         );
@@ -1626,18 +1625,18 @@ describe("msrest", function() {
         assert.strictEqual(15, result.sibling.age);
       });
 
-      it("should be deserialized properly when responseBody is an empty string", function() {
+      it("should be deserialized properly when responseBody is an empty string", function () {
         const fish: msRest.CompositeMapper = {
           serializedName: "Fish",
           type: {
             name: "Composite",
             className: "Fish",
-            modelProperties: {}
-          }
+            modelProperties: {},
+          },
         };
 
         const mappers = {
-          Fish: fish
+          Fish: fish,
         };
         const serializer = new msRest.Serializer(mappers);
         const result: any = serializer.deserialize(fish, "", "mockFishProperty");
@@ -1645,7 +1644,7 @@ describe("msrest", function() {
         assert.deepEqual(result, {});
       });
 
-      it("should be deserialized properly when item list wrapper is an empty string", function() {
+      it("should be deserialized properly when item list wrapper is an empty string", function () {
         const blobServiceProperties: msRest.CompositeMapper = {
           xmlName: "StorageServiceProperties",
           serializedName: "BlobServiceProperties",
@@ -1663,17 +1662,17 @@ describe("msrest", function() {
                   element: {
                     type: {
                       name: "Composite",
-                      className: "CorsRule"
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      className: "CorsRule",
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
 
         const mappers = {
-          BlobServiceProperties: blobServiceProperties
+          BlobServiceProperties: blobServiceProperties,
         };
         const serializer = new msRest.Serializer(mappers, true);
         const result: any = serializer.deserialize(
@@ -1693,7 +1692,7 @@ describe("msrest", function() {
           name: "Composite",
           polymorphicDiscriminator: {
             serializedName: "fishtype",
-            clientName: "fishtype"
+            clientName: "fishtype",
           },
           uberParent: "Fish",
           className: "Fish",
@@ -1701,15 +1700,15 @@ describe("msrest", function() {
             species: {
               serializedName: "species",
               type: {
-                name: "String"
-              }
+                name: "String",
+              },
             },
             length: {
               required: true,
               serializedName: "length",
               type: {
-                name: "Number"
-              }
+                name: "Number",
+              },
             },
             siblings: {
               serializedName: "siblings",
@@ -1718,20 +1717,20 @@ describe("msrest", function() {
                 element: {
                   type: {
                     name: "Composite",
-                    className: "Fish"
-                  }
-                }
-              }
+                    className: "Fish",
+                  },
+                },
+              },
             },
             fishtype: {
               required: true,
               serializedName: "fishtype",
               type: {
-                name: "String"
-              }
-            }
-          }
-        }
+                name: "String",
+              },
+            },
+          },
+        },
       };
 
       const Salmon: msRest.CompositeMapper = {
@@ -1746,17 +1745,17 @@ describe("msrest", function() {
             location: {
               serializedName: "location",
               type: {
-                name: "String"
-              }
+                name: "String",
+              },
             },
             iswild: {
               serializedName: "iswild",
               type: {
-                name: "Boolean"
-              }
-            }
-          }
-        }
+                name: "Boolean",
+              },
+            },
+          },
+        },
       };
 
       const Shark: msRest.CompositeMapper = {
@@ -1771,18 +1770,18 @@ describe("msrest", function() {
             age: {
               serializedName: "age",
               type: {
-                name: "Number"
-              }
+                name: "Number",
+              },
             },
             birthday: {
               required: true,
               serializedName: "birthday",
               type: {
-                name: "DateTime"
-              }
-            }
-          }
-        }
+                name: "DateTime",
+              },
+            },
+          },
+        },
       };
 
       const Sawshark: msRest.CompositeMapper = {
@@ -1797,11 +1796,11 @@ describe("msrest", function() {
             picture: {
               serializedName: "picture",
               type: {
-                name: "ByteArray"
-              }
-            }
-          }
-        }
+                name: "ByteArray",
+              },
+            },
+          },
+        },
       };
 
       const Goblinshark: msRest.CompositeMapper = {
@@ -1816,18 +1815,18 @@ describe("msrest", function() {
             jawsize: {
               serializedName: "jawsize",
               type: {
-                name: "Number"
-              }
+                name: "Number",
+              },
             },
             color: {
               serializedName: "color",
               defaultValue: "gray",
               type: {
-                name: "String"
-              }
-            }
-          }
-        }
+                name: "String",
+              },
+            },
+          },
+        },
       };
 
       const mappers = {
@@ -1836,16 +1835,16 @@ describe("msrest", function() {
           "Fish.salmon": Salmon,
           "Fish.shark": Shark,
           "Fish.sawshark": Sawshark,
-          "Fish.goblin": Goblinshark
+          "Fish.goblin": Goblinshark,
         },
         Fish,
         Salmon,
         Shark,
         Sawshark,
-        Goblinshark
+        Goblinshark,
       };
 
-      it("should be deserialized with child properties", function() {
+      it("should be deserialized with child properties", function () {
         const body = {
           fishtype: "salmon",
           location: "alaska",
@@ -1858,7 +1857,7 @@ describe("msrest", function() {
               age: 6,
               birthday: "2012-01-05T01:00:00Z",
               length: 20,
-              species: "predator"
+              species: "predator",
             },
             {
               fishtype: "sawshark",
@@ -1866,7 +1865,7 @@ describe("msrest", function() {
               birthday: "1900-01-05T01:00:00Z",
               length: 10,
               picture: "//////4=",
-              species: "dangerous"
+              species: "dangerous",
             },
             {
               fishtype: "goblin",
@@ -1875,9 +1874,9 @@ describe("msrest", function() {
               length: 30,
               species: "scary",
               jawsize: 5,
-              color: "pinkish-gray"
-            }
-          ]
+              color: "pinkish-gray",
+            },
+          ],
         };
 
         const serializer = new msRest.Serializer(mappers);
@@ -1888,7 +1887,7 @@ describe("msrest", function() {
         assert.equal(result.siblings[2].jawsize, 5);
       });
 
-      it("should be serialized with child properties", function() {
+      it("should be serialized with child properties", function () {
         const body = {
           fishtype: "salmon",
           location: "alaska",
@@ -1901,7 +1900,7 @@ describe("msrest", function() {
               age: 6,
               birthday: new Date("2012-01-05T01:00:00Z"),
               length: 20.0,
-              species: "predator"
+              species: "predator",
             },
             {
               fishtype: "sawshark",
@@ -1909,7 +1908,7 @@ describe("msrest", function() {
               birthday: new Date("1900-01-05T01:00:00Z"),
               length: 10.0,
               picture: new Uint8Array([255, 255, 255, 255, 254]),
-              species: "dangerous"
+              species: "dangerous",
             },
             {
               fishtype: "goblin",
@@ -1918,9 +1917,9 @@ describe("msrest", function() {
               length: 30,
               species: "scary",
               birthday: new Date("2015-08-08T00:00:00Z"),
-              jawsize: 5
-            }
-          ]
+              jawsize: 5,
+            },
+          ],
         };
 
         const serializer = new msRest.Serializer(mappers);

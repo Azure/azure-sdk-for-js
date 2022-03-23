@@ -11,13 +11,14 @@ import { ConnectedRegistries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   ConnectedRegistry,
   ConnectedRegistriesListNextOptionalParams,
   ConnectedRegistriesListOptionalParams,
+  ConnectedRegistriesListResponse,
   ConnectedRegistriesGetOptionalParams,
   ConnectedRegistriesGetResponse,
   ConnectedRegistriesCreateOptionalParams,
@@ -26,7 +27,6 @@ import {
   ConnectedRegistryUpdateParameters,
   ConnectedRegistriesUpdateOptionalParams,
   ConnectedRegistriesUpdateResponse,
-  ConnectedRegistriesListResponse,
   ConnectedRegistriesDeactivateOptionalParams,
   ConnectedRegistriesListNextResponse
 } from "../models";
@@ -34,13 +34,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedRegistries operations. */
 export class ConnectedRegistriesImpl implements ConnectedRegistries {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class ConnectedRegistries class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -101,6 +101,23 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all connected registries for the specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: ConnectedRegistriesListOptionalParams
+  ): Promise<ConnectedRegistriesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -410,23 +427,6 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   }
 
   /**
-   * Lists all connected registries for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: ConnectedRegistriesListOptionalParams
-  ): Promise<ConnectedRegistriesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * Deactivates the connected registry instance.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -533,6 +533,28 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectedRegistryListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
@@ -646,28 +668,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectedRegistryListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const deactivateOperationSpec: coreClient.OperationSpec = {

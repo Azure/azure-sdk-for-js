@@ -1,0 +1,25 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": "Property",
+      "name": "expectedDistance",
+      "schema": "double",
+      "foobar": "hello"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:noTypeThatAllows",
+        "PrimaryID": "dtmi:test:aProperty;1",
+        "SecondaryID": null,
+        "Property": "foobar",
+        "Value": null
+      }
+    ]
+  }
+}

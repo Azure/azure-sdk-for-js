@@ -1,235 +1,379 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
-  getUniqueName,
-  isBrowser,
-  isRecordMode,
+  createDefaultHttpClient,
+  HttpClient,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
+import {
+  ensureExistence,
+  getTestMode,
+  isLiveMode,
   isPlaybackMode,
-  RecorderEnvironmentSetup,
-  env,
-  isSoftRecordMode,
-  testHasChanged,
-  stripNewLines
-} from "./utils";
-import { setEnvironmentVariables } from "./baseRecorder";
-import { createRecorder } from "./createRecorder";
-import MD5 from "md5";
+  isRecordMode,
+  once,
+  RecorderError,
+  RecorderStartOptions,
+  RecordingStateManager,
+} from "./utils/utils";
+import { Test } from "mocha";
+import { sessionFilePath } from "./utils/sessionFilePath";
+import { SanitizerOptions } from "./utils/utils";
+import { paths } from "./utils/paths";
+import { addSanitizers, transformsInfo } from "./sanitizer";
+import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
+import {
+  DefaultHttpClient,
+  HttpClient as HttpClientCoreV1,
+  HttpOperationResponse,
+  WebResource,
+  WebResourceLike,
+} from "@azure/core-http";
+import { addTransform, Transform } from "./transform";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**
- * @export
- * An interface that allows recording and playback capabilities for the tests in Azure TS SDKs.
- */
-export interface Recorder {
-  /**
-   * `stop()` method is supposed to be called at the end of the test, stops and saves the recording in the "record" mode.
-   * Has no effect in the playback/live test modes.
-   */
-  stop(): Promise<void>;
-  /**
-   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
-   * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
-   * Has no effect in the live test mode.
-   */
-  skip(runtime?: "node" | "browser", reason?: string): void;
-  /**
-   * In live test mode, random string is generated, appended to `prefix` and returned.
-   *
-   * In record mode, random string is generated, appended to `prefix` and returned, and is saved in the recordings by assigning the `label`.
-   *
-   * In playback mode, the string in the recordings associated to the `label` is returned.
-   *
-   * If the `label`(optional param) is not provided, `prefix` is used as the `label`.
-   *
-   * @param {string} [prefix] Prefix for the generated random string
-   * @param {string} [label] (Optional) Label to be assigned for the generated string [necessary for playing back the recordings]. If label is not provided, prefix is assumed as the label
-   * @returns {string}
-   */
-  getUniqueName: (prefix: string, label?: string) => string;
-  /**
-   * In live test mode, `new Date();` is returned.
-   *
-   * In record mode, `new Date();` is returned, and is saved in the recordings by assigning the `label`.
-   *
-   * In playback mode, the date in the recordings associated to the `label` is returned.
-   *
-   * @param {string} [label] Label to be assigned for the date [necessary for playing back the recordings]
-   * @returns {Date}
-   */
-  newDate: (label: string) => Date;
-}
-
-/**
- * An interface representing Mocha's Runnable
- */
-export interface TestContextTest {
-  parent?: {
-    fullTitle: () => string;
-  };
-  fn?: () => any;
-  title?: string;
-  type?: string;
-  file: string;
-}
-
-/**
- * An interface representing only the public properties of Mocha.Context
- */
-export interface TestContextInterface {
-  test?: TestContextTest;
-  currentTest?: TestContextTest;
-  skip: () => void;
-}
-
-/**
- * A simple class that lets us make fake contexts for tests.
- */
-export class TestContext implements TestContextInterface {
-  public test: TestContextTest | undefined;
-  public currentTest: TestContextTest | undefined;
-  public skip() {}
-
-  constructor(test: TestContextTest, currentTest: TestContextTest) {
-    this.test = test;
-    this.currentTest = currentTest;
-  }
-}
-
-/**
+ * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
+ * eventually save them in record mode and playing them back in playback mode.
  *
- * @param {Mocha.Context} [testContext]
- * @returns {Recorder}
+ * For Core V2 SDKs,
+ * - Use the `configureClient` method to add recorder policy on your client.
+ * For core-v1 SDKs,
+ * - Use the `configureClientOptionsCoreV1` method to modify the httpClient on your client options
+ *
+ * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
-export function record(
-  testContext: TestContextInterface | Mocha.Context,
-  recorderEnvironmentSetup: RecorderEnvironmentSetup
-): Recorder {
-  let testHierarchy: string;
-  let testTitle: string;
+export class Recorder {
+  private url = "http://localhost:5000";
+  public recordingId?: string;
+  private stateManager = new RecordingStateManager();
+  private httpClient?: HttpClient;
+  private sessionFile?: string;
+  private variables: Record<string, string>;
 
-  // In a hook ("before all" or "before each"), testContext.test points to the hook, while testContext.currentTest
-  // points to the individual test that will be run next.  A "before all" hook is run once before all tests,
-  // so the hook itself should be used to identify recordings.  However, a "before each" hook is run once before each
-  // test, so the individual test should be used instead.
-  if ((testContext as any).test!.type == "hook" && testContext.test!.title!.includes("each")) {
-    testHierarchy = testContext.currentTest!.parent!.fullTitle();
-    testTitle = testContext.currentTest!.title!;
-  } else {
-    testHierarchy = testContext.test!.parent!.fullTitle();
-    testTitle = testContext.test!.title!;
-  }
-
-  const stringTest = testContext.currentTest!.fn!.toString();
-  // We strip new lines to make it easier for the browser builds to make a predictable output after small changes on the files.
-  const currentHash = MD5(stripNewLines(stringTest));
-  const testAbsolutePath = testContext.currentTest!.file!;
-
-  if (
-    isSoftRecordMode() &&
-    !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
-  ) {
-    testContext.test!.title = `${testContext.test!.title} (Test unchanged since last recording)`;
-    testContext.skip();
-  }
-
-  const recorder = createRecorder(currentHash, testHierarchy, testTitle);
-
-  if (isRecordMode()) {
-    // If TEST_MODE=record, invokes the recorder, hits the live-service,
-    // expects that the appropriate environment variables are present
-    recorder.record(recorderEnvironmentSetup);
-  } else if (isPlaybackMode()) {
-    // If TEST_MODE=playback,
-    //  1. sets up the ENV variables
-    //  2. invokes the recorder, play the existing test recording.
-    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
-    recorder.playback(recorderEnvironmentSetup, testAbsolutePath);
-  }
-  // If TEST_MODE=live, hits the live-service and no recordings are generated.
-
-  return {
-    stop: async function() {
-      // We check wether we're on record or playback inside of the recorder's stop method.
-      if (recorder) {
-        await recorder.stop();
-      }
-    },
-    /**
-     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
-     * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
-     * @param runtime Can either be `"node"` or `"browser"` or `undefined`
-     * @param reason Reason for skipping the test
-     */
-    skip: function(runtime?: "node" | "browser", reason?: string): void {
-      if (!reason) reason = "Reason to skip the test is not specified";
-      // 1. skipping the test only in node
-      // 2. skipping the test only in browser
-      // 3. skipping the test in both the node and browser runtimes
-      if (
-        (runtime === "node" && !isBrowser()) ||
-        (runtime === "browser" && isBrowser()) ||
-        !runtime
-      ) {
-        // record/playback modes
-        // - test title is updated with the given reason
-        // - test is skipped
-        if (isRecordMode() || isPlaybackMode()) {
-          testContext.test!.title = testContext.test!.title + ` (${reason})`;
-          testContext.skip();
-        } else {
-          // live mode - no effect
-        }
-      }
-    },
-    getUniqueName: function(prefix: string, label?: string): string {
-      let name: string;
-      if (!label) {
-        label = prefix;
-      }
-      if (isRecordMode()) {
-        name = getUniqueName(prefix);
-        if (recorder.uniqueTestInfo["uniqueName"][label]) {
-          throw new Error(
-            `getUniqueName: function(prefix: string, label?: string),
-            Label "${label}" is already taken,
-            please provide a different prefix OR give a new label while keeping the same prefix "${prefix}".`
-          );
-        } else {
-          recorder.uniqueTestInfo["uniqueName"][label] = name;
-        }
-      } else if (isPlaybackMode()) {
-        if (recorder.uniqueTestInfo["uniqueName"]) {
-          name = recorder.uniqueTestInfo["uniqueName"][label];
-        } else {
-          name = (recorder.uniqueTestInfo as any)[label];
-        }
+  constructor(private testContext?: Test | undefined) {
+    if (isRecordMode() || isPlaybackMode()) {
+      if (this.testContext) {
+        this.sessionFile = sessionFilePath(this.testContext);
+        this.httpClient = createDefaultHttpClient();
       } else {
-        name = getUniqueName(prefix);
+        throw new Error(
+          "Unable to determine the recording file path, testContext provided is not defined."
+        );
       }
-      return name;
-    },
-    newDate: function(label: string): Date {
-      let date: Date;
-      if (isRecordMode()) {
-        date = new Date();
-        if (recorder.uniqueTestInfo["newDate"][label]) {
-          throw new Error(
-            `newDate: function(label: string),
-            Label "${label}" is already taken, please provide a new label.`
-          );
-        } else {
-          recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
-        }
-      } else if (isPlaybackMode()) {
-        if (recorder.uniqueTestInfo["newDate"]) {
-          date = new Date(recorder.uniqueTestInfo["newDate"][label]);
-        } else {
-          date = new Date((recorder.uniqueTestInfo as any)[label]);
-        }
-      } else {
-        date = new Date();
-      }
-      return date;
     }
-  };
+    this.variables = {};
+  }
+
+  /**
+   * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
+   * Works for both core-v1 and core-v2
+   *
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
+   */
+  private redirectRequest(request: WebResource | PipelineRequest): void {
+    if (!isLiveMode() && !request.headers.get("x-recording-id")) {
+      if (this.recordingId === undefined) {
+        throw new RecorderError("Recording ID must be defined to redirect a request");
+      }
+
+      request.headers.set("x-recording-id", this.recordingId);
+      request.headers.set("x-recording-mode", getTestMode());
+
+      const upstreamUrl = new URL(request.url);
+      const redirectedUrl = new URL(request.url);
+      const providedUrl = new URL(this.url);
+
+      redirectedUrl.host = providedUrl.host;
+      redirectedUrl.port = providedUrl.port;
+      redirectedUrl.protocol = providedUrl.protocol;
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.url = redirectedUrl.toString();
+
+      if (!(request instanceof WebResource)) {
+        // for core-v2
+        request.allowInsecureConnection = true;
+      }
+    }
+  }
+
+  /**
+   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
+   *
+   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   *
+   * By default, it applies only to record mode.
+   *
+   * If you want this to be applied in a specific mode or in a combination of modes, use the "mode" argument.
+   */
+  async addSanitizers(
+    options: SanitizerOptions,
+    mode: ("record" | "playback")[] = ["record"]
+  ): Promise<void> {
+    if (isLiveMode()) return;
+    const actualTestMode = getTestMode() as "record" | "playback";
+    if (
+      mode.includes(actualTestMode) &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
+      return addSanitizers(this.httpClient, this.url, this.recordingId, options);
+    }
+  }
+
+  async addTransform(transform: Transform): Promise<void> {
+    if (
+      isPlaybackMode() &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
+      await addTransform(this.url, this.httpClient, transform, this.recordingId);
+    }
+  }
+
+  /**
+   * Call this method to ping the proxy-tool with a start request
+   * signalling to start recording in the record mode
+   * or to start playing back in the playback mode.
+   *
+   * Takes RecorderStartOptions as the input, which will get used in record and playback modes.
+   * Includes
+   * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
+   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
+   */
+  async start(options: RecorderStartOptions): Promise<void> {
+    if (isLiveMode()) return;
+    this.stateManager.state = "started";
+    if (this.recordingId === undefined) {
+      const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
+        paths.start
+      }`;
+      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
+
+      if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        const rsp = await this.httpClient.sendRequest({
+          ...req,
+          allowInsecureConnection: true,
+        });
+        if (rsp.status !== 200) {
+          throw new RecorderError("Start request failed.");
+        }
+        const id = rsp.headers.get("x-recording-id");
+        if (!id) {
+          throw new RecorderError("No recording ID returned for a successful start request.");
+        }
+        this.recordingId = id;
+        if (isPlaybackMode()) {
+          this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
+        }
+
+        await handleEnvSetup(
+          this.httpClient,
+          this.url,
+          this.recordingId,
+          options.envSetupForPlayback
+        );
+
+        // Sanitizers to be added only in record mode
+        if (isRecordMode() && options.sanitizerOptions) {
+          // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+          // Recordings of the current test will be influenced by the sanitizers that are being added here
+          await this.addSanitizers(options.sanitizerOptions);
+        }
+      }
+    }
+  }
+
+  /**
+   * Call this method to ping the proxy-tool with a stop request, this helps saving the recording in record mode.
+   */
+  async stop(): Promise<void> {
+    if (isLiveMode()) return;
+    this.stateManager.state = "stopped";
+    if (this.recordingId !== undefined) {
+      const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop}`;
+      const req = createRecordingRequest(stopUri, undefined, this.recordingId);
+      req.headers.set("x-recording-save", "true");
+
+      if (isRecordMode()) {
+        req.headers.set("Content-Type", "application/json");
+        req.body = JSON.stringify(this.variables);
+      }
+      if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        const rsp = await this.httpClient.sendRequest({
+          ...req,
+          allowInsecureConnection: true,
+        });
+        if (rsp.status !== 200) {
+          throw new RecorderError("Stop request failed.");
+        }
+      }
+    } else {
+      throw new RecorderError("Bad state, recordingId is not defined when called stop.");
+    }
+  }
+
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: "HeaderlessMatcher" | "BodilessMatcher"): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: "CustomDefaultMatcher", options?: CustomMatcherOptions): Promise<void>;
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
+    if (isPlaybackMode()) {
+      if (!this.httpClient) {
+        throw new RecorderError("httpClient should be defined in playback mode");
+      }
+
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId, options);
+    }
+  }
+
+  async transformsInfo(): Promise<string | null | undefined> {
+    if (isLiveMode()) {
+      throw new RecorderError("Cannot call transformsInfo in live mode");
+    }
+
+    if (ensureExistence(this.httpClient, "this.httpClient")) {
+      return await transformsInfo(this.httpClient, this.url, this.recordingId!);
+    }
+
+    throw new RecorderError("Expected httpClient to be defined");
+  }
+
+  /**
+   * For core-v2 - libraries depending on core-rest-pipeline.
+   * This method adds the recording policy to the additionalPolicies in the client options.
+   *
+   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   *
+   * Note: Client Options must have "additionalPolicies" as part of the options.
+   */
+  public configureClientOptions<T>(
+    options: T & { additionalPolicies?: AdditionalPolicyConfig[] }
+  ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
+    if (isLiveMode()) return options;
+    if (!options.additionalPolicies) options.additionalPolicies = [];
+    options.additionalPolicies.push({
+      policy: this.recorderHttpPolicy(),
+      position: "perRetry",
+    });
+    return options;
+  }
+
+  /**
+   * For core-v1 - libraries depending on core-http.
+   * This method adds the custom httpClient to the client options.
+   *
+   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   */
+  public configureClientOptionsCoreV1<T>(
+    options: T & {
+      httpClient?: HttpClientCoreV1;
+    }
+  ): T & {
+    httpClient?: HttpClientCoreV1;
+  } {
+    if (isLiveMode()) return options;
+    return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
+  }
+
+  /**
+   * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
+   */
+  private recorderHttpPolicy(): PipelinePolicy {
+    return {
+      name: "recording policy",
+      sendRequest: async (
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> => {
+        this.redirectRequest(request);
+        return next(request);
+      },
+    };
+  }
+
+  /**
+   * Creates a client that supports redirecting the requests to the proxy-tool.
+   * Needed for the core-v1 SDKs(SDKs depending on core-http)
+   */
+  private createHttpClientCoreV1(): HttpClientCoreV1 {
+    const client = new DefaultHttpClient();
+    return {
+      sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
+        this.redirectRequest(request);
+        return client.sendRequest(request);
+      },
+    };
+  }
+
+  /**
+   * Register a variable to be stored with the recording. The behavior of this function
+   * depends on whether the recorder is in record/live mode or in playback mode.
+   *
+   * In record or live mode, the function will store the value provided with the recording
+   * as a variable and return that value.
+   *
+   * In playback mode, the function will fetch the value from the variables stored as part of the recording
+   * and return the retrieved variable, throwing an error if it is not found.
+   *
+   * @param name - the name of the variable to be stored in the recording
+   * @param value - the value of the variable. In record mode, this value will be stored
+   *                with the recording; in playback mode, this parameter is ignored.
+   * @returns in record and live mode, `value` without modification.
+   *          In playback mode, the variable's value from the recording.
+   */
+  variable(name: string, value: string): string;
+
+  /**
+   * Convenience overload in case you want to reference the same variable multiple times in a test without
+   * declaring a variable of your own, or if you know you're in playback mode and don't want to specify an
+   * initial value. Throws an error in record and live mode if a call to variable(name, value) has not been
+   * made previously.
+   *
+   * @param name - the name of the variable stored in the recording
+   * @returns the value of the variable -- in record and live mode, the value set
+   *          in a previous call to variable(name, value). In playback mode, the variable's
+   *          value from the recording.
+   */
+  variable(name: string): string;
+
+  variable(name: string, value: string | undefined = undefined): string {
+    if (isPlaybackMode()) {
+      const recordedValue = this.variables[name];
+
+      if (recordedValue === undefined) {
+        throw new RecorderError(
+          `Tried to access a variable in playback that was not set in recording: ${name}`
+        );
+      }
+
+      return recordedValue;
+    }
+
+    if (!this.variables[name]) {
+      if (value === undefined) {
+        throw new RecorderError(
+          `Tried to access uninitialized variable: ${name}. You must initialize it with a value before using it.`
+        );
+      }
+
+      this.variables[name] = value;
+    }
+
+    return this.variables[name];
+  }
 }

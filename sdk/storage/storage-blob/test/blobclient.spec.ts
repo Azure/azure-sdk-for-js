@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
@@ -13,7 +12,8 @@ import {
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
   getGenericBSU,
-  getImmutableContainerName
+  getImmutableContainerName,
+  isBrowser,
 } from "./utils";
 import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
@@ -22,13 +22,14 @@ import {
   ContainerClient,
   BlockBlobTier,
   BlobServiceClient,
-  RehydratePriority
+  RehydratePriority,
+  ObjectReplicationPolicy,
+  BlobImmutabilityPolicyMode,
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -41,7 +42,7 @@ describe("BlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -53,30 +54,30 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  it("Set and get blob tags should work with lease condition", async function() {
+  it("Set and get blob tags should work with lease condition", async function () {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
     await leaseClient.acquireLease(-1);
 
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
     await blockBlobClient.setTags(tags, { conditions: { leaseId: leaseClient.leaseId } });
     const response = await blockBlobClient.getTags({
-      conditions: { leaseId: leaseClient.leaseId }
+      conditions: { leaseId: leaseClient.leaseId },
     });
     assert.deepStrictEqual(response.tags, tags);
 
     const tags1 = {
-      tag1: "val"
+      tag1: "val",
     };
     try {
       await blockBlobClient.setTags(tags1);
@@ -100,10 +101,10 @@ describe("BlobClient", () => {
     await leaseClient.releaseLease();
   });
 
-  it("Set blob tags should work", async function() {
+  it("Set blob tags should work", async function () {
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
     await blockBlobClient.setTags(tags);
 
@@ -125,10 +126,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
   });
 
-  it("Get blob tags should work with a snapshot", async function() {
+  it("Get blob tags should work with a snapshot", async function () {
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
     await blockBlobClient.setTags(tags);
 
@@ -139,12 +140,12 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create block blob should work with tags", async function() {
+  it("Create block blob should work with tags", async function () {
     await blockBlobClient.delete();
 
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
     await blockBlobClient.upload("hello", 5, { tags });
 
@@ -152,10 +153,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create append blob should work with tags", async function() {
+  it("Create append blob should work with tags", async function () {
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
 
     const appendBlobName = recorder.getUniqueName("apendBlob");
@@ -166,10 +167,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create page blob should work with tags", async function() {
+  it("Create page blob should work with tags", async function () {
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
 
     const pageBlobName = recorder.getUniqueName("pageBlobName");
@@ -195,7 +196,7 @@ describe("BlobClient", () => {
     const result = await blobClient.download(0, undefined, {
       onProgress: (data) => {
         downloadedBytes = data.loadedBytes;
-      }
+      },
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
     assert.equal(downloadedBytes, content.length);
@@ -212,7 +213,7 @@ describe("BlobClient", () => {
     // For browser scenario, please ensure CORS settings exposed headers: content-md5,x-ms-content-crc64
     // So JS can get contentCrc64 and contentMD5.
     const result1 = await blobClient.download(0, 1, {
-      rangeGetContentCrc64: true
+      rangeGetContentCrc64: true,
     });
     assert.ok(result1.clientRequestId);
     // assert.ok(result1.contentCrc64!);
@@ -220,7 +221,7 @@ describe("BlobClient", () => {
     assert.ok(result1.clientRequestId);
 
     const result2 = await blobClient.download(1, 1, {
-      rangeGetContentMD5: true
+      rangeGetContentMD5: true,
     });
     assert.ok(result2.clientRequestId);
     // assert.ok(result2.contentMD5!);
@@ -229,7 +230,7 @@ describe("BlobClient", () => {
     try {
       await blobClient.download(2, 1, {
         rangeGetContentMD5: true,
-        rangeGetContentCrc64: true
+        rangeGetContentCrc64: true,
       });
     } catch (err) {
       exceptionCaught = true;
@@ -240,7 +241,7 @@ describe("BlobClient", () => {
   it("setMetadata with new metadata set", async () => {
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await blobClient.setMetadata(metadata);
     const result = await blobClient.getProperties();
@@ -250,7 +251,7 @@ describe("BlobClient", () => {
   it("setMetadata with cleaning up metadata", async () => {
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await blobClient.setMetadata(metadata);
     const result = await blobClient.getProperties();
@@ -283,7 +284,7 @@ describe("BlobClient", () => {
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
       blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
-      blobContentType: "blobContentType"
+      blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers);
     const result = await blobClient.getProperties();
@@ -333,7 +334,7 @@ describe("BlobClient", () => {
     const result2 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage()
         .next()
@@ -353,7 +354,7 @@ describe("BlobClient", () => {
     const result3 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage()
         .next()
@@ -362,15 +363,20 @@ describe("BlobClient", () => {
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
     // tslint:disable-next-line:max-line-length
-    result3.segment.blobItems![0].properties.leaseState = result3.segment.blobItems![1].properties.leaseState = undefined;
+    result3.segment.blobItems![0].properties.leaseState =
+      result3.segment.blobItems![1].properties.leaseState = undefined;
     // tslint:disable-next-line:max-line-length
-    result3.segment.blobItems![0].properties.leaseStatus = result3.segment.blobItems![1].properties.leaseStatus = undefined;
+    result3.segment.blobItems![0].properties.leaseStatus =
+      result3.segment.blobItems![1].properties.leaseStatus = undefined;
     // tslint:disable-next-line:max-line-length
-    result3.segment.blobItems![0].properties.accessTier = result3.segment.blobItems![1].properties.accessTier = undefined;
+    result3.segment.blobItems![0].properties.accessTier =
+      result3.segment.blobItems![1].properties.accessTier = undefined;
     // tslint:disable-next-line:max-line-length
-    result3.segment.blobItems![0].properties.accessTierInferred = result3.segment.blobItems![1].properties.accessTierInferred = undefined;
+    result3.segment.blobItems![0].properties.accessTierInferred =
+      result3.segment.blobItems![1].properties.accessTierInferred = undefined;
     // tslint:disable-next-line:max-line-length
-    result3.segment.blobItems![0].properties.lastAccessedOn = result3.segment.blobItems![1].properties.lastAccessedOn = undefined;
+    result3.segment.blobItems![0].properties.lastAccessedOn =
+      result3.segment.blobItems![1].properties.lastAccessedOn = undefined;
 
     assert.deepStrictEqual(
       result3.segment.blobItems![0].properties,
@@ -385,8 +391,8 @@ describe("BlobClient", () => {
       await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
           days: 7,
-          enabled: true
-        }
+          enabled: true,
+        },
       });
       // await delay(15 * 1000);
       properties = await blobServiceClient.getProperties();
@@ -401,7 +407,7 @@ describe("BlobClient", () => {
     const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true
+        includeVersions: true,
       })
       .byPage({ maxPageSize: 1 });
 
@@ -444,7 +450,7 @@ describe("BlobClient", () => {
     const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true
+        includeVersions: true,
       })
       .byPage();
 
@@ -539,7 +545,7 @@ describe("BlobClient", () => {
     );
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
@@ -589,15 +595,15 @@ describe("BlobClient", () => {
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
 
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     const smResp = await blobClient.setMetadata(metadata, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -616,7 +622,7 @@ describe("BlobClient", () => {
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
       blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
-      blobContentType: "blobContentType"
+      blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers, { customerProvidedKey: Test_CPK_INFO });
 
@@ -634,7 +640,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(gResp.contentDisposition, headers.blobContentDisposition);
 
     const csResp = await blobClient.createSnapshot({
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     // assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
     assert.ok(csResp.snapshot);
@@ -659,7 +665,7 @@ describe("BlobClient", () => {
     const result = await (
       await newBlobURL.beginCopyFromURL(blobClient.url, {
         tier: initialTier,
-        rehydratePriority: "Standard"
+        rehydratePriority: "Standard",
       })
     ).pollUntilDone();
     assert.ok(result.copyId);
@@ -712,8 +718,8 @@ describe("BlobClient", () => {
 
     const result = await blobClient.download(undefined, undefined, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 
@@ -723,7 +729,6 @@ describe("BlobClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(blobClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -733,14 +738,14 @@ describe("BlobClient", () => {
               name: "Azure.Storage.Blob.BlobClient-download",
               children: [
                 {
-                  name: urlPath,
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  name: "HTTP GET",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
@@ -763,18 +768,36 @@ describe("BlobClient", () => {
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
 
     const metadata = { a: "a" };
     const smResp = await blobClient.setMetadata(metadata, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const result = await blobClient.exists({
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
+    assert.ok(result, "exists() should return true");
+  });
+
+  it("exists works against blob uploaded with customer provided key", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const metadata = { a: "a" };
+    const smResp = await blobClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const result = await blobClient.exists();
     assert.ok(result, "exists() should return true");
   });
 
@@ -783,18 +806,31 @@ describe("BlobClient", () => {
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
 
     const metadata = { a: "a" };
     const smResp = await blobClient.setMetadata(metadata, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     let exceptionCaught = false;
+    let anonymousBlobClient;
+
+    if (isBrowser()) {
+      const anonymousBlobServiceClient = new BlobServiceClient(
+        `https://${blobServiceClient.accountName}.blob.core.windows.net/`
+      );
+      anonymousBlobClient = anonymousBlobServiceClient
+        .getContainerClient(containerName)
+        .getBlobClient(blobName);
+    } else {
+      anonymousBlobClient = new BlobClient(blobClient.url);
+    }
+
     try {
-      await blobClient.exists();
+      await anonymousBlobClient.exists();
     } catch (err) {
       exceptionCaught = true;
     }
@@ -850,7 +886,7 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  it("lastAccessed returned", async function(this: Context) {
+  it("lastAccessed returned", async function (this: Context) {
     if (isLiveMode()) {
       // Skipped for now as it's not working in live tests pipeline.
       this.skip();
@@ -872,13 +908,13 @@ describe("BlobClient", () => {
   describe("conditional tags", () => {
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
 
     const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
     const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       await blobClient.setTags(tags);
     });
 
@@ -905,7 +941,7 @@ describe("BlobClient", () => {
 
     it("setTags", async () => {
       const tags2 = {
-        tag1: "val"
+        tag1: "val",
       };
       await blobClient.setTags(tags2, { conditions: tagConditionMet });
 
@@ -957,7 +993,7 @@ describe("BlobClient", () => {
         recorder.getUniqueName("copiedblob")
       );
       const tags2 = {
-        tag: "val"
+        tag: "val",
       };
       await newBlobClient.upload(content, content.length, { tags: tags2 });
 
@@ -969,7 +1005,7 @@ describe("BlobClient", () => {
       );
 
       await newBlobClient.beginCopyFromURL(blobClient.url, {
-        conditions: { tagConditions: "tag = 'val'" }
+        conditions: { tagConditions: "tag = 'val'" },
       });
     });
 
@@ -986,7 +1022,7 @@ describe("BlobClient", () => {
       );
 
       await newBlobClient.beginCopyFromURL(blobClient.url, {
-        sourceConditions: tagConditionMet
+        sourceConditions: tagConditionMet,
       });
     });
 
@@ -995,20 +1031,20 @@ describe("BlobClient", () => {
         recorder.getUniqueName("copiedblob")
       );
       const tags2 = {
-        tag: "val"
+        tag: "val",
       };
       await newBlobClient.upload(content, content.length, { tags: tags2 });
       assert.ok(
         await throwExpectedError(
           newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
-            conditions: tagConditionUnmet
+            conditions: tagConditionUnmet,
           }),
           "ConditionNotMet"
         )
       );
 
       await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
-        conditions: { tagConditions: "tag = 'val'" }
+        conditions: { tagConditions: "tag = 'val'" },
       });
     });
 
@@ -1055,7 +1091,7 @@ describe("BlobClient", () => {
     it("setMetadata", async () => {
       const metadata = {
         a: "a",
-        b: "b"
+        b: "b",
       };
       assert.ok(
         await throwExpectedError(
@@ -1132,13 +1168,13 @@ describe("BlobClient", () => {
       assert.ok(
         await throwExpectedError(
           blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
-            conditions: tagConditionUnmet
+            conditions: tagConditionUnmet,
           }),
           "ConditionNotMet"
         )
       );
       await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
-        conditions: tagConditionMet
+        conditions: tagConditionMet,
       });
     });
 
@@ -1215,13 +1251,13 @@ describe("BlobClient", () => {
       assert.ok(
         await throwExpectedError(
           newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
-            conditions: tagConditionUnmet
+            conditions: tagConditionUnmet,
           }),
           "ConditionNotMet"
         )
       );
       await newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
-        conditions: tagConditionMet
+        conditions: tagConditionMet,
       });
     });
 
@@ -1243,13 +1279,13 @@ describe("BlobClient", () => {
       assert.ok(
         await throwExpectedError(
           newBlobClient.updateSequenceNumber("increment", undefined, {
-            conditions: tagConditionUnmet
+            conditions: tagConditionUnmet,
           }),
           "ConditionNotMet"
         )
       );
       await newBlobClient.updateSequenceNumber("increment", undefined, {
-        conditions: tagConditionMet
+        conditions: tagConditionMet,
       });
     });
   });
@@ -1326,28 +1362,28 @@ describe("BlobClient - Object Replication", () => {
       rules: [
         {
           ruleId: "9a53f315-d56b-44f6-a3e8-1d62c1b7089b",
-          replicationStatus: "complete"
-        }
-      ]
+          replicationStatus: "complete",
+        },
+      ],
     },
     {
       policyId: "d685bc41-c8ab-4ea5-889c-2503f02954d8",
       rules: [
         {
           ruleId: "671e9447-be18-4632-9eea-a1a29cdae759",
-          replicationStatus: "complete"
-        }
-      ]
-    }
+          replicationStatus: "complete",
+        },
+      ],
+    },
   ];
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     if (isLiveMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU("");
     destBlobServiceClient = getGenericBSU("ORS_DEST_");
@@ -1357,7 +1393,7 @@ describe("BlobClient - Object Replication", () => {
     destBlobClient = destContainerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -1365,7 +1401,7 @@ describe("BlobClient - Object Replication", () => {
     const getRes = await srcBlobClient.getProperties();
     assert.deepStrictEqual(
       getRes.objectReplicationSourceProperties,
-      expectedObjectReplicateSourceProperties
+      expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
     );
     assert.equal(getRes.objectReplicationDestinationPolicyId, undefined);
   });
@@ -1384,7 +1420,7 @@ describe("BlobClient - Object Replication", () => {
       if (blobItem.name === blobName) {
         assert.deepStrictEqual(
           blobItem.objectReplicationSourceProperties,
-          expectedObjectReplicateSourceProperties
+          expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
         );
       }
     }
@@ -1401,7 +1437,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
     assert.deepStrictEqual(
       srcRes.objectReplicationSourceProperties,
-      expectedObjectReplicateSourceProperties
+      expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
     );
 
     const destRes = await destBlobClient.download();
@@ -1412,7 +1448,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(destRes.objectReplicationSourceProperties, undefined);
   });
 
-  it("download to file", async function(this: Context) {
+  it("download to file", async function (this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -1422,7 +1458,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
     assert.deepStrictEqual(
       srcRes.objectReplicationSourceProperties,
-      expectedObjectReplicateSourceProperties
+      expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
     );
     fs.unlinkSync(srcDownloadedFilePath);
 
@@ -1447,7 +1483,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
 
@@ -1462,14 +1498,9 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     blobClient = containerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
-      const listResult = (
-        await containerClient
-          .listBlobsFlat()
-          .byPage()
-          .next()
-      ).value;
+      const listResult = (await containerClient.listBlobsFlat().byPage().next()).value;
 
       for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
         const deleteBlobClient = containerClient.getBlobClient(
@@ -1494,21 +1525,27 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const result = await blobClient.setImmutabilityPolicy({
       expiriesOn: minutesLater,
-      policyMode: "Unlocked"
+      policyMode: "Unlocked",
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const listResult = (
       await containerClient
         .listBlobsFlat({
-          includeImmutabilityPolicy: true
+          includeImmutabilityPolicy: true,
         })
         .byPage()
         .next()
@@ -1519,7 +1556,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const downloadResult = await blobClient.download();
     assert.ok(downloadResult.immutabilityPolicyExpiresOn);
-    assert.equal(downloadResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      downloadResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Set immutability policy with ifModified access condition", async () => {
@@ -1534,27 +1574,33 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     const result = await blobClient.setImmutabilityPolicy(
       {
         expiriesOn: minutesLater,
-        policyMode: "Unlocked"
+        policyMode: "Unlocked",
       },
       {
         modifiedAccessCondition: {
-          ifModifiedSince: minutesBefore
-        }
+          ifModifiedSince: minutesBefore,
+        },
       }
     );
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const listResult = (
       await containerClient
         .listBlobsByHierarchy("/", {
-          includeImmutabilityPolicy: true
+          includeImmutabilityPolicy: true,
         })
         .byPage()
         .next()
@@ -1577,11 +1623,14 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const result = await blobClient.setImmutabilityPolicy({
       expiriesOn: minutesLater,
-      policyMode: "Unlocked"
+      policyMode: "Unlocked",
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     let setLegalHoldResult = await blobClient.setLegalHold(true);
     assert.equal(setLegalHoldResult.legalHold, true);
@@ -1590,7 +1639,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       await containerClient
         .listBlobsFlat({
           includeImmutabilityPolicy: true,
-          includeLegalHold: true
+          includeLegalHold: true,
         })
         .byPage()
         .next()
@@ -1603,7 +1652,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const downloadResult = await blobClient.download();
     assert.ok(downloadResult.immutabilityPolicyExpiresOn);
-    assert.equal(downloadResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      downloadResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
     assert.equal(downloadResult.legalHold, true);
 
     setLegalHoldResult = await blobClient.setLegalHold(false);
@@ -1621,7 +1673,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     try {
       await blobClient.setImmutabilityPolicy({
         expiriesOn: minutesLater,
-        policyMode: "Unlocked"
+        policyMode: "Unlocked",
       });
       assert.fail("setImmutabilityPolicy against a non-exist blob should not succeed");
     } catch (error) {
@@ -1644,7 +1696,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     try {
       await blobClient.setImmutabilityPolicy({
         expiriesOn: minutesLater,
-        policyMode: "Mutable"
+        policyMode: "Mutable",
       });
       assert.fail("Setting ImmutabilityPolicy mode to Mutable should not succeed");
     } catch (error) {
@@ -1691,20 +1743,23 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     await appendBlobClient.create({
       immutabilityPolicy: {
         expiriesOn: minutesLater,
-        policyMode: "Unlocked"
-      }
+        policyMode: "Unlocked",
+      },
     });
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Create append blob with legalhold", async () => {
     const appendBlobClient = blobClient.getAppendBlobClient();
 
     await appendBlobClient.create({
-      legalHold: true
+      legalHold: true,
     });
 
     const properties = await blobClient.getProperties();
@@ -1720,20 +1775,23 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     await pageBlobClient.create(512, {
       immutabilityPolicy: {
         expiriesOn: minutesLater,
-        policyMode: "Unlocked"
-      }
+        policyMode: "Unlocked",
+      },
     });
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Create page blob with legalhold", async () => {
     const pageBlobClient = blobClient.getPageBlobClient();
 
     await pageBlobClient.create(512, {
-      legalHold: true
+      legalHold: true,
     });
 
     const properties = await blobClient.getProperties();
@@ -1751,13 +1809,16 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     await blockBlob.commitBlockList([base64encode("1")], {
       immutabilityPolicy: {
         expiriesOn: minutesLater,
-        policyMode: "Unlocked"
-      }
+        policyMode: "Unlocked",
+      },
     });
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Commit block list with legalhold", async () => {
@@ -1769,7 +1830,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     minutesLater.setMinutes(minutesLater.getMinutes() + 5);
 
     await blockBlob.commitBlockList([blockId], {
-      legalHold: true
+      legalHold: true,
     });
 
     const properties = await blobClient.getProperties();
@@ -1784,20 +1845,23 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     await blockBlob.upload(content, content.length, {
       immutabilityPolicy: {
         expiriesOn: minutesLater,
-        policyMode: "Unlocked"
-      }
+        policyMode: "Unlocked",
+      },
     });
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Blockblob upload with legalhold", async () => {
     const blockBlob = blobClient.getBlockBlobClient();
 
     await blockBlob.upload(content, content.length, {
-      legalHold: true
+      legalHold: true,
     });
 
     const properties = await blobClient.getProperties();

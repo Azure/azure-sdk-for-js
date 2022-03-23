@@ -11,7 +11,7 @@ import { Namespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClientContext } from "../notificationHubsManagementClientContext";
+import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -57,13 +57,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Namespaces operations. */
 export class NamespacesImpl implements Namespaces {
-  private readonly client: NotificationHubsManagementClientContext;
+  private readonly client: NotificationHubsManagementClient;
 
   /**
    * Initialize a new instance of the class Namespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: NotificationHubsManagementClientContext) {
+  constructor(client: NotificationHubsManagementClient) {
     this.client = client;
   }
 
@@ -804,7 +804,7 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
+      bodyMapper: Mappers.ResourceListKeys
     }
   },
   queryParameters: [Parameters.apiVersion],

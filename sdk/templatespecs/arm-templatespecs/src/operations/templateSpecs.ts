@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TemplateSpecs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { TemplateSpecsClientContext } from "../templateSpecsClientContext";
+import { TemplateSpecsClient } from "../templateSpecsClient";
 import {
   TemplateSpec,
   TemplateSpecsListBySubscriptionNextOptionalParams,
@@ -35,13 +34,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TemplateSpecs operations. */
 export class TemplateSpecsImpl implements TemplateSpecs {
-  private readonly client: TemplateSpecsClientContext;
+  private readonly client: TemplateSpecsClient;
 
   /**
    * Initialize a new instance of the class TemplateSpecs class.
    * @param client Reference to the service client
    */
-  constructor(client: TemplateSpecsClientContext) {
+  constructor(client: TemplateSpecsClient) {
     this.client = client;
   }
 

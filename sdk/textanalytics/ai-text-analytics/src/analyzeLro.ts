@@ -9,7 +9,7 @@ import {
   GeneratedClientAnalyzeStatusOptionalParams,
   GeneratedClientAnalyzeStatusResponse,
   JobManifestTasks,
-  TextDocumentInput
+  TextDocumentInput,
 } from "./generated";
 import { createSpan } from "./tracing";
 import { compileError, getRawResponse, sendGetRequest } from "./util";
@@ -20,14 +20,14 @@ import {
   endpoint,
   includeStatistics,
   skip,
-  top
+  top,
 } from "./generated/models/parameters";
 import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
 import {
   AnalyzeActionsResult,
   createAnalyzeActionsResult,
-  PagedAnalyzeActionsResult
+  PagedAnalyzeActionsResult,
 } from "./analyzeActionsResult";
 
 /**
@@ -96,16 +96,16 @@ const analyzeStatusOperationSpec: OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AnalyzeJobState
+      bodyMapper: Mappers.AnalyzeJobState,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [includeStatistics, top, skip],
   urlParameters: [endpoint, apiVersion],
   headerParameters: [accept],
-  serializer
+  serializer,
 };
 
 /**
@@ -130,7 +130,7 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
   async sendInitialRequest(): Promise<LroResponse<PagedAnalyzeActionsResult>> {
     const { span, updatedOptions: finalOptions } = createSpan("TextAnalyticsClient-beginAnalyze", {
       ...this.baseOptions,
-      ...this.initOptions
+      ...this.initOptions,
     });
     try {
       const { flatResponse, rawResponse } = await getRawResponse(
@@ -139,21 +139,21 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
             body: {
               analysisInput: { documents: this.documents },
               tasks: this.tasks,
-              displayName: this.initOptions.displayName
+              displayName: this.initOptions.displayName,
             },
-            ...paramOptions
+            ...paramOptions,
           }),
         finalOptions
       );
       return {
         flatResponse: flatResponse as PagedAnalyzeActionsResult,
-        rawResponse
+        rawResponse,
       };
     } catch (e) {
       const exception = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: exception.message
+        message: exception.message,
       });
       throw exception;
     } finally {
@@ -168,21 +168,6 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
       { ...this.baseOptions, ...this.pollOptions },
       path
     ) as Promise<LroResponse<PagedAnalyzeActionsResult>>;
-  }
-}
-
-/**
- * @internal
- */
-export function isAnalyzeDone(response: unknown): boolean {
-  const castResponse = response as GeneratedClientAnalyzeStatusResponse;
-  switch (castResponse.status) {
-    case "notStarted":
-    case "running":
-      return false;
-    default: {
-      return true;
-    }
   }
 }
 
@@ -212,9 +197,9 @@ export function processAnalyzeResult(
         const flatResponse = response.flatResponse as GeneratedClientAnalyzeStatusResponse;
         return {
           page: createAnalyzeActionsResult(flatResponse, documents),
-          nextPageLink: flatResponse.nextLink
+          nextPageLink: flatResponse.nextLink,
         };
-      }
+      },
     };
     const pagedIterator = getPagedAsyncIterator<AnalyzeActionsResult, AnalyzeActionsResult>(
       pagedResult

@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
-  PipelinePolicy,
-  RestError
-} from "@azure/core-rest-pipeline";
-import {
+  FullOperationResponse,
   OperationRequest,
   OperationResponseMap,
-  FullOperationResponse,
   OperationSpec,
+  RequiredSerializerOptions,
   SerializerOptions,
-  XmlOptions,
   XML_CHARKEY,
-  RequiredSerializerOptions
+  XmlOptions,
 } from "./interfaces";
+import {
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  RestError,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import { MapperTypeNames } from "./serializer";
 import { getOperationRequestInfo } from "./operationHelpers";
 
@@ -80,8 +80,8 @@ export function deserializationPolicy(options: DeserializationPolicyOptions = {}
     xml: {
       rootName: serializerOptions?.xml.rootName ?? "",
       includeRoot: serializerOptions?.xml.includeRoot ?? false,
-      xmlCharKey: serializerOptions?.xml.xmlCharKey ?? XML_CHARKEY
-    }
+      xmlCharKey: serializerOptions?.xml.xmlCharKey ?? XML_CHARKEY,
+    },
   };
 
   return {
@@ -95,7 +95,7 @@ export function deserializationPolicy(options: DeserializationPolicyOptions = {}
         updatedOptions,
         parseXML
       );
-    }
+    },
   };
 }
 
@@ -190,7 +190,7 @@ async function deserializeResponseBody(
           {
             statusCode: parsedResponse.status,
             request: parsedResponse.request,
-            response: parsedResponse
+            response: parsedResponse,
           }
         );
         throw restError;
@@ -251,7 +251,7 @@ function handleErrorResponse(
   const error = new RestError(initialErrorMessage, {
     statusCode: parsedResponse.status,
     request: parsedResponse.request,
-    response: parsedResponse
+    response: parsedResponse,
   });
 
   // If the item failed but there's no error spec or default spec to deserialize the error,
@@ -299,11 +299,12 @@ function handleErrorResponse(
 
     // If error response has headers, try to deserialize it using default header mapper
     if (parsedResponse.headers && defaultHeadersMapper) {
-      (error.response! as FullOperationResponse).parsedHeaders = operationSpec.serializer.deserialize(
-        defaultHeadersMapper,
-        parsedResponse.headers.toJSON(),
-        "operationRes.parsedHeaders"
-      );
+      (error.response! as FullOperationResponse).parsedHeaders =
+        operationSpec.serializer.deserialize(
+          defaultHeadersMapper,
+          parsedResponse.headers.toJSON(),
+          "operationRes.parsedHeaders"
+        );
     }
   } catch (defaultError) {
     error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
@@ -351,7 +352,7 @@ async function parse(
         code: errCode,
         statusCode: operationResponse.status,
         request: operationResponse.request,
-        response: operationResponse
+        response: operationResponse,
       });
       throw e;
     }

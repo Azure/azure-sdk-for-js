@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { buildProcessMultipleRequests, buildResponse } from "./utils";
 
 export function put200Succeeded(request: PipelineRequest): PipelineResponse {
@@ -77,16 +77,26 @@ export function delete204Succeeded(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 204);
 }
 
-export function postDoubleHeadersFinalLocationGet(request: PipelineRequest): PipelineResponse {
-  return {
-    request: request,
-    status: 202,
-    headers: createHttpHeaders({
-      "Azure-AsyncOperation": `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`,
-      Location: `/LROPostDoubleHeadersFinalLocationGet/location`
-    })
+function postDoubleHeadersFinalLocationGet(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  return function (request: PipelineRequest): PipelineResponse {
+    const headers = createHttpHeaders({
+      Location: `/LROPostDoubleHeadersFinalLocationGet/location`,
+    });
+    headers.set(headerName, `/LROPostDoubleHeadersFinalLocationGet/asyncOperationUrl`);
+    return {
+      request: request,
+      status: 202,
+      headers: headers,
+    };
   };
 }
+
+export const postAsyncDoubleHeadersFinalLocationGet =
+  postDoubleHeadersFinalLocationGet("Azure-AsyncOperation");
+export const postLocationDoubleHeadersFinalLocationGet =
+  postDoubleHeadersFinalLocationGet("Operation-Location");
 
 export function postDoubleHeadersFinalLocationGetAsyncOperationUrl(
   request: PipelineRequest
@@ -100,17 +110,22 @@ export function postDoubleHeadersFinalLocationGetLocation(
   return buildResponse(request, 200, `{ "id": "100", "name": "foo" }`);
 }
 
-export function postDoubleHeadersFinalAzureHeaderGet(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    "",
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`,
-      Location: `/LROPostDoubleHeadersFinalAzureHeaderGet/location`
-    })
-  );
+function postDoubleHeadersFinalAzureHeaderGet(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `/LROPostDoubleHeadersFinalAzureHeaderGet/location`,
+  });
+  headers.set(headerName, `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`);
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, "", headers);
+  };
 }
+
+export const postAsyncDoubleHeadersFinalAzureHeaderGet =
+  postDoubleHeadersFinalAzureHeaderGet("Azure-AsyncOperation");
+export const postLocationDoubleHeadersFinalAzureHeaderGet =
+  postDoubleHeadersFinalAzureHeaderGet("Operation-Location");
 
 export function postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl(
   request: PipelineRequest
@@ -139,19 +154,22 @@ export function getPayload200(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 200, `{"id":"1", "name":"product"}`);
 }
 
-export function postDoubleHeadersFinalAzureHeaderGetDefault(
-  request: PipelineRequest
-): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    "",
-    createHttpHeaders({
-      Location: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location",
-      "Azure-AsyncOperation": "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl"
-    })
-  );
+function postDoubleHeadersFinalAzureHeaderGetDefault(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/location",
+  });
+  headers.set(headerName, "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl");
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, "", headers);
+  };
 }
+
+export const postAsyncDoubleHeadersFinalAzureHeaderGetDefault =
+  postDoubleHeadersFinalAzureHeaderGetDefault("Azure-AsyncOperation");
+export const postLocationDoubleHeadersFinalAzureHeaderGetDefault =
+  postDoubleHeadersFinalAzureHeaderGetDefault("Operation-Location");
 
 export function getDoubleHeadersFinalAzureHeaderGetDefaultAsyncOperationUrl(
   request: PipelineRequest
@@ -165,17 +183,18 @@ export function getDoubleHeadersFinalAzureHeaderGetDefaultLocation(
   return buildResponse(request, 200, `{ "id": "100", "name": "foo" }`);
 }
 
-export function postList(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    200,
-    undefined,
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/list/pollingGet`,
-      Location: `/list/finalGet`
-    })
-  );
+function createPostList(headerName: string): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `/list/finalGet`,
+  });
+  headers.set(headerName, `/list/pollingGet`);
+  return function postList(request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 200, undefined, headers);
+  };
 }
+
+export const postListAsync = createPostList("Azure-AsyncOperation");
+export const postListLocation = createPostList("Operation-Location");
 
 export function getListPollingGet(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 200, `{ "status": "Succeeded" }`);
@@ -185,19 +204,39 @@ export function getListFinalGet(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 200, `[{ "id": "100", "name": "foo" }]`);
 }
 
-export function putNonresourceAsync202200(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    undefined,
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/putnonresourceasync/operationresults/123`,
-      Location: `somethingBadWhichShouldNotBeUsed`
-    })
-  );
+function createPutNonresource202200(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `somethingBadWhichShouldNotBeUsed`,
+  });
+  headers.set(headerName, `/putnonresourceasync/operationresults/123`);
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, undefined, headers);
+  };
 }
 
+export const putNonresourceAsync202200 = createPutNonresource202200("Azure-AsyncOperation");
+export const putNonresourceLocation202200 = createPutNonresource202200("Azure-AsyncOperation");
+
 export function getNonresourceAsync202200(request: PipelineRequest): PipelineResponse {
+  return buildResponse(request, 200, `{ "name": "sku" , "id": "100" }`);
+}
+
+function createPatch202200(headerName: string): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `/patchasync/succeeded`,
+  });
+  headers.set(headerName, `/patchasync/operationresults/123`);
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, undefined, headers);
+  };
+}
+
+export const patchAsync202200 = createPatch202200("Azure-AsyncOperation");
+export const patchLocation202200 = createPatch202200("Operation-Location");
+
+export function getPatchAsyncSucceeded(request: PipelineRequest): PipelineResponse {
   return buildResponse(request, 200, `{ "name": "sku" , "id": "100" }`);
 }
 
@@ -206,17 +245,38 @@ export const putNonresourceAsyncOperationresults123 = buildProcessMultipleReques
   (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
 );
 
-export function putasyncNoheader201200(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    201,
-    `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo" }`,
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/putasync/noheader/operationresults/123`,
-      Location: `somethingBadWhichShouldNotBeUsed`
-    })
-  );
+export const patchAsyncOperationresults123 = buildProcessMultipleRequests(
+  (req) =>
+    buildResponse(
+      req,
+      200,
+      `{ "status": "InProgress"}`,
+      createHttpHeaders({
+        "Azure-AsyncOperation": `/patchasync/operationresults/123`,
+      })
+    ),
+  (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
+);
+
+function createPutasyncNoheader201200(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `somethingBadWhichShouldNotBeUsed`,
+  });
+  headers.set(headerName, `/putasync/noheader/operationresults/123`);
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(
+      request,
+      201,
+      `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo" }`,
+      headers
+    );
+  };
 }
+
+export const putasyncNoheader201200 = createPutasyncNoheader201200("Azure-AsyncOperation");
+export const putlocationNoheader201200 = createPutasyncNoheader201200("Operation-Location");
 
 export function getasyncNoheader201200(request: PipelineRequest): PipelineResponse {
   return buildResponse(
@@ -231,17 +291,25 @@ export const putasyncNoheaderOperationresults123 = buildProcessMultipleRequests(
   (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
 );
 
-export function putSubresourceAsync202200(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "subresource": "sub1" }`,
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/putsubresourceasync/operationresults/123`,
-      Location: `somethingBadWhichShouldNotBeUsed`
-    })
-  );
+function createPutSubresource202200(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `somethingBadWhichShouldNotBeUsed`,
+  });
+  headers.set(headerName, `/putsubresourceasync/operationresults/123`);
+  return function putSubresourceAsync202200(request: PipelineRequest): PipelineResponse {
+    return buildResponse(
+      request,
+      202,
+      `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "subresource": "sub1" }`,
+      headers
+    );
+  };
 }
+
+export const putSubresourceAsync202200 = createPutSubresource202200("Azure-AsyncOperation");
+export const putSubresourceLocation202200 = createPutSubresource202200("Operation-Location");
 
 export function getSubresourceAsync202200(request: PipelineRequest): PipelineResponse {
   return buildResponse(
@@ -256,17 +324,20 @@ export const putSubresourceasyncOperationresults123 = buildProcessMultipleReques
   (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
 );
 
-export function deleteasyncNoheader202204(request: PipelineRequest): PipelineResponse {
-  return buildResponse(
-    request,
-    202,
-    undefined,
-    createHttpHeaders({
-      "Azure-AsyncOperation": `/deleteasync/noheader/operationresults/123`,
-      Location: `somethingBadWhichShouldNotBeUsed`
-    })
-  );
+function createDeleteasyncNoheader202204(
+  headerName: string
+): (request: PipelineRequest) => PipelineResponse {
+  const headers = createHttpHeaders({
+    Location: `somethingBadWhichShouldNotBeUsed`,
+  });
+  headers.set(headerName, `/deleteasync/noheader/operationresults/123`);
+  return function (request: PipelineRequest): PipelineResponse {
+    return buildResponse(request, 202, undefined, headers);
+  };
 }
+
+export const deleteasyncNoheader202204 = createDeleteasyncNoheader202204("Azure-AsyncOperation");
+export const deletelocationNoheader202204 = createDeleteasyncNoheader202204("Operation-Location");
 
 export const deleteNoHeaderOperationResults = buildProcessMultipleRequests(
   (req) => buildResponse(req, 202),
@@ -341,7 +412,7 @@ export function nonretryerrorPutasyncRetry400(request: PipelineRequest): Pipelin
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -359,7 +430,7 @@ export function nonretryerrorDelete202retry400(request: PipelineRequest): Pipeli
     `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
     createHttpHeaders({
       Location: `/nonretryerror/delete/202/retry/400`,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -381,7 +452,7 @@ export function nonretryerrorDeleteasyncRetry400(request: PipelineRequest): Pipe
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -407,7 +478,7 @@ export function nonretryerrorPost202retry400(request: PipelineRequest): Pipeline
     `{ "properties": { "provisioningState": "Creating"}, "id": "100", "name": "foo" }`,
     createHttpHeaders({
       Location: `/nonretryerror/post/202/retry/400`,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -425,7 +496,7 @@ export function nonretryerrorPostasyncRetry400(request: PipelineRequest): Pipeli
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -449,7 +520,7 @@ export function errorPutasyncRetryNostatuspayload(request: PipelineRequest): Pip
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -469,7 +540,7 @@ export function errorPutasyncRetryNostatus(request: PipelineRequest): PipelineRe
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -493,7 +564,7 @@ export function errorDeleteasyncRetryNostatus(request: PipelineRequest): Pipelin
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -517,7 +588,7 @@ export function errorPostasyncRetryNopayload(request: PipelineRequest): Pipeline
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -545,7 +616,7 @@ export function errorPutasyncRetryInvalidheader(request: PipelineRequest): Pipel
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "/bar"
+      "Retry-After": "/bar",
     })
   );
 }
@@ -559,7 +630,7 @@ export function errorPutasyncRetryInvalidjsonpolling(request: PipelineRequest): 
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -577,7 +648,7 @@ export function errorDelete202RetryInvalidheader(request: PipelineRequest): Pipe
     undefined,
     createHttpHeaders({
       Location: `/foo`,
-      "Retry-After": "/bar"
+      "Retry-After": "/bar",
     })
   );
 }
@@ -591,7 +662,7 @@ export function errorDeleteasyncRetryInvalidheader(request: PipelineRequest): Pi
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "/bar"
+      "Retry-After": "/bar",
     })
   );
 }
@@ -607,7 +678,7 @@ export function errorDeleteasyncRetryInvalidjsonpolling(
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "0"
+      "Retry-After": "0",
     })
   );
 }
@@ -625,7 +696,7 @@ export function errorPost202RetryInvalidheader(request: PipelineRequest): Pipeli
     undefined,
     createHttpHeaders({
       Location: `/foo`,
-      "Retry-After": "/bar"
+      "Retry-After": "/bar",
     })
   );
 }
@@ -639,7 +710,7 @@ export function errorPostasyncRetryInvalidheader(request: PipelineRequest): Pipe
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "/bar"
+      "Retry-After": "/bar",
     })
   );
 }
@@ -653,7 +724,7 @@ export function errorPostasyncRetryInvalidjsonpolling(request: PipelineRequest):
     createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
       Location: pollingUri,
-      "Retry-After": "/bar"
+      "Retry-After": "/bar",
     })
   );
 }

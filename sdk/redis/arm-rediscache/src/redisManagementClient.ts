@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
@@ -14,7 +15,8 @@ import {
   PatchSchedulesImpl,
   LinkedServerImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  AsyncOperationStatusImpl
 } from "./operations";
 import {
   Operations,
@@ -23,12 +25,16 @@ import {
   PatchSchedules,
   LinkedServer,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  AsyncOperationStatus
 } from "./operationsInterfaces";
-import { RedisManagementClientContext } from "./redisManagementClientContext";
 import { RedisManagementClientOptionalParams } from "./models";
 
-export class RedisManagementClient extends RedisManagementClientContext {
+export class RedisManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the RedisManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -41,7 +47,46 @@ export class RedisManagementClient extends RedisManagementClientContext {
     subscriptionId: string,
     options?: RedisManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: RedisManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-rediscache/6.1.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-06-01";
     this.operations = new OperationsImpl(this);
     this.redis = new RedisImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
@@ -49,6 +94,7 @@ export class RedisManagementClient extends RedisManagementClientContext {
     this.linkedServer = new LinkedServerImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.asyncOperationStatus = new AsyncOperationStatusImpl(this);
   }
 
   operations: Operations;
@@ -58,4 +104,5 @@ export class RedisManagementClient extends RedisManagementClientContext {
   linkedServer: LinkedServer;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  asyncOperationStatus: AsyncOperationStatus;
 }

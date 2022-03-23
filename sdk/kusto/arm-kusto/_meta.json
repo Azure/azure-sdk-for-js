@@ -1,0 +1,7 @@
+{
+  "commit": "d13884b6f5076e151278e9941dc6630ba86b350c",
+  "readme": "specification/azure-kusto/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=C:\\Users\\marygao\\project\\azure-sdk-for-js ../azure-rest-api-specs/specification/azure-kusto/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.16.20220221.1 --generate-sample=true",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "use": "@autorest/typescript@6.0.0-alpha.16.20220221.1"
+}

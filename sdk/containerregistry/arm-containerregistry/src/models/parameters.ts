@@ -69,7 +69,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2021-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -119,6 +119,16 @@ export const registryName: OperationURLParameter = {
   }
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const connectedRegistryName: OperationURLParameter = {
   parameterPath: "connectedRegistryName",
   mapper: {
@@ -155,16 +165,6 @@ export const connectedRegistryCreateParameters: OperationParameter = {
 export const connectedRegistryUpdateParameters: OperationParameter = {
   parameterPath: "connectedRegistryUpdateParameters",
   mapper: ConnectedRegistryUpdateParametersMapper
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const nextLink: OperationURLParameter = {
@@ -218,6 +218,17 @@ export const registry: OperationParameter = {
 export const registryUpdateParameters: OperationParameter = {
   parameterPath: "registryUpdateParameters",
   mapper: RegistryUpdateParametersMapper
+};
+
+export const groupName: OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const regenerateCredentialParameters: OperationParameter = {

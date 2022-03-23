@@ -1,14 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
+import {
+  DeliveryAnnotations,
+  MessageAnnotations,
+  Message as RheaMessage,
+  types,
+} from "rhea-promise";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
+import {
+  idempotentProducerAmqpPropertyNames,
+  PENDING_PUBLISH_SEQ_NUM_SYMBOL,
+} from "./util/constants";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 
 /**
  * Describes the delivery annotations.
- * @hidden
+ * @internal
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -35,7 +45,7 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @hidden
+ * @internal
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
@@ -62,7 +72,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @hidden
+ * @internal
  */
 export interface EventDataInternal {
   /**
@@ -135,6 +145,16 @@ export interface EventDataInternal {
    * Returns the underlying raw amqp message.
    */
   getRawAmqpMessage(): AmqpAnnotatedMessage;
+  /**
+   * The pending publish sequence number, set while the event
+   * is being published with idempotent partitions enabled.
+   */
+  [PENDING_PUBLISH_SEQ_NUM_SYMBOL]?: number;
+  /**
+   * The sequence number the event was published with
+   * when idempotent partitions are enabled.
+   */
+  _publishedSequenceNumber?: number;
 }
 
 const messagePropertiesMap = {
@@ -150,14 +170,14 @@ const messagePropertiesMap = {
   creation_time: "creationTime",
   group_id: "groupId",
   group_sequence: "groupSequence",
-  reply_to_group_id: "replyToGroupId"
+  reply_to_group_id: "replyToGroupId",
 } as const;
 
 /**
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
  * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body when body type is `content`.
- * @hidden
+ * @internal
  */
 export function fromRheaMessage(
   msg: RheaMessage,
@@ -171,7 +191,7 @@ export function fromRheaMessage(
     body,
     getRawAmqpMessage() {
       return rawMessage;
-    }
+    },
   };
 
   if (msg.message_annotations) {
@@ -253,7 +273,7 @@ export function toRheaMessage(
   if (isAmqpAnnotatedMessage(data)) {
     rheaMessage = {
       ...AmqpAnnotatedMessage.toRheaMessage(data),
-      body: defaultDataTransformer.encode(data.body, data.bodyType ?? "data")
+      body: defaultDataTransformer.encode(data.body, data.bodyType ?? "data"),
     };
   } else {
     let bodyType: BodyTypes = "data";
@@ -266,7 +286,7 @@ export function toRheaMessage(
     }
 
     rheaMessage = {
-      body: defaultDataTransformer.encode(data.body, bodyType)
+      body: defaultDataTransformer.encode(data.body, bodyType),
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.
@@ -457,7 +477,7 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     [0, 'foo', new Date(), { nested: new Date()}]
   */
   if (Array.isArray(thing)) {
-    return (thing.map(convertDatesToNumbers) as unknown) as T;
+    return thing.map(convertDatesToNumbers) as unknown as T;
   }
 
   /*
@@ -472,4 +492,86 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
   }
 
   return thing;
+}
+
+/**
+ * @internal
+ */
+export interface PopulateIdempotentMessageAnnotationsParameters {
+  isIdempotentPublishingEnabled: boolean;
+  ownerLevel?: number;
+  producerGroupId?: number;
+  publishSequenceNumber?: number;
+}
+
+/**
+ * Populates a rhea message with idempotent producer properties.
+ * @internal
+ */
+export function populateIdempotentMessageAnnotations(
+  rheaMessage: RheaMessage,
+  {
+    isIdempotentPublishingEnabled,
+    ownerLevel,
+    producerGroupId,
+    publishSequenceNumber,
+  }: PopulateIdempotentMessageAnnotationsParameters
+): void {
+  if (!isIdempotentPublishingEnabled) {
+    return;
+  }
+
+  const messageAnnotations = rheaMessage.message_annotations || {};
+  if (!rheaMessage.message_annotations) {
+    rheaMessage.message_annotations = messageAnnotations;
+  }
+
+  if (isDefined(ownerLevel)) {
+    messageAnnotations[idempotentProducerAmqpPropertyNames.epoch] = types.wrap_short(ownerLevel);
+  }
+  if (isDefined(producerGroupId)) {
+    messageAnnotations[idempotentProducerAmqpPropertyNames.producerId] =
+      types.wrap_long(producerGroupId);
+  }
+  if (isDefined(publishSequenceNumber)) {
+    messageAnnotations[idempotentProducerAmqpPropertyNames.producerSequenceNumber] =
+      types.wrap_int(publishSequenceNumber);
+  }
+}
+
+/**
+ * Commits the pending publish sequence number events.
+ * EventDataBatch exposes this as `startingPublishSequenceNumber`,
+ * EventData not in a batch exposes this as `publishedSequenceNumber`.
+ * @internal
+ */
+export function commitIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    (events as EventDataBatchImpl)._commitPublish();
+  } else {
+    // For each event, set the `publishedSequenceNumber` equal to the sequence number
+    // we set when we attempted to send the events to the service.
+    for (const event of events) {
+      event._publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
+}
+
+/**
+ * Rolls back any pending publish sequence number in the events.
+ * @internal
+ */
+export function rollbackIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    /* No action required. */
+  } else {
+    for (const event of events) {
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
 }

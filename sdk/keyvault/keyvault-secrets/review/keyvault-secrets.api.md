@@ -69,7 +69,7 @@ export interface KeyVaultSecretIdentifier {
 }
 
 // @public
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -135,7 +135,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3-preview";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
 // @public

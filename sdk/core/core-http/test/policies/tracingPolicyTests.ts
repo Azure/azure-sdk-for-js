@@ -1,37 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  RequestPolicy,
-  WebResource,
-  HttpOperationResponse,
   HttpHeaders,
-  RequestPolicyOptions
+  HttpOperationResponse,
+  RequestPolicy,
+  RequestPolicyOptions,
+  WebResource,
 } from "../../src/coreHttp";
+import { Span, SpanOptions, Tracer, TracerProvider, trace } from "@opentelemetry/api";
 import {
+  SpanAttributeValue,
+  SpanAttributes,
   SpanContext,
+  SpanStatus,
+  SpanStatusCode,
   TraceFlags,
   TraceState,
-  setSpan,
   context,
-  SpanStatusCode,
-  SpanStatus,
-  SpanAttributes,
-  SpanAttributeValue
+  setSpan,
 } from "@azure/core-tracing";
-import { tracingPolicy } from "../../src/policies/tracingPolicy";
-import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";
+import { assert } from "chai";
 import sinon from "sinon";
+import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
 class MockSpan implements Span {
   private _endCalled = false;
   private _status: SpanStatus = {
-    code: SpanStatusCode.UNSET
+    code: SpanStatusCode.UNSET,
   };
   private _attributes: SpanAttributes = {};
 
   constructor(
+    private name: string,
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
@@ -74,6 +75,10 @@ class MockSpan implements Span {
     return this;
   }
 
+  getName() {
+    return this.name;
+  }
+
   setAttributes(attributes: SpanAttributes): this {
     for (const key in attributes) {
       this.setAttribute(key, attributes[key]!);
@@ -107,14 +112,14 @@ class MockSpan implements Span {
       },
       serialize() {
         return state;
-      }
+      },
     };
 
     return {
       traceId: this.traceId,
       spanId: this.spanId,
       traceFlags: this.flags,
-      traceState
+      traceState,
     };
   }
 }
@@ -142,9 +147,9 @@ class MockTracer implements Tracer {
     return this._startSpanCalled;
   }
 
-  startSpan(_name: string, options?: SpanOptions): MockSpan {
+  startSpan(name: string, options?: SpanOptions): MockSpan {
     this._startSpanCalled = true;
-    const span = new MockSpan(this.traceId, this.spanId, this.flags, this.state, options);
+    const span = new MockSpan(name, this.traceId, this.spanId, this.flags, this.state, options);
     this.spans.push(span);
     return span;
   }
@@ -170,20 +175,21 @@ class MockTracerProvider implements TracerProvider {
   }
 }
 
-const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+const ROOT_SPAN = new MockSpan("root", "root", "root", TraceFlags.SAMPLED, "");
 
-describe("tracingPolicy", function() {
+describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
   const mockTracerProvider = new MockTracerProvider();
+  const mockRequestStatusCode = 200;
 
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
         request: request,
-        status: 200,
-        headers: new HttpHeaders()
+        status: mockRequestStatusCode,
+        headers: new HttpHeaders(),
       });
-    }
+    },
   };
 
   beforeEach(() => {
@@ -203,13 +209,37 @@ describe("tracingPolicy", function() {
     assert.isFalse(mockTracer.startSpanCalled());
   });
 
+  it("will create a span with the correct data", async () => {
+    const mockTraceId = "11111111111111111111111111111111";
+    const mockSpanId = "2222222222222222";
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
+    mockTracerProvider.setTracer(mockTracer);
+
+    const request = new WebResource("https://bing.com/my/path", "POST");
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
+      Symbol.for("az.namespace"),
+      "test"
+    );
+
+    const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
+    await policy.sendRequest(request);
+    assert.lengthOf(mockTracer.getStartedSpans(), 1);
+    const span = mockTracer.getStartedSpans()[0];
+    assert.equal(span.getName(), "HTTP POST");
+    assert.equal(span.getAttribute("az.namespace"), "test");
+    assert.equal(span.getAttribute("http.method"), "POST");
+    assert.equal(span.getAttribute("http.url"), request.url);
+    assert.equal(span.getAttribute("requestId"), request.requestId);
+    assert.equal(span.getAttribute("http.status_code"), mockRequestStatusCode);
+  });
+
   it("will create a span and correctly set trace headers if tracingContext is available", async () => {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
     mockTracerProvider.setTracer(mockTracer);
 
-    const request = new WebResource();
+    const request = new WebResource("https://bing.com/my/path", "POST");
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
@@ -302,9 +332,9 @@ describe("tracingPolicy", function() {
             request: requestParam,
             statusCode: 400,
             headers: new HttpHeaders(),
-            message: "Bad Request."
+            message: "Bad Request.",
           });
-        }
+        },
       },
       new RequestPolicyOptions()
     );
@@ -319,7 +349,7 @@ describe("tracingPolicy", function() {
       assert.isTrue(span.didEnd());
       assert.deepEqual(span.getStatus(), {
         code: SpanStatusCode.ERROR,
-        message: "Bad Request."
+        message: "Bad Request.",
       });
       assert.equal(span.getAttribute("http.status_code"), 400);
 
@@ -377,7 +407,7 @@ describe("tracingPolicy", function() {
   it("will not fail the request if response processing fails", async () => {
     const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
     mockTracerProvider.setTracer(errorTracer);
-    const errorSpan = new MockSpan("", "", TraceFlags.SAMPLED, "");
+    const errorSpan = new MockSpan("", "", "", TraceFlags.SAMPLED, "");
     sinon.stub(errorSpan, "end").throws(new Error("Test Error"));
     sinon.stub(errorTracer, "startSpan").returns(errorSpan);
 
@@ -396,7 +426,7 @@ describe("tracingPolicy", function() {
 
     const request = new WebResource();
     request.spanOptions = {
-      attributes: { "az.namespace": "value_from_span_options" }
+      attributes: { "az.namespace": "value_from_span_options" },
     };
     request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
       Symbol.for("az.namespace"),
@@ -418,7 +448,7 @@ describe("tracingPolicy", function() {
 
     const request = new WebResource();
     request.spanOptions = {
-      attributes: { "az.namespace": "value_from_span_options" }
+      attributes: { "az.namespace": "value_from_span_options" },
     };
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 

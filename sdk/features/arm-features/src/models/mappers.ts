@@ -211,36 +211,6 @@ export const FeatureProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const ProxyResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SubscriptionFeatureRegistrationProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -333,6 +303,7 @@ export const SubscriptionFeatureRegistrationProperties: coreClient.CompositeMapp
         }
       },
       shouldFeatureDisplayInPortal: {
+        defaultValue: false,
         serializedName: "shouldFeatureDisplayInPortal",
         type: {
           name: "Boolean"
@@ -386,6 +357,36 @@ export const AuthorizationProfile: coreClient.CompositeMapper = {
       },
       approver: {
         serializedName: "approver",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
         readOnly: true,
         type: {
           name: "String"

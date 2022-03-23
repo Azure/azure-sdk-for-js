@@ -5,7 +5,7 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  RetryOptions
+  RetryOptions,
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import { receiverLogger as logger } from "../log";
@@ -15,12 +15,12 @@ import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
 import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   onMessageSettled,
   DeferredPromiseAndTimer,
   ReceiverHandlers,
-  createReceiverOptions
+  createReceiverOptions,
 } from "./shared";
 import { LockRenewer } from "./autoLockRenewer";
 import { translateServiceBusError } from "../serviceBusError";
@@ -51,6 +51,12 @@ export interface ReceiveOptions extends SubscribeOptions {
    * maxAutoRenewLockDurationInMs value when they created their receiver.
    */
   lockRenewer: LockRenewer | undefined;
+  /**
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
+   */
+  skipParsingBodyAsJson: boolean;
 }
 
 /**
@@ -134,7 +140,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   ) {
     super(entityPath, entityPath, context, receiverType, logger, {
       address: entityPath,
-      audience: `${context.config.endpoint}${entityPath}`
+      audience: `${context.config.endpoint}${entityPath}`,
     });
 
     this.receiverType = receiverType;
@@ -157,13 +163,13 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       useNewName ? getUniqueName(this.baseName) : this.name,
       this.receiveMode,
       {
-        address: this.address
+        address: this.address,
       },
       {
         onSettled: (context: EventContext) => {
           return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
         },
-        ...handlers
+        ...handlers,
       }
     );
 
@@ -254,26 +260,26 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
           description:
             "Operation to settle the message has timed out. The disposition of the " +
-            "message may or may not be successful"
+            "message may or may not be successful",
         };
         return reject(translateServiceBusError(e));
       }, options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,
-        timer: timer
+        timer: timer,
       });
       if (operation === DispositionType.complete) {
         delivery.accept();
       } else if (operation === DispositionType.abandon) {
         const params: any = {
-          undeliverable_here: false
+          undeliverable_here: false,
         };
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.defer) {
         const params: any = {
-          undeliverable_here: true
+          undeliverable_here: true,
         };
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
@@ -283,8 +289,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
           info: {
             ...options.propertiesToModify,
             DeadLetterReason: options.deadLetterReason,
-            DeadLetterErrorDescription: options.deadLetterDescription
-          }
+            DeadLetterErrorDescription: options.deadLetterDescription,
+          },
         };
         delivery.reject(error);
       }

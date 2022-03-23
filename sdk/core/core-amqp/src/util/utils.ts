@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
+import { StandardAbortMessage } from "./constants";
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "./typeGuards";
-import { StandardAbortMessage } from "../errors";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 
 /**
  * @internal
@@ -58,7 +58,7 @@ export interface WebSocketOptions {
  * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
-  !!process && !!process.version && !!process.versions && !!process.versions.node;
+  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
 
 /**
  * Defines an object with possible properties defined in T.

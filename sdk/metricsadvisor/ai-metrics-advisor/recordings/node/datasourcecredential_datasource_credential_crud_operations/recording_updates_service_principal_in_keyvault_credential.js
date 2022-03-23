@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "7be3c94e62b49b6318687c3fa1d9c10d";
+module.exports.hash = "3f2f2e52becb7dfc9578a36e9342eca6";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/credentials/99487362-fcd3-4745-b522-7a776e9bb6b4', {"dataSourceCredentialType":"ServicePrincipalInKV","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-162527918841007760","dataSourceCredentialDescription":"updated description","parameters":{"keyVaultEndpoint":"updated-keyvault-endpoint","keyVaultClientId":"updated-keyvault-client-id","keyVaultClientSecret":"updated-keyvault-client-secret","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","tenantId":"updated-tenant"}})
-  .reply(200, {"dataSourceCredentialId":"99487362-fcd3-4745-b522-7a776e9bb6b4","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-162527918841007760","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}}, [
+  .patch('/metricsadvisor/v1.0/credentials/ec72ea83-4884-4e83-b23f-2f5ba5ea9786', {"dataSourceCredentialType":"ServicePrincipalInKV","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-164264036985602901","dataSourceCredentialDescription":"updated description","parameters":{"keyVaultEndpoint":"updated-keyvault-endpoint","keyVaultClientId":"updated-keyvault-client-id","keyVaultClientSecret":"updated-keyvault-client-secret","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","tenantId":"updated-tenant"}})
+  .reply(200, {"dataSourceCredentialId":"ec72ea83-4884-4e83-b23f-2f5ba5ea9786","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-164264036985602901","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}}, [
   'Content-Length',
   '532',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'd5bea16d-1ec7-4082-84d5-dd5c5dd71c19',
+  '5a3cd9b1-6bd1-4e00-aa66-7c6c6c5b4d87',
   'x-envoy-upstream-service-time',
-  '801',
+  '276',
   'apim-request-id',
-  'd5bea16d-1ec7-4082-84d5-dd5c5dd71c19',
+  '5a3cd9b1-6bd1-4e00-aa66-7c6c6c5b4d87',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 02:26:52 GMT'
+  'Thu, 20 Jan 2022 00:59:32 GMT'
 ]);

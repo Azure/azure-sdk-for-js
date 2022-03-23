@@ -1,15 +1,24 @@
 # Release History
 
-## 1.0.0-preview.14 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
-- SpanOptions has been removed from OperationTracingOptions as it is internal and should not be exposed by client libraries.
-  - Customizing a newly created Span is only supported via passing `SpanOptions` to `createSpanFunction`
-
 ### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-preview.14 (2022-02-03)
+
+### Breaking Changes
+
+- @azure/core-tracing has been rewritten in order to provide cleaner abstractions for client libraries as well as remove @opentelemetry/api as a direct dependency.
+  - @opentelemetry/api is no longer a direct dependency of @azure/core-tracing providing for smaller bundle sizes and lower incidence of version conflicts
+  - `createSpanFunction` has been removed and replaced with a stateful `TracingClient` which can be created using the `createTracingClient` function.
+  - `TracingClient` introduces a new API for creating tracing spans. Use `TracingClient#withSpan` to wrap an invocation in a span, ensuring the span is ended and exceptions are captured.
+  - `TracingClient` also provides the lower-level APIs necessary to start a span without making it active, create request headers, serialize `traceparent` header, and wrapping a callback with an active context.
 
 ### Other Changes
 

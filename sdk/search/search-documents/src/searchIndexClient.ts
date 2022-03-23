@@ -31,7 +31,14 @@ import {
   IndexIterator,
   IndexNameIterator,
   SearchIndexStatistics,
-  SearchServiceStatistics
+  SearchServiceStatistics,
+  CreateAliasOptions,
+  SearchIndexAlias,
+  CreateOrUpdateAliasOptions,
+  DeleteAliasOptions,
+  GetAliasOptions,
+  ListAliasesOptions,
+  AliasIterator,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -44,8 +51,14 @@ import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./s
 export interface SearchIndexClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
+
+  /**
+   * The service version to use when communicating with the service.
+   */
+  serviceVersion?: string;
 }
 
 /**
@@ -57,7 +70,13 @@ export class SearchIndexClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30-Preview";
+  public readonly serviceVersion: string = utils.defaultServiceVersion;
+
+  /**
+   * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
+   */
+  public readonly apiVersion: string = utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
@@ -127,22 +146,33 @@ export class SearchIndexClient {
             "OData-MaxVersion",
             "OData-Version",
             "Prefer",
-            "throttle-reason"
-          ]
-        }
-      }
+            "throttle-reason",
+          ],
+        },
+      },
     };
 
-    let apiVersion = this.apiVersion;
-
     if (options.apiVersion) {
-      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
+      if (!utils.serviceVersions.includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
-      apiVersion = options.apiVersion;
+      this.serviceVersion = options.apiVersion;
+      this.apiVersion = options.apiVersion;
     }
 
-    this.client = new GeneratedClient(this.endpoint, apiVersion, internalClientPipelineOptions);
+    if (options.serviceVersion) {
+      if (!utils.serviceVersions.includes(options.serviceVersion)) {
+        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
+      }
+      this.serviceVersion = options.serviceVersion;
+      this.apiVersion = options.serviceVersion;
+    }
+
+    this.client = new GeneratedClient(
+      this.endpoint,
+      this.serviceVersion,
+      internalClientPipelineOptions
+    );
 
     if (isTokenCredential(credential)) {
       this.client.pipeline.addPolicy(
@@ -166,7 +196,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -198,7 +228,53 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesPage(options);
-      }
+      },
+    };
+  }
+
+  private async *listAliasesPage(
+    options: ListAliasesOptions = {}
+  ): AsyncIterableIterator<SearchIndexAlias[]> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
+    try {
+      const result = await this.client.aliases.list(updatedOptions);
+      yield result.aliases;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listAliasesAll(
+    options: ListAliasesOptions = {}
+  ): AsyncIterableIterator<SearchIndexAlias> {
+    for await (const page of this.listAliasesPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all aliases available for a search service.
+   * @param options - The options parameters.
+   */
+  public listAliases(options: ListAliasesOptions = {}): AliasIterator {
+    const iter = this.listAliasesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAliasesPage(options);
+      },
     };
   }
 
@@ -209,14 +285,14 @@ export class SearchIndexClient {
     try {
       const result = await this.client.indexes.list({
         ...updatedOptions,
-        select: "name"
+        select: "name",
       });
       const mapped = result.indexes.map((idx) => idx.name);
       yield mapped;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -248,7 +324,7 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesNamesPage(options);
-      }
+      },
     };
   }
 
@@ -264,7 +340,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -281,13 +357,13 @@ export class SearchIndexClient {
     try {
       const result = await this.client.synonymMaps.list({
         ...updatedOptions,
-        select: "name"
+        select: "name",
       });
       return result.synonymMaps.map((sm) => sm.name);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -308,7 +384,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -332,7 +408,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -359,7 +435,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -386,7 +462,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -412,14 +488,14 @@ export class SearchIndexClient {
         utils.publicIndexToGeneratedIndex(index),
         {
           ...updatedOptions,
-          ifMatch: etag
+          ifMatch: etag,
         }
       );
       return utils.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -448,14 +524,14 @@ export class SearchIndexClient {
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
         {
           ...updatedOptions,
-          ifMatch: etag
+          ifMatch: etag,
         }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -480,12 +556,12 @@ export class SearchIndexClient {
 
       await this.client.indexes.delete(indexName, {
         ...updatedOptions,
-        ifMatch: etag
+        ifMatch: etag,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -514,12 +590,120 @@ export class SearchIndexClient {
 
       await this.client.synonymMaps.delete(synonymMapName, {
         ...updatedOptions,
-        ifMatch: etag
+        ifMatch: etag,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new search alias or updates an alias if it already exists.
+   * @param alias - The definition of the alias to create or update.
+   * @param options - The options parameters.
+   */
+  public async createOrUpdateAlias(
+    alias: SearchIndexAlias,
+    options: CreateOrUpdateAliasOptions = {}
+  ): Promise<SearchIndexAlias> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
+    try {
+      const etag = options.onlyIfUnchanged ? alias.etag : undefined;
+
+      const result = await this.client.aliases.createOrUpdate(alias.name, alias, {
+        ...updatedOptions,
+        ifMatch: etag,
+      });
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new search alias.
+   * @param alias - The definition of the alias to create.
+   * @param options - The options parameters.
+   */
+  public async createAlias(
+    alias: SearchIndexAlias,
+    options: CreateAliasOptions = {}
+  ): Promise<SearchIndexAlias> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-createAlias", options);
+    try {
+      const result = await this.client.aliases.create(alias, updatedOptions);
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
+   * recovery option. The mapped index is untouched by this operation.
+   * @param alias - Alias/Name name of the alias to delete.
+   * @param options - The options parameters.
+   */
+  public async deleteAlias(
+    alias: string | SearchIndexAlias,
+    options: DeleteAliasOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
+    try {
+      const aliasName: string = typeof alias === "string" ? alias : alias.name;
+      const etag =
+        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
+
+      await this.client.aliases.delete(aliasName, {
+        ...updatedOptions,
+        ifMatch: etag,
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves an alias definition.
+   * @param aliasName - The name of the alias to retrieve.
+   * @param options - The options parameters.
+   */
+  public async getAlias(
+    aliasName: string,
+    options: GetAliasOptions = {}
+  ): Promise<SearchIndexAlias> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-getAlias", options);
+    try {
+      const result = await this.client.aliases.get(aliasName, updatedOptions);
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -544,7 +728,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -563,7 +747,7 @@ export class SearchIndexClient {
     const operationOptions = {
       abortSignal,
       requestOptions,
-      tracingOptions
+      tracingOptions,
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
@@ -574,7 +758,7 @@ export class SearchIndexClient {
           ...restOptions,
           analyzer: restOptions.analyzerName,
           tokenizer: restOptions.tokenizerName,
-          normalizer: restOptions.normalizerName
+          normalizer: restOptions.normalizerName,
         },
         updatedOptions
       );
@@ -582,7 +766,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -604,7 +788,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

@@ -15,6 +15,9 @@ import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
+
+// @public
 export interface AnalyzedTokenInfo {
     readonly endOffset: number;
     readonly position: number;
@@ -97,6 +100,17 @@ export interface AzureActiveDirectoryApplicationCredentials {
 export { AzureKeyCredential }
 
 // @public
+export type AzureMachineLearningSkill = BaseSearchIndexerSkill & {
+    odatatype: "#Microsoft.Skills.Custom.AmlSkill";
+    scoringUri?: string;
+    authenticationKey?: string;
+    resourceId?: string;
+    timeout?: string;
+    region?: string;
+    degreeOfParallelism?: number;
+};
+
+// @public
 export interface BaseCharFilter {
     name: string;
     odatatype: "#Microsoft.Azure.Search.MappingCharFilter" | "#Microsoft.Azure.Search.PatternReplaceCharFilter";
@@ -155,7 +169,7 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.V3.SentimentSkill" | "#Microsoft.Skills.Text.V3.EntityLinkingSkill" | "#Microsoft.Skills.Text.V3.EntityRecognitionSkill" | "#Microsoft.Skills.Text.PIIDetectionSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Custom.AmlSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
@@ -263,6 +277,9 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
+export type CreateAliasOptions = OperationOptions;
+
+// @public
 export type CreateDataSourceConnectionOptions = OperationOptions;
 
 // @public
@@ -270,6 +287,11 @@ export type CreateIndexerOptions = OperationOptions;
 
 // @public
 export type CreateIndexOptions = OperationOptions;
+
+// @public
+export interface CreateOrUpdateAliasOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
@@ -384,6 +406,11 @@ export const DEFAULT_RETRY_COUNT: number;
 export type DefaultCognitiveServicesAccount = BaseCognitiveServicesAccount & {
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 };
+
+// @public
+export interface DeleteAliasOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface DeleteDataSourceConnectionOptions extends OperationOptions {
@@ -545,6 +572,9 @@ export class GeographyPoint {
     longitude: number;
     toJSON(): Record<string, unknown>;
 }
+
+// @public
+export type GetAliasOptions = OperationOptions;
 
 // @public
 export type GetDataSourceConnectionOptions = OperationOptions;
@@ -1140,6 +1170,7 @@ export enum KnownOcrSkillLanguage {
     SrLatn = "sr-Latn",
     Sv = "sv",
     Tr = "tr",
+    Unk = "unk",
     ZhHans = "zh-Hans",
     ZhHant = "zh-Hant"
 }
@@ -1164,8 +1195,78 @@ export enum KnownQueryCaptionType {
 
 // @public
 export enum KnownQueryLanguage {
+    ArEg = "ar-eg",
+    ArJo = "ar-jo",
+    ArKw = "ar-kw",
+    ArMa = "ar-ma",
+    ArSa = "ar-sa",
+    BgBg = "bg-bg",
+    BnIn = "bn-in",
+    CaEs = "ca-es",
+    CsCz = "cs-cz",
+    DaDk = "da-dk",
+    DeDe = "de-de",
+    ElGr = "el-gr",
+    EnAu = "en-au",
+    EnCa = "en-ca",
+    EnGb = "en-gb",
+    EnIn = "en-in",
     EnUs = "en-us",
-    None = "none"
+    EsEs = "es-es",
+    EsMx = "es-mx",
+    EtEe = "et-ee",
+    EuEs = "eu-es",
+    FaAe = "fa-ae",
+    FiFi = "fi-fi",
+    FrCa = "fr-ca",
+    FrFr = "fr-fr",
+    GaIe = "ga-ie",
+    GlEs = "gl-es",
+    GuIn = "gu-in",
+    HeIl = "he-il",
+    HiIn = "hi-in",
+    HrBa = "hr-ba",
+    HrHr = "hr-hr",
+    HuHu = "hu-hu",
+    HyAm = "hy-am",
+    IdId = "id-id",
+    IsIs = "is-is",
+    ItIt = "it-it",
+    JaJp = "ja-jp",
+    KnIn = "kn-in",
+    KoKr = "ko-kr",
+    LtLt = "lt-lt",
+    LvLv = "lv-lv",
+    MlIn = "ml-in",
+    MrIn = "mr-in",
+    MsBn = "ms-bn",
+    MsMy = "ms-my",
+    NbNo = "nb-no",
+    NlBe = "nl-be",
+    NlNl = "nl-nl",
+    None = "none",
+    NoNo = "no-no",
+    PaIn = "pa-in",
+    PlPl = "pl-pl",
+    PtBr = "pt-br",
+    PtPt = "pt-pt",
+    RoRo = "ro-ro",
+    RuRu = "ru-ru",
+    SkSk = "sk-sk",
+    SlSl = "sl-sl",
+    SrBa = "sr-ba",
+    SrMe = "sr-me",
+    SrRs = "sr-rs",
+    SvSe = "sv-se",
+    TaIn = "ta-in",
+    TeIn = "te-in",
+    ThTh = "th-th",
+    TrTr = "tr-tr",
+    UkUa = "uk-ua",
+    UrPk = "ur-pk",
+    ViVn = "vi-vn",
+    ZhCn = "zh-cn",
+    ZhTw = "zh-tw"
 }
 
 // @public
@@ -1460,6 +1561,9 @@ export type LimitTokenFilter = BaseTokenFilter & {
 export type LineEnding = string;
 
 // @public
+export type ListAliasesOptions = OperationOptions;
+
+// @public
 export type ListDataSourceConnectionsOptions = OperationOptions;
 
 // @public
@@ -1659,6 +1763,13 @@ export type PIIDetectionSkill = BaseSearchIndexerSkill & {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
+export interface PrioritizedFields {
+    prioritizedContentFields?: SemanticField[];
+    prioritizedKeywordsFields?: SemanticField[];
+    titleField?: SemanticField;
+}
+
+// @public
 export type QueryAnswerType = string;
 
 // @public
@@ -1721,8 +1832,16 @@ export interface ScoringProfile {
 export type ScoringStatistics = "local" | "global";
 
 // @public
+export interface SearchAlias {
+    etag?: string;
+    indexes: string[];
+    name: string;
+}
+
+// @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
+    // @deprecated
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1735,13 +1854,16 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    readonly serviceVersion: string;
     suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
 export interface SearchClientOptions extends CommonClientOptions {
+    // @deprecated
     apiVersion?: string;
+    serviceVersion?: string;
 }
 
 // @public
@@ -1783,6 +1905,7 @@ export interface SearchIndex {
     name: string;
     normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
+    semanticSettings?: SemanticSettings;
     similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilter[];
@@ -1790,31 +1913,43 @@ export interface SearchIndex {
 }
 
 // @public
+export type SearchIndexAlias = SearchAlias;
+
+// @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: SearchIndexClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    // @deprecated
     readonly apiVersion: string;
+    createAlias(alias: SearchIndexAlias, options?: CreateAliasOptions): Promise<SearchIndexAlias>;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
+    createOrUpdateAlias(alias: SearchIndexAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexAlias>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    deleteAlias(alias: string | SearchIndexAlias, options?: DeleteAliasOptions): Promise<void>;
     deleteIndex(index: string | SearchIndex, options?: DeleteIndexOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
+    getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
     getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listAliases(options?: ListAliasesOptions): AliasIterator;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
+    readonly serviceVersion: string;
 }
 
 // @public
 export interface SearchIndexClientOptions extends CommonClientOptions {
+    // @deprecated
     apiVersion?: string;
+    serviceVersion?: string;
 }
 
 // @public
@@ -1843,6 +1978,7 @@ export interface SearchIndexerCache {
 // @public
 export class SearchIndexerClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: SearchIndexerClientOptions);
+    // @deprecated
     readonly apiVersion: string;
     createDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptions): Promise<SearchIndexer>;
@@ -1868,11 +2004,14 @@ export class SearchIndexerClient {
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
     resetSkills(skillsetName: string, options?: ResetSkillsOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
+    readonly serviceVersion: string;
 }
 
 // @public
 export interface SearchIndexerClientOptions extends CommonClientOptions {
+    // @deprecated
     apiVersion?: string;
+    serviceVersion?: string;
 }
 
 // @public
@@ -1968,7 +2107,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | PIIDetectionSkill | EntityRecognitionSkillV3 | EntityLinkingSkill | SentimentSkillV3 | CustomEntityLookupSkill | TextTranslationSkill | DocumentExtractionSkill | WebApiSkill;
+export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | PIIDetectionSkill | EntityRecognitionSkillV3 | EntityLinkingSkill | SentimentSkillV3 | CustomEntityLookupSkill | TextTranslationSkill | DocumentExtractionSkill | WebApiSkill | AzureMachineLearningSkill;
 
 // @public
 export interface SearchIndexerSkillset {
@@ -2084,6 +2223,7 @@ export interface SearchRequest {
     searchMode?: SearchMode;
     searchText?: string;
     select?: string;
+    semanticConfiguration?: string;
     semanticFields?: string;
     sessionId?: string;
     skip?: number;
@@ -2153,6 +2293,23 @@ export interface SearchSuggester {
 }
 
 // @public
+export interface SemanticConfiguration {
+    name: string;
+    prioritizedFields: PrioritizedFields;
+}
+
+// @public
+export interface SemanticField {
+    // (undocumented)
+    name?: string;
+}
+
+// @public
+export interface SemanticSettings {
+    configurations?: SemanticConfiguration[];
+}
+
+// @public
 export type SentimentSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.SentimentSkill";
     defaultLanguageCode?: SentimentSkillLanguage;
@@ -2171,6 +2328,7 @@ export type SentimentSkillV3 = BaseSearchIndexerSkill & {
 
 // @public
 export interface ServiceCounters {
+    aliasCounter?: ResourceCounter;
     dataSourceCounter: ResourceCounter;
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;

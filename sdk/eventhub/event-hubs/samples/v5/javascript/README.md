@@ -18,7 +18,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [receiveEvents.js][receiveevents]                                       | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.                                |
 | [usingAadAuth.js][usingaadauth]                                         | Demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using service principal secrets.                                   |
 | [iothubConnectionString.js][iothubconnectionstring]                     | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.                  |
-| [iothubConnectionStringWebsockets.js][iothubconnectionstringwebsockets] | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WbeSockets. |
+| [iothubConnectionStringWebsockets.js][iothubconnectionstringwebsockets] | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets. |
 | [useWithIotHub.js][usewithiothub]                                       | Demonstrates how to use the EventHubConsumerClient to receive messages from an IoT Hub.                                                                      |
 | [websockets.js][websockets]                                             | Demonstrates how to connect to Azure Event Hubs over websockets to work over an HTTP proxy.                                                                  |
 

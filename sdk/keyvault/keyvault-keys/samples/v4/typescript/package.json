@@ -33,7 +33,7 @@
   "dependencies": {
     "@azure/keyvault-keys": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.0",
+    "@azure/identity": "^2.0.1",
     "dayjs": "^1.10.7"
   },
   "devDependencies": {

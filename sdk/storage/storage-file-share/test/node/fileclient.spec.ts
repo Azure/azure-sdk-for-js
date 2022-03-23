@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { Buffer } from "buffer";
 import * as fs from "fs";
+import { Context } from "mocha";
 import * as path from "path";
-import * as zlib from "zlib";
 import { Duplex } from "stream";
+import * as zlib from "zlib";
 
 import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
@@ -17,7 +18,7 @@ import {
   ShareClient,
   ShareDirectoryClient,
   ShareFileClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import {
@@ -26,9 +27,8 @@ import {
   getBlobServceClient,
   getBSU,
   getTokenCredential,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "../utils";
-import { Context } from "mocha";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;
@@ -42,7 +42,7 @@ describe("FileClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -57,7 +57,7 @@ describe("FileClient Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
       await recorder.stop();
@@ -133,7 +133,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
 
@@ -154,7 +154,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
 
@@ -162,8 +162,8 @@ describe("FileClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -179,7 +179,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
 
@@ -213,7 +213,7 @@ describe("FileClient Node.js only", () => {
         expiresOn,
         shareName,
         filePath: `${dirName}/${fileName}`,
-        permissions: FileSASPermissions.parse("r")
+        permissions: FileSASPermissions.parse("r"),
       },
       credential
     );
@@ -233,7 +233,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it("uploadRangeFromURL - source bearer token", async function(this: Context) {
+  it("uploadRangeFromURL - source bearer token", async function (this: Context) {
     if (!isPlaybackMode()) {
       // Enable this case, when the STG78 feature is enabled in production.
       this.skip();
@@ -259,15 +259,15 @@ describe("FileClient Node.js only", () => {
     await fileURL2.uploadRangeFromURL(blockBlob.url, 0, 0, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        value: accessToken!.token
-      }
+        value: accessToken!.token,
+      },
     });
 
     await fileURL2.uploadRangeFromURL(blockBlob.url, 512, 512, 512, {
       sourceAuthorization: {
         scheme: "Bearer",
-        value: accessToken!.token
-      }
+        value: accessToken!.token,
+      },
     });
 
     const range1 = await fileURL2.download(0, 512);
@@ -284,8 +284,8 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadData(deflated, {
       fileHttpHeaders: {
         fileContentEncoding: "deflate",
-        fileContentType: "text/plain"
-      }
+        fileContentType: "text/plain",
+      },
     });
 
     const downloaded = await fileClient.downloadToBuffer();

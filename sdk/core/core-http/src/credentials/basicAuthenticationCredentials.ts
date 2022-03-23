@@ -1,17 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "../httpHeaders";
 import * as base64 from "../util/base64";
 import { Constants } from "../util/constants";
-import { WebResourceLike } from "../webResource";
+import { HttpHeaders } from "../httpHeaders";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
+import { WebResourceLike } from "../webResource";
+
 const HeaderConstants = Constants.HeaderConstants;
 const DEFAULT_AUTHORIZATION_SCHEME = "Basic";
 
+/**
+ * A simple {@link ServiceClientCredential} that authenticates with a username and a password.
+ */
 export class BasicAuthenticationCredentials implements ServiceClientCredentials {
+  /**
+   * Username
+   */
   userName: string;
+
+  /**
+   * Password
+   */
   password: string;
+
+  /**
+   * Authorization scheme. Defaults to "Basic".
+   * More information about authorization schemes is available here: https://developer.mozilla.org/docs/Web/HTTP/Authentication#authentication_schemes
+   */
   authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME;
 
   /**

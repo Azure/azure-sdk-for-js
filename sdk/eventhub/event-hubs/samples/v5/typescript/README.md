@@ -18,7 +18,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [receiveEvents.ts][receiveevents]                                       | Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.                                |
 | [usingAadAuth.ts][usingaadauth]                                         | Demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using service principal secrets.                                   |
 | [iothubConnectionString.ts][iothubconnectionstring]                     | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.                  |
-| [iothubConnectionStringWebsockets.ts][iothubconnectionstringwebsockets] | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WbeSockets. |
+| [iothubConnectionStringWebsockets.ts][iothubconnectionstringwebsockets] | Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets. |
 | [useWithIotHub.ts][usewithiothub]                                       | Demonstrates how to use the EventHubConsumerClient to receive messages from an IoT Hub.                                                                      |
 | [websockets.ts][websockets]                                             | Demonstrates how to connect to Azure Event Hubs over websockets to work over an HTTP proxy.                                                                  |
 

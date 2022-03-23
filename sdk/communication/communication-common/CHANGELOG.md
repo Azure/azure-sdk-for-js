@@ -1,14 +1,15 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 2.0.0 (2022-03-08)
 
 ### Features Added
 
+- Optimization added: When the proactive refreshing is enabled and the token refresher fails to provide a token that's not about to expire soon, the subsequent refresh attempts will be scheduled for when the token reaches half of its remaining lifetime until a token with long enough validity (>10 minutes) is obtained.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
+  - `createCommunicationAccessKeyCredentialPolicy` and `createCommunicationAuthPolicy` newly return `PipelinePolicy` instead of `RequestPolicyFactory`.
 
 ## 1.1.0 (2021-07-22)
 

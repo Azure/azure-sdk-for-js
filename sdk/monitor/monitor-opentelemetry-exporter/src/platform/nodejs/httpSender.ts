@@ -3,15 +3,17 @@
 import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
 import { Sender, SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
-  ApplicationInsightsClientTrackOptionalParams
+  TrackOptionalParams,
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
+
+const applicationInsightsResource = "https://monitor.azure.com//.default";
 
 /**
  * Exporter HTTP sender class
@@ -24,14 +26,23 @@ export class HttpSender implements Sender {
   constructor(private _exporterOptions: AzureExporterInternalConfig) {
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {
-      host: this._exporterOptions.endpointUrl
+      host: this._exporterOptions.endpointUrl,
     };
-
     this._appInsightsClient = new ApplicationInsightsClient({
-      ...this._appInsightsClientOptions
+      ...this._appInsightsClientOptions,
     });
-
+    // Handle redirects in HTTP Sender
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+
+    if (this._exporterOptions.aadTokenCredential) {
+      let scopes: string[] = [applicationInsightsResource];
+      this._appInsightsClient.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({
+          credential: this._exporterOptions.aadTokenCredential,
+          scopes: scopes,
+        })
+      );
+    }
   }
 
   /**
@@ -39,7 +50,7 @@ export class HttpSender implements Sender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    let options: ApplicationInsightsClientTrackOptionalParams = {};
+    let options: TrackOptionalParams = {};
     try {
       let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -50,7 +61,7 @@ export class HttpSender implements Sender {
       }
       await this._appInsightsClient.track(envelopes, {
         ...options,
-        onResponse
+        onResponse,
       });
 
       return { statusCode: response?.status, result: response?.bodyAsText ?? "" };

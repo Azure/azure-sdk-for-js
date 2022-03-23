@@ -12,3 +12,4 @@ You will need to create a local `.env` file under the same directory as this rea
       "STORAGE_CONNECTION_STRING",
       "STORAGE_SAS_URL",
       "TABLES_SAS_CONNECTION_STRING"
+```

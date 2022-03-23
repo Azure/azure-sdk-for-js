@@ -1,6 +1,6 @@
 # Migrating to `@azure/ai-form-recognizer` Version 4
 
-**Note ⚠️**: `@azure/ai-form-recognizer@4.0.0-beta.1` is a beta package. Certain aspects of the package's API surface and implementation may change during the course of its development, and this document is a work-in-progress and may change to reflect updates to the package. We value your feedback, and it is especially useful during the beta development cycle. Please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.
+**Note ⚠️**: `@azure/ai-form-recognizer` version 4 is currently a beta package. Certain aspects of the package's API surface and implementation may change during the course of its development, and this document is a work-in-progress and may change to reflect updates to the package. We value your feedback, and it is especially useful during the beta development cycle. Please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.
 
 In major version 4, this package introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Similarly, the new major version 4 of the client library cannot be used to communicate with version 2.1 of the service API. To summarize:
 
@@ -19,7 +19,7 @@ To avoid migrating an application all at once, major version 3 may be installed 
     "dependencies": {
         ...,
         "@azure/ai-form-recognizer": "^3.2.0",
-        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.1"
+        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.2"
     }
 }
 ```
@@ -31,7 +31,7 @@ With this configuration, imports from `"@azure/ai-form-recognizer"` will import 
     ...,
     "dependencies": {
         ...,
-        "@azure/ai-form-recognizer": "4.0.0-beta.1",
+        "@azure/ai-form-recognizer": "4.0.0-beta.2",
         "@azure/ai-form-recognizer-v3": "npm:@azure/ai-form-recognizer@^3.2.0"
     }
 }
@@ -164,7 +164,7 @@ Compare the following samples:
   const forms: RecognizedForm[] = await poller.pollUntilDone();
   ```
 
-  Current (4.0.0-beta.1):
+  Current (4.0.0-beta.2):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -199,7 +199,7 @@ Compare the following samples:
   }
   ```
 
-  Current (4.0.0-beta.1):
+  Current (4.0.0-beta.2):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -233,7 +233,7 @@ if (table.boundingBox) {
 }
 ```
 
-Current (4.0.0-beta.1):
+Current (4.0.0-beta.2):
 
 ```typescript
 // Now, tables were accessed through `AnalyzeResult`.
@@ -263,7 +263,7 @@ The previous `FormRecognizerClient` class and new `DocumentAnalysisClient` class
   - `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl`
   - `beginRecognizeIdentityDocuments` and `beginRecognizeIdentityDocumentsFromUrl`
 - `beginExtractLayout`, which replaces `beginRecognizeContent` and `beginRecognizeContentFromUrl`
-- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGenericDocument.ts), as it is not quite the same as using an unlabeled custom model.
+- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts), as it is not quite the same as using an unlabeled custom model.
 
 All of these methods produce `AnalyzeResult`, `LayoutResult`, and `GenericDocumentResult` types respectively. Please see the section above about these types for more information.
 
@@ -283,7 +283,7 @@ const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/f
 const poller = await client.beginRecognizeCustomFormsFromUrl("<model ID>", url);
 ```
 
-Current (4.0.0-beta.1):
+Current (4.0.0-beta.2):
 
 ```typescript
 const client = new DocumentAnalysisClient(...);
@@ -321,7 +321,7 @@ const [receipt] = await poller.pollUntilDone();
 const receiptType: string = (receipt.fields["ReceiptType"] as FormStringField)?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.1), using the `DocumentModel`:
+Current (4.0.0-beta.2), using the `DocumentModel`:
 
 ```typescript
 // We need to import `PrebuiltModels`, which holds the prebuilt `DocumentModel` data structures
@@ -343,7 +343,7 @@ const { documents: [receipt] } = await poller.pollUntilDone();
 const receiptType: string = receipt.fields.receiptType?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.1), using the model ID:
+Current (4.0.0-beta.2), using the model ID:
 
 ```typescript
 import { DocumentAnalysisClient, DocumentStringField } from "@azure/ai-form-recognizer";
@@ -372,7 +372,7 @@ The `DocumentModelAdministrationClient` has several methods, some of which have 
 
 - `beginBuildModel`, which replaces `beginTraining` (a required `modelId` parameter was added, and the `useLabels` parameter was removed, as v4.x of the SDK and the newest Form Recognizer service APIs no longer support unlabeled training of document types).
 - `beginComposeModel`, which replaces `beginCreateComposedModel` (like `beginBuildModel` it now requires a `modelId` as its first parameter).
-- `beginCopyModel`, which performs the same function as in `FormTrainingClient` (though it now requires `modelId` like `beginBuildModel`, and the `CopyAuthorization` has changed, see the table above).
+- `beginCopyModelTo`, which performs the same function as `beginCopyModel` in `FormTrainingClient` (though it now requires `modelId` like `beginBuildModel`, and the `CopyAuthorization` has changed, see the table above).
 - `deleteModel`, which performs the same function as in `FormTrainingClient`.
 - `getCopyAuthorization`, which creates an authorization to copy a model into the client's resource (as in `FormTrainingClient`); however, it no longer requires the resource ID and location, and only requires a model ID (the copy authorization encodes the model ID that the model will be copied into).
 - `getInfo`, which replaces `getAccountProperties` and now produces a `GetInfoResponse` (see the table above).
@@ -436,7 +436,7 @@ if (model.trainingDocuments) {
 }
 ```
 
-Current (4.0.0-beta.1):
+Current (4.0.0-beta.2):
 
 ```typescript
 const client = new DocumentModelAdministrationClient(...);
@@ -475,4 +475,4 @@ for (const [docType, { description, fieldSchema: docTypeSchema }] of Object.entr
 // Training document information is no longer included.
 ```
 
-**Note**: all three model creation methods (`beginBuildModel`, `beginComposeModel`, and `beginCopyModel`) eventually produce a `ModelInfo` with all of the information shown in the sample above, so while the sample only shows `beginBuildModel`, it actually applies to all three methods as well as `getModel`, which also produces a `ModelInfo`.
+**Note**: all three model creation methods (`beginBuildModel`, `beginComposeModel`, and `beginCopyModelTo`) eventually produce a `ModelInfo` with all of the information shown in the sample above, so while the sample only shows `beginBuildModel`, it actually applies to all three methods as well as `getModel`, which also produces a `ModelInfo`.

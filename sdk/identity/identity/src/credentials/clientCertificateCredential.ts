@@ -13,29 +13,29 @@ const credentialName = "ClientCertificateCredential";
 const logger = credentialLogger(credentialName);
 
 /**
+ * Required configuration options for the {@link ClientCertificateCredential}, with the string contents of a PEM certificate
+ */
+export interface ClientCertificatePEMCertificate {
+  /**
+   * The PEM-encoded public/private key certificate on the filesystem.
+   */
+  certificate: string;
+}
+/**
+ * Required configuration options for the {@link ClientCertificateCredential}, with the path to a PEM certificate.
+ */
+export interface ClientCertificatePEMCertificatePath {
+  /**
+   * The path to the PEM-encoded public/private key certificate on the filesystem.
+   */
+  certificatePath: string;
+}
+/**
  * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
  */
 export type ClientCertificateCredentialPEMConfiguration =
-  | {
-      /**
-       * The PEM-encoded public/private key certificate on the filesystem.
-       */
-      certificate: string;
-      /**
-       * The PEM-encoded public/private key certificate on the filesystem     should not be provided if `certificate` is provided.
-       */
-      certificatePath?: never;
-    }
-  | {
-      /**
-       * The PEM-encoded public/private key certificate on the filesystem should not be provided if `certificatePath` is provided.
-       */
-      certificate?: never;
-      /**
-       * The path to the PEM-encoded public/private key certificate on the filesystem.
-       */
-      certificatePath: string;
-    };
+  | ClientCertificatePEMCertificate
+  | ClientCertificatePEMCertificatePath;
 
 /**
  * Enables authentication to Azure Active Directory using a PEM-encoded
@@ -69,14 +69,30 @@ export class ClientCertificateCredential implements TokenCredential {
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
-   * @param configuration - Other parameters required, including the PEM-encoded certificate as a string, or as a path on the filesystem.
-   *                        If the type is ignored, we will throw if both the value of the PEM certificate and the path to a PEM certificate are provided at the same time.
+   * @param configuration - Other parameters required, including the path of the certificate on the filesystem.
+   *                        If the type is ignored, we will throw the value of the path to a PEM certificate.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string,
     clientId: string,
-    configuration: ClientCertificateCredentialPEMConfiguration,
+    configuration: ClientCertificatePEMCertificatePath,
+    options?: ClientCertificateCredentialOptions
+  );
+  /**
+   * Creates an instance of the ClientCertificateCredential with the details
+   * needed to authenticate against Azure Active Directory with a certificate.
+   *
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param configuration - Other parameters required, including the PEM-encoded certificate as a string.
+   *                        If the type is ignored, we will throw the value of the PEM-encoded certificate.
+   * @param options - Options for configuring the client which makes the authentication request.
+   */
+  constructor(
+    tenantId: string,
+    clientId: string,
+    configuration: ClientCertificatePEMCertificate,
     options?: ClientCertificateCredentialOptions
   );
   constructor(
@@ -91,16 +107,21 @@ export class ClientCertificateCredential implements TokenCredential {
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
         ? {
-            certificatePath: certificatePathOrConfiguration
+            certificatePath: certificatePathOrConfiguration,
           }
-        : certificatePathOrConfiguration)
+        : certificatePathOrConfiguration),
     };
-    if (!configuration || !(configuration.certificate || configuration.certificatePath)) {
+    const certificate: string | undefined = (configuration as ClientCertificatePEMCertificate)
+      .certificate;
+    const certificatePath: string | undefined = (
+      configuration as ClientCertificatePEMCertificatePath
+    ).certificatePath;
+    if (!configuration || !(certificate || certificatePath)) {
       throw new Error(
         `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
       );
     }
-    if (configuration.certificate && configuration.certificatePath) {
+    if (certificate && certificatePath) {
       throw new Error(
         `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
       );
@@ -112,7 +133,7 @@ export class ClientCertificateCredential implements TokenCredential {
       clientId,
       tenantId,
       sendCertificateChain: options.sendCertificateChain,
-      tokenCredentialOptions: options
+      tokenCredentialOptions: options,
     });
   }
 

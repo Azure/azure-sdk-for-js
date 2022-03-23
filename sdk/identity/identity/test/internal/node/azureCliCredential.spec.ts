@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import child_process from "child_process";
 import { assert } from "chai";
+import child_process from "child_process";
 import Sinon, { createSandbox } from "sinon";
+import { GetTokenOptions } from "@azure/core-auth";
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 
-describe("AzureCliCredential (internal)", function() {
+describe("AzureCliCredential (internal)", function () {
   let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
   let azArgs: string[][] = [];
   let azOptions: { cwd: string; shell: boolean }[] = [];
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sandbox = createSandbox();
     azArgs = [];
     azOptions = [];
-    sandbox.stub(child_process, "execFile").callsFake(
-      (_file, args, options, callback): child_process.ChildProcess => {
+    sandbox
+      .stub(child_process, "execFile")
+      .callsFake((_file, args, options, callback): child_process.ChildProcess => {
         azArgs.push(args as string[]);
         azOptions.push(options as { cwd: string; shell: boolean });
         if (callback) {
@@ -26,38 +28,67 @@ describe("AzureCliCredential (internal)", function() {
         }
         // Bypassing the type check. We don't use this return value in our code.
         return {} as child_process.ChildProcess;
-      }
-    );
+      });
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     sandbox?.restore();
   });
 
-  it("get access token without error", async function() {
+  it("get access token without error", async function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential();
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azArgs, [
-      ["account", "get-access-token", "--output", "json", "--resource", "https://service"]
+      ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
-        shell: azOptions[0].shell
+        shell: azOptions[0].shell,
       },
       { cwd: true, shell: true }
     );
   });
 
-  it("get access token with custom tenantId without error", async function() {
+  it("authenticates with tenantId on getToken", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default", {
+      tenantId: "TENANT-ID",
+    } as GetTokenOptions);
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      [
+        "account",
+        "get-access-token",
+        "--output",
+        "json",
+        "--resource",
+        "https://service",
+        "--tenant",
+        "TENANT-ID",
+      ],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true }
+    );
+  });
+
+  it("get access token with custom tenantId without error", async function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential({
-      tenantId: "tenantId"
+      tenantId: "tenantId",
     });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
@@ -70,14 +101,14 @@ describe("AzureCliCredential (internal)", function() {
         "--resource",
         "https://service",
         "--tenant",
-        "tenantId"
-      ]
+        "tenantId",
+      ],
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
-        shell: azOptions[0].shell
+        shell: azOptions[0].shell,
       },
       { cwd: true, shell: true }
     );

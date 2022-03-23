@@ -11,7 +11,7 @@ import { Webhooks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -21,6 +21,7 @@ import {
   Event,
   WebhooksListEventsNextOptionalParams,
   WebhooksListEventsOptionalParams,
+  WebhooksListResponse,
   WebhooksGetOptionalParams,
   WebhooksGetResponse,
   WebhookCreateParameters,
@@ -30,12 +31,11 @@ import {
   WebhookUpdateParameters,
   WebhooksUpdateOptionalParams,
   WebhooksUpdateResponse,
-  WebhooksListResponse,
   WebhooksPingOptionalParams,
   WebhooksPingResponse,
+  WebhooksListEventsResponse,
   WebhooksGetCallbackConfigOptionalParams,
   WebhooksGetCallbackConfigResponse,
-  WebhooksListEventsResponse,
   WebhooksListNextResponse,
   WebhooksListEventsNextResponse
 } from "../models";
@@ -43,13 +43,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Webhooks operations. */
 export class WebhooksImpl implements Webhooks {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class Webhooks class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -190,6 +190,23 @@ export class WebhooksImpl implements Webhooks {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all the webhooks for the specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: WebhooksListOptionalParams
+  ): Promise<WebhooksListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -499,23 +516,6 @@ export class WebhooksImpl implements Webhooks {
   }
 
   /**
-   * Lists all the webhooks for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: WebhooksListOptionalParams
-  ): Promise<WebhooksListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * Triggers a ping event to be sent to the webhook.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -535,25 +535,6 @@ export class WebhooksImpl implements Webhooks {
   }
 
   /**
-   * Gets the configuration of service URI and custom headers for the webhook.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param webhookName The name of the webhook.
-   * @param options The options parameters.
-   */
-  getCallbackConfig(
-    resourceGroupName: string,
-    registryName: string,
-    webhookName: string,
-    options?: WebhooksGetCallbackConfigOptionalParams
-  ): Promise<WebhooksGetCallbackConfigResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, webhookName, options },
-      getCallbackConfigOperationSpec
-    );
-  }
-
-  /**
    * Lists recent events for the specified webhook.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -569,6 +550,25 @@ export class WebhooksImpl implements Webhooks {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
       listEventsOperationSpec
+    );
+  }
+
+  /**
+   * Gets the configuration of service URI and custom headers for the webhook.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param webhookName The name of the webhook.
+   * @param options The options parameters.
+   */
+  getCallbackConfig(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: WebhooksGetCallbackConfigOptionalParams
+  ): Promise<WebhooksGetCallbackConfigResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, webhookName, options },
+      getCallbackConfigOperationSpec
     );
   }
 
@@ -615,6 +615,25 @@ export class WebhooksImpl implements Webhooks {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WebhookListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
@@ -712,25 +731,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WebhookListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const pingOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
@@ -751,13 +751,13 @@ const pingOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getCallbackConfigOperationSpec: coreClient.OperationSpec = {
+const listEventsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CallbackConfig
+      bodyMapper: Mappers.EventListResult
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -771,13 +771,13 @@ const getCallbackConfigOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listEventsOperationSpec: coreClient.OperationSpec = {
+const getCallbackConfigOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventListResult
+      bodyMapper: Mappers.CallbackConfig
     }
   },
   queryParameters: [Parameters.apiVersion],

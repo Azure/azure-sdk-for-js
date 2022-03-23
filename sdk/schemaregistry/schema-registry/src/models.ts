@@ -4,7 +4,7 @@
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
- * Identifies a Schema by its unique ID, version, and location.
+ * Properties of a schema.
  */
 export interface SchemaProperties {
   /** ID that uniquely identifies a schema in the registry namespace. */
@@ -15,9 +15,6 @@ export interface SchemaProperties {
    * Currently only 'avro' is supported, but this is subject to change.
    */
   format: string;
-
-  /** Automatically incremented version number of the schema. */
-  version: number;
 }
 
 /**
@@ -32,26 +29,33 @@ export interface SchemaDescription {
 
   /**
    * The format of schema and it must match the serialization type of the schema's group.
-   * Please refer to {@link KnownSerializationType} for possible values.
+   * "Avro" is the only currently accepted value at the time of this package's release.
    */
   format: string;
 
   /** String representation of schema. */
-  schemaDefinition: string;
+  definition: string;
 }
 
 /**
- * Schema definition with its unique ID, version, and location.
+ * Schema definition with its properties.
  */
-export interface Schema extends SchemaProperties {
-  /** String representation of schema. */
-  schemaDefinition: string;
+export interface Schema {
+  /** string representation of the schema. */
+  definition: string;
+  /** The properties of the schema */
+  properties: SchemaProperties;
 }
 
 /**
  * Options for SchemaRegistrationClient.
  */
-export interface SchemaRegistryClientOptions extends CommonClientOptions {}
+export interface SchemaRegistryClientOptions extends CommonClientOptions {
+  /**
+   * The service API version to use in requests. The default is "2021-10".
+   */
+  apiVersion?: string;
+}
 
 /**
  * Options for SchemaRegistryClient.registerSchema.
@@ -95,18 +99,18 @@ export interface SchemaRegistry {
    * definition.
    *
    * @param schema - Schema to match.
-   * @returns Matched schema's ID or undefined if no matching schema was found.
+   * @returns Matched schema's ID.
    */
   getSchemaProperties(
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
-  ): Promise<SchemaProperties | undefined>;
+  ): Promise<SchemaProperties>;
 
   /**
    * Gets an existing schema by ID.
    *
-   * @param id - Unique schema ID.
-   * @returns Schema with given ID or undefined if no schema was found with the given ID.
+   * @param schemaId - Unique schema ID.
+   * @returns Schema with given ID.
    */
-  getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
+  getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
 }

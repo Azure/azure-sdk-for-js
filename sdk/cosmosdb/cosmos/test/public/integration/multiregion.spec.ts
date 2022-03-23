@@ -3,7 +3,7 @@
 import assert from "assert";
 import { Suite } from "mocha";
 
-import { CosmosClient } from "../../../src";
+import { CosmosClient, RequestContext } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
 
@@ -13,7 +13,7 @@ const endpoint = "https://failovertest.documents.azure.com/";
 const databaseAccountResponse = {
   headers: {
     "content-location": "https://failovertest.documents.azure.com/",
-    "content-type": "application/json"
+    "content-type": "application/json",
   },
   result: {
     _self: "",
@@ -25,44 +25,44 @@ const databaseAccountResponse = {
     writableLocations: [
       {
         name: "East US",
-        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/"
+        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/",
       },
       {
         name: "Australia East",
-        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/"
-      }
+        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/",
+      },
     ],
     readableLocations: [
       {
         name: "East US",
-        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/"
+        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/",
       },
       {
         name: "Australia East",
-        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/"
-      }
+        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/",
+      },
     ],
     enableMultipleWriteLocations: true,
     userReplicationPolicy: {
       asyncReplication: false,
       minReplicaSetSize: 3,
-      maxReplicasetSize: 4
+      maxReplicasetSize: 4,
     },
     userConsistencyPolicy: {
-      defaultConsistencyLevel: "Session"
+      defaultConsistencyLevel: "Session",
     },
     systemReplicationPolicy: {
       minReplicaSetSize: 3,
-      maxReplicasetSize: 4
+      maxReplicasetSize: 4,
     },
     readPolicy: {
       primaryReadCoefficient: 1,
-      secondaryReadCoefficient: 1
+      secondaryReadCoefficient: 1,
     },
     queryEngineConfiguration:
-      '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}'
+      '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}',
   },
-  code: 200
+  code: 200,
 };
 
 const collectionResponse = {
@@ -74,26 +74,26 @@ const collectionResponse = {
       automatic: true,
       includedPaths: [
         {
-          path: "/*"
-        }
+          path: "/*",
+        },
       ],
       excludedPaths: [
         {
-          path: '/"_etag"/?'
-        }
-      ]
+          path: '/"_etag"/?',
+        },
+      ],
     },
     partitionKey: {
       paths: ["/_partitionKey"],
-      kind: "Hash"
+      kind: "Hash",
     },
     conflictResolutionPolicy: {
       mode: "LastWriterWins",
       conflictResolutionPath: "/_ts",
-      conflictResolutionProcedure: ""
+      conflictResolutionProcedure: "",
     },
     geospatialConfig: {
-      type: "Geography"
+      type: "Geography",
     },
     _rid: "kdY4AIn8g54=",
     _ts: 1572274839,
@@ -103,96 +103,93 @@ const collectionResponse = {
     _sprocs: "sprocs/",
     _triggers: "triggers/",
     _udfs: "udfs/",
-    _conflicts: "conflicts/"
+    _conflicts: "conflicts/",
   },
-  code: 200
+  code: 200,
 };
 
-describe("Multi-region tests", function(this: Suite) {
+describe("Multi-region tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
-  it("Preferred locations should be honored for readEndpoint", async function() {
+  it("Preferred locations should be honored for readEndpoint", async function () {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
       databaseAccountResponse,
       collectionResponse,
-      { code: 200, result: {}, headers: {} }
+      { code: 200, result: {}, headers: {} },
     ];
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
-      connectionPolicy: { preferredLocations: ["Australia East"] }
+      connectionPolicy: { preferredLocations: ["Australia East"] },
     };
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context) => {
+        plugin: async (context: RequestContext) => {
           const response = responses[requestIndex];
-          lastEndpointCalled = context.endpoint;
+          if (context.endpoint) {
+            lastEndpointCalled = context.endpoint;
+          }
           requestIndex++;
           if (response.code > 400) {
             throw response;
           }
           return response;
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
     } as any);
     const currentReadEndpoint = await client.getReadEndpoint();
     assert.equal(
       currentReadEndpoint,
       "https://failovertest-australiaeast.documents.azure.com:443/"
     );
-    await client
-      .database("foo")
-      .container("foo")
-      .item("foo", undefined)
-      .read();
+    await client.database("foo").container("foo").item("foo", undefined).read();
     assert.equal(lastEndpointCalled, "https://failovertest-australiaeast.documents.azure.com:443/");
     client.dispose();
   });
 
-  it("Preferred locations should be honored for writeEndpoint", async function() {
+  it("Preferred locations should be honored for writeEndpoint", async function () {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
       databaseAccountResponse,
       collectionResponse,
-      { code: 201, result: {}, headers: {} }
+      { code: 201, result: {}, headers: {} },
     ];
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
-      connectionPolicy: { preferredLocations: ["Australia East"] }
+      connectionPolicy: { preferredLocations: ["Australia East"] },
     };
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context) => {
+        plugin: async (context: RequestContext) => {
           const response = responses[requestIndex];
-          lastEndpointCalled = context.endpoint;
+          if (context.endpoint) {
+            lastEndpointCalled = context.endpoint;
+          }
           requestIndex++;
           if (response.code > 400) {
             throw response;
           }
           return response;
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
     } as any);
     const writeEndpoint = await client.getWriteEndpoint();
     assert.equal(writeEndpoint, "https://failovertest-australiaeast.documents.azure.com:443/");
-    await client
-      .database("foo")
-      .container("foo")
-      .items.upsert({ id: "foo", _partitionKey: "bar" });
+    await client.database("foo").container("foo").items.upsert({ id: "foo", _partitionKey: "bar" });
     assert.equal(lastEndpointCalled, "https://failovertest-australiaeast.documents.azure.com:443/");
     client.dispose();
   });

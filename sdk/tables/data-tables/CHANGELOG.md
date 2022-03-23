@@ -1,6 +1,37 @@
 # Release History
 
-## 12.2.0 (Unreleased)
+## 13.1.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix issue when the Service returns an empty nextRowKey. [#20916](https://github.com/Azure/azure-sdk-for-js/pull/20916).
+- Fix issue with `getStatistics()` operation consistently failing and added test. [#20398](https://github.com/Azure/azure-sdk-for-js/pull/20398)
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0)
+  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
+  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+
+## 13.0.1 (2022-01-12)
+
+### Bugs Fixed
+
+- Fix issue where custom HTTP Client passed in client options was being ignored in transactions. [#19470](https://github.com/Azure/azure-sdk-for-js/pull/19470)
+- Fix issue where optionality of expiresOn and permissions is not respected when signedIdentifier is provided.
+- Fix `createTable` not calling `onResponse` callback when the service returns `TableAlreadyExists`. [#18914](https://github.com/Azure/azure-sdk-for-js/pull/18914)
+
+## 13.0.0 (2021-11-11)
+
+### Acknowledgments
+
+Thank you to our developer community members who helped to make the Azure Tables client library better with their contributions to this release:
+
+- Daniel Hensby _([GitHub](https://github.com/dhensby))_
 
 ### Features Added
 
@@ -9,14 +40,20 @@
 
 ### Breaking Changes
 
+- Encode single quote where the partition/row key is used to format the URL - i.e. upsert, update and delete. For more details see Issue [#3356](https://github.com/Azure/azure-sdk/issues/3356). Fixed in [#18520](https://github.com/Azure/azure-sdk-for-js/pull/18520)
+- Setting a binary property on an entity without automatic type conversion takes raw string instead of Uint8Array [#18251](https://github.com/Azure/azure-sdk-for-js/pull/18251)
+
 ### Bugs Fixed
 
 - Document usage of SDK with Azurite. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #17407 - Correctly handle etag in select filter. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #18079 - Correctly handle creating entities with properties containing empty strings "". Fixes Insert throws "Unknown EDM type object" error with property value { value: "", type: "String" }. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #18148 - Correctly deserialize Decimal numbers checking for isSafeInteger. Fixes listEntities always returns an Int32 type for a value of "1.23456789012346e+24". [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
+- Issue #18521 - `upsertEntity` doesn't work with "" for partition or row keys. [#18586](https://github.com/Azure/azure-sdk-for-js/pull/18586)
 
 ### Other Changes
+
+- Export RestError [#18635](https://github.com/Azure/azure-sdk-for-js/pull/18635). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
 
 ## 12.1.2 (2021-09-07)
 

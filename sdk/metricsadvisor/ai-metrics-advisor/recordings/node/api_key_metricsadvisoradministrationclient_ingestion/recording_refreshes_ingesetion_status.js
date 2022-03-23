@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "b5fd0decc061fef9383c5036ded1a14b";
+module.exports.hash = "db6f89418c6deed688ce961aee0dd015";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query', {"startTime":"2020-08-22T00:00:00.000Z","endTime":"2020-08-23T00:00:00.000Z"})
-  .reply(200, {"value":[{"timestamp":"2020-08-22T00:00:00Z","status":"NotStarted","message":"Pending Retry. ","lastAttemptTime":"2021-06-02T06:43:31Z"}]}, [
+  .post('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query', {"startTime":"2020-10-30T00:00:00.000Z","endTime":"2020-11-01T00:00:00.000Z"})
+  .reply(200, {"value":[{"timestamp":"2020-10-31T00:00:00Z","status":"Running","message":""},{"timestamp":"2020-10-30T00:00:00Z","status":"Running","message":""}]}, [
   'Content-Length',
-  '139',
+  '149',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'bb987fea-9cdf-454d-943e-8c03839c64f9',
+  'f3d69b6c-f511-4fd7-ac84-ad7272121dc8',
   'x-envoy-upstream-service-time',
-  '233',
+  '231',
   'apim-request-id',
-  'bb987fea-9cdf-454d-943e-8c03839c64f9',
+  'f3d69b6c-f511-4fd7-ac84-ad7272121dc8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 17:31:49 GMT'
+  'Thu, 20 Jan 2022 00:58:16 GMT'
 ]);

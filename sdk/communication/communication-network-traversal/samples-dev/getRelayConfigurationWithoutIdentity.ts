@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 /**
+ *
  * @summary Issue a new Relay configuration without user identity
+ * @azsdk-weight 10
  */
 
 import { CommunicationRelayClient } from "@azure/communication-network-traversal";

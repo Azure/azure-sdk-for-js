@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentPage, DocumentStyle, DocumentTable } from "../generated";
-import { AnalyzeResult } from "../lro/analyze";
+import { DocumentStyle, DocumentTable } from "../generated";
+import { AnalyzeResult, DocumentPage, toDocumentPageFromGenerated } from "../lro/analyze";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from layout analysis.
@@ -12,7 +12,7 @@ export function toLayoutResult(analyzeResult: AnalyzeResult<unknown>): LayoutRes
   const { pages, tables, styles } = analyzeResult;
 
   return {
-    pages,
+    pages: pages.map(toDocumentPageFromGenerated),
     tables,
     styles,
   };
@@ -24,6 +24,9 @@ export function toLayoutResult(analyzeResult: AnalyzeResult<unknown>): LayoutRes
  * This model produces only basic elements: pages, tables, and styles.
  */
 export interface LayoutResult {
+  /**
+   * Pages extracted from the input document.
+   */
   pages: DocumentPage[];
   /**
    * Extracted tables, organized into cells that individually contain their extracted contents.

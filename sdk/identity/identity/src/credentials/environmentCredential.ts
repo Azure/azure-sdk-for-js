@@ -4,7 +4,7 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
@@ -25,10 +25,11 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_SECRET",
   "AZURE_CLIENT_CERTIFICATE_PATH",
   "AZURE_USERNAME",
-  "AZURE_PASSWORD"
+  "AZURE_PASSWORD",
 ];
 
-const logger = credentialLogger("EnvironmentCredential");
+const credentialName = "EnvironmentCredential";
+const logger = credentialLogger(credentialName);
 
 /**
  * Enables authentication to Azure Active Directory depending on the available environment variables.
@@ -124,7 +125,7 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace("EnvironmentCredential.getToken", options, async (newOptions) => {
+    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
       if (this._credential) {
         try {
           const result = await this._credential.getToken(scopes, newOptions);
@@ -132,19 +133,15 @@ export class EnvironmentCredential implements TokenCredential {
           return result;
         } catch (err) {
           const authenticationError = new AuthenticationError(400, {
-            error:
-              "EnvironmentCredential authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.",
-            error_description: err.message
-              .toString()
-              .split("More details:")
-              .join("")
+            error: `${credentialName} authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
+            error_description: err.message.toString().split("More details:").join(""),
           });
           logger.getToken.info(formatError(scopes, authenticationError));
           throw authenticationError;
         }
       }
       throw new CredentialUnavailableError(
-        "EnvironmentCredential is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot."
+        `${credentialName} is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`
       );
     });
   }

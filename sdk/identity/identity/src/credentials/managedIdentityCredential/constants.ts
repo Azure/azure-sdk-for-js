@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 export const DefaultScopeSuffix = "/.default";
-
 export const imdsHost = "http://169.254.169.254";
 export const imdsEndpointPath = "/metadata/identity/oauth2/token";
 export const imdsApiVersion = "2018-02-01";

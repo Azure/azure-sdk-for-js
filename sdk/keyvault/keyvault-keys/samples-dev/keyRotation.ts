@@ -25,8 +25,7 @@ export async function main(): Promise<void> {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
-  const uniqueString = `KeyRotationSample${Date.now()}`;
-  const keyName = `KeyName${uniqueString}`;
+  const keyName = `key-rotation-sample-key-${Date.now()}`;
   const key = await client.createKey(keyName, "EC");
   console.log("created key", key);
 
@@ -35,9 +34,9 @@ export async function main(): Promise<void> {
     lifetimeActions: [
       {
         action: "Rotate",
-        timeAfterCreate: "P30D"
-      }
-    ]
+        timeAfterCreate: "P30D",
+      },
+    ],
   });
   console.log("created policy", policy);
 
@@ -54,20 +53,16 @@ export async function main(): Promise<void> {
     lifetimeActions: [
       {
         action: "Notify",
-        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString()
-      }
+        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString(),
+      },
     ],
-    expiresIn: "P90D"
+    expiresIn: "P90D",
   });
   console.log("updated policy", updatedPolicy);
 
   // Rotate the key on-demand, generating a new version of the key.
   const newKeyVersion = await client.rotateKey(key.name);
   console.log("rotated key", newKeyVersion);
-
-  // Delete the key. Deleting a key is a long running operation; however, for this sample we will
-  // fire-and-forget the process and assume the key was successfully deleted.
-  await client.beginDeleteKey(key.name);
 }
 
 main().catch((error) => {

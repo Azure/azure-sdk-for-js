@@ -2,19 +2,16 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, delay } from "@azure/core-http";
+import { isNode, delay } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
@@ -25,12 +22,12 @@ describe("DataLakePathClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
@@ -38,8 +35,8 @@ describe("DataLakePathClient", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function() {
-    await fileSystemClient.delete();
+  afterEach(async function () {
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -59,7 +56,7 @@ describe("DataLakePathClient", () => {
     // For browser scenario, please ensure CORS settings exposed headers: content-md5,x-ms-content-crc64
     // So JS can get contentCrc64 and contentMD5.
     const result1 = await fileClient.read(0, 1, {
-      rangeGetContentCrc64: true
+      rangeGetContentCrc64: true,
     });
     assert.ok(result1.clientRequestId);
     // assert.ok(result1.contentCrc64!);
@@ -67,7 +64,7 @@ describe("DataLakePathClient", () => {
     assert.ok(result1.clientRequestId);
 
     const result2 = await fileClient.read(1, 1, {
-      rangeGetContentMD5: true
+      rangeGetContentMD5: true,
     });
     assert.ok(result2.clientRequestId);
     // assert.ok(result2.contentMD5!);
@@ -76,7 +73,7 @@ describe("DataLakePathClient", () => {
     try {
       await fileClient.read(2, 1, {
         rangeGetContentMD5: true,
-        rangeGetContentCrc64: true
+        rangeGetContentCrc64: true,
       });
     } catch (err) {
       exceptionCaught = true;
@@ -87,7 +84,7 @@ describe("DataLakePathClient", () => {
   it("setMetadata with new metadata set", async () => {
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
     const result = await fileClient.getProperties();
@@ -97,7 +94,7 @@ describe("DataLakePathClient", () => {
   it("setMetadata with cleaning up metadata", async () => {
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
     const result = await fileClient.getProperties();
@@ -129,7 +126,7 @@ describe("DataLakePathClient", () => {
       contentEncoding: "contentEncoding",
       contentLanguage: "contentLanguage",
       contentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
-      contentType: "contentType"
+      contentType: "contentType",
     };
     await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
@@ -156,8 +153,8 @@ describe("DataLakePathClient", () => {
 
     const result = await fileClient.read(undefined, undefined, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 
@@ -167,7 +164,6 @@ describe("DataLakePathClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -180,16 +176,16 @@ describe("DataLakePathClient", () => {
                   name: "Azure.Storage.Blob.BlobClient-download",
                   children: [
                     {
-                      name: urlPath,
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                      name: "HTTP GET",
+                      children: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
@@ -224,13 +220,13 @@ describe("DataLakePathClient", () => {
     await tempFileClient.create();
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([])
+      transactionalContentMD5: new Uint8Array([]),
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([])
+      transactionalContentMD5: new Uint8Array([]),
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([])
+      transactionalContentMD5: new Uint8Array([]),
     });
 
     await tempFileClient.flush(body.length * 3);
@@ -252,25 +248,25 @@ describe("DataLakePathClient", () => {
       group: { read: false, write: false, execute: false },
       other: { read: false, write: false, execute: false },
       stickyBit: false,
-      extendedAcls: false
+      extendedAcls: false,
     };
     const permissionsString = toPermissionsString(permissions);
     const metadata = {
       a: "val-a",
-      b: "val-b"
+      b: "val-b",
     };
     let pathHttpHeaders = {
       cacheControl: "cacheControl",
       contentEncoding: "contentEncoding",
       contentLanguage: "contentLanguage",
       contentDisposition: "contentDisposition",
-      contentType: "contentType"
+      contentType: "contentType",
     };
     await tempFileClient.create({
       permissions: permissionsString,
       metadata,
       umask: "0000",
-      pathHttpHeaders
+      pathHttpHeaders,
     });
 
     let properties = await tempFileClient.getProperties();
@@ -286,13 +282,13 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(acl.permissions, permissions);
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([])
+      transactionalContentMD5: new Uint8Array([]),
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([])
+      transactionalContentMD5: new Uint8Array([]),
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([])
+      transactionalContentMD5: new Uint8Array([]),
     });
 
     pathHttpHeaders = {
@@ -300,12 +296,12 @@ describe("DataLakePathClient", () => {
       contentEncoding: "contentEncoding2",
       contentLanguage: "contentLanguage2",
       contentDisposition: "contentDisposition2",
-      contentType: "contentType2"
+      contentType: "contentType2",
     };
     await tempFileClient.flush(body.length * 3, {
       retainUncommittedData: true,
       close: true,
-      pathHttpHeaders
+      pathHttpHeaders,
     });
 
     properties = await tempFileClient.getProperties();

@@ -5,23 +5,26 @@ import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
   createHttpHeaders,
-  PipelineRequestOptions,
   createPipelineRequest,
-  RestError
+  PipelineRequestOptions,
+  RestError,
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { IdentityClient } from "../../client/identityClient";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
+import { AuthenticationError } from "../../errors";
 import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource, msiGenericGetToken } from "./utils";
-import { AuthenticationError } from "../../errors";
+import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
 
-function expiresInParser(requestBody: any): number {
+/**
+ * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
+ */
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
   if (requestBody.expires_on) {
     // Use the expires_on timestamp if it's available
     const expires = +requestBody.expires_on * 1000;
@@ -39,9 +42,13 @@ function expiresInParser(requestBody: any): number {
   }
 }
 
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
+  resourceId?: string,
   options?: {
     skipQuery?: boolean;
     skipMetadataHeader?: boolean;
@@ -58,12 +65,15 @@ function prepareRequestOptions(
   // Pod Identity will try to process this request even if the Metadata header is missing.
   // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
   if (!skipQuery) {
-    const queryParameters: any = {
+    const queryParameters: Record<string, string> = {
       resource,
-      "api-version": imdsApiVersion
+      "api-version": imdsApiVersion,
     };
     if (clientId) {
       queryParameters.client_id = clientId;
+    }
+    if (resourceId) {
+      queryParameters.msi_res_id = resourceId;
     }
     const params = new URLSearchParams(queryParameters);
     query = `?${params.toString()}`;
@@ -73,7 +83,7 @@ function prepareRequestOptions(
 
   const rawHeaders: Record<string, string> = {
     Accept: "application/json",
-    Metadata: "true"
+    Metadata: "true",
   };
 
   // Remove the Metadata header to invoke a request error from some IMDS endpoints.
@@ -85,7 +95,7 @@ function prepareRequestOptions(
     // In this case, the `?` should be added in the "query" variable `skipQuery` is not set.
     url: `${url}${query}`,
     method: "GET",
-    headers: createHttpHeaders(rawHeaders)
+    headers: createHttpHeaders(rawHeaders),
   };
 }
 
@@ -93,16 +103,20 @@ function prepareRequestOptions(
 export const imdsMsiRetryConfig = {
   maxRetries: 3,
   startDelayInMs: 800,
-  intervalIncrement: 2
+  intervalIncrement: 2,
 };
 
+/**
+ * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
+ */
 export const imdsMsi: MSI = {
-  async isAvailable(
-    scopes: string | string[],
-    identityClient: IdentityClient,
-    clientId?: string,
-    getTokenOptions?: GetTokenOptions
-  ): Promise<boolean> {
+  async isAvailable({
+    scopes,
+    identityClient,
+    clientId,
+    resourceId,
+    getTokenOptions,
+  }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -113,14 +127,18 @@ export const imdsMsi: MSI = {
       getTokenOptions
     );
 
-    // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
+    // if the PodIdentityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       return true;
     }
 
-    const requestOptions = prepareRequestOptions(resource, clientId, {
+    if (!identityClient) {
+      throw new Error("Missing IdentityClient");
+    }
+
+    const requestOptions = prepareRequestOptions(resource, clientId, resourceId, {
       skipMetadataHeader: true,
-      skipQuery: true
+      skipQuery: true,
     });
     requestOptions.tracingOptions = options.tracingOptions;
 
@@ -151,7 +169,7 @@ export const imdsMsi: MSI = {
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           span.setStatus({
             code: SpanStatusCode.ERROR,
-            message: err.message
+            message: err.message,
           });
           return false;
         }
@@ -168,7 +186,7 @@ export const imdsMsi: MSI = {
       );
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       throw err;
     } finally {
@@ -179,7 +197,7 @@ export const imdsMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId } = configuration;
+    const { identityClient, scopes, clientId, resourceId } = configuration;
 
     logger.info(
       `${msiName}: Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
@@ -188,12 +206,13 @@ export const imdsMsi: MSI = {
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
     for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
       try {
-        return await msiGenericGetToken(
-          identityClient,
-          prepareRequestOptions(scopes, clientId),
-          expiresInParser,
-          getTokenOptions
-        );
+        const request = createPipelineRequest({
+          abortSignal: getTokenOptions.abortSignal,
+          ...prepareRequestOptions(scopes, clientId, resourceId),
+          allowInsecureConnection: true,
+        });
+        const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+        return (tokenResponse && tokenResponse.accessToken) || null;
       } catch (error) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);
@@ -208,5 +227,5 @@ export const imdsMsi: MSI = {
       404,
       `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
-  }
+  },
 };

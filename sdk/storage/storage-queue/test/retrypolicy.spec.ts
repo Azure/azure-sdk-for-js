@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
-import * as assert from "assert";
+import { assert } from "chai";
 import { QueueClient, RestError, newPipeline, QueueServiceClient } from "../src";
-import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU } from "./utils";
@@ -13,8 +12,6 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
 
-dotenv.config();
-
 describe("RetryPolicy", () => {
   let queueServiceClient: QueueServiceClient;
   let queueName: string;
@@ -22,7 +19,7 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -30,7 +27,7 @@ describe("RetryPolicy", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -51,7 +48,7 @@ describe("RetryPolicy", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await injectqueueClient.setMetadata(metadata);
 
@@ -76,7 +73,7 @@ describe("RetryPolicy", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
 
     let hasError = false;
@@ -84,7 +81,7 @@ describe("RetryPolicy", () => {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
       await injectqueueClient.setMetadata(metadata, {
-        abortSignal: AbortController.timeout(2 * 1000)
+        abortSignal: AbortController.timeout(2 * 1000),
       });
     } catch (err) {
       hasError = true;
@@ -101,7 +98,7 @@ describe("RetryPolicy", () => {
       (queueClient as any).pipeline.factories.length - 1
     ];
     const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 3 }
+      retryOptions: { maxTries: 3 },
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
@@ -112,7 +109,7 @@ describe("RetryPolicy", () => {
       const metadata = {
         key0: "val0",
         keya: "vala",
-        keyb: "valb"
+        keyb: "valb",
       };
       await injectqueueClient.setMetadata(metadata);
     } catch (err) {
@@ -142,7 +139,7 @@ describe("RetryPolicy", () => {
       (queueClient as any).pipeline.factories.length - 1
     ];
     const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 2, secondaryHost }
+      retryOptions: { maxTries: 2, secondaryHost },
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);

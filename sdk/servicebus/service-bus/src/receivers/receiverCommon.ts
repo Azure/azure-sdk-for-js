@@ -10,16 +10,19 @@ import {
   DeadLetterOptions,
   DispositionType,
   ServiceBusMessageImpl,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "../serviceBusMessage";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
 import {
+  Constants,
   ErrorNameConditionMapper,
+  delay,
   retry,
   RetryConfig,
+  RetryMode,
   RetryOperationType,
-  RetryOptions
+  RetryOptions,
 } from "@azure/core-amqp";
 import { MessageAlreadySettled } from "../util/errors";
 import { isDefined } from "../util/typeGuards";
@@ -65,14 +68,14 @@ export async function* getMessageIterator(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
-  logger: ServiceBusLogger = receiverLogger
+  loggerParam: ServiceBusLogger = receiverLogger
 ): MessageHandlers["processError"] {
   return async (args: ProcessErrorArgs) => {
     try {
       args.error = translateServiceBusError(args.error);
       await handlers.processError(args);
     } catch (err) {
-      logger.logError(err, `An error was thrown from the user's processError handler`);
+      loggerParam.logError(err, `An error was thrown from the user's processError handler`);
     }
   };
 }
@@ -93,7 +96,7 @@ export function completeMessage(
     message.messageId
   );
   return settleMessage(message, DispositionType.complete, context, entityPath, {
-    retryOptions
+    retryOptions,
   });
 }
 
@@ -105,7 +108,7 @@ export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: { [key: string]: any } | undefined,
+  propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -115,7 +118,7 @@ export function abandonMessage(
   );
   return settleMessage(message, DispositionType.abandon, context, entityPath, {
     propertiesToModify,
-    retryOptions
+    retryOptions,
   });
 }
 
@@ -127,7 +130,7 @@ export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: { [key: string]: any } | undefined,
+  propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -137,7 +140,7 @@ export function deferMessage(
   );
   return settleMessage(message, DispositionType.defer, context, entityPath, {
     retryOptions,
-    propertiesToModify
+    propertiesToModify,
   });
 }
 
@@ -149,7 +152,9 @@ export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: (DeadLetterOptions & { [key: string]: any }) | undefined,
+  propertiesToModify:
+    | (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null })
+    | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -159,7 +164,7 @@ export function deadLetterMessage(
   );
 
   const actualPropertiesToModify: Partial<DeadLetterOptions> = {
-    ...propertiesToModify
+    ...propertiesToModify,
   };
 
   // these two fields are handled specially and don't need to be in here.
@@ -170,7 +175,7 @@ export function deadLetterMessage(
     propertiesToModify: actualPropertiesToModify,
     deadLetterReason: propertiesToModify?.deadLetterReason,
     deadLetterDescription: propertiesToModify?.deadLetterErrorDescription,
-    retryOptions
+    retryOptions,
   };
 
   return settleMessage(
@@ -200,7 +205,7 @@ export function settleMessage(
     },
     operationType: RetryOperationType.messageSettlement,
     abortSignal: options?.abortSignal,
-    retryOptions: options?.retryOptions
+    retryOptions: options?.retryOptions,
   });
 }
 
@@ -236,7 +241,7 @@ export async function settleMessageOperation(
       description:
         `Failed to ${operation} the message as the AMQP link with which the message was ` +
         `received is no longer alive.`,
-      condition: ErrorNameConditionMapper.SessionLockLostError
+      condition: ErrorNameConditionMapper.SessionLockLostError,
     });
   }
 
@@ -259,7 +264,7 @@ export async function settleMessageOperation(
       .updateDispositionStatus(message.lockToken!, operation, {
         ...options,
         associatedLinkName,
-        sessionId: message.sessionId
+        sessionId: message.sessionId,
       })
       .catch((err) => {
         throw translateServiceBusError(err);
@@ -280,7 +285,28 @@ export interface RetryForeverArgs<T> {
 }
 
 /**
- * Retry infinitely until success, reporting in between retry<> attempts.
+ * Calculates delay between retries, in milliseconds.
+ */
+function calculateDelay(
+  attemptCount: number,
+  retryDelayInMs: number,
+  maxRetryDelayInMs: number,
+  mode: RetryMode
+): number {
+  if (mode === RetryMode.Exponential) {
+    const boundedRandDelta =
+      retryDelayInMs * 0.8 +
+      Math.floor(Math.random() * (retryDelayInMs * 1.2 - retryDelayInMs * 0.8));
+
+    const incrementDelta = boundedRandDelta * (Math.pow(2, attemptCount) - 1);
+    return Math.min(incrementDelta, maxRetryDelayInMs);
+  }
+
+  return retryDelayInMs;
+}
+
+/**
+ * Retry infinitely until success, reporting in between retry attempts.
  *
  * This function will only stop retrying if:
  * - args.retryConfig.operation resolves successfully
@@ -293,9 +319,28 @@ export async function retryForever<T>(
   retryFn: typeof retry = retry
 ): Promise<T> {
   let numRetryCycles = 0;
+  const config = args.retryConfig;
+  if (!config.retryOptions) {
+    config.retryOptions = {};
+  }
+  // eslint-disable-next-line eqeqeq
+  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
+    config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
+  }
+  if (
+    // eslint-disable-next-line eqeqeq
+    config.retryOptions.maxRetryDelayInMs == undefined ||
+    config.retryOptions.maxRetryDelayInMs < 0
+  ) {
+    config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
+  }
+  if (!config.retryOptions.mode) {
+    config.retryOptions.mode = RetryMode.Fixed;
+  }
 
   // The retries are broken up into cycles, giving the user some control over how often
   // we actually attempt to retry.
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     ++numRetryCycles;
 
@@ -314,14 +359,32 @@ export async function retryForever<T>(
       // redundant reports of errors while still providing them incremental status on failures.
       try {
         args.onError(err);
-      } catch (err) {
-        logger.error("args.onerror has thrown", err);
+      } catch (error) {
+        logger.error("args.onerror has thrown", error);
       }
 
       args.logger.logError(
         err,
         `${args.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
         args.retryConfig
+      );
+
+      const delayInMs = calculateDelay(
+        numRetryCycles,
+        config.retryOptions.retryDelayInMs,
+        config.retryOptions.maxRetryDelayInMs,
+        config.retryOptions.mode
+      );
+      logger.verbose(
+        "[%s] Sleeping for %d milliseconds for '%s'.",
+        config.connectionId,
+        delayInMs,
+        config.operationType
+      );
+      await delay<void>(
+        delayInMs,
+        config.abortSignal,
+        "Retry cycle has been cancelled by the user."
       );
 
       continue;

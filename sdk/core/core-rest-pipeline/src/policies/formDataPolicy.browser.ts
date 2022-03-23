@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
@@ -33,12 +33,14 @@ export function formDataPolicy(): PipelinePolicy {
         request.body = requestForm;
         request.formData = undefined;
         const contentType = request.headers.get("Content-Type");
-        if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
+        if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
+          request.body = new URLSearchParams(requestForm as any).toString();
+        } else if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
           // browser will automatically apply a suitable content-type header
           request.headers.delete("Content-Type");
         }
       }
       return next(request);
-    }
+    },
   };
 }

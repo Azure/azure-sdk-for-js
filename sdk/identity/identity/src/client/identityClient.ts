@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
-import { CommonClientOptions, ServiceClient } from "@azure/core-client";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequest
+  PipelineRequest,
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
@@ -17,6 +18,7 @@ import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -34,6 +36,19 @@ export interface TokenResponse {
    * The refresh token if the 'offline_access' scope was used.
    */
   refreshToken?: string;
+}
+
+/**
+ * Internal type roughly matching the raw responses of the authentication endpoints.
+ *
+ * @internal
+ */
+export interface TokenResponseParsedBody {
+  token?: string;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in: number;
+  expires_on?: number | string;
 }
 
 /**
@@ -61,10 +76,11 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
  */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
+  private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.0.2`;
+    const packageDetails = `azsdk-js-identity/2.1.0-beta.2`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -76,47 +92,49 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     super({
       requestContentType: "application/json; charset=utf-8",
+      retryOptions: {
+        maxRetries: 3,
+      },
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri
+      baseUri,
     });
 
     this.authorityHost = baseUri;
     this.abortControllers = new Map();
+    this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
   }
 
   async sendTokenRequest(
     request: PipelineRequest,
-    expiresOnParser?: (responseBody: any) => number
+    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number
   ): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
 
     expiresOnParser =
       expiresOnParser ||
-      ((responseBody: any) => {
+      ((responseBody: TokenResponseParsedBody) => {
         return Date.now() + responseBody.expires_in * 1000;
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody: {
-        token?: string;
-        access_token?: string;
-        refresh_token?: string;
-      } = JSON.parse(response.bodyAsText);
+      const parsedBody: TokenResponseParsedBody = JSON.parse(response.bodyAsText);
 
       if (!parsedBody.access_token) {
         return null;
       }
 
+      this.logIdentifiers(response);
+
       const token = {
         accessToken: {
           token: parsedBody.access_token,
-          expiresOnTimestamp: expiresOnParser(parsedBody)
+          expiresOnTimestamp: expiresOnParser(parsedBody),
         },
-        refreshToken: parsedBody.refresh_token
+        refreshToken: parsedBody.refresh_token,
       };
 
       logger.info(
@@ -138,7 +156,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     scopes: string,
     refreshToken: string | undefined,
     clientSecret: string | undefined,
-    expiresOnParser?: (responseBody: any) => number,
+    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number,
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
@@ -154,7 +172,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       grant_type: "refresh_token",
       client_id: clientId,
       refresh_token: refreshToken,
-      scope: scopes
+      scope: scopes,
     };
 
     if (clientSecret !== undefined) {
@@ -172,9 +190,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         abortSignal: options && options.abortSignal,
         headers: createHttpHeaders({
           Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
         }),
-        tracingOptions: updatedOptions?.tracingOptions
+        tracingOptions: updatedOptions?.tracingOptions,
       });
 
       const response = await this.sendTokenRequest(request, expiresOnParser);
@@ -191,7 +209,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: err.message
+          message: err.message,
         });
 
         return null;
@@ -201,7 +219,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         );
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: err.message
+          message: err.message,
         });
         throw err;
       }
@@ -233,7 +251,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     const controllers = [
       ...(this.abortControllers.get(key) || []),
       // MSAL passes no correlation ID to the get requests...
-      ...(this.abortControllers.get(noCorrelationId) || [])
+      ...(this.abortControllers.get(noCorrelationId) || []),
     ];
     if (!controllers.length) {
       return;
@@ -263,14 +281,17 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       method: "GET",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
-      abortSignal: this.generateAbortSignal(noCorrelationId)
+      abortSignal: this.generateAbortSignal(noCorrelationId),
     });
 
     const response = await this.sendRequest(request);
+
+    this.logIdentifiers(response);
+
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
-      status: response.status
+      status: response.status,
     };
   }
 
@@ -284,27 +305,59 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
       // MSAL doesn't send the correlation ID on the get requests.
-      abortSignal: this.generateAbortSignal(this.getCorrelationId(options))
+      abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
     });
 
     const response = await this.sendRequest(request);
+
+    this.logIdentifiers(response);
+
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
-      status: response.status
+      status: response.status,
     };
   }
-}
 
-/**
- * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory.
- */
-export interface TokenCredentialOptions extends CommonClientOptions {
   /**
-   * The authority host to use for authentication requests.
-   * Possible values are available through {@link AzureAuthorityHosts}.
-   * The default is "https://login.microsoftonline.com".
+   * If allowLoggingAccountIdentifiers was set on the constructor options
+   * we try to log the account identifiers by parsing the received access token.
+   *
+   * The account identifiers we try to log are:
+   * - `appid`: The application or Client Identifier.
+   * - `upn`: User Principal Name.
+   *   - It might not be available in some authentication scenarios.
+   *   - If it's not available, we put a placeholder: "No User Principal Name available".
+   * - `tid`: Tenant Identifier.
+   * - `oid`: Object Identifier of the authenticated user.
    */
-  authorityHost?: string;
+  private logIdentifiers(response: PipelineResponse): void {
+    if (!this.allowLoggingAccountIdentifiers || !response.bodyAsText) {
+      return;
+    }
+    const unavailableUpn = "No User Principal Name available";
+    try {
+      const parsed = (response as any).parsedBody || JSON.parse(response.bodyAsText);
+      const accessToken = parsed.access_token;
+      if (!accessToken) {
+        // Without an access token allowLoggingAccountIdentifiers isn't useful.
+        return;
+      }
+      const base64Metadata = accessToken.split(".")[1];
+      const { appid, upn, tid, oid } = JSON.parse(
+        Buffer.from(base64Metadata, "base64").toString("utf8")
+      );
+
+      logger.info(
+        `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
+          upn || unavailableUpn
+        }. Object ID (user): ${oid}`
+      );
+    } catch (e) {
+      logger.warning(
+        "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
+        e.message
+      );
+    }
+  }
 }

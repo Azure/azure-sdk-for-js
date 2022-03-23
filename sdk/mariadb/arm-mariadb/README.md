@@ -1,102 +1,98 @@
-## Azure MariaDBManagementClient SDK for JavaScript
+# Azure MariaDBManagement client library for JavaScript
 
-This package contains an isomorphic SDK for MariaDBManagementClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MariaDBManagement client.
+
+The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MariaDB resources including servers, databases, firewall rules, VNET rules, log files and configurations with new business model.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mariadb/arm-mariadb) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-mariadb) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mariadb) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-### How to Install
+### Prerequisites
+
+- An [Azure subscription][azure_sub].
+
+### Install the `@azure/arm-mariadb` package
+
+Install the Azure MariaDBManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-mariadb
 ```
 
-### How to use
+### Create and authenticate a `MariaDBManagementClient`
 
-#### nodejs - Authentication, client creation and get servers as an example written in TypeScript.
+To create a client object to access the Azure MariaDBManagement API, you will need the `endpoint` of your Azure MariaDBManagement resource and a `credential`. The Azure MariaDBManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure MariaDBManagement resource in the [Azure Portal][azure_portal].
 
-##### Install @azure/ms-rest-nodeauth
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-```bash
-npm install @azure/ms-rest-nodeauth
-```
-
-##### Sample code
-
-```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { MariaDBManagementClient, MariaDBManagementModels, MariaDBManagementMappers } from "@azure/arm-mariadb";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new MariaDBManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const serverName = "testserverName";
-  client.servers.get(resourceGroupName, serverName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
-```
-
-#### browser - Authentication, client creation and get servers as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
-npm install @azure/ms-rest-browserauth
+npm install @azure/identity
 ```
 
-##### Sample code
+You will also need to **register a new AAD application and grant access to Azure MariaDBManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/arm-mariadb sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-mariadb/dist/arm-mariadb.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.ArmMariadb.MariaDBManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const serverName = "testserverName";
-        client.servers.get(resourceGroupName, serverName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
+```javascript
+const { MariaDBManagementClient } = require("@azure/arm-mariadb");
+const { DefaultAzureCredential } = require("@azure/identity");
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new MariaDBManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+## Key concepts
+
+### MariaDBManagementClient
+
+`MariaDBManagementClient` is the primary interface for developers using the Azure MariaDBManagement client library. Explore the methods on this client object to understand the different features of the Azure MariaDBManagement service that you can access.
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmariadb%2Farm-mariadb%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

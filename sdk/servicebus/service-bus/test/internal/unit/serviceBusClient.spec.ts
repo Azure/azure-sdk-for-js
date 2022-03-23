@@ -7,14 +7,14 @@ import { ServiceBusSessionReceiverOptions } from "../../../src/models";
 import { entityPathMisMatchError } from "../../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
-  createConnectionContextForCredential
+  createConnectionContextForCredential,
 } from "../../../src/constructorHelpers";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { createConnectionContextForTestsWithSessionId } from "./unittestUtils";
 import {
   ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl
+  ServiceBusSessionReceiverImpl,
 } from "../../../src/receivers/sessionReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 const assert = chai.assert;
@@ -34,8 +34,8 @@ describe("serviceBusClient unit tests", () => {
     {
       topic: "thetopic",
       subscription: "thesubscription",
-      entityPath: "thetopic/Subscriptions/thesubscription"
-    }
+      entityPath: "thetopic/Subscriptions/thesubscription",
+    },
   ];
 
   testEntities.forEach((testEntity) => {
@@ -53,7 +53,7 @@ describe("serviceBusClient unit tests", () => {
           "a session id",
           {
             ...origConnectionContext.config,
-            entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+            entityPath: testEntity.topic ? testEntity.topic : testEntity.queue,
           }
         );
 
@@ -64,7 +64,7 @@ describe("serviceBusClient unit tests", () => {
             abortSignal: abortSignalStuff.signal,
             maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         } else {
           sessionReceiver = await client.acceptSession(
@@ -75,7 +75,7 @@ describe("serviceBusClient unit tests", () => {
               abortSignal: abortSignalStuff.signal,
               maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
-              receiveMode: "receiveAndDelete"
+              receiveMode: "receiveAndDelete",
             }
           );
         }
@@ -107,7 +107,7 @@ describe("serviceBusClient unit tests", () => {
 
         client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id", {
           ...origConnectionContext.config,
-          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue,
         });
 
         let sessionReceiver: ServiceBusSessionReceiver;
@@ -117,7 +117,7 @@ describe("serviceBusClient unit tests", () => {
             abortSignal: abortSignalStuff.signal,
             maxAutoLockRenewalDurationInMs: 101,
             tracingOptions: {},
-            receiveMode: "receiveAndDelete"
+            receiveMode: "receiveAndDelete",
           });
         } else {
           sessionReceiver = await client.acceptNextSession(
@@ -127,7 +127,7 @@ describe("serviceBusClient unit tests", () => {
               abortSignal: abortSignalStuff.signal,
               maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
-              receiveMode: "receiveAndDelete"
+              receiveMode: "receiveAndDelete",
             }
           );
         }
@@ -155,7 +155,7 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
-          options: {}
+          options: {},
         });
       });
     });
@@ -166,12 +166,12 @@ describe("serviceBusClient unit tests", () => {
       it(`queue, with options, ${lockMode}`, () => {
         const result = extractReceiverArguments("queue", {
           ...sessionReceiverOptions,
-          receiveMode: lockMode
+          receiveMode: lockMode,
         });
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
-          options: sessionReceiverOptions
+          options: sessionReceiverOptions,
         });
       });
     });
@@ -184,7 +184,7 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
           receiveMode: lockMode,
-          options: {}
+          options: {},
         });
       });
     });
@@ -194,13 +194,13 @@ describe("serviceBusClient unit tests", () => {
       it(`topic and subscription, with options, ${lockMode}`, () => {
         const result = extractReceiverArguments("topic", "subscription", {
           ...sessionReceiverOptions,
-          receiveMode: lockMode
+          receiveMode: lockMode,
         });
 
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
           receiveMode: lockMode,
-          options: sessionReceiverOptions
+          options: sessionReceiverOptions,
         });
       });
     });
@@ -211,7 +211,7 @@ describe("serviceBusClient unit tests", () => {
         () =>
           extractReceiverArguments("topic", "subscription", {
             ...sessionReceiverOptions,
-            receiveMode: badReceiveMode as "peekLock"
+            receiveMode: badReceiveMode as "peekLock",
           }),
         `Invalid receiveMode '${badReceiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
       );
@@ -316,7 +316,7 @@ describe("serviceBusClient unit tests", () => {
           "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue";
         const options = { randomOption: 123 };
         const connectionContext = createConnectionContextForConnectionString(connString, {
-          webSocketOptions: { webSocketConstructorOptions: options }
+          webSocketOptions: { webSocketConstructorOptions: options },
         });
         validateWebsocketInfo(connectionContext, options);
       });
@@ -326,13 +326,13 @@ describe("serviceBusClient unit tests", () => {
       const pseudoTokenCred: TokenCredential = {
         async getToken() {
           return { expiresOnTimestamp: 0, token: "" };
-        }
+        },
       };
       const endpoint = "endpoint";
       it("Websocket endpoint and constructor options are populated in the config", () => {
         const options = { randomOption: 123 };
         const connectionContext = createConnectionContextForCredential(pseudoTokenCred, endpoint, {
-          webSocketOptions: { webSocketConstructorOptions: options }
+          webSocketOptions: { webSocketConstructorOptions: options },
         });
         validateWebsocketInfo(connectionContext, options);
       });
@@ -346,14 +346,14 @@ function createAbortSignal(): {
   const abortSignal = new AbortController().signal;
   const result = {
     signal: abortSignal,
-    abortedPropertyWasChecked: false
+    abortedPropertyWasChecked: false,
   };
 
   Object.defineProperty(abortSignal, "aborted", {
     get: () => {
       result.abortedPropertyWasChecked = true;
       return false;
-    }
+    },
   });
 
   return result;

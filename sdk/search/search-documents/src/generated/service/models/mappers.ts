@@ -1665,6 +1665,13 @@ export const SearchIndex: coreClient.CompositeMapper = {
           className: "Similarity"
         }
       },
+      semanticSettings: {
+        serializedName: "semantic",
+        type: {
+          name: "Composite",
+          className: "SemanticSettings"
+        }
+      },
       etag: {
         serializedName: "@odata\\.etag",
         type: {
@@ -2117,6 +2124,105 @@ export const Similarity: coreClient.CompositeMapper = {
   }
 };
 
+export const SemanticSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SemanticSettings",
+    modelProperties: {
+      configurations: {
+        serializedName: "configurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SemanticConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SemanticConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SemanticConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      prioritizedFields: {
+        serializedName: "prioritizedFields",
+        type: {
+          name: "Composite",
+          className: "PrioritizedFields"
+        }
+      }
+    }
+  }
+};
+
+export const PrioritizedFields: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrioritizedFields",
+    modelProperties: {
+      titleField: {
+        serializedName: "titleField",
+        type: {
+          name: "Composite",
+          className: "SemanticField"
+        }
+      },
+      prioritizedContentFields: {
+        serializedName: "prioritizedContentFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SemanticField"
+            }
+          }
+        }
+      },
+      prioritizedKeywordsFields: {
+        serializedName: "prioritizedKeywordsFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SemanticField"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SemanticField: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SemanticField",
+    modelProperties: {
+      name: {
+        serializedName: "fieldName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ListIndexesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2284,6 +2390,63 @@ export const AnalyzedTokenInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const SearchAlias: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchAlias",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      indexes: {
+        serializedName: "indexes",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      etag: {
+        serializedName: "@odata\\.etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListAliasesResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListAliasesResult",
+    modelProperties: {
+      aliases: {
+        serializedName: "value",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchAlias"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ServiceStatistics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2312,6 +2475,13 @@ export const ServiceCounters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ServiceCounters",
     modelProperties: {
+      aliasCounter: {
+        serializedName: "aliasesCount",
+        type: {
+          name: "Composite",
+          className: "ResourceCounter"
+        }
+      },
       documentCounter: {
         serializedName: "documentCount",
         type: {
@@ -3388,6 +3558,61 @@ export const WebApiSkill: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Number"
+        }
+      },
+      degreeOfParallelism: {
+        serializedName: "degreeOfParallelism",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AzureMachineLearningSkill: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Skills.Custom.AmlSkill",
+  type: {
+    name: "Composite",
+    className: "AzureMachineLearningSkill",
+    uberParent: "SearchIndexerSkill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SearchIndexerSkill.type.modelProperties,
+      scoringUri: {
+        serializedName: "uri",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      authenticationKey: {
+        serializedName: "key",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeout: {
+        serializedName: "timeout",
+        nullable: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      region: {
+        serializedName: "region",
+        nullable: true,
+        type: {
+          name: "String"
         }
       },
       degreeOfParallelism: {
@@ -5343,6 +5568,7 @@ export let discriminators = {
   "SearchIndexerSkill.#Microsoft.Skills.Text.TranslationSkill": TextTranslationSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentExtractionSkill": DocumentExtractionSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Custom.AmlSkill": AzureMachineLearningSkill,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices": DefaultCognitiveServicesAccount,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey": CognitiveServicesAccountKey,
   "ScoringFunction.distance": DistanceScoringFunction,

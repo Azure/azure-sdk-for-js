@@ -6,3002 +6,2479 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * Represents a tenant ID that is trusted by the cluster.
- */
-export interface TrustedExternalTenant {
-  /**
-   * GUID representing an external tenant.
-   */
-  value?: string;
-}
-
-/**
- * A class that contains the optimized auto scale definition.
- */
-export interface OptimizedAutoscale {
-  /**
-   * The version of the template defined, for instance 1.
-   */
-  version: number;
-  /**
-   * A boolean value that indicate if the optimized autoscale feature is enabled or not.
-   */
-  isEnabled: boolean;
-  /**
-   * Minimum allowed instances count.
-   */
-  minimum: number;
-  /**
-   * Maximum allowed instances count.
-   */
-  maximum: number;
-}
-
-/**
- * A class that contains virtual network definition.
- */
-export interface VirtualNetworkConfiguration {
-  /**
-   * The subnet resource id.
-   */
-  subnetId: string;
-  /**
-   * Engine service's public IP address resource id.
-   */
-  enginePublicIpId: string;
-  /**
-   * Data management's service public IP address resource id.
-   */
-  dataManagementPublicIpId: string;
-}
-
-/**
- * Properties of the key vault.
- */
-export interface KeyVaultProperties {
-  /**
-   * The name of the key vault key.
-   */
-  keyName: string;
-  /**
-   * The version of the key vault key.
-   */
-  keyVersion?: string;
-  /**
-   * The Uri of the key vault.
-   */
-  keyVaultUri: string;
-  /**
-   * The user assigned identity (ARM resource id) that has access to the key.
-   */
-  userIdentity?: string;
-}
-
-/**
- * The language extension object.
- */
-export interface LanguageExtension {
-  /**
-   * The language extension name. Possible values include: 'PYTHON', 'R'
-   */
-  languageExtensionName?: LanguageExtensionName;
-}
-
-/**
- * Azure SKU definition.
- */
-export interface AzureSku {
-  /**
-   * SKU name. Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
-   * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
-   * 'Standard_L8s', 'Standard_L16s', 'Standard_L8s_v2', 'Standard_L16s_v2', 'Standard_D11_v2',
-   * 'Standard_D12_v2', 'Standard_L4s', 'Dev(No SLA)_Standard_D11_v2', 'Standard_E64i_v3',
-   * 'Standard_E80ids_v4', 'Standard_E2a_v4', 'Standard_E4a_v4', 'Standard_E8a_v4',
-   * 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
-   * 'Standard_E16as_v4+3TB_PS', 'Standard_E16as_v4+4TB_PS', 'Dev(No SLA)_Standard_E2a_v4'
-   */
-  name: AzureSkuName;
-  /**
-   * The number of instances of the cluster.
-   */
-  capacity?: number;
-  /**
-   * SKU tier. Possible values include: 'Basic', 'Standard'
-   */
-  tier: AzureSkuTier;
-}
-
-/**
- * Azure capacity definition.
- */
-export interface AzureCapacity {
-  /**
-   * Scale type. Possible values include: 'automatic', 'manual', 'none'
-   */
-  scaleType: AzureScaleType;
-  /**
-   * Minimum allowed capacity.
-   */
-  minimum: number;
-  /**
-   * Maximum allowed capacity.
-   */
-  maximum: number;
-  /**
-   * The default capacity that would be used.
-   */
-  default: number;
-}
-
-/**
- * Azure resource SKU definition.
- */
-export interface AzureResourceSku {
-  /**
-   * Resource Namespace and Type.
-   */
-  resourceType?: string;
-  /**
-   * The SKU details.
-   */
-  sku?: AzureSku;
-  /**
-   * The number of instances of the cluster.
-   */
-  capacity?: AzureCapacity;
-}
-
-/**
- * The locations and zones info for SKU.
- */
-export interface SkuLocationInfoItem {
-  /**
-   * The available location of the SKU.
-   */
-  location: string;
-  /**
-   * The available zone of the SKU.
-   */
-  zones?: string[];
-}
-
-/**
- * The Kusto SKU description of given resource type
- */
-export interface SkuDescription {
-  /**
-   * The resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * The name of the SKU
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The tier of the SKU
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tier?: string;
-  /**
-   * The set of locations that the SKU is available
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locations?: string[];
-  /**
-   * Locations and zones
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locationInfo?: SkuLocationInfoItem[];
-  /**
-   * The restrictions because of which SKU cannot be used
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restrictions?: any[];
-}
-
-/**
- * A class that contains database statistics information.
- */
-export interface DatabaseStatistics {
-  /**
-   * The database size - the total size of compressed data and index in bytes.
-   */
-  size?: number;
-}
-
-/**
- * Tables that will be included and excluded in the follower database
- */
-export interface TableLevelSharingProperties {
-  /**
-   * List of tables to include in the follower database
-   */
-  tablesToInclude?: string[];
-  /**
-   * List of tables to exclude from the follower database
-   */
-  tablesToExclude?: string[];
-  /**
-   * List of external tables to include in the follower database
-   */
-  externalTablesToInclude?: string[];
-  /**
-   * List of external tables exclude from the follower database
-   */
-  externalTablesToExclude?: string[];
-  /**
-   * List of materialized views to include in the follower database
-   */
-  materializedViewsToInclude?: string[];
-  /**
-   * List of materialized views exclude from the follower database
-   */
-  materializedViewsToExclude?: string[];
-}
-
-/**
- * An interface representing IdentityUserAssignedIdentitiesValue.
- */
-export interface IdentityUserAssignedIdentitiesValue {
-  /**
-   * The principal id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clientId?: string;
-}
-
-/**
- * Identity for the resource.
- */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
-   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
-   * all identities. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned, UserAssigned'
-   */
-  type: IdentityType;
-  /**
-   * The list of user identities associated with the Kusto cluster. The user identity dictionary
-   * key references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   */
-  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * Class representing a Kusto cluster.
- */
-export interface Cluster extends TrackedResource {
-  /**
-   * The SKU of the cluster.
-   */
-  sku: AzureSku;
-  /**
-   * The availability zones of the cluster.
-   */
-  zones?: string[];
-  /**
-   * The identity of the cluster, if configured.
-   */
-  identity?: Identity;
-  /**
-   * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
-   * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: State;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The cluster URI.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly uri?: string;
-  /**
-   * The cluster data ingestion URI.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataIngestionUri?: string;
-  /**
-   * The reason for the cluster's current state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly stateReason?: string;
-  /**
-   * The cluster's external tenants.
-   */
-  trustedExternalTenants?: TrustedExternalTenant[];
-  /**
-   * Optimized auto scale definition.
-   */
-  optimizedAutoscale?: OptimizedAutoscale;
-  /**
-   * A boolean value that indicates if the cluster's disks are encrypted. Default value: false.
-   */
-  enableDiskEncryption?: boolean;
-  /**
-   * A boolean value that indicates if the streaming ingest is enabled. Default value: false.
-   */
-  enableStreamingIngest?: boolean;
-  /**
-   * Virtual network definition.
-   */
-  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
-  /**
-   * KeyVault properties for the cluster encryption.
-   */
-  keyVaultProperties?: KeyVaultProperties;
-  /**
-   * A boolean value that indicates if the purge operations are enabled. Default value: false.
-   */
-  enablePurge?: boolean;
-  /**
-   * List of the cluster's language extensions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly languageExtensions?: LanguageExtensionsList;
-  /**
-   * A boolean value that indicates if double encryption is enabled. Default value: false.
-   */
-  enableDoubleEncryption?: boolean;
-  /**
-   * The engine type. Possible values include: 'V2', 'V3'. Default value: 'V3'.
-   */
-  engineType?: EngineType;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * Class representing an update to a Kusto cluster.
- */
-export interface ClusterUpdate extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The SKU of the cluster.
-   */
-  sku?: AzureSku;
-  /**
-   * The identity of the cluster, if configured.
-   */
-  identity?: Identity;
-  /**
-   * The state of the resource. Possible values include: 'Creating', 'Unavailable', 'Running',
-   * 'Deleting', 'Deleted', 'Stopping', 'Stopped', 'Starting', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: State;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The cluster URI.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly uri?: string;
-  /**
-   * The cluster data ingestion URI.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataIngestionUri?: string;
-  /**
-   * The reason for the cluster's current state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly stateReason?: string;
-  /**
-   * The cluster's external tenants.
-   */
-  trustedExternalTenants?: TrustedExternalTenant[];
-  /**
-   * Optimized auto scale definition.
-   */
-  optimizedAutoscale?: OptimizedAutoscale;
-  /**
-   * A boolean value that indicates if the cluster's disks are encrypted. Default value: false.
-   */
-  enableDiskEncryption?: boolean;
-  /**
-   * A boolean value that indicates if the streaming ingest is enabled. Default value: false.
-   */
-  enableStreamingIngest?: boolean;
-  /**
-   * Virtual network definition.
-   */
-  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
-  /**
-   * KeyVault properties for the cluster encryption.
-   */
-  keyVaultProperties?: KeyVaultProperties;
-  /**
-   * A boolean value that indicates if the purge operations are enabled. Default value: false.
-   */
-  enablePurge?: boolean;
-  /**
-   * List of the cluster's language extensions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly languageExtensions?: LanguageExtensionsList;
-  /**
-   * A boolean value that indicates if double encryption is enabled. Default value: false.
-   */
-  enableDoubleEncryption?: boolean;
-  /**
-   * The engine type. Possible values include: 'V2', 'V3'. Default value: 'V3'.
-   */
-  engineType?: EngineType;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {}
-
-/**
- * Class representing an attached database configuration.
- */
-export interface AttachedDatabaseConfiguration extends ProxyResource {
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The name of the database which you would like to attach, use * if you want to follow all
-   * current and future databases.
-   */
-  databaseName: string;
-  /**
-   * The resource id of the cluster where the databases you would like to attach reside.
-   */
-  clusterResourceId: string;
-  /**
-   * The list of databases from the clusterResourceId which are currently attached to the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly attachedDatabaseNames?: string[];
-  /**
-   * The default principals modification kind. Possible values include: 'Union', 'Replace', 'None'
-   */
-  defaultPrincipalsModificationKind: DefaultPrincipalsModificationKind;
-  /**
-   * Table level sharing specifications
-   */
-  tableLevelSharingProperties?: TableLevelSharingProperties;
-}
-
-/**
- * Contains the possible cases for Database.
- */
-export type DatabaseUnion = Database | ReadWriteDatabase | ReadOnlyFollowingDatabase;
-
-/**
- * Class representing a Kusto database.
- */
-export interface Database {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "Database";
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
-}
-
-/**
- * Class representing a read write database.
- */
-export interface ReadWriteDatabase {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "ReadWrite";
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
-   */
-  softDeletePeriod?: string;
-  /**
-   * The time the data should be kept in cache for fast queries in TimeSpan.
-   */
-  hotCachePeriod?: string;
-  /**
-   * The statistics of the database.
-   */
-  statistics?: DatabaseStatistics;
-  /**
-   * Indicates whether the database is followed.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isFollowed?: boolean;
-}
-
-/**
- * Class representing a read only following database.
- */
-export interface ReadOnlyFollowingDatabase {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "ReadOnlyFollowing";
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly softDeletePeriod?: string;
-  /**
-   * The time the data should be kept in cache for fast queries in TimeSpan.
-   */
-  hotCachePeriod?: string;
-  /**
-   * The statistics of the database.
-   */
-  statistics?: DatabaseStatistics;
-  /**
-   * The name of the leader cluster
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly leaderClusterResourceId?: string;
-  /**
-   * The name of the attached database configuration cluster
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly attachedDatabaseConfigurationName?: string;
-  /**
-   * The principals modification kind of the database. Possible values include: 'Union', 'Replace',
-   * 'None'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalsModificationKind?: PrincipalsModificationKind;
-}
-
-/**
- * A class representing database principal entity.
- */
-export interface DatabasePrincipal {
-  /**
-   * Database principal role. Possible values include: 'Admin', 'Ingestor', 'Monitor', 'User',
-   * 'UnrestrictedViewer', 'Viewer'
-   */
-  role: DatabasePrincipalRole;
-  /**
-   * Database principal name.
-   */
-  name: string;
-  /**
-   * Database principal type. Possible values include: 'App', 'Group', 'User'
-   */
-  type: DatabasePrincipalType;
-  /**
-   * Database principal fully qualified name.
-   */
-  fqn?: string;
-  /**
-   * Database principal email if exists.
-   */
-  email?: string;
-  /**
-   * Application id - relevant only for application principal type.
-   */
-  appId?: string;
-  /**
-   * The tenant name of the principal
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantName?: string;
-}
-
-/**
- * Class representing a database principal assignment.
- */
-export interface DatabasePrincipalAssignment extends ProxyResource {
-  /**
-   * The principal ID assigned to the database principal. It can be a user email, application ID,
-   * or security group name.
-   */
-  principalId: string;
-  /**
-   * Database principal role. Possible values include: 'Admin', 'Ingestor', 'Monitor', 'User',
-   * 'UnrestrictedViewer', 'Viewer'
-   */
-  role: DatabasePrincipalRole;
-  /**
-   * The tenant id of the principal
-   */
-  tenantId?: string;
-  /**
-   * Principal type. Possible values include: 'App', 'Group', 'User'
-   */
-  principalType: PrincipalType;
-  /**
-   * The tenant name of the principal
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantName?: string;
-  /**
-   * The principal name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalName?: string;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-}
-
-/**
- * Class representing a cluster principal assignment.
- */
-export interface ClusterPrincipalAssignment extends ProxyResource {
-  /**
-   * The principal ID assigned to the cluster principal. It can be a user email, application ID, or
-   * security group name.
-   */
-  principalId: string;
-  /**
-   * Cluster principal role. Possible values include: 'AllDatabasesAdmin', 'AllDatabasesViewer'
-   */
-  role: ClusterPrincipalRole;
-  /**
-   * The tenant id of the principal
-   */
-  tenantId?: string;
-  /**
-   * Principal type. Possible values include: 'App', 'Group', 'User'
-   */
-  principalType: PrincipalType;
-  /**
-   * The tenant name of the principal
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantName?: string;
-  /**
-   * The principal name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalName?: string;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * Class representing a database script.
- */
-export interface Script extends ProxyResource {
-  /**
-   * The url to the KQL script blob file.
-   */
-  scriptUrl: string;
-  /**
-   * The SaS token.
-   */
-  scriptUrlSasToken: string;
-  /**
-   * A unique string. If changed the script will be applied again.
-   */
-  forceUpdateTag?: string;
-  /**
-   * Flag that indicates whether to continue if one of the command fails. Default value: false.
-   */
-  continueOnErrors?: boolean;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
-}
-
-/**
- * A class representing follower database request.
- */
-export interface FollowerDatabaseDefinition {
-  /**
-   * Resource id of the cluster that follows a database owned by this cluster.
-   */
-  clusterResourceId: string;
-  /**
-   * Resource name of the attached database configuration in the follower cluster.
-   */
-  attachedDatabaseConfigurationName: string;
-  /**
-   * The database name owned by this cluster that was followed. * in case following all databases.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseName?: string;
-}
-
-/**
- * Contains the possible cases for DataConnection.
- */
+export type DatabaseUnion =
+  | Database
+  | ReadWriteDatabase
+  | ReadOnlyFollowingDatabase;
 export type DataConnectionUnion =
   | DataConnection
   | EventHubDataConnection
   | IotHubDataConnection
   | EventGridDataConnection;
 
-/**
- * Class representing an data connection.
- */
-export interface DataConnection {
+/** Azure SKU definition. */
+export interface AzureSku {
+  /** SKU name. */
+  name: AzureSkuName;
+  /** The number of instances of the cluster. */
+  capacity?: number;
+  /** SKU tier. */
+  tier: AzureSkuTier;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Identity for the resource. */
+export interface Identity {
   /**
-   * Polymorphic Discriminator
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  kind: "DataConnection";
+  readonly principalId?: string;
   /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities. */
+  type: IdentityType;
+  /** The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
+  };
+}
+
+export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Represents a tenant ID that is trusted by the cluster. */
+export interface TrustedExternalTenant {
+  /** GUID representing an external tenant. */
+  value?: string;
+}
+
+/** A class that contains the optimized auto scale definition. */
+export interface OptimizedAutoscale {
+  /** The version of the template defined, for instance 1. */
+  version: number;
+  /** A boolean value that indicate if the optimized autoscale feature is enabled or not. */
+  isEnabled: boolean;
+  /** Minimum allowed instances count. */
+  minimum: number;
+  /** Maximum allowed instances count. */
+  maximum: number;
+}
+
+/** A class that contains virtual network definition. */
+export interface VirtualNetworkConfiguration {
+  /** The subnet resource id. */
+  subnetId: string;
+  /** Engine service's public IP address resource id. */
+  enginePublicIpId: string;
+  /** Data management's service public IP address resource id. */
+  dataManagementPublicIpId: string;
+}
+
+/** Properties of the key vault. */
+export interface KeyVaultProperties {
+  /** The name of the key vault key. */
+  keyName?: string;
+  /** The version of the key vault key. */
+  keyVersion?: string;
+  /** The Uri of the key vault. */
+  keyVaultUri?: string;
+  /** The user assigned identity (ARM resource id) that has access to the key. */
+  userIdentity?: string;
+}
+
+/** The list of language extension objects. */
+export interface LanguageExtensionsList {
+  /** The list of language extensions. */
+  value?: LanguageExtension[];
+}
+
+/** The language extension object. */
+export interface LanguageExtension {
+  /** The language extension name. */
+  languageExtensionName?: LanguageExtensionName;
+}
+
+/** Represents an accepted audience trusted by the cluster. */
+export interface AcceptedAudiences {
+  /** GUID or valid URL representing an accepted audience. */
+  value?: string;
+}
+
+/** Private endpoint which the connection belongs to. */
+export interface PrivateEndpointProperty {
+  /**
+   * Resource id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Connection State of the Private Endpoint Connection. */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /** The private link service connection status. */
+  status?: string;
+  /** The private link service connection description. */
+  description?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
 }
 
-/**
- * The result returned from a data connection validation request.
- */
-export interface DataConnectionValidationResult {
-  /**
-   * A message which indicates a problem in data connection validation.
-   */
-  errorMessage?: string;
+/** An error response from Kusto. */
+export interface CloudError {
+  /** An error response from Kusto. */
+  error?: CloudErrorBody;
 }
 
-/**
- * The list Kusto database principals operation request.
- */
-export interface DatabasePrincipalListRequest {
-  /**
-   * The list of Kusto database principals.
-   */
-  value?: DatabasePrincipal[];
-}
-
-/**
- * An interface representing DiagnoseVirtualNetworkResult.
- */
-export interface DiagnoseVirtualNetworkResult {
-  /**
-   * The list of network connectivity diagnostic finding
-   */
-  findings?: string[];
-}
-
-/**
- * Class representing an data connection validation.
- */
-export interface DataConnectionValidation {
-  /**
-   * The name of the data connection.
-   */
-  dataConnectionName?: string;
-  /**
-   * The data connection properties to validate.
-   */
-  properties?: DataConnectionUnion;
-}
-
-/**
- * Class representing an event hub data connection.
- */
-export interface EventHubDataConnection {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "EventHub";
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The resource ID of the event hub to be used to create a data connection.
-   */
-  eventHubResourceId: string;
-  /**
-   * The event hub consumer group.
-   */
-  consumerGroup: string;
-  /**
-   * The table where the data should be ingested. Optionally the table information can be added to
-   * each message.
-   */
-  tableName?: string;
-  /**
-   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
-   * added to each message.
-   */
-  mappingRuleName?: string;
-  /**
-   * The data format of the message. Optionally the data format can be added to each message.
-   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
-   */
-  dataFormat?: EventHubDataFormat;
-  /**
-   * System properties of the event hub
-   */
-  eventSystemProperties?: string[];
-  /**
-   * The event hub messages compression type. Possible values include: 'None', 'GZip'. Default
-   * value: 'None'.
-   */
-  compression?: Compression;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The resource ID of a managed identity (system or user assigned) to be used to authenticate
-   * with event hub.
-   */
-  managedIdentityResourceId?: string;
-}
-
-/**
- * Class representing an iot hub data connection.
- */
-export interface IotHubDataConnection {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "IotHub";
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The resource ID of the Iot hub to be used to create a data connection.
-   */
-  iotHubResourceId: string;
-  /**
-   * The iot hub consumer group.
-   */
-  consumerGroup: string;
-  /**
-   * The table where the data should be ingested. Optionally the table information can be added to
-   * each message.
-   */
-  tableName?: string;
-  /**
-   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
-   * added to each message.
-   */
-  mappingRuleName?: string;
-  /**
-   * The data format of the message. Optionally the data format can be added to each message.
-   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
-   */
-  dataFormat?: IotHubDataFormat;
-  /**
-   * System properties of the iot hub
-   */
-  eventSystemProperties?: string[];
-  /**
-   * The name of the share access policy
-   */
-  sharedAccessPolicyName: string;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-}
-
-/**
- * Class representing an Event Grid data connection.
- */
-export interface EventGridDataConnection {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "EventGrid";
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource location.
-   */
-  location?: string;
-  /**
-   * The resource ID of the storage account where the data resides.
-   */
-  storageAccountResourceId: string;
-  /**
-   * The resource ID where the event grid is configured to send events.
-   */
-  eventHubResourceId: string;
-  /**
-   * The event hub consumer group.
-   */
-  consumerGroup: string;
-  /**
-   * The table where the data should be ingested. Optionally the table information can be added to
-   * each message.
-   */
-  tableName?: string;
-  /**
-   * The mapping rule to be used to ingest the data. Optionally the mapping information can be
-   * added to each message.
-   */
-  mappingRuleName?: string;
-  /**
-   * The data format of the message. Optionally the data format can be added to each message.
-   * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
-   */
-  dataFormat?: EventGridDataFormat;
-  /**
-   * A Boolean value that, if set to true, indicates that ingestion should ignore the first record
-   * of every file
-   */
-  ignoreFirstRecord?: boolean;
-  /**
-   * The name of blob storage event type to process. Possible values include:
-   * 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
-   */
-  blobStorageEventType?: BlobStorageEventType;
-  /**
-   * The provisioned state of the resource. Possible values include: 'Running', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Moving'
-   */
-  provisioningState?: ProvisioningState;
-}
-
-/**
- * The list Kusto data connection validation result.
- */
-export interface DataConnectionValidationListResult {
-  /**
-   * The list of Kusto data connection validation errors.
-   */
-  value?: DataConnectionValidationResult[];
-}
-
-/**
- * The result returned from a cluster check name availability request.
- */
-export interface ClusterCheckNameRequest {
-  /**
-   * Cluster name.
-   */
-  name: string;
-}
-
-/**
- * The result returned from a database check name availability request.
- */
-export interface CheckNameRequest {
-  /**
-   * Resource name.
-   */
-  name: string;
-  /**
-   * The type of resource, for instance Microsoft.Kusto/clusters/databases. Possible values
-   * include: 'Microsoft.Kusto/clusters/databases',
-   * 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations'
-   */
-  type: Type;
-}
-
-/**
- * A principal assignment check name availability request.
- */
-export interface ClusterPrincipalAssignmentCheckNameRequest {
-  /**
-   * Principal Assignment resource name.
-   */
-  name: string;
-}
-
-/**
- * A data connection check name availability request.
- */
-export interface DataConnectionCheckNameRequest {
-  /**
-   * Data Connection name.
-   */
-  name: string;
-}
-
-/**
- * A script name availability request.
- */
-export interface ScriptCheckNameRequest {
-  /**
-   * Script name.
-   */
-  name: string;
-}
-
-/**
- * A principal assignment check name availability request.
- */
-export interface DatabasePrincipalAssignmentCheckNameRequest {
-  /**
-   * Principal Assignment resource name.
-   */
-  name: string;
-}
-
-/**
- * The result returned from a check name availability request.
- */
-export interface CheckNameResult {
-  /**
-   * Specifies a Boolean value that indicates if the name is available.
-   */
-  nameAvailable?: boolean;
-  /**
-   * The name that was checked.
-   */
-  name?: string;
-  /**
-   * Message indicating an unavailable name due to a conflict, or a description of the naming rules
-   * that are violated.
-   */
+/** An error response from Kusto. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for displaying in a user interface. */
   message?: string;
-  /**
-   * Message providing the reason why the given name is invalid. Possible values include:
-   * 'Invalid', 'AlreadyExists'
-   */
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+}
+
+/** A principal assignment check name availability request. */
+export interface ClusterPrincipalAssignmentCheckNameRequest {
+  /** Principal Assignment resource name. */
+  name: string;
+  /** The type of resource, Microsoft.Kusto/clusters/principalAssignments. */
+  type: "Microsoft.Kusto/clusters/principalAssignments";
+}
+
+/** The result returned from a check name availability request. */
+export interface CheckNameResult {
+  /** Specifies a Boolean value that indicates if the name is available. */
+  nameAvailable?: boolean;
+  /** The name that was checked. */
+  name?: string;
+  /** Message indicating an unavailable name due to a conflict, or a description of the naming rules that are violated. */
+  message?: string;
+  /** Message providing the reason why the given name is invalid. */
   reason?: Reason;
 }
 
-/**
- * An interface representing OperationDisplay.
- * @summary The object that describes the operation.
- */
+/** The list Kusto cluster principal assignments operation response. */
+export interface ClusterPrincipalAssignmentListResult {
+  /** The list of Kusto cluster principal assignments. */
+  value?: ClusterPrincipalAssignment[];
+}
+
+/** The list Kusto database principals operation response. */
+export interface FollowerDatabaseListResult {
+  /** The list of follower database result. */
+  value?: FollowerDatabaseDefinition[];
+}
+
+/** A class representing follower database request. */
+export interface FollowerDatabaseDefinition {
+  /** Resource id of the cluster that follows a database owned by this cluster. */
+  clusterResourceId: string;
+  /** Resource name of the attached database configuration in the follower cluster. */
+  attachedDatabaseConfigurationName: string;
+  /**
+   * The database name owned by this cluster that was followed. * in case following all databases.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+}
+
+export interface DiagnoseVirtualNetworkResult {
+  /** The list of network connectivity diagnostic finding */
+  findings?: string[];
+}
+
+/** The list Kusto clusters operation response. */
+export interface ClusterListResult {
+  /** The list of Kusto clusters. */
+  value?: Cluster[];
+}
+
+/** The list of the EngagementFabric SKU descriptions */
+export interface SkuDescriptionList {
+  /**
+   * SKU descriptions
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SkuDescription[];
+}
+
+/** The Kusto SKU description of given resource type */
+export interface SkuDescription {
+  /**
+   * The resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The name of the SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The tier of the SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tier?: string;
+  /**
+   * The set of locations that the SKU is available
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: string[];
+  /**
+   * Locations and zones
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locationInfo?: SkuLocationInfoItem[];
+  /**
+   * The restrictions because of which SKU cannot be used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly restrictions?: Record<string, unknown>[];
+}
+
+/** The locations and zones info for SKU. */
+export interface SkuLocationInfoItem {
+  /** The available location of the SKU. */
+  location: string;
+  /** The available zone of the SKU. */
+  zones?: string[];
+}
+
+/** The result returned from a cluster check name availability request. */
+export interface ClusterCheckNameRequest {
+  /** Cluster name. */
+  name: string;
+  /** The type of resource, Microsoft.Kusto/clusters. */
+  type: "Microsoft.Kusto/clusters";
+}
+
+/** The result returned from a database check name availability request. */
+export interface CheckNameRequest {
+  /** Resource name. */
+  name: string;
+  /** The type of resource, for instance Microsoft.Kusto/clusters/databases. */
+  type: Type;
+}
+
+/** The result returned from a AttachedDatabaseConfigurations check name availability request. */
+export interface AttachedDatabaseConfigurationsCheckNameRequest {
+  /** Attached database resource name. */
+  name: string;
+  /** The type of resource, for instance Microsoft.Kusto/clusters/attachedDatabaseConfigurations. */
+  type: "Microsoft.Kusto/clusters/attachedDatabaseConfigurations";
+}
+
+/** The result returned from a managedPrivateEndpoints check name availability request. */
+export interface ManagedPrivateEndpointsCheckNameRequest {
+  /** Managed private endpoint resource name. */
+  name: string;
+  /** The type of resource, for instance Microsoft.Kusto/clusters/managedPrivateEndpoints. */
+  type: "Microsoft.Kusto/clusters/managedPrivateEndpoints";
+}
+
+/** List of available SKUs for a Kusto Cluster. */
+export interface ListResourceSkusResult {
+  /** The collection of available SKUs for an existing resource. */
+  value?: AzureResourceSku[];
+}
+
+/** Azure resource SKU definition. */
+export interface AzureResourceSku {
+  /** Resource Namespace and Type. */
+  resourceType?: string;
+  /** The SKU details. */
+  sku?: AzureSku;
+  /** The number of instances of the cluster. */
+  capacity?: AzureCapacity;
+}
+
+/** Azure capacity definition. */
+export interface AzureCapacity {
+  /** Scale type. */
+  scaleType: AzureScaleType;
+  /** Minimum allowed capacity. */
+  minimum: number;
+  /** Maximum allowed capacity. */
+  maximum: number;
+  /** The default capacity that would be used. */
+  default: number;
+}
+
+/** The list Kusto databases operation response. */
+export interface DatabaseListResult {
+  /** The list of Kusto databases. */
+  value?: DatabaseUnion[];
+}
+
+/** A principal assignment check name availability request. */
+export interface DatabasePrincipalAssignmentCheckNameRequest {
+  /** Principal Assignment resource name. */
+  name: string;
+  /** The type of resource, Microsoft.Kusto/clusters/databases/principalAssignments. */
+  type: "Microsoft.Kusto/clusters/databases/principalAssignments";
+}
+
+/** The list Kusto database principal assignments operation response. */
+export interface DatabasePrincipalAssignmentListResult {
+  /** The list of Kusto database principal assignments. */
+  value?: DatabasePrincipalAssignment[];
+}
+
+/** The list Kusto database principals operation response. */
+export interface DatabasePrincipalListResult {
+  /** The list of Kusto database principals. */
+  value?: DatabasePrincipal[];
+}
+
+/** A class representing database principal entity. */
+export interface DatabasePrincipal {
+  /** Database principal role. */
+  role: DatabasePrincipalRole;
+  /** Database principal name. */
+  name: string;
+  /** Database principal type. */
+  type: DatabasePrincipalType;
+  /** Database principal fully qualified name. */
+  fqn?: string;
+  /** Database principal email if exists. */
+  email?: string;
+  /** Application id - relevant only for application principal type. */
+  appId?: string;
+  /**
+   * The tenant name of the principal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantName?: string;
+}
+
+/** The list Kusto database principals operation request. */
+export interface DatabasePrincipalListRequest {
+  /** The list of Kusto database principals. */
+  value?: DatabasePrincipal[];
+}
+
+/** The list Kusto database script operation response. */
+export interface ScriptListResult {
+  /** The list of Kusto scripts. */
+  value?: Script[];
+}
+
+/** The list managed private endpoints operation response. */
+export interface ManagedPrivateEndpointListResult {
+  /** The list of managed private endpoints. */
+  value?: ManagedPrivateEndpoint[];
+}
+
+/** A list of private endpoint connections */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** Collection of Outbound Environment Endpoints */
+export interface OutboundNetworkDependenciesEndpointListResult {
+  /** Collection of resources. */
+  value: OutboundNetworkDependenciesEndpoint[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A domain name that a service is reached at, including details of the current connection status. */
+export interface EndpointDependency {
+  /** The domain name of the dependency. */
+  domainName?: string;
+  /** The ports used when connecting to DomainName. */
+  endpointDetails?: EndpointDetail[];
+}
+
+/** Current TCP connectivity information from the Kusto cluster to a single endpoint. */
+export interface EndpointDetail {
+  /** The port an endpoint is connected to. */
+  port?: number;
+}
+
+/** The list attached database configurations operation response. */
+export interface AttachedDatabaseConfigurationListResult {
+  /** The list of attached database configurations. */
+  value?: AttachedDatabaseConfiguration[];
+}
+
+/** Tables that will be included and excluded in the follower database */
+export interface TableLevelSharingProperties {
+  /** List of tables to include in the follower database */
+  tablesToInclude?: string[];
+  /** List of tables to exclude from the follower database */
+  tablesToExclude?: string[];
+  /** List of external tables to include in the follower database */
+  externalTablesToInclude?: string[];
+  /** List of external tables exclude from the follower database */
+  externalTablesToExclude?: string[];
+  /** List of materialized views to include in the follower database */
+  materializedViewsToInclude?: string[];
+  /** List of materialized views exclude from the follower database */
+  materializedViewsToExclude?: string[];
+}
+
+/** The list Kusto data connections operation response. */
+export interface DataConnectionListResult {
+  /** The list of Kusto data connections. */
+  value?: DataConnectionUnion[];
+}
+
+/** Class representing an data connection validation. */
+export interface DataConnectionValidation {
+  /** The name of the data connection. */
+  dataConnectionName?: string;
+  /** The data connection properties to validate. */
+  properties?: DataConnectionUnion;
+}
+
+/** The list Kusto data connection validation result. */
+export interface DataConnectionValidationListResult {
+  /** The list of Kusto data connection validation errors. */
+  value?: DataConnectionValidationResult[];
+}
+
+/** The result returned from a data connection validation request. */
+export interface DataConnectionValidationResult {
+  /** A message which indicates a problem in data connection validation. */
+  errorMessage?: string;
+}
+
+/** A data connection check name availability request. */
+export interface DataConnectionCheckNameRequest {
+  /** Data Connection name. */
+  name: string;
+  /** The type of resource, Microsoft.Kusto/clusters/databases/dataConnections. */
+  type: "Microsoft.Kusto/clusters/databases/dataConnections";
+}
+
+/** A script name availability request. */
+export interface ScriptCheckNameRequest {
+  /** Script name. */
+  name: string;
+  /** The type of resource, Microsoft.Kusto/clusters/databases/scripts. */
+  type: "Microsoft.Kusto/clusters/databases/scripts";
+}
+
+/** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
+export interface OperationListResult {
+  /** The list of operations supported by the resource provider. */
+  value?: Operation[];
+  /** The URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
+/** A REST API operation */
+export interface Operation {
+  /** This is of the format {provider}/{resource}/{operation}. */
+  name?: string;
+  /** The object that describes the operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation. */
+  origin?: string;
+  /** Any object */
+  properties?: Record<string, unknown>;
+}
+
+/** The object that describes the operation. */
 export interface OperationDisplay {
-  /**
-   * Friendly name of the resource provider.
-   */
+  /** Friendly name of the resource provider. */
   provider?: string;
-  /**
-   * The operation type. For example: read, write, delete.
-   */
+  /** For example: read, write, delete. */
   operation?: string;
-  /**
-   * The resource type on which the operation is performed.
-   */
+  /** The resource type on which the operation is performed. */
   resource?: string;
-  /**
-   * The friendly name of the operation.
-   */
+  /** The friendly name of the operation. */
   description?: string;
 }
 
-/**
- * An interface representing Operation.
- * @summary A REST API operation
- */
-export interface Operation {
-  /**
-   * The operation name. This is of the format {provider}/{resource}/{operation}.
-   */
-  name?: string;
-  /**
-   * The object that describes the operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation.
-   */
-  origin?: string;
-  /**
-   * Properties of the operation.
-   */
-  properties?: any;
-}
-
-/**
- * Operation Result Entity.
- */
+/** Operation Result Entity. */
 export interface OperationResult {
   /**
    * ID of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * Name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * status of the Operation result. Possible values include: 'Succeeded', 'Canceled', 'Failed',
-   * 'Running'
+   * status of the Operation result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  status?: Status;
-  /**
-   * The operation start time
-   */
+  readonly status?: Status;
+  /** The operation start time */
   startTime?: Date;
-  /**
-   * The operation end time
-   */
+  /** The operation end time */
   endTime?: Date;
-  /**
-   * Percentage completed.
-   */
+  /** Percentage completed. */
   percentComplete?: number;
-  /**
-   * The kind of the operation.
-   */
+  /** The code of the error. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+  /** The kind of the operation. */
   operationKind?: string;
   /**
-   * The state of the operation.
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly provisioningState?: ProvisioningState;
+  /** The state of the operation. */
   operationState?: string;
-  /**
-   * The code of the error.
-   */
-  code?: string;
-  /**
-   * The error message.
-   */
-  message?: string;
 }
 
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
+/** A class that contains database statistics information. */
+export interface DatabaseStatistics {
+  /** The database size - the total size of compressed data and index in bytes. */
+  size?: number;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+};
+
+/** Class representing an update to a Kusto cluster. */
+export type ClusterUpdate = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Resource location. */
+  location?: string;
+  /** The SKU of the cluster. */
+  sku?: AzureSku;
+  /** The identity of the cluster, if configured. */
+  identity?: Identity;
   /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: State;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The cluster URI.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uri?: string;
+  /**
+   * The cluster data ingestion URI.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataIngestionUri?: string;
+  /**
+   * The reason for the cluster's current state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stateReason?: string;
+  /** The cluster's external tenants. */
+  trustedExternalTenants?: TrustedExternalTenant[];
+  /** Optimized auto scale definition. */
+  optimizedAutoscale?: OptimizedAutoscale;
+  /** A boolean value that indicates if the cluster's disks are encrypted. */
+  enableDiskEncryption?: boolean;
+  /** A boolean value that indicates if the streaming ingest is enabled. */
+  enableStreamingIngest?: boolean;
+  /** Virtual network definition. */
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  /** KeyVault properties for the cluster encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** A boolean value that indicates if the purge operations are enabled. */
+  enablePurge?: boolean;
+  /**
+   * List of the cluster's language extensions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly languageExtensions?: LanguageExtensionsList;
+  /** A boolean value that indicates if double encryption is enabled. */
+  enableDoubleEncryption?: boolean;
+  /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The list of ips in the format of CIDR allowed to connect to the cluster. */
+  allowedIpRangeList?: string[];
+  /** The engine type */
+  engineType?: EngineType;
+  /** The cluster's accepted audiences. */
+  acceptedAudiences?: AcceptedAudiences[];
+  /** A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days). */
+  enableAutoStop?: boolean;
+  /** Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
+  /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
+  allowedFqdnList?: string[];
+  /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
+  publicIPType?: PublicIPType;
+  /** Virtual Cluster graduation properties */
+  virtualClusterGraduationProperties?: string;
+  /**
+   * A list of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+};
+
+/** A private link resource */
+export type PrivateLinkResource = Resource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource required zone names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredZoneNames?: string[];
+};
+
+/** A private endpoint connection */
+export type PrivateEndpointConnection = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Private endpoint which the connection belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpointProperty;
+  /** Connection State of the Private Endpoint Connection. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * Group id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * Provisioning state of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+};
+
+/** Class representing a cluster principal assignment. */
+export type ClusterPrincipalAssignment = ProxyResource & {
+  /** The principal ID assigned to the cluster principal. It can be a user email, application ID, or security group name. */
+  principalId?: string;
+  /** Cluster principal role. */
+  role?: ClusterPrincipalRole;
+  /** The tenant id of the principal */
+  tenantId?: string;
+  /** Principal type. */
+  principalType?: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The service principal object id in AAD (Azure active directory)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aadObjectId?: string;
+};
+
+/** Class representing a Kusto database. */
+export type Database = ProxyResource & {
+  /** Resource location. */
+  location?: string;
+  /** Kind of the database */
+  kind: Kind;
+};
+
+/** Class representing a database principal assignment. */
+export type DatabasePrincipalAssignment = ProxyResource & {
+  /** The principal ID assigned to the database principal. It can be a user email, application ID, or security group name. */
+  principalId?: string;
+  /** Database principal role. */
+  role?: DatabasePrincipalRole;
+  /** The tenant id of the principal */
+  tenantId?: string;
+  /** Principal type. */
+  principalType?: PrincipalType;
+  /**
+   * The tenant name of the principal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantName?: string;
+  /**
+   * The principal name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalName?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The service principal object id in AAD (Azure active directory)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aadObjectId?: string;
+};
+
+/** Class representing a database script. */
+export type Script = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The url to the KQL script blob file. Must not be used together with scriptContent property */
+  scriptUrl?: string;
+  /** The SaS token that provide read access to the file which contain the script. Must be provided when using scriptUrl property. */
+  scriptUrlSasToken?: string;
+  /** The script content. This property should be used when the script is provide inline and not through file in a SA. Must not be used together with scriptUrl and scriptUrlSasToken properties. */
+  scriptContent?: string;
+  /** A unique string. If changed the script will be applied again. */
+  forceUpdateTag?: string;
+  /** Flag that indicates whether to continue if one of the command fails. */
+  continueOnErrors?: boolean;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing a managed private endpoint. */
+export type ManagedPrivateEndpoint = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The ARM resource ID of the resource for which the managed private endpoint is created. */
+  privateLinkResourceId?: string;
+  /** The region of the resource to which the managed private endpoint is created. */
+  privateLinkResourceRegion?: string;
+  /** The groupId in which the managed private endpoint is created. */
+  groupId?: string;
+  /** The user request message. */
+  requestMessage?: string;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to. */
+export type OutboundNetworkDependenciesEndpoint = ProxyResource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /** The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
+  category?: string;
+  /** The endpoints that the Kusto Service Environment reaches the service at. */
+  endpoints?: EndpointDependency[];
   /**
-   * The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the
-   * last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ifMatch?: string;
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing an attached database configuration. */
+export type AttachedDatabaseConfiguration = ProxyResource & {
+  /** Resource location. */
+  location?: string;
   /**
-   * Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster.
-   * Other values will result in a 412 Pre-condition Failed response.
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ifNoneMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersUpdateOptionalParams extends msRest.RequestOptionsBase {
+  readonly provisioningState?: ProvisioningState;
+  /** The name of the database which you would like to attach, use * if you want to follow all current and future databases. */
+  databaseName?: string;
+  /** The resource id of the cluster where the databases you would like to attach reside. */
+  clusterResourceId?: string;
   /**
-   * The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the
-   * last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   * The list of databases from the clusterResourceId which are currently attached to the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ifMatch?: string;
-}
+  readonly attachedDatabaseNames?: string[];
+  /** The default principals modification kind */
+  defaultPrincipalsModificationKind?: DefaultPrincipalsModificationKind;
+  /** Table level sharing specifications */
+  tableLevelSharingProperties?: TableLevelSharingProperties;
+};
 
-/**
- * Optional Parameters.
- */
-export interface ClustersBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+/** Class representing an data connection. */
+export type DataConnection = ProxyResource & {
+  /** Resource location. */
+  location?: string;
+  /** Kind of the endpoint for the data connection */
+  kind: DataConnectionKind;
+};
+
+/** Class representing a Kusto cluster. */
+export type Cluster = TrackedResource & {
+  /** The SKU of the cluster. */
+  sku: AzureSku;
   /**
-   * The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the
-   * last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ifMatch?: string;
+  readonly systemData?: SystemData;
+  /** The availability zones of the cluster. */
+  zones?: string[];
+  /** The identity of the cluster, if configured. */
+  identity?: Identity;
   /**
-   * Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster.
-   * Other values will result in a 412 Pre-condition Failed response.
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ifNoneMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+  readonly etag?: string;
   /**
-   * The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the
-   * last-seen ETag value to prevent accidentally overwriting concurrent changes.
+   * The state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ifMatch?: string;
+  readonly state?: State;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The cluster URI.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uri?: string;
+  /**
+   * The cluster data ingestion URI.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataIngestionUri?: string;
+  /**
+   * The reason for the cluster's current state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stateReason?: string;
+  /** The cluster's external tenants. */
+  trustedExternalTenants?: TrustedExternalTenant[];
+  /** Optimized auto scale definition. */
+  optimizedAutoscale?: OptimizedAutoscale;
+  /** A boolean value that indicates if the cluster's disks are encrypted. */
+  enableDiskEncryption?: boolean;
+  /** A boolean value that indicates if the streaming ingest is enabled. */
+  enableStreamingIngest?: boolean;
+  /** Virtual network definition. */
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  /** KeyVault properties for the cluster encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** A boolean value that indicates if the purge operations are enabled. */
+  enablePurge?: boolean;
+  /**
+   * List of the cluster's language extensions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly languageExtensions?: LanguageExtensionsList;
+  /** A boolean value that indicates if double encryption is enabled. */
+  enableDoubleEncryption?: boolean;
+  /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The list of ips in the format of CIDR allowed to connect to the cluster. */
+  allowedIpRangeList?: string[];
+  /** The engine type */
+  engineType?: EngineType;
+  /** The cluster's accepted audiences. */
+  acceptedAudiences?: AcceptedAudiences[];
+  /** A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days). */
+  enableAutoStop?: boolean;
+  /** Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
+  /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
+  allowedFqdnList?: string[];
+  /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
+  publicIPType?: PublicIPType;
+  /** Virtual Cluster graduation properties */
+  virtualClusterGraduationProperties?: string;
+  /**
+   * A list of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+};
+
+/** Class representing a read write database. */
+export type ReadWriteDatabase = Database & {
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The time the data should be kept before it stops being accessible to queries in TimeSpan. */
+  softDeletePeriod?: string;
+  /** The time the data should be kept in cache for fast queries in TimeSpan. */
+  hotCachePeriod?: string;
+  /**
+   * The statistics of the database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statistics?: DatabaseStatistics;
+  /**
+   * Indicates whether the database is followed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isFollowed?: boolean;
+};
+
+/** Class representing a read only following database. */
+export type ReadOnlyFollowingDatabase = Database & {
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The time the data should be kept before it stops being accessible to queries in TimeSpan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly softDeletePeriod?: string;
+  /** The time the data should be kept in cache for fast queries in TimeSpan. */
+  hotCachePeriod?: string;
+  /**
+   * The statistics of the database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statistics?: DatabaseStatistics;
+  /**
+   * The name of the leader cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly leaderClusterResourceId?: string;
+  /**
+   * The name of the attached database configuration cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly attachedDatabaseConfigurationName?: string;
+  /**
+   * The principals modification kind of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalsModificationKind?: PrincipalsModificationKind;
+};
+
+/** Class representing an event hub data connection. */
+export type EventHubDataConnection = DataConnection & {
+  /** The resource ID of the event hub to be used to create a data connection. */
+  eventHubResourceId?: string;
+  /** The event hub consumer group. */
+  consumerGroup?: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventHubDataFormat;
+  /** System properties of the event hub */
+  eventSystemProperties?: string[];
+  /** The event hub messages compression type */
+  compression?: Compression;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub. */
+  managedIdentityResourceId?: string;
+  /**
+   * The object ID of the managedIdentityResourceId
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managedIdentityObjectId?: string;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: DatabaseRouting;
+};
+
+/** Class representing an iot hub data connection. */
+export type IotHubDataConnection = DataConnection & {
+  /** The resource ID of the Iot hub to be used to create a data connection. */
+  iotHubResourceId?: string;
+  /** The iot hub consumer group. */
+  consumerGroup?: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: IotHubDataFormat;
+  /** System properties of the iot hub */
+  eventSystemProperties?: string[];
+  /** The name of the share access policy */
+  sharedAccessPolicyName?: string;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: DatabaseRouting;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Class representing an Event Grid data connection. */
+export type EventGridDataConnection = DataConnection & {
+  /** The resource ID of the storage account where the data resides. */
+  storageAccountResourceId?: string;
+  /** The resource ID of the event grid that is subscribed to the storage account events. */
+  eventGridResourceId?: string;
+  /** The resource ID where the event grid is configured to send events. */
+  eventHubResourceId?: string;
+  /** The event hub consumer group. */
+  consumerGroup?: string;
+  /** The table where the data should be ingested. Optionally the table information can be added to each message. */
+  tableName?: string;
+  /** The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message. */
+  mappingRuleName?: string;
+  /** The data format of the message. Optionally the data format can be added to each message. */
+  dataFormat?: EventGridDataFormat;
+  /** A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file */
+  ignoreFirstRecord?: boolean;
+  /** The name of blob storage event type to process. */
+  blobStorageEventType?: BlobStorageEventType;
+  /** The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account. */
+  managedIdentityResourceId?: string;
+  /**
+   * The object ID of managedIdentityResourceId
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managedIdentityObjectId?: string;
+  /** Indication for database routing information from the data connection, by default only database routing information is allowed */
+  databaseRouting?: DatabaseRouting;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Defines headers for Clusters_update operation. */
+export interface ClustersUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_update operation. */
+export interface DatabasesUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ManagedPrivateEndpoints_update operation. */
+export interface ManagedPrivateEndpointsUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Scripts_update operation. */
+export interface ScriptsUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_update operation. */
+export interface DataConnectionsUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Known values of {@link AzureSkuName} that the service accepts. */
+export enum KnownAzureSkuName {
+  DevNoSLAStandardD11V2 = "Dev(No SLA)_Standard_D11_v2",
+  DevNoSLAStandardE2AV4 = "Dev(No SLA)_Standard_E2a_v4",
+  StandardD11V2 = "Standard_D11_v2",
+  StandardD12V2 = "Standard_D12_v2",
+  StandardD13V2 = "Standard_D13_v2",
+  StandardD14V2 = "Standard_D14_v2",
+  StandardD32DV4 = "Standard_D32d_v4",
+  StandardD16DV5 = "Standard_D16d_v5",
+  StandardD32DV5 = "Standard_D32d_v5",
+  StandardDS13V21TBPS = "Standard_DS13_v2+1TB_PS",
+  StandardDS13V22TBPS = "Standard_DS13_v2+2TB_PS",
+  StandardDS14V23TBPS = "Standard_DS14_v2+3TB_PS",
+  StandardDS14V24TBPS = "Standard_DS14_v2+4TB_PS",
+  StandardL4S = "Standard_L4s",
+  StandardL8S = "Standard_L8s",
+  StandardL16S = "Standard_L16s",
+  StandardL8SV2 = "Standard_L8s_v2",
+  StandardL16SV2 = "Standard_L16s_v2",
+  StandardE64IV3 = "Standard_E64i_v3",
+  StandardE80IdsV4 = "Standard_E80ids_v4",
+  StandardE2AV4 = "Standard_E2a_v4",
+  StandardE4AV4 = "Standard_E4a_v4",
+  StandardE8AV4 = "Standard_E8a_v4",
+  StandardE16AV4 = "Standard_E16a_v4",
+  StandardE8AsV41TBPS = "Standard_E8as_v4+1TB_PS",
+  StandardE8AsV42TBPS = "Standard_E8as_v4+2TB_PS",
+  StandardE16AsV43TBPS = "Standard_E16as_v4+3TB_PS",
+  StandardE16AsV44TBPS = "Standard_E16as_v4+4TB_PS",
+  StandardE8AsV51TBPS = "Standard_E8as_v5+1TB_PS",
+  StandardE8AsV52TBPS = "Standard_E8as_v5+2TB_PS",
+  StandardE16AsV53TBPS = "Standard_E16as_v5+3TB_PS",
+  StandardE16AsV54TBPS = "Standard_E16as_v5+4TB_PS",
+  StandardE2AdsV5 = "Standard_E2ads_v5",
+  StandardE4AdsV5 = "Standard_E4ads_v5",
+  StandardE8AdsV5 = "Standard_E8ads_v5",
+  StandardE16AdsV5 = "Standard_E16ads_v5",
+  StandardE8SV41TBPS = "Standard_E8s_v4+1TB_PS",
+  StandardE8SV42TBPS = "Standard_E8s_v4+2TB_PS",
+  StandardE16SV43TBPS = "Standard_E16s_v4+3TB_PS",
+  StandardE16SV44TBPS = "Standard_E16s_v4+4TB_PS",
+  StandardE8SV51TBPS = "Standard_E8s_v5+1TB_PS",
+  StandardE8SV52TBPS = "Standard_E8s_v5+2TB_PS",
+  StandardE16SV53TBPS = "Standard_E16s_v5+3TB_PS",
+  StandardE16SV54TBPS = "Standard_E16s_v5+4TB_PS"
 }
 
 /**
- * An interface representing KustoManagementClientOptions.
+ * Defines values for AzureSkuName. \
+ * {@link KnownAzureSkuName} can be used interchangeably with AzureSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dev(No SLA)_Standard_D11_v2** \
+ * **Dev(No SLA)_Standard_E2a_v4** \
+ * **Standard_D11_v2** \
+ * **Standard_D12_v2** \
+ * **Standard_D13_v2** \
+ * **Standard_D14_v2** \
+ * **Standard_D32d_v4** \
+ * **Standard_D16d_v5** \
+ * **Standard_D32d_v5** \
+ * **Standard_DS13_v2+1TB_PS** \
+ * **Standard_DS13_v2+2TB_PS** \
+ * **Standard_DS14_v2+3TB_PS** \
+ * **Standard_DS14_v2+4TB_PS** \
+ * **Standard_L4s** \
+ * **Standard_L8s** \
+ * **Standard_L16s** \
+ * **Standard_L8s_v2** \
+ * **Standard_L16s_v2** \
+ * **Standard_E64i_v3** \
+ * **Standard_E80ids_v4** \
+ * **Standard_E2a_v4** \
+ * **Standard_E4a_v4** \
+ * **Standard_E8a_v4** \
+ * **Standard_E16a_v4** \
+ * **Standard_E8as_v4+1TB_PS** \
+ * **Standard_E8as_v4+2TB_PS** \
+ * **Standard_E16as_v4+3TB_PS** \
+ * **Standard_E16as_v4+4TB_PS** \
+ * **Standard_E8as_v5+1TB_PS** \
+ * **Standard_E8as_v5+2TB_PS** \
+ * **Standard_E16as_v5+3TB_PS** \
+ * **Standard_E16as_v5+4TB_PS** \
+ * **Standard_E2ads_v5** \
+ * **Standard_E4ads_v5** \
+ * **Standard_E8ads_v5** \
+ * **Standard_E16ads_v5** \
+ * **Standard_E8s_v4+1TB_PS** \
+ * **Standard_E8s_v4+2TB_PS** \
+ * **Standard_E16s_v4+3TB_PS** \
+ * **Standard_E16s_v4+4TB_PS** \
+ * **Standard_E8s_v5+1TB_PS** \
+ * **Standard_E8s_v5+2TB_PS** \
+ * **Standard_E16s_v5+3TB_PS** \
+ * **Standard_E16s_v5+4TB_PS**
  */
-export interface KustoManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+export type AzureSkuName = string;
+
+/** Known values of {@link AzureSkuTier} that the service accepts. */
+export enum KnownAzureSkuTier {
+  Basic = "Basic",
+  Standard = "Standard"
 }
 
 /**
- * @interface
- * The list Kusto database principals operation response.
- * @extends Array<FollowerDatabaseDefinition>
+ * Defines values for AzureSkuTier. \
+ * {@link KnownAzureSkuTier} can be used interchangeably with AzureSkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard**
  */
-export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {}
+export type AzureSkuTier = string;
 
-/**
- * @interface
- * The list Kusto clusters operation response.
- * @extends Array<Cluster>
- */
-export interface ClusterListResult extends Array<Cluster> {}
-
-/**
- * @interface
- * The list of the EngagementFabric SKU descriptions
- * @extends Array<SkuDescription>
- */
-export interface SkuDescriptionList extends Array<SkuDescription> {}
-
-/**
- * @interface
- * List of available SKUs for a Kusto Cluster.
- * @extends Array<AzureResourceSku>
- */
-export interface ListResourceSkusResult extends Array<AzureResourceSku> {}
-
-/**
- * @interface
- * The list of language extension objects.
- * @extends Array<LanguageExtension>
- */
-export interface LanguageExtensionsList extends Array<LanguageExtension> {}
-
-/**
- * @interface
- * The list Kusto cluster principal assignments operation response.
- * @extends Array<ClusterPrincipalAssignment>
- */
-export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {}
-
-/**
- * @interface
- * The list Kusto databases operation response.
- * @extends Array<DatabaseUnion>
- */
-export interface DatabaseListResult extends Array<DatabaseUnion> {}
-
-/**
- * @interface
- * The list Kusto database principals operation response.
- * @extends Array<DatabasePrincipal>
- */
-export interface DatabasePrincipalListResult extends Array<DatabasePrincipal> {}
-
-/**
- * @interface
- * The list Kusto database principal assignments operation response.
- * @extends Array<DatabasePrincipalAssignment>
- */
-export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {}
-
-/**
- * @interface
- * The list Kusto database script operation response.
- * @extends Array<Script>
- */
-export interface ScriptListResult extends Array<Script> {}
-
-/**
- * @interface
- * The list attached database configurations operation response.
- * @extends Array<AttachedDatabaseConfiguration>
- */
-export interface AttachedDatabaseConfigurationListResult
-  extends Array<AttachedDatabaseConfiguration> {}
-
-/**
- * @interface
- * The list Kusto data connections operation response.
- * @extends Array<DataConnectionUnion>
- */
-export interface DataConnectionListResult extends Array<DataConnectionUnion> {}
-
-/**
- * @interface
- * An interface representing the OperationListResult.
- * @summary Result of the request to list REST API operations. It contains a list of operations and
- * a URL nextLink to get the next set of results.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
-  nextLink?: string;
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
 }
 
 /**
- * Defines values for State.
- * Possible values include: 'Creating', 'Unavailable', 'Running', 'Deleting', 'Deleted',
- * 'Stopping', 'Stopped', 'Starting', 'Updating'
- * @readonly
- * @enum {string}
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type State =
-  | "Creating"
-  | "Unavailable"
-  | "Running"
-  | "Deleting"
-  | "Deleted"
-  | "Stopping"
-  | "Stopped"
-  | "Starting"
-  | "Updating";
+export type CreatedByType = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
 
 /**
- * Defines values for ProvisioningState.
- * Possible values include: 'Running', 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Moving'
- * @readonly
- * @enum {string}
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
  */
-export type ProvisioningState =
-  | "Running"
-  | "Creating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Moving";
+export type IdentityType = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  Creating = "Creating",
+  Unavailable = "Unavailable",
+  Running = "Running",
+  Deleting = "Deleting",
+  Deleted = "Deleted",
+  Stopping = "Stopping",
+  Stopped = "Stopped",
+  Starting = "Starting",
+  Updating = "Updating"
+}
 
 /**
- * Defines values for LanguageExtensionName.
- * Possible values include: 'PYTHON', 'R'
- * @readonly
- * @enum {string}
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Unavailable** \
+ * **Running** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Stopping** \
+ * **Stopped** \
+ * **Starting** \
+ * **Updating**
  */
-export type LanguageExtensionName = "PYTHON" | "R";
+export type State = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Running = "Running",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Moving = "Moving"
+}
 
 /**
- * Defines values for EngineType.
- * Possible values include: 'V2', 'V3'
- * @readonly
- * @enum {string}
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running** \
+ * **Creating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Moving**
  */
-export type EngineType = "V2" | "V3";
+export type ProvisioningState = string;
+
+/** Known values of {@link LanguageExtensionName} that the service accepts. */
+export enum KnownLanguageExtensionName {
+  Python = "PYTHON",
+  R = "R"
+}
 
 /**
- * Defines values for AzureSkuName.
- * Possible values include: 'Standard_DS13_v2+1TB_PS', 'Standard_DS13_v2+2TB_PS',
- * 'Standard_DS14_v2+3TB_PS', 'Standard_DS14_v2+4TB_PS', 'Standard_D13_v2', 'Standard_D14_v2',
- * 'Standard_L8s', 'Standard_L16s', 'Standard_L8s_v2', 'Standard_L16s_v2', 'Standard_D11_v2',
- * 'Standard_D12_v2', 'Standard_L4s', 'Dev(No SLA)_Standard_D11_v2', 'Standard_E64i_v3',
- * 'Standard_E80ids_v4', 'Standard_E2a_v4', 'Standard_E4a_v4', 'Standard_E8a_v4',
- * 'Standard_E16a_v4', 'Standard_E8as_v4+1TB_PS', 'Standard_E8as_v4+2TB_PS',
- * 'Standard_E16as_v4+3TB_PS', 'Standard_E16as_v4+4TB_PS', 'Dev(No SLA)_Standard_E2a_v4'
- * @readonly
- * @enum {string}
+ * Defines values for LanguageExtensionName. \
+ * {@link KnownLanguageExtensionName} can be used interchangeably with LanguageExtensionName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PYTHON** \
+ * **R**
  */
-export type AzureSkuName =
-  | "Standard_DS13_v2+1TB_PS"
-  | "Standard_DS13_v2+2TB_PS"
-  | "Standard_DS14_v2+3TB_PS"
-  | "Standard_DS14_v2+4TB_PS"
-  | "Standard_D13_v2"
-  | "Standard_D14_v2"
-  | "Standard_L8s"
-  | "Standard_L16s"
-  | "Standard_L8s_v2"
-  | "Standard_L16s_v2"
-  | "Standard_D11_v2"
-  | "Standard_D12_v2"
-  | "Standard_L4s"
-  | "Dev(No SLA)_Standard_D11_v2"
-  | "Standard_E64i_v3"
-  | "Standard_E80ids_v4"
-  | "Standard_E2a_v4"
-  | "Standard_E4a_v4"
-  | "Standard_E8a_v4"
-  | "Standard_E16a_v4"
-  | "Standard_E8as_v4+1TB_PS"
-  | "Standard_E8as_v4+2TB_PS"
-  | "Standard_E16as_v4+3TB_PS"
-  | "Standard_E16as_v4+4TB_PS"
-  | "Dev(No SLA)_Standard_E2a_v4";
+export type LanguageExtensionName = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
 
 /**
- * Defines values for AzureSkuTier.
- * Possible values include: 'Basic', 'Standard'
- * @readonly
- * @enum {string}
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export type AzureSkuTier = "Basic" | "Standard";
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link EngineType} that the service accepts. */
+export enum KnownEngineType {
+  V2 = "V2",
+  V3 = "V3"
+}
 
 /**
- * Defines values for AzureScaleType.
- * Possible values include: 'automatic', 'manual', 'none'
- * @readonly
- * @enum {string}
+ * Defines values for EngineType. \
+ * {@link KnownEngineType} can be used interchangeably with EngineType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V2** \
+ * **V3**
  */
-export type AzureScaleType = "automatic" | "manual" | "none";
+export type EngineType = string;
+
+/** Known values of {@link ClusterNetworkAccessFlag} that the service accepts. */
+export enum KnownClusterNetworkAccessFlag {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
 
 /**
- * Defines values for DefaultPrincipalsModificationKind.
- * Possible values include: 'Union', 'Replace', 'None'
- * @readonly
- * @enum {string}
+ * Defines values for ClusterNetworkAccessFlag. \
+ * {@link KnownClusterNetworkAccessFlag} can be used interchangeably with ClusterNetworkAccessFlag,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export type DefaultPrincipalsModificationKind = "Union" | "Replace" | "None";
+export type ClusterNetworkAccessFlag = string;
+
+/** Known values of {@link PublicIPType} that the service accepts. */
+export enum KnownPublicIPType {
+  IPv4 = "IPv4",
+  DualStack = "DualStack"
+}
 
 /**
- * Defines values for PrincipalsModificationKind.
- * Possible values include: 'Union', 'Replace', 'None'
- * @readonly
- * @enum {string}
+ * Defines values for PublicIPType. \
+ * {@link KnownPublicIPType} can be used interchangeably with PublicIPType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4** \
+ * **DualStack**
  */
-export type PrincipalsModificationKind = "Union" | "Replace" | "None";
+export type PublicIPType = string;
+
+/** Known values of {@link Reason} that the service accepts. */
+export enum KnownReason {
+  Invalid = "Invalid",
+  AlreadyExists = "AlreadyExists"
+}
 
 /**
- * Defines values for EventHubDataFormat.
- * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
- * @readonly
- * @enum {string}
+ * Defines values for Reason. \
+ * {@link KnownReason} can be used interchangeably with Reason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
  */
-export type EventHubDataFormat =
-  | "MULTIJSON"
-  | "JSON"
-  | "CSV"
-  | "TSV"
-  | "SCSV"
-  | "SOHSV"
-  | "PSV"
-  | "TXT"
-  | "RAW"
-  | "SINGLEJSON"
-  | "AVRO"
-  | "TSVE"
-  | "PARQUET"
-  | "ORC"
-  | "APACHEAVRO"
-  | "W3CLOGFILE";
+export type Reason = string;
+
+/** Known values of {@link ClusterPrincipalRole} that the service accepts. */
+export enum KnownClusterPrincipalRole {
+  AllDatabasesAdmin = "AllDatabasesAdmin",
+  AllDatabasesViewer = "AllDatabasesViewer"
+}
 
 /**
- * Defines values for Compression.
- * Possible values include: 'None', 'GZip'
- * @readonly
- * @enum {string}
+ * Defines values for ClusterPrincipalRole. \
+ * {@link KnownClusterPrincipalRole} can be used interchangeably with ClusterPrincipalRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllDatabasesAdmin** \
+ * **AllDatabasesViewer**
  */
-export type Compression = "None" | "GZip";
+export type ClusterPrincipalRole = string;
+
+/** Known values of {@link PrincipalType} that the service accepts. */
+export enum KnownPrincipalType {
+  App = "App",
+  Group = "Group",
+  User = "User"
+}
 
 /**
- * Defines values for IotHubDataFormat.
- * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
- * @readonly
- * @enum {string}
+ * Defines values for PrincipalType. \
+ * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **App** \
+ * **Group** \
+ * **User**
  */
-export type IotHubDataFormat =
-  | "MULTIJSON"
-  | "JSON"
-  | "CSV"
-  | "TSV"
-  | "SCSV"
-  | "SOHSV"
-  | "PSV"
-  | "TXT"
-  | "RAW"
-  | "SINGLEJSON"
-  | "AVRO"
-  | "TSVE"
-  | "PARQUET"
-  | "ORC"
-  | "APACHEAVRO"
-  | "W3CLOGFILE";
+export type PrincipalType = string;
+
+/** Known values of {@link AzureScaleType} that the service accepts. */
+export enum KnownAzureScaleType {
+  Automatic = "automatic",
+  Manual = "manual",
+  None = "none"
+}
 
 /**
- * Defines values for EventGridDataFormat.
- * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
- * @readonly
- * @enum {string}
+ * Defines values for AzureScaleType. \
+ * {@link KnownAzureScaleType} can be used interchangeably with AzureScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **automatic** \
+ * **manual** \
+ * **none**
  */
-export type EventGridDataFormat =
-  | "MULTIJSON"
-  | "JSON"
-  | "CSV"
-  | "TSV"
-  | "SCSV"
-  | "SOHSV"
-  | "PSV"
-  | "TXT"
-  | "RAW"
-  | "SINGLEJSON"
-  | "AVRO"
-  | "TSVE"
-  | "PARQUET"
-  | "ORC"
-  | "APACHEAVRO"
-  | "W3CLOGFILE";
+export type AzureScaleType = string;
+
+/** Known values of {@link Kind} that the service accepts. */
+export enum KnownKind {
+  ReadWrite = "ReadWrite",
+  ReadOnlyFollowing = "ReadOnlyFollowing"
+}
 
 /**
- * Defines values for BlobStorageEventType.
- * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
- * @readonly
- * @enum {string}
+ * Defines values for Kind. \
+ * {@link KnownKind} can be used interchangeably with Kind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ReadWrite** \
+ * **ReadOnlyFollowing**
  */
-export type BlobStorageEventType =
-  | "Microsoft.Storage.BlobCreated"
-  | "Microsoft.Storage.BlobRenamed";
+export type Kind = string;
+
+/** Known values of {@link DatabasePrincipalRole} that the service accepts. */
+export enum KnownDatabasePrincipalRole {
+  Admin = "Admin",
+  Ingestor = "Ingestor",
+  Monitor = "Monitor",
+  User = "User",
+  UnrestrictedViewer = "UnrestrictedViewer",
+  Viewer = "Viewer"
+}
 
 /**
- * Defines values for IdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned'
- * @readonly
- * @enum {string}
+ * Defines values for DatabasePrincipalRole. \
+ * {@link KnownDatabasePrincipalRole} can be used interchangeably with DatabasePrincipalRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Admin** \
+ * **Ingestor** \
+ * **Monitor** \
+ * **User** \
+ * **UnrestrictedViewer** \
+ * **Viewer**
  */
-export type IdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+export type DatabasePrincipalRole = string;
+
+/** Known values of {@link DatabasePrincipalType} that the service accepts. */
+export enum KnownDatabasePrincipalType {
+  App = "App",
+  Group = "Group",
+  User = "User"
+}
 
 /**
- * Defines values for DatabasePrincipalRole.
- * Possible values include: 'Admin', 'Ingestor', 'Monitor', 'User', 'UnrestrictedViewer', 'Viewer'
- * @readonly
- * @enum {string}
+ * Defines values for DatabasePrincipalType. \
+ * {@link KnownDatabasePrincipalType} can be used interchangeably with DatabasePrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **App** \
+ * **Group** \
+ * **User**
  */
-export type DatabasePrincipalRole =
-  | "Admin"
-  | "Ingestor"
-  | "Monitor"
-  | "User"
-  | "UnrestrictedViewer"
-  | "Viewer";
+export type DatabasePrincipalType = string;
+
+/** Known values of {@link DefaultPrincipalsModificationKind} that the service accepts. */
+export enum KnownDefaultPrincipalsModificationKind {
+  Union = "Union",
+  Replace = "Replace",
+  None = "None"
+}
 
 /**
- * Defines values for DatabasePrincipalType.
- * Possible values include: 'App', 'Group', 'User'
- * @readonly
- * @enum {string}
+ * Defines values for DefaultPrincipalsModificationKind. \
+ * {@link KnownDefaultPrincipalsModificationKind} can be used interchangeably with DefaultPrincipalsModificationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Union** \
+ * **Replace** \
+ * **None**
  */
-export type DatabasePrincipalType = "App" | "Group" | "User";
+export type DefaultPrincipalsModificationKind = string;
+
+/** Known values of {@link DataConnectionKind} that the service accepts. */
+export enum KnownDataConnectionKind {
+  EventHub = "EventHub",
+  EventGrid = "EventGrid",
+  IotHub = "IotHub"
+}
 
 /**
- * Defines values for PrincipalType.
- * Possible values include: 'App', 'Group', 'User'
- * @readonly
- * @enum {string}
+ * Defines values for DataConnectionKind. \
+ * {@link KnownDataConnectionKind} can be used interchangeably with DataConnectionKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EventHub** \
+ * **EventGrid** \
+ * **IotHub**
  */
-export type PrincipalType = "App" | "Group" | "User";
+export type DataConnectionKind = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Failed = "Failed",
+  Running = "Running"
+}
 
 /**
- * Defines values for ClusterPrincipalRole.
- * Possible values include: 'AllDatabasesAdmin', 'AllDatabasesViewer'
- * @readonly
- * @enum {string}
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Running**
  */
-export type ClusterPrincipalRole = "AllDatabasesAdmin" | "AllDatabasesViewer";
+export type Status = string;
+
+/** Known values of {@link PrincipalsModificationKind} that the service accepts. */
+export enum KnownPrincipalsModificationKind {
+  Union = "Union",
+  Replace = "Replace",
+  None = "None"
+}
 
 /**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
+ * Defines values for PrincipalsModificationKind. \
+ * {@link KnownPrincipalsModificationKind} can be used interchangeably with PrincipalsModificationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Union** \
+ * **Replace** \
+ * **None**
  */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type PrincipalsModificationKind = string;
+
+/** Known values of {@link EventHubDataFormat} that the service accepts. */
+export enum KnownEventHubDataFormat {
+  Multijson = "MULTIJSON",
+  Json = "JSON",
+  CSV = "CSV",
+  TSV = "TSV",
+  Scsv = "SCSV",
+  Sohsv = "SOHSV",
+  PSV = "PSV",
+  TXT = "TXT",
+  RAW = "RAW",
+  Singlejson = "SINGLEJSON",
+  Avro = "AVRO",
+  Tsve = "TSVE",
+  Parquet = "PARQUET",
+  ORC = "ORC",
+  Apacheavro = "APACHEAVRO",
+  W3Clogfile = "W3CLOGFILE"
+}
 
 /**
- * Defines values for Type.
- * Possible values include: 'Microsoft.Kusto/clusters/databases',
- * 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations'
- * @readonly
- * @enum {string}
+ * Defines values for EventHubDataFormat. \
+ * {@link KnownEventHubDataFormat} can be used interchangeably with EventHubDataFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MULTIJSON** \
+ * **JSON** \
+ * **CSV** \
+ * **TSV** \
+ * **SCSV** \
+ * **SOHSV** \
+ * **PSV** \
+ * **TXT** \
+ * **RAW** \
+ * **SINGLEJSON** \
+ * **AVRO** \
+ * **TSVE** \
+ * **PARQUET** \
+ * **ORC** \
+ * **APACHEAVRO** \
+ * **W3CLOGFILE**
  */
+export type EventHubDataFormat = string;
+
+/** Known values of {@link Compression} that the service accepts. */
+export enum KnownCompression {
+  None = "None",
+  GZip = "GZip"
+}
+
+/**
+ * Defines values for Compression. \
+ * {@link KnownCompression} can be used interchangeably with Compression,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **GZip**
+ */
+export type Compression = string;
+
+/** Known values of {@link DatabaseRouting} that the service accepts. */
+export enum KnownDatabaseRouting {
+  Single = "Single",
+  Multi = "Multi"
+}
+
+/**
+ * Defines values for DatabaseRouting. \
+ * {@link KnownDatabaseRouting} can be used interchangeably with DatabaseRouting,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Multi**
+ */
+export type DatabaseRouting = string;
+
+/** Known values of {@link IotHubDataFormat} that the service accepts. */
+export enum KnownIotHubDataFormat {
+  Multijson = "MULTIJSON",
+  Json = "JSON",
+  CSV = "CSV",
+  TSV = "TSV",
+  Scsv = "SCSV",
+  Sohsv = "SOHSV",
+  PSV = "PSV",
+  TXT = "TXT",
+  RAW = "RAW",
+  Singlejson = "SINGLEJSON",
+  Avro = "AVRO",
+  Tsve = "TSVE",
+  Parquet = "PARQUET",
+  ORC = "ORC",
+  Apacheavro = "APACHEAVRO",
+  W3Clogfile = "W3CLOGFILE"
+}
+
+/**
+ * Defines values for IotHubDataFormat. \
+ * {@link KnownIotHubDataFormat} can be used interchangeably with IotHubDataFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MULTIJSON** \
+ * **JSON** \
+ * **CSV** \
+ * **TSV** \
+ * **SCSV** \
+ * **SOHSV** \
+ * **PSV** \
+ * **TXT** \
+ * **RAW** \
+ * **SINGLEJSON** \
+ * **AVRO** \
+ * **TSVE** \
+ * **PARQUET** \
+ * **ORC** \
+ * **APACHEAVRO** \
+ * **W3CLOGFILE**
+ */
+export type IotHubDataFormat = string;
+
+/** Known values of {@link EventGridDataFormat} that the service accepts. */
+export enum KnownEventGridDataFormat {
+  Multijson = "MULTIJSON",
+  Json = "JSON",
+  CSV = "CSV",
+  TSV = "TSV",
+  Scsv = "SCSV",
+  Sohsv = "SOHSV",
+  PSV = "PSV",
+  TXT = "TXT",
+  RAW = "RAW",
+  Singlejson = "SINGLEJSON",
+  Avro = "AVRO",
+  Tsve = "TSVE",
+  Parquet = "PARQUET",
+  ORC = "ORC",
+  Apacheavro = "APACHEAVRO",
+  W3Clogfile = "W3CLOGFILE"
+}
+
+/**
+ * Defines values for EventGridDataFormat. \
+ * {@link KnownEventGridDataFormat} can be used interchangeably with EventGridDataFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MULTIJSON** \
+ * **JSON** \
+ * **CSV** \
+ * **TSV** \
+ * **SCSV** \
+ * **SOHSV** \
+ * **PSV** \
+ * **TXT** \
+ * **RAW** \
+ * **SINGLEJSON** \
+ * **AVRO** \
+ * **TSVE** \
+ * **PARQUET** \
+ * **ORC** \
+ * **APACHEAVRO** \
+ * **W3CLOGFILE**
+ */
+export type EventGridDataFormat = string;
+
+/** Known values of {@link BlobStorageEventType} that the service accepts. */
+export enum KnownBlobStorageEventType {
+  MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
+  MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
+}
+
+/**
+ * Defines values for BlobStorageEventType. \
+ * {@link KnownBlobStorageEventType} can be used interchangeably with BlobStorageEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.Storage.BlobCreated** \
+ * **Microsoft.Storage.BlobRenamed**
+ */
+export type BlobStorageEventType = string;
+/** Defines values for Type. */
 export type Type =
   | "Microsoft.Kusto/clusters/databases"
   | "Microsoft.Kusto/clusters/attachedDatabaseConfigurations";
 
-/**
- * Defines values for Reason.
- * Possible values include: 'Invalid', 'AlreadyExists'
- * @readonly
- * @enum {string}
- */
-export type Reason = "Invalid" | "AlreadyExists";
-
-/**
- * Defines values for Status.
- * Possible values include: 'Succeeded', 'Canceled', 'Failed', 'Running'
- * @readonly
- * @enum {string}
- */
-export type Status = "Succeeded" | "Canceled" | "Failed" | "Running";
-
-/**
- * Contains response data for the get operation.
- */
-export type ClustersGetResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ClustersCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ClustersUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
-};
-
-/**
- * Contains response data for the listFollowerDatabases operation.
- */
-export type ClustersListFollowerDatabasesResponse = FollowerDatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FollowerDatabaseListResult;
-  };
-};
-
-/**
- * Contains response data for the diagnoseVirtualNetwork operation.
- */
-export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DiagnoseVirtualNetworkResult;
-  };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ClustersListByResourceGroupResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ClustersListResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
-};
-
-/**
- * Contains response data for the listSkus operation.
- */
-export type ClustersListSkusResponse = SkuDescriptionList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SkuDescriptionList;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type ClustersCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the listSkusByResource operation.
- */
-export type ClustersListSkusByResourceResponse = ListResourceSkusResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListResourceSkusResult;
-  };
-};
-
-/**
- * Contains response data for the listLanguageExtensions operation.
- */
-export type ClustersListLanguageExtensionsResponse = LanguageExtensionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LanguageExtensionsList;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ClustersBeginCreateOrUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ClustersBeginUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
-};
-
-/**
- * Contains response data for the beginDiagnoseVirtualNetwork operation.
- */
-export type ClustersBeginDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DiagnoseVirtualNetworkResult;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ClusterPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignmentListResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ClusterPrincipalAssignmentsBeginCreateOrUpdateResponse = ClusterPrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterPrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type DatabasesCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the listByCluster operation.
- */
-export type DatabasesListByClusterResponse = DatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DatabasesGetResponse = DatabaseUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DatabasesCreateOrUpdateResponse = DatabaseUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type DatabasesUpdateResponse = DatabaseUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
-};
-
-/**
- * Contains response data for the listPrincipals operation.
- */
-export type DatabasesListPrincipalsResponse = DatabasePrincipalListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalListResult;
-  };
-};
-
-/**
- * Contains response data for the addPrincipals operation.
- */
-export type DatabasesAddPrincipalsResponse = DatabasePrincipalListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalListResult;
-  };
-};
-
-/**
- * Contains response data for the removePrincipals operation.
- */
-export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalListResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DatabasesBeginCreateOrUpdateResponse = DatabaseUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DatabasesBeginUpdateResponse = DatabaseUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabaseUnion;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignmentListResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DatabasePrincipalAssignmentsBeginCreateOrUpdateResponse = DatabasePrincipalAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatabasePrincipalAssignment;
-  };
-};
-
-/**
- * Contains response data for the listByDatabase operation.
- */
-export type ScriptsListByDatabaseResponse = ScriptListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ScriptsGetResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ScriptsCreateOrUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ScriptsUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type ScriptsCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ScriptsBeginCreateOrUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ScriptsBeginUpdateResponse = Script & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Script;
-  };
-};
-
-/**
- * Contains response data for the listByCluster operation.
- */
-export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDatabaseConfigurationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfigurationListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfiguration;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfiguration;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type AttachedDatabaseConfigurationsBeginCreateOrUpdateResponse = AttachedDatabaseConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AttachedDatabaseConfiguration;
-  };
-};
-
-/**
- * Contains response data for the listByDatabase operation.
- */
-export type DataConnectionsListByDatabaseResponse = DataConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionListResult;
-  };
-};
-
-/**
- * Contains response data for the dataConnectionValidationMethod operation.
- */
-export type DataConnectionsDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionValidationListResult;
-  };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type DataConnectionsCheckNameAvailabilityResponse = CheckNameResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DataConnectionsGetResponse = DataConnectionUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DataConnectionsCreateOrUpdateResponse = DataConnectionUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type DataConnectionsUpdateResponse = DataConnectionUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
-};
-
-/**
- * Contains response data for the beginDataConnectionValidationMethod operation.
- */
-export type DataConnectionsBeginDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionValidationListResult;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DataConnectionsBeginCreateOrUpdateResponse = DataConnectionUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DataConnectionsBeginUpdateResponse = DataConnectionUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataConnectionUnion;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type OperationsResultsGetResponse = OperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationResult;
-  };
-};
+/** Optional parameters. */
+export interface ClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ClustersGetResponse = Cluster;
+
+/** Optional parameters. */
+export interface ClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ClustersCreateOrUpdateResponse = Cluster;
+
+/** Optional parameters. */
+export interface ClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ClustersUpdateResponse = Cluster;
+
+/** Optional parameters. */
+export interface ClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersListFollowerDatabasesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFollowerDatabases operation. */
+export type ClustersListFollowerDatabasesResponse = FollowerDatabaseListResult;
+
+/** Optional parameters. */
+export interface ClustersDetachFollowerDatabasesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersDiagnoseVirtualNetworkOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the diagnoseVirtualNetwork operation. */
+export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult;
+
+/** Optional parameters. */
+export interface ClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ClustersListByResourceGroupResponse = ClusterListResult;
+
+/** Optional parameters. */
+export interface ClustersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClustersListResponse = ClusterListResult;
+
+/** Optional parameters. */
+export interface ClustersListSkusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkus operation. */
+export type ClustersListSkusResponse = SkuDescriptionList;
+
+/** Optional parameters. */
+export interface ClustersCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ClustersCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface ClustersListSkusByResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkusByResource operation. */
+export type ClustersListSkusByResourceResponse = ListResourceSkusResult;
+
+/** Optional parameters. */
+export interface ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
+export type ClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundNetworkDependenciesEndpointListResult;
+
+/** Optional parameters. */
+export interface ClustersListLanguageExtensionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLanguageExtensions operation. */
+export type ClustersListLanguageExtensionsResponse = LanguageExtensionsList;
+
+/** Optional parameters. */
+export interface ClustersAddLanguageExtensionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersRemoveLanguageExtensionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
+export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundNetworkDependenciesEndpointListResult;
+
+/** Optional parameters. */
+export interface ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface ClusterPrincipalAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ClusterPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment;
+
+/** Optional parameters. */
+export interface ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment;
+
+/** Optional parameters. */
+export interface ClusterPrincipalAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClusterPrincipalAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
+
+/** Optional parameters. */
+export interface DatabasesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type DatabasesCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface DatabasesListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type DatabasesListByClusterResponse = DatabaseListResult;
+
+/** Optional parameters. */
+export interface DatabasesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabasesGetResponse = DatabaseUnion;
+
+/** Optional parameters. */
+export interface DatabasesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabasesCreateOrUpdateResponse = DatabaseUnion;
+
+/** Optional parameters. */
+export interface DatabasesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DatabasesUpdateResponse = DatabaseUnion;
+
+/** Optional parameters. */
+export interface DatabasesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabasesListPrincipalsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrincipals operation. */
+export type DatabasesListPrincipalsResponse = DatabasePrincipalListResult;
+
+/** Optional parameters. */
+export interface DatabasesAddPrincipalsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the addPrincipals operation. */
+export type DatabasesAddPrincipalsResponse = DatabasePrincipalListResult;
+
+/** Optional parameters. */
+export interface DatabasesRemovePrincipalsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the removePrincipals operation. */
+export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult;
+
+/** Optional parameters. */
+export interface AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type AttachedDatabaseConfigurationsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface AttachedDatabaseConfigurationsListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDatabaseConfigurationListResult;
+
+/** Optional parameters. */
+export interface AttachedDatabaseConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration;
+
+/** Optional parameters. */
+export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration;
+
+/** Optional parameters. */
+export interface AttachedDatabaseConfigurationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ManagedPrivateEndpointsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResult;
+
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpoint;
+
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoint;
+
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ManagedPrivateEndpointsUpdateResponse = ManagedPrivateEndpoint;
+
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface DatabasePrincipalAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment;
+
+/** Optional parameters. */
+export interface DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment;
+
+/** Optional parameters. */
+export interface DatabasePrincipalAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabasePrincipalAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult;
+
+/** Optional parameters. */
+export interface ScriptsListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabase operation. */
+export type ScriptsListByDatabaseResponse = ScriptListResult;
+
+/** Optional parameters. */
+export interface ScriptsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ScriptsGetResponse = Script;
+
+/** Optional parameters. */
+export interface ScriptsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ScriptsCreateOrUpdateResponse = Script;
+
+/** Optional parameters. */
+export interface ScriptsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ScriptsUpdateResponse = Script;
+
+/** Optional parameters. */
+export interface ScriptsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ScriptsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ScriptsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface DataConnectionsListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabase operation. */
+export type DataConnectionsListByDatabaseResponse = DataConnectionListResult;
+
+/** Optional parameters. */
+export interface DataConnectionsDataConnectionValidationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the dataConnectionValidation operation. */
+export type DataConnectionsDataConnectionValidationResponse = DataConnectionValidationListResult;
+
+/** Optional parameters. */
+export interface DataConnectionsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type DataConnectionsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface DataConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DataConnectionsGetResponse = DataConnectionUnion;
+
+/** Optional parameters. */
+export interface DataConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DataConnectionsCreateOrUpdateResponse = DataConnectionUnion;
+
+/** Optional parameters. */
+export interface DataConnectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DataConnectionsUpdateResponse = DataConnectionUnion;
+
+/** Optional parameters. */
+export interface DataConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationsResultsGetResponse = OperationResult;
+
+/** Optional parameters. */
+export interface OperationsResultsLocationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface KustoManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

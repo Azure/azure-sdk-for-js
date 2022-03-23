@@ -7,13 +7,14 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { CredentialUnavailableError } from "../errors";
-import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { CredentialUnavailableError } from "../errors";
+import { IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -24,12 +25,12 @@ let findCredentials: VSCodeCredentialFinder | undefined = undefined;
 export const vsCodeCredentialControl = {
   setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
     findCredentials = finder;
-  }
+  },
 };
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
-  adfs: "The VisualStudioCodeCredential does not support authentication with ADFS tenants."
+  adfs: "The VisualStudioCodeCredential does not support authentication with ADFS tenants.",
 };
 
 function checkUnsupportedTenant(tenantId: string): void {
@@ -46,7 +47,7 @@ const mapVSCodeAuthorityHosts: Record<VSCodeCloudNames, string> = {
   AzureCloud: AzureAuthorityHosts.AzurePublicCloud,
   AzureChina: AzureAuthorityHosts.AzureChina,
   AzureGermanCloud: AzureAuthorityHosts.AzureGermany,
-  AzureUSGovernment: AzureAuthorityHosts.AzureGovernment
+  AzureUSGovernment: AzureAuthorityHosts.AzureGovernment,
 };
 
 /**
@@ -124,7 +125,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
     this.identityClient = new IdentityClient({
       authorityHost,
-      ...options
+      ...options,
     });
 
     if (options && options.tenantId) {
@@ -186,7 +187,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
           "No implementation of `VisualStudioCodeCredential` is available.",
           "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`."
+          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`.",
         ].join(" ")
       );
     }
@@ -232,14 +233,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailableError(
-          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot."
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailableError(
-        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot."
       );
       logger.getToken.info(formatError(scopes, error));
       throw error;

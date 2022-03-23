@@ -3,30 +3,28 @@
 
 import {
   createCommunicationAuthPolicy,
-  parseClientArguments,
   isKeyCredential,
-  CommunicationUserIdentifier
+  parseClientArguments,
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
+  InternalPipelineOptions,
+  operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
   CommunicationNetworkTraversal,
-  NetworkRelayRestClient
+  NetworkRelayRestClient,
 } from "./generated/src/networkRelayRestClient";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
-import { CommunicationRelayClientOptions } from "./models";
+import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
 import {
   CommunicationRelayConfiguration,
-  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
 } from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
@@ -108,9 +106,9 @@ export class CommunicationRelayClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -121,15 +119,29 @@ export class CommunicationRelayClient {
   /**
    * Gets a TURN credential for a user
    *
-   * @param user - The user for whom to issue a token
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    user?: CommunicationUserIdentifier,
-    options: OperationOptions = {}
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param user - The user for whom to issue a token
+   * @param routeType - The specified routeType for the relay request
+   * @param ttl - The specified time to live for the relay credential in seconds
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
-    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
-    requestOptions.body = { id: user?.communicationUserId };
+    const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
+      options;
+
+    if (options !== "undefined") {
+      requestOptions.body = { id: options.id, routeType: options.routeType, ttl: options.ttl };
+    }
 
     const { span, updatedOptions } = createSpan(
       "CommunicationNetworkTraversal_IssueRelayConfiguration",
@@ -144,7 +156,7 @@ export class CommunicationRelayClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

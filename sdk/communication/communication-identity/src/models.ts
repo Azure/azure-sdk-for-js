@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
+import { CommonClientOptions } from "@azure/core-client";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 /**
@@ -12,7 +12,7 @@ export type TokenScope = "chat" | "voip";
 /**
  * Client options used to configure the CommunicationIdentity API requests.
  */
-export interface CommunicationIdentityClientOptions extends PipelineOptions {}
+export interface CommunicationIdentityClientOptions extends CommonClientOptions {}
 
 /**
  * The access token for a user.

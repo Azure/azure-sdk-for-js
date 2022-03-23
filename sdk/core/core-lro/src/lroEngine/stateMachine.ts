@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
-import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
-import { processLocationPollingOperationResult } from "./locationPolling";
-import { logger } from "./logger";
 import {
-  LroResourceLocationConfig,
   GetLroStatusFromResponse,
   LongRunningOperation,
   LroConfig,
+  LroResourceLocationConfig,
+  LroResponse,
+  LroStatus,
   PollerConfig,
   ResumablePollOperationState,
-  LroResponse,
-  LroStatus
 } from "./models";
-import { processPassthroughOperationResult } from "./passthrough";
 import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
+import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
+import { logger } from "./logger";
+import { processLocationPollingOperationResult } from "./locationPolling";
+import { processPassthroughOperationResult } from "./passthrough";
 
 /**
  * creates a stepping function that maps an LRO state to another.
@@ -27,15 +26,12 @@ export function createGetLroStatusFromResponse<TResult>(
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): GetLroStatusFromResponse<TResult> {
   switch (config.mode) {
-    case "AzureAsync": {
-      return processAzureAsyncOperationResult(
+    case "Location": {
+      return processLocationPollingOperationResult(
         lroPrimitives,
         config.resourceLocation,
         lroResourceLocationConfig
       );
-    }
-    case "Location": {
-      return processLocationPollingOperationResult;
     }
     case "Body": {
       return processBodyPollingOperationResult;
@@ -64,10 +60,11 @@ export function createPoll<TResult>(
     const response = await lroPrimitives.sendPollRequest(path);
     const retryAfter: string | undefined = response.rawResponse.headers["retry-after"];
     if (retryAfter !== undefined) {
-      const retryAfterInMs = parseInt(retryAfter);
-      pollerConfig.intervalInMs = isNaN(retryAfterInMs)
+      // Retry-After header value is either in HTTP date format, or in seconds
+      const retryAfterInSeconds = parseInt(retryAfter);
+      pollerConfig.intervalInMs = isNaN(retryAfterInSeconds)
         ? calculatePollingIntervalFromDate(new Date(retryAfter), pollerConfig.intervalInMs)
-        : retryAfterInMs;
+        : retryAfterInSeconds * 1000;
     }
     return getLroStatusFromResponse(response);
   };

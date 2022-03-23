@@ -12,11 +12,11 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/latest/storage-blob-changefeed.d.ts",
+  "types": "./types/latest/storage-blob-changefeed.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./typings/3.1/storage-blob-changefeed.d.ts"
+        "./types/3.1/storage-blob-changefeed.d.ts"
       ]
     }
   },
@@ -26,18 +26,17 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
-    "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
+    "build:samples": "echo Obsolete.",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
-    "build": "npm run clean && npm run build:es6 && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
+    "build:test": "npm run build:es6 && dev-tool run bundle --browser-test=false",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "npm run clean && npm run build:es6 && dev-tool run bundle --browser-test=false && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean:samples": "rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/storage-blob-changefeed/dist-samples/typescript/src/",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/storage-blob-changefeed/test/*.spec.js\" \"dist-esm/storage-blob-changefeed/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -48,10 +47,9 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "echo 'browser not supported yet.'",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 \"dist-test/index.node.js\"",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
   },
   "files": [
     "BreakingChanges.md",
@@ -60,8 +58,8 @@
     "dist-browser/",
     "dist-esm/storage-blob-changefeed/src/",
     "dist-esm/storage-internal-avro/src/",
-    "typings/latest/storage-blob-changefeed.d.ts",
-    "typings/3.1/storage-blob-changefeed.d.ts",
+    "types/latest/storage-blob-changefeed.d.ts",
+    "types/3.1/storage-blob-changefeed.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -109,15 +107,14 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
-    "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-replace": "^2.2.0",
+    "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
-    "assert": "^1.4.1",
+    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "downlevel-dts": "~0.4.0",
+    "downlevel-dts": "^0.8.0",
     "es6-promise": "^4.2.5",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
@@ -136,26 +133,26 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
-    "puppeteer": "^10.2.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
+    "puppeteer": "^13.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
-    "@rollup/plugin-commonjs": "11.0.2",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "rollup-plugin-shim": "^1.0.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "sinon": "^9.0.2"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "skipFolder": true,
+    "productName": "Azure Storage Blob Change Feed",
+    "productSlugs": [
+      "azure",
+      "azure-storage"
+    ],
+    "requiredResources": {
+      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+    }
   }
 }

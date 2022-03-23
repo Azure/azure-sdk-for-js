@@ -4,21 +4,21 @@
    "method": "POST",
    "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-01-11-preview2"
    },
    "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"person\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\",\"innererror\":{\"code\":\"BadRequest\",\"message\":\"We are unable to find phone plans to match your requested capabilities.\"}}}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
     "content-type": "application/json",
-    "date": "Fri, 18 Jun 2021 16:41:05 GMT",
-    "ms-cv": "6UNU0hmm5EWgilZGg36oEg.0",
+    "date": "Wed, 02 Mar 2022 21:21:02 GMT",
+    "ms-cv": "SnFD9yfDy0iixV8o5iPytg.0",
     "request-context": "appId=",
-    "status": "400",
-    "x-azure-ref": "0oMzMYAAAAAAT+jpuH2jeT7dub0MLmKf8WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vt8fYgAAAADI0JvHODUnTpDyCurwcprhTEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1332ms"
+    "x-processing-time": "1508ms"
    }
   }
  ],
@@ -26,5 +26,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "182bac91e121262aabae40506fbaf691"
+ "hash": "adec57c4d2be3232ef0dfaeffadab750"
 }

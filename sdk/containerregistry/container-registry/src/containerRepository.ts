@@ -11,10 +11,10 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { createSpan } from "./tracing";
 import {
-  ManifestOrderBy,
+  ArtifactManifestOrder,
   ContainerRepositoryProperties,
   ArtifactManifestProperties,
-  ManifestPageResponse
+  ManifestPageResponse,
 } from "./models";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
 import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
@@ -28,8 +28,8 @@ export interface DeleteRepositoryOptions extends OperationOptions {}
  * Options for the `listRegistryArtifacts` method of `ContainerRepository`.
  */
 export interface ListManifestPropertiesOptions extends OperationOptions {
-  /** orderby query parameter */
-  orderBy?: ManifestOrderBy;
+  /** order in which the manifest properties are returned */
+  order?: ArtifactManifestOrder;
 }
 /**
  * Options for the `getProperties` method of `ContainerRepository`.
@@ -250,11 +250,11 @@ export class ContainerRepositoryImpl {
       canDelete: options.canDelete,
       canWrite: options.canWrite,
       canList: options.canList,
-      canRead: options.canRead
+      canRead: options.canRead,
     };
     const { span, updatedOptions } = createSpan("ContainerRepository-updateProperties", {
       ...options,
-      value
+      value,
     });
 
     try {
@@ -323,7 +323,7 @@ export class ContainerRepositoryImpl {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listManifestsPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listManifestsPage(settings, options),
     };
   }
 
@@ -339,12 +339,12 @@ export class ContainerRepositoryImpl {
     continuationState: PageSettings,
     options: ListManifestPropertiesOptions = {}
   ): AsyncIterableIterator<ManifestPageResponse> {
-    const orderby = toServiceManifestOrderBy(options.orderBy);
+    const orderby = toServiceManifestOrderBy(options.order);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
         n: continuationState.maxPageSize,
-        orderby
+        orderby,
       };
       const currentPage = await this.client.containerRegistry.getManifests(
         this.name,
@@ -357,7 +357,7 @@ export class ContainerRepositoryImpl {
         );
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
-          enumerable: true
+          enumerable: true,
         });
       }
     }
@@ -374,7 +374,7 @@ export class ContainerRepositoryImpl {
         );
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
-          enumerable: true
+          enumerable: true,
         });
       }
     }

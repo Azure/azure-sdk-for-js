@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { OperationSpec, OperationArguments, QueryCollectionFormat } from "./interfaces";
+
+import { OperationArguments, OperationSpec, QueryCollectionFormat } from "./interfaces";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { getPathStringFromParameter } from "./interfaceHelpers";
 
@@ -9,7 +10,7 @@ const CollectionFormatToDelimiterMap: { [key in QueryCollectionFormat]: string }
   SSV: " ",
   Multi: "Multi",
   TSV: "\t",
-  Pipes: "|"
+  Pipes: "|",
 };
 
 export function getRequestUrl(
@@ -28,7 +29,13 @@ export function getRequestUrl(
 
   let requestUrl = replaceAll(baseUri, urlReplacements);
   if (operationSpec.path) {
-    const path = replaceAll(operationSpec.path, urlReplacements);
+    let path = replaceAll(operationSpec.path, urlReplacements);
+    // QUIRK: sometimes we get a path component like /{nextLink}
+    // which may be a fully formed URL with a leading /. In that case, we should
+    // remove the leading /
+    if (operationSpec.path === "/{nextLink}" && path.startsWith("/")) {
+      path = path.substring(1);
+    }
     // QUIRK: sometimes we get a path component like {nextLink}
     // which may be a fully formed URL. In that case, we should
     // ignore the baseUri.
@@ -211,12 +218,15 @@ function calculateQueryParameters(
   }
   return {
     queryParams: result,
-    sequenceParams
+    sequenceParams,
   };
 }
 
-function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
-  const result: Map<string, string | string[]> = new Map<string, string | string[]>();
+function simpleParseQueryParams(queryString: string): Map<string, string | string[] | undefined> {
+  const result: Map<string, string | string[] | undefined> = new Map<
+    string,
+    string | string[] | undefined
+  >();
   if (!queryString || queryString[0] !== "?") {
     return result;
   }
@@ -288,11 +298,13 @@ export function appendQueryParams(
   for (const [name, value] of combinedParams) {
     if (typeof value === "string") {
       searchPieces.push(`${name}=${value}`);
-    } else {
+    } else if (Array.isArray(value)) {
       // QUIRK: If we get an array of values, include multiple key/value pairs
       for (const subValue of value) {
         searchPieces.push(`${name}=${subValue}`);
       }
+    } else {
+      searchPieces.push(`${name}=${value}`);
     }
   }
 

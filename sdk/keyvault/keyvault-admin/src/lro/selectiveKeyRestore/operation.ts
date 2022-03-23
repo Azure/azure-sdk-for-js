@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  KeyVaultClientRestoreStatusResponse,
-  KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
-  KeyVaultClientSelectiveKeyRestoreOperationResponse,
-  RestoreOperation
-} from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 } from "../keyVaultAdminPoller";
 import {
   KeyVaultBeginSelectiveKeyRestoreOptions,
-  KeyVaultSelectiveKeyRestoreResult
+  KeyVaultSelectiveKeyRestoreResult,
 } from "../../backupClientModels";
+import {
+  RestoreOperation,
+  RestoreStatusResponse,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreOperationResponse,
+} from "../../generated/models";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-client";
 import { createTraceFunction } from "../../tracingHelpers";
 
@@ -74,8 +74,8 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
    */
   private selectiveRestore(
     keyName: string,
-    options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
+    options: SelectiveKeyRestoreOperationOptionalParams
+  ): Promise<SelectiveKeyRestoreOperationResponse> {
     return withTrace("selectiveRestore", options, (updatedOptions) =>
       this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
     );
@@ -84,10 +84,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
   /**
    * Tracing the restoreStatus operation.
    */
-  private restoreStatus(
-    jobId: string,
-    options: OperationOptions
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
+  private restoreStatus(jobId: string, options: OperationOptions): Promise<RestoreStatusResponse> {
     return withTrace("restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
@@ -116,9 +113,9 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
           folder: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
-            token: sasToken
-          }
-        }
+            token: sasToken,
+          },
+        },
       });
       this.mapState(selectiveRestoreOperation);
     } else if (!state.isCompleted) {
@@ -155,7 +152,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     if (state.isCompleted) {
       state.result = {
         startTime,
-        endTime
+        endTime,
       };
     }
   }

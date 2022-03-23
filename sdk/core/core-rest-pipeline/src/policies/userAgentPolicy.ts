@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { getUserAgentValue, getUserAgentHeaderName } from "../util/userAgent";
+import { getUserAgentHeaderName, getUserAgentValue } from "../util/userAgent";
 
 const UserAgentHeaderName = getUserAgentHeaderName();
 
@@ -37,6 +37,6 @@ export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelineP
         request.headers.set(UserAgentHeaderName, userAgentValue);
       }
       return next(request);
-    }
+    },
   };
 }

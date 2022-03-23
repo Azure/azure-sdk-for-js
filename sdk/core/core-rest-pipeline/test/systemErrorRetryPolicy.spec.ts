@@ -4,28 +4,29 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  RestError,
+  SendRequest,
   createHttpHeaders,
+  createPipelineRequest,
   systemErrorRetryPolicy,
-  RestError
 } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
-describe("systemErrorRetryPolicy", function() {
-  afterEach(function() {
+describe("systemErrorRetryPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
   it("It should retry after a system error", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = systemErrorRetryPolicy();
@@ -41,7 +42,7 @@ describe("systemErrorRetryPolicy", function() {
     // allow the delay to occur
     const time = await clock.nextAsync();
     // should be at least the standard delay
-    assert.isAtLeast(time, 1000);
+    assert.isAtLeast(time, 500);
     assert.isTrue(next.calledTwice);
 
     const result = await promise;
@@ -51,7 +52,7 @@ describe("systemErrorRetryPolicy", function() {
 
   it("It should give up after the limit is reached", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
 
@@ -69,7 +70,7 @@ describe("systemErrorRetryPolicy", function() {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 });

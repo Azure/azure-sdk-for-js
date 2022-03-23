@@ -9,7 +9,7 @@ import {
   BlobServiceClient,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
-  ServiceSetPropertiesResponse
+  ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -23,14 +23,14 @@ import {
   ServiceListFileSystemsSegmentResponse,
   ServiceRenameFileSystemOptions,
   ServiceUndeleteFileSystemOptions,
-  FileSystemUndeleteResponse
+  FileSystemUndeleteResponse,
 } from "./models";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
   appendToURLPath,
   appendToURLQuery,
-  extractConnectionStringParts
+  extractConnectionStringParts,
 } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
@@ -82,7 +82,9 @@ export class DataLakeServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        if (!options.proxyOptions) {
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        }
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline);
       } else {
@@ -215,7 +217,7 @@ export class DataLakeServiceClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -349,7 +351,7 @@ export class DataLakeServiceClient extends StorageClient {
         expiresOn,
         resourceTypes,
         services: AccountSASServices.parse("b").toString(),
-        ...options
+        ...options,
       },
       this.credential
     ).toString();
@@ -386,12 +388,12 @@ export class DataLakeServiceClient extends StorageClient {
       const fileSystemClient = this.getFileSystemClient(destinationFileSystemName);
       return {
         fileSystemClient,
-        fileSystemRenameResponse: res.containerRenameResponse
+        fileSystemRenameResponse: res.containerRenameResponse,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -426,7 +428,7 @@ export class DataLakeServiceClient extends StorageClient {
         {
           ...options,
           destinationContainerName: options.destinationFileSystemName,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         }
       );
 
@@ -435,12 +437,12 @@ export class DataLakeServiceClient extends StorageClient {
       );
       return {
         fileSystemClient,
-        fileSystemUndeleteResponse: res.containerUndeleteResponse
+        fileSystemUndeleteResponse: res.containerUndeleteResponse,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -463,12 +465,12 @@ export class DataLakeServiceClient extends StorageClient {
     try {
       return await this.blobServiceClient.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -493,12 +495,12 @@ export class DataLakeServiceClient extends StorageClient {
     try {
       return await this.blobServiceClient.setProperties(properties, {
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

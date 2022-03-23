@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/constants";
@@ -9,14 +9,14 @@ import {
   PipelineRequest,
   PipelineResponse,
   createHttpHeaders,
-  HttpClient
+  HttpClient,
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
 
 // Adding this to the source would change the public API.
-type ApiVersions = "7.2" | "7.3-preview";
+type ApiVersions = "7.2" | "7.3";
 
 const baseUrl = "https://managed_hsm.managedhsm.azure.net/";
 
@@ -31,10 +31,10 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           bodyAsText: JSON.stringify({
             id: `${baseUrl}${path}`,
             startTime: new Date(),
-            attributes: {}
-          })
+            attributes: {},
+          }),
         };
-      }
+      },
     };
   }
 
@@ -62,9 +62,9 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       spy = sandbox.spy(mockHttpClient, "sendRequest");
     });
 
-    it("it should default to the latest API version", async function() {
+    it("it should default to the latest API version", async function () {
       const client = new KeyVaultAccessControlClient(baseUrl, credential, {
-        httpClient: mockHttpClient
+        httpClient: mockHttpClient,
       });
       await client.listRoleDefinitions("/").next();
 
@@ -74,11 +74,11 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
 
-    it("it should allow us to specify an API version from a specific set of versions", async function() {
+    it("it should allow us to specify an API version from a specific set of versions", async function () {
       const serviceVersion = "7.2";
       const client = new KeyVaultAccessControlClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApiVersions,
-        httpClient: mockHttpClient
+        httpClient: mockHttpClient,
       });
       await client.listRoleDefinitions("/").next();
 
@@ -95,9 +95,9 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       spy = sandbox.spy(mockHttpClient, "sendRequest");
     });
 
-    it("it should default to the latest API version", async function() {
+    it("it should default to the latest API version", async function () {
       const client = new KeyVaultBackupClient(baseUrl, credential, {
-        httpClient: mockHttpClient
+        httpClient: mockHttpClient,
       });
       await client.beginBackup("secretName", "value");
 
@@ -107,11 +107,11 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
 
-    it("it should allow us to specify an API version from a specific set of versions", async function() {
+    it("it should allow us to specify an API version from a specific set of versions", async function () {
       const serviceVersion = "7.2";
       const client = new KeyVaultBackupClient(baseUrl, credential, {
         serviceVersion: serviceVersion as ApiVersions,
-        httpClient: mockHttpClient
+        httpClient: mockHttpClient,
       });
       await client.beginBackup("secretName", "value");
 

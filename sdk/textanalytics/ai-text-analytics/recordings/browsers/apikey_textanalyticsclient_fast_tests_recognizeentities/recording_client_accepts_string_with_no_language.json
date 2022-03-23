@@ -1,28 +1,169 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/general",
-   "query": {
-    "stringIndexType": "Utf16CodeUnit"
-   },
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"text\":\"trip\",\"category\":\"Event\",\"offset\":18,\"length\":4,\"confidenceScore\":0.61},{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":1.0},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"Space Needle\",\"category\":\"Location\",\"offset\":65,\"length\":12,\"confidenceScore\":0.96},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"trip\",\"category\":\"Event\",\"offset\":42,\"length\":4,\"confidenceScore\":0.82},{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":1.0},{\"text\":\"Space Needle\",\"category\":\"Location\",\"offset\":90,\"length\":12,\"confidenceScore\":0.92}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"book\",\"category\":\"Product\",\"offset\":23,\"length\":4,\"confidenceScore\":0.92}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
-   "responseHeaders": {
-    "apim-request-id": "8c18384b-caeb-486f-8f47-2d4a554bd7e0",
-    "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Sat, 23 Oct 2021 00:50:09 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "28"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "ba84ff7f5448122a1514c4eb618c81eb"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/general?stringIndexType=Utf16CodeUnit",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Connection": "keep-alive",
+        "Content-Length": "494",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "traceparent": "00-00000000000000000000000000000016-0000000000000032-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "a135e4b3-91a6-40e4-9482-24f3b53ed386",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+            "language": "en"
+          },
+          {
+            "id": "1",
+            "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+            "language": "en"
+          },
+          {
+            "id": "2",
+            "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+            "language": "en"
+          },
+          {
+            "id": "3",
+            "text": "I didn\u0027t like the last book I read at all.",
+            "language": "en"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "f2f03219-db45-41de-9218-3b58491424e8",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+        "Date": "Fri, 18 Feb 2022 19:10:20 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "32"
+      },
+      "ResponseBody": {
+        "documents": [
+          {
+            "id": "0",
+            "entities": [
+              {
+                "text": "trip",
+                "category": "Event",
+                "offset": 18,
+                "length": 4,
+                "confidenceScore": 0.61
+              },
+              {
+                "text": "Seattle",
+                "category": "Location",
+                "subcategory": "GPE",
+                "offset": 26,
+                "length": 7,
+                "confidenceScore": 1.0
+              },
+              {
+                "text": "last week",
+                "category": "DateTime",
+                "subcategory": "DateRange",
+                "offset": 34,
+                "length": 9,
+                "confidenceScore": 0.8
+              },
+              {
+                "text": "Space Needle",
+                "category": "Location",
+                "offset": 65,
+                "length": 12,
+                "confidenceScore": 0.96
+              },
+              {
+                "text": "2",
+                "category": "Quantity",
+                "subcategory": "Number",
+                "offset": 78,
+                "length": 1,
+                "confidenceScore": 0.8
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "1",
+            "entities": [
+              {
+                "text": "trip",
+                "category": "Event",
+                "offset": 42,
+                "length": 4,
+                "confidenceScore": 0.82
+              },
+              {
+                "text": "Seattle",
+                "category": "Location",
+                "subcategory": "GPE",
+                "offset": 50,
+                "length": 7,
+                "confidenceScore": 1.0
+              },
+              {
+                "text": "Space Needle",
+                "category": "Location",
+                "offset": 90,
+                "length": 12,
+                "confidenceScore": 0.92
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "entities": [
+              {
+                "text": "Saturday",
+                "category": "DateTime",
+                "subcategory": "Date",
+                "offset": 25,
+                "length": 8,
+                "confidenceScore": 0.8
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "entities": [
+              {
+                "text": "book",
+                "category": "Product",
+                "offset": 23,
+                "length": 4,
+                "confidenceScore": 0.92
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2021-06-01"
+      }
+    }
+  ],
+  "Variables": {}
 }

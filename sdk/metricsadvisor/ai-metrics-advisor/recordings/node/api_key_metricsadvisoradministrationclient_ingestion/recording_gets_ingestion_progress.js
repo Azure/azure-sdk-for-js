@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "3e5c3b1eb3b76a56d194b0710dfff959";
+module.exports.hash = "41edb14802429ba0a1e3bcaf1264f4ab";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress')
-  .reply(200, {"latestSuccessTimestamp":"2021-03-10T00:00:00Z","latestActiveTimestamp":"2021-06-01T00:00:00Z"}, [
+  .reply(200, {"latestSuccessTimestamp":"2022-01-19T00:00:00Z","latestActiveTimestamp":"2022-01-19T00:00:00Z"}, [
   'Content-Length',
   '96',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '418270f2-9f20-4245-b948-52b613ffff40',
+  '3e7d6328-62fc-45e3-9e60-8446f54e2df6',
   'x-envoy-upstream-service-time',
-  '233',
+  '271',
   'apim-request-id',
-  '418270f2-9f20-4245-b948-52b613ffff40',
+  '3e7d6328-62fc-45e3-9e60-8446f54e2df6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 17:31:49 GMT'
+  'Thu, 20 Jan 2022 00:58:15 GMT'
 ]);

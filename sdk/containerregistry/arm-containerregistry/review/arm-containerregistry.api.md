@@ -288,6 +288,7 @@ export type ConnectedRegistry = ProxyResource & {
     loginServer?: LoginServerProperties;
     logging?: LoggingProperties;
     readonly statusDetails?: StatusDetailProperties[];
+    notificationsList?: string[];
 };
 
 // @public
@@ -303,6 +304,7 @@ export type ConnectedRegistryMode = string;
 export interface ConnectedRegistryUpdateParameters {
     clientTokenIds?: string[];
     logging?: LoggingProperties;
+    notificationsList?: string[];
     syncProperties?: SyncUpdateProperties;
 }
 
@@ -313,7 +315,9 @@ export type ConnectionState = string;
 export type ConnectionStatus = string;
 
 // @public (undocumented)
-export class ContainerRegistryManagementClient extends ContainerRegistryManagementClientContext {
+export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
@@ -338,6 +342,8 @@ export class ContainerRegistryManagementClient extends ContainerRegistryManageme
     // (undocumented)
     scopeMaps: ScopeMaps;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     taskRuns: TaskRuns;
     // (undocumented)
     tasks: Tasks;
@@ -345,15 +351,6 @@ export class ContainerRegistryManagementClient extends ContainerRegistryManageme
     tokens: Tokens;
     // (undocumented)
     webhooks: Webhooks;
-}
-
-// @public (undocumented)
-export class ContainerRegistryManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -467,23 +464,24 @@ export interface ErrorResponse {
 // @public
 export interface ErrorResponseBody {
     code: string;
-    details?: InnerErrorDescription;
+    details?: InnerErrorDescription[];
     message: string;
     target?: string;
 }
 
 // @public
-export type Event = EventInfo & {
+type Event_2 = EventInfo & {
     eventRequestMessage?: EventRequestMessage;
     eventResponseMessage?: EventResponseMessage;
 };
+export { Event_2 as Event }
 
 // @public
 export interface EventContent {
     action?: string;
     actor?: Actor;
     id?: string;
-    request?: Request;
+    request?: Request_2;
     source?: Source;
     target?: Target;
     timestamp?: Date;
@@ -497,7 +495,7 @@ export interface EventInfo {
 // @public
 export interface EventListResult {
     nextLink?: string;
-    value?: Event[];
+    value?: Event_2[];
 }
 
 // @public
@@ -851,6 +849,10 @@ export enum KnownCertificateType {
 export enum KnownConnectedRegistryMode {
     // (undocumented)
     Mirror = "Mirror",
+    // (undocumented)
+    ReadOnly = "ReadOnly",
+    // (undocumented)
+    ReadWrite = "ReadWrite",
     // (undocumented)
     Registry = "Registry"
 }
@@ -1643,6 +1645,7 @@ export interface Registries {
     checkNameAvailability(registryNameCheckRequest: RegistryNameCheckRequest, options?: RegistriesCheckNameAvailabilityOptionalParams): Promise<RegistriesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, registryName: string, options?: RegistriesGetOptionalParams): Promise<RegistriesGetResponse>;
     getBuildSourceUploadUrl(resourceGroupName: string, registryName: string, options?: RegistriesGetBuildSourceUploadUrlOptionalParams): Promise<RegistriesGetBuildSourceUploadUrlResponse>;
+    getPrivateLinkResource(resourceGroupName: string, registryName: string, groupName: string, options?: RegistriesGetPrivateLinkResourceOptionalParams): Promise<RegistriesGetPrivateLinkResourceResponse>;
     list(options?: RegistriesListOptionalParams): PagedAsyncIterableIterator<Registry>;
     listByResourceGroup(resourceGroupName: string, options?: RegistriesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Registry>;
     listCredentials(resourceGroupName: string, registryName: string, options?: RegistriesListCredentialsOptionalParams): Promise<RegistriesListCredentialsResponse>;
@@ -1692,6 +1695,13 @@ export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition;
 // @public
 export interface RegistriesGetOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface RegistriesGetPrivateLinkResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 // @public
 export type RegistriesGetResponse = Registry;
@@ -1948,13 +1958,14 @@ export interface ReplicationUpdateParameters {
 }
 
 // @public
-export interface Request {
+interface Request_2 {
     addr?: string;
     host?: string;
     id?: string;
     method?: string;
     useragent?: string;
 }
+export { Request_2 as Request }
 
 // @public
 export interface Resource {
@@ -2809,7 +2820,7 @@ export interface Webhooks {
     get(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksGetOptionalParams): Promise<WebhooksGetResponse>;
     getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksGetCallbackConfigOptionalParams): Promise<WebhooksGetCallbackConfigResponse>;
     list(resourceGroupName: string, registryName: string, options?: WebhooksListOptionalParams): PagedAsyncIterableIterator<Webhook>;
-    listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksListEventsOptionalParams): PagedAsyncIterableIterator<Event>;
+    listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksListEventsOptionalParams): PagedAsyncIterableIterator<Event_2>;
     ping(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksPingOptionalParams): Promise<WebhooksPingResponse>;
 }
 
@@ -2905,7 +2916,6 @@ export interface WebhookUpdateParameters {
 
 // @public
 export type ZoneRedundancy = string;
-
 
 // (No @packageDocumentation comment for this package)
 

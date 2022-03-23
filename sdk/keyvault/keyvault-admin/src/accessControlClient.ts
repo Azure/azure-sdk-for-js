@@ -2,36 +2,33 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-
-import { createTraceFunction } from "./tracingHelpers";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
-
 import {
-  CreateRoleAssignmentOptions,
-  KeyVaultRoleAssignment,
   AccessControlClientOptions,
-  KeyVaultRoleScope,
+  CreateRoleAssignmentOptions,
   DeleteRoleAssignmentOptions,
-  ListRoleAssignmentsOptions,
-  ListRoleDefinitionsOptions,
-  KeyVaultRoleDefinition,
+  DeleteRoleDefinitionOptions,
   GetRoleAssignmentOptions,
-  ListRoleDefinitionsPageSettings,
-  ListRoleAssignmentsPageSettings,
   GetRoleDefinitionOptions,
+  KeyVaultRoleAssignment,
+  KeyVaultRoleDefinition,
+  KeyVaultRoleScope,
+  ListRoleAssignmentsOptions,
+  ListRoleAssignmentsPageSettings,
+  ListRoleDefinitionsOptions,
+  ListRoleDefinitionsPageSettings,
   SetRoleDefinitionOptions,
-  DeleteRoleDefinitionOptions
 } from "./accessControlModels";
-
 import { LATEST_API_VERSION, authenticationScopes } from "./constants";
-import { mappings } from "./mappings";
-import { logger } from "./log";
-import { v4 as v4uuid } from "uuid";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
+import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
+import { createTraceFunction } from "./tracingHelpers";
+import { logger } from "./log";
+import { mappings } from "./mappings";
+import { v4 as v4uuid } from "uuid";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 
@@ -47,7 +44,6 @@ export class KeyVaultAccessControlClient {
   public readonly vaultUrl: string;
 
   /**
-   * @internal
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -85,9 +81,9 @@ export class KeyVaultAccessControlClient {
         additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.client = new KeyVaultClient(serviceVersion, clientOptions);
@@ -96,7 +92,7 @@ export class KeyVaultAccessControlClient {
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: authenticationScopes,
-        challengeCallbacks: createChallengeCallbacks()
+        challengeCallbacks: createChallengeCallbacks(),
       })
     );
   }
@@ -133,8 +129,8 @@ export class KeyVaultAccessControlClient {
         {
           properties: {
             roleDefinitionId,
-            principalId
-          }
+            principalId,
+          },
         },
         updatedOptions
       );
@@ -198,7 +194,6 @@ export class KeyVaultAccessControlClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listRoleAssignments}.
    * @param roleScope - The scope of the role assignments.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -246,7 +241,6 @@ export class KeyVaultAccessControlClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listRoleAssignments}.
    * @param roleScope - The scope of the role assignments.
    * @param options - Common options for the iterative endpoints.
@@ -288,12 +282,11 @@ export class KeyVaultAccessControlClient {
         return this;
       },
       byPage: (settings: ListRoleAssignmentsPageSettings = {}) =>
-        this.listRoleAssignmentsPage(roleScope, settings, options)
+        this.listRoleAssignmentsPage(roleScope, settings, options),
     };
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listRoleDefinitions}.
    * @param roleScope - The scope of the role definition.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -336,7 +329,6 @@ export class KeyVaultAccessControlClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listRoleDefinitions}.
    * @param roleScope - The scope of the role definition.
    * @param options - Common options for the iterative endpoints.
@@ -378,7 +370,7 @@ export class KeyVaultAccessControlClient {
         return this;
       },
       byPage: (settings: ListRoleDefinitionsPageSettings = {}) =>
-        this.listRoleDefinitionsPage(roleScope, settings, options)
+        this.listRoleDefinitionsPage(roleScope, settings, options),
     };
   }
 
@@ -423,9 +415,6 @@ export class KeyVaultAccessControlClient {
    * console.log(roleDefinition);
    * ```
    * @param roleScope - The scope of the role definition.
-   * @param name - The name of the role definition. Must be a UUID.
-   * @param permissions - The set of {@link KeyVaultPermission} for this role definition.
-   * @param description - The role definition description.
    * @param options - The optional parameters.
    */
   public setRoleDefinition(
@@ -443,8 +432,8 @@ export class KeyVaultAccessControlClient {
             permissions: options.permissions,
             assignableScopes: [roleScope],
             roleName: options.roleName,
-            roleType: "CustomRole"
-          }
+            roleType: "CustomRole",
+          },
         },
         updatedOptions
       );

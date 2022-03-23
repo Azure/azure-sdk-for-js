@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventData,
-  MessagingError,
   EventHubConsumerClient,
   EventHubProducerClient,
-  EventPosition
+  EventPosition,
+  MessagingError,
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
-import { translate } from "@azure/core-amqp";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { translate } from "@azure/core-amqp";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -33,15 +33,15 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("EventHubConsumerClient", function(): void {
+  describe("EventHubConsumerClient", function (): void {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
     let partitionIds: string[];
-    before("validate environment", async function(): Promise<void> {
+    before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -67,7 +67,7 @@ testWithServiceTypes((serviceVersion) => {
       await consumerClient.close();
     });
 
-    describe("EventHubConsumer receiveBatch", function(): void {
+    describe("EventHubConsumer receiveBatch", function (): void {
       it("should not lose messages on error", async () => {
         const partitionId = partitionIds[0];
         const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(
@@ -77,7 +77,7 @@ testWithServiceTypes((serviceVersion) => {
         // Ensure the receiver only looks at new messages.
         const startPosition: EventPosition = {
           sequenceNumber: lastEnqueuedSequenceNumber,
-          isInclusive: false
+          isInclusive: false,
         };
 
         // Send a message we expect to receive.
@@ -92,8 +92,8 @@ testWithServiceTypes((serviceVersion) => {
           startPosition,
           {
             retryOptions: {
-              maxRetries: 0
-            }
+              maxRetries: 0,
+            },
           }
         );
 
@@ -132,7 +132,7 @@ testWithServiceTypes((serviceVersion) => {
         // Ensure the receiver only looks at new messages.
         const startPosition: EventPosition = {
           sequenceNumber: lastEnqueuedSequenceNumber,
-          isInclusive: false
+          isInclusive: false,
         };
 
         // Send a message we expect to receive.
@@ -147,8 +147,8 @@ testWithServiceTypes((serviceVersion) => {
           startPosition,
           {
             retryOptions: {
-              maxRetries: 1
-            }
+              maxRetries: 1,
+            },
           }
         );
 

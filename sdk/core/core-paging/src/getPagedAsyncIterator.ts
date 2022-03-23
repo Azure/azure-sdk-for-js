@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models";
+import { PageSettings, PagedAsyncIterableIterator, PagedResult } from "./models";
 
 /**
  * returns an async iterator that iterates over results. It also has a `byPage`
@@ -33,7 +33,7 @@ export function getPagedAsyncIterator<
           pagedResult as PagedResult<TPage, PageSettings, TLink>,
           settings?.maxPageSize
         );
-      })
+      }),
   };
 }
 
@@ -47,13 +47,13 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
   if (!Array.isArray(firstVal.value)) {
     yield firstVal.value;
     // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
-    yield* (pages as unknown) as AsyncIterableIterator<TElement>;
+    yield* pages as unknown as AsyncIterableIterator<TElement>;
   } else {
     yield* firstVal.value;
     for await (const page of pages) {
       // pages is of type `AsyncIterableIterator<TPage>` so `page` is of type `TPage`. In this branch,
       // it must be the case that `TPage = TElement[]`
-      yield* (page as unknown) as TElement[];
+      yield* page as unknown as TElement[];
     }
   }
 }

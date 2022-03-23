@@ -8,6 +8,97 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const SchemaGroups: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGroups",
+    modelProperties: {
+      schemaGroups: {
+        serializedName: "schemaGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SchemaVersions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaVersions",
+    modelProperties: {
+      schemaVersions: {
+        serializedName: "schemaVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SchemaId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15,6 +106,21 @@ export const SchemaId: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaGroupsListExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGroupsListExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -34,8 +140,8 @@ export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
+      contentType: {
+        serializedName: "content-type",
         type: {
           name: "String"
         }
@@ -52,10 +158,52 @@ export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
+        type: {
+          name: "String"
+        }
+      },
       schemaVersion: {
         serializedName: "schema-version",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaGetByIdExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGetByIdExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaGetVersionsExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGetVersionsExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }
@@ -73,12 +221,6 @@ export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
-        type: {
-          name: "String"
-        }
-      },
       schemaId: {
         serializedName: "schema-id",
         type: {
@@ -91,10 +233,37 @@ export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
+        type: {
+          name: "String"
+        }
+      },
       schemaVersion: {
         serializedName: "schema-version",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaQueryIdByContentExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaQueryIdByContentExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }
@@ -112,12 +281,6 @@ export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
-        type: {
-          name: "String"
-        }
-      },
       schemaId: {
         serializedName: "schema-id",
         type: {
@@ -130,10 +293,37 @@ export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
+        type: {
+          name: "String"
+        }
+      },
       schemaVersion: {
         serializedName: "schema-version",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaRegisterExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaRegisterExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }

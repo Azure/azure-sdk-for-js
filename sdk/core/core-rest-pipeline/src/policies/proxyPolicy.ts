@@ -6,11 +6,11 @@ import * as https from "https";
 import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import {
-  PipelineResponse,
+  HttpHeaders,
   PipelineRequest,
-  SendRequest,
+  PipelineResponse,
   ProxySettings,
-  HttpHeaders
+  SendRequest,
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
@@ -131,7 +131,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
     host: schema + parsedUrl.hostname,
     port: Number.parseInt(parsedUrl.port || "80"),
     username: parsedUrl.username,
-    password: parsedUrl.password
+    password: parsedUrl.password,
   };
 }
 
@@ -155,7 +155,7 @@ export function getProxyAgentOptions(
     hostname: parsedProxyUrl.hostname,
     port: proxySettings.port,
     protocol: parsedProxyUrl.protocol,
-    headers: requestHeaders.toJSON()
+    headers: requestHeaders.toJSON(),
   };
   if (proxySettings.username && proxySettings.password) {
     proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
@@ -223,6 +223,6 @@ export function proxyPolicy(
         setProxyAgentOnRequest(request);
       }
       return next(request);
-    }
+    },
   };
 }

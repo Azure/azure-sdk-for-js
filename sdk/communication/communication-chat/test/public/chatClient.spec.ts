@@ -9,44 +9,44 @@ import { isNode } from "@azure/core-util";
 import sinon from "sinon";
 import { CommunicationIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
+import { CommunicationUserToken } from "@azure/communication-identity";
 
-describe("ChatClient", function() {
+describe("ChatClient", function () {
   let threadId: string | undefined;
   let recorder: Recorder;
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
-
+  let communicationUserToken: CommunicationUserToken;
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
 
-  after(async function() {
+  after(async function () {
     // await deleteTestUser(testUser);
     // await deleteTestUser(testUser2);
     // await deleteTestUser(testUser3);
   });
 
-  describe("Chat Operations", function() {
-    beforeEach(function(this: Context) {
-      recorder = createRecorder(this);
-    });
-
-    afterEach(async function(this: Context) {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
+  describe("Chat Operations", function () {
+    beforeEach(async function (this: Context) {
+      recorder = await createRecorder(this.currentTest);
+      await recorder.setMatcher("HeaderlessMatcher");
+      if (!communicationUserToken) {
+        communicationUserToken = await createTestUser(recorder);
       }
+      chatClient = createChatClient(communicationUserToken.token, recorder);
     });
 
-    it("successfully creates a thread", async function() {
-      const communicationUserToken = await createTestUser();
+    afterEach(async function () {
+      await recorder.stop();
+    });
 
+    it("successfully creates a thread", async function () {
       testUser = communicationUserToken.user;
-      chatClient = createChatClient(communicationUserToken.token);
-
-      testUser2 = (await createTestUser()).user;
+      testUser2 = (await createTestUser(recorder)).user;
 
       const request = { topic: "test topic" };
       const options = {
-        participants: [{ id: testUser }, { id: testUser2 }]
+        participants: [{ id: testUser }, { id: testUser2 }],
       };
 
       const chatThreadResult = await chatClient.createChatThread(request, options);
@@ -60,19 +60,19 @@ describe("ChatClient", function() {
       assert.isDefined(chatThread?.id);
     }).timeout(8000);
 
-    it("successfully retrieves a thread client", async function() {
-      chatThreadClient = await chatClient.getChatThreadClient(threadId!);
+    it("successfully retrieves a thread client", async function () {
+      chatThreadClient = chatClient.getChatThreadClient(threadId!);
       assert.isNotNull(chatThreadClient);
       assert.equal(chatThreadClient.threadId, threadId);
     });
 
-    it("successfully deletes a thread", async function() {
+    it("successfully deletes a thread", async function () {
       await chatClient.deleteChatThread(threadId!);
     });
   });
 
-  describe("Realtime Notifications", function() {
-    before(async function(this: Context) {
+  describe("Realtime Notifications", function () {
+    before(async function (this: Context) {
       // Realtime notifications are browser only
       if (isNode || !isLiveMode()) {
         this.skip();
@@ -81,7 +81,7 @@ describe("ChatClient", function() {
       // Create a thread
       const request = {
         topic: "notifcation tests",
-        participants: [{ id: testUser }]
+        participants: [{ id: testUser }],
       };
       const chatThreadResult = await chatClient.createChatThread(request);
       threadId = chatThreadResult.chatThread?.id;
@@ -90,12 +90,12 @@ describe("ChatClient", function() {
       chatThreadClient = chatClient.getChatThreadClient(threadId!);
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // Start notifications
       await chatClient.startRealtimeNotifications();
     });
 
-    it("successfully stops realtime notifications", async function() {
+    it("successfully stops realtime notifications", async function () {
       const listener = sinon.spy();
 
       chatClient.on("typingIndicatorReceived", listener);
@@ -108,7 +108,7 @@ describe("ChatClient", function() {
       sinon.assert.notCalled(listener);
     });
 
-    it("successfully unsubscribes a listener", function(done) {
+    it("successfully unsubscribes a listener", function (done) {
       function listener(): void {
         assert.fail();
       }
@@ -123,7 +123,7 @@ describe("ChatClient", function() {
       setTimeout(done, 5000);
     }).timeout(8000);
 
-    it("successfully listens to typingIndicatorReceivedEvents", function(done) {
+    it("successfully listens to typingIndicatorReceivedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -134,7 +134,7 @@ describe("ChatClient", function() {
       chatThreadClient.sendTypingNotification();
     }).timeout(8000);
 
-    it("successfully listens to chatMessageEditedEvents", function(done) {
+    it("successfully listens to chatMessageEditedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -147,13 +147,13 @@ describe("ChatClient", function() {
         .sendMessage(message)
         .then((result) => {
           return chatThreadClient.updateMessage(result.id, {
-            content: "new content"
+            content: "new content",
           });
         })
         .catch((error) => console.error(error));
     }).timeout(8000);
 
-    it("successfully listens to chatMessageReceivedEvents", function(done) {
+    it("successfully listens to chatMessageReceivedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -165,7 +165,7 @@ describe("ChatClient", function() {
       chatThreadClient.sendMessage(message);
     }).timeout(8000);
 
-    it("successfully listens to chatMessageDeletedEvents", function(done) {
+    it("successfully listens to chatMessageDeletedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -182,7 +182,7 @@ describe("ChatClient", function() {
         .catch((error) => console.error(error));
     }).timeout(8000);
 
-    it("successfully listens to chatThreadCreatedEvents", function(done) {
+    it("successfully listens to chatThreadCreatedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -192,12 +192,12 @@ describe("ChatClient", function() {
       // Create thread
       const request = {
         topic: "test create thread event",
-        participants: [{ id: testUser }]
+        participants: [{ id: testUser }],
       };
       chatClient.createChatThread(request);
     }).timeout(8000);
 
-    it("successfully listens to chatThreadDeletedEvents", function(done) {
+    it("successfully listens to chatThreadDeletedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -207,7 +207,7 @@ describe("ChatClient", function() {
       // Delete thread
       const request = {
         topic: "test delete thread event",
-        participants: [{ id: testUser }]
+        participants: [{ id: testUser }],
       };
       chatClient
         .createChatThread(request)
@@ -217,7 +217,7 @@ describe("ChatClient", function() {
         .catch((error) => console.error(error));
     }).timeout(8000);
 
-    it("successfully listens to chatThreadPropertiesUpdatedEvents", function(done) {
+    it("successfully listens to chatThreadPropertiesUpdatedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -228,7 +228,7 @@ describe("ChatClient", function() {
       chatThreadClient.updateTopic("updated topic");
     }).timeout(8000);
 
-    it("successfully listens to participantsAddedEvents", function(done) {
+    it("successfully listens to participantsAddedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -237,12 +237,12 @@ describe("ChatClient", function() {
 
       // Add participant
       const request = {
-        participants: [{ id: testUser2 }]
+        participants: [{ id: testUser2 }],
       };
       chatThreadClient.addParticipants(request);
     }).timeout(8000);
 
-    it("successfully listens to participantsRemovedEvents", function(done) {
+    it("successfully listens to participantsRemovedEvents", function (done) {
       function listener(): void {
         done();
       }
@@ -253,7 +253,7 @@ describe("ChatClient", function() {
       chatThreadClient.removeParticipant(testUser2);
     }).timeout(8000);
 
-    it("successfully listens to readReceiptReceivedEvents", function(this: Context, done) {
+    it("successfully listens to readReceiptReceivedEvents", function (this: Context, done) {
       // TODO: Read receipt notification is timing out even with increased timeout
       this.skip();
       function listener(): void {
@@ -268,7 +268,7 @@ describe("ChatClient", function() {
         .sendMessage(message)
         .then((result) => {
           return chatThreadClient.sendReadReceipt({
-            chatMessageId: result.id
+            chatMessageId: result.id,
           });
         })
         .catch((error) => console.error(error));

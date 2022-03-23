@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.8.1";
-export const SERVICE_VERSION: string = "2020-10-02";
+export const SDK_VERSION: string = "12.9.1";
+export const SERVICE_VERSION: string = "2021-04-10";
 
 export const FILE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024 * 1024; // 4TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
@@ -14,15 +14,15 @@ export const URLConstants = {
     FORCE_BROWSER_NO_CACHE: "_",
     SHARE_SNAPSHOT: "sharesnapshot",
     SIGNATURE: "sig",
-    TIMEOUT: "timeout"
-  }
+    TIMEOUT: "timeout",
+  },
 };
 
 export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
-  HTTP_RANGE_NOT_SATISFIABLE: 416
+  HTTP_RANGE_NOT_SATISFIABLE: 416,
 };
 
 export const HeaderConstants = {
@@ -44,7 +44,7 @@ export const HeaderConstants = {
   USER_AGENT: "User-Agent",
   X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
   X_MS_COPY_SOURCE: "x-ms-copy-source",
-  X_MS_DATE: "x-ms-date"
+  X_MS_DATE: "x-ms-date",
 };
 
 export const ETagNone = "";
@@ -109,7 +109,7 @@ export const StorageFileLoggingAllowedHeaderNames = [
   "x-ms-recursive",
   "x-ms-share-quota",
   "x-ms-type",
-  "x-ms-write"
+  "x-ms-write",
 ];
 
 export const StorageFileLoggingAllowedQueryParameters = [
@@ -131,5 +131,5 @@ export const StorageFileLoggingAllowedQueryParameters = [
   "st",
   "sv",
   "copyid",
-  "restype"
+  "restype",
 ];

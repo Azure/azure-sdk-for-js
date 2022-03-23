@@ -103,10 +103,11 @@ export interface Clusters {
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    update(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
 }
 
 // @public
@@ -170,6 +171,8 @@ export type ClustersListResponse = ClusterListResult;
 
 // @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -761,7 +764,9 @@ export interface Operation {
 }
 
 // @public (undocumented)
-export class OperationalInsightsManagementClient extends OperationalInsightsManagementClientContext {
+export class OperationalInsightsManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: OperationalInsightsManagementClientOptionalParams);
     // (undocumented)
     availableServiceTiers: AvailableServiceTiers;
@@ -796,20 +801,15 @@ export class OperationalInsightsManagementClient extends OperationalInsightsMana
     // (undocumented)
     storageInsightConfigs: StorageInsightConfigs;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
+    tables: Tables;
+    // (undocumented)
     usages: Usages;
     // (undocumented)
     workspacePurge: WorkspacePurge;
     // (undocumented)
     workspaces: Workspaces;
-}
-
-// @public (undocumented)
-export class OperationalInsightsManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: OperationalInsightsManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -1113,6 +1113,55 @@ export interface StorageInsightStatus {
 }
 
 // @public
+export type Table = ProxyResource & {
+    retentionInDays?: number;
+    readonly isTroubleshootingAllowed?: boolean;
+    isTroubleshootEnabled?: boolean;
+    readonly lastTroubleshootDate?: string;
+};
+
+// @public
+export interface Tables {
+    create(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesCreateOptionalParams): Promise<TablesCreateResponse>;
+    get(resourceGroupName: string, workspaceName: string, tableName: string, options?: TablesGetOptionalParams): Promise<TablesGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: TablesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<Table>;
+    update(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Table, options?: TablesUpdateOptionalParams): Promise<TablesUpdateResponse>;
+}
+
+// @public
+export interface TablesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TablesCreateResponse = Table;
+
+// @public
+export interface TablesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TablesGetResponse = Table;
+
+// @public
+export interface TablesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TablesListByWorkspaceResponse = TablesListResult;
+
+// @public
+export interface TablesListResult {
+    value?: Table[];
+}
+
+// @public
+export interface TablesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TablesUpdateResponse = Table;
+
+// @public
 export interface Tag {
     name: string;
     value: string;
@@ -1342,7 +1391,6 @@ export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type WorkspacesUpdateResponse = Workspace;
-
 
 // (No @packageDocumentation comment for this package)
 

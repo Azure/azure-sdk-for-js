@@ -12,6 +12,7 @@ import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -82,7 +83,7 @@ export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
 // @public
 export interface Edm<T extends EdmTypes> {
     type: T;
-    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
+    value: T extends "Binary" ? string : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
 }
 
 // @public
@@ -161,6 +162,8 @@ export interface Metrics {
 
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
+
+export { RestError }
 
 // @public
 export interface RetentionPolicy {

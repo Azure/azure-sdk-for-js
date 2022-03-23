@@ -4,7 +4,7 @@
 import { CommonClientOptions } from "@azure/core-client";
 import {
   InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "./generated/generatedClient";
@@ -19,31 +19,31 @@ import {
   GeneratedClientKeyPhrasesOptionalParams as GeneratedExtractKeyPhrasesOptions,
   GeneratedClientLanguagesOptionalParams as GeneratedDetectLanguageOptions,
   TextDocumentInput,
-  PiiCategory
+  PiiCategory,
 } from "./generated/models";
 import {
   DetectLanguageResultArray,
-  makeDetectLanguageResultArray
+  makeDetectLanguageResultArray,
 } from "./detectLanguageResultArray";
 import {
   RecognizeCategorizedEntitiesResultArray,
-  makeRecognizeCategorizedEntitiesResultArray
+  makeRecognizeCategorizedEntitiesResultArray,
 } from "./recognizeCategorizedEntitiesResultArray";
 import {
   AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray
+  makeAnalyzeSentimentResultArray,
 } from "./analyzeSentimentResultArray";
 import {
   makeExtractKeyPhrasesResultArray,
-  ExtractKeyPhrasesResultArray
+  ExtractKeyPhrasesResultArray,
 } from "./extractKeyPhrasesResultArray";
 import {
   RecognizePiiEntitiesResultArray,
-  makeRecognizePiiEntitiesResultArray
+  makeRecognizePiiEntitiesResultArray,
 } from "./recognizePiiEntitiesResultArray";
 import {
   RecognizeLinkedEntitiesResultArray,
-  makeRecognizeLinkedEntitiesResultArray
+  makeRecognizeLinkedEntitiesResultArray,
 } from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -58,7 +58,7 @@ import {
   setSentenceCount,
   setStrEncodingParam,
   setStrEncodingParamValue,
-  StringIndexType
+  StringIndexType,
 } from "./util";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
@@ -70,7 +70,7 @@ import {
   HealthLro,
   isHealthDone,
   processHealthResult,
-  updateHealthState
+  updateHealthState,
 } from "./healthLro";
 import { LroEngine } from "@azure/core-lro";
 import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
@@ -80,9 +80,8 @@ import {
   AnalyzeActionsPollerLike,
   AnalyzeLro,
   BeginAnalyzeActionsOptions,
-  isAnalyzeDone,
   processAnalyzeResult,
-  updateAnalyzeState
+  updateAnalyzeState,
 } from "./analyzeLro";
 import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
 
@@ -96,7 +95,7 @@ export {
   AnalysisPollOperationState,
   OperationMetadata,
   AnalyzeActionsOperationMetadata,
-  StringIndexType
+  StringIndexType,
 };
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
@@ -161,7 +160,7 @@ export enum PiiEntityDomain {
   /**
    * @see {@link https://aka.ms/tanerpii} for more information.
    */
-  PROTECTED_HEALTH_INFORMATION = "PHI"
+  PROTECTED_HEALTH_INFORMATION = "PHI",
 }
 
 /**
@@ -482,9 +481,9 @@ export class TextAnalyticsClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
-        }
-      }
+          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"],
+        },
+      },
     };
 
     this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
@@ -550,7 +549,7 @@ export class TextAnalyticsClient {
       // Replace "none" hints with ""
       realInputs = documents.map((input) => ({
         ...input,
-        countryHint: input.countryHint === "none" ? "" : input.countryHint
+        countryHint: input.countryHint === "none" ? "" : input.countryHint,
       }));
       realOptions = (countryHintOrOptions as DetectLanguageOptions) || {};
     }
@@ -563,7 +562,7 @@ export class TextAnalyticsClient {
     try {
       const result = await this.client.languages(
         {
-          documents: realInputs
+          documents: realInputs,
         },
         finalOptions
       );
@@ -572,7 +571,7 @@ export class TextAnalyticsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -648,7 +647,7 @@ export class TextAnalyticsClient {
     try {
       const result = await this.client.entitiesRecognitionGeneral(
         {
-          documents: realInputs
+          documents: realInputs,
         },
         finalOptions
       );
@@ -666,7 +665,7 @@ export class TextAnalyticsClient {
       const backwardCompatibleException = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: backwardCompatibleException.message
+        message: backwardCompatibleException.message,
       });
       throw backwardCompatibleException;
     } finally {
@@ -737,7 +736,7 @@ export class TextAnalyticsClient {
     try {
       const result = await this.client.sentiment(
         {
-          documents: realInputs
+          documents: realInputs,
         },
         finalOptions
       );
@@ -746,7 +745,7 @@ export class TextAnalyticsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -813,7 +812,7 @@ export class TextAnalyticsClient {
     try {
       const result = await this.client.keyPhrases(
         {
-          documents: realInputs
+          documents: realInputs,
         },
         finalOptions
       );
@@ -822,7 +821,7 @@ export class TextAnalyticsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -889,7 +888,7 @@ export class TextAnalyticsClient {
     try {
       const result = await this.client.entitiesRecognitionPii(
         {
-          documents: realInputs
+          documents: realInputs,
         },
         finalOptions
       );
@@ -898,7 +897,7 @@ export class TextAnalyticsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -967,7 +966,7 @@ export class TextAnalyticsClient {
     try {
       const result = await this.client.entitiesLinking(
         {
-          documents: realInputs
+          documents: realInputs,
         },
         finalOptions
       );
@@ -976,7 +975,7 @@ export class TextAnalyticsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1038,7 +1037,7 @@ export class TextAnalyticsClient {
       abortSignal,
       stringIndexType,
       includeStatistics,
-      tracingOptions
+      tracingOptions,
     } = realOptions;
     const lro = new HealthLro(
       this.client,
@@ -1047,7 +1046,7 @@ export class TextAnalyticsClient {
         requestOptions,
         serializerOptions,
         abortSignal,
-        tracingOptions
+        tracingOptions,
       },
       { loggingOptOut: disableServiceLogs, stringIndexType, modelVersion },
       { includeStatistics },
@@ -1066,10 +1065,10 @@ export class TextAnalyticsClient {
         serializerOptions,
         abortSignal,
         tracingOptions,
-        includeStatistics
+        includeStatistics,
       }),
       isDone: isHealthDone,
-      updateState: updateHealthState
+      updateState: updateHealthState,
     });
 
     await poller.poll();
@@ -1135,7 +1134,7 @@ export class TextAnalyticsClient {
       requestOptions,
       serializerOptions,
       abortSignal,
-      tracingOptions
+      tracingOptions,
     } = realOptions;
     const lro = new AnalyzeLro(
       this.client,
@@ -1144,7 +1143,7 @@ export class TextAnalyticsClient {
         requestOptions,
         serializerOptions,
         abortSignal,
-        tracingOptions
+        tracingOptions,
       },
       { displayName },
       { includeStatistics },
@@ -1161,10 +1160,9 @@ export class TextAnalyticsClient {
         serializerOptions,
         abortSignal,
         tracingOptions,
-        includeStatistics
+        includeStatistics,
       }),
-      isDone: isAnalyzeDone,
-      updateState: updateAnalyzeState
+      updateState: updateAnalyzeState,
     });
 
     await poller.poll();
@@ -1197,7 +1195,7 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
       compose(setStrEncodingParam, addParamsToTask)
     ),
     customSingleClassificationTasks: actions.singleCategoryClassifyActions?.map(addParamsToTask),
-    customMultiClassificationTasks: actions.multiCategoryClassifyActions?.map(addParamsToTask)
+    customMultiClassificationTasks: actions.multiCategoryClassifyActions?.map(addParamsToTask),
   };
 }
 
@@ -1215,30 +1213,26 @@ function convertToDetectLanguageInput(
   if (countryHint === "none") {
     countryHint = "";
   }
-  return inputs.map(
-    (text: string, index): DetectLanguageInput => {
-      return {
-        id: String(index),
-        countryHint,
-        text
-      };
-    }
-  );
+  return inputs.map((text: string, index): DetectLanguageInput => {
+    return {
+      id: String(index),
+      countryHint,
+      text,
+    };
+  });
 }
 
 /**
  * @internal
  */
 function convertToTextDocumentInput(inputs: string[], language: string): TextDocumentInput[] {
-  return inputs.map(
-    (text: string, index): TextDocumentInput => {
-      return {
-        id: String(index),
-        language,
-        text
-      };
-    }
-  );
+  return inputs.map((text: string, index): TextDocumentInput => {
+    return {
+      id: String(index),
+      language,
+      text,
+    };
+  });
 }
 
 /**
@@ -1259,7 +1253,7 @@ function makeGeneratedAnalyzeSentimentOptions(
     tracingOptions: params.tracingOptions,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.disableServiceLogs
+    loggingOptOut: params.disableServiceLogs,
   };
 }
 
@@ -1282,7 +1276,7 @@ function makeGeneratedRecognizePiiEntitiesOptions(
     piiCategories: params.categoriesFilter,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.disableServiceLogs
+    loggingOptOut: params.disableServiceLogs,
   };
 }
 
@@ -1303,7 +1297,7 @@ function makeGeneratedRecognizeCategorizedEntitiesOptions(
     tracingOptions: params.tracingOptions,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.disableServiceLogs
+    loggingOptOut: params.disableServiceLogs,
   };
 }
 
@@ -1323,7 +1317,7 @@ function makeGeneratedDetectLanguageOptions(
     tracingOptions: params.tracingOptions,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.disableServiceLogs
+    loggingOptOut: params.disableServiceLogs,
   };
 }
 
@@ -1343,7 +1337,7 @@ function makeGeneratedExtractKeyPhrasesOptions(
     tracingOptions: params.tracingOptions,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.disableServiceLogs
+    loggingOptOut: params.disableServiceLogs,
   };
 }
 
@@ -1364,6 +1358,6 @@ function makeGeneratedRecognizeLinkingEntitiesOptions(
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
     loggingOptOut: params.disableServiceLogs,
-    stringIndexType: setStrEncodingParamValue(params.stringIndexType)
+    stringIndexType: setStrEncodingParamValue(params.stringIndexType),
   };
 }

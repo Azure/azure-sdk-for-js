@@ -35,7 +35,7 @@ export class GeneratedSchemaRegistryClientContext extends coreClient.ServiceClie
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-schema-registry/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-schema-registry/1.0.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -54,6 +54,6 @@ export class GeneratedSchemaRegistryClientContext extends coreClient.ServiceClie
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-09-01-preview";
+    this.apiVersion = options.apiVersion || "2021-10";
   }
 }

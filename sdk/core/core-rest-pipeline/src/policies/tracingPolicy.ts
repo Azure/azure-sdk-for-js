@@ -2,23 +2,22 @@
 // Licensed under the MIT license.
 
 import {
-  getTraceParentHeader,
-  createSpanFunction,
-  SpanStatusCode,
-  isSpanContextValid,
   Span,
-  SpanOptions
+  SpanOptions,
+  SpanStatusCode,
+  createSpanFunction,
+  getTraceParentHeader,
+  isSpanContextValid,
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",
-  namespace: ""
+  namespace: "",
 });
 
 /**
@@ -68,7 +67,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         tryProcessError(span, err);
         throw err;
       }
-    }
+    },
   };
 }
 
@@ -76,16 +75,14 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
   try {
     const createSpanOptions: SpanOptions = {
       ...(request.tracingOptions as any)?.spanOptions,
-      kind: SpanKind.CLIENT
+      kind: SpanKind.CLIENT,
     };
-
-    const url = new URL(request.url);
-    const path = url.pathname || "/";
 
     // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
     // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
-    const { span } = createSpan(path, {
-      tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions }
+    // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
+    const { span } = createSpan(`HTTP ${request.method}`, {
+      tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions },
     });
 
     // If the span is not recording, don't do any more work.
@@ -105,7 +102,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
     span.setAttributes({
       "http.method": request.method,
       "http.url": request.url,
-      requestId: request.requestId
+      requestId: request.requestId,
     });
 
     if (userAgent) {
@@ -134,7 +131,7 @@ function tryProcessError(span: Span, err: any): void {
   try {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: err.message
+      message: err.message,
     });
     if (err.statusCode) {
       span.setAttribute("http.status_code", err.statusCode);
@@ -153,7 +150,7 @@ function tryProcessResponse(span: Span, response: PipelineResponse): void {
       span.setAttribute("serviceRequestId", serviceRequestId);
     }
     span.setStatus({
-      code: SpanStatusCode.OK
+      code: SpanStatusCode.OK,
     });
     span.end();
   } catch (error) {

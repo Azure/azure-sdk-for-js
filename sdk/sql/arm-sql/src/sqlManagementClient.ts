@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   RecoverableDatabasesImpl,
-  ServerConnectionPoliciesImpl,
   DataMaskingPoliciesImpl,
   DataMaskingRulesImpl,
   GeoBackupPoliciesImpl,
@@ -20,8 +20,6 @@ import {
   ServiceObjectivesImpl,
   ElasticPoolActivitiesImpl,
   ElasticPoolDatabaseActivitiesImpl,
-  TransparentDataEncryptionsImpl,
-  TransparentDataEncryptionActivitiesImpl,
   ServerUsagesImpl,
   ExtendedDatabaseBlobAuditingPoliciesImpl,
   ExtendedServerBlobAuditingPoliciesImpl,
@@ -55,8 +53,6 @@ import {
   JobTargetGroupsImpl,
   JobVersionsImpl,
   CapabilitiesImpl,
-  LongTermRetentionBackupsImpl,
-  LongTermRetentionManagedInstanceBackupsImpl,
   LongTermRetentionPoliciesImpl,
   MaintenanceWindowOptionsOperationsImpl,
   MaintenanceWindowsOperationsImpl,
@@ -83,7 +79,6 @@ import {
   ManagedInstanceOperationsImpl,
   ManagedInstancePrivateEndpointConnectionsImpl,
   ManagedInstancePrivateLinkResourcesImpl,
-  ManagedInstancesImpl,
   ManagedInstanceTdeCertificatesImpl,
   ManagedInstanceVulnerabilityAssessmentsImpl,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl,
@@ -118,20 +113,24 @@ import {
   VirtualNetworkRulesImpl,
   WorkloadClassifiersImpl,
   WorkloadGroupsImpl,
+  TransparentDataEncryptionsImpl,
   BackupShortTermRetentionPoliciesImpl,
   DatabaseExtensionsOperationsImpl,
   DatabaseOperationsImpl,
   DatabaseUsagesImpl,
   LedgerDigestUploadsOperationsImpl,
   OutboundFirewallRulesImpl,
+  ServersImpl,
+  UsagesImpl,
+  LongTermRetentionBackupsImpl,
+  LongTermRetentionManagedInstanceBackupsImpl,
+  ManagedInstancesImpl,
   RestorableDroppedDatabasesImpl,
   RestorableDroppedManagedDatabasesImpl,
-  ServersImpl,
-  UsagesImpl
+  ServerConnectionPoliciesImpl
 } from "./operations";
 import {
   RecoverableDatabases,
-  ServerConnectionPolicies,
   DataMaskingPolicies,
   DataMaskingRules,
   GeoBackupPolicies,
@@ -142,8 +141,6 @@ import {
   ServiceObjectives,
   ElasticPoolActivities,
   ElasticPoolDatabaseActivities,
-  TransparentDataEncryptions,
-  TransparentDataEncryptionActivities,
   ServerUsages,
   ExtendedDatabaseBlobAuditingPolicies,
   ExtendedServerBlobAuditingPolicies,
@@ -177,8 +174,6 @@ import {
   JobTargetGroups,
   JobVersions,
   Capabilities,
-  LongTermRetentionBackups,
-  LongTermRetentionManagedInstanceBackups,
   LongTermRetentionPolicies,
   MaintenanceWindowOptionsOperations,
   MaintenanceWindowsOperations,
@@ -205,7 +200,6 @@ import {
   ManagedInstanceOperations,
   ManagedInstancePrivateEndpointConnections,
   ManagedInstancePrivateLinkResources,
-  ManagedInstances,
   ManagedInstanceTdeCertificates,
   ManagedInstanceVulnerabilityAssessments,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies,
@@ -240,21 +234,28 @@ import {
   VirtualNetworkRules,
   WorkloadClassifiers,
   WorkloadGroups,
+  TransparentDataEncryptions,
   BackupShortTermRetentionPolicies,
   DatabaseExtensionsOperations,
   DatabaseOperations,
   DatabaseUsages,
   LedgerDigestUploadsOperations,
   OutboundFirewallRules,
+  Servers,
+  Usages,
+  LongTermRetentionBackups,
+  LongTermRetentionManagedInstanceBackups,
+  ManagedInstances,
   RestorableDroppedDatabases,
   RestorableDroppedManagedDatabases,
-  Servers,
-  Usages
+  ServerConnectionPolicies
 } from "./operationsInterfaces";
-import { SqlManagementClientContext } from "./sqlManagementClientContext";
 import { SqlManagementClientOptionalParams } from "./models";
 
-export class SqlManagementClient extends SqlManagementClientContext {
+export class SqlManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the SqlManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -266,9 +267,46 @@ export class SqlManagementClient extends SqlManagementClientContext {
     subscriptionId: string,
     options?: SqlManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: SqlManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-sql/9.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.recoverableDatabases = new RecoverableDatabasesImpl(this);
-    this.serverConnectionPolicies = new ServerConnectionPoliciesImpl(this);
     this.dataMaskingPolicies = new DataMaskingPoliciesImpl(this);
     this.dataMaskingRules = new DataMaskingRulesImpl(this);
     this.geoBackupPolicies = new GeoBackupPoliciesImpl(this);
@@ -279,10 +317,6 @@ export class SqlManagementClient extends SqlManagementClientContext {
     this.serviceObjectives = new ServiceObjectivesImpl(this);
     this.elasticPoolActivities = new ElasticPoolActivitiesImpl(this);
     this.elasticPoolDatabaseActivities = new ElasticPoolDatabaseActivitiesImpl(
-      this
-    );
-    this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
-    this.transparentDataEncryptionActivities = new TransparentDataEncryptionActivitiesImpl(
       this
     );
     this.serverUsages = new ServerUsagesImpl(this);
@@ -336,10 +370,6 @@ export class SqlManagementClient extends SqlManagementClientContext {
     this.jobTargetGroups = new JobTargetGroupsImpl(this);
     this.jobVersions = new JobVersionsImpl(this);
     this.capabilities = new CapabilitiesImpl(this);
-    this.longTermRetentionBackups = new LongTermRetentionBackupsImpl(this);
-    this.longTermRetentionManagedInstanceBackups = new LongTermRetentionManagedInstanceBackupsImpl(
-      this
-    );
     this.longTermRetentionPolicies = new LongTermRetentionPoliciesImpl(this);
     this.maintenanceWindowOptionsOperations = new MaintenanceWindowOptionsOperationsImpl(
       this
@@ -402,7 +432,6 @@ export class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstancePrivateLinkResources = new ManagedInstancePrivateLinkResourcesImpl(
       this
     );
-    this.managedInstances = new ManagedInstancesImpl(this);
     this.managedInstanceTdeCertificates = new ManagedInstanceTdeCertificatesImpl(
       this
     );
@@ -459,6 +488,7 @@ export class SqlManagementClient extends SqlManagementClientContext {
     this.virtualNetworkRules = new VirtualNetworkRulesImpl(this);
     this.workloadClassifiers = new WorkloadClassifiersImpl(this);
     this.workloadGroups = new WorkloadGroupsImpl(this);
+    this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
     this.backupShortTermRetentionPolicies = new BackupShortTermRetentionPoliciesImpl(
       this
     );
@@ -471,16 +501,21 @@ export class SqlManagementClient extends SqlManagementClientContext {
       this
     );
     this.outboundFirewallRules = new OutboundFirewallRulesImpl(this);
+    this.servers = new ServersImpl(this);
+    this.usages = new UsagesImpl(this);
+    this.longTermRetentionBackups = new LongTermRetentionBackupsImpl(this);
+    this.longTermRetentionManagedInstanceBackups = new LongTermRetentionManagedInstanceBackupsImpl(
+      this
+    );
+    this.managedInstances = new ManagedInstancesImpl(this);
     this.restorableDroppedDatabases = new RestorableDroppedDatabasesImpl(this);
     this.restorableDroppedManagedDatabases = new RestorableDroppedManagedDatabasesImpl(
       this
     );
-    this.servers = new ServersImpl(this);
-    this.usages = new UsagesImpl(this);
+    this.serverConnectionPolicies = new ServerConnectionPoliciesImpl(this);
   }
 
   recoverableDatabases: RecoverableDatabases;
-  serverConnectionPolicies: ServerConnectionPolicies;
   dataMaskingPolicies: DataMaskingPolicies;
   dataMaskingRules: DataMaskingRules;
   geoBackupPolicies: GeoBackupPolicies;
@@ -491,8 +526,6 @@ export class SqlManagementClient extends SqlManagementClientContext {
   serviceObjectives: ServiceObjectives;
   elasticPoolActivities: ElasticPoolActivities;
   elasticPoolDatabaseActivities: ElasticPoolDatabaseActivities;
-  transparentDataEncryptions: TransparentDataEncryptions;
-  transparentDataEncryptionActivities: TransparentDataEncryptionActivities;
   serverUsages: ServerUsages;
   extendedDatabaseBlobAuditingPolicies: ExtendedDatabaseBlobAuditingPolicies;
   extendedServerBlobAuditingPolicies: ExtendedServerBlobAuditingPolicies;
@@ -526,8 +559,6 @@ export class SqlManagementClient extends SqlManagementClientContext {
   jobTargetGroups: JobTargetGroups;
   jobVersions: JobVersions;
   capabilities: Capabilities;
-  longTermRetentionBackups: LongTermRetentionBackups;
-  longTermRetentionManagedInstanceBackups: LongTermRetentionManagedInstanceBackups;
   longTermRetentionPolicies: LongTermRetentionPolicies;
   maintenanceWindowOptionsOperations: MaintenanceWindowOptionsOperations;
   maintenanceWindowsOperations: MaintenanceWindowsOperations;
@@ -554,7 +585,6 @@ export class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceOperations: ManagedInstanceOperations;
   managedInstancePrivateEndpointConnections: ManagedInstancePrivateEndpointConnections;
   managedInstancePrivateLinkResources: ManagedInstancePrivateLinkResources;
-  managedInstances: ManagedInstances;
   managedInstanceTdeCertificates: ManagedInstanceTdeCertificates;
   managedInstanceVulnerabilityAssessments: ManagedInstanceVulnerabilityAssessments;
   managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies;
@@ -589,14 +619,19 @@ export class SqlManagementClient extends SqlManagementClientContext {
   virtualNetworkRules: VirtualNetworkRules;
   workloadClassifiers: WorkloadClassifiers;
   workloadGroups: WorkloadGroups;
+  transparentDataEncryptions: TransparentDataEncryptions;
   backupShortTermRetentionPolicies: BackupShortTermRetentionPolicies;
   databaseExtensionsOperations: DatabaseExtensionsOperations;
   databaseOperations: DatabaseOperations;
   databaseUsages: DatabaseUsages;
   ledgerDigestUploadsOperations: LedgerDigestUploadsOperations;
   outboundFirewallRules: OutboundFirewallRules;
-  restorableDroppedDatabases: RestorableDroppedDatabases;
-  restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
   servers: Servers;
   usages: Usages;
+  longTermRetentionBackups: LongTermRetentionBackups;
+  longTermRetentionManagedInstanceBackups: LongTermRetentionManagedInstanceBackups;
+  managedInstances: ManagedInstances;
+  restorableDroppedDatabases: RestorableDroppedDatabases;
+  restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
+  serverConnectionPolicies: ServerConnectionPolicies;
 }

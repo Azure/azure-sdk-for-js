@@ -13,9 +13,17 @@ import * as coreHttp from "@azure/core-http";
  */
 export interface CommunicationRelayConfigurationRequest {
   /**
-   * An existing ACS identity.
+   * An identity to be associated with telemetry for data relayed using the returned credentials. Must be an existing ACS user identity. If not provided, the telemetry will not contain an associated identity value.
    */
   id?: string;
+  /**
+   * Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers.
+   */
+  routeType?: RouteType;
+  /**
+   * The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it.
+   */
+  ttl?: number;
 }
 
 /**
@@ -23,7 +31,7 @@ export interface CommunicationRelayConfigurationRequest {
  */
 export interface CommunicationRelayConfiguration {
   /**
-   * The date for which the username and credentials are not longer valid.
+   * The date for which the username and credentials are not longer valid. Will be 48 hours from request time.
    */
   expiresOn: Date;
   /**
@@ -48,6 +56,10 @@ export interface CommunicationIceServer {
    * Credential for the server.
    */
   credential: string;
+  /**
+   * The routing methodology to where the ICE server will be located from the client. "any" will have higher reliability while "nearest" will have lower latency. It is recommended to default to use the "any" routing method unless there are specific scenarios which minimizing latency is critical.
+   */
+  routeType: RouteType;
 }
 
 /**
@@ -87,12 +99,17 @@ export interface CommunicationError {
 }
 
 /**
+ * Defines values for RouteType.
+ */
+export type RouteType = "any" | "nearest";
+
+/**
  * Optional parameters.
  */
 export interface CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Request for a CommunicationRelayConfiguration.
+   * Optional request for providing the id and/or route type for the returned relay configuration.
    */
   body?: CommunicationRelayConfigurationRequest;
 }

@@ -4,32 +4,50 @@ jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
   - job: UpdateDocsMsBuildConfig
+    timeoutInMinutes: 90
     pool:
       vmImage: ubuntu-20.04
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs
       DocRepoOwner: MicrosoftDocs
       DocRepoName: azure-docs-sdk-node
+      DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
     steps:
       # Sync docs repo (this can be sparse)
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
         parameters:
           SkipDefaultCheckout: true
           Paths:
-            - ci-configs/packages-latest.json
-            - ci-configs/packages-preview.json
+            - ci-configs/
             - metadata/
+            - docs-ref-mapping/
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
+      # Pull and build the docker image.
+      - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
+        parameters:
+          ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
+          ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
+          ImageId: "$(DocValidationImageId)"
 
       # Call update docs ci script to onboard packages
       - task: Powershell@2
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
+          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(DocValidationImageId)'
         displayName: Update Docs Onboarding
+        condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC
 
       # Push changes to docs repo
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
@@ -62,6 +80,16 @@ jobs:
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
           arguments: -DocRepoLocation $(DocRepoLocation)
         displayName: Update Docs Onboarding for Daily branch
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC for Daily branch
+
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
           BaseRepoBranch: $(DailyDocsBranchName)

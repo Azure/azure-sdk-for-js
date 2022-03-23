@@ -1,0 +1,31 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/shortCodes",
+   "query": {
+    "skip": "0",
+    "top": "100",
+    "api-version": "2021-10-25-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"shortCodes\":[]}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-10-25-preview",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 18 Jan 2022 17:53:57 GMT",
+    "ms-cv": "EjDEFD3JHE2Rx7ZGkfZiog.0",
+    "request-context": "appId=",
+    "x-azure-ref": "0tf7mYQAAAAA2Fv38mIaKRrmfz3CjSrFyTUlBMzAxMDAwMTA5MDQ5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "1554ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "30959777d88128e9d0c848e21982cfb8"
+}

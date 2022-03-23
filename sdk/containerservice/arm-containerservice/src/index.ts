@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { ContainerServiceClient } from "./containerServiceClient";
-export { ContainerServiceClientContext } from "./containerServiceClientContext";
 export * from "./operationsInterfaces";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 
 export class TestTokenCredential implements TokenCredential {
   public token: string;
@@ -18,7 +18,7 @@ export class TestTokenCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     return {
       token: this.token,
-      expiresOnTimestamp: this.expiresOn
+      expiresOnTimestamp: this.expiresOn,
     };
   }
 }

@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
-  KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientRestoreStatusResponse,
-  RestoreOperation
+  FullRestoreOperationOptionalParams,
+  FullRestoreOperationResponse,
+  RestoreOperation,
+  RestoreStatusResponse,
 } from "../../generated/models";
-import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 } from "../keyVaultAdminPoller";
 import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
-import { createTraceFunction } from "../../tracingHelpers";
+
+import { AbortSignalLike } from "@azure/abort-controller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-client";
+import { createTraceFunction } from "../../tracingHelpers";
 
 /**
  * @internal
@@ -62,7 +63,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     private requestOptions: KeyVaultBeginRestoreOptions = {}
   ) {
     super(state, {
-      cancelMessage: "Cancelling the restoration full Key Vault backup is not supported."
+      cancelMessage: "Cancelling the restoration full Key Vault backup is not supported.",
     });
   }
 
@@ -70,8 +71,8 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
    * Tracing the fullRestore operation
    */
   private fullRestore(
-    options: KeyVaultClientFullRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientFullRestoreOperationResponse> {
+    options: FullRestoreOperationOptionalParams
+  ): Promise<FullRestoreOperationResponse> {
     return withTrace("fullRestore", options, (updatedOptions) =>
       this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
     );
@@ -83,7 +84,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
   private async restoreStatus(
     jobId: string,
     options: OperationOptions
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
+  ): Promise<RestoreStatusResponse> {
     return withTrace("restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
@@ -112,9 +113,9 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
           folderToRestore: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
-            token: sasToken
-          }
-        }
+            token: sasToken,
+          },
+        },
       });
 
       this.mapState(serviceOperation);
@@ -155,7 +156,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     if (state.isCompleted) {
       state.result = {
         startTime,
-        endTime
+        endTime,
       };
     }
   }

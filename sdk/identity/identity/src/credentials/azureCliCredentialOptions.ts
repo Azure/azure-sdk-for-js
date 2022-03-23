@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 /**
  * Options for the {@link AzureCliCredential}

@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/authorization/ci.mgmt.yml
+      - sdk/authorization/arm-authorization/
+      - sdk/authorization/arm-authorization-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/authorization/ci.mgmt.yml
+      - sdk/authorization/arm-authorization/
+      - sdk/authorization/arm-authorization-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: authorization
+    Artifacts:
+      - name: azure-arm-authorization
+        safeName: azurearmauthorization
+      - name: azure-arm-authorization-profile-2020-09-01-hybrid
+        safeName: azurearmauthorizationprofile20200901hybrid

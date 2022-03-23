@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.7.1";
-export const SERVICE_VERSION: string = "2020-10-02";
+export const SDK_VERSION: string = "12.8.1";
+export const SERVICE_VERSION: string = "2021-04-10";
 
 /**
  * The OAuth scope to use with Azure Storage.
@@ -13,15 +13,15 @@ export const URLConstants = {
   Parameters: {
     FORCE_BROWSER_NO_CACHE: "_",
     SIGNATURE: "sig",
-    TIMEOUT: "timeout"
-  }
+    TIMEOUT: "timeout",
+  },
 };
 
 export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
-  HTTP_RANGE_NOT_SATISFIABLE: 416
+  HTTP_RANGE_NOT_SATISFIABLE: 416,
 };
 
 export const HeaderConstants = {
@@ -43,7 +43,7 @@ export const HeaderConstants = {
   USER_AGENT: "User-Agent",
   X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
   X_MS_COPY_SOURCE: "x-ms-copy-source",
-  X_MS_DATE: "x-ms-date"
+  X_MS_DATE: "x-ms-date",
 };
 
 export const ETagNone = "";
@@ -71,7 +71,7 @@ export const StorageQueueLoggingAllowedHeaderNames = [
   "x-ms-version",
   "x-ms-approximate-messages-count",
   "x-ms-popreceipt",
-  "x-ms-time-next-visible"
+  "x-ms-time-next-visible",
 ];
 
 export const StorageQueueLoggingAllowedQueryParameters = [
@@ -99,5 +99,5 @@ export const StorageQueueLoggingAllowedQueryParameters = [
   "numofmessages",
   "peekonly",
   "popreceipt",
-  "visibilitytimeout"
+  "visibilitytimeout",
 ];

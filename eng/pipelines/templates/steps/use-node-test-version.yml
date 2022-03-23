@@ -23,7 +23,9 @@ steps:
         }
         # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
-        $targetPath = (Get-Item $symlink).Target
+        $symlinkInfo = Get-Item $symlink
+        $targetPath = [IO.Path]::Combine($symlinkInfo.Parent, $symlinkInfo.Target)
+        Write-Host "Target of symlink : $($targetPath)"
 
         # Need to run "npm install" at path containing "node_modules" folder
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
@@ -42,7 +44,6 @@ steps:
         # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
         # change it back
         $packageAtVersion = $packageAtVersion.Replace("+", "/")
-
         # Check if package has org name. for e.g @azure/msal-node-enxtensions
         # This returns either @azure or .pnpm( if no org is present)
         $packageParentName = Split-path -Leaf (Split-Path -Parent -Resolve $packageInstallPath)

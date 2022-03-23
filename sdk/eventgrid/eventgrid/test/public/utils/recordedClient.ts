@@ -1,68 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import * as dotenv from "dotenv";
+import { Test } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "./testUtils";
+import {
+  assertEnvironmentVariable,
+  Recorder,
+  RecorderStartOptions,
+} from "@azure-tools/test-recorder";
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
-import { KeyCredential } from "@azure/core-auth";
-
-if (isNode) {
-  dotenv.config();
-}
+import { AzureKeyCredential } from "@azure/core-auth";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
   recorder: Recorder;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT: "https://endpoint/api/events",
   EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT: "https://endpoint/api/events",
   EVENT_GRID_CUSTOM_SCHEMA_API_KEY: "api_key",
-  EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events"
+  EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events",
 };
 
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
-
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"aeg-sas-key"\s?:\s?"[^"]*"/g, `"aeg-sas-key":"aeg-sas-key"`),
-    (recording: string): string =>
-      recording.replace(/"aeg-sas-token"\s?:\s?"[^"]*"/g, `"aeg-sas-token":"aeg-sas-token"`),
-    // If we put EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT (or similar) in replaceableVariables above,
-    // it will not capture the endpoint string used with nock, which will be expanded to
-    // https://<endpoint>:443/ and therefore will not match, so we have to do
-    // this instead.
-    (recording: string): string => {
-      const replaced = recording.replace("endpoint:443", "endpoint");
-      return replaced;
-    }
-  ],
-  queryParametersToSkip: []
+export const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
 };
 
-export function createRecordedClient<T extends InputSchema>(
-  context: Context,
-  endpoint: string,
+export async function createRecordedClient<T extends InputSchema>(
+  currentTest: Test | undefined,
+  endpointEnv: string,
   eventSchema: T,
-  credential: KeyCredential
-): RecordedClient<T> {
-  const recorder = record(context, environmentSetup);
-
+  apiKeyEnv: string,
+  removeApiEventsSuffixBool: boolean = false
+): Promise<RecordedClient<T>> {
+  const recorder = new Recorder(currentTest);
+  await recorder.start(recorderOptions);
   return {
-    client: new EventGridPublisherClient(endpoint, eventSchema, credential),
-    recorder
+    client: new EventGridPublisherClient(
+      removeApiEventsSuffixBool
+        ? removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv))
+        : assertEnvironmentVariable(endpointEnv),
+      eventSchema,
+      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      recorder.configureClientOptions({})
+    ),
+    recorder,
   };
+}
+
+function removeApiEventsSuffix(endpoint: string): string {
+  const suffix = "/api/events";
+
+  if (!endpoint.endsWith(suffix)) {
+    throw new Error(`${endpoint} does not end with ${suffix}`);
+  }
+
+  return endpoint.substring(0, endpoint.length - suffix.length);
 }

@@ -4,8 +4,9 @@
 import { assert } from "chai";
 
 import { FileInfo } from "../../src/util/findMatchingFiles";
-import { shouldSkip } from "../../src/util/sampleConfiguration";
+import { shouldSkip } from "../../src/util/samples/configuration";
 
+import { Stats } from "fs";
 import path from "path";
 
 /**
@@ -17,7 +18,7 @@ export async function toFileInfo(fullPath: string): Promise<FileInfo> {
     fullPath,
     dir: path.dirname(fullPath),
     name: path.basename(fullPath),
-    stat: {} as any
+    stat: {} as Stats,
   };
 }
 
@@ -46,7 +47,7 @@ describe("Matching logic for sample skip lists", () => {
     "simple/proxy.js": false,
     "simple/proxy.ts": false,
     "simple/auth.js": false,
-    "simple/auth.ts": false
+    "simple/auth.ts": false,
   };
 
   for (const [name, expectation] of Object.entries(expectations)) {

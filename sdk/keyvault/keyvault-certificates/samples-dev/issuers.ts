@@ -5,11 +5,12 @@
  * @summary Creates, updates and deletes certificate issuers.
  */
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -24,7 +25,7 @@ export async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `issuer-${uniqueString}`;
   const issuerName = `issuer${uniqueString}`;
 
   // Create
@@ -35,15 +36,15 @@ export async function main(): Promise<void> {
         firstName: "John",
         lastName: "Doe",
         email: "admin@microsoft2.com",
-        phone: "4255555555"
-      }
-    ]
+        phone: "4255555555",
+      },
+    ],
   });
 
   // We can create a certificate with that issuer's name.
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);

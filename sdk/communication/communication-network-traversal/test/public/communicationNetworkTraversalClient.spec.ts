@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { assert } from "chai";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { CommunicationRelayClient } from "../../src";
-import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {
   createRecordedCommunicationRelayClient,
-  createRecordedCommunicationRelayClientWithToken
+  createRecordedCommunicationRelayClientWithToken,
 } from "./utils/recordedClient";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { assert } from "chai";
+import { env, Recorder } from "@azure-tools/test-recorder";
+import { CommunicationRelayClient } from "../../src";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
+import { GetRelayConfigurationOptions } from "../../src/models";
 
-matrix([[true, false]], async function(useAad) {
-  describe(`CommunicationNetworkingClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {
+matrix([[true, false]], async function (useAad) {
+  describe(`CommunicationNetworkingClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationRelayClient;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       if (useAad) {
         ({ client, recorder } = createRecordedCommunicationRelayClientWithToken(this));
       } else {
@@ -26,35 +27,40 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("successfully gets a turn credential providing a user identity", async function() {
+    it("successfully gets a turn credential with user identity", async function () {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
+      const options: GetRelayConfigurationOptions = { id: user.communicationUserId };
 
-      const turnCredentialResponse = await client.getRelayConfiguration(user);
+      const turnCredentialResponse = await client.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
       assert.isNotNull(turnTokenExpiresOn);
 
       const turnServers = turnCredentialResponse.iceServers;
+      // Should return both ANY and NEAREST routeType iceServers
+      assert.equal(turnServers.length, 2);
 
       for (const iceServer of turnServers) {
         for (const url of iceServer.urls) {
           assert.isNotNull(url);
         }
+
         assert.isNotNull(iceServer.username);
         assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
       }
     }).timeout(5000);
 
-    it("successfully gets a turn credential without providing a user identity", async function() {
+    it("successfully gets a turn credential without providing a user identity", async function () {
       const turnCredentialResponse = await client.getRelayConfiguration();
       assert.isNotNull(turnCredentialResponse);
 
@@ -62,6 +68,7 @@ matrix([[true, false]], async function(useAad) {
       assert.isNotNull(turnTokenExpiresOn);
 
       const turnServers = turnCredentialResponse.iceServers;
+      assert.equal(turnServers.length, 2);
 
       for (const iceServer of turnServers) {
         for (const url of iceServer.urls) {
@@ -69,6 +76,112 @@ matrix([[true, false]], async function(useAad) {
         }
         assert.isNotNull(iceServer.username);
         assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+      }
+    }).timeout(5000);
+
+    it("successfully gets a turn credential providing roteType nearest", async function () {
+      const options: GetRelayConfigurationOptions = { routeType: "nearest" };
+      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+      assert.equal(turnServers.length, 1);
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+        assert.equal(iceServer.routeType, "nearest");
+      }
+    }).timeout(5000);
+
+    it("successfully gets a turn credential providing roteType any", async function () {
+      const options: GetRelayConfigurationOptions = { routeType: "any" };
+      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+      assert.equal(turnServers.length, 1);
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+        assert.equal(iceServer.routeType, "any");
+      }
+    }).timeout(5000);
+
+    it("successfully gets a turn credential providing ttl", async function () {
+      const ttl = 4000;
+      const options: GetRelayConfigurationOptions = { ttl: ttl };
+
+      const requestedTime = new Date();
+      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+
+      // Token should expire a few milliseconds earlier
+      const expectedExpirationTime = requestedTime;
+      expectedExpirationTime.setSeconds(expectedExpirationTime.getSeconds() + ttl);
+
+      assert.isNotNull(turnCredentialResponse);
+      assert.isNotNull(turnTokenExpiresOn);
+      assert.isTrue(expectedExpirationTime <= turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+      // Should return both ANY and NEAREST routeType iceServers
+      assert.equal(turnServers.length, 2);
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+      }
+    }).timeout(5000);
+
+    it("successfully gets a turn credential with all options", async function () {
+      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
+      const identityClient = new CommunicationIdentityClient(connectionString);
+      const user: CommunicationUserIdentifier = await identityClient.createUser();
+      const options: GetRelayConfigurationOptions = {
+        id: user.communicationUserId,
+        routeType: "nearest",
+        ttl: 4000,
+      };
+
+      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+      assert.equal(turnServers.length, 1);
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+        assert.equal(iceServer.routeType, "nearest");
       }
     }).timeout(5000);
   });

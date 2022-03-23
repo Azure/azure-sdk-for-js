@@ -2,6 +2,38 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2022-02-04
+
+- [#19920](https://github.com/Azure/azure-sdk-for-js/pull/19920) Added support for adding polices as part of the client options with the new "additionalPolicies" array.
+  By leveraging this new option, `configureClientOptions` method is added to the `PerfTest`.
+
+  [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
+
+  - With the support from the new `PerfTest#configureClientOptions` method, we no longer need the `PerfTest#configureClient` that used to access the private "pipeline" object internal to the client to add/modify the policies. 
+  - [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175) removes the `PerfTest#configureClient` along with the new addition.
+
+### 2021-11-24
+
+- Adds `PerfTestBase` and `BatchPerfTest`.
+  - `PerfTestBase` is an abstract class with the skeleton needed to build other classes representing performance tests.
+  - `BatchPerfTest` (which extends `PerfTestBase`) enables writing performance tests where the number of operations are dynamic.
+  - `PerfTest` now extends `BatchPerfTest`. A single call in the "run" method for the method being tested counts as one operation. `PerfTest` related updates are not breaking, so existing performance tests will continue to work without changes.
+- A new template type `ParsedPerfOptions<TOptions = Record<string, unknown>>` is added to the parsed options. This type doesn't require adding or bypassing the `value` check.
+
+  - Example - `this.parsedOptions.optionName.value!` -> `this.parsedOptions.optionName.value` in the perf tests.
+
+  [#18811](https://github.com/Azure/azure-sdk-for-js/pull/18811)
+
+### 2021-11-18
+
+- Respect the `longName` option when provided in the options object
+  [#18693](https://github.com/Azure/azure-sdk-for-js/pull/18693)
+
+### 2021-11-15
+
+- Throw an error when an unrecognized command-line argument is encountered
+  [#18708](https://github.com/Azure/azure-sdk-for-js/pull/18708)
+
 ### 2021-10-29
 
 - Add an elapsed time column to the snapshot log output.
@@ -11,6 +43,7 @@
 
 - Log dependencies (`@azure` packages only) on perf test start. Extended output of transitive dependencies can be enabled using the new `--list-transitive-dependencies` flag.
   [#18366](https://github.com/Azure/azure-sdk-for-js/pull/18366)
+
 ### 2021-10-20
 
 - Clean up some naming: `PerfStress` to `Perf` everywhere; also rename the `runAsync` method to `run`.

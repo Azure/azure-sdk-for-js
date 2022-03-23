@@ -2,19 +2,17 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { PerfTest, PerfTestConstructor } from "./tests";
+import { PerfTest } from "./perfTest";
 import {
-  PerfOptionDictionary,
   parsePerfOption,
   defaultPerfOptions,
-  DefaultPerfOptions
+  DefaultPerfOptions,
+  ParsedPerfOptions,
 } from "./options";
 import { PerfParallel } from "./parallel";
-import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
 import { exec } from "child_process";
 import { formatDuration } from "./utils";
-
-export type TestType = "";
+import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 
 /**
  * PerfProgram
@@ -24,7 +22,7 @@ export type TestType = "";
  * Use it like:
  *
  * ```ts
- * export class Delay500ms extends PerfTest<string> {
+ * export class Delay500ms extends PerfTest {
  *   public options = {};
  *   async run(): Promise<void> {
  *     await delay(500);
@@ -38,9 +36,9 @@ export type TestType = "";
  */
 export class PerfProgram {
   private testName: string;
-  private parsedDefaultOptions: Required<PerfOptionDictionary<DefaultPerfOptions>>;
+  private parsedDefaultOptions: Required<ParsedPerfOptions<DefaultPerfOptions>>;
   private parallelNumber: number;
-  private tests: PerfTest[];
+  private tests: PerfTestBase[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -105,99 +103,54 @@ export class PerfProgram {
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
       `Completed ${totalOperations.toLocaleString(undefined, {
-        maximumFractionDigits: 0
+        maximumFractionDigits: 0,
       })} ` +
         `operations in a weighted-average of ` +
         `${weightedAverage.toLocaleString(undefined, {
           maximumFractionDigits: 2,
-          minimumFractionDigits: 2
+          minimumFractionDigits: 2,
         })}s ` +
         `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
+          maximumFractionDigits: 2,
         })} ops/s, ` +
         `${secondsPerOperation.toLocaleString(undefined, {
           maximumFractionDigits: 3,
-          minimumFractionDigits: 3
+          minimumFractionDigits: 3,
         })} s/op)`
     );
   }
 
-  /**
-   * Runs the test in scope repeatedly, without waiting for any promises to finish,
-   * as many times as possible until durationMilliseconds is reached.
-   * For each test run, it will report one more completedOperations on the PerfParallel given,
-   * as well as the lastMillisecondsElapsed that reports the last test execution's elapsed time in comparison
-   * to the beginning of the execution of runLoop.
-   *
-   * @param parallel Object where to log the results from each execution.
-   * @param durationMilliseconds When to abort any execution.
-   * @param abortController Allows us to send through a signal determining when to abort any execution.
-   */
-  private async runLoopAsync(
-    test: PerfTest,
-    parallel: PerfParallel,
-    durationMilliseconds: number,
-    abortController: AbortController
-  ): Promise<void> {
-    if (!test.run) {
-      throw new Error(`The "run" method is missing in the test ${this.testName}`);
-    }
-    const start = process.hrtime();
-    while (!abortController.signal.aborted) {
-      await test.run(abortController.signal);
-
-      const elapsed = process.hrtime(start);
-      const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
-
-      parallel.completedOperations += 1;
-      parallel.lastMillisecondsElapsed = elapsedMilliseconds;
-
-      // In runTest we create a setTimeout that is intended to abort the abortSignal
-      // once the durationMilliseconds have elapsed. That setTimeout might not get queued
-      // on time through the event loop, depending on the number of operations we might be executing.
-      // For this reason, we're also manually checking the elapsed time here.
-      if (abortController.signal.aborted || elapsedMilliseconds > durationMilliseconds) {
-        abortController.abort();
-        break;
-      }
-    }
-  }
-
   // Triggers runLoop as many times as parallels have been passed in through the options.
   // Stops all test executions once the durationSeconds has been reached.
-  private async runTest(
+  private async runTests(
     iterationIndex: number,
     durationSeconds: number,
     title: string
   ): Promise<void> {
-    const parallels: PerfParallel[] = new Array<PerfParallel>(this.parallelNumber);
-    const parallelTestResults: Array<Promise<void>> = new Array<Promise<void>>(this.parallelNumber);
-
     const abortController = new AbortController();
     const durationMilliseconds = durationSeconds * 1000;
 
     // Even though we've set a setTimeout here, the eventLoop might get too busy to load it on time.
-    // For this reason, we also check if the time has passed inside of runLoop.
-    setTimeout(() => abortController.abort(), durationMilliseconds);
-
-    const parallel = Number(this.parsedDefaultOptions.parallel.value);
+    // For this reason, we also check if the time has passed inside of runAll.
+    const durationTimeout = setTimeout(() => abortController.abort(), durationMilliseconds);
 
     // This is how we customize how frequently we log how many completed operations have been executed.
-    // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
+    // We don't enforce this inside of runAll, so it might never be executed, depending on the number
     // of operations running.
-    const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
+    const millisecondsToLog = this.parsedDefaultOptions["milliseconds-to-log"].value;
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
+        millisecondsToLog / 1000
+      }s ===`
     );
     console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
     const startMillis = new Date().getTime();
 
     const logInterval = setInterval(() => {
-      const totalCompleted = this.getCompletedOperations(parallels);
+      const totalCompleted = this.getCompletedOperations(this.tests);
       const currentCompleted = totalCompleted - lastCompleted;
-      const averageCompleted = this.getOperationsPerSecond(parallels);
+      const averageCompleted = this.getOperationsPerSecond(this.tests);
       const elapsedTime = formatDuration(new Date().getTime() - startMillis);
 
       lastCompleted = totalCompleted;
@@ -207,8 +160,6 @@ export class PerfProgram {
         )}`
       );
     }, millisecondsToLog);
-
-    const runLoop = this.runLoopAsync;
 
     // Unhandled exceptions should stop the whole Perf process.
     process.on("unhandledRejection", (error) => {
@@ -221,31 +172,20 @@ export class PerfProgram {
     // To do so, we call to runLoop as many times as the parallels options specifies without waiting for its promise to be resolved,
     // then in another loop, we wait for each one of these promises to finish.
     // This should allow for the event loop to decide when to process each test call.
-    for (let i = 0; i < parallel; i++) {
-      const parallel: PerfParallel = {
-        completedOperations: 0,
-        lastMillisecondsElapsed: 0
-      };
-      parallels[i] = parallel;
-      const test = this.tests[i];
-      parallelTestResults[i] = runLoop.bind(this)(
-        test,
-        parallel,
-        durationMilliseconds,
-        abortController
-      );
-    }
-
-    for (const promise of parallelTestResults) {
-      await promise;
-    }
+    await Promise.all(
+      this.tests.map((test) => {
+        return test.runAll(durationMilliseconds, abortController);
+      })
+    );
 
     // Once we finish, we clear the log interval.
     clearInterval(logInterval);
+    // If the runAll ended before the duration, we need to clear the timeout
+    clearTimeout(durationTimeout);
 
     // Finally, we show the results.
     console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
-    this.logResults(parallels);
+    this.logResults(this.tests);
   }
 
   private async logPackageVersions(listTransitiveDeps: boolean): Promise<void> {
@@ -302,40 +242,35 @@ export class PerfProgram {
       );
       await this.tests[0].globalSetup();
     }
+
     if (this.tests[0].setup) {
       console.log(
         `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
       );
       for (const test of this.tests) {
-        await test.setup!();
+        await test.setup?.();
       }
     }
 
-    if (this.tests[0].parsedOptions["test-proxies"].value) {
-      // Records requests(in the run method) for all the instantiated PerfTest classes,
-      // and asks the proxy-tool to start playing back for future requests.
-      await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
-    }
+    await Promise.all(this.tests.map((test) => test.postSetup?.()));
 
     if (Number(options.warmup.value) > 0) {
-      await this.runTest(0, Number(options.warmup.value), "warmup");
+      await this.runTests(0, Number(options.warmup.value), "warmup");
     }
 
     const iterations = Number(options.iterations.value);
     for (let i = 0; i < iterations; i++) {
-      await this.runTest(i, Number(options.duration.value), "test");
+      await this.runTests(i, Number(options.duration.value), "test");
     }
 
-    if (this.tests[0].parsedOptions["test-proxies"].value) {
-      await Promise.all(this.tests.map((test) => this.stopPlayback(test)));
-    }
+    await Promise.all(this.tests.map((test) => test.preCleanup?.()));
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
       console.log(
         `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
       );
       for (const test of this.tests) {
-        await test.cleanup!();
+        await test.cleanup?.();
       }
     }
 
@@ -346,68 +281,6 @@ export class PerfProgram {
         );
         await this.tests[0].globalCleanup();
       }
-    }
-  }
-
-  /**
-   * This method records the requests-responses and lets the proxy-server know when to playback.
-   * We run run() once in record mode to save the requests and responses in memory and then a ton of times in playback.
-   *
-   * ## Workflow of the perf test
-   * - test resources are setup
-   *   - hitting the live service
-   * - then start record
-   *   - making a request to the proxy server to start recording
-   *   - proxy server gives a recording id, we'll use this id to save the actual requests and responses
-   * - run the run method once
-   *   - proxy-server saves all the requests and responses in memory
-   * - stop record
-   *   - making a request to the proxy server to stop recording
-   * - start playback
-   *   - making a request to the proxy server to start playback
-   *   - we use the same recording-id that we used in the record mode since that's the only way proxy-server knows what requests are supposed to be played back
-   *   - as a response, we get a new recording-id, which will be used for future playback requests
-   * - run the run method again
-   *   - based on the duration, iterations, and parallel options provided for the perf test
-   *   - all the requests in the run method are played back since we have already recorded them before
-   * - when the run loops end, stop playback
-   *   - making a request to the proxy server to stop playing back
-   * - delete the live resources that we have created before
-   */
-  private async recordAndStartPlayback(test: PerfTest) {
-    // If test-proxy,
-    // => then start record
-    // => call the run method
-    // => stop record
-    // => start playback
-    let recorder: TestProxyHttpClientV1 | TestProxyHttpClient;
-    if (test.testProxyHttpClient) {
-      recorder = test.testProxyHttpClient;
-    } else if (test.testProxyHttpClientV1) {
-      recorder = test.testProxyHttpClientV1;
-    } else {
-      throw new Error(
-        "testProxyClient is not set, please make sure the client/options are configured properly."
-      );
-    }
-
-    // Call Run() once before starting recording, to avoid capturing one-time setup like authorization requests.
-    await test.run!();
-
-    await recorder.startRecording();
-    recorder._mode = "record";
-    await test.run!();
-
-    await recorder.stopRecording();
-    await recorder.startPlayback();
-    recorder._mode = "playback";
-  }
-
-  private async stopPlayback(test: PerfTest) {
-    if (test.testProxyHttpClient) {
-      await test.testProxyHttpClient.stopPlayback();
-    } else if (test.testProxyHttpClientV1) {
-      await test.testProxyHttpClientV1.stopPlayback();
     }
   }
 }

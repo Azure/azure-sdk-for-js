@@ -11,6 +11,7 @@ interface OptionsTestOptions {
   req: string;
   "req-short": string;
   "req-default": number;
+  longName: string;
 }
 
 /**
@@ -19,28 +20,33 @@ interface OptionsTestOptions {
 export class OptionsTest extends PerfTest<OptionsTestOptions> {
   public options: PerfOptionDictionary<OptionsTestOptions> = {
     "non-req": {
-      description: "Non-required option"
+      description: "Non-required option",
     },
     "non-req-short": {
       description: "Non-required option with short name",
-      shortName: "nro"
+      shortName: "nro",
     },
     "non-req-default": {
       description: "Non-required option with default value",
-      defaultValue: 10
+      defaultValue: 10,
     },
     req: {
       required: true,
-      description: "Required option"
+      description: "Required option",
     },
     "req-short": {
       description: "Required option with short name",
-      shortName: "ro"
+      shortName: "ro",
     },
     "req-default": {
       description: "Required option with default value",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
+    longName: {
+      description: "Option with long name specified in option body",
+      longName: "long-name",
+      defaultValue: "ln",
+    },
   };
   public minimistResult: MinimistParsedArgs;
 
@@ -49,31 +55,38 @@ export class OptionsTest extends PerfTest<OptionsTestOptions> {
     this.minimistResult = minimist(process.argv);
   }
 
-  compare(longName: keyof OptionsTestOptions) {
-    if (!(this.options[longName] && this.minimistResult[longName])) {
+  compare(optionName: keyof OptionsTestOptions): void {
+    const longName = (this.options[optionName].longName ??
+      optionName) as keyof PerfOptionDictionary<OptionsTestOptions>;
+
+    if (!(this.options[optionName] && this.parsedOptions[longName])) {
       return;
     }
-    if (this.options[longName].required && !this.options[longName].value) {
-      throw new Error(`The option ${longName} is required. It should have a value.`);
+    if (this.options[optionName].required && !this.parsedOptions[longName].value) {
+      throw new Error(`The option ${optionName} is required. It should have a value.`);
     }
-    if (this.options[longName].defaultValue && !this.options[longName].value) {
+    if (this.options[optionName].defaultValue && !this.parsedOptions[longName].value) {
       throw new Error(
-        `The option ${longName} says it has a default value. It should therefore have a value.`
+        `The option ${optionName} says it has a default value. It should therefore have a value.`
       );
     }
     if (
-      this.options[longName].value !==
-      (this.minimistResult[longName] || this.options[longName].defaultValue)
+      this.parsedOptions[optionName].value !==
+      (this.minimistResult[longName] || this.options[optionName].defaultValue)
     ) {
       throw new Error(
-        `The option ${longName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`
+        `The option ${optionName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`
       );
     }
   }
 
-  async run() {
+  async run(): Promise<void> {
     for (const key in this.options) {
       this.compare(key as keyof OptionsTestOptions);
     }
+  }
+
+  async runAsync(): Promise<void> {
+    // do nothing
   }
 }

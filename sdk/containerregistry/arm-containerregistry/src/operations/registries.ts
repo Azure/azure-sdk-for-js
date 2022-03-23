@@ -11,15 +11,15 @@ import { Registries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Registry,
-  RegistriesListByResourceGroupNextOptionalParams,
-  RegistriesListByResourceGroupOptionalParams,
   RegistriesListNextOptionalParams,
   RegistriesListOptionalParams,
+  RegistriesListByResourceGroupNextOptionalParams,
+  RegistriesListByResourceGroupOptionalParams,
   PrivateLinkResource,
   RegistriesListPrivateLinkResourcesNextOptionalParams,
   RegistriesListPrivateLinkResourcesOptionalParams,
@@ -28,6 +28,8 @@ import {
   RegistryNameCheckRequest,
   RegistriesCheckNameAvailabilityOptionalParams,
   RegistriesCheckNameAvailabilityResponse,
+  RegistriesListResponse,
+  RegistriesListByResourceGroupResponse,
   RegistriesGetOptionalParams,
   RegistriesGetResponse,
   RegistriesCreateOptionalParams,
@@ -36,16 +38,16 @@ import {
   RegistryUpdateParameters,
   RegistriesUpdateOptionalParams,
   RegistriesUpdateResponse,
-  RegistriesListByResourceGroupResponse,
-  RegistriesListResponse,
+  RegistriesListUsagesOptionalParams,
+  RegistriesListUsagesResponse,
+  RegistriesListPrivateLinkResourcesResponse,
+  RegistriesGetPrivateLinkResourceOptionalParams,
+  RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
   RegistriesListCredentialsResponse,
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
-  RegistriesListUsagesOptionalParams,
-  RegistriesListUsagesResponse,
-  RegistriesListPrivateLinkResourcesResponse,
   GenerateCredentialsParameters,
   RegistriesGenerateCredentialsOptionalParams,
   RegistriesGenerateCredentialsResponse,
@@ -54,22 +56,64 @@ import {
   RegistriesScheduleRunResponse,
   RegistriesGetBuildSourceUploadUrlOptionalParams,
   RegistriesGetBuildSourceUploadUrlResponse,
-  RegistriesListByResourceGroupNextResponse,
   RegistriesListNextResponse,
+  RegistriesListByResourceGroupNextResponse,
   RegistriesListPrivateLinkResourcesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Registries operations. */
 export class RegistriesImpl implements Registries {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class Registries class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists all the container registries under the specified subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: RegistriesListOptionalParams
+  ): PagedAsyncIterableIterator<Registry> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(options);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    options?: RegistriesListOptionalParams
+  ): AsyncIterableIterator<Registry[]> {
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listPagingAll(
+    options?: RegistriesListOptionalParams
+  ): AsyncIterableIterator<Registry> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -121,48 +165,6 @@ export class RegistriesImpl implements Registries {
       resourceGroupName,
       options
     )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all the container registries under the specified subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: RegistriesListOptionalParams
-  ): PagedAsyncIterableIterator<Registry> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listPagingPage(options);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: RegistriesListOptionalParams
-  ): AsyncIterableIterator<Registry[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listPagingAll(
-    options?: RegistriesListOptionalParams
-  ): AsyncIterableIterator<Registry> {
-    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
@@ -336,6 +338,31 @@ export class RegistriesImpl implements Registries {
     return this.client.sendOperationRequest(
       { registryNameCheckRequest, options },
       checkNameAvailabilityOperationSpec
+    );
+  }
+
+  /**
+   * Lists all the container registries under the specified subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: RegistriesListOptionalParams
+  ): Promise<RegistriesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Lists all the container registries under the specified resource group.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: RegistriesListByResourceGroupOptionalParams
+  ): Promise<RegistriesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
     );
   }
 
@@ -617,28 +644,56 @@ export class RegistriesImpl implements Registries {
   }
 
   /**
-   * Lists all the container registries under the specified resource group.
+   * Gets the quota usages for the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  listUsages(
     resourceGroupName: string,
-    options?: RegistriesListByResourceGroupOptionalParams
-  ): Promise<RegistriesListByResourceGroupResponse> {
+    registryName: string,
+    options?: RegistriesListUsagesOptionalParams
+  ): Promise<RegistriesListUsagesResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { resourceGroupName, registryName, options },
+      listUsagesOperationSpec
     );
   }
 
   /**
-   * Lists all the container registries under the specified subscription.
+   * Lists the private link resources for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RegistriesListOptionalParams
-  ): Promise<RegistriesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  private _listPrivateLinkResources(
+    resourceGroupName: string,
+    registryName: string,
+    options?: RegistriesListPrivateLinkResourcesOptionalParams
+  ): Promise<RegistriesListPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listPrivateLinkResourcesOperationSpec
+    );
+  }
+
+  /**
+   * Gets a private link resource by a specified group name for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param groupName The name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    registryName: string,
+    groupName: string,
+    options?: RegistriesGetPrivateLinkResourceOptionalParams
+  ): Promise<RegistriesGetPrivateLinkResourceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, groupName, options },
+      getPrivateLinkResourceOperationSpec
+    );
   }
 
   /**
@@ -680,40 +735,6 @@ export class RegistriesImpl implements Registries {
         options
       },
       regenerateCredentialOperationSpec
-    );
-  }
-
-  /**
-   * Gets the quota usages for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  listUsages(
-    resourceGroupName: string,
-    registryName: string,
-    options?: RegistriesListUsagesOptionalParams
-  ): Promise<RegistriesListUsagesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listUsagesOperationSpec
-    );
-  }
-
-  /**
-   * Lists the private link resources for a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _listPrivateLinkResources(
-    resourceGroupName: string,
-    registryName: string,
-    options?: RegistriesListPrivateLinkResourcesOptionalParams
-  ): Promise<RegistriesListPrivateLinkResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listPrivateLinkResourcesOperationSpec
     );
   }
 
@@ -920,6 +941,21 @@ export class RegistriesImpl implements Registries {
   }
 
   /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: RegistriesListNextOptionalParams
+  ): Promise<RegistriesListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -933,21 +969,6 @@ export class RegistriesImpl implements Registries {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: RegistriesListNextOptionalParams
-  ): Promise<RegistriesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
     );
   }
 
@@ -1005,6 +1026,38 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegistryListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegistryListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -1100,35 +1153,64 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listUsagesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listUsages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegistryListResult
+      bodyMapper: Mappers.RegistryUsageListResult
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
+const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegistryListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getPrivateLinkResourceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources/{groupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.groupName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -1172,44 +1254,6 @@ const regenerateCredentialOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listUsagesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listUsages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistryUsageListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const generateCredentialsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials",
@@ -1226,6 +1270,9 @@ const generateCredentialsOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.generateCredentialsParameters,
@@ -1295,6 +1342,23 @@ const getBuildSourceUploadUrlOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RegistryListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1308,23 +1372,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistryListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

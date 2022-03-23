@@ -1,0 +1,37 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/monitor/ci.mgmt.yml
+      - sdk/monitor/arm-monitor/
+      - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/monitor/ci.mgmt.yml
+      - sdk/monitor/arm-monitor/
+      - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: monitor
+    RunUnitTests: true
+    Artifacts:
+      - name: azure-arm-monitor
+        safeName: azurearmmonitor
+      - name: azure-arm-monitor-profile-2020-09-01-hybrid
+        safeName: azurearmmonitorprofile20200901hybrid

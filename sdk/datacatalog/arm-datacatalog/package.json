@@ -1,57 +1,96 @@
 {
   "name": "@azure/arm-datacatalog",
+  "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "DataCatalogRestClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.2.0",
+  "description": "A generated SDK for DataCatalogRestClient.",
+  "version": "3.0.0",
+  "engines": { "node": ">=12.0.0" },
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.4.0",
-    "@azure/ms-rest-js": "^1.11.0",
-    "@azure/core-auth": "^1.1.4",
-    "tslib": "^1.9.3"
+    "@azure/core-lro": "^2.2.0",
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-client": "^1.0.0",
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
+    "tslib": "^2.2.0"
   },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
   "license": "MIT",
-  "main": "./dist/arm-datacatalog.js",
-  "module": "./esm/dataCatalogRestClient.js",
-  "types": "./esm/dataCatalogRestClient.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/arm-datacatalog.d.ts",
   "devDependencies": {
-    "typescript": "^3.6.0",
-    "rollup": "^0.66.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "uglify-js": "^3.4.9"
+    "@microsoft/api-extractor": "^7.18.11",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "mkdirp": "^1.0.4",
+    "rollup": "^1.16.3",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "typescript": "~4.2.0",
+    "uglify-js": "^3.4.9",
+    "rimraf": "^3.0.0",
+    "@azure/identity": "^2.0.1",
+    "@azure-tools/test-recorder": "^1.0.0",
+    "mocha": "^7.1.1",
+    "cross-env": "^7.0.2"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/sdk/datacatalog/arm-datacatalog",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datacatalog/arm-datacatalog",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
-  "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
     "src/**/*.ts",
+    "README.md",
+    "LICENSE",
     "rollup.config.js",
-    "tsconfig.json"
+    "tsconfig.json",
+    "review/*",
+    "CHANGELOG.md",
+    "types/*"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-datacatalog.js.map'\" -o ./dist/arm-datacatalog.min.js ./dist/arm-datacatalog.js",
-    "prepack": "npm install && npm run build"
+    "build": "npm run clean && tsc && rollup -c 2>&1 && npm run minify && mkdirp ./review && npm run extract-api",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "prepack": "npm run build",
+    "pack": "npm pack 2>&1",
+    "extract-api": "api-extractor run --local",
+    "lint": "echo skipped",
+    "audit": "echo skipped",
+    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "build:node": "echo skipped",
+    "build:browser": "echo skipped",
+    "build:test": "echo skipped",
+    "build:samples": "echo skipped.",
+    "check-format": "echo skipped",
+    "execute:samples": "echo skipped",
+    "format": "echo skipped",
+    "test": "npm run integration-test",
+    "test:node": "echo skipped",
+    "test:browser": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:browser": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:node": "mocha -r esm --require ts-node/register --timeout 1200000 --full-trace test/*.ts --reporter ../../../common/tools/mocha-multi-reporter.js",
+    "integration-test:browser": "echo skipped",
+    "docs": "echo skipped"
   },
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      { "path": "src/DataCatalogRestClient.ts", "prefix": "packageDetails" }
+    ]
+  },
   "autoPublish": true
 }

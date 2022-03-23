@@ -1,0 +1,56 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/general?stringIndexType=Utf16CodeUnit",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json, text/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "103",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "traceparent": "00-00000000000000000000000000000019-0000000000000038-00",
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "f75e4360-750c-4685-81b1-9b1bf7c15680"
+      },
+      "RequestBody": {
+        "documents": [
+          {
+            "id": "0",
+            "text": "This is some text, but it doesn\u0027t matter.",
+            "language": "notalanguage"
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "ce4d349c-d39b-4064-a41d-7b4a6478558f",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 18 Feb 2022 18:59:08 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "3"
+      },
+      "ResponseBody": {
+        "documents": [],
+        "errors": [
+          {
+            "id": "0",
+            "error": {
+              "code": "InvalidArgument",
+              "message": "Invalid Language Code.",
+              "innererror": {
+                "code": "UnsupportedLanguageCode",
+                "message": "Invalid language code. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+              }
+            }
+          }
+        ],
+        "modelVersion": "2021-06-01"
+      }
+    }
+  ],
+  "Variables": {}
+}

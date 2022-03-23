@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
+  CompositeMapper,
+  Mapper,
   OperationArguments,
   OperationParameter,
-  Mapper,
-  CompositeMapper,
-  ParameterPath,
+  OperationRequest,
   OperationRequestInfo,
-  OperationRequest
+  ParameterPath,
 } from "./interfaces";
 
 /**
@@ -64,7 +64,7 @@ export function getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath: propertyPath,
-          mapper: propertyMapper
+          mapper: propertyMapper,
         },
         fallbackObject
       );

@@ -59,12 +59,12 @@ export async function getHeaders({
   options = {},
   partitionKeyRangeId,
   useMultipleWriteLocations,
-  partitionKey
+  partitionKey,
 }: GetHeadersOptions): Promise<CosmosHeaders> {
   const headers: CosmosHeaders = {
     [Constants.HttpHeaders.ResponseContinuationTokenLimitInKB]: 1,
     [Constants.HttpHeaders.EnableCrossPartitionQuery]: true,
-    ...defaultHeaders
+    ...defaultHeaders,
   };
 
   if (useMultipleWriteLocations) {

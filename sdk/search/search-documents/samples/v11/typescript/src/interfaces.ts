@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Defines the Hotel Interface.
+ * Defines the Hotel Interface.
  */
 
 import { GeographyPoint } from "@azure/search-documents";

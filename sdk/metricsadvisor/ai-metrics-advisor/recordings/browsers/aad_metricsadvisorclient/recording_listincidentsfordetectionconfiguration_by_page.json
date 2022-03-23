@@ -2,16 +2,16 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:14 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:33 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - NCUS ProdSlices",
-    "x-ms-request-id": "a9b08524-dac4-4564-90bc-1dda0fd3ab00"
+    "x-ms-ests-server": "2.1.12261.22 - WUS2 ProdSlices",
+    "x-ms-request-id": "fd1fa14c-2899-4f21-8fe4-1ab58deace00"
    }
   },
   {
@@ -30,39 +30,39 @@
    "query": {
     "$maxpagesize": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"filter\":{}}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\",\"filter\":{}}",
    "status": 200,
-   "response": "{\"value\":[{\"incidentId\":\"2d7db62bcdf6c4f795c81fa0cd335508-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":1.4,\"expectedValueOfRootNode\":0.4998854052597048}},{\"incidentId\":\"22ede4ce36745c0a111c6cb99fd20c54-175908d9800\",\"startTime\":\"2020-11-03T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":0.4,\"expectedValueOfRootNode\":0.11447198690121768}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXlaRGRrWWpZeVltTmtaalpqTkdZM09UVmpPREZtWVRCalpETXpOVFV3T0E9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
+   "response": "{\"value\":[{\"incidentId\":\"18044bf3e7152862074c3d177f9114fe-17cd3a55400\",\"startTime\":\"2021-10-31T00:00:00Z\",\"lastTime\":\"2021-10-31T00:00:00Z\",\"rootNode\":{\"dimension\":{\"region\":\"Miami\",\"category\":\"Office Products\"}},\"property\":{\"maxSeverity\":\"Medium\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":34975.0,\"expectedValueOfRootNode\":32994.38317904984}},{\"incidentId\":\"2badf4cb97e13d6142e2af489e2b8e20-17cd3a55400\",\"startTime\":\"2021-10-30T00:00:00Z\",\"lastTime\":\"2021-10-31T00:00:00Z\",\"rootNode\":{\"dimension\":{\"region\":\"Istanbul\",\"category\":\"Electronics (Accessories)\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":0.0,\"expectedValueOfRootNode\":3.847182887027481}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNUzB3TVZRd01Eb3dNRG93TUZvakl5TXlZbUZrWmpSallqazNaVEV6WkRZeE5ESmxNbUZtTkRnNVpUSmlPR1V5TUE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
    "responseHeaders": {
-    "apim-request-id": "203136e1-4930-4244-8096-d4308cd28d0f",
+    "apim-request-id": "a74111b5-1b1c-42aa-b0ca-6f3c16a5357a",
     "content-length": "1281",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:14 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "183",
-    "x-request-id": "203136e1-4930-4244-8096-d4308cd28d0f"
+    "x-envoy-upstream-service-time": "181",
+    "x-request-id": "a74111b5-1b1c-42aa-b0ca-6f3c16a5357a"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query",
    "query": {
     "$maxpagesize": "2",
-    "$token": "eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXlaRGRrWWpZeVltTmtaalpqTkdZM09UVmpPREZtWVRCalpETXpOVFV3T0E9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ"
+    "$token": "eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNUzB3TVZRd01Eb3dNRG93TUZvakl5TXlZbUZrWmpSallqazNaVEV6WkRZeE5ESmxNbUZtTkRnNVpUSmlPR1V5TUE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"incidentId\":\"3bc1136adb61ca433bd9edbbaf46ec21-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Cell Phones\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":3.4,\"expectedValueOfRootNode\":0.8470849150958543}},{\"incidentId\":\"3b763da1c27792ce771cf696518d688d-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Lagos\",\"category\":\"Automotive & Powersports\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":0.2,\"expectedValueOfRootNode\":0.0}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXpZbU14TVRNMllXUmlOakZqWVRRek0ySmtPV1ZrWW1KaFpqUTJaV015TVE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
+   "response": "{\"value\":[{\"incidentId\":\"5635ffb56bbaeff0734371c383b437f5-17cd3a55400\",\"startTime\":\"2021-10-29T00:00:00Z\",\"lastTime\":\"2021-10-31T00:00:00Z\",\"rootNode\":{\"dimension\":{\"region\":\"Karachi\",\"category\":\"Electronics (Consumer)\"}},\"property\":{\"maxSeverity\":\"Medium\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":3799.2,\"expectedValueOfRootNode\":290.17563836248905}},{\"incidentId\":\"4e578d9b55bd7f78f30dffaac7ac6327-17cd3a55400\",\"startTime\":\"2021-10-29T00:00:00Z\",\"lastTime\":\"2021-10-31T00:00:00Z\",\"rootNode\":{\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Electronics (Consumer)\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\",\"valueOfRootNode\":8.2,\"expectedValueOfRootNode\":0.0667363729590091}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNUzB3TVZRd01Eb3dNRG93TUZvakl5TTFOak0xWm1aaU5UWmlZbUZsWm1Zd056TTBNemN4WXpNNE0ySTBNemRtTlE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
    "responseHeaders": {
-    "apim-request-id": "a1b44133-5780-435c-bbca-ba80deaf3389",
-    "content-length": "1253",
+    "apim-request-id": "8f61fec3-2aab-4e09-b2be-46b1380d19a7",
+    "content-length": "1287",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:15 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "196",
-    "x-request-id": "a1b44133-5780-435c-bbca-ba80deaf3389"
+    "x-envoy-upstream-service-time": "158",
+    "x-request-id": "8f61fec3-2aab-4e09-b2be-46b1380d19a7"
    }
   }
  ],
@@ -70,5 +70,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "dcc75590987ca7f25ff6c0dd1e96ea43"
+ "hash": "9831ee06c35a818f5bbcd2cc825ed364"
 }

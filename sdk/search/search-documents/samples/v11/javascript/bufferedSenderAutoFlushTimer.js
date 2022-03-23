@@ -11,10 +11,10 @@ const {
   SearchClient,
   GeographyPoint,
   SearchIndexClient,
-  DEFAULT_FLUSH_WINDOW
+  DEFAULT_FLUSH_WINDOW,
 } = require("@azure/search-documents");
-const { createIndex, documentKeyRetriever, WAIT_TIME } = require("./setup");
-const { delay } = require("@azure/core-http");
+const { createIndex, documentKeyRetriever, WAIT_TIME, delay } = require("./setup");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -45,7 +45,7 @@ async function main() {
   await delay(WAIT_TIME);
 
   const bufferedClient = new SearchIndexingBufferedSender(searchClient, documentKeyRetriever, {
-    autoFlush: true
+    autoFlush: true,
   });
 
   bufferedClient.on("batchAdded", (response) => {
@@ -86,9 +86,9 @@ async function main() {
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
-        latitude: 47.678581
-      })
-    }
+        latitude: 47.678581,
+      }),
+    },
   ]);
 
   const wait_time = DEFAULT_FLUSH_WINDOW + 5000;

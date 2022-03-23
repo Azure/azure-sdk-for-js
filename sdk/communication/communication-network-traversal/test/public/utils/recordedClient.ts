@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 
 import {
   env,
+  isPlaybackMode,
   Recorder,
   record,
   RecorderEnvironmentSetup,
-  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,
@@ -17,7 +17,7 @@ import {
   HttpOperationResponse,
   isNode,
   TokenCredential,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 import { CommunicationRelayClient, CommunicationRelayClientOptions } from "../../../src";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +36,7 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012"
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -65,9 +65,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => recording.replace(/\/turn\/[^/'",]*/, "/turn/sanitized"),
     (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
     (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
+      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized"),
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedCommunicationRelayClient(
@@ -78,9 +78,9 @@ export function createRecordedCommunicationRelayClient(
   // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationRelayClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient()
+      httpClient: createTestHttpClient(),
     } as CommunicationRelayClientOptions),
-    recorder
+    recorder,
   };
 }
 
@@ -89,21 +89,22 @@ export function createRecordedCommunicationRelayClientWithToken(
 ): RecordedClient<CommunicationRelayClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING)
-    .endpoint;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+  ).endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
+      },
     };
 
     // casting is a workaround to enable min-max testing
     return {
       client: new CommunicationRelayClient(endpoint, credential, {
-        httpClient: createTestHttpClient()
+        httpClient: createTestHttpClient(),
       } as CommunicationRelayClientOptions),
-      recorder
+      recorder,
     };
   }
 
@@ -120,9 +121,9 @@ export function createRecordedCommunicationRelayClientWithToken(
   // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationRelayClient(endpoint, credential, {
-      httpClient: createTestHttpClient()
+      httpClient: createTestHttpClient(),
     } as CommunicationRelayClientOptions),
-    recorder
+    recorder,
   };
 }
 
@@ -130,7 +131,7 @@ function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(
+  customHttpClient.sendRequest = async function (
     httpRequest: WebResourceLike
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);

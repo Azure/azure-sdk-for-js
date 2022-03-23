@@ -17,38 +17,33 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export const enum KnownSchemaFormat {
-    Avro = "avro"
-}
-
-// @public
 export interface RegisterSchemaOptions extends OperationOptions {
 }
 
 // @public
-export interface Schema extends SchemaProperties {
-    schemaDefinition: string;
+export interface Schema {
+    definition: string;
+    properties: SchemaProperties;
 }
 
 // @public
 export interface SchemaDescription {
+    definition: string;
     format: string;
     groupName: string;
     name: string;
-    schemaDefinition: string;
 }
 
 // @public
 export interface SchemaProperties {
     format: string;
     id: string;
-    version: number;
 }
 
 // @public
 export interface SchemaRegistry {
-    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties | undefined>;
+    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
 
@@ -56,13 +51,14 @@ export interface SchemaRegistry {
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly fullyQualifiedNamespace: string;
-    getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties | undefined>;
+    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
 
 // @public
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
+    apiVersion?: string;
 }
 
 // (No @packageDocumentation comment for this package)

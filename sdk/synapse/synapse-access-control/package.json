@@ -47,6 +47,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
@@ -63,12 +64,11 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "uglify-js": "^3.4.9",
     "@types/chai-as-promised": "^7.1.0",
     "@types/node": "^12.0.0",
@@ -82,8 +82,7 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0",
-    "typedoc": "0.15.2"
+    "typescript": "~4.2.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -99,14 +98,13 @@
     "dist-esm/**/*.d.ts.map",
     "types/synapse-access-control.d.ts",
     "README.md",
-    "rollup.config.js",
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
+    "build": "tsc && dev-tool run bundle && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "lint": "echo skip",
     "format": "echo skip format as this package has only auto generated code",
     "check-format": "echo skip format check as this package has only auto generated code",
@@ -118,8 +116,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "extract-api": "api-extractor run --local",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "build:samples": "echo Skipped."
   },
   "sideEffects": false,
   "autoPublish": true

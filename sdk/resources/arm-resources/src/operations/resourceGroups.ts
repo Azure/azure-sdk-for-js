@@ -6,21 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ResourceGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ResourceManagementClientContext } from "../resourceManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { ResourceManagementClient } from "../resourceManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ResourceGroup,
   ResourceGroupsListNextOptionalParams,
   ResourceGroupsListOptionalParams,
-  ResourceGroupsListNextNextOptionalParams,
   ResourceGroupsCheckExistenceOptionalParams,
   ResourceGroupsCheckExistenceResponse,
   ResourceGroupsCreateOrUpdateOptionalParams,
@@ -35,20 +32,19 @@ import {
   ResourceGroupsExportTemplateOptionalParams,
   ResourceGroupsExportTemplateResponse,
   ResourceGroupsListResponse,
-  ResourceGroupsListNextResponse,
-  ResourceGroupsListNextNextResponse
+  ResourceGroupsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ResourceGroups. */
+/** Class containing ResourceGroups operations. */
 export class ResourceGroupsImpl implements ResourceGroups {
-  private readonly client: ResourceManagementClientContext;
+  private readonly client: ResourceManagementClient;
 
   /**
    * Initialize a new instance of the class ResourceGroups class.
    * @param client Reference to the service client
    */
-  constructor(client: ResourceManagementClientContext) {
+  constructor(client: ResourceManagementClient) {
     this.client = client;
   }
 
@@ -90,52 +86,6 @@ export class ResourceGroupsImpl implements ResourceGroups {
     options?: ResourceGroupsListOptionalParams
   ): AsyncIterableIterator<ResourceGroup> {
     for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: ResourceGroupsListNextOptionalParams
-  ): PagedAsyncIterableIterator<ResourceGroup> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: ResourceGroupsListNextOptionalParams
-  ): AsyncIterableIterator<ResourceGroup[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: ResourceGroupsListNextOptionalParams
-  ): AsyncIterableIterator<ResourceGroup> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
       yield* page;
     }
   }
@@ -223,12 +173,15 @@ export class ResourceGroupsImpl implements ResourceGroups {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -334,13 +287,16 @@ export class ResourceGroupsImpl implements ResourceGroups {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, parameters, options },
-      exportTemplateOperationSpec,
-      "location"
+      exportTemplateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -384,21 +340,6 @@ export class ResourceGroupsImpl implements ResourceGroups {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: ResourceGroupsListNextNextOptionalParams
-  ): Promise<ResourceGroupsListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
     );
   }
 }
@@ -561,26 +502,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceGroupListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

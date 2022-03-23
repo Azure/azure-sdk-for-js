@@ -1,0 +1,63 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share163789609959301889",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 26 Nov 2021 03:08:20 GMT",
+    "etag": "\"0x8D9B08A00953153\"",
+    "last-modified": "Fri, 26 Nov 2021 03:08:21 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "a97d039c-b840-42dc-b12a-408df599b697",
+    "x-ms-request-id": "14ba817b-901a-0068-2f72-e250dc000000",
+    "x-ms-version": "2021-02-12"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share163789609959301889",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 26 Nov 2021 03:08:20 GMT",
+    "etag": "\"0x8D9B08A00953153\"",
+    "last-modified": "Fri, 26 Nov 2021 03:08:21 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-access-tier": "Premium",
+    "x-ms-client-request-id": "75d12b5c-eb26-4e4e-bfea-b5cf78186e6e",
+    "x-ms-enabled-protocols": "SMB",
+    "x-ms-has-immutability-policy": "false",
+    "x-ms-has-legal-hold": "false",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-request-id": "14ba817f-901a-0068-3172-e250dc000000",
+    "x-ms-share-next-allowed-quota-downgrade-time": "Fri, 26 Nov 2021 03:08:21 GMT",
+    "x-ms-share-provisioned-bandwidth-mibps": "110",
+    "x-ms-share-provisioned-egress-mbps": "110",
+    "x-ms-share-provisioned-ingress-mbps": "110",
+    "x-ms-share-provisioned-iops": "3100",
+    "x-ms-share-quota": "100",
+    "x-ms-version": "2021-02-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share163789609959301889"
+  },
+  "newDate": {}
+ },
+ "hash": "b4742b5483c03e47a0d0b4743752e13a"
+}

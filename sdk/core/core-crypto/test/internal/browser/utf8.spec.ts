@@ -4,9 +4,9 @@
 import { assert } from "chai";
 import { utf8ToBytes } from "../../../src/utils/utf8.browser";
 
-describe("utf-8", function() {
-  describe("utf8ToBytes", function() {
-    it("converts a utf-8 string to bytes", function() {
+describe("utf-8", function () {
+  describe("utf8ToBytes", function () {
+    it("converts a utf-8 string to bytes", function () {
       const input = "azure"; // 'azure' in utf8.
 
       const output = utf8ToBytes(input);

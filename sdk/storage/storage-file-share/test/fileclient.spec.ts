@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
+import { context, setSpan } from "@azure/core-tracing";
+import { Context } from "mocha";
+import { setTracer, SpanGraph } from "@azure/test-utils";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { Pipeline } from "../src/Pipeline";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
-import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
-import { setSpan, context } from "@azure/core-tracing";
-import { Context } from "mocha";
-
-dotenv.config();
 
 describe("FileClient", () => {
   let shareName: string;
@@ -46,7 +43,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -62,7 +59,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -96,16 +93,16 @@ describe("FileClient", () => {
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
         fileContentLanguage: "fileContentLanguage",
-        fileContentType: "fileContentType"
+        fileContentType: "fileContentType",
       },
       metadata: {
         key1: "vala",
-        key2: "valb"
+        key2: "valb",
       },
       creationTime: now,
       lastWriteTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
-      fileAttributes: fullFileAttributes
+      fileAttributes: fullFileAttributes,
     };
     await fileClient.create(512, options);
 
@@ -153,7 +150,7 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
-  it("create largest file", async function() {
+  it("create largest file", async function () {
     const fileSize = FILE_MAX_SIZE_BYTES;
     const cResp = await fileClient.create(fileSize);
     assert.equal(cResp.errorCode, undefined);
@@ -165,7 +162,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
-  it("setProperties with default parameters", async function() {
+  it("setProperties with default parameters", async function () {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -201,16 +198,16 @@ describe("FileClient", () => {
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
         fileContentLanguage: "fileContentLanguage",
-        fileContentType: "fileContentType"
+        fileContentType: "fileContentType",
       },
       metadata: {
         key1: "vala",
-        key2: "valb"
+        key2: "valb",
       },
       creationTime: now,
       lastWriteTime: now,
       filePermission: getPermissionResp.permission,
-      fileAttributes: fullFileAttributes
+      fileAttributes: fullFileAttributes,
     };
 
     await fileClient.create(content.length);
@@ -239,7 +236,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
     const result = await fileClient.getProperties();
@@ -250,7 +247,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
     const result = await fileClient.getProperties();
@@ -284,7 +281,7 @@ describe("FileClient", () => {
       fileContentEncoding: "fileContentEncoding",
       fileContentLanguage: "fileContentLanguage",
       fileContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
-      fileContentType: "fileContentType"
+      fileContentType: "fileContentType",
     };
     await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
@@ -360,6 +357,32 @@ describe("FileClient", () => {
     );
   });
 
+  it("startCopyFromURL ignore readonly", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+    await newFileClient.create(2048, {
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
+    });
+
+    const options: FileStartCopyOptions = {
+      filePermission: filePermissionInSDDL,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: true,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: false,
+      },
+    };
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const sourceProperties = await fileClient.getProperties();
+    const targetProperties = await newFileClient.getProperties();
+
+    assert.equal(targetProperties.contentLength, 1024);
+    assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
+  });
+
   it("startCopyFromURL with smb options", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
@@ -379,8 +402,8 @@ describe("FileClient", () => {
         fileAttributes,
         fileCreationTime,
         fileLastWriteTime: "source",
-        setArchiveAttribute: false
-      }
+        setArchiveAttribute: false,
+      },
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
@@ -416,8 +439,8 @@ describe("FileClient", () => {
         fileAttributes,
         fileCreationTime,
         fileLastWriteTime: "source",
-        setArchiveAttribute: true
-      }
+        setArchiveAttribute: true,
+      },
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
@@ -508,23 +531,9 @@ describe("FileClient", () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5, {
       contentMD5: new Uint8Array([
-        0x8b,
-        0x1a,
-        0x99,
-        0x53,
-        0xc4,
-        0x61,
-        0x12,
-        0x96,
-        0xa8,
-        0x27,
-        0xab,
-        0xf8,
-        0xc4,
-        0x78,
-        0x04,
-        0xd7
-      ])
+        0x8b, 0x1a, 0x99, 0x53, 0xc4, 0x61, 0x12, 0x96, 0xa8, 0x27, 0xab, 0xf8, 0xc4, 0x78, 0x04,
+        0xd7,
+      ]),
     });
     await fileClient.uploadRange("World", 5, 5);
     const response = await fileClient.download(0, 8);
@@ -541,7 +550,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange("HelloWorld", 0, 10, {
       onProgress: () => {
         progressUpdated = true;
-      }
+      },
     });
     assert.equal(progressUpdated, true);
 
@@ -588,7 +597,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function(this: Context) {
+  it("getRangeListDiff", async function (this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -612,7 +621,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function(this: Context) {
+  it("getRangeListDiff with share snapshot", async function (this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -667,7 +676,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, 1, {
-      rangeGetContentMD5: true
+      rangeGetContentMD5: true,
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
   });
@@ -678,7 +687,7 @@ describe("FileClient", () => {
     const result = await fileClient.download(0, undefined, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -706,7 +715,7 @@ describe("FileClient", () => {
         onProgress: () => {
           eventTriggered = true;
           aborter.abort();
-        }
+        },
       });
 
       await new Promise((resolve, reject) => {
@@ -734,20 +743,15 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
-      assert.notDeepStrictEqual(handle.handleId, undefined);
-      assert.notDeepStrictEqual(handle.path, undefined);
-      assert.notDeepStrictEqual(handle.fileId, undefined);
-      assert.notDeepStrictEqual(handle.sessionId, undefined);
-      assert.notDeepStrictEqual(handle.clientIp, undefined);
-      assert.notDeepStrictEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
     }
   });
 
@@ -768,12 +772,7 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
@@ -784,12 +783,7 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle, currently have to do this manually
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
@@ -811,12 +805,7 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle; currently have to do this manually
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
@@ -844,16 +833,14 @@ describe("FileClient", () => {
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
 
     const expectedGraph: SpanGraph = {
       roots: [
@@ -864,18 +851,432 @@ describe("FileClient", () => {
               name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
-                  name: urlPath,
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  name: "HTTP PUT",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+
+  // STG81
+  it("rename", async () => {
+    await fileClient.create(1024);
+    const destFileName = recorder.getUniqueName("destfile");
+    const result = await fileClient.rename(destFileName);
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+
+    try {
+      await fileClient.getProperties();
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename with metadata", async () => {
+    await fileClient.create(1024);
+
+    const metadata = {
+      key1: "vala",
+      key2: "valb",
+    };
+    const destFileName = recorder.getUniqueName("destfile");
+    const result = await fileClient.rename(destFileName, {
+      metadata: metadata,
+    });
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    const propertiesResult = await result.destinationFileClient.getProperties();
+    assert.deepStrictEqual(propertiesResult.metadata, metadata, "Metadata should be expected.");
+
+    try {
+      await fileClient.getProperties();
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename to under a different directory", async () => {
+    const sourceParentDirName = recorder.getUniqueName("sourcedir");
+    const sourceParentDir = shareClient.getDirectoryClient(sourceParentDirName);
+    await sourceParentDir.create();
+
+    const sourdeFileName = recorder.getUniqueName("sourcefile");
+    const sourceFile = sourceParentDir.getFileClient(sourdeFileName);
+    await sourceFile.create(1024);
+
+    const destParentDirName = recorder.getUniqueName("destdir");
+    const destParentDir = shareClient.getDirectoryClient(destParentDirName);
+    await destParentDir.create();
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const destFilePath = destParentDirName + "/" + destFileName;
+
+    const result = await sourceFile.rename(destFilePath);
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+
+    try {
+      await sourceFile.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename - replaceIfExists = true ", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    await shareClient.getDirectoryClient("").getFileClient(destFileName).create(2048);
+
+    const result = await sourceFileClient.rename(destFileName, {
+      replaceIfExists: true,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename - replaceIfExists = false", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await targetFileClient.create(2048);
+
+    try {
+      await sourceFileClient.rename(destFileName);
+      assert.fail("Should got conflict error when trying to overwrite an exiting file");
+    } catch (err) {
+      assert.ok(
+        (err.statusCode as number) === 409,
+        "Should got conflict error when trying to overwrite an exiting file"
+      );
+    }
+
+    await sourceFileClient.getProperties();
+    const properties = await targetFileClient.getProperties();
+    assert.ok(properties.contentLength === 2048, "The origin file should still exist");
+  });
+
+  it("rename - ignoreReadOnly = true", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await targetFileClient.create(2048, {
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
+    });
+
+    const result = await sourceFileClient.rename(destFileName, {
+      ignoreReadOnly: true,
+      replaceIfExists: true,
+    });
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - ignoreReadOnly = false", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await targetFileClient.create(2048, {
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
+    });
+
+    try {
+      await sourceFileClient.rename(destFileName, {
+        ignoreReadOnly: false,
+        replaceIfExists: true,
+      });
+      assert.fail("Should got conflict error when trying to overwrite an exiting file");
+    } catch (err) {
+      assert.ok(
+        (err.statusCode as number) === 409,
+        "Should got conflict error when trying to overwrite an exiting file"
+      );
+    }
+
+    await sourceFileClient.getProperties();
+    const properties = await targetFileClient.getProperties();
+    assert.ok(properties.contentLength === 2048, "The origin file should still exist");
+  });
+
+  it("rename - destination leased", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await targetFileClient.create(2048);
+
+    const guid = "e9890485-bf47-4d9a-b3d0-aceb18506124";
+    const leaseClient = targetFileClient.getShareLeaseClient(guid);
+    const leaseResult = await leaseClient.acquireLease(-1);
+
+    const result = await sourceFileClient.rename(destFileName, {
+      replaceIfExists: true,
+      destinationLeaseAccessConditions: {
+        leaseId: leaseResult.leaseId,
+      },
+    });
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - destination leased - no lease access condition", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const destFileName = recorder.getUniqueName("destfile");
+    const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destFileName);
+    await targetFileClient.create(2048);
+
+    const guid = "e9890485-bf47-4d9a-b3d0-aceb18506124";
+    const leaseClient = targetFileClient.getShareLeaseClient(guid);
+    await leaseClient.acquireLease(-1);
+
+    try {
+      await sourceFileClient.rename(destFileName, {
+        replaceIfExists: true,
+      });
+
+      assert.fail("Should got conflict error when trying to overwrite an exiting file");
+    } catch (err) {
+      assert.ok(
+        (err.statusCode as number) === 412,
+        "Should got conflict error when trying to overwrite an exiting file"
+      );
+    }
+
+    await sourceFileClient.getProperties();
+    const properties = await targetFileClient.getProperties();
+    assert.ok(properties.contentLength === 2048, "The origin file should still exist");
+  });
+
+  it("rename - source leased", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const leaseClient = sourceFileClient.getShareLeaseClient();
+    const leaseResult = await leaseClient.acquireLease(-1);
+
+    const destFileName = recorder.getUniqueName("destfile");
+
+    const result = await sourceFileClient.rename(destFileName, {
+      sourceLeaseAccessConditions: {
+        leaseId: leaseResult.leaseId,
+      },
+    });
+
+    // Validate destination existence.
+    await result.destinationFileClient.getProperties();
+    assert.equal(
+      destFileName,
+      result.destinationFileClient.name,
+      "Destination client instance should be expected"
+    );
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename - source leased - no lease access condition", async () => {
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(1024);
+
+    const leaseClient = sourceFileClient.getShareLeaseClient();
+    await leaseClient.acquireLease(-1);
+
+    const destFileName = recorder.getUniqueName("destfile");
+
+    try {
+      await sourceFileClient.rename(destFileName);
+      assert.fail("Should got conflict error when trying to overwrite an exiting file");
+    } catch (err) {
+      assert.ok(
+        (err.statusCode as number) === 412,
+        "Should got conflict error when trying to overwrite an exiting file"
+      );
+    }
+
+    await sourceFileClient.getProperties();
+  });
+
+  it("rename - Non-ASCII source and destination", async () => {
+    const destFileName = recorder.getUniqueName("汉字. dest ~!@#$%^&()_+`1234567890-={}[];','");
+
+    const sourceFileName = recorder.getUniqueName("汉字. source ~!@#$%^&()_+`1234567890-={}[];','");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(2048);
+
+    const result = await sourceFileClient.rename(destFileName);
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    await result.destinationFileClient.getProperties();
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename - with file permission", async () => {
+    const destFileName = recorder.getUniqueName("destfile");
+    const filePermission =
+      "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
+
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(2048);
+
+    const result = await sourceFileClient.rename(destFileName, {
+      filePermission: filePermission,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    const properties = await result.destinationFileClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
+  });
+
+  it("rename - SMB properties", async () => {
+    const destFileName = recorder.getUniqueName("destfile");
+    const filePermission =
+      "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
+    const permissionResponse = await shareClient.createPermission(filePermission);
+
+    const fileAttributesInstance = new FileSystemAttributes();
+    fileAttributesInstance.hidden = true;
+    fileAttributesInstance.readonly = true;
+
+    const creationDate = new Date("05 October 2019 14:48 UTC");
+    const lastwriteTime = new Date("15 October 2019 14:48 UTC");
+
+    const copyFileSMBInfo = {
+      fileAttributes: fileAttributesInstance.toString(),
+      fileCreationTime: truncatedISO8061Date(creationDate),
+      fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
+    };
+
+    const sourceFileName = recorder.getUniqueName("sourcefile");
+    const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
+    await sourceFileClient.create(2048);
+
+    const result = await sourceFileClient.rename(destFileName, {
+      filePermissionKey: permissionResponse.filePermissionKey,
+      copyFileSmbInfo: copyFileSMBInfo,
+    });
+
+    assert.ok(
+      result.destinationFileClient.name === destFileName,
+      "Destination name should be expected"
+    );
+
+    const properties = await result.destinationFileClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+    assert.ok(
+      truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
+      "Creation time should be expected"
+    );
+    assert.ok(
+      truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
+      "Last write time should be expected"
+    );
+    const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
+    assert.ok(
+      fileSystemAttributes.readonly && fileSystemAttributes.hidden,
+      "File attributes should be expected"
+    );
+
+    try {
+      await sourceFileClient.getProperties();
+      assert.fail("Source file should not exist anymore");
+    } catch (err) {
+      assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
+    }
   });
 });
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { SecretClient, SecretProperties } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import TestClient from "./utils/testClient";
 
 describe("Secrets client - Long Running Operations - recoverDelete", () => {
   const secretPrefix = `lroRecover${env.CERTIFICATE_NAME || "SecretName"}`;
@@ -19,21 +19,21 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+  beforeEach(async function (this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a secret is recovered", async function(this: Context) {
+  it("can wait until a secret is recovered", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -56,7 +56,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     assert.equal(poller.getOperationState().result!.name, secretName);
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -83,7 +83,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
     const resumePoller = await client.beginRecoverDeletedSecret(secretName, {
       resumeFrom: serialized,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
 
     assert.ok(poller.getOperationState().isStarted);
@@ -93,7 +93,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to recover a deleted secret with requestOptions timeout", async function(this: Context) {
+  it("can attempt to recover a deleted secret with requestOptions timeout", async function (this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -104,7 +104,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await assertThrowsAbortError(async () => {
       await client.beginRecoverDeletedSecret(secretName, {
         requestOptions: { timeout: 1 },
-        ...testPollerProperties
+        ...testPollerProperties,
       });
     });
   });

@@ -4,56 +4,42 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"AzureDataLakeStorageGen2\",\"dataFeedName\":\"js-test-dataLakeGenFeed-162286475331906056\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"accountName\":\"account-name\",\"accountKey\":\"account-key\",\"fileSystemName\":\"file-system-name\",\"directoryTemplate\":\"directory-template\",\"fileTemplate\":\"file-template\"}}",
+   "requestBody": "{\"dataSourceType\":\"AzureDataLakeStorageGen2\",\"dataFeedName\":\"js-test-dataLakeGenFeed-164264072616206483\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"accountName\":\"account-name\",\"accountKey\":\"account-key\",\"fileSystemName\":\"file-system-name\",\"directoryTemplate\":\"directory-template\",\"fileTemplate\":\"file-template\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "2d75882f-96b9-43dc-9118-9d04a5dc7c9e",
+    "apim-request-id": "0d0121c5-f6fb-4910-ab44-ae7a6569b8f5",
     "content-length": "0",
-    "date": "Sat, 05 Jun 2021 03:45:53 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/522e3d48-b4e3-4794-82c5-cb6d93b55cb5",
+    "date": "Thu, 20 Jan 2022 01:05:41 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d22644b1-e2eb-48c2-abfc-73041d1d17cc",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "817",
-    "x-request-id": "2d75882f-96b9-43dc-9118-9d04a5dc7c9e"
+    "x-envoy-upstream-service-time": "457",
+    "x-request-id": "0d0121c5-f6fb-4910-ab44-ae7a6569b8f5"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/522e3d48-b4e3-4794-82c5-cb6d93b55cb5",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d22644b1-e2eb-48c2-abfc-73041d1d17cc",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"522e3d48-b4e3-4794-82c5-cb6d93b55cb5\",\"dataFeedName\":\"js-test-dataLakeGenFeed-162286475331906056\",\"metrics\":[{\"metricId\":\"c0970912-7566-4d80-bbf1-e22c14dd6fc0\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"b90c4f7b-32fc-48a1-871a-08a32290b97f\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureDataLakeStorageGen2\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-06-05T03:45:53Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"fileTemplate\":\"file-template\",\"accountName\":\"account-name\",\"directoryTemplate\":\"directory-template\",\"fileSystemName\":\"file-system-name\"},\"authenticationType\":\"Basic\"}",
+   "response": "{\"dataFeedId\":\"d22644b1-e2eb-48c2-abfc-73041d1d17cc\",\"dataFeedName\":\"js-test-dataLakeGenFeed-164264072616206483\",\"metrics\":[{\"metricId\":\"97bf551f-f8cf-4f1e-ab51-3fef8fea7114\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"a7e667e8-f629-49eb-a892-5349a54a9658\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureDataLakeStorageGen2\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2022-01-20T01:05:41Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"fileTemplate\":\"file-template\",\"accountName\":\"account-name\",\"directoryTemplate\":\"directory-template\",\"fileSystemName\":\"file-system-name\"},\"authenticationType\":\"Basic\"}",
    "responseHeaders": {
-    "apim-request-id": "696a5346-bcb1-41be-95c0-950a29f02baf",
+    "apim-request-id": "12c2f2e2-0d23-4499-8f71-edab4d2b73c9",
     "content-length": "1353",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 05 Jun 2021 03:45:53 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:41 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "183",
-    "x-request-id": "696a5346-bcb1-41be-95c0-950a29f02baf"
+    "x-envoy-upstream-service-time": "160",
+    "x-request-id": "12c2f2e2-0d23-4499-8f71-edab4d2b73c9"
    }
   }
  ],
  "uniqueTestInfo": {
-  "uniqueName": {
-   "js-test-datafeed-": "js-test-datafeed-162286475331903960",
-   "js-test-appInsightsFeed-": "js-test-appInsightsFeed-162286475331906738",
-   "js-test-sqlServerFeed-": "js-test-sqlServerFeed-162286475331905597",
-   "js-test-cosmosFeed-": "js-test-cosmosFeed-162286475331906697",
-   "js-test-dataExplorerFeed-": "js-test-dataExplorerFeed-162286475331907250",
-   "js-test-tableFeed-": "js-test-tableFeed-162286475331905816",
-   "js-test-httpRequestFeed-": "js-test-httpRequestFeed-162286475331903755",
-   "js-test-logAnalyticsFeed-": "js-test-logAnalyticsFeed-162286475331909072",
-   "js-test-influxdbFeed-": "js-test-influxdbFeed-162286475331908450",
-   "js-test-mongoDbFeed-": "js-test-mongoDbFeed-162286475331902433",
-   "js-test-mySqlFeed-": "js-test-mySqlFeed-162286475331900570",
-   "js-test-postgreSqlFeed-": "js-test-postgreSqlFeed-162286475331902070",
-   "js-test-dataLakeGenFeed-": "js-test-dataLakeGenFeed-162286475331906056"
-  },
+  "uniqueName": {},
   "newDate": {}
  },
- "hash": "28527b2a4dd2bbb00b8df3e003439d0a"
+ "hash": "cf5e2c5080cb4959eae3ba417bd2218c"
 }

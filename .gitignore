@@ -120,12 +120,14 @@ Thumbs.db
 *.pfx
 *.pem
 *.key
+*.srl
 
 # WebStorm #
 .idea/
 
 # docs #
 docs/
+!eng/scripts/docs
 main.conf.json
 child.conf.json
 
@@ -154,3 +156,7 @@ swagger/*.json
 
 #autorest artifacts
 code-model-*
+
+# code workspaces
+*.code-workspace
+!/dataplane.code-workspace

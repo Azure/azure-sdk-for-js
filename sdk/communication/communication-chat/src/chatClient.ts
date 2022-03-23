@@ -2,45 +2,46 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { logger } from "./models/logger";
-import { EventEmitter } from "events";
-import { CommunicationTokenCredential } from "@azure/communication-common";
-import { getSignalingClient } from "./signaling/signalingClient";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./tracing";
-import { ChatThreadClient } from "./chatThreadClient";
 import {
   ChatClientOptions,
   CreateChatThreadOptions,
+  DeleteChatThreadOptions,
   ListChatThreadsOptions,
-  DeleteChatThreadOptions
 } from "./models/options";
 import {
-  mapToChatParticipantRestModel,
-  mapToCreateChatThreadOptionsRestModel,
-  mapToCreateChatThreadResultSdkModel
-} from "./models/mappers";
-import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { ChatApiClient } from "./generated/src";
-import { CreateChatThreadRequest } from "./models/requests";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { generateUuid } from "./models/uuid";
-import { SignalingClient } from "@azure/communication-signaling";
-import {
   ChatEventId,
-  ChatMessageReceivedEvent,
-  ChatMessageEditedEvent,
   ChatMessageDeletedEvent,
-  ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent,
+  ChatMessageEditedEvent,
+  ChatMessageReceivedEvent,
   ChatThreadCreatedEvent,
   ChatThreadDeletedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
-  ParticipantsRemovedEvent
+  ParticipantsRemovedEvent,
+  ReadReceiptReceivedEvent,
+  TypingIndicatorReceivedEvent,
 } from "./models/events";
+import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
+import { ConnectionState, SignalingClient } from "@azure/communication-signaling";
+import {
+  mapToChatParticipantRestModel,
+  mapToCreateChatThreadOptionsRestModel,
+  mapToCreateChatThreadResultSdkModel,
+} from "./models/mappers";
+
+import { ChatApiClient } from "./generated/src";
+import { ChatThreadClient } from "./chatThreadClient";
+import { CommunicationTokenCredential } from "@azure/communication-common";
+import { CreateChatThreadRequest } from "./models/requests";
+import { EventEmitter } from "events";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
+import { createSpan } from "./tracing";
+import { generateUuid } from "./models/uuid";
+import { getSignalingClient } from "./signaling/signalingClient";
+import { logger } from "./models/logger";
 
 /**
  * The client to do chat operations
@@ -56,7 +57,7 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param endpoint - The url of the Communication Services resouce.
+   * @param endpoint - The url of the Communication Services resource.
    * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */
@@ -72,14 +73,14 @@ export class ChatClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new ChatApiClient(this.endpoint, {
       endpoint: this.endpoint,
-      ...internalPipelineOptions
+      ...internalPipelineOptions,
     });
 
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
@@ -122,7 +123,7 @@ export class ChatClient {
           topic: request.topic,
           participants: options.participants?.map((participant) =>
             mapToChatParticipantRestModel(participant)
-          )
+          ),
         },
         updatedRestModelOptions
       );
@@ -130,7 +131,7 @@ export class ChatClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -191,12 +192,12 @@ export class ChatClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listChatThreadsPage(settings, updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -220,7 +221,7 @@ export class ChatClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -341,12 +342,29 @@ export class ChatClient {
    */
   public on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 
-  public on(event: ChatEventId, listener: (e: any) => void): void {
+  /**
+   * Subscribe function for realTimeNotificationConnected.
+   * @param event - The realTimeNotificationConnected Event
+   * @param listener - The listener to handle the event.
+   */
+  public on(event: "realTimeNotificationConnected", listener: () => void): void;
+
+  /**
+   * Subscribe function for realTimeNotificationDisconnected.
+   * @param event - The realTimeNotificationDisconnected Event
+   * @param listener - The listener to handle the event.
+   */
+  public on(event: "realTimeNotificationDisconnected", listener: () => void): void;
+
+  public on(event: ChatEventId, listener: (e?: any) => void): void {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
     }
-
-    if (!this.isRealtimeNotificationsStarted) {
+    if (
+      !this.isRealtimeNotificationsStarted &&
+      event !== "realTimeNotificationConnected" &&
+      event !== "realTimeNotificationDisconnected"
+    ) {
       throw new Error(
         "You must call startRealtimeNotifications before you can subscribe to events."
       );
@@ -443,6 +461,14 @@ export class ChatClient {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
     }
+
+    this.signalingClient.on("connectionChanged", (payload) => {
+      if (payload === ConnectionState.Connected) {
+        this.emitter.emit("realTimeNotificationConnected");
+      } else if (payload === ConnectionState.Disconnected) {
+        this.emitter.emit("realTimeNotificationDisconnected");
+      }
+    });
 
     this.signalingClient.on("chatMessageReceived", (payload) => {
       this.emitter.emit("chatMessageReceived", payload);

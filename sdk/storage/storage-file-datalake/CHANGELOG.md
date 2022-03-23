@@ -1,6 +1,6 @@
 # Release History
 
-## 12.7.1 (Unreleased)
+## 12.8.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,23 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.8.0 (2022-03-11)
+
+### Features Added
+
+- Includes all features released in 12.8.0-beta.1.
+
+### Bugs Fixed
+
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `DataLakeServiceClient` with connection string.
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
+
+## 12.8.0-beta.1 (2021-11-09)
+
+### Features Added
+
+- Added support for service version 2020-12-06.
 
 ## 12.7.0 (2021-09-10)
 

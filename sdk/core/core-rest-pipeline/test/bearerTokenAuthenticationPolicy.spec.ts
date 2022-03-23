@@ -3,20 +3,20 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { TokenCredential, AccessToken } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
-  createPipelineRequest,
-  createHttpHeaders,
   PipelineResponse,
+  SendRequest,
   bearerTokenAuthenticationPolicy,
-  SendRequest
+  createHttpHeaders,
+  createPipelineRequest,
 } from "../src";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
-describe("BearerTokenAuthenticationPolicy", function() {
+describe("BearerTokenAuthenticationPolicy", function () {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -26,21 +26,21 @@ describe("BearerTokenAuthenticationPolicy", function() {
     clock.restore();
   });
 
-  it("correctly adds an Authentication header with the Bearer token", async function() {
+  it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
       Promise.resolve({ token: mockToken, expiresOn: new Date() })
     );
     const mockCredential: TokenCredential = {
-      getToken: fakeGetToken
+      getToken: fakeGetToken,
     };
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -51,7 +51,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert(
       fakeGetToken.calledWith(tokenScopes, {
         abortSignal: undefined,
-        tracingOptions: undefined
+        tracingOptions: undefined,
       }),
       "fakeGetToken called incorrectly."
     );
@@ -66,7 +66,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -86,7 +86,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -126,7 +126,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -137,7 +137,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const promises = [
       policy.sendRequest(request, next),
       policy.sendRequest(request, next),
-      policy.sendRequest(request, next)
+      policy.sendRequest(request, next),
     ];
     // Now we wait until they're all resolved.
     for (const promise of promises) {
@@ -157,7 +157,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -192,7 +192,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -208,7 +208,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await Promise.all([
       policy.sendRequest(request, next),
       policy.sendRequest(request, next),
-      policy.sendRequest(request, next)
+      policy.sendRequest(request, next),
     ]);
 
     // Only getTokenDelay should have passed, and only one refresh should have happened.
@@ -251,7 +251,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
   ): PipelinePolicy {
     return bearerTokenAuthenticationPolicy({
       scopes,
-      credential
+      credential,
     });
   }
 });

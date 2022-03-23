@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
+
 import {
   DeletionRecoveryLevel,
+  JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation
 } from "./generated/models";
+
 import { KeyCurveName } from "./cryptographyClientModels";
 
 export { KeyType, KnownKeyTypes, KeyOperation };
@@ -15,7 +17,7 @@ export { KeyType, KnownKeyTypes, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.3-preview";
+export const LATEST_API_VERSION = "7.3";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -285,8 +287,17 @@ export interface KeyReleasePolicy {
    */
   contentType?: string;
 
-  /** Blob encoding the policy rules under which the key can be released. */
+  /**
+   * The policy rules under which the key can be released. Encoded based on the {@link KeyReleasePolicy.contentType}.
+   *
+   * For more information regarding the release policy grammar for Azure Key Vault, please refer to:
+   * - https://aka.ms/policygrammarkeys for Azure Key Vault release policy grammar.
+   * - https://aka.ms/policygrammarmhsm for Azure Managed HSM release policy grammar.
+   */
   encodedPolicy?: Uint8Array;
+
+  /** Marks a release policy as immutable. An immutable release policy cannot be changed or updated after being marked immutable. */
+  immutable?: boolean;
 }
 
 /**
@@ -570,7 +581,7 @@ export enum KnownKeyOperations {
   /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
-  Import = "import"
+  Import = "import",
 }
 
 /** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
@@ -580,7 +591,7 @@ export enum KnownKeyExportEncryptionAlgorithm {
   /** RSA_AES_KEY_WRAP_256 Key Export Encryption Algorithm */
   RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
   /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
-  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
 }
 
 /* eslint-disable tsdoc/syntax */

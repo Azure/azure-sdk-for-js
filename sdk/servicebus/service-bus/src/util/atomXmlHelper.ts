@@ -2,17 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  HttpOperationResponse,
+  PipelineResponse,
   RestError,
-  ServiceClient,
-  WebResource,
-  parseXML,
-  stringifyXML,
-  stripRequest,
-  stripResponse,
-  RequestPrepareOptions,
-  OperationOptions
-} from "@azure/core-http";
+  PipelineRequest,
+  TransferProgressEvent,
+} from "@azure/core-rest-pipeline";
+import { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants";
 import { administrationLogger as logger } from "../log";
@@ -21,15 +17,51 @@ import { Buffer } from "buffer";
 import { parseURL } from "./parseUrl";
 import { isJSONLikeObject } from "./utils";
 import { isDefined } from "./typeGuards";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { InternalQueueOptions } from "../serializers/queueResourceSerializer";
+import { InternalTopicOptions } from "../serializers/topicResourceSerializer";
+import { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer";
+import { CreateRuleOptions } from "../serializers/ruleResourceSerializer";
 
 /**
  * @internal
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
-  serialize(requestBodyInJson: object): object;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  serialize(requestBodyInJson: object): Record<string, unknown>;
 
-  deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
+  deserialize(response: FullOperationResponse): Promise<FullOperationResponse>;
+}
+
+/**
+   applies options to the pipeline request.
+  */
+function applyRequestOptions(
+  request: PipelineRequest,
+  options: {
+    headers?: Record<string, string>;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
+    timeout: number;
+  }
+): void {
+  if (options.headers) {
+    const headers = options.headers;
+    for (const headerName of Object.keys(headers)) {
+      request.headers.set(headerName, headers[headerName]);
+    }
+  }
+  request.onDownloadProgress = options.onDownloadProgress;
+  request.onUploadProgress = options.onUploadProgress;
+  request.abortSignal = options.abortSignal;
+  request.timeout = options.timeout;
+  if (options.tracingOptions) {
+    request.tracingOptions = options.tracingOptions;
+  }
 }
 
 /**
@@ -38,51 +70,53 @@ export interface AtomXmlSerializer {
  */
 export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
-  webResource: WebResource,
+  request: PipelineRequest,
   serializer: AtomXmlSerializer,
-  operationOptions: OperationOptions
-): Promise<HttpOperationResponse> {
-  if (webResource.body) {
-    const content = serializer.serialize(webResource.body);
-    webResource.body = stringifyXML(content, { rootName: "entry" });
+  operationOptions: OperationOptions,
+  requestObject?:
+    | InternalQueueOptions
+    | InternalTopicOptions
+    | InternalSubscriptionOptions
+    | CreateRuleOptions
+): Promise<FullOperationResponse> {
+  if (requestObject) {
+    request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });
+    if (request.method === "PUT") {
+      request.headers.set("content-length", Buffer.byteLength(request.body));
+    }
   }
 
-  if (webResource.method === "PUT") {
-    webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
-  }
+  logger.verbose(`Executing ATOM based HTTP request: ${request.body}`);
 
-  logger.verbose(`Executing ATOM based HTTP request: ${webResource.body}`);
-
-  const reqPrepareOptions: RequestPrepareOptions = {
-    ...webResource,
+  const reqPrepareOptions = {
     headers: operationOptions.requestOptions?.customHeaders,
     onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
     onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
     abortSignal: operationOptions.abortSignal,
-    // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
-    spanOptions: (operationOptions.tracingOptions as any)?.spanOptions,
-    tracingContext: operationOptions.tracingOptions?.tracingContext,
-    disableJsonStringifyOnBody: true
+    tracingOptions: operationOptions.tracingOptions,
+    disableJsonStringifyOnBody: true,
+    timeout: operationOptions.requestOptions?.timeout || 0,
   };
-  webResource = webResource.prepare(reqPrepareOptions);
-  webResource.timeout = operationOptions.requestOptions?.timeout || 0;
-  const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
-    webResource
-  );
+  applyRequestOptions(request, reqPrepareOptions);
+  const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(request);
 
   logger.verbose(`Received ATOM based HTTP response: ${response.bodyAsText}`);
 
   try {
     if (response.bodyAsText) {
-      response.parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
+      (response as FullOperationResponse).parsedBody = await parseXML(response.bodyAsText, {
+        includeRoot: true,
+      });
     }
   } catch (err) {
     const error = new RestError(
       `Error occurred while parsing the response body - expected the service to return valid xml content.`,
-      RestError.PARSE_ERROR,
-      response.status,
-      stripRequest(response.request),
-      stripResponse(response)
+      {
+        code: RestError.PARSE_ERROR,
+        statusCode: response.status,
+        request: response.request,
+        response,
+      }
     );
     logger.logError(err, "Error parsing response body from Service");
     throw error;
@@ -102,7 +136,7 @@ export async function executeAtomXmlOperation(
  *
  */
 export function sanitizeSerializableObject(resource: { [key: string]: any }): void {
-  Object.keys(resource).forEach(function(property) {
+  Object.keys(resource).forEach(function (property) {
     if (!isDefined(resource[property])) {
       delete resource[property];
     } else if (isJSONLikeObject(resource[property])) {
@@ -119,7 +153,10 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  * @param allowedProperties - The set of properties that are allowed by the service for the
  * associated operation(s);
  */
-export function serializeToAtomXmlRequest(resourceName: string, resource: unknown): object {
+export function serializeToAtomXmlRequest(
+  resourceName: string,
+  resource: unknown
+): Record<string, unknown> {
   const content: any = {};
 
   content[resourceName] = Object.assign({}, resource);
@@ -127,16 +164,16 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: unknow
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance",
   };
 
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-  const requestDetails: any = {
+  const requestDetails: Record<string, unknown> = {
     updated: new Date().toISOString(),
-    content: content
+    content: content,
   };
   requestDetails[Constants.XML_METADATA_MARKER] = {
-    xmlns: "http://www.w3.org/2005/Atom"
+    xmlns: "http://www.w3.org/2005/Atom",
   };
   return requestDetails;
 }
@@ -149,8 +186,8 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: unknow
  */
 export async function deserializeAtomXmlResponse(
   nameProperties: string[],
-  response: HttpOperationResponse
-): Promise<HttpOperationResponse> {
+  response: FullOperationResponse
+): Promise<FullOperationResponse> {
   // If received data is a non-valid HTTP response, the body is expected to contain error information
   if (response.status < 200 || response.status >= 300) {
     throw buildError(response);
@@ -169,7 +206,7 @@ export async function deserializeAtomXmlResponse(
  * @param nameProperties - The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * */
-function parseAtomResult(response: HttpOperationResponse, nameProperties: string[]): void {
+function parseAtomResult(response: FullOperationResponse, nameProperties: string[]): void {
   const atomResponseInJson = response.parsedBody;
 
   let result: any;
@@ -202,10 +239,12 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
   );
   throw new RestError(
     "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
-    RestError.PARSE_ERROR,
-    response.status,
-    stripRequest(response.request),
-    stripResponse(response)
+    {
+      code: RestError.PARSE_ERROR,
+      statusCode: response.status,
+      request: response.request,
+      response,
+    }
   );
 }
 
@@ -213,7 +252,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
  * @internal
  * Utility to help parse given `entry` result
  */
-function parseEntryResult(entry: any): object | undefined {
+function parseEntryResult(entry: any): Record<string, unknown> | undefined {
   let result: any;
 
   if (
@@ -225,7 +264,7 @@ function parseEntryResult(entry: any): object | undefined {
     return undefined;
   }
 
-  const contentElementNames = Object.keys(entry.content).filter(function(key) {
+  const contentElementNames = Object.keys(entry.content).filter(function (key) {
     return key !== Constants.XML_METADATA_MARKER;
   });
 
@@ -279,8 +318,8 @@ function parseLinkInfo(
  * @internal
  * Utility to help parse given `feed` result
  */
-function parseFeedResult(feed: any): object[] & { nextLink?: string } {
-  const result: object[] & { nextLink?: string } = [];
+function parseFeedResult(feed: any): Record<string, unknown>[] & { nextLink?: string } {
+  const result: Record<string, unknown>[] & { nextLink?: string } = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {
@@ -371,14 +410,16 @@ function setName(entry: any, nameProperties: any): any {
  * Utility to help construct the normalized `RestError` object based on given error
  * information and other data present in the received `response` object.
  */
-export function buildError(response: HttpOperationResponse): RestError {
+export function buildError(response: FullOperationResponse): RestError {
   if (!isKnownResponseCode(response.status)) {
     throw new RestError(
       `Service returned an error response with an unrecognized HTTP status code - ${response.status}`,
-      "ServiceError",
-      response.status,
-      stripRequest(response.request),
-      stripResponse(response)
+      {
+        code: "ServiceError",
+        statusCode: response.status,
+        request: response.request,
+        response,
+      }
     );
   }
 
@@ -401,13 +442,12 @@ export function buildError(response: HttpOperationResponse): RestError {
 
   const errorCode = getErrorCode(response, errorMessage);
 
-  const error: RestError = new RestError(
-    errorMessage,
-    errorCode,
-    response.status,
-    stripRequest(response.request),
-    stripResponse(response)
-  );
+  const error: RestError = new RestError(errorMessage, {
+    code: errorCode,
+    statusCode: response.status,
+    request: response.request,
+    response,
+  });
   return error;
 }
 
@@ -416,7 +456,7 @@ export function buildError(response: HttpOperationResponse): RestError {
  * Helper utility to construct user friendly error codes based on based on given error
  * information and other data present in the received `response` object.
  */
-function getErrorCode(response: HttpOperationResponse, errorMessage: string): string {
+function getErrorCode(response: PipelineResponse, errorMessage: string): string {
   if (response.status === 401) {
     return "UnauthorizedRequestError";
   }

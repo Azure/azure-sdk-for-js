@@ -106,7 +106,7 @@ export class AuthenticationError extends Error {
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
     let errorResponse: ErrorResponse = {
       error: "unknown",
-      errorDescription: "An unknown error occurred and no additional details are available."
+      errorDescription: "An unknown error occurred and no additional details are available.",
     };
 
     if (isErrorResponse(errorBody)) {
@@ -121,24 +121,24 @@ export class AuthenticationError extends Error {
         if (statusCode === 400) {
           errorResponse = {
             error: "authority_not_found",
-            errorDescription: "The specified authority URL was not found."
+            errorDescription: "The specified authority URL was not found.",
           };
         } else {
           errorResponse = {
             error: "unknown_error",
-            errorDescription: `An unknown error has occurred. Response body:\n\n${errorBody}`
+            errorDescription: `An unknown error has occurred. Response body:\n\n${errorBody}`,
           };
         }
       }
     } else {
       errorResponse = {
         error: "unknown_error",
-        errorDescription: "An unknown error occurred and no additional details are available."
+        errorDescription: "An unknown error occurred and no additional details are available.",
       };
     }
 
     super(
-      `${errorResponse.error}(status code ${statusCode}).\nMore details:\n${errorResponse.errorDescription}`
+      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -181,7 +181,7 @@ function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse)
     correlationId: errorBody.correlation_id,
     errorCodes: errorBody.error_codes,
     timestamp: errorBody.timestamp,
-    traceId: errorBody.trace_id
+    traceId: errorBody.trace_id,
   };
 }
 

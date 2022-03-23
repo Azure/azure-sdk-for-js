@@ -11,15 +11,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 // @public
 export interface AuthorizationOperations {
     list(options?: AuthorizationOperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-    listNext(nextLink: string, options?: AuthorizationOperationsListNextOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface AuthorizationOperationsListNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AuthorizationOperationsListNextNextResponse = OperationListResult;
 
 // @public
 export interface AuthorizationOperationsListNextOptionalParams extends coreClient.OperationOptions {
@@ -49,21 +41,16 @@ export enum KnownLockLevel {
 export type LockLevel = string;
 
 // @public (undocumented)
-export class ManagementLockClient extends ManagementLockClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagementLockClientOptionalParams);
-    // (undocumented)
-    authorizationOperations: AuthorizationOperations;
-    // (undocumented)
-    managementLocks: ManagementLocks;
-}
-
-// @public (undocumented)
-export class ManagementLockClientContext extends coreClient.ServiceClient {
+export class ManagementLockClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagementLockClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    authorizationOperations: AuthorizationOperations;
+    // (undocumented)
+    managementLocks: ManagementLocks;
     // (undocumented)
     subscriptionId: string;
 }
@@ -111,13 +98,9 @@ export interface ManagementLocks {
     getAtSubscriptionLevel(lockName: string, options?: ManagementLocksGetAtSubscriptionLevelOptionalParams): Promise<ManagementLocksGetAtSubscriptionLevelResponse>;
     getByScope(scope: string, lockName: string, options?: ManagementLocksGetByScopeOptionalParams): Promise<ManagementLocksGetByScopeResponse>;
     listAtResourceGroupLevel(resourceGroupName: string, options?: ManagementLocksListAtResourceGroupLevelOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
-    listAtResourceGroupLevelNext(resourceGroupName: string, nextLink: string, options?: ManagementLocksListAtResourceGroupLevelNextOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
     listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: ManagementLocksListAtResourceLevelOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
-    listAtResourceLevelNext(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, nextLink: string, options?: ManagementLocksListAtResourceLevelNextOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
     listAtSubscriptionLevel(options?: ManagementLocksListAtSubscriptionLevelOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
-    listAtSubscriptionLevelNext(nextLink: string, options?: ManagementLocksListAtSubscriptionLevelNextOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
     listByScope(scope: string, options?: ManagementLocksListByScopeOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
-    listByScopeNext(scope: string, nextLink: string, options?: ManagementLocksListByScopeNextOptionalParams): PagedAsyncIterableIterator<ManagementLockObject>;
 }
 
 // @public
@@ -193,14 +176,6 @@ export interface ManagementLocksGetByScopeOptionalParams extends coreClient.Oper
 export type ManagementLocksGetByScopeResponse = ManagementLockObject;
 
 // @public
-export interface ManagementLocksListAtResourceGroupLevelNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ManagementLocksListAtResourceGroupLevelNextNextResponse = ManagementLockListResult;
-
-// @public
 export interface ManagementLocksListAtResourceGroupLevelNextOptionalParams extends coreClient.OperationOptions {
     filter?: string;
 }
@@ -215,14 +190,6 @@ export interface ManagementLocksListAtResourceGroupLevelOptionalParams extends c
 
 // @public
 export type ManagementLocksListAtResourceGroupLevelResponse = ManagementLockListResult;
-
-// @public
-export interface ManagementLocksListAtResourceLevelNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ManagementLocksListAtResourceLevelNextNextResponse = ManagementLockListResult;
 
 // @public
 export interface ManagementLocksListAtResourceLevelNextOptionalParams extends coreClient.OperationOptions {
@@ -241,14 +208,6 @@ export interface ManagementLocksListAtResourceLevelOptionalParams extends coreCl
 export type ManagementLocksListAtResourceLevelResponse = ManagementLockListResult;
 
 // @public
-export interface ManagementLocksListAtSubscriptionLevelNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ManagementLocksListAtSubscriptionLevelNextNextResponse = ManagementLockListResult;
-
-// @public
 export interface ManagementLocksListAtSubscriptionLevelNextOptionalParams extends coreClient.OperationOptions {
     filter?: string;
 }
@@ -263,14 +222,6 @@ export interface ManagementLocksListAtSubscriptionLevelOptionalParams extends co
 
 // @public
 export type ManagementLocksListAtSubscriptionLevelResponse = ManagementLockListResult;
-
-// @public
-export interface ManagementLocksListByScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ManagementLocksListByScopeNextNextResponse = ManagementLockListResult;
 
 // @public
 export interface ManagementLocksListByScopeNextOptionalParams extends coreClient.OperationOptions {
@@ -306,7 +257,6 @@ export interface OperationListResult {
     nextLink?: string;
     value?: Operation[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

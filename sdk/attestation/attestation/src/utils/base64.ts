@@ -30,10 +30,7 @@ export function base64UrlEncodeByteArray(value: Uint8Array): string {
   const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer as ArrayBuffer);
   const base64 = bufferValue.toString("base64");
   // Convert the base64 buffer to base64url.
-  return base64
-    .replace(/\+/g, "-")
-    .replace(/\//, "_")
-    .split("=")[0];
+  return base64.replace(/\+/g, "-").replace(/\//, "_").split("=")[0];
 }
 
 /**

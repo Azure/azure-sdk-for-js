@@ -1246,11 +1246,44 @@ export type UsernamePasswordCredentials = CredentialsBase & {
     password: string;
 };
 
+// @public
+export type VideoAnalyzer = TrackedResource & {
+    identity?: VideoAnalyzerIdentity;
+    storageAccounts?: StorageAccount[];
+    readonly endpoints?: Endpoint[];
+    encryption?: AccountEncryption;
+    iotHubs?: IotHub[];
+    publicNetworkAccess?: PublicNetworkAccess;
+    networkAccessControl?: NetworkAccessControl;
+    readonly provisioningState?: ProvisioningState;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+};
+
+// @public
+export interface VideoAnalyzerCollection {
+    value?: VideoAnalyzer[];
+}
+
+// @public
+export type VideoAnalyzerEndpointType = string;
+
+// @public
+export interface VideoAnalyzerIdentity {
+    type: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedManagedIdentity;
+    };
+}
+
 // @public (undocumented)
-export class VideoAnalyzer extends VideoAnalyzerContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: VideoAnalyzerOptionalParams);
+export class VideoAnalyzerManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: VideoAnalyzerManagementClientOptionalParams);
     // (undocumented)
     accessPolicies: AccessPolicies;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     edgeModules: EdgeModules;
     // (undocumented)
@@ -1276,6 +1309,8 @@ export class VideoAnalyzer extends VideoAnalyzerContext {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     videoAnalyzerOperationResults: VideoAnalyzerOperationResults;
     // (undocumented)
     videoAnalyzerOperationStatuses: VideoAnalyzerOperationStatuses;
@@ -1286,31 +1321,10 @@ export class VideoAnalyzer extends VideoAnalyzerContext {
 }
 
 // @public
-export interface VideoAnalyzerCollection {
-    // Warning: (ae-forgotten-export) The symbol "VideoAnalyzer" needs to be exported by the entry point index.d.ts
-    value?: VideoAnalyzer_2[];
-}
-
-// @public (undocumented)
-export class VideoAnalyzerContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: VideoAnalyzerOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export type VideoAnalyzerEndpointType = string;
-
-// @public
-export interface VideoAnalyzerIdentity {
-    type: string;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedManagedIdentity;
-    };
+export interface VideoAnalyzerManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -1323,7 +1337,7 @@ export interface VideoAnalyzerOperationResultsGetOptionalParams extends coreClie
 }
 
 // @public
-export type VideoAnalyzerOperationResultsGetResponse = VideoAnalyzer_2;
+export type VideoAnalyzerOperationResultsGetResponse = VideoAnalyzer;
 
 // @public
 export interface VideoAnalyzerOperationStatus {
@@ -1348,13 +1362,6 @@ export interface VideoAnalyzerOperationStatusesGetOptionalParams extends coreCli
 export type VideoAnalyzerOperationStatusesGetResponse = VideoAnalyzerOperationStatus;
 
 // @public
-export interface VideoAnalyzerOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
 export interface VideoAnalyzerPrivateEndpointConnectionOperationStatus {
     endTime?: string;
     error?: ErrorDetail;
@@ -1366,8 +1373,8 @@ export interface VideoAnalyzerPrivateEndpointConnectionOperationStatus {
 
 // @public
 export interface VideoAnalyzers {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, parameters: VideoAnalyzer_2, options?: VideoAnalyzersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VideoAnalyzersCreateOrUpdateResponse>, VideoAnalyzersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, parameters: VideoAnalyzer_2, options?: VideoAnalyzersCreateOrUpdateOptionalParams): Promise<VideoAnalyzersCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, parameters: VideoAnalyzer, options?: VideoAnalyzersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VideoAnalyzersCreateOrUpdateResponse>, VideoAnalyzersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, parameters: VideoAnalyzer, options?: VideoAnalyzersCreateOrUpdateOptionalParams): Promise<VideoAnalyzersCreateOrUpdateResponse>;
     beginUpdate(resourceGroupName: string, accountName: string, parameters: VideoAnalyzerUpdate, options?: VideoAnalyzersUpdateOptionalParams): Promise<PollerLike<PollOperationState<VideoAnalyzersUpdateResponse>, VideoAnalyzersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, parameters: VideoAnalyzerUpdate, options?: VideoAnalyzersUpdateOptionalParams): Promise<VideoAnalyzersUpdateResponse>;
     delete(resourceGroupName: string, accountName: string, options?: VideoAnalyzersDeleteOptionalParams): Promise<void>;
@@ -1390,7 +1397,7 @@ export interface VideoAnalyzersCreateOrUpdateOptionalParams extends coreClient.O
 }
 
 // @public
-export type VideoAnalyzersCreateOrUpdateResponse = VideoAnalyzer_2;
+export type VideoAnalyzersCreateOrUpdateResponse = VideoAnalyzer;
 
 // @public
 export interface VideoAnalyzersDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1401,7 +1408,7 @@ export interface VideoAnalyzersGetOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export type VideoAnalyzersGetResponse = VideoAnalyzer_2;
+export type VideoAnalyzersGetResponse = VideoAnalyzer;
 
 // @public
 export interface VideoAnalyzersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
@@ -1431,7 +1438,7 @@ export interface VideoAnalyzersUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type VideoAnalyzersUpdateResponse = VideoAnalyzersUpdateHeaders & VideoAnalyzer_2;
+export type VideoAnalyzersUpdateResponse = VideoAnalyzersUpdateHeaders & VideoAnalyzer;
 
 // @public
 export interface VideoAnalyzerUpdate {
@@ -1625,7 +1632,6 @@ export type VideosUpdateResponse = VideoEntity;
 
 // @public
 export type VideoType = string;
-
 
 // (No @packageDocumentation comment for this package)
 

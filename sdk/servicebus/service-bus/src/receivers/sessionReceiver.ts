@@ -13,7 +13,7 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
-  throwTypeErrorIfParameterTypeMismatch
+  throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import {
@@ -23,7 +23,7 @@ import {
   deadLetterMessage,
   deferMessage,
   getMessageIterator,
-  wrapProcessErrorHandler
+  wrapProcessErrorHandler,
 } from "./receiverCommon";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
@@ -34,7 +34,7 @@ import {
   RetryOperationType,
   RetryOptions,
   retry,
-  ErrorNameConditionMapper
+  ErrorNameConditionMapper,
 } from "@azure/core-amqp";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
@@ -152,7 +152,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       }
       const amqpError: AmqpError = {
         condition: ErrorNameConditionMapper.SessionLockLostError,
-        description: `The session lock has expired on the session with id ${this.sessionId}`
+        description: `The session lock has expired on the session with id ${this.sessionId}`,
       };
       throw translateServiceBusError(amqpError);
     }
@@ -216,7 +216,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "renewSessionLock",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
       return this._messageSession!.sessionLockedUntilUtc!;
     };
@@ -225,7 +225,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<Date>(config);
   }
@@ -248,7 +248,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "setState",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
       return;
     };
@@ -257,7 +257,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<void>(config);
   }
@@ -278,7 +278,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         ...options,
         associatedLinkName: this._messageSession.name,
         requestName: "getState",
-        timeoutInMs: this._retryOptions.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs,
       });
     };
     const config: RetryConfig<any> = {
@@ -286,7 +286,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<any>(config);
   }
@@ -301,7 +301,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       ...options,
       associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
-      timeoutInMs: this._retryOptions?.timeoutInMs
+      timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
@@ -325,7 +325,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
   }
@@ -349,14 +349,16 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const receiveDeferredMessagesOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
+    const receiveDeferredMessagesOperationPromise = async (): Promise<
+      ServiceBusReceivedMessage[]
+    > => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
       return deferredMessages;
     };
@@ -365,7 +367,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
   }
@@ -407,7 +409,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.receiveMessage,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
       throw translateServiceBusError(err);
@@ -439,7 +441,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return {
       close: async (): Promise<void> => {
         return this._messageSession?.receiverHelper.suspend();
-      }
+      },
     };
   }
 
@@ -488,7 +490,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         error: err,
         errorSource: "receive",
         entityPath: this.entityPath,
-        fullyQualifiedNamespace: this._context.config.host
+        fullyQualifiedNamespace: this._context.config.host,
       });
     }
   }
@@ -508,7 +510,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -524,7 +526,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -540,7 +542,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: any }
+    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);

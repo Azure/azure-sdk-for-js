@@ -14,8 +14,8 @@
   - [Implementing the TokenCredential Interface](#implementing-the-tokencredential-interface).
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
-    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
+    - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-azuremsal-node-confidential-client).
+    - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azuremsal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
   - [Authenticate on behalf of](#authenticate-on-behalf-of)
@@ -30,7 +30,7 @@
 
 ## Introduction
 
-Authenticating your application, users, and principals is an integral part of working with the Azure client libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. There is sample code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/samples/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/samples/typescript) to cover the basic authentication scenarios. This document covers several use cases of Identity with greater context and links to the underlying authentication flows and other available documentation.
+Authenticating your application, users, and principals is an integral part of working with the Azure client libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. There is sample code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/samples/v2/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/samples/v2/typescript) to cover the basic authentication scenarios. This document covers several use cases of Identity with greater context and links to the underlying authentication flows and other available documentation.
 
 ## Authenticating client-side browser applications
 
@@ -62,7 +62,7 @@ function withInteractiveBrowserCredential() {
 }
 ```
 
-If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
+If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azuremsal-browser-public-client).
 
 ## Authenticating server-side applications
 
@@ -126,7 +126,7 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 
 #### Authenticating with `DefaultAzureCredential`
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` makes for a terrific starting point as it provides sane defaults with minimal configuration and chains multiple credentials together. While you may outgrow it eventually, it is a sensible first choice for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` makes for a terrific starting point as it provides sane defaults with minimal configuration and chains multiple credentials together. While you may outgrow it eventually, it is a sensible first choice for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
 
 ```ts
 /**
@@ -179,7 +179,7 @@ function withInteractiveBrowserCredential() {
 
 #### Authenticating a service principal with a client secret
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientSecretCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts) to create a Key Vault key client you can copy-paste.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientSecretCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/typescript/src/clientSecretCredential.ts) to create a Key Vault key client you can copy-paste.
 
 You'll need to:
 
@@ -302,7 +302,7 @@ Apart from user name and password, this credential requires you to know the tena
 /**
  *  Authenticate with a client certificate.
  */
-function withClientCertificateCredential() {
+function withUsernamePasswordCredential() {
   let credential = new UsernamePasswordCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",

@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CommunicationUserIdentifier } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
@@ -13,6 +12,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface CommunicationIceServer {
     credential: string;
+    routeType: RouteType;
     urls: string[];
     username: string;
 }
@@ -22,7 +22,7 @@ export class CommunicationRelayClient {
     constructor(connectionString: string, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
-    getRelayConfiguration(user?: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public
@@ -35,6 +35,17 @@ export interface CommunicationRelayConfiguration {
     iceServers: CommunicationIceServer[];
 }
 
+// @public
+export interface GetRelayConfigurationOptions extends OperationOptions {
+    id?: string;
+    // (undocumented)
+    routeType?: RouteType;
+    // (undocumented)
+    ttl?: number;
+}
+
+// @public
+export type RouteType = "any" | "nearest";
 
 // (No @packageDocumentation comment for this package)
 

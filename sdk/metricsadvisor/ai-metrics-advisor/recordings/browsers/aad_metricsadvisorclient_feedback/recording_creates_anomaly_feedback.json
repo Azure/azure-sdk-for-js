@@ -1,69 +1,69 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:59 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - SCUS ProdSlices",
-    "x-ms-request-id": "03309eaf-7bbf-433f-a795-f399a605a400"
-   }
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-store, no-cache",
+        "content-length": "1331",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 08 Nov 2021 09:44:04 GMT",
+        "expires": "-1",
+        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.12197.4 - WUS2 ProdSlices",
+        "x-ms-request-id": "4cd0f948-5f13-45cc-9507-aa3bcf389700"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric",
+      "query": {},
+      "requestBody": "{\"feedbackType\":\"Anomaly\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"category\":\"Home & Garden\",\"region\":\"Cairo\"}},\"startTime\":\"2021-08-05T00:00:00.000Z\",\"endTime\":\"2021-08-07T00:00:00.000Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"}}",
+      "status": 201,
+      "response": "",
+      "responseHeaders": {
+        "apim-request-id": "a1aea702-9a17-433b-abca-eb7a9290ef20",
+        "content-length": "0",
+        "date": "Mon, 08 Nov 2021 09:44:05 GMT",
+        "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/09eacec0-6cbb-4805-977f-12de656fe4da",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-envoy-upstream-service-time": "539",
+        "x-request-id": "a1aea702-9a17-433b-abca-eb7a9290ef20"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/09eacec0-6cbb-4805-977f-12de656fe4da",
+      "query": {},
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"feedbackId\":\"09eacec0-6cbb-4805-977f-12de656fe4da\",\"createdTime\":\"2021-11-08T09:44:05.971Z\",\"userPrincipal\":\"azure_client_id\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"region\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Anomaly\",\"startTime\":\"2021-08-05T00:00:00Z\",\"endTime\":\"2021-08-07T00:00:00Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"}}",
+      "responseHeaders": {
+        "apim-request-id": "3accae15-3997-4f65-8f33-25c54c6e189c",
+        "content-length": "408",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 08 Nov 2021 09:44:05 GMT",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-envoy-upstream-service-time": "85",
+        "x-request-id": "3accae15-3997-4f65-8f33-25c54c6e189c"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric",
-   "query": {},
-   "requestBody": "{\"feedbackType\":\"Anomaly\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-08-07T00:00:00.000Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"}}",
-   "status": 201,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "5fa848ee-c48f-4065-a236-01b24fe2c734",
-    "content-length": "0",
-    "date": "Wed, 02 Jun 2021 07:09:00 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/06116c35-8c09-4062-b082-fdceae012e35",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "289",
-    "x-request-id": "5fa848ee-c48f-4065-a236-01b24fe2c734"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/06116c35-8c09-4062-b082-fdceae012e35",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"feedbackId\":\"06116c35-8c09-4062-b082-fdceae012e35\",\"createdTime\":\"2021-06-02T07:09:00.405Z\",\"userPrincipal\":\"azure_client_id\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Anomaly\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-07T00:00:00Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"}}",
-   "responseHeaders": {
-    "apim-request-id": "1377d3af-d6ce-4fda-adf3-2e1451373d5c",
-    "content-length": "406",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:04 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5106",
-    "x-request-id": "1377d3af-d6ce-4fda-adf3-2e1451373d5c"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "d7145a432113dc678222afe6e15522e5"
+  "hash": "d58482655d4c73f1c9ed9f782272a767"
 }

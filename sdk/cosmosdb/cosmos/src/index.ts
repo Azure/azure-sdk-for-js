@@ -23,14 +23,14 @@ export {
   ReadOperationInput,
   DeleteOperationInput,
   PatchOperationInput,
-  BulkPatchOperation
+  BulkPatchOperation,
 } from "./utils/batch";
 export {
   PatchOperation,
   PatchOperationType,
   ExistingKeyOperation,
   RemoveOperation,
-  PatchRequestBody
+  PatchRequestBody,
 } from "./utils/patch";
 export {
   ConnectionMode,
@@ -52,7 +52,7 @@ export {
   PermissionMode,
   TriggerOperation,
   TriggerType,
-  UserDefinedFunctionType
+  UserDefinedFunctionType,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
@@ -67,7 +67,7 @@ export {
   SqlQuerySpec,
   JSONValue,
   JSONArray,
-  JSONObject
+  JSONObject,
 } from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
 export * from "./queryMetrics";
@@ -83,3 +83,5 @@ export { ChangeFeedOptions } from "./ChangeFeedOptions";
 export { ChangeFeedResponse } from "./ChangeFeedResponse";
 export { ClientContext } from "./ClientContext";
 export { GlobalEndpointManager } from "./globalEndpointManager";
+export { SasTokenPermissionKind } from "./common/constants";
+export { createAuthorizationSasToken } from "./utils/SasToken";

@@ -6,7 +6,7 @@ import {
   PageBlobGetPageRangesHeaders,
   PageBlobGetPageRangesDiffHeaders,
   PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
-  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel
+  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel,
 } from "./generatedModels";
 import { Range } from "./Range";
 
@@ -88,12 +88,12 @@ export function rangeResponseFromModel(
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
   const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
     offset: x.start,
-    count: x.end - x.start
+    count: x.end - x.start,
   }));
 
   const clearRange = (response._response.parsedBody.clearRange || []).map((x) => ({
     offset: x.start,
-    count: x.end - x.start
+    count: x.end - x.start,
   }));
 
   return {
@@ -104,8 +104,8 @@ export function rangeResponseFromModel(
       ...response._response,
       parsedBody: {
         pageRange,
-        clearRange
-      }
-    }
+        clearRange,
+      },
+    },
   };
 }

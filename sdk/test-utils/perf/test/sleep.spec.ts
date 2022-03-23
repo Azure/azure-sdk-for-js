@@ -6,8 +6,8 @@ import { delay } from "@azure/core-http";
 
 // Used for verifying the perf framework correctly computes average throughput across parallel tests of different speed
 export class SleepTest extends PerfTest {
-  private static instanceCount: number = 0;
-  private secondsPerOperation: number = 0;
+  private static instanceCount = 0;
+  private secondsPerOperation = 0;
 
   public options = {};
 

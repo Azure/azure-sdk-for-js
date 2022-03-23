@@ -277,6 +277,12 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      semanticConfiguration: {
+        serializedName: "semanticConfiguration",
+        type: {
+          name: "String"
+        }
+      },
       searchText: {
         serializedName: "search",
         type: {

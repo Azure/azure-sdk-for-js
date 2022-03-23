@@ -14,6 +14,8 @@ import {
 import {
   KqlScriptResource as KqlScriptResourceMapper,
   ArtifactRenameRequest as ArtifactRenameRequestMapper,
+  MetastoreRegisterObject as MetastoreRegisterObjectMapper,
+  MetastoreUpdateObject as MetastoreUpdateObjectMapper,
   SparkConfigurationResource as SparkConfigurationResourceMapper,
   DataFlowResource as DataFlowResourceMapper,
   CreateDataFlowDebugSessionRequest as CreateDataFlowDebugSessionRequestMapper,
@@ -58,7 +60,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2021-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -112,6 +114,51 @@ export const renameRequest: OperationParameter = {
   mapper: ArtifactRenameRequestMapper
 };
 
+export const registerBody: OperationParameter = {
+  parameterPath: "registerBody",
+  mapper: MetastoreRegisterObjectMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const id: OperationURLParameter = {
+  parameterPath: "id",
+  mapper: {
+    serializedName: "id",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateBody: OperationParameter = {
+  parameterPath: "updateBody",
+  mapper: MetastoreUpdateObjectMapper
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const sparkConfiguration: OperationParameter = {
   parameterPath: "sparkConfiguration",
   mapper: SparkConfigurationResourceMapper
@@ -153,7 +200,7 @@ export const request: OperationParameter = {
   mapper: ArtifactRenameRequestMapper
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-12-01",

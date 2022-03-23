@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import plugin from "../src";
 import { describe, it } from "mocha";
 import { assert } from "chai";
+import plugin from "../src";
 
 /**
  * A list of all currently supported rules
@@ -18,30 +18,17 @@ const ruleList = [
   "ts-apiextractor-json-types",
   "ts-apisurface-standardized-verbs",
   "ts-apisurface-supportcancellation",
-  "ts-config-allowsyntheticdefaultimports",
-  "ts-config-declaration",
-  "ts-config-esmoduleinterop",
-  "ts-config-exclude",
-  "ts-config-forceconsistentcasinginfilenames",
-  "ts-config-importhelpers",
-  "ts-config-lib",
-  "ts-config-module",
-  "ts-config-moduleresolution",
-  "ts-config-no-experimentaldecorators",
-  "ts-config-sourcemap",
-  "ts-config-strict",
-  "ts-config-target",
+  "ts-config-include",
   "ts-doc-internal",
+  "ts-doc-internal-private-member",
   "ts-error-handling",
   "ts-modules-only-named",
   "ts-naming-drop-noun",
   "ts-naming-options",
   "ts-naming-subclients",
   "ts-no-const-enums",
-  "ts-no-namespaces",
   "ts-no-window",
   "ts-package-json-author",
-  "ts-package-json-sdktype",
   "ts-package-json-bugs",
   "ts-package-json-engine-is-present",
   "ts-package-json-files-required",
@@ -53,12 +40,13 @@ const ruleList = [
   "ts-package-json-name",
   "ts-package-json-repo",
   "ts-package-json-required-scripts",
+  "ts-package-json-sdktype",
   "ts-package-json-sideeffects",
   "ts-package-json-types",
   "ts-pagination-list",
   "ts-use-interface-parameters",
   "ts-use-promises",
-  "ts-versioning-semver"
+  "ts-versioning-semver",
 ];
 
 /**

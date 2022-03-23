@@ -9,13 +9,13 @@ import { FullOperationResponse } from "@azure/core-client";
 import { DefaultAzureCredential } from "@azure/identity";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
-describe("HubClient", function() {
+describe("HubClient", function () {
   let recorder: Recorder;
-  beforeEach(function() {
+  beforeEach(function () {
     recorder = record(this, environmentSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (recorder) {
       await recorder.stop();
     }
@@ -25,7 +25,7 @@ describe("HubClient", function() {
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "test-hub", {
-          retryOptions: { maxRetries: 2 }
+          retryOptions: { maxRetries: 2 },
         });
       });
     });
@@ -33,11 +33,11 @@ describe("HubClient", function() {
     it("takes an endpoint, an API key, a hub name, and options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubServiceClient(
-          env.ENDPOINT,
+          env.WPS_ENDPOINT,
           new AzureKeyCredential(env.WPS_API_KEY),
           "test-hub",
           {
-            retryOptions: { maxRetries: 2 }
+            retryOptions: { maxRetries: 2 },
           }
         );
       });
@@ -45,20 +45,20 @@ describe("HubClient", function() {
 
     it("takes an endpoint, DefaultAzureCredential, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(env.ENDPOINT, new DefaultAzureCredential(), "test-hub", {
-          retryOptions: { maxRetries: 2 }
+        new WebPubSubServiceClient(env.WPS_ENDPOINT, new DefaultAzureCredential(), "test-hub", {
+          retryOptions: { maxRetries: 2 },
         });
       });
     });
   });
 
-  describe("Working with a hub", function() {
+  describe("Working with a hub", function () {
     let client: WebPubSubServiceClient;
     let lastResponse: FullOperationResponse | undefined;
     function onResponse(response: FullOperationResponse) {
       lastResponse = response;
     }
-    beforeEach(function() {
+    beforeEach(function () {
       client = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
     });
 
@@ -76,7 +76,7 @@ describe("HubClient", function() {
 
     it("can broadcast using the DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        env.ENDPOINT,
+        env.WPS_ENDPOINT,
         new DefaultAzureCredential(),
         "simplechat"
       );
@@ -94,7 +94,7 @@ describe("HubClient", function() {
 
     it("can broadcast using APIM", async () => {
       const apimClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat", {
-        reverseProxyEndpoint: env.REVERSE_PROXY_ENDPOINT
+        reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT,
       });
 
       await apimClient.sendToAll("hello", { contentType: "text/plain", onResponse });
@@ -111,7 +111,7 @@ describe("HubClient", function() {
     it("can send messages to a user", async () => {
       await client.sendToUser("brian", "hello", {
         contentType: "text/plain",
-        onResponse
+        onResponse,
       });
       assert.equal(lastResponse?.status, 202);
 
@@ -144,7 +144,7 @@ describe("HubClient", function() {
       assert.equal(lastResponse?.status, 200);
     });
 
-    it("can check if a connection exists", async function() {
+    it("can check if a connection exists", async function () {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
       const res = await client.connectionExists("xxx");
@@ -162,23 +162,17 @@ describe("HubClient", function() {
       assert.equal(error.statusCode, 404);
     });
 
-    it("can revoke permissions from connections", async function() {
+    it("can revoke permissions from connections", async function () {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
-      let error;
-      try {
-        await client.revokePermission("xxx", "joinLeaveGroup", { targetName: "x" });
-      } catch (e) {
-        error = e;
-      }
-      // grantPermission validates connection ids, so we expect an error here.
-      assert.equal(error.statusCode, 404);
+      await client.revokePermission("invalid-id", "joinLeaveGroup", { targetName: "x" });
+      // Service doesn't throw error for invalid connection-ids
     });
 
     // service API doesn't work yet.
     it.skip("can generate client tokens", async () => {
       await client.getClientAccessToken({
-        userId: "brian"
+        userId: "brian",
       });
     });
   });

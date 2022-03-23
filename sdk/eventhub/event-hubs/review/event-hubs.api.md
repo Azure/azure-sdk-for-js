@@ -15,11 +15,18 @@ import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
-import { Span } from '@azure/core-tracing';
-import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
+
+// @public
+export interface BufferedCloseOptions extends OperationOptions {
+    flush?: boolean;
+}
+
+// @public
+export interface BufferedFlushOptions extends OperationOptions {
+}
 
 // @public
 export interface Checkpoint {
@@ -53,7 +60,14 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export function createEventDataAdapter(params?: EventDataAdapterParameters): MessageAdapter<EventData>;
+
+// @public
 export const earliestEventPosition: EventPosition;
+
+// @public
+export interface EnqueueEventOptions extends SendBatchOptions {
+}
 
 // @public
 export interface EventData {
@@ -67,19 +81,49 @@ export interface EventData {
 }
 
 // @public
+export interface EventDataAdapterParameters {
+    correlationId?: string | number | Buffer;
+    messageId?: string | number | Buffer;
+    properties?: {
+        [key: string]: any;
+    };
+}
+
+// @public
 export interface EventDataBatch {
     readonly count: number;
-    // @internal
-    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
-    // @internal
-    readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
     tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
+}
+
+// @public
+export class EventHubBufferedProducerClient {
+    constructor(connectionString: string, options: EventHubBufferedProducerClientOptions);
+    constructor(connectionString: string, eventHubName: string, options: EventHubBufferedProducerClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options: EventHubBufferedProducerClientOptions);
+    close(options?: BufferedCloseOptions): Promise<void>;
+    enqueueEvent(event: EventData | AmqpAnnotatedMessage, options?: EnqueueEventOptions): Promise<number>;
+    enqueueEvents(events: EventData[] | AmqpAnnotatedMessage[], options?: EnqueueEventOptions): Promise<number>;
+    get eventHubName(): string;
+    flush(options?: BufferedFlushOptions): Promise<void>;
+    get fullyQualifiedNamespace(): string;
+    getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+}
+
+// @public
+export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
+    enableIdempotentPartitions?: boolean;
+    maxEventBufferLengthPerPartition?: number;
+    maxWaitTimeInMs?: number;
+    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+    onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
 }
 
 // @public
@@ -188,7 +232,32 @@ export interface LoadBalancingOptions {
 // @public
 export const logger: AzureLogger;
 
+// @public
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
+}
+
 export { MessagingError }
+
+// @public
+export interface OnSendEventsErrorContext {
+    error: Error;
+    events: Array<EventData | AmqpAnnotatedMessage>;
+    partitionId: string;
+}
+
+// @public
+export interface OnSendEventsSuccessContext {
+    events: Array<EventData | AmqpAnnotatedMessage>;
+    partitionId: string;
+}
 
 // @public
 export interface OperationOptions {
@@ -303,8 +372,6 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
-    // @deprecated (undocumented)
-    parentSpan?: Span | SpanContext;
     tracingOptions?: OperationTracingOptions;
 }
 

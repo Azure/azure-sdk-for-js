@@ -10,7 +10,7 @@ import { OperationOptions } from "@azure/core-client";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "",
-  namespace: "Microsoft.AAD"
+  namespace: "Microsoft.AAD",
 });
 
 /**
@@ -38,13 +38,13 @@ export async function trace<ReturnT>(
 
     // otel 0.16+ needs this or else the code ends up being set as UNSET
     span.setStatus({
-      code: SpanStatusCode.OK
+      code: SpanStatusCode.OK,
     });
     return result;
   } catch (err) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: err.message
+      message: err.message,
     });
     throw err;
   } finally {

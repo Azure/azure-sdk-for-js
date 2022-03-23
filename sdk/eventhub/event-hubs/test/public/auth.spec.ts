@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,
-  parseEventHubConnectionString
+  parseEventHubConnectionString,
 } from "../../src/index";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import chai from "chai";
-import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { createSasTokenProvider } from "@azure/core-amqp";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import chai from "chai";
 import { createMockServer } from "./utils/mockService";
+import { createSasTokenProvider } from "@azure/core-amqp";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
 const should = chai.should();
 
@@ -33,16 +33,12 @@ testWithServiceTypes((serviceVersion, onVersions) => {
   }
 
   onVersions(["live"]).describe("Authentication via", () => {
-    const {
-      endpoint,
-      fullyQualifiedNamespace,
-      sharedAccessKey,
-      sharedAccessKeyName
-    } = parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
+    const { endpoint, fullyQualifiedNamespace, sharedAccessKey, sharedAccessKeyName } =
+      parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       path: env[EnvVarKeys.EVENTHUB_NAME],
-      endpoint: endpoint.replace(/\/+$/, "")
+      endpoint: endpoint.replace(/\/+$/, ""),
     };
 
     before(() => {
@@ -60,7 +56,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
     beforeEach("setup new space-time continuum", () => {
       clock = useFakeTimers({
         now: new Date(),
-        shouldAdvanceTime: true
+        shouldAdvanceTime: true,
       });
     });
 
@@ -116,8 +112,8 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             namedKeyCredential,
             {
               retryOptions: {
-                maxRetries: 0
-              }
+                maxRetries: 0,
+              },
             }
           );
 
@@ -157,7 +153,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                   reject(new Error("Step 4 failed. Expected to see a list of events."));
                 }
                 resolve();
-              }
+              },
             ];
 
             consumerClient.subscribe(
@@ -170,10 +166,10 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 async processEvents(events) {
                   const step = steps.shift();
                   if (step) step(events);
-                }
+                },
               },
               {
-                maxWaitTimeInSeconds: 5
+                maxWaitTimeInSeconds: 5,
               }
             );
           });
@@ -193,8 +189,8 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             namedKeyCredential,
             {
               retryOptions: {
-                maxRetries: 0
-              }
+                maxRetries: 0,
+              },
             }
           );
 
@@ -230,7 +226,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
       function getSas(): string {
         return createSasTokenProvider({
           sharedAccessKeyName: sharedAccessKeyName!,
-          sharedAccessKey: sharedAccessKey!
+          sharedAccessKey: sharedAccessKey!,
         }).getToken(`${service.endpoint}/${service.path}`).token;
       }
 
@@ -245,8 +241,8 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             sasCredential,
             {
               retryOptions: {
-                maxRetries: 0
-              }
+                maxRetries: 0,
+              },
             }
           );
 
@@ -282,8 +278,8 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             sasCredential,
             {
               retryOptions: {
-                maxRetries: 0
-              }
+                maxRetries: 0,
+              },
             }
           );
 
@@ -325,7 +321,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                   reject(new Error("Step 4 failed. Expected to see a list of events."));
                 }
                 resolve();
-              }
+              },
             ];
 
             consumerClient.subscribe(
@@ -338,10 +334,10 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 async processEvents(events) {
                   const step = steps.shift();
                   if (step) step(events);
-                }
+                },
               },
               {
-                maxWaitTimeInSeconds: 5
+                maxWaitTimeInSeconds: 5,
               }
             );
           });
@@ -358,8 +354,8 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             sasCredential,
             {
               retryOptions: {
-                maxRetries: 0
-              }
+                maxRetries: 0,
+              },
             }
           );
 

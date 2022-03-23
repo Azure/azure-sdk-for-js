@@ -23,12 +23,8 @@ import { inspect } from "util";
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  const modelId = `dtmi:model_${v4()
-    .split("-")
-    .join("")};1`;
-  const componentId = `dtmi:component_${v4()
-    .split("-")
-    .join("")};1`;
+  const modelId = `dtmi:model_${v4().split("-").join("")};1`;
+  const componentId = `dtmi:component_${v4().split("-").join("")};1`;
   const digitalTwinId = `digitalTwin-${v4()}`;
 
   const temporaryComponent = {
@@ -40,9 +36,9 @@ async function main() {
       {
         "@type": "Property",
         name: "ComponentProp1",
-        schema: "string"
-      }
-    ]
+        schema: "string",
+      },
+    ],
   };
 
   const temporaryModel = {
@@ -54,26 +50,26 @@ async function main() {
       {
         "@type": "Property",
         name: "Prop1",
-        schema: "double"
+        schema: "double",
       },
       {
         "@type": "Component",
         name: "Component1",
-        schema: componentId
-      }
-    ]
+        schema: componentId,
+      },
+    ],
   };
 
   const temporaryTwin = {
     $dtId: digitalTwinId,
     $metadata: {
-      $model: modelId
+      $model: modelId,
     },
     Prop1: 42,
     Component1: {
       $metadata: {},
-      ComponentProp1: "value1"
-    }
+      ComponentProp1: "value1",
+    },
   };
 
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
@@ -110,7 +106,7 @@ async function main() {
   const patch = {
     op: "replace",
     path: "/ComponentProp1",
-    value: "value2"
+    value: "value2",
   };
   const updateComponentResponse = await serviceClient.updateComponent(
     digitalTwinId,

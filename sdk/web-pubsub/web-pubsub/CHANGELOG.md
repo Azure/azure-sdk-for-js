@@ -1,6 +1,20 @@
 # Release History
 
-## 1.0.0-beta.4 (2021-11-01)
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2021-11-11)
+
+No changes.
+
+## 1.0.0-beta.4 (2021-11-09)
 
 ### Features Added
 
@@ -16,10 +30,6 @@
 - Renamed method `hasUser` to `userExists`
 - Renamed method `hasGroup` to `groupExists`
 - Renamed method `hasConnection` to `connnectionExists`
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.3 (2021-07-07)
 

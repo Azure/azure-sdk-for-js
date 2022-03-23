@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.7.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,61 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.7.0 (2022-03-21)
+
+### Features Added
+
+- Supports the `"retry-after-ms"` and `"x-ms-retry-after-ms"` headers along with the `"Retry-After"` header from throttling retry responses from the services. [#20817](https://github.com/Azure/azure-sdk-for-js/issues/20817)
+
+### Bugs Fixed
+
+- [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Customers can provide abort signals in the options bags for the client libraries but they were not being checked when requests were being retried. The issue is fixed in [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781).
+- Fixed a bug introduced on 1.4.0 that prevented the retry policies from throwing errors after all the retry steps are exhausted.
+- Fixed a bug introduced on 1.4.0 that prevented the exponential retry policy to retry when the server answered with some expected errors.
+
+### Other Changes
+
+- Changed the default number of retries from 10 to 3.
+- The retry policies now throw errors (if encountered) at the time they stop retrying, rather than merely returning the response.
+
+## 1.6.0 (2022-03-03)
+
+### Other Changes
+
+- Add "WWW-Authenticate" to the allowed logged header list. [#20288](https://github.com/Azure/azure-sdk-for-js/pull/20288)
+
+- Switch browser transport to fetch. [#20201](https://github.com/Azure/azure-sdk-for-js/pull/20201)
+
+## 1.5.0 (2022-02-03)
+
+### Features Added
+
+- Added new phase "Sign" for policies that sign the request for security purposes. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
+
+### Bugs Fixed
+
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+- New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
+- Addressed an issue where policy order might change in cases where there are no policies inside a phase specified by an "afterPhase" constraint. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
+
+## 1.4.0 (2022-01-06)
+
+### Features Added
+
+- Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517)
+- The count for how many retries in the `throttlingRetryPolicy` policy can now be configured.
+- The `bearerTokenAuthenticationPolicy` now accepts a logger.
+- A new `retryPolicy` centralizes the retry logic and allows adding retry strategies to any pipeline. With it, we're exposing some new types:
+  - `RetryStrategy` defines whether to retry and how to retry.
+  - `RetryStrategyState` keeps track of the last retry and controls how to do the subsequent retries.
+- Previous retry policies have been enhanced with better error handling.
+- A new `defaultRetryPolicy` is added, which has the same behavior as all the other retry policies combined (`throttlingRetryPolicy`, `systemErrorRetryPolicy` and `exponentialRetryPolicy`).
+- `createPipelineFromOptions` has been updated to ensure retries are properly traced.
+
+### Bugs Fixed
+
+- Form data of `application/x-www-form-urlencoded` are now sent properly.
 
 ## 1.3.2 (2021-11-04)
 

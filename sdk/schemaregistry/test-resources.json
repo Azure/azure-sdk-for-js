@@ -46,7 +46,11 @@
   "variables": {
     "apiVersion": "2018-01-01-preview",
     "schemaRegistryGroup": "azsdk_js_test_group",
-    "schemaRegistryEndpoint": "[format('https://{0}.servicebus.windows.net', parameters('baseName'))]"
+    "schemaRegistryEndpoint": "[format('https://{0}.servicebus.windows.net', parameters('baseName'))]",
+    "namespaceName": "[parameters('baseName')]",
+    "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
+    "eventHubName": "eventhub",
+    "eventHubNameFull": "[concat(parameters('baseName'), '/eventhub')]"
   },
   "resources": [
     {
@@ -65,6 +69,50 @@
         "maximumThroughputUnits": 0,
         "kafkaEnabled": true
       }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('authorizationName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
+      "properties": {
+        "rights": ["Listen", "Manage", "Send"]
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('eventHubNameFull')]",
+      "location": "[parameters('location')]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
+      "properties": {
+        "messageRetentionInDays": 1,
+        "partitionCount": 4
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('namespaceName'), '/default')]",
+      "location": "[parameters('location')]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
+      "properties": {
+        "defaultAction": "Deny",
+        "virtualNetworkRules": [],
+        "ipRules": []
+      }
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(variables('eventHubNameFull'), '/$Default')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName'))]",
+        "[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"
+      ],
+      "properties": {}
     },
     {
       "type": "Microsoft.EventHub/namespaces/schemagroups",
@@ -97,6 +145,14 @@
     "SCHEMA_REGISTRY_ENDPOINT": {
       "type": "string",
       "value": "[variables('schemaRegistryEndpoint')]"
+    },
+    "EVENTHUB_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('namespaceName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+    },
+    "EVENTHUB_NAME": {
+      "type": "string",
+      "value": "[variables('eventHubName')]"
     }
   }
 }

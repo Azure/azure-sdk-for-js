@@ -6,7 +6,8 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");
@@ -66,7 +67,7 @@ export class ClientSecretCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, updatedOptions: newOptions } = createSpan(
-      "ClientSecretCredential.getToken",
+      `${this.constructor.name}.getToken`,
       options
     );
 
@@ -75,7 +76,7 @@ export class ClientSecretCredential implements TokenCredential {
       grant_type: "client_credentials",
       client_id: this.clientId,
       client_secret: this.clientSecret,
-      scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+      scope: typeof scopes === "string" ? scopes : scopes.join(" "),
     });
 
     try {
@@ -86,10 +87,10 @@ export class ClientSecretCredential implements TokenCredential {
         body: query.toString(),
         headers: createHttpHeaders({
           Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
         }),
         abortSignal: options && options.abortSignal,
-        tracingOptions: newOptions?.tracingOptions
+        tracingOptions: newOptions?.tracingOptions,
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(request);
@@ -98,7 +99,7 @@ export class ClientSecretCredential implements TokenCredential {
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       logger.getToken.info(formatError(scopes, err));
       throw err;

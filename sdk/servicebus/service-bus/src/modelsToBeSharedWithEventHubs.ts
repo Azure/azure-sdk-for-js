@@ -4,10 +4,10 @@
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
 import { OperationTracingOptions, SpanStatusCode, Span, SpanContext } from "@azure/core-tracing";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 
 /**
- * NOTE: This type is intended to mirror the relevant fields and structure from `@azure/core-http` OperationOptions
+ * NOTE: This type is intended to mirror the relevant fields and structure from `@azure/core-client` OperationOptions
  *
  * Options for configuring tracing and the abortSignal.
  */
@@ -43,7 +43,7 @@ export async function trace<T>(fn: () => Promise<T>, span: Span): Promise<T> {
   } catch (err) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: err.message
+      message: err.message,
     });
     throw err;
   } finally {

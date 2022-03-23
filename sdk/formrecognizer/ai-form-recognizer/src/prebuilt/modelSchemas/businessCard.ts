@@ -18,7 +18,7 @@ export const BusinessCardSchema = {
     "Prebuilt model to extract key information from English business cards, including personal contact info, company name, job title, and more.",
   createdDateTime: "2021-07-30T00:00:00Z",
   docTypes: {
-    "prebuilt:businesscard": {
+    businessCard: {
       description: "Business Card",
       fieldSchema: {
         ContactNames: {

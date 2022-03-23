@@ -16,25 +16,16 @@ export type CertificatePropertiesUnion =
   | CertificateProperties
   | KeyVaultCertificateProperties
   | ContentCertificateProperties;
-
-/** The core properties of ARM resources. */
-export interface Resource {
-  /**
-   * Fully qualified resource Id for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
+export type UserSourceInfoUnion =
+  | UserSourceInfo
+  | UploadedUserSourceInfoUnion
+  | BuildResultUserSourceInfo
+  | CustomContainerUserSourceInfo;
+export type UploadedUserSourceInfoUnion =
+  | UploadedUserSourceInfo
+  | JarUploadedUserSourceInfo
+  | SourceUploadedUserSourceInfo
+  | NetCoreZipUploadedUserSourceInfo;
 
 /** Service properties payload */
 export interface ClusterResourceProperties {
@@ -60,6 +51,12 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly powerState?: PowerState;
+  zoneRedundant?: boolean;
+  /**
+   * Fully qualified dns name of the service instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
 }
 
 /** Service network profile payload */
@@ -132,6 +129,46 @@ export interface Sku {
   tier?: string;
   /** Current capacity of the target resource */
   capacity?: number;
+}
+
+/** The core properties of ARM resources. */
+export interface Resource {
+  /**
+   * Fully qualified resource Id for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: LastModifiedByType;
+  /** The timestamp of resource modification (UTC). */
+  lastModifiedAt?: Date;
 }
 
 /** An error response from the service. */
@@ -223,7 +260,7 @@ export interface ConfigServerGitProperty {
   strictHostKeyChecking?: boolean;
 }
 
-/** Git repository property payload */
+/** Git repository property payload for config server */
 export interface GitPatternRepository {
   /** Name of the repository */
   name: string;
@@ -267,6 +304,480 @@ export interface ConfigServerSettingsErrorRecord {
   messages?: string[];
 }
 
+/** Application Configuration Service properties payload */
+export interface ConfigurationServiceProperties {
+  /**
+   * State of the Application Configuration Service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ConfigurationServiceProvisioningState;
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: ConfigurationServiceResourceRequests;
+  /**
+   * Collection of instances belong to Application Configuration Service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: ConfigurationServiceInstance[];
+  /** The settings of Application Configuration Service. */
+  settings?: ConfigurationServiceSettings;
+}
+
+/** Resource request payload of Application Configuration Service */
+export interface ConfigurationServiceResourceRequests {
+  /**
+   * Cpu allocated to each Application Configuration Service instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory allocated to each Application Configuration Service instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+  /**
+   * Instance count of the Application Configuration Service
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+/** Collection of instances belong to the Application Configuration Service */
+export interface ConfigurationServiceInstance {
+  /**
+   * Name of the Application Configuration Service instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the Application Configuration Service instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** The settings of Application Configuration Service. */
+export interface ConfigurationServiceSettings {
+  /** Property of git environment. */
+  gitProperty?: ConfigurationServiceGitProperty;
+}
+
+/** Property of git environment. */
+export interface ConfigurationServiceGitProperty {
+  /** Repositories of Application Configuration Service git property. */
+  repositories?: ConfigurationServiceGitRepository[];
+}
+
+/** Git repository property payload for Application Configuration Service */
+export interface ConfigurationServiceGitRepository {
+  /** Name of the repository */
+  name: string;
+  /** Collection of patterns of the repository */
+  patterns: string[];
+  /** URI of the repository */
+  uri: string;
+  /** Label of the repository */
+  label: string;
+  /** Searching path of the repository */
+  searchPaths?: string[];
+  /** Username of git repository basic auth. */
+  username?: string;
+  /** Password of git repository basic auth. */
+  password?: string;
+  /** Public sshKey of git repository. */
+  hostKey?: string;
+  /** SshKey algorithm of git repository. */
+  hostKeyAlgorithm?: string;
+  /** Private sshKey algorithm of git repository. */
+  privateKey?: string;
+  /** Strict host key checking or not. */
+  strictHostKeyChecking?: boolean;
+}
+
+/** Object that includes an array of configuration service resources and a possible link for next set */
+export interface ConfigurationServiceResourceCollection {
+  /** Collection of configuration service resources */
+  value?: ConfigurationServiceResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Validation result for configuration service settings */
+export interface ConfigurationServiceSettingsValidateResult {
+  /** Validation result for configuration service settings */
+  gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult;
+}
+
+/** Validation result for configuration service settings */
+export interface ConfigurationServiceGitPropertyValidateResult {
+  /** Indicate if the configuration service settings are valid */
+  isValid?: boolean;
+  /** The detail validation results */
+  gitReposValidationResult?: ValidationMessages[];
+}
+
+/** Validate messages of the configuration service git repositories */
+export interface ValidationMessages {
+  /** The name of the configuration service git repository. */
+  name?: string;
+  /** Detailed validation messages. */
+  messages?: string[];
+}
+
+/** Service Registry properties payload */
+export interface ServiceRegistryProperties {
+  /**
+   * State of the Service Registry.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ServiceRegistryProvisioningState;
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: ServiceRegistryResourceRequests;
+  /**
+   * Collection of instances belong to Service Registry.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: ServiceRegistryInstance[];
+}
+
+/** Resource request payload of Service Registry */
+export interface ServiceRegistryResourceRequests {
+  /**
+   * Cpu allocated to each Service Registry instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory allocated to each Service Registry instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+  /**
+   * Instance count of the Service Registry
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+/** Collection of instances belong to the Service Registry */
+export interface ServiceRegistryInstance {
+  /**
+   * Name of the Service Registry instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the Service Registry instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** Object that includes an array of Service Registry resources and a possible link for next set */
+export interface ServiceRegistryResourceCollection {
+  /** Collection of Service Registry resources */
+  value?: ServiceRegistryResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Object that includes an array of Build service resources and a possible link for next set */
+export interface BuildServiceCollection {
+  /** Collection of Build service resources */
+  value?: BuildService[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Build service resource properties payload */
+export interface BuildServiceProperties {
+  /** The installed KPack version in this build service. */
+  kPackVersion?: string;
+  /**
+   * Provisioning state of the KPack build result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: BuildServiceProvisioningState;
+  /** The runtime resource configuration of this build service. */
+  resourceRequests?: BuildServicePropertiesResourceRequests;
+}
+
+/** The runtime resource configuration of this build service. */
+export interface BuildServicePropertiesResourceRequests {
+  /**
+   * vCPU allocated to the entire build service node pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory allocated to the entire build service node pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+}
+
+/** Object that includes an array of Build resources and a possible link for next set */
+export interface BuildCollection {
+  /** Collection of Build resources */
+  value?: Build[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Build resource properties payload */
+export interface BuildProperties {
+  /** The relative path of source code */
+  relativePath?: string;
+  /** The resource id of builder to build the source code */
+  builder?: string;
+  /** The resource id of agent pool */
+  agentPool?: string;
+  /**
+   * Provisioning state of the KPack build result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: BuildProvisioningState;
+  /** The environment variables for this build */
+  env?: { [propertyName: string]: string };
+  /**
+   *  The build result triggered by this build
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly triggeredBuildResult?: TriggeredBuildResult;
+}
+
+/** The build result triggered by a build */
+export interface TriggeredBuildResult {
+  /** The unique build id of this build result */
+  id?: string;
+}
+
+/** Properties of a buildpack binding */
+export interface BuildpackBindingProperties {
+  /** Buildpack Binding Type */
+  bindingType?: BindingType;
+  /**
+   * State of the Buildpack Binding.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: BuildpackBindingProvisioningState;
+  /** The object describes the buildpack binding launch properties */
+  launchProperties?: BuildpackBindingLaunchProperties;
+}
+
+/** Buildpack Binding Launch Properties */
+export interface BuildpackBindingLaunchProperties {
+  /** Non-sensitive properties for launchProperties */
+  properties?: { [propertyName: string]: string };
+  /** Sensitive properties for launchProperties */
+  secrets?: { [propertyName: string]: string };
+}
+
+/** Object that includes an array of BuildpackBinding resources and a possible link for next set */
+export interface BuildpackBindingResourceCollection {
+  /** Collection of BuildpackBinding resources */
+  value?: BuildpackBindingResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Object that includes an array of Build result resources and a possible link for next set */
+export interface BuildResultCollection {
+  /** Collection of Build result resources */
+  value?: BuildResult[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Build result resource properties payload */
+export interface BuildResultProperties {
+  /** The name of this build result */
+  name?: string;
+  /**
+   * Provisioning state of the KPack build result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: BuildResultProvisioningState;
+  /** The build pod name which can be used to get the build log streaming. */
+  buildPodName?: string;
+  /**
+   * All of the build stage (init-container and container) resources in build pod.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly buildStages?: BuildStageProperties[];
+}
+
+/** The build stage (init-container and container) resources in build pod. */
+export interface BuildStageProperties {
+  /**
+   * The name of this build stage resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The provisioning state of this build stage resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: KPackBuildStageProvisioningState;
+}
+
+/** Build result log resource properties payload */
+export interface BuildResultLog {
+  /** The public download URL of this build result log */
+  blobUrl?: string;
+}
+
+/** KPack Builder properties payload */
+export interface BuilderProperties {
+  /**
+   * Builder provision status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: BuilderProvisioningState;
+  /** Builder cluster stack property. */
+  stack?: StackProperties;
+  /** Builder buildpack groups. */
+  buildpackGroups?: BuildpacksGroupProperties[];
+}
+
+/** KPack ClusterStack properties payload */
+export interface StackProperties {
+  /** Id of the ClusterStack. */
+  id?: string;
+  /** Version of the ClusterStack */
+  version?: string;
+}
+
+/** Buildpack group properties of the Builder */
+export interface BuildpacksGroupProperties {
+  /** Buildpack group name */
+  name?: string;
+  /** Buildpacks in the buildpack group */
+  buildpacks?: BuildpackProperties[];
+}
+
+/** Buildpack properties payload */
+export interface BuildpackProperties {
+  /** Id of the buildpack */
+  id?: string;
+}
+
+/** Object that includes an array of Builder resources and a possible link for next set */
+export interface BuilderResourceCollection {
+  /** Collection of Builder resources */
+  value?: BuilderResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Resource upload definition payload */
+export interface ResourceUploadDefinition {
+  /** Source relative path */
+  relativePath?: string;
+  /** Upload URL */
+  uploadUrl?: string;
+}
+
+/** Object that includes an array of supported buildpacks resources and a possible link for next set */
+export interface SupportedBuildpacksCollection {
+  /** Collection of supported buildpacks resources */
+  value?: SupportedBuildpackResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Supported buildpack resource properties */
+export interface SupportedBuildpackResourceProperties {
+  /** The id of supported buildpack */
+  buildpackId?: string;
+}
+
+/** Object that includes an array of supported stacks resources and a possible link for next set */
+export interface SupportedStacksCollection {
+  /** Collection of supported stacks resources */
+  value?: SupportedStackResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Supported stack resource properties */
+export interface SupportedStackResourceProperties {
+  /** The id of supported stack */
+  stackId?: string;
+  /** The version of supported stack */
+  version?: string;
+}
+
+/** Object that includes an array of build service agent pool resources and a possible link for next set */
+export interface BuildServiceAgentPoolResourceCollection {
+  /** Collection of build service agent pool resource */
+  value?: BuildServiceAgentPoolResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Build service agent pool properties */
+export interface BuildServiceAgentPoolProperties {
+  /**
+   * Provisioning state of the build service agent pool
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** build service agent pool size properties */
+  poolSize?: BuildServiceAgentPoolSizeProperties;
+}
+
+/** Build service agent pool size properties */
+export interface BuildServiceAgentPoolSizeProperties {
+  /** The name of build service agent pool size */
+  name?: string;
+  /**
+   * The cpu property of build service agent pool size
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * The memory property of build service agent pool size
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+}
+
 /** Monitoring Setting properties payload */
 export interface MonitoringSettingProperties {
   /**
@@ -304,22 +815,19 @@ export interface AppResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
+  /** Collection of addons */
+  addonConfigs?: {
+    [propertyName: string]: { [propertyName: string]: Record<string, unknown> };
+  };
   /**
    * Provisioning state of the App
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: AppResourceProvisioningState;
-  /** Name of the active deployment of the App */
-  activeDeploymentName?: string;
   /** Fully qualified dns Name. */
   fqdn?: string;
   /** Indicate if only https is allowed. */
   httpsOnly?: boolean;
-  /**
-   * Date time when the resource is created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
   /** Temporary disk settings */
   temporaryDisk?: TemporaryDisk;
   /** Persistent disk settings */
@@ -367,8 +875,8 @@ export interface CustomPersistentDiskProperties {
   type: "AzureFileVolume";
   /** The mount path of the persistent disk. */
   mountPath: string;
-  /** Indicates whether the persistent disk is a readonly one. */
-  readonly?: boolean;
+  /** Indicates whether the persistent disk is a readOnly one. */
+  readOnly?: boolean;
   /** These are the mount options for a persistent disk. */
   mountOptions?: string[];
 }
@@ -385,10 +893,28 @@ export interface LoadedCertificate {
 export interface ManagedIdentityProperties {
   /** Type of the managed identity */
   type?: ManagedIdentityType;
-  /** Principal Id */
+  /** Principal Id of system-assigned managed identity. */
   principalId?: string;
-  /** Tenant Id */
+  /** Tenant Id of system-assigned managed identity. */
   tenantId?: string;
+  /** Properties of user-assigned managed identities */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedManagedIdentity;
+  };
+}
+
+/** The details of the user-assigned managed identity assigned to an App. */
+export interface UserAssignedManagedIdentity {
+  /**
+   * Principal Id of user-assigned managed identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * Client Id of user-assigned managed identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Object that includes an array of App resources and a possible link for next set */
@@ -402,12 +928,10 @@ export interface AppResourceCollection {
   nextLink?: string;
 }
 
-/** Resource upload definition payload */
-export interface ResourceUploadDefinition {
-  /** Source relative path */
-  relativePath?: string;
-  /** Upload URL */
-  uploadUrl?: string;
+/** Object that includes an array of Deployment resource name and set them as active. */
+export interface ActiveDeploymentCollection {
+  /** Collection of Deployment name. */
+  activeDeploymentNames?: string[];
 }
 
 /** Binding resource properties payload */
@@ -460,22 +984,6 @@ export interface BindingResourceCollection {
 export interface StorageProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   storageType: "StorageAccount";
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Collection compose of storage resources list and a possible link for next page. */
@@ -591,12 +1099,7 @@ export interface CustomDomainValidateResult {
 /** Deployment resource properties payload */
 export interface DeploymentResourceProperties {
   /** Uploaded source information of the deployment. */
-  source?: UserSourceInfo;
-  /**
-   * App name of the deployment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appName?: string;
+  source?: UserSourceInfoUnion;
   /** Deployment settings of the Deployment */
   deploymentSettings?: DeploymentSettings;
   /**
@@ -609,16 +1112,8 @@ export interface DeploymentResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: DeploymentResourceStatus;
-  /**
-   * Indicates whether the Deployment is active
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly active?: boolean;
-  /**
-   * Date time when the resource is created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
+  /** Indicates whether the Deployment is active */
+  active?: boolean;
   /**
    * Collection of instances belong to the Deployment
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -628,59 +1123,30 @@ export interface DeploymentResourceProperties {
 
 /** Source information for a deployment */
 export interface UserSourceInfo {
-  /** Type of the source uploaded */
-  type?: UserSourceType;
-  /** Relative path of the storage which stores the source */
-  relativePath?: string;
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "UploadedUserSourceInfo"
+    | "Jar"
+    | "Source"
+    | "NetCoreZip"
+    | "BuildResult"
+    | "Container";
   /** Version of the source */
   version?: string;
-  /**
-   * Selector for the artifact to be used for the deployment for multi-module projects. This should be
-   * the relative path to the target module/project.
-   */
-  artifactSelector?: string;
-  /** Custom container payload */
-  customContainer?: CustomContainer;
-}
-
-/** Custom container payload */
-export interface CustomContainer {
-  /** The name of the registry that contains the container image */
-  server?: string;
-  /** Container image of the custom container. This should be in the form of <repository>:<tag> without the server name of the registry */
-  containerImage?: string;
-  /** Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. */
-  command?: string[];
-  /** Arguments to the entrypoint. The docker image's CMD is used if this is not provided. */
-  args?: string[];
-  /** Credential of the image registry */
-  imageRegistryCredential?: ImageRegistryCredential;
-}
-
-/** Credential of the image registry */
-export interface ImageRegistryCredential {
-  /** The username of the image registry credential */
-  username?: string;
-  /** The password of the image registry credential */
-  password?: string;
 }
 
 /** Deployment settings payload */
 export interface DeploymentSettings {
-  /** Required CPU. This should be 1 for Basic tier, and in range [1, 4] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the CPU size. */
-  cpu?: number;
-  /** Required Memory size in GB. This should be in range [1, 2] for Basic tier, and in range [1, 8] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the the memory size. */
-  memoryInGB?: number;
   /** The requested resource quantity for required CPU and Memory. It is recommended that using this field to represent the required CPU and Memory, the old field cpu and memoryInGB will be deprecated later. */
   resourceRequests?: ResourceRequests;
-  /** JVM parameter */
-  jvmOptions?: string;
-  /** The path to the .NET executable relative to zip root */
-  netCoreMainEntryPath?: string;
   /** Collection of environment variables */
   environmentVariables?: { [propertyName: string]: string };
-  /** Runtime version */
-  runtimeVersion?: RuntimeVersion;
+  /** Collection of addons */
+  addonConfigs?: {
+    [propertyName: string]: { [propertyName: string]: Record<string, unknown> };
+  };
+  /** Container liveness and readiness probe settings */
+  containerProbeSettings?: ContainerProbeSettings;
 }
 
 /** Deployment resource request payload */
@@ -689,6 +1155,12 @@ export interface ResourceRequests {
   cpu?: string;
   /** Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier. */
   memory?: string;
+}
+
+/** Container liveness and readiness probe settings */
+export interface ContainerProbeSettings {
+  /** Indicates whether disable the liveness and readiness probe */
+  disableProbe?: boolean;
 }
 
 /** Deployment instance payload */
@@ -718,6 +1190,11 @@ export interface DeploymentInstance {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly startTime?: string;
+  /**
+   * Availability zone information of the deployment instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zone?: string;
 }
 
 /** Object that includes an array of App resources and a possible link for next set */
@@ -777,6 +1254,11 @@ export interface OperationDetail {
   isDataAction?: boolean;
   /** Display of the operation */
   display?: OperationDisplay;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
   /** Origin of the operation */
   origin?: string;
   /** Properties of the operation */
@@ -971,6 +1453,327 @@ export interface ResourceSkuRestrictionInfo {
   zones?: string[];
 }
 
+/** Spring Cloud Gateway properties payload */
+export interface GatewayProperties {
+  /**
+   * State of the Spring Cloud Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GatewayProvisioningState;
+  /** Indicates whether the Spring Cloud Gateway exposes endpoint. */
+  public?: boolean;
+  /**
+   * URL of the Spring Cloud Gateway, exposed when 'public' is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+  /** Indicate if only https is allowed. */
+  httpsOnly?: boolean;
+  /** Single sign-on related configuration */
+  ssoProperties?: SsoProperties;
+  /** API metadata property for Spring Cloud Gateway */
+  apiMetadataProperties?: GatewayApiMetadataProperties;
+  /** Cross-Origin Resource Sharing property */
+  corsProperties?: GatewayCorsProperties;
+  /** The requested resource quantity for required CPU and Memory. */
+  resourceRequests?: GatewayResourceRequests;
+  /**
+   * Collection of instances belong to Spring Cloud Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: GatewayInstance[];
+  /**
+   * Properties of the Spring Cloud Gateway Operator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operatorProperties?: GatewayOperatorProperties;
+}
+
+/** Single sign-on related configuration */
+export interface SsoProperties {
+  /** It defines the specific actions applications can be allowed to do on a user's behalf */
+  scope?: string[];
+  /** The public identifier for the application */
+  clientId?: string;
+  /** The secret known only to the application and the authorization server */
+  clientSecret?: string;
+  /** The URI of Issuer Identifier */
+  issuerUri?: string;
+}
+
+/** API metadata property for Spring Cloud Gateway */
+export interface GatewayApiMetadataProperties {
+  /** Title describing the context of the APIs available on the Gateway instance (default: `Spring Cloud Gateway for K8S`) */
+  title?: string;
+  /** Detailed description of the APIs available on the Gateway instance (default: `Generated OpenAPI 3 document that describes the API routes configured.`) */
+  description?: string;
+  /** Location of additional documentation for the APIs available on the Gateway instance */
+  documentation?: string;
+  /** Version of APIs available on this Gateway instance (default: `unspecified`). */
+  version?: string;
+  /** Base URL that API consumers will use to access APIs on the Gateway instance. */
+  serverUrl?: string;
+}
+
+/** Cross-Origin Resource Sharing property */
+export interface GatewayCorsProperties {
+  /** Allowed origins to make cross-site requests. The special value `*` allows all domains. */
+  allowedOrigins?: string[];
+  /** Allowed HTTP methods on cross-site requests. The special value `*` allows all methods. If not set, `GET` and `HEAD` are allowed by default. */
+  allowedMethods?: string[];
+  /** Allowed headers in cross-site requests. The special value `*` allows actual requests to send any header. */
+  allowedHeaders?: string[];
+  /** How long, in seconds, the response from a pre-flight request can be cached by clients. */
+  maxAge?: number;
+  /** Whether user credentials are supported on cross-site requests. Valid values: `true`, `false`. */
+  allowCredentials?: boolean;
+  /** HTTP response headers to expose for cross-site requests. */
+  exposedHeaders?: string[];
+}
+
+/** Resource request payload of Spring Cloud Gateway. */
+export interface GatewayResourceRequests {
+  /** Cpu allocated to each Spring Cloud Gateway instance. */
+  cpu?: string;
+  /** Memory allocated to each Spring Cloud Gateway instance. */
+  memory?: string;
+}
+
+/** Collection of instances belong to the Spring Cloud Gateway */
+export interface GatewayInstance {
+  /**
+   * Name of the Spring Cloud Gateway instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the Spring Cloud Gateway instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** Properties of the Spring Cloud Gateway Operator. */
+export interface GatewayOperatorProperties {
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: GatewayOperatorResourceRequests;
+  /**
+   * Collection of instances belong to Spring Cloud Gateway operator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: GatewayInstance[];
+}
+
+/** Properties of the Spring Cloud Gateway Operator. */
+export interface GatewayOperatorResourceRequests {
+  /**
+   * Cpu allocated to each Spring Cloud Gateway Operator instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory allocated to each Spring Cloud Gateway Operator instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+  /**
+   * Instance count of the Spring Cloud Gateway Operator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+/** Object that includes an array of gateway resources and a possible link for next set */
+export interface GatewayResourceCollection {
+  /** Collection of gateway resources */
+  value?: GatewayResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** API route config of the Spring Cloud Gateway */
+export interface GatewayRouteConfigProperties {
+  /**
+   * State of the Spring Cloud Gateway route config.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GatewayProvisioningState;
+  /** The resource Id of the Azure Spring Cloud app, required unless route defines `uri`. */
+  appResourceId?: string;
+  /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
+  routes?: GatewayApiRoute[];
+}
+
+/** API route config of the Spring Cloud Gateway */
+export interface GatewayApiRoute {
+  /** A title, will be applied to methods in the generated OpenAPI documentation. */
+  title?: string;
+  /** A description, will be applied to methods in the generated OpenAPI documentation. */
+  description?: string;
+  /** Full uri, will override `appName`. */
+  uri?: string;
+  /** Enable sso validation. */
+  ssoEnabled?: boolean;
+  /** Pass currently-authenticated user's identity token to application service, default is 'false' */
+  tokenRelay?: boolean;
+  /** A number of conditions to evaluate a route for each request. Each predicate may be evaluated against request headers and parameter values. All of the predicates associated with a route must evaluate to true for the route to be matched to the request. */
+  predicates?: string[];
+  /** To modify the request before sending it to the target endpoint, or the received response. */
+  filters?: string[];
+  /** Route processing order. */
+  order?: number;
+  /** Classification tags, will be applied to methods in the generated OpenAPI documentation. */
+  tags?: string[];
+}
+
+/** Object that includes an array of Spring Cloud Gateway route config resources and a possible link for next set */
+export interface GatewayRouteConfigResourceCollection {
+  /** Collection of Spring Cloud Gateway route config resources */
+  value?: GatewayRouteConfigResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** The properties of custom domain for Spring Cloud Gateway */
+export interface GatewayCustomDomainProperties {
+  /** The thumbprint of bound certificate. */
+  thumbprint?: string;
+}
+
+/** Object that includes an array of Spring Cloud Gateway custom domain resources and a possible link for next set */
+export interface GatewayCustomDomainResourceCollection {
+  /** Collection of Spring Cloud Gateway custom domain resources */
+  value?: GatewayCustomDomainResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** API portal properties payload */
+export interface ApiPortalProperties {
+  /**
+   * State of the API portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ApiPortalProvisioningState;
+  /** Indicates whether the API portal exposes endpoint. */
+  public?: boolean;
+  /**
+   * URL of the API portal, exposed when 'public' is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+  /** Indicate if only https is allowed. */
+  httpsOnly?: boolean;
+  /** The array of resource Ids of gateway to integrate with API portal. */
+  gatewayIds?: string[];
+  /** Collection of OpenAPI source URL locations. */
+  sourceUrls?: string[];
+  /** Single sign-on related configuration */
+  ssoProperties?: SsoProperties;
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: ApiPortalResourceRequests;
+  /**
+   * Collection of instances belong to API portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: ApiPortalInstance[];
+}
+
+/** Resource requests of the API portal */
+export interface ApiPortalResourceRequests {
+  /**
+   * Cpu allocated to each API portal instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory allocated to each API portal instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+}
+
+/** Collection of instances belong to the API portal */
+export interface ApiPortalInstance {
+  /**
+   * Name of the API portal instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the API portal instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** Object that includes an array of API portal resources and a possible link for next set */
+export interface ApiPortalResourceCollection {
+  /** Collection of API portal resources */
+  value?: ApiPortalResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** The properties of custom domain for API portal */
+export interface ApiPortalCustomDomainProperties {
+  /** The thumbprint of bound certificate. */
+  thumbprint?: string;
+}
+
+/** Object that includes an array of API portal custom domain resources and a possible link for next set */
+export interface ApiPortalCustomDomainResourceCollection {
+  /** Collection of API portal custom domain resources */
+  value?: ApiPortalCustomDomainResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Custom container payload */
+export interface CustomContainer {
+  /** The name of the registry that contains the container image */
+  server?: string;
+  /** Container image of the custom container. This should be in the form of <repository>:<tag> without the server name of the registry */
+  containerImage?: string;
+  /** Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. */
+  command?: string[];
+  /** Arguments to the entrypoint. The docker image's CMD is used if this is not provided. */
+  args?: string[];
+  /** Credential of the image registry */
+  imageRegistryCredential?: ImageRegistryCredential;
+  /** Language framework of the container image uploaded */
+  languageFramework?: string;
+}
+
+/** Credential of the image registry */
+export interface ImageRegistryCredential {
+  /** The username of the image registry credential */
+  username?: string;
+  /** The password of the image registry credential */
+  password?: string;
+}
+
 /** The resource model definition for a ARM tracked top level resource. */
 export type TrackedResource = Resource & {
   /** The GEO location of the resource. */
@@ -1019,7 +1822,31 @@ export type ContentCertificateProperties = CertificateProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ContentCertificate";
   /** The content of uploaded certificate. */
-  content: string;
+  content?: string;
+};
+
+/** Source with uploaded location */
+export type UploadedUserSourceInfo = UserSourceInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip";
+  /** Relative path of the storage which stores the source */
+  relativePath?: string;
+};
+
+/** Reference to a build result */
+export type BuildResultUserSourceInfo = UserSourceInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "BuildResult";
+  /** Resource id of an existing succeeded build result under the same Spring instance. */
+  buildResultId?: string;
+};
+
+/** Custom container user source info */
+export type CustomContainerUserSourceInfo = UserSourceInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Container";
+  /** Custom container payload */
+  customContainer?: CustomContainer;
 };
 
 /** Service resource */
@@ -1034,6 +1861,66 @@ export type ServiceResource = TrackedResource & {
 export type ConfigServerResource = ProxyResource & {
   /** Properties of the Config Server resource */
   properties?: ConfigServerProperties;
+};
+
+/** Application Configuration Service resource */
+export type ConfigurationServiceResource = ProxyResource & {
+  /** Application Configuration Service properties payload */
+  properties?: ConfigurationServiceProperties;
+};
+
+/** Service Registry resource */
+export type ServiceRegistryResource = ProxyResource & {
+  /** Service Registry properties payload */
+  properties?: ServiceRegistryProperties;
+};
+
+/** Build service resource payload */
+export type BuildService = ProxyResource & {
+  /** Properties of the build resource */
+  properties?: BuildServiceProperties;
+};
+
+/** Build resource payload */
+export type Build = ProxyResource & {
+  /** Properties of the build resource */
+  properties?: BuildProperties;
+};
+
+/** Buildpack Binding Resource object */
+export type BuildpackBindingResource = ProxyResource & {
+  /** Properties of a buildpack binding */
+  properties?: BuildpackBindingProperties;
+};
+
+/** Build result resource payload */
+export type BuildResult = ProxyResource & {
+  /** Properties of the build result resource */
+  properties?: BuildResultProperties;
+};
+
+/** KPack Builder resource */
+export type BuilderResource = ProxyResource & {
+  /** Property of the Builder resource. */
+  properties?: BuilderProperties;
+};
+
+/** Supported buildpack resource payload */
+export type SupportedBuildpackResource = ProxyResource & {
+  /** Supported buildpack resource properties */
+  properties?: SupportedBuildpackResourceProperties;
+};
+
+/** Supported stack resource payload */
+export type SupportedStackResource = ProxyResource & {
+  /** Supported stack resource properties */
+  properties?: SupportedStackResourceProperties;
+};
+
+/** The build service agent pool resource */
+export type BuildServiceAgentPoolResource = ProxyResource & {
+  /** build service agent pool properties */
+  properties?: BuildServiceAgentPoolProperties;
 };
 
 /** Monitoring Setting resource */
@@ -1062,11 +1949,6 @@ export type BindingResource = ProxyResource & {
 export type StorageResource = ProxyResource & {
   /** Properties of the storage resource payload. */
   properties?: StoragePropertiesUnion;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 };
 
 /** Certificate resource payload. */
@@ -1089,10 +1971,79 @@ export type DeploymentResource = ProxyResource & {
   sku?: Sku;
 };
 
+/** Spring Cloud Gateway resource */
+export type GatewayResource = ProxyResource & {
+  /** Spring Cloud Gateway properties payload */
+  properties?: GatewayProperties;
+  /** Sku of the Spring Cloud Gateway resource */
+  sku?: Sku;
+};
+
+/** Spring Cloud Gateway route config resource */
+export type GatewayRouteConfigResource = ProxyResource & {
+  /** API route config of the Spring Cloud Gateway */
+  properties?: GatewayRouteConfigProperties;
+};
+
+/** Custom domain of the Spring Cloud Gateway */
+export type GatewayCustomDomainResource = ProxyResource & {
+  /** The properties of custom domain for Spring Cloud Gateway */
+  properties?: GatewayCustomDomainProperties;
+};
+
+/** API portal resource */
+export type ApiPortalResource = ProxyResource & {
+  /** API portal properties payload */
+  properties?: ApiPortalProperties;
+  /** Sku of the API portal resource */
+  sku?: Sku;
+};
+
+/** Custom domain of the API portal */
+export type ApiPortalCustomDomainResource = ProxyResource & {
+  /** The properties of custom domain for API portal */
+  properties?: ApiPortalCustomDomainProperties;
+};
+
+/** Uploaded Jar binary for a deployment */
+export type JarUploadedUserSourceInfo = UploadedUserSourceInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Jar";
+  /** Runtime version of the Jar file */
+  runtimeVersion?: string;
+  /** JVM parameter */
+  jvmOptions?: string;
+};
+
+/** Uploaded Java source code binary for a deployment */
+export type SourceUploadedUserSourceInfo = UploadedUserSourceInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Source";
+  /**
+   * Selector for the artifact to be used for the deployment for multi-module projects. This should be
+   * the relative path to the target module/project.
+   */
+  artifactSelector?: string;
+  /** Runtime version of the source file */
+  runtimeVersion?: string;
+};
+
+/** Uploaded Jar binary for a deployment */
+export type NetCoreZipUploadedUserSourceInfo = UploadedUserSourceInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "NetCoreZip";
+  /** The path to the .NET executable relative to zip root */
+  netCoreMainEntryPath?: string;
+  /** Runtime version of the .Net file */
+  runtimeVersion?: string;
+};
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
+  Starting = "Starting",
+  Stopping = "Stopping",
   Deleting = "Deleting",
   Deleted = "Deleted",
   Succeeded = "Succeeded",
@@ -1109,6 +2060,8 @@ export enum KnownProvisioningState {
  * ### Known values supported by the service
  * **Creating** \
  * **Updating** \
+ * **Starting** \
+ * **Stopping** \
  * **Deleting** \
  * **Deleted** \
  * **Succeeded** \
@@ -1151,6 +2104,46 @@ export enum KnownPowerState {
  */
 export type PowerState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link LastModifiedByType} that the service accepts. */
+export enum KnownLastModifiedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for LastModifiedByType. \
+ * {@link KnownLastModifiedByType} can be used interchangeably with LastModifiedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type LastModifiedByType = string;
+
 /** Known values of {@link TestKeyType} that the service accepts. */
 export enum KnownTestKeyType {
   Primary = "Primary",
@@ -1189,6 +2182,204 @@ export enum KnownConfigServerState {
  */
 export type ConfigServerState = string;
 
+/** Known values of {@link ConfigurationServiceProvisioningState} that the service accepts. */
+export enum KnownConfigurationServiceProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ConfigurationServiceProvisioningState. \
+ * {@link KnownConfigurationServiceProvisioningState} can be used interchangeably with ConfigurationServiceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type ConfigurationServiceProvisioningState = string;
+
+/** Known values of {@link ServiceRegistryProvisioningState} that the service accepts. */
+export enum KnownServiceRegistryProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ServiceRegistryProvisioningState. \
+ * {@link KnownServiceRegistryProvisioningState} can be used interchangeably with ServiceRegistryProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type ServiceRegistryProvisioningState = string;
+
+/** Known values of {@link BuildServiceProvisioningState} that the service accepts. */
+export enum KnownBuildServiceProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for BuildServiceProvisioningState. \
+ * {@link KnownBuildServiceProvisioningState} can be used interchangeably with BuildServiceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type BuildServiceProvisioningState = string;
+
+/** Known values of {@link BuildProvisioningState} that the service accepts. */
+export enum KnownBuildProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for BuildProvisioningState. \
+ * {@link KnownBuildProvisioningState} can be used interchangeably with BuildProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type BuildProvisioningState = string;
+
+/** Known values of {@link BindingType} that the service accepts. */
+export enum KnownBindingType {
+  ApplicationInsights = "ApplicationInsights",
+  ApacheSkyWalking = "ApacheSkyWalking",
+  AppDynamics = "AppDynamics",
+  Dynatrace = "Dynatrace",
+  NewRelic = "NewRelic",
+  ElasticAPM = "ElasticAPM"
+}
+
+/**
+ * Defines values for BindingType. \
+ * {@link KnownBindingType} can be used interchangeably with BindingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ApplicationInsights** \
+ * **ApacheSkyWalking** \
+ * **AppDynamics** \
+ * **Dynatrace** \
+ * **NewRelic** \
+ * **ElasticAPM**
+ */
+export type BindingType = string;
+
+/** Known values of {@link BuildpackBindingProvisioningState} that the service accepts. */
+export enum KnownBuildpackBindingProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for BuildpackBindingProvisioningState. \
+ * {@link KnownBuildpackBindingProvisioningState} can be used interchangeably with BuildpackBindingProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type BuildpackBindingProvisioningState = string;
+
+/** Known values of {@link BuildResultProvisioningState} that the service accepts. */
+export enum KnownBuildResultProvisioningState {
+  Queuing = "Queuing",
+  Building = "Building",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for BuildResultProvisioningState. \
+ * {@link KnownBuildResultProvisioningState} can be used interchangeably with BuildResultProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Queuing** \
+ * **Building** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type BuildResultProvisioningState = string;
+
+/** Known values of {@link KPackBuildStageProvisioningState} that the service accepts. */
+export enum KnownKPackBuildStageProvisioningState {
+  NotStarted = "NotStarted",
+  Running = "Running",
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for KPackBuildStageProvisioningState. \
+ * {@link KnownKPackBuildStageProvisioningState} can be used interchangeably with KPackBuildStageProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **Running** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type KPackBuildStageProvisioningState = string;
+
+/** Known values of {@link BuilderProvisioningState} that the service accepts. */
+export enum KnownBuilderProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for BuilderProvisioningState. \
+ * {@link KnownBuilderProvisioningState} can be used interchangeably with BuilderProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type BuilderProvisioningState = string;
+
 /** Known values of {@link MonitoringSettingState} that the service accepts. */
 export enum KnownMonitoringSettingState {
   NotAvailable = "NotAvailable",
@@ -1214,7 +2405,8 @@ export enum KnownAppResourceProvisioningState {
   Succeeded = "Succeeded",
   Failed = "Failed",
   Creating = "Creating",
-  Updating = "Updating"
+  Updating = "Updating",
+  Deleting = "Deleting"
 }
 
 /**
@@ -1225,7 +2417,8 @@ export enum KnownAppResourceProvisioningState {
  * **Succeeded** \
  * **Failed** \
  * **Creating** \
- * **Updating**
+ * **Updating** \
+ * **Deleting**
  */
 export type AppResourceProvisioningState = string;
 
@@ -1249,64 +2442,6 @@ export enum KnownManagedIdentityType {
  */
 export type ManagedIdentityType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link UserSourceType} that the service accepts. */
-export enum KnownUserSourceType {
-  Jar = "Jar",
-  NetCoreZip = "NetCoreZip",
-  Source = "Source",
-  Container = "Container"
-}
-
-/**
- * Defines values for UserSourceType. \
- * {@link KnownUserSourceType} can be used interchangeably with UserSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Jar** \
- * **NetCoreZip** \
- * **Source** \
- * **Container**
- */
-export type UserSourceType = string;
-
-/** Known values of {@link RuntimeVersion} that the service accepts. */
-export enum KnownRuntimeVersion {
-  Java8 = "Java_8",
-  Java11 = "Java_11",
-  NetCore31 = "NetCore_31"
-}
-
-/**
- * Defines values for RuntimeVersion. \
- * {@link KnownRuntimeVersion} can be used interchangeably with RuntimeVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Java_8** \
- * **Java_11** \
- * **NetCore_31**
- */
-export type RuntimeVersion = string;
-
 /** Known values of {@link DeploymentResourceProvisioningState} that the service accepts. */
 export enum KnownDeploymentResourceProvisioningState {
   Creating = "Creating",
@@ -1329,13 +2464,8 @@ export type DeploymentResourceProvisioningState = string;
 
 /** Known values of {@link DeploymentResourceStatus} that the service accepts. */
 export enum KnownDeploymentResourceStatus {
-  Unknown = "Unknown",
   Stopped = "Stopped",
-  Running = "Running",
-  Failed = "Failed",
-  Allocating = "Allocating",
-  Upgrading = "Upgrading",
-  Compiling = "Compiling"
+  Running = "Running"
 }
 
 /**
@@ -1343,20 +2473,30 @@ export enum KnownDeploymentResourceStatus {
  * {@link KnownDeploymentResourceStatus} can be used interchangeably with DeploymentResourceStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
  * **Stopped** \
- * **Running** \
- * **Failed** \
- * **Allocating** \
- * **Upgrading** \
- * **Compiling**
+ * **Running**
  */
 export type DeploymentResourceStatus = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  Internal = "Internal"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Known values of {@link SupportedRuntimeValue} that the service accepts. */
 export enum KnownSupportedRuntimeValue {
   Java8 = "Java_8",
   Java11 = "Java_11",
+  Java17 = "Java_17",
   NetCore31 = "NetCore_31"
 }
 
@@ -1367,6 +2507,7 @@ export enum KnownSupportedRuntimeValue {
  * ### Known values supported by the service
  * **Java_8** \
  * **Java_11** \
+ * **Java_17** \
  * **NetCore_31**
  */
 export type SupportedRuntimeValue = string;
@@ -1436,6 +2577,50 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  * **NotAvailableForSubscription**
  */
 export type ResourceSkuRestrictionsReasonCode = string;
+
+/** Known values of {@link GatewayProvisioningState} that the service accepts. */
+export enum KnownGatewayProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for GatewayProvisioningState. \
+ * {@link KnownGatewayProvisioningState} can be used interchangeably with GatewayProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type GatewayProvisioningState = string;
+
+/** Known values of {@link ApiPortalProvisioningState} that the service accepts. */
+export enum KnownApiPortalProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ApiPortalProvisioningState. \
+ * {@link KnownApiPortalProvisioningState} can be used interchangeably with ApiPortalProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type ApiPortalProvisioningState = string;
 
 /** Optional parameters. */
 export interface ServicesGetOptionalParams
@@ -1599,6 +2784,331 @@ export interface ConfigServersValidateOptionalParams
 export type ConfigServersValidateResponse = ConfigServerSettingsValidateResult;
 
 /** Optional parameters. */
+export interface ConfigurationServicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfigurationServicesGetResponse = ConfigurationServiceResource;
+
+/** Optional parameters. */
+export interface ConfigurationServicesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConfigurationServicesCreateOrUpdateResponse = ConfigurationServiceResource;
+
+/** Optional parameters. */
+export interface ConfigurationServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ConfigurationServicesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConfigurationServicesListResponse = ConfigurationServiceResourceCollection;
+
+/** Optional parameters. */
+export interface ConfigurationServicesValidateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validate operation. */
+export type ConfigurationServicesValidateResponse = ConfigurationServiceSettingsValidateResult;
+
+/** Optional parameters. */
+export interface ConfigurationServicesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConfigurationServicesListNextResponse = ConfigurationServiceResourceCollection;
+
+/** Optional parameters. */
+export interface ServiceRegistriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServiceRegistriesGetResponse = ServiceRegistryResource;
+
+/** Optional parameters. */
+export interface ServiceRegistriesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServiceRegistriesCreateOrUpdateResponse = ServiceRegistryResource;
+
+/** Optional parameters. */
+export interface ServiceRegistriesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServiceRegistriesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServiceRegistriesListResponse = ServiceRegistryResourceCollection;
+
+/** Optional parameters. */
+export interface ServiceRegistriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServiceRegistriesListNextResponse = ServiceRegistryResourceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceListBuildServicesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuildServices operation. */
+export type BuildServiceListBuildServicesResponse = BuildServiceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceGetBuildServiceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuildService operation. */
+export type BuildServiceGetBuildServiceResponse = BuildService;
+
+/** Optional parameters. */
+export interface BuildServiceListBuildsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuilds operation. */
+export type BuildServiceListBuildsResponse = BuildCollection;
+
+/** Optional parameters. */
+export interface BuildServiceGetBuildOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuild operation. */
+export type BuildServiceGetBuildResponse = Build;
+
+/** Optional parameters. */
+export interface BuildServiceCreateOrUpdateBuildOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateBuild operation. */
+export type BuildServiceCreateOrUpdateBuildResponse = Build;
+
+/** Optional parameters. */
+export interface BuildServiceListBuildResultsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuildResults operation. */
+export type BuildServiceListBuildResultsResponse = BuildResultCollection;
+
+/** Optional parameters. */
+export interface BuildServiceGetBuildResultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuildResult operation. */
+export type BuildServiceGetBuildResultResponse = BuildResult;
+
+/** Optional parameters. */
+export interface BuildServiceGetBuildResultLogOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuildResultLog operation. */
+export type BuildServiceGetBuildResultLogResponse = BuildResultLog;
+
+/** Optional parameters. */
+export interface BuildServiceGetResourceUploadUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getResourceUploadUrl operation. */
+export type BuildServiceGetResourceUploadUrlResponse = ResourceUploadDefinition;
+
+/** Optional parameters. */
+export interface BuildServiceListSupportedBuildpacksOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedBuildpacks operation. */
+export type BuildServiceListSupportedBuildpacksResponse = SupportedBuildpacksCollection;
+
+/** Optional parameters. */
+export interface BuildServiceGetSupportedBuildpackOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSupportedBuildpack operation. */
+export type BuildServiceGetSupportedBuildpackResponse = SupportedBuildpackResource;
+
+/** Optional parameters. */
+export interface BuildServiceListSupportedStacksOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedStacks operation. */
+export type BuildServiceListSupportedStacksResponse = SupportedStacksCollection;
+
+/** Optional parameters. */
+export interface BuildServiceGetSupportedStackOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSupportedStack operation. */
+export type BuildServiceGetSupportedStackResponse = SupportedStackResource;
+
+/** Optional parameters. */
+export interface BuildServiceListBuildServicesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuildServicesNext operation. */
+export type BuildServiceListBuildServicesNextResponse = BuildServiceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceListBuildsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuildsNext operation. */
+export type BuildServiceListBuildsNextResponse = BuildCollection;
+
+/** Optional parameters. */
+export interface BuildServiceListBuildResultsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuildResultsNext operation. */
+export type BuildServiceListBuildResultsNextResponse = BuildResultCollection;
+
+/** Optional parameters. */
+export interface BuildpackBindingGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BuildpackBindingGetResponse = BuildpackBindingResource;
+
+/** Optional parameters. */
+export interface BuildpackBindingCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BuildpackBindingCreateOrUpdateResponse = BuildpackBindingResource;
+
+/** Optional parameters. */
+export interface BuildpackBindingDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface BuildpackBindingListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BuildpackBindingListResponse = BuildpackBindingResourceCollection;
+
+/** Optional parameters. */
+export interface BuildpackBindingListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BuildpackBindingListNextResponse = BuildpackBindingResourceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceBuilderGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BuildServiceBuilderGetResponse = BuilderResource;
+
+/** Optional parameters. */
+export interface BuildServiceBuilderCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BuildServiceBuilderCreateOrUpdateResponse = BuilderResource;
+
+/** Optional parameters. */
+export interface BuildServiceBuilderDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface BuildServiceBuilderListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BuildServiceBuilderListResponse = BuilderResourceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceBuilderListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BuildServiceBuilderListNextResponse = BuilderResourceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceAgentPoolListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BuildServiceAgentPoolListResponse = BuildServiceAgentPoolResourceCollection;
+
+/** Optional parameters. */
+export interface BuildServiceAgentPoolGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BuildServiceAgentPoolGetResponse = BuildServiceAgentPoolResource;
+
+/** Optional parameters. */
+export interface BuildServiceAgentPoolUpdatePutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePut operation. */
+export type BuildServiceAgentPoolUpdatePutResponse = BuildServiceAgentPoolResource;
+
+/** Optional parameters. */
+export interface BuildServiceAgentPoolListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BuildServiceAgentPoolListNextResponse = BuildServiceAgentPoolResourceCollection;
+
+/** Optional parameters. */
 export interface MonitoringSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1681,6 +3191,18 @@ export interface AppsGetResourceUploadUrlOptionalParams
 
 /** Contains response data for the getResourceUploadUrl operation. */
 export type AppsGetResourceUploadUrlResponse = ResourceUploadDefinition;
+
+/** Optional parameters. */
+export interface AppsSetActiveDeploymentsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the setActiveDeployments operation. */
+export type AppsSetActiveDeploymentsResponse = AppResource;
 
 /** Optional parameters. */
 export interface AppsValidateDomainOptionalParams
@@ -2062,6 +3584,230 @@ export interface SkusListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type SkusListNextResponse = ResourceSkuCollection;
+
+/** Optional parameters. */
+export interface GatewaysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GatewaysGetResponse = GatewayResource;
+
+/** Optional parameters. */
+export interface GatewaysCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GatewaysCreateOrUpdateResponse = GatewayResource;
+
+/** Optional parameters. */
+export interface GatewaysDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface GatewaysListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GatewaysListResponse = GatewayResourceCollection;
+
+/** Optional parameters. */
+export interface GatewaysValidateDomainOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateDomain operation. */
+export type GatewaysValidateDomainResponse = CustomDomainValidateResult;
+
+/** Optional parameters. */
+export interface GatewaysListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GatewaysListNextResponse = GatewayResourceCollection;
+
+/** Optional parameters. */
+export interface GatewayRouteConfigsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GatewayRouteConfigsGetResponse = GatewayRouteConfigResource;
+
+/** Optional parameters. */
+export interface GatewayRouteConfigsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GatewayRouteConfigsCreateOrUpdateResponse = GatewayRouteConfigResource;
+
+/** Optional parameters. */
+export interface GatewayRouteConfigsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface GatewayRouteConfigsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GatewayRouteConfigsListResponse = GatewayRouteConfigResourceCollection;
+
+/** Optional parameters. */
+export interface GatewayRouteConfigsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GatewayRouteConfigsListNextResponse = GatewayRouteConfigResourceCollection;
+
+/** Optional parameters. */
+export interface GatewayCustomDomainsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GatewayCustomDomainsGetResponse = GatewayCustomDomainResource;
+
+/** Optional parameters. */
+export interface GatewayCustomDomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GatewayCustomDomainsCreateOrUpdateResponse = GatewayCustomDomainResource;
+
+/** Optional parameters. */
+export interface GatewayCustomDomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface GatewayCustomDomainsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GatewayCustomDomainsListResponse = GatewayCustomDomainResourceCollection;
+
+/** Optional parameters. */
+export interface GatewayCustomDomainsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GatewayCustomDomainsListNextResponse = GatewayCustomDomainResourceCollection;
+
+/** Optional parameters. */
+export interface ApiPortalsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiPortalsGetResponse = ApiPortalResource;
+
+/** Optional parameters. */
+export interface ApiPortalsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiPortalsCreateOrUpdateResponse = ApiPortalResource;
+
+/** Optional parameters. */
+export interface ApiPortalsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApiPortalsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApiPortalsListResponse = ApiPortalResourceCollection;
+
+/** Optional parameters. */
+export interface ApiPortalsValidateDomainOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateDomain operation. */
+export type ApiPortalsValidateDomainResponse = CustomDomainValidateResult;
+
+/** Optional parameters. */
+export interface ApiPortalsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiPortalsListNextResponse = ApiPortalResourceCollection;
+
+/** Optional parameters. */
+export interface ApiPortalCustomDomainsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiPortalCustomDomainsGetResponse = ApiPortalCustomDomainResource;
+
+/** Optional parameters. */
+export interface ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiPortalCustomDomainsCreateOrUpdateResponse = ApiPortalCustomDomainResource;
+
+/** Optional parameters. */
+export interface ApiPortalCustomDomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApiPortalCustomDomainsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApiPortalCustomDomainsListResponse = ApiPortalCustomDomainResourceCollection;
+
+/** Optional parameters. */
+export interface ApiPortalCustomDomainsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiPortalCustomDomainsListNextResponse = ApiPortalCustomDomainResourceCollection;
 
 /** Optional parameters. */
 export interface AppPlatformManagementClientOptionalParams

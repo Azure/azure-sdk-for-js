@@ -2,6 +2,7 @@
 
 ## [Index](#index)
 
+- [Sample perf test project](#sample-perf-test-project)
 - [Setting up the project](#setting-up-the-project)
   - [Track 2](#setting-up-the-project)
   - [Track 1](#for-perf-testing-track-1-version-of-the-same-package)
@@ -15,6 +16,10 @@
   - [Adding Readme/Instructions](#adding-readme/instructions)
   - [Testing an older track 2 version](#testing-an-older-track-2-version)
 - [Using Proxy Tool](#using-proxy-tool)
+
+## [Sample perf test project](#sample-perf-test-project)
+
+A [sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/perf-tests/template) has been created which demonstrates a basic perf test against the existing `@azure/template` project. Take a look at this sample to see the standard perf test project structure.
 
 ## [Setting up the project](#setting-up-the-project)
 
@@ -249,7 +254,7 @@ To run a particular test, use `npm run perf-test:node` - takes the test class na
 
 ### [Adding Readme/Instructions](#adding-readme/instructions)
 
-Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob/README.md) and [storage-blob-perf-tests-readme-track-1](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/README.md) and have similar set of instructions for your perf project.
+Refer to [the README for the template project](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/perf-tests/template/README.md) and create a similar set of instructions for your perf project.
 
 ### [Testing an older track 2 version](#testing-an-older-track-2-version)
 
@@ -275,12 +280,11 @@ To be able to leverage the powers of playing back the requests using the test pr
       this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, this.configureClientOptionsCoreV1({}));
 
       /// Core V2 SDKs - For services depending on core-rest-pipeline
-      /// this.configureClient call to modify your client
-      this.client = this.configureClient(TableClient.fromConnectionString(connectionString, tableName));
+      /// this.configureClientOptions call to modify your client
+      this.client = TableClient.fromConnectionString(connectionString, tableName, this.configureClientOptions({}));
 
       // Not all core-v1 SDKs allow passing httpClient option.
-      // Not all core-v2 SDKs allow adding policies via pipeline option.
-      // Please reach out if your service doesn't support.
+      // Please reach out if your service/SDK doesn't support or if you face difficulties in this area.
       ```
 
 ### Running the proxy server

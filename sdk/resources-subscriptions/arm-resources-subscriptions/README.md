@@ -33,9 +33,9 @@ npm install @azure/arm-resources-subscriptions
 To create a client object to access the Azure Subscription API, you will need the `endpoint` of your Azure Subscription resource and a `credential`. The Azure Subscription client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure Subscription resource in the [Azure Portal][azure_portal].
 
-#### Using an Azure Active Directory Credential
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-You can authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
 npm install @azure/identity
@@ -49,9 +49,12 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { SubscriptionClient } = require("@azure/arm-resources-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new SubscriptionClient(new DefaultAzureCredential(), subscriptionId);
+const client = new SubscriptionClient(new DefaultAzureCredential());
 ```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
@@ -66,7 +69,7 @@ const client = new SubscriptionClient(new DefaultAzureCredential(), subscription
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 

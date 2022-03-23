@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   FullBackupOperation,
-  KeyVaultClientFullBackupOptionalParams,
-  KeyVaultClientFullBackupResponse,
-  KeyVaultClientFullBackupStatusResponse
+  FullBackupOptionalParams,
+  FullBackupResponse,
+  FullBackupStatusResponse,
 } from "../../generated/models";
-import { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 } from "../keyVaultAdminPoller";
+import { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { createTraceFunction } from "../../tracingHelpers";
 
 /**
@@ -60,9 +60,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullBackup operation
    */
-  private fullBackup(
-    options: KeyVaultClientFullBackupOptionalParams
-  ): Promise<KeyVaultClientFullBackupResponse> {
+  private fullBackup(options: FullBackupOptionalParams): Promise<FullBackupResponse> {
     return withTrace("fullBackup", options, (updatedOptions) =>
       this.client.fullBackup(this.vaultUrl, updatedOptions)
     );
@@ -74,7 +72,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
   private fullBackupStatus(
     jobId: string,
     options: KeyVaultBeginBackupOptions
-  ): Promise<KeyVaultClientFullBackupStatusResponse> {
+  ): Promise<FullBackupStatusResponse> {
     return withTrace("fullBackupStatus", options, (updatedOptions) =>
       this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
     );
@@ -101,8 +99,8 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
         ...this.requestOptions,
         azureStorageBlobContainerUri: {
           storageResourceUri: blobStorageUri!,
-          token: sasToken!
-        }
+          token: sasToken!,
+        },
       });
 
       this.mapState(serviceOperation);
@@ -126,7 +124,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
       endTime,
       error,
       status,
-      statusDetails
+      statusDetails,
     } = serviceOperation;
     if (!startTime) {
       throw new Error(
@@ -150,7 +148,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
       state.result = {
         folderUri: azureStorageBlobContainerUri,
         startTime,
-        endTime
+        endTime,
       };
     }
   }

@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Registry,
-  RegistriesListByResourceGroupOptionalParams,
   RegistriesListOptionalParams,
+  RegistriesListByResourceGroupOptionalParams,
   PrivateLinkResource,
   RegistriesListPrivateLinkResourcesOptionalParams,
   ImportImageParameters,
@@ -27,13 +27,15 @@ import {
   RegistryUpdateParameters,
   RegistriesUpdateOptionalParams,
   RegistriesUpdateResponse,
+  RegistriesListUsagesOptionalParams,
+  RegistriesListUsagesResponse,
+  RegistriesGetPrivateLinkResourceOptionalParams,
+  RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
   RegistriesListCredentialsResponse,
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
-  RegistriesListUsagesOptionalParams,
-  RegistriesListUsagesResponse,
   GenerateCredentialsParameters,
   RegistriesGenerateCredentialsOptionalParams,
   RegistriesGenerateCredentialsResponse,
@@ -48,6 +50,13 @@ import {
 /** Interface representing a Registries. */
 export interface Registries {
   /**
+   * Lists all the container registries under the specified subscription.
+   * @param options The options parameters.
+   */
+  list(
+    options?: RegistriesListOptionalParams
+  ): PagedAsyncIterableIterator<Registry>;
+  /**
    * Lists all the container registries under the specified resource group.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param options The options parameters.
@@ -55,13 +64,6 @@ export interface Registries {
   listByResourceGroup(
     resourceGroupName: string,
     options?: RegistriesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Registry>;
-  /**
-   * Lists all the container registries under the specified subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: RegistriesListOptionalParams
   ): PagedAsyncIterableIterator<Registry>;
   /**
    * Lists the private link resources for a container registry.
@@ -206,6 +208,30 @@ export interface Registries {
     options?: RegistriesUpdateOptionalParams
   ): Promise<RegistriesUpdateResponse>;
   /**
+   * Gets the quota usages for the specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  listUsages(
+    resourceGroupName: string,
+    registryName: string,
+    options?: RegistriesListUsagesOptionalParams
+  ): Promise<RegistriesListUsagesResponse>;
+  /**
+   * Gets a private link resource by a specified group name for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param groupName The name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    registryName: string,
+    groupName: string,
+    options?: RegistriesGetPrivateLinkResourceOptionalParams
+  ): Promise<RegistriesGetPrivateLinkResourceResponse>;
+  /**
    * Lists the login credentials for the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -230,17 +256,6 @@ export interface Registries {
     regenerateCredentialParameters: RegenerateCredentialParameters,
     options?: RegistriesRegenerateCredentialOptionalParams
   ): Promise<RegistriesRegenerateCredentialResponse>;
-  /**
-   * Gets the quota usages for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  listUsages(
-    resourceGroupName: string,
-    registryName: string,
-    options?: RegistriesListUsagesOptionalParams
-  ): Promise<RegistriesListUsagesResponse>;
   /**
    * Generate keys for a token of a specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

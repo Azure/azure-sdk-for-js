@@ -10,7 +10,7 @@ import { Transformations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StreamAnalyticsManagementClientContext } from "../streamAnalyticsManagementClientContext";
+import { StreamAnalyticsManagementClient } from "../streamAnalyticsManagementClient";
 import {
   Transformation,
   TransformationsCreateOrReplaceOptionalParams,
@@ -23,13 +23,13 @@ import {
 
 /** Class containing Transformations operations. */
 export class TransformationsImpl implements Transformations {
-  private readonly client: StreamAnalyticsManagementClientContext;
+  private readonly client: StreamAnalyticsManagementClient;
 
   /**
    * Initialize a new instance of the class Transformations class.
    * @param client Reference to the service client
    */
-  constructor(client: StreamAnalyticsManagementClientContext) {
+  constructor(client: StreamAnalyticsManagementClient) {
     this.client = client;
   }
 
@@ -143,8 +143,8 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.transformationName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -174,8 +174,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.transformationName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch
   ],
   mediaType: "json",

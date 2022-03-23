@@ -8,7 +8,7 @@ import {
   delay,
   ProcessErrorArgs,
   ServiceBusReceiver,
-  ServiceBusSender
+  ServiceBusSender,
 } from "../../src";
 import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors";
 import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils";
@@ -19,12 +19,12 @@ import {
   createServiceBusClientForTests,
   drainReceiveAndDeleteReceiver,
   testPeekMsgsLength,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import sinon from "sinon";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -71,7 +71,7 @@ describe("Streaming Receiver Tests", () => {
     unexpectedError = undefined;
   }
 
-  describe(testClientType + ": Streaming - Misc Tests", function(): void {
+  describe(testClientType + ": Streaming - Misc Tests", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -80,7 +80,7 @@ describe("Streaming Receiver Tests", () => {
       await beforeEachTest();
     });
 
-    it("AutoComplete removes the message", async function(): Promise<void> {
+    it("AutoComplete removes the message", async function (): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
@@ -97,7 +97,7 @@ describe("Streaming Receiver Tests", () => {
 
           return Promise.resolve();
         },
-        processError
+        processError,
       });
 
       const msgsCheck = await checkWithTimeout(
@@ -119,9 +119,7 @@ describe("Streaming Receiver Tests", () => {
       await testPeekMsgsLength(receiver, 0);
     });
 
-    it("Disabled autoComplete, no manual complete retains the message", async function(): Promise<
-      void
-    > {
+    it("Disabled autoComplete, no manual complete retains the message", async function (): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
@@ -138,7 +136,7 @@ describe("Streaming Receiver Tests", () => {
             );
             return Promise.resolve();
           },
-          processError
+          processError,
         },
         { autoCompleteMessages: false }
       );
@@ -164,7 +162,7 @@ describe("Streaming Receiver Tests", () => {
       const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entities);
 
       await sender2.sendMessages({
-        body: "can stop and start a subscription message 1"
+        body: "can stop and start a subscription message 1",
       });
 
       const { subscription: subscription1, msg: receivedMsg } = await new Promise<{
@@ -177,7 +175,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError: async (err) => {
             reject(err);
-          }
+          },
         });
       });
 
@@ -185,7 +183,7 @@ describe("Streaming Receiver Tests", () => {
       await subscription1.close();
 
       await sender2.sendMessages({
-        body: "can stop and start a subscription message 2"
+        body: "can stop and start a subscription message 2",
       });
 
       const { subscription: subscription2, msg: msg2 } = await new Promise<{
@@ -198,7 +196,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError: async (err) => {
             reject(err);
-          }
+          },
         });
       });
 
@@ -207,7 +205,7 @@ describe("Streaming Receiver Tests", () => {
     });
   });
 
-  describe(testClientType + ": Streaming - Complete message", function(): void {
+  describe(testClientType + ": Streaming - Complete message", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -233,7 +231,7 @@ describe("Streaming Receiver Tests", () => {
             await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
-          processError
+          processError,
         },
         { autoCompleteMessages: autoComplete }
       );
@@ -245,16 +243,16 @@ describe("Streaming Receiver Tests", () => {
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
       await testPeekMsgsLength(receiver, 0);
     }
-    it("complete() removes message", async function(): Promise<void> {
+    it("complete() removes message", async function (): Promise<void> {
       await testComplete(false);
     });
 
-    it("with autoComplete: complete() removes message", async function(): Promise<void> {
+    it("with autoComplete: complete() removes message", async function (): Promise<void> {
       await testComplete(true);
     });
   });
 
-  describe(testClientType + ": Streaming - Abandon message", function(): void {
+  describe(testClientType + ": Streaming - Abandon message", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -263,7 +261,7 @@ describe("Streaming Receiver Tests", () => {
       await beforeEachTest();
     });
 
-    it("Multiple abandons until maxDeliveryCount", async function(): Promise<void> {
+    it("Multiple abandons until maxDeliveryCount", async function (): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
@@ -280,7 +278,7 @@ describe("Streaming Receiver Tests", () => {
             await receiver.abandonMessage(msg);
             checkDeliveryCount++;
           },
-          processError
+          processError,
         },
         { autoCompleteMessages: false }
       );
@@ -314,7 +312,7 @@ describe("Streaming Receiver Tests", () => {
     });
   });
 
-  describe(testClientType + ": Streaming - Defer message", function(): void {
+  describe(testClientType + ": Streaming - Defer message", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -334,7 +332,7 @@ describe("Streaming Receiver Tests", () => {
             await receiver.deferMessage(msg);
             sequenceNum = msg.sequenceNumber;
           },
-          processError
+          processError,
         },
         { autoCompleteMessages: autoComplete }
       );
@@ -367,18 +365,16 @@ describe("Streaming Receiver Tests", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("defer() moves message to deferred queue", async function(): Promise<void> {
+    it("defer() moves message to deferred queue", async function (): Promise<void> {
       await testDefer(false);
     });
 
-    it("with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
+    it("with autoComplete: defer() moves message to deferred queue", async function (): Promise<void> {
       await testDefer(true);
     });
   });
 
-  describe(testClientType + ": Streaming - Deadletter message", function(): void {
+  describe(testClientType + ": Streaming - Deadletter message", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -399,7 +395,7 @@ describe("Streaming Receiver Tests", () => {
             await receiver.deadLetterMessage(msg);
             receivedMsgs.push(msg);
           },
-          processError
+          processError,
         },
         { autoCompleteMessages: autoComplete }
       );
@@ -424,18 +420,16 @@ describe("Streaming Receiver Tests", () => {
       await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
-    it("deadLetter() moves message to deadletter queue", async function(): Promise<void> {
+    it("deadLetter() moves message to deadletter queue", async function (): Promise<void> {
       await testDeadletter(false);
     });
 
-    it("with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
+    it("with autoComplete: deadLetter() moves message to deadletter queue", async function (): Promise<void> {
       await testDeadletter(true);
     });
   });
 
-  describe(testClientType + ": Streaming - Multiple Receiver Operations", function(): void {
+  describe(testClientType + ": Streaming - Multiple Receiver Operations", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -448,7 +442,7 @@ describe("Streaming Receiver Tests", () => {
         async processMessage(msg: ServiceBusReceivedMessage) {
           await receiver.completeMessage(msg);
         },
-        processError
+        processError,
       });
       await delay(5000);
       try {
@@ -456,7 +450,7 @@ describe("Streaming Receiver Tests", () => {
           async processMessage() {
             return Promise.resolve();
           },
-          processError
+          processError,
         });
       } catch (err) {
         errorMessage = err && err.message;
@@ -481,9 +475,7 @@ describe("Streaming Receiver Tests", () => {
       );
     }
 
-    it("Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
-      void
-    > {
+    it("Second receive operation should fail if the first streaming receiver is not stopped", async function (): Promise<void> {
       await beforeEachTest();
       await testMultipleReceiveCalls();
     });
@@ -512,7 +504,7 @@ describe("Streaming Receiver Tests", () => {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
-        processError
+        processError,
       });
 
       const msgsCheck = await checkWithTimeout(
@@ -556,24 +548,24 @@ describe("Streaming Receiver Tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     }
 
-    it("complete() throws error", async function(): Promise<void> {
+    it("complete() throws error", async function (): Promise<void> {
       await testSettlement(DispositionType.complete);
     });
 
-    it("abandon() throws error", async function(): Promise<void> {
+    it("abandon() throws error", async function (): Promise<void> {
       await testSettlement(DispositionType.abandon);
     });
 
-    it("defer() throws error", async function(): Promise<void> {
+    it("defer() throws error", async function (): Promise<void> {
       await testSettlement(DispositionType.defer);
     });
 
-    it("deadLetter() throws error", async function(): Promise<void> {
+    it("deadLetter() throws error", async function (): Promise<void> {
       await testSettlement(DispositionType.deadletter);
     });
   });
 
-  describe("Streaming - User Error", function(): void {
+  describe("Streaming - User Error", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -590,7 +582,7 @@ describe("Streaming Receiver Tests", () => {
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
         },
-        processError
+        processError,
       });
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -610,12 +602,13 @@ describe("Streaming Receiver Tests", () => {
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     }
 
-    it(testClientType + ": onError handler is called for user error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest();
-      await testUserError();
-    });
+    it(
+      testClientType + ": onError handler is called for user error",
+      async function (): Promise<void> {
+        await beforeEachTest();
+        await testUserError();
+      }
+    );
   });
 
   // describe("Streaming - Failed init should not cache receiver", function(): void {
@@ -691,7 +684,7 @@ describe("Streaming Receiver Tests", () => {
   // });
   // });
 
-  describe(testClientType + ": Streaming - maxConcurrentCalls", function(): void {
+  describe(testClientType + ": Streaming - maxConcurrentCalls", function (): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -733,7 +726,7 @@ describe("Streaming Receiver Tests", () => {
             await receiver.completeMessage(msg);
             settledMsgs.push(msg);
           },
-          processError
+          processError,
         },
         maxConcurrentCalls ? { maxConcurrentCalls } : {}
       );
@@ -743,20 +736,20 @@ describe("Streaming Receiver Tests", () => {
       should.equal(settledMsgs.length, 2, `Expected 2, received ${settledMsgs.length} messages.`);
     }
 
-    it("no maxConcurrentCalls passed", async function(): Promise<void> {
+    it("no maxConcurrentCalls passed", async function (): Promise<void> {
       await testConcurrency();
     });
 
-    it("pass 1 for maxConcurrentCalls", async function(): Promise<void> {
+    it("pass 1 for maxConcurrentCalls", async function (): Promise<void> {
       await testConcurrency(1);
     });
 
-    it("pass 2 for maxConcurrentCalls", async function(): Promise<void> {
+    it("pass 2 for maxConcurrentCalls", async function (): Promise<void> {
       await testConcurrency(2);
     });
   });
 
-  describe("Streaming - Not receive messages after receiver is closed", function(): void {
+  describe("Streaming - Not receive messages after receiver is closed", function (): void {
     async function testReceiveMessages(): Promise<void> {
       const totalNumOfMessages = 5;
       let num = 1;
@@ -767,7 +760,7 @@ describe("Streaming Receiver Tests", () => {
           messageId: num,
           body: "test",
           label: `${num}`,
-          partitionKey: "dummy" // Ensures all messages go to same partition to make peek work reliably
+          partitionKey: "dummy", // Ensures all messages go to same partition to make peek work reliably
         };
         num++;
         messages.push(message);
@@ -783,10 +776,10 @@ describe("Streaming Receiver Tests", () => {
             receivedMsgs.push(brokeredMessage);
             await receiver.completeMessage(brokeredMessage);
           },
-          processError
+          processError,
         },
         {
-          autoCompleteMessages: false
+          autoCompleteMessages: false,
         }
       );
       await receiver.close();
@@ -810,7 +803,7 @@ describe("Streaming Receiver Tests", () => {
 
     it(
       testClientType + ": Not receive messages after receiver is closed",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest();
         await testReceiveMessages();
       }
@@ -818,7 +811,7 @@ describe("Streaming Receiver Tests", () => {
 
     it(
       testClientType + ": (Receive And Delete mode) Not receive messages after receiver is closed",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest("receiveAndDelete");
         await testReceiveMessages();
       }
@@ -849,7 +842,7 @@ describe("Streaming Receiver Tests", () => {
       messages.pop();
 
       await sender2.sendMessages({
-        body: ".close test - second message, after closing"
+        body: ".close test - second message, after closing",
       });
 
       // the subscription is closed so no messages should be received here.
@@ -866,7 +859,7 @@ describe("Streaming Receiver Tests", () => {
   );
 });
 
-describe(testClientType + ": Streaming - disconnects", function(): void {
+describe(testClientType + ": Streaming - disconnects", function (): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let receiver: ServiceBusReceiver;
@@ -891,7 +884,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     await serviceBusClient.test.afterEach();
   });
 
-  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+  it("can receive and settle messages after a disconnect", async function (): Promise<void> {
     /**
      * If onDetached is called with a non-retryable error, it is assumed that
      * the onSessionError or onAmqpError has already called the user's
@@ -904,8 +897,8 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     let settledMessageCount = 0;
 
     let messageHandlerCount = 0;
-    let receiverIsActiveResolver: Function;
-    let receiverSecondMessageResolver: Function;
+    let receiverIsActiveResolver: (value: unknown) => void;
+    let receiverSecondMessageResolver: (value: unknown) => void;
     const receiverIsActive = new Promise((resolve) => {
       receiverIsActiveResolver = resolve;
     });
@@ -925,26 +918,26 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
         } finally {
           if (messageHandlerCount === 1) {
             // Since we've received a message, mark the receiver as active.
-            receiverIsActiveResolver();
+            receiverIsActiveResolver(undefined);
           } else {
             // Mark the second message resolver!
-            receiverSecondMessageResolver();
+            receiverSecondMessageResolver(undefined);
           }
         }
       },
-      processError: processErrorFake
+      processError: processErrorFake,
     });
 
     // Wait until we're sure the receiver is open and receiving messages.
     await receiverIsActive;
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-    processErrorFake.called.should.be.false;
+    processErrorFake.called.should.equal(false);
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args: any) {
+    connectionContext.refreshConnection = function (...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
@@ -1021,9 +1014,7 @@ export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
   return processErrorFake;
 }
 
-export function singleMessagePromise(
-  receiver: ServiceBusReceiver
-): Promise<{
+export function singleMessagePromise(receiver: ServiceBusReceiver): Promise<{
   subscriber: ReturnType<ServiceBusReceiver["subscribe"]>;
   messages: ServiceBusReceivedMessage[];
 }> {
@@ -1041,10 +1032,10 @@ export function singleMessagePromise(
         },
         processError: async (err) => {
           reject(err);
-        }
+        },
       },
       {
-        autoCompleteMessages: false
+        autoCompleteMessages: false,
       }
     );
   });

@@ -5,13 +5,13 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenAuthenticationPolicy,
   AuthorizeRequestOnChallengeOptions,
+  HttpClient,
+  PipelineResponse,
+  bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-  HttpClient,
-  PipelineResponse
 } from "../../src";
 import { TextDecoder } from "util";
 
@@ -88,7 +88,7 @@ async function authorizeRequestOnChallenge(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
       ...options,
-      claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
+      claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64")),
     } as GetTokenOptions
   );
 
@@ -119,7 +119,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function() {
+describe("bearerTokenAuthenticationPolicy with challenge", function () {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -129,12 +129,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     clock.restore();
   });
 
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
     const expected = {
       scope: ["http://localhost/.default"],
       challengeClaims: JSON.stringify({
-        access_token: { foo: "bar" }
-      })
+        access_token: { foo: "bar" },
+      }),
     };
 
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
@@ -143,16 +143,16 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
             expected.challengeClaims
-          )}"`
+          )}"`,
         }),
         request: pipelineRequest,
-        status: 401
+        status: 401,
       },
       {
         headers: createHttpHeaders(),
         request: pipelineRequest,
-        status: 200
-      }
+        status: 200,
+      },
     ];
 
     const expiresOn = Date.now() + 5000;
@@ -175,8 +175,8 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             request.headers.set("Authorization", `Bearer ${token}`);
           }
         },
-        authorizeRequestOnChallenge
-      }
+        authorizeRequestOnChallenge,
+      },
     });
     pipeline.addPolicy(bearerPolicy);
 
@@ -191,7 +191,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
           return response;
         }
         throw new Error("No responses found");
-      }
+      },
     };
 
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
@@ -207,26 +207,26 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.deepEqual(credential.scopesAndClaims, [
       {
         scope: expected.scope,
-        challengeClaims: expected.challengeClaims
-      }
+        challengeClaims: expected.challengeClaims,
+      },
     ]);
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 
-  it("tests that the challenge is processed even we already had a token", async function() {
+  it("tests that the challenge is processed even we already had a token", async function () {
     const expected = [
       {
         scope: ["http://localhost/.default"],
         challengeClaims: JSON.stringify({
-          access_token: { foo: "bar" }
-        })
+          access_token: { foo: "bar" },
+        }),
       },
       {
         scope: ["http://localhost/.default2"],
         challengeClaims: JSON.stringify({
-          access_token: { foo2: "bar2" }
-        })
-      }
+          access_token: { foo2: "bar2" },
+        }),
+      },
     ];
 
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
@@ -235,35 +235,35 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
             expected[0].challengeClaims
-          )}"`
+          )}"`,
         }),
         request: pipelineRequest,
-        status: 401
+        status: 401,
       },
       {
         headers: createHttpHeaders(),
         request: pipelineRequest,
-        status: 200
+        status: 200,
       },
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[1].scope[0]}", claims="${encodeString(
             expected[1].challengeClaims
-          )}"`
+          )}"`,
         }),
         request: pipelineRequest,
-        status: 401
+        status: 401,
       },
       {
         headers: createHttpHeaders(),
         request: pipelineRequest,
-        status: 200
-      }
+        status: 200,
+      },
     ];
 
     const getTokenResponses = [
       { token: "mock-token", expiresOnTimestamp: Date.now() + 5000 },
-      { token: "mock-token2", expiresOnTimestamp: Date.now() + 10000 }
+      { token: "mock-token2", expiresOnTimestamp: Date.now() + 10000 },
     ];
     const credential = new MockRefreshAzureCredential([...getTokenResponses]);
 
@@ -289,8 +289,8 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             request.headers.set("Authorization", `Bearer ${previousToken.token}`);
           }
         },
-        authorizeRequestOnChallenge
-      }
+        authorizeRequestOnChallenge,
+      },
     });
     pipeline.addPolicy(bearerPolicy);
 
@@ -305,7 +305,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
           return response;
         }
         throw new Error("No responses found");
-      }
+      },
     };
 
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
@@ -319,26 +319,26 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.deepEqual(credential.scopesAndClaims, [
       {
         scope: expected[0].scope,
-        challengeClaims: expected[0].challengeClaims
+        challengeClaims: expected[0].challengeClaims,
       },
       {
         scope: [],
-        challengeClaims: undefined
+        challengeClaims: undefined,
       },
       {
         scope: expected[1].scope,
-        challengeClaims: expected[1].challengeClaims
-      }
+        challengeClaims: expected[1].challengeClaims,
+      },
     ]);
     assert.deepEqual(finalSendRequestHeaders, [
       undefined,
       `Bearer ${getTokenResponses[0].token}`,
       `Bearer ${getTokenResponses[1].token}`,
-      `Bearer ${getTokenResponses[1].token}`
+      `Bearer ${getTokenResponses[1].token}`,
     ]);
   });
 
-  it("service errors without challenges should bubble up", async function() {
+  it("service errors without challenges should bubble up", async function () {
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const credential = new MockRefreshAzureCredential([]);
 
@@ -358,8 +358,8 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             request.headers.set("Authorization", `Bearer ${token}`);
           }
         },
-        authorizeRequestOnChallenge
-      }
+        authorizeRequestOnChallenge,
+      },
     });
     pipeline.addPolicy(bearerPolicy);
 
@@ -370,10 +370,10 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
           response: {
             headers: createHttpHeaders(),
             request: req,
-            status: 400
-          }
+            status: 400,
+          },
         };
-      }
+      },
     };
 
     let error: Error | undefined;

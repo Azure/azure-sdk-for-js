@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
 import {
   CommunicationUserIdentifier,
-  isCommunicationUserIdentifier
+  isCommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { assert } from "chai";
-import sinon from "sinon";
+import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
 import { CommunicationIdentityClient } from "../../src";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
-import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
+import { assert } from "chai";
+import { isNode } from "@azure/core-util";
+import sinon from "sinon";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = "x-ms-date";
@@ -58,7 +58,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     sinon.assert.calledOnce(spy);
 
     const request = spy.getCall(0).args[0];
-    assert.deepEqual(JSON.parse(request.body), { scopes: ["chat"] });
+    assert.deepEqual(JSON.parse(request.body as string), { scopes: ["chat"] });
   });
 
   it("[getToken] excludes _response from results", async () => {

@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4e3ae66b8b25c53be84bb0c35c3d6d43291f7a40/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d850f41f89530917000d8e6bb463f42bb745b930/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-beta.13"
@@ -330,4 +330,12 @@ directive:
   where: $.definitions.IndexerCurrentState.properties.resetDocsFinalChangeTrackingState
   transform: >
     $["x-ms-client-name"] = "ResetDocumentsFinalChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.SemanticField.properties.fieldName
+  transform: >
+    $["x-ms-client-name"] = "name";
 ```

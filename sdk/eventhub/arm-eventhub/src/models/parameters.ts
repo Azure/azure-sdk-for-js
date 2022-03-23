@@ -22,7 +22,8 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Eventhub as EventhubMapper,
   ArmDisasterRecovery as ArmDisasterRecoveryMapper,
-  ConsumerGroup as ConsumerGroupMapper
+  ConsumerGroup as ConsumerGroupMapper,
+  SchemaGroup as SchemaGroupMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -63,7 +64,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2021-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -287,6 +288,26 @@ export const consumerGroupName: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "consumerGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SchemaGroupMapper
+};
+
+export const schemaGroupName: OperationURLParameter = {
+  parameterPath: "schemaGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1
+    },
+    serializedName: "schemaGroupName",
     required: true,
     type: {
       name: "String"

@@ -16,8 +16,8 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
-   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
-   *                 https://westus2.api.cognitive.microsoft.com).
+   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for
+   *                 example: https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
@@ -33,7 +33,7 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-ai-form-recognizer/4.0.0-beta.1`;
+    const packageDetails = `azsdk-js-ai-form-recognizer/4.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -52,6 +52,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-09-30-preview";
+    this.apiVersion = options.apiVersion || "2022-01-30-preview";
   }
 }

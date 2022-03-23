@@ -6,1577 +6,1231 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * The object that represents the operation.
- */
-export interface ApiOperationDisplay {
-  /**
-   * Operation type: Read, write, delete, etc.
-   */
-  operation?: string;
-  /**
-   * Service provider: Microsoft.StorageCache
-   */
-  provider?: string;
-  /**
-   * Resource on which the operation is performed: Cache, etc.
-   */
-  resource?: string;
-  /**
-   * The description of the operation
-   */
-  description?: string;
+/** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
+export interface ApiOperationListResult {
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+  /** List of Resource Provider operations supported by the Microsoft.StorageCache resource provider. */
+  value?: ApiOperation[];
 }
 
-/**
- * Specifications of the Dimension of metrics.
- */
-export interface MetricDimension {
-  /**
-   * Name of the dimension
-   */
-  name?: string;
-  /**
-   * Localized friendly display name of the dimension
-   */
-  displayName?: string;
-  /**
-   * Internal name of the dimension.
-   */
-  internalName?: string;
-  /**
-   * To be exported to shoe box.
-   */
-  toBeExportedForShoebox?: boolean;
-}
-
-/**
- * Details about operation related to metrics.
- */
-export interface MetricSpecification {
-  /**
-   * The name of the metric.
-   */
-  name?: string;
-  /**
-   * Localized display name of the metric.
-   */
-  displayName?: string;
-  /**
-   * The description of the metric.
-   */
-  displayDescription?: string;
-  /**
-   * The unit that the metric is measured in.
-   */
-  unit?: string;
-  /**
-   * The type of metric aggregation.
-   */
-  aggregationType?: string;
-  /**
-   * Support metric aggregation type.
-   */
-  supportedAggregationTypes?: MetricAggregationType[];
-  /**
-   * Type of metrics.
-   */
-  metricClass?: string;
-  /**
-   * Dimensions of the metric
-   */
-  dimensions?: MetricDimension[];
-}
-
-/**
- * Specification of the all the metrics provided for a resource type.
- */
-export interface ApiOperationPropertiesServiceSpecification {
-  /**
-   * Details about operations related to metrics.
-   */
-  metricSpecifications?: MetricSpecification[];
-}
-
-/**
- * REST API operation description: see
- * https://github.com/Azure/azure-rest-api-specs/blob/master/documentation/openapi-authoring-automated-guidelines.md#r3023-operationsapiimplementation
- */
+/** REST API operation description: see https://github.com/Azure/azure-rest-api-specs/blob/master/documentation/openapi-authoring-automated-guidelines.md#r3023-operationsapiimplementation */
 export interface ApiOperation {
-  /**
-   * The object that represents the operation.
-   */
+  /** The object that represents the operation. */
   display?: ApiOperationDisplay;
-  /**
-   * Origin of the operation.
-   */
+  /** Origin of the operation. */
   origin?: string;
-  /**
-   * The flag that indicates whether the operation applies to data plane.
-   */
+  /** The flag that indicates whether the operation applies to data plane. */
   isDataAction?: boolean;
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   */
+  /** Operation name: {provider}/{resource}/{operation} */
   name?: string;
-  /**
-   * Specification of the all the metrics provided for a resource type.
-   */
+  /** Specification of the all the metrics provided for a resource type. */
   serviceSpecification?: ApiOperationPropertiesServiceSpecification;
 }
 
-/**
- * An error response.
- */
+/** The object that represents the operation. */
+export interface ApiOperationDisplay {
+  /** Operation type: Read, write, delete, etc. */
+  operation?: string;
+  /** Service provider: Microsoft.StorageCache */
+  provider?: string;
+  /** Resource on which the operation is performed: Cache, etc. */
+  resource?: string;
+  /** The description of the operation */
+  description?: string;
+}
+
+/** Specification of the all the metrics provided for a resource type. */
+export interface ApiOperationPropertiesServiceSpecification {
+  /** Details about operations related to metrics. */
+  metricSpecifications?: MetricSpecification[];
+}
+
+/** Details about operation related to metrics. */
+export interface MetricSpecification {
+  /** The name of the metric. */
+  name?: string;
+  /** Localized display name of the metric. */
+  displayName?: string;
+  /** The description of the metric. */
+  displayDescription?: string;
+  /** The unit that the metric is measured in. */
+  unit?: string;
+  /** The type of metric aggregation. */
+  aggregationType?: string;
+  /** Support metric aggregation type. */
+  supportedAggregationTypes?: MetricAggregationType[];
+  /** Type of metrics. */
+  metricClass?: string;
+  /** Dimensions of the metric */
+  dimensions?: MetricDimension[];
+}
+
+/** Specifications of the Dimension of metrics. */
+export interface MetricDimension {
+  /** Name of the dimension */
+  name?: string;
+  /** Localized friendly display name of the dimension */
+  displayName?: string;
+  /** Internal name of the dimension. */
+  internalName?: string;
+  /** To be exported to shoe box. */
+  toBeExportedForShoebox?: boolean;
+}
+
+/** An error response. */
+export interface CloudError {
+  /** The body of the error. */
+  error?: CloudErrorBody;
+}
+
+/** An error response. */
 export interface CloudErrorBody {
-  /**
-   * An identifier for the error. Codes are invariant and are intended to be consumed
-   * programmatically.
-   */
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
-  /**
-   * A list of additional details about the error.
-   */
+  /** A list of additional details about the error. */
   details?: CloudErrorBody[];
-  /**
-   * A message describing the error, intended to be suitable for display in a user interface.
-   */
+  /** A message describing the error, intended to be suitable for display in a user interface. */
   message?: string;
-  /**
-   * The target of the particular error. For example, the name of the property in error.
-   */
+  /** The target of the particular error. For example, the name of the property in error. */
   target?: string;
 }
 
-/**
- * Describes the format of Error response.
- */
+/** The response from the List Cache SKUs operation. */
+export interface ResourceSkusResult {
+  /** The URI to fetch the next page of Cache SKUs. */
+  nextLink?: string;
+  /**
+   * The list of SKUs available for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ResourceSku[];
+}
+
+/** A resource SKU. */
+export interface ResourceSku {
+  /**
+   * The type of resource the SKU applies to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /** A list of capabilities of this SKU, such as throughput or ops/sec. */
+  capabilities?: ResourceSkuCapabilities[];
+  /**
+   * The set of locations where the SKU is available. This is the supported and registered Azure Geo Regions (e.g., West US, East US, Southeast Asia, etc.).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: string[];
+  /** The set of locations where the SKU is available. */
+  locationInfo?: ResourceSkuLocationInfo[];
+  /** The name of this SKU. */
+  name?: string;
+  /** The restrictions preventing this SKU from being used. This is empty if there are no restrictions. */
+  restrictions?: Restriction[];
+}
+
+/** A resource SKU capability. */
+export interface ResourceSkuCapabilities {
+  /** Name of a capability, such as ops/sec. */
+  name?: string;
+  /** Quantity, if the capability is measured by quantity. */
+  value?: string;
+}
+
+/** Resource SKU location information. */
+export interface ResourceSkuLocationInfo {
+  /** Location where this SKU is available. */
+  location?: string;
+  /** Zones if any. */
+  zones?: string[];
+}
+
+/** The restrictions preventing this SKU from being used. */
+export interface Restriction {
+  /**
+   * The type of restrictions. In this version, the only possible value for this is location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The value of restrictions. If the restriction type is set to location, then this would be the different locations where the SKU is restricted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly values?: string[];
+  /** The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". "QuotaId" is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. "NotAvailableForSubscription" is related to capacity at the datacenter. */
+  reasonCode?: ReasonCode;
+}
+
+/** A list of Cache usage models. */
+export interface UsageModelsResult {
+  /** The URI to fetch the next page of Cache usage models. */
+  nextLink?: string;
+  /** The list of usage models available for the subscription. */
+  value?: UsageModel[];
+}
+
+/** A usage model. */
+export interface UsageModel {
+  /** Localized information describing this usage model. */
+  display?: UsageModelDisplay;
+  /** Non-localized keyword name for this usage model. */
+  modelName?: string;
+  /** The type of Storage Target to which this model is applicable (only nfs3 as of this version). */
+  targetType?: string;
+}
+
+/** Localized information describing this usage model. */
+export interface UsageModelDisplay {
+  /** String to display for this usage model. */
+  description?: string;
+}
+
+/** The status of operation. */
+export interface AscOperation {
+  /** The operation Id. */
+  id?: string;
+  /** The operation name. */
+  name?: string;
+  /** The start time of the operation. */
+  startTime?: string;
+  /** The end time of the operation. */
+  endTime?: string;
+  /** The status of the operation. */
+  status?: string;
+  /** The error detail of the operation if any. */
+  error?: ErrorResponse;
+  /** Additional operation-specific output. */
+  output?: { [propertyName: string]: Record<string, unknown> };
+}
+
+/** Describes the format of Error response. */
 export interface ErrorResponse {
-  /**
-   * Error code
-   */
+  /** Error code */
   code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   */
+  /** Error message indicating why the operation failed. */
   message?: string;
 }
 
-/**
- * The status of operation.
- */
-export interface AscOperation {
+/** Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results. */
+export interface ResourceUsagesListResult {
   /**
-   * The operation Id.
+   * URL to get the next set of resource usage list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  id?: string;
+  readonly nextLink?: string;
   /**
-   * The operation name.
+   * List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  name?: string;
-  /**
-   * The start time of the operation.
-   */
-  startTime?: string;
-  /**
-   * The end time of the operation.
-   */
-  endTime?: string;
-  /**
-   * The status of the operation.
-   */
-  status?: string;
-  /**
-   * The error detail of the operation if any.
-   */
-  error?: ErrorResponse;
-  /**
-   * Additional operation-specific output.
-   */
-  output?: { [propertyName: string]: any };
+  readonly value?: ResourceUsage[];
 }
 
-/**
- * Cache identity properties.
- */
-export interface CacheIdentity {
+/** The usage and limit (quota) for a resource. */
+export interface ResourceUsage {
   /**
-   * The principal id of the cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The limit (quota) for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
+  readonly limit?: number;
   /**
-   * The tenant id associated with the cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Unit that the limit and usages are expressed in, such as 'Count'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tenantId?: string;
+  readonly unit?: string;
   /**
-   * The type of identity used for the cache. Possible values include: 'SystemAssigned', 'None'
+   * The current usage of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  type?: CacheIdentityType;
+  readonly currentValue?: number;
+  /**
+   * Naming information for this resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: ResourceUsageName;
 }
 
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
+/** Naming information for this resource type. */
+export interface ResourceUsageName {
+  /** Canonical name for this resource type. */
+  value?: string;
+  /** Localized name for this resource type. */
+  localizedValue?: string;
 }
 
-/**
- * Outstanding conditions that will need to be resolved.
- */
-export interface Condition {
-  /**
-   * The time when the condition was raised.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly timestamp?: Date;
-  /**
-   * The issue requiring attention.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
+/** Result of the request to list Caches. It contains a list of Caches and a URL link to get the next set of results. */
+export interface CachesListResult {
+  /** URL to get the next set of Cache list results, if there are any. */
+  nextLink?: string;
+  /** List of Caches. */
+  value?: Cache[];
 }
 
-/**
- * An indication of Cache health. Gives more information about health than just that related to
- * provisioning.
- */
-export interface CacheHealth {
-  /**
-   * List of Cache health states. Possible values include: 'Unknown', 'Healthy', 'Degraded',
-   * 'Down', 'Transitioning', 'Stopping', 'Stopped', 'Upgrading', 'Flushing'
-   */
-  state?: HealthStateType;
-  /**
-   * Describes explanation of state.
-   */
-  statusDescription?: string;
-  /**
-   * Outstanding conditions that need to be investigated and resolved.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly conditions?: Condition[];
-}
-
-/**
- * Properties describing the software upgrade state of the Cache.
- */
-export interface CacheUpgradeStatus {
-  /**
-   * Version string of the firmware currently installed on this Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentFirmwareVersion?: string;
-  /**
-   * True if there is a firmware update ready to install on this Cache. The firmware will
-   * automatically be installed after firmwareUpdateDeadline if not triggered earlier via the
-   * upgrade operation. Possible values include: 'available', 'unavailable'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly firmwareUpdateStatus?: FirmwareStatusType;
-  /**
-   * Time at which the pending firmware update will automatically be installed on the Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly firmwareUpdateDeadline?: Date;
-  /**
-   * Time of the last successful firmware update.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastFirmwareUpdate?: Date;
-  /**
-   * When firmwareUpdateAvailable is true, this field holds the version string for the update.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly pendingFirmwareVersion?: string;
-}
-
-/**
- * Cache network settings.
- */
-export interface CacheNetworkSettings {
-  /**
-   * The IPv4 maximum transmission unit configured for the subnet. Default value: 1500.
-   */
-  mtu?: number;
-  /**
-   * Array of additional IP addresses used by this Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly utilityAddresses?: string[];
-  /**
-   * DNS servers for the cache to use.  It will be set from the network configuration if no value
-   * is provided.
-   */
-  dnsServers?: string[];
-  /**
-   * DNS search domain
-   */
-  dnsSearchDomain?: string;
-  /**
-   * NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
-   */
-  ntpServer?: string;
-}
-
-/**
- * Describes a resource Id to source Key Vault.
- */
-export interface KeyVaultKeyReferenceSourceVault {
-  /**
-   * Resource Id.
-   */
-  id?: string;
-}
-
-/**
- * Describes a reference to Key Vault Key.
- */
-export interface KeyVaultKeyReference {
-  /**
-   * The URL referencing a key encryption key in Key Vault.
-   */
-  keyUrl: string;
-  /**
-   * Describes a resource Id to source Key Vault.
-   */
-  sourceVault: KeyVaultKeyReferenceSourceVault;
-}
-
-/**
- * Cache encryption settings.
- */
-export interface CacheEncryptionSettings {
-  /**
-   * Specifies the location of the key encryption key in Key Vault.
-   */
-  keyEncryptionKey?: KeyVaultKeyReference;
-}
-
-/**
- * Rule to place restrictions on portions of the cache namespace being presented to clients.
- */
-export interface NfsAccessRule {
-  /**
-   * Scope for this rule. The scope and filter determine which clients match the rule. Possible
-   * values include: 'default', 'network', 'host'
-   */
-  scope: NfsAccessRuleScope;
-  /**
-   * Filter applied to the scope for this rule. The filter's format depends on its scope. 'default'
-   * scope matches all clients and has no filter value. 'network' scope takes a filter in CIDR
-   * format (for example, 10.99.1.0/24). 'host' takes an IP address or fully qualified domain name
-   * as filter. If a client does not match any filter rule and there is no default rule, access is
-   * denied.
-   */
-  filter?: string;
-  /**
-   * Access allowed by this rule. Possible values include: 'no', 'ro', 'rw'
-   */
-  access: NfsAccessRuleAccess;
-  /**
-   * Allow SUID semantics.
-   */
-  suid?: boolean;
-  /**
-   * For the default policy, allow access to subdirectories under the root export. If this is set
-   * to no, clients can only mount the path '/'. If set to yes, clients can mount a deeper path,
-   * like '/a/b'.
-   */
-  submountAccess?: boolean;
-  /**
-   * Map root accesses to anonymousUID and anonymousGID.
-   */
-  rootSquash?: boolean;
-  /**
-   * UID value that replaces 0 when rootSquash is true. 65534 will be used if not provided.
-   */
-  anonymousUID?: string;
-  /**
-   * GID value that replaces 0 when rootSquash is true. This will use the value of anonymousUID if
-   * not provided.
-   */
-  anonymousGID?: string;
-}
-
-/**
- * A set of rules describing access policies applied to NFSv3 clients of the cache.
- */
-export interface NfsAccessPolicy {
-  /**
-   * Name identifying this policy. Access Policy names are not case sensitive.
-   */
-  name: string;
-  /**
-   * The set of rules describing client accesses allowed under this policy.
-   */
-  accessRules: NfsAccessRule[];
-}
-
-/**
- * Cache security settings.
- */
-export interface CacheSecuritySettings {
-  /**
-   * NFS access policies defined for this cache.
-   */
-  accessPolicies?: NfsAccessPolicy[];
-}
-
-/**
- * Active Directory admin credentials used to join the HPC Cache to a domain.
- */
-export interface CacheActiveDirectorySettingsCredentials {
-  /**
-   * Username of the Active Directory domain administrator. This value is stored encrypted and not
-   * returned on response.
-   */
-  username: string;
-  /**
-   * Plain text password of the Active Directory domain administrator. This value is stored
-   * encrypted and not returned on response.
-   */
-  password: string;
-}
-
-/**
- * Active Directory settings used to join a cache to a domain.
- */
-export interface CacheActiveDirectorySettings {
-  /**
-   * Primary DNS IP address used to resolve the Active Directory domain controller's fully
-   * qualified domain name.
-   */
-  primaryDnsIpAddress: string;
-  /**
-   * Secondary DNS IP address used to resolve the Active Directory domain controller's fully
-   * qualified domain name.
-   */
-  secondaryDnsIpAddress?: string;
-  /**
-   * The fully qualified domain name of the Active Directory domain controller.
-   */
-  domainName: string;
-  /**
-   * The Active Directory domain's NetBIOS name.
-   */
-  domainNetBiosName: string;
-  /**
-   * The NetBIOS name to assign to the HPC Cache when it joins the Active Directory domain as a
-   * server. Length must 1-15 characters from the class [-0-9a-zA-Z].
-   */
-  cacheNetBiosName: string;
-  /**
-   * True if the HPC Cache is joined to the Active Directory domain. Possible values include:
-   * 'Yes', 'No', 'Error'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly domainJoined?: DomainJoinedType;
-  /**
-   * Active Directory admin credentials used to join the HPC Cache to a domain.
-   */
-  credentials?: CacheActiveDirectorySettingsCredentials;
-}
-
-/**
- * When present, these are the credentials for the secure LDAP connection.
- */
-export interface CacheUsernameDownloadSettingsCredentials {
-  /**
-   * The Bind Distinguished Name identity to be used in the secure LDAP connection. This value is
-   * stored encrypted and not returned on response.
-   */
-  bindDn?: string;
-  /**
-   * The Bind password to be used in the secure LDAP connection. This value is stored encrypted and
-   * not returned on response.
-   */
-  bindPassword?: string;
-}
-
-/**
- * Settings for Extended Groups username and group download.
- */
-export interface CacheUsernameDownloadSettings {
-  /**
-   * Whether or not Extended Groups is enabled.
-   */
-  extendedGroups?: boolean;
-  /**
-   * This setting determines how the cache gets username and group names for clients. Possible
-   * values include: 'AD', 'LDAP', 'File', 'None'. Default value: 'None'.
-   */
-  usernameSource?: UsernameSource;
-  /**
-   * The URI of the file containing group information (in /etc/group file format). This field must
-   * be populated when 'usernameSource' is set to 'File'.
-   */
-  groupFileURI?: string;
-  /**
-   * The URI of the file containing user information (in /etc/passwd file format). This field must
-   * be populated when 'usernameSource' is set to 'File'.
-   */
-  userFileURI?: string;
-  /**
-   * The fully qualified domain name or IP address of the LDAP server to use.
-   */
-  ldapServer?: string;
-  /**
-   * The base distinguished name for the LDAP domain.
-   */
-  ldapBaseDN?: string;
-  /**
-   * Whether or not the LDAP connection should be encrypted.
-   */
-  encryptLdapConnection?: boolean;
-  /**
-   * Determines if the certificates must be validated by a certificate authority. When true,
-   * caCertificateURI must be provided.
-   */
-  requireValidCertificate?: boolean;
-  /**
-   * Determines if the certificate should be automatically downloaded. This applies to
-   * 'caCertificateURI' only if 'requireValidCertificate' is true.
-   */
-  autoDownloadCertificate?: boolean;
-  /**
-   * The URI of the CA certificate to validate the LDAP secure connection. This field must be
-   * populated when 'requireValidCertificate' is set to true.
-   */
-  caCertificateURI?: string;
-  /**
-   * Indicates whether or not the HPC Cache has performed the username download successfully.
-   * Possible values include: 'Yes', 'No', 'Error'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly usernameDownloaded?: UsernameDownloadedType;
-  /**
-   * When present, these are the credentials for the secure LDAP connection.
-   */
-  credentials?: CacheUsernameDownloadSettingsCredentials;
-}
-
-/**
- * Cache Directory Services settings.
- */
-export interface CacheDirectorySettings {
-  /**
-   * Specifies settings for joining the HPC Cache to an Active Directory domain.
-   */
-  activeDirectory?: CacheActiveDirectorySettings;
-  /**
-   * Specifies settings for Extended Groups. Extended Groups allows users to be members of more
-   * than 16 groups.
-   */
-  usernameDownload?: CacheUsernameDownloadSettings;
-}
-
-/**
- * SKU for the Cache.
- */
-export interface CacheSku {
-  /**
-   * SKU name for this Cache.
-   */
-  name?: string;
-}
-
-/**
- * A Cache instance. Follows Azure Resource Manager standards:
- * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md
- */
-export interface Cache extends BaseResource {
-  /**
-   * Resource tags.
-   */
+/** A Cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
+export interface Cache {
+  /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /**
    * Resource ID of the Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * Region name string.
-   */
+  /** Region name string. */
   location?: string;
   /**
    * Name of Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * Type of the Cache; Microsoft.StorageCache/Cache
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * The identity of the cache, if configured.
-   */
+  /** The identity of the cache, if configured. */
   identity?: CacheIdentity;
   /**
    * The system meta data relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /**
-   * The size of this Cache, in GB.
-   */
+  /** SKU for the Cache. */
+  sku?: CacheSku;
+  /** The size of this Cache, in GB. */
   cacheSizeGB?: number;
   /**
    * Health of the Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: CacheHealth;
   /**
    * Array of IP addresses that can be used by clients mounting this Cache.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountAddresses?: string[];
   /**
-   * ARM provisioning state, see
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
-   * 'Updating'
+   * ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  provisioningState?: ProvisioningStateType;
-  /**
-   * Subnet used for the Cache.
-   */
+  readonly provisioningState?: ProvisioningStateType;
+  /** Subnet used for the Cache. */
   subnet?: string;
   /**
    * Upgrade status of the Cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  upgradeStatus?: CacheUpgradeStatus;
-  /**
-   * Specifies network settings of the cache.
-   */
+  readonly upgradeStatus?: CacheUpgradeStatus;
+  /** Specifies network settings of the cache. */
   networkSettings?: CacheNetworkSettings;
-  /**
-   * Specifies encryption settings of the cache.
-   */
+  /** Specifies encryption settings of the cache. */
   encryptionSettings?: CacheEncryptionSettings;
-  /**
-   * Specifies security settings of the cache.
-   */
+  /** Specifies security settings of the cache. */
   securitySettings?: CacheSecuritySettings;
-  /**
-   * Specifies Directory Services settings of the cache.
-   */
+  /** Specifies Directory Services settings of the cache. */
   directoryServicesSettings?: CacheDirectorySettings;
-  /**
-   * SKU for the Cache.
-   */
-  sku?: CacheSku;
+  /** Availability zones for resources. This field should only contain a single element in the array. */
+  zones?: string[];
 }
 
-/**
- * A namespace junction.
- */
+/** Cache identity properties. */
+export interface CacheIdentity {
+  /**
+   * The principal ID for the system-assigned identity of the cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID associated with the cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the cache */
+  type?: CacheIdentityType;
+  /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentitiesValue;
+  };
+}
+
+export interface UserAssignedIdentitiesValue {
+  /**
+   * The principal ID of the user-assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the user-assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** An indication of Cache health. Gives more information about health than just that related to provisioning. */
+export interface CacheHealth {
+  /** List of Cache health states. */
+  state?: HealthStateType;
+  /** Describes explanation of state. */
+  statusDescription?: string;
+  /**
+   * Outstanding conditions that need to be investigated and resolved.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly conditions?: Condition[];
+}
+
+/** Outstanding conditions that will need to be resolved. */
+export interface Condition {
+  /**
+   * The time when the condition was raised.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * The issue requiring attention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Properties describing the software upgrade state of the Cache. */
+export interface CacheUpgradeStatus {
+  /**
+   * Version string of the firmware currently installed on this Cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentFirmwareVersion?: string;
+  /**
+   * True if there is a firmware update ready to install on this Cache. The firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firmwareUpdateStatus?: FirmwareStatusType;
+  /**
+   * Time at which the pending firmware update will automatically be installed on the Cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firmwareUpdateDeadline?: Date;
+  /**
+   * Time of the last successful firmware update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastFirmwareUpdate?: Date;
+  /**
+   * When firmwareUpdateAvailable is true, this field holds the version string for the update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingFirmwareVersion?: string;
+}
+
+/** Cache network settings. */
+export interface CacheNetworkSettings {
+  /** The IPv4 maximum transmission unit configured for the subnet. */
+  mtu?: number;
+  /**
+   * Array of additional IP addresses used by this Cache.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly utilityAddresses?: string[];
+  /** DNS servers for the cache to use.  It will be set from the network configuration if no value is provided. */
+  dnsServers?: string[];
+  /** DNS search domain */
+  dnsSearchDomain?: string;
+  /** NTP server IP Address or FQDN for the cache to use. The default is time.windows.com. */
+  ntpServer?: string;
+}
+
+/** Cache encryption settings. */
+export interface CacheEncryptionSettings {
+  /** Specifies the location of the key encryption key in Key Vault. */
+  keyEncryptionKey?: KeyVaultKeyReference;
+  /** Specifies whether the service will automatically rotate to the newest version of the key in the Key Vault. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+/** Describes a reference to Key Vault Key. */
+export interface KeyVaultKeyReference {
+  /** The URL referencing a key encryption key in Key Vault. */
+  keyUrl: string;
+  /** Describes a resource Id to source Key Vault. */
+  sourceVault: KeyVaultKeyReferenceSourceVault;
+}
+
+/** Describes a resource Id to source Key Vault. */
+export interface KeyVaultKeyReferenceSourceVault {
+  /** Resource Id. */
+  id?: string;
+}
+
+/** Cache security settings. */
+export interface CacheSecuritySettings {
+  /** NFS access policies defined for this cache. */
+  accessPolicies?: NfsAccessPolicy[];
+}
+
+/** A set of rules describing access policies applied to NFSv3 clients of the cache. */
+export interface NfsAccessPolicy {
+  /** Name identifying this policy. Access Policy names are not case sensitive. */
+  name: string;
+  /** The set of rules describing client accesses allowed under this policy. */
+  accessRules: NfsAccessRule[];
+}
+
+/** Rule to place restrictions on portions of the cache namespace being presented to clients. */
+export interface NfsAccessRule {
+  /** Scope for this rule. The scope and filter determine which clients match the rule. */
+  scope: NfsAccessRuleScope;
+  /** Filter applied to the scope for this rule. The filter's format depends on its scope. 'default' scope matches all clients and has no filter value. 'network' scope takes a filter in CIDR format (for example, 10.99.1.0/24). 'host' takes an IP address or fully qualified domain name as filter. If a client does not match any filter rule and there is no default rule, access is denied. */
+  filter?: string;
+  /** Access allowed by this rule. */
+  access: NfsAccessRuleAccess;
+  /** Allow SUID semantics. */
+  suid?: boolean;
+  /** For the default policy, allow access to subdirectories under the root export. If this is set to no, clients can only mount the path '/'. If set to yes, clients can mount a deeper path, like '/a/b'. */
+  submountAccess?: boolean;
+  /** Map root accesses to anonymousUID and anonymousGID. */
+  rootSquash?: boolean;
+  /** UID value that replaces 0 when rootSquash is true. 65534 will be used if not provided. */
+  anonymousUID?: string;
+  /** GID value that replaces 0 when rootSquash is true. This will use the value of anonymousUID if not provided. */
+  anonymousGID?: string;
+}
+
+/** Cache Directory Services settings. */
+export interface CacheDirectorySettings {
+  /** Specifies settings for joining the HPC Cache to an Active Directory domain. */
+  activeDirectory?: CacheActiveDirectorySettings;
+  /** Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups. */
+  usernameDownload?: CacheUsernameDownloadSettings;
+}
+
+/** Active Directory settings used to join a cache to a domain. */
+export interface CacheActiveDirectorySettings {
+  /** Primary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name. */
+  primaryDnsIpAddress: string;
+  /** Secondary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name. */
+  secondaryDnsIpAddress?: string;
+  /** The fully qualified domain name of the Active Directory domain controller. */
+  domainName: string;
+  /** The Active Directory domain's NetBIOS name. */
+  domainNetBiosName: string;
+  /** The NetBIOS name to assign to the HPC Cache when it joins the Active Directory domain as a server. Length must 1-15 characters from the class [-0-9a-zA-Z]. */
+  cacheNetBiosName: string;
+  /**
+   * True if the HPC Cache is joined to the Active Directory domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domainJoined?: DomainJoinedType;
+  /** Active Directory admin credentials used to join the HPC Cache to a domain. */
+  credentials?: CacheActiveDirectorySettingsCredentials;
+}
+
+/** Active Directory admin credentials used to join the HPC Cache to a domain. */
+export interface CacheActiveDirectorySettingsCredentials {
+  /** Username of the Active Directory domain administrator. This value is stored encrypted and not returned on response. */
+  username: string;
+  /** Plain text password of the Active Directory domain administrator. This value is stored encrypted and not returned on response. */
+  password: string;
+}
+
+/** Settings for Extended Groups username and group download. */
+export interface CacheUsernameDownloadSettings {
+  /** Whether or not Extended Groups is enabled. */
+  extendedGroups?: boolean;
+  /** This setting determines how the cache gets username and group names for clients. */
+  usernameSource?: UsernameSource;
+  /** The URI of the file containing group information (in /etc/group file format). This field must be populated when 'usernameSource' is set to 'File'. */
+  groupFileURI?: string;
+  /** The URI of the file containing user information (in /etc/passwd file format). This field must be populated when 'usernameSource' is set to 'File'. */
+  userFileURI?: string;
+  /** The fully qualified domain name or IP address of the LDAP server to use. */
+  ldapServer?: string;
+  /** The base distinguished name for the LDAP domain. */
+  ldapBaseDN?: string;
+  /** Whether or not the LDAP connection should be encrypted. */
+  encryptLdapConnection?: boolean;
+  /** Determines if the certificates must be validated by a certificate authority. When true, caCertificateURI must be provided. */
+  requireValidCertificate?: boolean;
+  /** Determines if the certificate should be automatically downloaded. This applies to 'caCertificateURI' only if 'requireValidCertificate' is true. */
+  autoDownloadCertificate?: boolean;
+  /** The URI of the CA certificate to validate the LDAP secure connection. This field must be populated when 'requireValidCertificate' is set to true. */
+  caCertificateURI?: string;
+  /**
+   * Indicates whether or not the HPC Cache has performed the username download successfully.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usernameDownloaded?: UsernameDownloadedType;
+  /** When present, these are the credentials for the secure LDAP connection. */
+  credentials?: CacheUsernameDownloadSettingsCredentials;
+}
+
+/** When present, these are the credentials for the secure LDAP connection. */
+export interface CacheUsernameDownloadSettingsCredentials {
+  /** The Bind Distinguished Name identity to be used in the secure LDAP connection. This value is stored encrypted and not returned on response. */
+  bindDn?: string;
+  /** The Bind password to be used in the secure LDAP connection. This value is stored encrypted and not returned on response. */
+  bindPassword?: string;
+}
+
+/** SKU for the Cache. */
+export interface CacheSku {
+  /** SKU name for this Cache. */
+  name?: string;
+}
+
+/** A list of Storage Targets. */
+export interface StorageTargetsResult {
+  /** The URI to fetch the next page of Storage Targets. */
+  nextLink?: string;
+  /** The list of Storage Targets defined for the Cache. */
+  value?: StorageTarget[];
+}
+
+/** A namespace junction. */
 export interface NamespaceJunction {
-  /**
-   * Namespace path on a Cache for a Storage Target.
-   */
+  /** Namespace path on a Cache for a Storage Target. */
   namespacePath?: string;
-  /**
-   * Path in Storage Target to which namespacePath points.
-   */
+  /** Path in Storage Target to which namespacePath points. */
   targetPath?: string;
-  /**
-   * NFS export where targetPath exists.
-   */
+  /** NFS export where targetPath exists. */
   nfsExport?: string;
-  /**
-   * Name of the access policy applied to this junction.
-   */
+  /** Name of the access policy applied to this junction. */
   nfsAccessPolicy?: string;
 }
 
-/**
- * Properties pertaining to the Nfs3Target
- */
+/** Properties pertaining to the Nfs3Target */
 export interface Nfs3Target {
-  /**
-   * IP address or host name of an NFSv3 host (e.g., 10.0.44.44).
-   */
+  /** IP address or host name of an NFSv3 host (e.g., 10.0.44.44). */
   target?: string;
-  /**
-   * Identifies the StorageCache usage model to be used for this storage target.
-   */
+  /** Identifies the StorageCache usage model to be used for this storage target. */
   usageModel?: string;
 }
 
-/**
- * Properties pertaining to the ClfsTarget
- */
+/** Properties pertaining to the ClfsTarget */
 export interface ClfsTarget {
-  /**
-   * Resource ID of storage container.
-   */
+  /** Resource ID of storage container. */
   target?: string;
 }
 
-/**
- * Properties pertaining to the UnknownTarget
- */
+/** Properties pertaining to the UnknownTarget */
 export interface UnknownTarget {
-  /**
-   * Dictionary of string->string pairs containing information about the Storage Target.
-   */
+  /** Dictionary of string->string pairs containing information about the Storage Target. */
   attributes?: { [propertyName: string]: string };
 }
 
-/**
- * Properties pertaining to the BlobNfsTarget.
- */
+/** Properties pertaining to the BlobNfsTarget. */
 export interface BlobNfsTarget {
-  /**
-   * Resource ID of the storage container.
-   */
+  /** Resource ID of the storage container. */
   target?: string;
-  /**
-   * Identifies the StorageCache usage model to be used for this storage target.
-   */
+  /** Identifies the StorageCache usage model to be used for this storage target. */
   usageModel?: string;
 }
 
-/**
- * Resource used by a Cache.
- */
-export interface StorageTargetResource extends BaseResource {
+/** Resource used by a Cache. */
+export interface StorageTargetResource {
   /**
    * Name of the Storage Target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * Resource ID of the Storage Target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * Type of the Storage Target; Microsoft.StorageCache/Cache/StorageTarget
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
    * Region name string.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly location?: string;
   /**
    * The system meta data relating to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
 }
 
-/**
- * Type of the Storage Target.
- */
-export interface StorageTarget extends StorageTargetResource {
-  /**
-   * List of Cache namespace junctions to target for namespace associations.
-   */
+/** Type of the Storage Target. */
+export type StorageTarget = StorageTargetResource & {
+  /** List of Cache namespace junctions to target for namespace associations. */
   junctions?: NamespaceJunction[];
+  /** Type of the Storage Target. */
+  targetType?: StorageTargetType;
   /**
-   * Type of the Storage Target. Possible values include: 'nfs3', 'clfs', 'unknown', 'blobNfs'
+   * ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  targetType: StorageTargetType;
-  /**
-   * ARM provisioning state, see
-   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
-   * 'Updating'
-   */
-  provisioningState?: ProvisioningStateType;
-  /**
-   * Properties when targetType is nfs3.
-   */
+  readonly provisioningState?: ProvisioningStateType;
+  /** Storage target operational state. */
+  state?: OperationalStateType;
+  /** Properties when targetType is nfs3. */
   nfs3?: Nfs3Target;
-  /**
-   * Properties when targetType is clfs.
-   */
+  /** Properties when targetType is clfs. */
   clfs?: ClfsTarget;
-  /**
-   * Properties when targetType is unknown.
-   */
+  /** Properties when targetType is unknown. */
   unknown?: UnknownTarget;
-  /**
-   * Properties when targetType is blobNfs.
-   */
+  /** Properties when targetType is blobNfs. */
   blobNfs?: BlobNfsTarget;
+};
+
+/** Known values of {@link MetricAggregationType} that the service accepts. */
+export enum KnownMetricAggregationType {
+  NotSpecified = "NotSpecified",
+  None = "None",
+  Average = "Average",
+  Minimum = "Minimum",
+  Maximum = "Maximum",
+  Total = "Total",
+  Count = "Count"
 }
 
 /**
- * A resource SKU capability.
+ * Defines values for MetricAggregationType. \
+ * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **None** \
+ * **Average** \
+ * **Minimum** \
+ * **Maximum** \
+ * **Total** \
+ * **Count**
  */
-export interface ResourceSkuCapabilities {
-  /**
-   * Name of a capability, such as ops/sec.
-   */
-  name?: string;
-  /**
-   * Quantity, if the capability is measured by quantity.
-   */
-  value?: string;
+export type MetricAggregationType = string;
+
+/** Known values of {@link ReasonCode} that the service accepts. */
+export enum KnownReasonCode {
+  QuotaId = "QuotaId",
+  NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
 /**
- * Resource SKU location information.
+ * Defines values for ReasonCode. \
+ * {@link KnownReasonCode} can be used interchangeably with ReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **QuotaId** \
+ * **NotAvailableForSubscription**
  */
-export interface ResourceSkuLocationInfo {
-  /**
-   * Location where this SKU is available.
-   */
-  location?: string;
-  /**
-   * Zones if any.
-   */
-  zones?: string[];
+export type ReasonCode = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
 }
 
 /**
- * The restrictions preventing this SKU from being used.
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export interface Restriction {
-  /**
-   * The type of restrictions. In this version, the only possible value for this is location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The value of restrictions. If the restriction type is set to location, then this would be the
-   * different locations where the SKU is restricted.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly values?: string[];
-  /**
-   * The reason for the restriction. As of now this can be "QuotaId" or
-   * "NotAvailableForSubscription". "QuotaId" is set when the SKU has requiredQuotas parameter as
-   * the subscription does not belong to that quota. "NotAvailableForSubscription" is related to
-   * capacity at the datacenter. Possible values include: 'QuotaId', 'NotAvailableForSubscription'
-   */
-  reasonCode?: ReasonCode;
+export type CreatedByType = string;
+
+/** Known values of {@link HealthStateType} that the service accepts. */
+export enum KnownHealthStateType {
+  Unknown = "Unknown",
+  Healthy = "Healthy",
+  Degraded = "Degraded",
+  Down = "Down",
+  Transitioning = "Transitioning",
+  Stopping = "Stopping",
+  Stopped = "Stopped",
+  Upgrading = "Upgrading",
+  Flushing = "Flushing"
 }
 
 /**
- * A resource SKU.
+ * Defines values for HealthStateType. \
+ * {@link KnownHealthStateType} can be used interchangeably with HealthStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Healthy** \
+ * **Degraded** \
+ * **Down** \
+ * **Transitioning** \
+ * **Stopping** \
+ * **Stopped** \
+ * **Upgrading** \
+ * **Flushing**
  */
-export interface ResourceSku {
-  /**
-   * The type of resource the SKU applies to.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * A list of capabilities of this SKU, such as throughput or ops/sec.
-   */
-  capabilities?: ResourceSkuCapabilities[];
-  /**
-   * The set of locations where the SKU is available. This is the supported and registered Azure
-   * Geo Regions (e.g., West US, East US, Southeast Asia, etc.).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locations?: string[];
-  /**
-   * The set of locations where the SKU is available.
-   */
-  locationInfo?: ResourceSkuLocationInfo[];
-  /**
-   * The name of this SKU.
-   */
-  name?: string;
-  /**
-   * The restrictions preventing this SKU from being used. This is empty if there are no
-   * restrictions.
-   */
-  restrictions?: Restriction[];
+export type HealthStateType = string;
+
+/** Known values of {@link ProvisioningStateType} that the service accepts. */
+export enum KnownProvisioningStateType {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Cancelled = "Cancelled",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Updating = "Updating"
 }
 
 /**
- * Localized information describing this usage model.
+ * Defines values for ProvisioningStateType. \
+ * {@link KnownProvisioningStateType} can be used interchangeably with ProvisioningStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating**
  */
-export interface UsageModelDisplay {
-  /**
-   * String to display for this usage model.
-   */
-  description?: string;
+export type ProvisioningStateType = string;
+
+/** Known values of {@link FirmwareStatusType} that the service accepts. */
+export enum KnownFirmwareStatusType {
+  Available = "available",
+  Unavailable = "unavailable"
 }
 
 /**
- * A usage model.
+ * Defines values for FirmwareStatusType. \
+ * {@link KnownFirmwareStatusType} can be used interchangeably with FirmwareStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **available** \
+ * **unavailable**
  */
-export interface UsageModel {
-  /**
-   * Localized information describing this usage model.
-   */
-  display?: UsageModelDisplay;
-  /**
-   * Non-localized keyword name for this usage model.
-   */
-  modelName?: string;
-  /**
-   * The type of Storage Target to which this model is applicable (only nfs3 as of this version).
-   */
-  targetType?: string;
+export type FirmwareStatusType = string;
+
+/** Known values of {@link NfsAccessRuleScope} that the service accepts. */
+export enum KnownNfsAccessRuleScope {
+  Default = "default",
+  Network = "network",
+  Host = "host"
 }
 
 /**
- * Optional Parameters.
+ * Defines values for NfsAccessRuleScope. \
+ * {@link KnownNfsAccessRuleScope} can be used interchangeably with NfsAccessRuleScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default** \
+ * **network** \
+ * **host**
  */
-export interface CachesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Object containing the user-selectable properties of the new Cache. If read-only properties are
-   * included, they must match the existing values of those properties.
-   */
+export type NfsAccessRuleScope = string;
+
+/** Known values of {@link NfsAccessRuleAccess} that the service accepts. */
+export enum KnownNfsAccessRuleAccess {
+  No = "no",
+  Ro = "ro",
+  Rw = "rw"
+}
+
+/**
+ * Defines values for NfsAccessRuleAccess. \
+ * {@link KnownNfsAccessRuleAccess} can be used interchangeably with NfsAccessRuleAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **no** \
+ * **ro** \
+ * **rw**
+ */
+export type NfsAccessRuleAccess = string;
+
+/** Known values of {@link DomainJoinedType} that the service accepts. */
+export enum KnownDomainJoinedType {
+  Yes = "Yes",
+  No = "No",
+  Error = "Error"
+}
+
+/**
+ * Defines values for DomainJoinedType. \
+ * {@link KnownDomainJoinedType} can be used interchangeably with DomainJoinedType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No** \
+ * **Error**
+ */
+export type DomainJoinedType = string;
+
+/** Known values of {@link UsernameSource} that the service accepts. */
+export enum KnownUsernameSource {
+  AD = "AD",
+  Ldap = "LDAP",
+  File = "File",
+  None = "None"
+}
+
+/**
+ * Defines values for UsernameSource. \
+ * {@link KnownUsernameSource} can be used interchangeably with UsernameSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AD** \
+ * **LDAP** \
+ * **File** \
+ * **None**
+ */
+export type UsernameSource = string;
+
+/** Known values of {@link UsernameDownloadedType} that the service accepts. */
+export enum KnownUsernameDownloadedType {
+  Yes = "Yes",
+  No = "No",
+  Error = "Error"
+}
+
+/**
+ * Defines values for UsernameDownloadedType. \
+ * {@link KnownUsernameDownloadedType} can be used interchangeably with UsernameDownloadedType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No** \
+ * **Error**
+ */
+export type UsernameDownloadedType = string;
+
+/** Known values of {@link StorageTargetType} that the service accepts. */
+export enum KnownStorageTargetType {
+  Nfs3 = "nfs3",
+  Clfs = "clfs",
+  Unknown = "unknown",
+  BlobNfs = "blobNfs"
+}
+
+/**
+ * Defines values for StorageTargetType. \
+ * {@link KnownStorageTargetType} can be used interchangeably with StorageTargetType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **nfs3** \
+ * **clfs** \
+ * **unknown** \
+ * **blobNfs**
+ */
+export type StorageTargetType = string;
+
+/** Known values of {@link OperationalStateType} that the service accepts. */
+export enum KnownOperationalStateType {
+  Ready = "Ready",
+  Busy = "Busy",
+  Suspended = "Suspended",
+  Flushing = "Flushing"
+}
+
+/**
+ * Defines values for OperationalStateType. \
+ * {@link KnownOperationalStateType} can be used interchangeably with OperationalStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready** \
+ * **Busy** \
+ * **Suspended** \
+ * **Flushing**
+ */
+export type OperationalStateType = string;
+/** Defines values for CacheIdentityType. */
+export type CacheIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = ApiOperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = ApiOperationListResult;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = ResourceSkusResult;
+
+/** Optional parameters. */
+export interface SkusListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SkusListNextResponse = ResourceSkusResult;
+
+/** Optional parameters. */
+export interface UsageModelsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UsageModelsListResponse = UsageModelsResult;
+
+/** Optional parameters. */
+export interface UsageModelsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UsageModelsListNextResponse = UsageModelsResult;
+
+/** Optional parameters. */
+export interface AscOperationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AscOperationsGetResponse = AscOperation;
+
+/** Optional parameters. */
+export interface AscUsagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AscUsagesListResponse = ResourceUsagesListResult;
+
+/** Optional parameters. */
+export interface AscUsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AscUsagesListNextResponse = ResourceUsagesListResult;
+
+/** Optional parameters. */
+export interface CachesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CachesListResponse = CachesListResult;
+
+/** Optional parameters. */
+export interface CachesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type CachesListByResourceGroupResponse = CachesListResult;
+
+/** Optional parameters. */
+export interface CachesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CachesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CachesGetResponse = Cache;
+
+/** Optional parameters. */
+export interface CachesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the user-selectable properties of the new Cache. If read-only properties are included, they must match the existing values of those properties. */
+  cache?: Cache;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CachesCreateOrUpdateResponse = Cache;
+
+/** Optional parameters. */
+export interface CachesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the user-selectable properties of the Cache. If read-only properties are included, they must match the existing values of those properties. */
   cache?: Cache;
 }
 
-/**
- * Optional Parameters.
- */
-export interface CachesUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Object containing the user-selectable properties of the Cache. If read-only properties are
-   * included, they must match the existing values of those properties.
-   */
-  cache?: Cache;
+/** Contains response data for the update operation. */
+export type CachesUpdateResponse = Cache;
+
+/** Optional parameters. */
+export interface CachesDebugInfoOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface CachesBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Object containing the user-selectable properties of the new Cache. If read-only properties are
-   * included, they must match the existing values of those properties.
-   */
-  cache?: Cache;
+/** Optional parameters. */
+export interface CachesFlushOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface StorageTargetsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Object containing the definition of a Storage Target.
-   */
+/** Optional parameters. */
+export interface CachesStartOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CachesStopOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CachesUpgradeFirmwareOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CachesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CachesListNextResponse = CachesListResult;
+
+/** Optional parameters. */
+export interface CachesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type CachesListByResourceGroupNextResponse = CachesListResult;
+
+/** Optional parameters. */
+export interface StorageTargetsDnsRefreshOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StorageTargetsListByCacheOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCache operation. */
+export type StorageTargetsListByCacheResponse = StorageTargetsResult;
+
+/** Optional parameters. */
+export interface StorageTargetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Boolean value requesting the force delete operation for a storage target. Force delete discards unwritten-data in the cache instead of flushing it to back-end storage. */
+  force?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StorageTargetsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type StorageTargetsGetResponse = StorageTarget;
+
+/** Optional parameters. */
+export interface StorageTargetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the definition of a Storage Target. */
   storagetarget?: StorageTarget;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface StorageTargetsBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Object containing the definition of a Storage Target.
-   */
-  storagetarget?: StorageTarget;
+/** Contains response data for the createOrUpdate operation. */
+export type StorageTargetsCreateOrUpdateResponse = StorageTarget;
+
+/** Optional parameters. */
+export interface StorageTargetsListByCacheNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCacheNext operation. */
+export type StorageTargetsListByCacheNextResponse = StorageTargetsResult;
+
+/** Optional parameters. */
+export interface StorageTargetFlushOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * An interface representing StorageCacheManagementClientOptions.
- */
-export interface StorageCacheManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Optional parameters. */
+export interface StorageTargetSuspendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * @interface
- * Result of the request to list Resource Provider operations. It contains a list of operations and
- * a URL link to get the next set of results.
- * @extends Array<ApiOperation>
- */
-export interface ApiOperationListResult extends Array<ApiOperation> {
-  /**
-   * URL to get the next set of operation list results if there are any.
-   */
-  nextLink?: string;
+/** Optional parameters. */
+export interface StorageTargetResumeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * @interface
- * The response from the List Cache SKUs operation.
- * @extends Array<ResourceSku>
- */
-export interface ResourceSkusResult extends Array<ResourceSku> {
-  /**
-   * The URI to fetch the next page of Cache SKUs.
-   */
-  nextLink?: string;
+/** Optional parameters. */
+export interface StorageTargetInvalidateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * @interface
- * A list of Cache usage models.
- * @extends Array<UsageModel>
- */
-export interface UsageModelsResult extends Array<UsageModel> {
-  /**
-   * The URI to fetch the next page of Cache usage models.
-   */
-  nextLink?: string;
+/** Optional parameters. */
+export interface StorageCacheManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * Result of the request to list Caches. It contains a list of Caches and a URL link to get the
- * next set of results.
- * @extends Array<Cache>
- */
-export interface CachesListResult extends Array<Cache> {
-  /**
-   * URL to get the next set of Cache list results, if there are any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * A list of Storage Targets.
- * @extends Array<StorageTarget>
- */
-export interface StorageTargetsResult extends Array<StorageTarget> {
-  /**
-   * The URI to fetch the next page of Storage Targets.
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for MetricAggregationType.
- * Possible values include: 'NotSpecified', 'None', 'Average', 'Minimum', 'Maximum', 'Total',
- * 'Count'
- * @readonly
- * @enum {string}
- */
-export type MetricAggregationType = 'NotSpecified' | 'None' | 'Average' | 'Minimum' | 'Maximum' | 'Total' | 'Count';
-
-/**
- * Defines values for CacheIdentityType.
- * Possible values include: 'SystemAssigned', 'None'
- * @readonly
- * @enum {string}
- */
-export type CacheIdentityType = 'SystemAssigned' | 'None';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
-
-/**
- * Defines values for HealthStateType.
- * Possible values include: 'Unknown', 'Healthy', 'Degraded', 'Down', 'Transitioning', 'Stopping',
- * 'Stopped', 'Upgrading', 'Flushing'
- * @readonly
- * @enum {string}
- */
-export type HealthStateType = 'Unknown' | 'Healthy' | 'Degraded' | 'Down' | 'Transitioning' | 'Stopping' | 'Stopped' | 'Upgrading' | 'Flushing';
-
-/**
- * Defines values for ProvisioningStateType.
- * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningStateType = 'Succeeded' | 'Failed' | 'Cancelled' | 'Creating' | 'Deleting' | 'Updating';
-
-/**
- * Defines values for FirmwareStatusType.
- * Possible values include: 'available', 'unavailable'
- * @readonly
- * @enum {string}
- */
-export type FirmwareStatusType = 'available' | 'unavailable';
-
-/**
- * Defines values for NfsAccessRuleScope.
- * Possible values include: 'default', 'network', 'host'
- * @readonly
- * @enum {string}
- */
-export type NfsAccessRuleScope = 'default' | 'network' | 'host';
-
-/**
- * Defines values for NfsAccessRuleAccess.
- * Possible values include: 'no', 'ro', 'rw'
- * @readonly
- * @enum {string}
- */
-export type NfsAccessRuleAccess = 'no' | 'ro' | 'rw';
-
-/**
- * Defines values for DomainJoinedType.
- * Possible values include: 'Yes', 'No', 'Error'
- * @readonly
- * @enum {string}
- */
-export type DomainJoinedType = 'Yes' | 'No' | 'Error';
-
-/**
- * Defines values for UsernameSource.
- * Possible values include: 'AD', 'LDAP', 'File', 'None'
- * @readonly
- * @enum {string}
- */
-export type UsernameSource = 'AD' | 'LDAP' | 'File' | 'None';
-
-/**
- * Defines values for UsernameDownloadedType.
- * Possible values include: 'Yes', 'No', 'Error'
- * @readonly
- * @enum {string}
- */
-export type UsernameDownloadedType = 'Yes' | 'No' | 'Error';
-
-/**
- * Defines values for StorageTargetType.
- * Possible values include: 'nfs3', 'clfs', 'unknown', 'blobNfs'
- * @readonly
- * @enum {string}
- */
-export type StorageTargetType = 'nfs3' | 'clfs' | 'unknown' | 'blobNfs';
-
-/**
- * Defines values for ReasonCode.
- * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * @readonly
- * @enum {string}
- */
-export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = ApiOperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiOperationListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = ApiOperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiOperationListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type SkusListResponse = ResourceSkusResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type SkusListNextResponse = ResourceSkusResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type UsageModelsListResponse = UsageModelsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageModelsResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type UsageModelsListNextResponse = UsageModelsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageModelsResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AscOperationsGetResponse = AscOperation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AscOperation;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type CachesListResponse = CachesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type CachesListByResourceGroupResponse = CachesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type CachesGetResponse = Cache & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type CachesCreateOrUpdateResponse = Cache & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type CachesUpdateResponse = Cache & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type CachesBeginCreateOrUpdateResponse = Cache & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type CachesListNextResponse = CachesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type CachesListByResourceGroupNextResponse = CachesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByCache operation.
- */
-export type StorageTargetsListByCacheResponse = StorageTargetsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTargetsResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type StorageTargetsGetResponse = StorageTarget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTarget;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type StorageTargetsCreateOrUpdateResponse = StorageTarget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTarget;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type StorageTargetsBeginCreateOrUpdateResponse = StorageTarget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTarget;
-    };
-};
-
-/**
- * Contains response data for the listByCacheNext operation.
- */
-export type StorageTargetsListByCacheNextResponse = StorageTargetsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTargetsResult;
-    };
-};

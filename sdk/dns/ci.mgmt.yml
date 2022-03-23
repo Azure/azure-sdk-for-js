@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/dns/ci.mgmt.yml
+      - sdk/dns/arm-dns/
+      - sdk/dns/arm-dns-profile-2020-09-01-hybrid
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/dns/ci.mgmt.yml
+      - sdk/dns/arm-dns/
+      - sdk/dns/arm-dns-profile-2020-09-01-hybrid
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: dns
+    Artifacts:
+      - name: azure-arm-dns
+        safeName: azurearmdns
+      - name: azure-arm-dns-profile-2020-09-01-hybrid
+        safeName: azurearmdnsprofile20200901hybrid

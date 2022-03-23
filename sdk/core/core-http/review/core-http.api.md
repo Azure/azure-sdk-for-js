@@ -53,10 +53,10 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 // @public
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
-// @public (undocumented)
+// @public @deprecated
 export type Authenticator = (challenge: unknown) => Promise<string>;
 
-// @public (undocumented)
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;
@@ -74,59 +74,65 @@ export interface BaseMapper {
     xmlNamespacePrefix?: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class BaseRequestPolicy implements RequestPolicy {
-    protected constructor(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike);
+    protected constructor(
+    _nextPolicy: RequestPolicy,
+    _options: RequestPolicyOptionsLike);
     log(logLevel: HttpPipelineLogLevel, message: string): void;
-    // (undocumented)
     readonly _nextPolicy: RequestPolicy;
-    // (undocumented)
     readonly _options: RequestPolicyOptionsLike;
-    // (undocumented)
     abstract sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
-// @public (undocumented)
+// @public
 export class BasicAuthenticationCredentials implements ServiceClientCredentials {
     constructor(userName: string, password: string, authorizationScheme?: string);
-    // (undocumented)
     authorizationScheme: string;
-    // (undocumented)
     password: string;
     signRequest(webResource: WebResourceLike): Promise<WebResourceLike>;
-    // (undocumented)
     userName: string;
 }
 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
+export type CommonRequestInfo = string;
+
+// @public
+export type CommonRequestInit = Omit<RequestInit, "body" | "headers" | "signal"> & {
+    body?: any;
+    headers?: any;
+    signal?: any;
+};
+
+// @public
+export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
+    body: any;
+    trailer: any;
+    formData: any;
+};
+
+// @public
 export interface CompositeMapper extends BaseMapper {
-    // (undocumented)
     type: CompositeMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface CompositeMapperType {
-    // (undocumented)
     additionalProperties?: Mapper;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     modelProperties?: {
         [propertyName: string]: Mapper;
     };
-    // (undocumented)
     name: "Composite";
-    // (undocumented)
     polymorphicDiscriminator?: PolymorphicDiscriminator;
-    // (undocumented)
     uberParent?: string;
 }
 
-// @public (undocumented)
+// @public
 export const Constants: {
     coreHttpVersion: string;
     HTTP: string;
@@ -158,7 +164,7 @@ export const Constants: {
     };
 };
 
-// @public (undocumented)
+// @public
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public @deprecated
@@ -167,20 +173,12 @@ export function createSpanFunction(args: SpanConfig): <T extends OperationOption
     updatedOptions: T;
 };
 
-// Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
-//
-// @public (undocumented)
-export class DefaultHttpClient extends FetchHttpClient {
-    // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
-    //
-    // (undocumented)
+// @public
+export class DefaultHttpClient implements HttpClient {
     fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
-    // (undocumented)
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-    // (undocumented)
     processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+    sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -203,22 +201,18 @@ export interface DeserializationOptions {
 // @public
 export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes, parsingOptions?: SerializerOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse, options?: SerializerOptions): Promise<HttpOperationResponse>;
 
-// @public (undocumented)
+// @public
 export interface DictionaryMapper extends BaseMapper {
-    // (undocumented)
     headerCollectionPrefix?: string;
-    // (undocumented)
     type: DictionaryMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface DictionaryMapperType {
-    // (undocumented)
     name: "Dictionary";
-    // (undocumented)
     value: Mapper;
 }
 
@@ -228,17 +222,14 @@ export function disableResponseDecompressionPolicy(): RequestPolicyFactory;
 // @public
 export function encodeUri(uri: string): string;
 
-// @public (undocumented)
+// @public
 export interface EnumMapper extends BaseMapper {
-    // (undocumented)
     type: EnumMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface EnumMapperType {
-    // (undocumented)
     allowedValues: any[];
-    // (undocumented)
     name: "Enum";
 }
 
@@ -248,28 +239,26 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
 // @public @deprecated
 export class ExpiringAccessTokenCache implements AccessTokenCache {
     constructor(tokenRefreshBufferMs?: number);
-    // (undocumented)
     getCachedToken(): AccessToken | undefined;
-    // (undocumented)
     setCachedToken(accessToken: AccessToken | undefined): void;
 }
 
-// @public (undocumented)
+// @public
 export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export function flattenResponse(_response: HttpOperationResponse, responseSpec: OperationResponse | undefined): RestResponse;
 
-// @public (undocumented)
+// @public
 export function generateClientRequestIdPolicy(requestIdHeaderName?: string): RequestPolicyFactory;
 
 // @public
 export function generateUuid(): string;
 
-// @public (undocumented)
+// @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
-// @public (undocumented)
+// @public
 export function getDefaultUserAgentValue(): string;
 
 export { GetTokenOptions }
@@ -296,7 +285,9 @@ export class HttpHeaders implements HttpHeadersLike {
     rawHeaders(): RawHttpHeaders;
     remove(headerName: string): boolean;
     set(headerName: string, headerValue: string | number): void;
-    toJson(): RawHttpHeaders;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
     toString(): string;
 }
 
@@ -311,10 +302,12 @@ export interface HttpHeadersLike {
     rawHeaders(): RawHttpHeaders;
     remove(headerName: string): boolean;
     set(headerName: string, headerValue: string | number): void;
-    toJson(): RawHttpHeaders;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
 }
 
-// @public (undocumented)
+// @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
@@ -342,7 +335,7 @@ export enum HttpPipelineLogLevel {
     WARNING = 2
 }
 
-// @public (undocumented)
+// @public
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
 
 // @public
@@ -373,56 +366,44 @@ export function isValidUuid(uuid: string): boolean;
 
 // @public
 export interface KeepAliveOptions {
-    // (undocumented)
     enable: boolean;
 }
 
-// @public (undocumented)
+// @public
 export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export function logPolicy(loggingOptions?: LogPolicyOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export interface LogPolicyOptions {
     allowedHeaderNames?: string[];
     allowedQueryParameters?: string[];
     logger?: Debugger;
 }
 
-// @public (undocumented)
+// @public
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
-// @public (undocumented)
+// @public
 export interface MapperConstraints {
-    // (undocumented)
     ExclusiveMaximum?: number;
-    // (undocumented)
     ExclusiveMinimum?: number;
-    // (undocumented)
     InclusiveMaximum?: number;
-    // (undocumented)
     InclusiveMinimum?: number;
-    // (undocumented)
     MaxItems?: number;
-    // (undocumented)
     MaxLength?: number;
-    // (undocumented)
     MinItems?: number;
-    // (undocumented)
     MinLength?: number;
-    // (undocumented)
     MultipleOf?: number;
-    // (undocumented)
     Pattern?: RegExp;
-    // (undocumented)
     UniqueItems?: true;
 }
 
-// @public (undocumented)
+// @public
 export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
 
-// @public (undocumented)
+// @public
 export const MapperType: {
     Date: "Date";
     Base64Url: "Base64Url";
@@ -470,7 +451,7 @@ export interface OperationQueryParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationRequestOptions {
     customHeaders?: {
         [key: string]: string;
@@ -512,18 +493,15 @@ export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type ParameterPath = string | string[] | {
     [propertyName: string]: ParameterPath;
 };
 
 // @public
 export interface ParameterValue {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     skipUrlEncoding: boolean;
-    // (undocumented)
     value: any;
 }
 
@@ -533,7 +511,6 @@ export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
 // @public
 export interface PipelineOptions {
     httpClient?: HttpClient;
-    // (undocumented)
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;
     redirectOptions?: RedirectOptions;
@@ -541,13 +518,10 @@ export interface PipelineOptions {
     userAgentOptions?: UserAgentOptions;
 }
 
-// @public (undocumented)
+// @public
 export interface PolymorphicDiscriminator {
-    // (undocumented)
     [key: string]: string;
-    // (undocumented)
     clientName: string;
-    // (undocumented)
     serializedName: string;
 }
 
@@ -557,7 +531,7 @@ export function promiseToCallback(promise: Promise<any>): (cb: Function) => void
 // @public
 export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): (cb: ServiceCallback<T>) => void;
 
-// @public (undocumented)
+// @public
 export type ProxyOptions = ProxySettings;
 
 // @public
@@ -575,15 +549,10 @@ export interface ProxySettings {
 
 // @public
 export enum QueryCollectionFormat {
-    // (undocumented)
     Csv = ",",
-    // (undocumented)
     Multi = "Multi",
-    // (undocumented)
     Pipes = "|",
-    // (undocumented)
     Ssv = " ",
-    // (undocumented)
     Tsv = "\t"
 }
 
@@ -594,18 +563,15 @@ export type RawHttpHeaders = {
 
 // @public
 export interface RedirectOptions {
-    // (undocumented)
     handleRedirects: boolean;
-    // (undocumented)
     maxRetries?: number;
 }
 
-// @public (undocumented)
+// @public
 export function redirectPolicy(maximumRetries?: number): RequestPolicyFactory;
 
 // @public
 export interface RequestOptionsBase {
-    // (undocumented)
     [key: string]: any;
     abortSignal?: AbortSignalLike;
     customHeaders?: {
@@ -619,9 +585,8 @@ export interface RequestOptionsBase {
     tracingContext?: Context;
 }
 
-// @public (undocumented)
+// @public
 export interface RequestPolicy {
-    // (undocumented)
     sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
@@ -643,9 +608,8 @@ export interface RequestPolicyOptionsLike {
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface RequestPrepareOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
     baseUrl?: string;
     body?: any;
@@ -653,7 +617,6 @@ export interface RequestPrepareOptions {
     deserializationMapper?: Record<string, unknown>;
     disableClientRequestId?: boolean;
     disableJsonStringifyOnBody?: boolean;
-    // (undocumented)
     formData?: {
         [key: string]: any;
     };
@@ -664,9 +627,7 @@ export interface RequestPrepareOptions {
         [x: string]: any;
     };
     method: HttpMethods;
-    // (undocumented)
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    // (undocumented)
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     pathParameters?: {
         [key: string]: any | ParameterValue;
@@ -681,35 +642,26 @@ export interface RequestPrepareOptions {
     url?: string;
 }
 
-// @public (undocumented)
+// @public
 export class RestError extends Error {
     constructor(message: string, code?: string, statusCode?: number, request?: WebResourceLike, response?: HttpOperationResponse);
-    // (undocumented)
     code?: string;
-    // (undocumented)
     details?: unknown;
-    // (undocumented)
     static readonly PARSE_ERROR: string;
-    // (undocumented)
     request?: WebResourceLike;
-    // (undocumented)
     static readonly REQUEST_SEND_ERROR: string;
-    // (undocumented)
     response?: HttpOperationResponse;
-    // (undocumented)
     statusCode?: number;
 }
 
 // @public
 export interface RestResponse {
-    // (undocumented)
     [key: string]: any;
     _response: HttpOperationResponse;
 }
 
 // @public
 export enum RetryMode {
-    // (undocumented)
     Exponential = 0
 }
 
@@ -721,37 +673,33 @@ export interface RetryOptions {
     retryDelayInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SequenceMapper extends BaseMapper {
-    // (undocumented)
     type: SequenceMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface SequenceMapperType {
-    // (undocumented)
     element: Mapper;
-    // (undocumented)
     name: "Sequence";
 }
 
-// @public (undocumented)
+// @public
 export function serializeObject(toSerialize: unknown): any;
 
-// @public (undocumented)
+// @public
 export class Serializer {
-    constructor(modelMappers?: {
+    constructor(
+    modelMappers?: {
         [key: string]: any;
-    }, isXML?: boolean | undefined);
+    },
+    isXML?: boolean | undefined);
     deserialize(mapper: Mapper, responseBody: unknown, objectName: string, options?: SerializerOptions): any;
-    // (undocumented)
     readonly isXML?: boolean | undefined;
-    // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
     serialize(mapper: Mapper, object: unknown, objectName?: string, options?: SerializerOptions): any;
-    // (undocumented)
     validateConstraints(mapper: Mapper, value: unknown, objectName: string): void;
 }
 
@@ -776,7 +724,7 @@ export class ServiceClient {
     sendRequest(options: RequestPrepareOptions | WebResourceLike): Promise<HttpOperationResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceClientCredentials {
     signRequest(webResource: WebResourceLike): Promise<WebResourceLike>;
 }
@@ -798,12 +746,11 @@ export interface ServiceClientOptions {
     withCredentials?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export interface SimpleMapperType {
-    // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
@@ -822,31 +769,30 @@ export function stripRequest(request: WebResourceLike): WebResourceLike;
 // @public
 export function stripResponse(response: HttpOperationResponse): any;
 
-// @public (undocumented)
+// @public
 export function systemErrorRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export type TelemetryInfo = {
     key?: string;
     value?: string;
 };
 
-// @public (undocumented)
+// @public
 export function throttlingRetryPolicy(): RequestPolicyFactory;
 
 export { TokenCredential }
 
-// @public (undocumented)
+// @public
 export class TopicCredentials extends ApiKeyCredentials {
     constructor(topicKey: string);
 }
 
-// @public (undocumented)
+// @public
 export function tracingPolicy(tracingOptions?: TracingPolicyOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export interface TracingPolicyOptions {
-    // (undocumented)
     userAgent?: string;
 }
 
@@ -864,7 +810,6 @@ export class URLBuilder {
     getQuery(): string | undefined;
     getQueryParameterValue(queryParameterName: string): string | string[] | undefined;
     getScheme(): string | undefined;
-    // (undocumented)
     static parse(text: string): URLBuilder;
     replaceAll(searchValue: string, replaceValue: string): void;
     setHost(host: string | undefined): void;
@@ -873,15 +818,12 @@ export class URLBuilder {
     setQuery(query: string | undefined): void;
     setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void;
     setScheme(scheme: string | undefined): void;
-    // (undocumented)
     toString(): string;
 }
 
-// @public (undocumented)
+// @public
 export interface UrlParameterValue {
-    // (undocumented)
     skipUrlEncoding: boolean;
-    // (undocumented)
     value: string;
 }
 
@@ -897,11 +839,10 @@ export class URLQuery {
 
 // @public
 export interface UserAgentOptions {
-    // (undocumented)
     userAgentPrefix?: string;
 }
 
-// @public (undocumented)
+// @public
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory;
 
 // @public
@@ -911,56 +852,42 @@ export class WebResource implements WebResourceLike {
     }, headers?: {
         [key: string]: any;
     } | HttpHeadersLike, streamResponseBody?: boolean, withCredentials?: boolean, abortSignal?: AbortSignalLike, timeout?: number, onUploadProgress?: (progress: TransferProgressEvent) => void, onDownloadProgress?: (progress: TransferProgressEvent) => void, proxySettings?: ProxySettings, keepAlive?: boolean, decompressResponse?: boolean, streamResponseStatusCodes?: Set<number>);
-    // (undocumented)
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     body?: any;
     clone(): WebResource;
     decompressResponse?: boolean;
-    // (undocumented)
     formData?: any;
-    // (undocumented)
     headers: HttpHeadersLike;
-    // (undocumented)
     keepAlive?: boolean;
-    // (undocumented)
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     operationResponseGetter?: (operationSpec: OperationSpec, response: HttpOperationResponse) => undefined | OperationResponse;
-    // (undocumented)
     operationSpec?: OperationSpec;
     prepare(options: RequestPrepareOptions): WebResource;
-    // (undocumented)
     proxySettings?: ProxySettings;
-    // (undocumented)
     query?: {
         [key: string]: any;
     };
-    // (undocumented)
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
-    // @deprecated (undocumented)
+    // @deprecated
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
-    // (undocumented)
     timeout: number;
     tracingContext?: Context;
-    // (undocumented)
     url: string;
     validateRequestProperties(): void;
-    // (undocumented)
     withCredentials: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
     body?: any;
     clone(): WebResourceLike;
     decompressResponse?: boolean;
-    // (undocumented)
     formData?: any;
     headers: HttpHeadersLike;
     keepAlive?: boolean;
@@ -976,7 +903,7 @@ export interface WebResourceLike {
     };
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    // @deprecated (undocumented)
+    // @deprecated
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;

@@ -61,10 +61,6 @@
       "path": "sdk/core/core-client-rest"
     },
     {
-      "name": "core-client-lro-rest",
-      "path": "sdk/core/core-client-lro-rest"
-    },
-    {
       "name": "ai-document-translator",
       "path": "sdk/documenttranslator/ai-document-translator-rest"
     },
@@ -273,10 +269,6 @@
       "path": "sdk/attestation/attestation"
     },
     {
-      "name": "iot-device-update",
-      "path": "sdk/deviceupdate/iot-device-update"
-    },
-    {
       "path": "sdk/web-pubsub/web-pubsub"
     },
     {
@@ -285,6 +277,12 @@
     {
       "name": "mixed-reality-remote-rendering",
       "path": "sdk/remoterendering/mixed-reality-remote-rendering"
+    },
+    {
+      "path": "sdk/test-utils/test-utils"
+    },
+    {
+      "path": "sdk/purview/purview-administration-rest"
     }
   ],
   "settings": {
@@ -320,7 +318,8 @@
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode"
+      "esbenp.prettier-vscode",
+      "streetsidesoftware.code-spell-checker"
     ]
   }
 }

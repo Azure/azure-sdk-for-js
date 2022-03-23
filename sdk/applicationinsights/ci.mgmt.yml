@@ -1,0 +1,32 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/applicationinsights/ci.mgmt.yml
+      - sdk/applicationinsights/arm-appinsights
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/applicationinsights/ci.mgmt.yml
+      - sdk/applicationinsights/arm-appinsights
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: applicationinsights
+    Artifacts:
+      - name: azure-arm-appinsights
+        safeName: azurearmappinsights

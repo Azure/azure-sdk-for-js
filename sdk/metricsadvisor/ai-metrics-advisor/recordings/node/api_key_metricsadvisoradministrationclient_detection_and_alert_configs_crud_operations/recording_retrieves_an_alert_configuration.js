@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "5dbdfe151332be07ac7ca8f49083072a";
+module.exports.hash = "8fba37cabe88b5d1094adf895e044d73";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/5130d48a-0b41-4838-b589-d72178f20554')
-  .reply(200, {"anomalyAlertingConfigurationId":"5130d48a-0b41-4838-b589-d72178f20554","name":"js-alert-config-162265511166506350","description":"alerting config description","crossMetricsOperator":"AND","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"a7cc6dda-d4e7-447d-aa57-3fc3395d5516","anomalyScopeType":"All","negationOperation":false},{"anomalyDetectionConfigurationId":"a7cc6dda-d4e7-447d-aa57-3fc3395d5516","anomalyScopeType":"All","negationOperation":false}]}, [
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/b13d420d-c738-4c44-845e-8922cb2e2476')
+  .reply(200, {"anomalyAlertingConfigurationId":"b13d420d-c738-4c44-845e-8922cb2e2476","name":"js-alert-config-164264029838308489","description":"alerting config description","crossMetricsOperator":"AND","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"c4ea04e0-2626-41f3-acc7-31c85df331c2","anomalyScopeType":"All","negationOperation":false},{"anomalyDetectionConfigurationId":"c4ea04e0-2626-41f3-acc7-31c85df331c2","anomalyScopeType":"All","negationOperation":false}]}, [
   'Content-Length',
   '516',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '0594cdf5-0a9a-4e12-9b8f-3a4160bf14a6',
+  'fb07d834-9774-4d2a-87ac-135086a64ca4',
   'x-envoy-upstream-service-time',
-  '120',
+  '125',
   'apim-request-id',
-  '0594cdf5-0a9a-4e12-9b8f-3a4160bf14a6',
+  'fb07d834-9774-4d2a-87ac-135086a64ca4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 17:31:51 GMT'
+  'Thu, 20 Jan 2022 00:58:18 GMT'
 ]);

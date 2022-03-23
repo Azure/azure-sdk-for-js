@@ -3,15 +3,26 @@
 
 import { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces";
 
+interface HeaderEntry {
+  name: string;
+  value: string;
+}
+
 function normalizeName(name: string): string {
   return name.toLowerCase();
 }
 
+function* headerIterator(map: Map<string, HeaderEntry>): IterableIterator<[string, string]> {
+  for (const entry of map.values()) {
+    yield [entry.name, entry.value];
+  }
+}
+
 class HttpHeadersImpl implements HttpHeaders {
-  private readonly _headersMap: Map<string, string>;
+  private readonly _headersMap: Map<string, HeaderEntry>;
 
   constructor(rawHeaders?: RawHttpHeaders | RawHttpHeadersInput) {
-    this._headersMap = new Map<string, string>();
+    this._headersMap = new Map<string, HeaderEntry>();
     if (rawHeaders) {
       for (const headerName of Object.keys(rawHeaders)) {
         this.set(headerName, rawHeaders[headerName]);
@@ -26,7 +37,7 @@ class HttpHeadersImpl implements HttpHeaders {
    * @param value - The value of the header to set.
    */
   public set(name: string, value: string | number | boolean): void {
-    this._headersMap.set(normalizeName(name), String(value));
+    this._headersMap.set(normalizeName(name), { name, value: String(value) });
   }
 
   /**
@@ -35,7 +46,7 @@ class HttpHeadersImpl implements HttpHeaders {
    * @param name - The name of the header. This value is case-insensitive.
    */
   public get(name: string): string | undefined {
-    return this._headersMap.get(normalizeName(name));
+    return this._headersMap.get(normalizeName(name))?.value;
   }
 
   /**
@@ -57,11 +68,18 @@ class HttpHeadersImpl implements HttpHeaders {
   /**
    * Get the JSON object representation of this HTTP header collection.
    */
-  public toJSON(): RawHttpHeaders {
+  public toJSON(options: { preserveCase?: boolean } = {}): RawHttpHeaders {
     const result: RawHttpHeaders = {};
-    for (const [key, value] of this._headersMap) {
-      result[key] = value;
+    if (options.preserveCase) {
+      for (const entry of this._headersMap.values()) {
+        result[entry.name] = entry.value;
+      }
+    } else {
+      for (const [normalizedName, entry] of this._headersMap) {
+        result[normalizedName] = entry.value;
+      }
     }
+
     return result;
   }
 
@@ -69,14 +87,14 @@ class HttpHeadersImpl implements HttpHeaders {
    * Get the string representation of this HTTP header collection.
    */
   public toString(): string {
-    return JSON.stringify(this.toJSON());
+    return JSON.stringify(this.toJSON({ preserveCase: true }));
   }
 
   /**
    * Iterate over tuples of header [name, value] pairs.
    */
   [Symbol.iterator](): Iterator<[string, string]> {
-    return this._headersMap.entries();
+    return headerIterator(this._headersMap);
   }
 }
 

@@ -50,6 +50,8 @@ export interface Attributes {
 export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
   contentType?: string;
+  /** Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances. */
+  immutable?: boolean;
   /** Blob encoding the policy rules under which the key can be released. */
   encodedPolicy?: Uint8Array;
 }
@@ -260,20 +262,10 @@ export interface KeyVerifyResult {
   readonly value?: boolean;
 }
 
-/** The export key parameters. */
-export interface KeyExportParameters {
-  /** The export key encryption Json web key. This key MUST be a RSA key that supports encryption. */
-  wrappingKey?: JsonWebKey;
-  /** The export key encryption key identifier. This key MUST be a RSA key that supports encryption. */
-  wrappingKid?: string;
-  /** The encryption algorithm to use to protected the exported key material */
-  enc?: KeyEncryptionAlgorithm;
-}
-
 /** The release key parameters. */
 export interface KeyReleaseParameters {
   /** The attestation assertion for the target of the key release. */
-  target: string;
+  targetAttestationToken: string;
   /** A client provided nonce for freshness. */
   nonce?: string;
   /** The encryption algorithm to use to protected the exported key material */
@@ -326,9 +318,9 @@ export interface LifetimeActions {
 
 /** A condition to be satisfied for an action to be executed. */
 export interface LifetimeActionsTrigger {
-  /** Time after creation to attempt rotate. It will be in ISO 8601 format. Example: 90 days : "P90D" */
+  /** Time after creation to attempt to rotate. It only applies to rotate. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeAfterCreate?: string;
-  /** Time before expiry to attempt rotate. It will be in ISO 8601 format. Example: 90 days : "P90D" */
+  /** Time before expiry to attempt to rotate or notify. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeBeforeExpiry?: string;
 }
 
@@ -363,7 +355,7 @@ export interface GetRandomBytesRequest {
 /** The get random bytes response object containing the bytes. */
 export interface RandomBytes {
   /** The bytes encoded as a base64url string. */
-  value?: Uint8Array;
+  value: Uint8Array;
 }
 
 /** Properties of the key pair backing a certificate. */
@@ -378,6 +370,16 @@ export interface KeyProperties {
   reuseKey?: boolean;
   /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
   curve?: JsonWebKeyCurveName;
+}
+
+/** The export key parameters. */
+export interface KeyExportParameters {
+  /** The export key encryption Json web key. This key MUST be a RSA key that supports encryption. */
+  wrappingKey?: JsonWebKey;
+  /** The export key encryption key identifier. This key MUST be a RSA key that supports encryption. */
+  wrappingKid?: string;
+  /** The encryption algorithm to use to protected the exported key material */
+  enc?: KeyEncryptionAlgorithm;
 }
 
 /** The attributes of a key managed by the key vault service. */
@@ -428,20 +430,20 @@ export type DeletedKeyItem = KeyItem & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion73Preview} that the service accepts. */
-export enum KnownApiVersion73Preview {
-  /** Api Version '7.3-preview' */
-  Seven3Preview = "7.3-preview"
+/** Known values of {@link ApiVersion73} that the service accepts. */
+export enum KnownApiVersion73 {
+  /** Api Version '7.3' */
+  Seven3 = "7.3"
 }
 
 /**
- * Defines values for ApiVersion73Preview. \
- * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
+ * Defines values for ApiVersion73. \
+ * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.3-preview**: Api Version '7.3-preview'
+ * **7.3**: Api Version '7.3'
  */
-export type ApiVersion73Preview = string;
+export type ApiVersion73 = string;
 
 /** Known values of {@link JsonWebKeyType} that the service accepts. */
 export enum KnownJsonWebKeyType {
@@ -560,35 +562,20 @@ export type JsonWebKeyCurveName = string;
 
 /** Known values of {@link JsonWebKeyEncryptionAlgorithm} that the service accepts. */
 export enum KnownJsonWebKeyEncryptionAlgorithm {
-  /** Encryption Algorithm - RSA-OAEP */
   RSAOaep = "RSA-OAEP",
-  /** Encryption Algorithm - RSA-OAEP-256 */
   RSAOaep256 = "RSA-OAEP-256",
-  /** Encryption Algorithm - RSA1_5 */
   RSA15 = "RSA1_5",
-  /** Encryption Algorithm - A128GCM */
   A128GCM = "A128GCM",
-  /** Encryption Algorithm - A192GCM */
   A192GCM = "A192GCM",
-  /** Encryption Algorithm - A256GCM */
   A256GCM = "A256GCM",
-  /** Encryption Algorithm - A128KW */
   A128KW = "A128KW",
-  /** Encryption Algorithm - A192KW */
   A192KW = "A192KW",
-  /** Encryption Algorithm - A256KW */
   A256KW = "A256KW",
-  /** Encryption Algorithm - A128CBC */
   A128CBC = "A128CBC",
-  /** Encryption Algorithm - A192CBC */
   A192CBC = "A192CBC",
-  /** Encryption Algorithm - A256CBC */
   A256CBC = "A256CBC",
-  /** Encryption Algorithm - A128CBCPAD */
   A128Cbcpad = "A128CBCPAD",
-  /** Encryption Algorithm - A192CBCPAD */
   A192Cbcpad = "A192CBCPAD",
-  /** Encryption Algorithm - A256CBCPAD */
   A256Cbcpad = "A256CBCPAD"
 }
 
@@ -681,8 +668,7 @@ export type KeyEncryptionAlgorithm = string;
 export type ActionType = "Rotate" | "Notify";
 
 /** Optional parameters. */
-export interface KeyVaultClientCreateKeyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface CreateKeyOptionalParams extends coreHttp.OperationOptions {
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
   keySize?: number;
   /** The public exponent for a RSA key. */
@@ -700,7 +686,7 @@ export interface KeyVaultClientCreateKeyOptionalParams
 }
 
 /** Contains response data for the createKey operation. */
-export type KeyVaultClientCreateKeyResponse = KeyBundle & {
+export type CreateKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -712,11 +698,10 @@ export type KeyVaultClientCreateKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientRotateKeyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface RotateKeyOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the rotateKey operation. */
-export type KeyVaultClientRotateKeyResponse = KeyBundle & {
+export type RotateKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -728,8 +713,7 @@ export type KeyVaultClientRotateKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientImportKeyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ImportKeyOptionalParams extends coreHttp.OperationOptions {
   /** Whether to import as a hardware key (HSM) or software key. */
   hsm?: boolean;
   /** The key management attributes. */
@@ -741,7 +725,7 @@ export interface KeyVaultClientImportKeyOptionalParams
 }
 
 /** Contains response data for the importKey operation. */
-export type KeyVaultClientImportKeyResponse = KeyBundle & {
+export type ImportKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -753,11 +737,10 @@ export type KeyVaultClientImportKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientDeleteKeyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface DeleteKeyOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the deleteKey operation. */
-export type KeyVaultClientDeleteKeyResponse = DeletedKeyBundle & {
+export type DeleteKeyResponse = DeletedKeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -769,8 +752,7 @@ export type KeyVaultClientDeleteKeyResponse = DeletedKeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientUpdateKeyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface UpdateKeyOptionalParams extends coreHttp.OperationOptions {
   /** Json web key operations. For more information on possible key operations, see JsonWebKeyOperation. */
   keyOps?: JsonWebKeyOperation[];
   /** The attributes of a key managed by the key vault service. */
@@ -782,7 +764,7 @@ export interface KeyVaultClientUpdateKeyOptionalParams
 }
 
 /** Contains response data for the updateKey operation. */
-export type KeyVaultClientUpdateKeyResponse = KeyBundle & {
+export type UpdateKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -794,11 +776,10 @@ export type KeyVaultClientUpdateKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetKeyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface GetKeyOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getKey operation. */
-export type KeyVaultClientGetKeyResponse = KeyBundle & {
+export type GetKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -810,14 +791,14 @@ export type KeyVaultClientGetKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetKeyVersionsOptionalParams
+export interface GetKeyVersionsOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getKeyVersions operation. */
-export type KeyVaultClientGetKeyVersionsResponse = KeyListResult & {
+export type GetKeyVersionsResponse = KeyListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -829,14 +810,13 @@ export type KeyVaultClientGetKeyVersionsResponse = KeyListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetKeysOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetKeysOptionalParams extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getKeys operation. */
-export type KeyVaultClientGetKeysResponse = KeyListResult & {
+export type GetKeysResponse = KeyListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -848,11 +828,10 @@ export type KeyVaultClientGetKeysResponse = KeyListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientBackupKeyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface BackupKeyOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the backupKey operation. */
-export type KeyVaultClientBackupKeyResponse = BackupKeyResult & {
+export type BackupKeyResponse = BackupKeyResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -864,11 +843,10 @@ export type KeyVaultClientBackupKeyResponse = BackupKeyResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientRestoreKeyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface RestoreKeyOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the restoreKey operation. */
-export type KeyVaultClientRestoreKeyResponse = KeyBundle & {
+export type RestoreKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -880,8 +858,7 @@ export type KeyVaultClientRestoreKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientEncryptOptionalParams
-  extends coreHttp.OperationOptions {
+export interface EncryptOptionalParams extends coreHttp.OperationOptions {
   /** Initialization vector for symmetric algorithms. */
   iv?: Uint8Array;
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
@@ -891,7 +868,7 @@ export interface KeyVaultClientEncryptOptionalParams
 }
 
 /** Contains response data for the encrypt operation. */
-export type KeyVaultClientEncryptResponse = KeyOperationResult & {
+export type EncryptResponse = KeyOperationResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -903,8 +880,7 @@ export type KeyVaultClientEncryptResponse = KeyOperationResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientDecryptOptionalParams
-  extends coreHttp.OperationOptions {
+export interface DecryptOptionalParams extends coreHttp.OperationOptions {
   /** Initialization vector for symmetric algorithms. */
   iv?: Uint8Array;
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
@@ -914,7 +890,7 @@ export interface KeyVaultClientDecryptOptionalParams
 }
 
 /** Contains response data for the decrypt operation. */
-export type KeyVaultClientDecryptResponse = KeyOperationResult & {
+export type DecryptResponse = KeyOperationResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -926,11 +902,10 @@ export type KeyVaultClientDecryptResponse = KeyOperationResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientSignOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface SignOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the sign operation. */
-export type KeyVaultClientSignResponse = KeyOperationResult & {
+export type SignResponse = KeyOperationResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -942,11 +917,10 @@ export type KeyVaultClientSignResponse = KeyOperationResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientVerifyOptionalParams
-  extends coreHttp.OperationOptions {}
+export interface VerifyOptionalParams extends coreHttp.OperationOptions {}
 
 /** Contains response data for the verify operation. */
-export type KeyVaultClientVerifyResponse = KeyVerifyResult & {
+export type VerifyResponse = KeyVerifyResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -958,8 +932,7 @@ export type KeyVaultClientVerifyResponse = KeyVerifyResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientWrapKeyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface WrapKeyOptionalParams extends coreHttp.OperationOptions {
   /** Initialization vector for symmetric algorithms. */
   iv?: Uint8Array;
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
@@ -969,7 +942,7 @@ export interface KeyVaultClientWrapKeyOptionalParams
 }
 
 /** Contains response data for the wrapKey operation. */
-export type KeyVaultClientWrapKeyResponse = KeyOperationResult & {
+export type WrapKeyResponse = KeyOperationResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -981,8 +954,7 @@ export type KeyVaultClientWrapKeyResponse = KeyOperationResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientUnwrapKeyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface UnwrapKeyOptionalParams extends coreHttp.OperationOptions {
   /** Initialization vector for symmetric algorithms. */
   iv?: Uint8Array;
   /** Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms. */
@@ -992,7 +964,7 @@ export interface KeyVaultClientUnwrapKeyOptionalParams
 }
 
 /** Contains response data for the unwrapKey operation. */
-export type KeyVaultClientUnwrapKeyResponse = KeyOperationResult & {
+export type UnwrapKeyResponse = KeyOperationResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1004,31 +976,7 @@ export type KeyVaultClientUnwrapKeyResponse = KeyOperationResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientExportOptionalParams
-  extends coreHttp.OperationOptions {
-  /** The export key encryption Json web key. This key MUST be a RSA key that supports encryption. */
-  wrappingKey?: JsonWebKey;
-  /** The export key encryption key identifier. This key MUST be a RSA key that supports encryption. */
-  wrappingKid?: string;
-  /** The encryption algorithm to use to protected the exported key material */
-  enc?: KeyEncryptionAlgorithm;
-}
-
-/** Contains response data for the export operation. */
-export type KeyVaultClientExportResponse = KeyBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: KeyBundle;
-  };
-};
-
-/** Optional parameters. */
-export interface KeyVaultClientReleaseOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ReleaseOptionalParams extends coreHttp.OperationOptions {
   /** A client provided nonce for freshness. */
   nonce?: string;
   /** The encryption algorithm to use to protected the exported key material */
@@ -1036,7 +984,7 @@ export interface KeyVaultClientReleaseOptionalParams
 }
 
 /** Contains response data for the release operation. */
-export type KeyVaultClientReleaseResponse = KeyReleaseResult & {
+export type ReleaseResponse = KeyReleaseResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1048,14 +996,14 @@ export type KeyVaultClientReleaseResponse = KeyReleaseResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedKeysOptionalParams
+export interface GetDeletedKeysOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getDeletedKeys operation. */
-export type KeyVaultClientGetDeletedKeysResponse = DeletedKeyListResult & {
+export type GetDeletedKeysResponse = DeletedKeyListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1067,11 +1015,11 @@ export type KeyVaultClientGetDeletedKeysResponse = DeletedKeyListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedKeyOptionalParams
+export interface GetDeletedKeyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getDeletedKey operation. */
-export type KeyVaultClientGetDeletedKeyResponse = DeletedKeyBundle & {
+export type GetDeletedKeyResponse = DeletedKeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1083,15 +1031,15 @@ export type KeyVaultClientGetDeletedKeyResponse = DeletedKeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientPurgeDeletedKeyOptionalParams
+export interface PurgeDeletedKeyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Optional parameters. */
-export interface KeyVaultClientRecoverDeletedKeyOptionalParams
+export interface RecoverDeletedKeyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the recoverDeletedKey operation. */
-export type KeyVaultClientRecoverDeletedKeyResponse = KeyBundle & {
+export type RecoverDeletedKeyResponse = KeyBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1103,11 +1051,11 @@ export type KeyVaultClientRecoverDeletedKeyResponse = KeyBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetKeyRotationPolicyOptionalParams
+export interface GetKeyRotationPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getKeyRotationPolicy operation. */
-export type KeyVaultClientGetKeyRotationPolicyResponse = KeyRotationPolicy & {
+export type GetKeyRotationPolicyResponse = KeyRotationPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1119,11 +1067,11 @@ export type KeyVaultClientGetKeyRotationPolicyResponse = KeyRotationPolicy & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientUpdateKeyRotationPolicyOptionalParams
+export interface UpdateKeyRotationPolicyOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the updateKeyRotationPolicy operation. */
-export type KeyVaultClientUpdateKeyRotationPolicyResponse = KeyRotationPolicy & {
+export type UpdateKeyRotationPolicyResponse = KeyRotationPolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1135,11 +1083,11 @@ export type KeyVaultClientUpdateKeyRotationPolicyResponse = KeyRotationPolicy & 
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetRandomBytesOptionalParams
+export interface GetRandomBytesOptionalParams
   extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getRandomBytes operation. */
-export type KeyVaultClientGetRandomBytesResponse = RandomBytes & {
+export type GetRandomBytesResponse = RandomBytes & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1151,14 +1099,14 @@ export type KeyVaultClientGetRandomBytesResponse = RandomBytes & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetKeyVersionsNextOptionalParams
+export interface GetKeyVersionsNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getKeyVersionsNext operation. */
-export type KeyVaultClientGetKeyVersionsNextResponse = KeyListResult & {
+export type GetKeyVersionsNextResponse = KeyListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1170,14 +1118,13 @@ export type KeyVaultClientGetKeyVersionsNextResponse = KeyListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetKeysNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetKeysNextOptionalParams extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getKeysNext operation. */
-export type KeyVaultClientGetKeysNextResponse = KeyListResult & {
+export type GetKeysNextResponse = KeyListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1189,14 +1136,14 @@ export type KeyVaultClientGetKeysNextResponse = KeyListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedKeysNextOptionalParams
+export interface GetDeletedKeysNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getDeletedKeysNext operation. */
-export type KeyVaultClientGetDeletedKeysNextResponse = DeletedKeyListResult & {
+export type GetDeletedKeysNextResponse = DeletedKeyListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */

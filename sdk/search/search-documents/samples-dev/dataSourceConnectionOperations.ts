@@ -8,8 +8,9 @@
 import {
   SearchIndexerClient,
   AzureKeyCredential,
-  SearchIndexerDataSourceConnection
+  SearchIndexerDataSourceConnection,
 } from "@azure/search-documents";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -28,9 +29,9 @@ async function createDataSourceConnection(
     description: "My Data Source 1",
     type: "cosmosdb",
     container: {
-      name: "my-container-1"
+      name: "my-container-1",
     },
-    connectionString
+    connectionString,
   };
   await client.createDataSourceConnection(dataSourceConnection);
 }
@@ -50,7 +51,8 @@ async function getAndUpdateDataSourceConnection(
 
 async function listDataSourceConnections(client: SearchIndexerClient) {
   console.log(`List DS Connection Operation`);
-  const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> = await client.listDataSourceConnections();
+  const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> =
+    await client.listDataSourceConnections();
 
   console.log(`List of Data Source Connections`);
   console.log(`*******************************`);

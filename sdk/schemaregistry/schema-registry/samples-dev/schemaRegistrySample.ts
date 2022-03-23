@@ -25,21 +25,21 @@ const schemaObject = {
   fields: [
     {
       name: "firstName",
-      type: "string"
+      type: "string",
     },
     {
       name: "lastName",
-      type: "string"
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
 
 // Description of the schema for registration
 const schemaDescription: SchemaDescription = {
-  name: `${schemaObject.namespace}.${schemaObject.name}`,
+  name: `${schemaObject.namespace}-${schemaObject.name}`,
   groupName: group,
-  format: "avro",
-  schemaDefinition: JSON.stringify(schemaObject)
+  format: "Avro",
+  definition: JSON.stringify(schemaObject),
 };
 
 export async function main() {
@@ -60,7 +60,7 @@ export async function main() {
   // Get definition of existing schema by its ID
   const foundSchema = await client.getSchema(registered.id);
   if (foundSchema) {
-    console.log(`Got schema definition=${foundSchema.schemaDefinition}`);
+    console.log(`Got schema definition=${foundSchema.definition}`);
   }
 }
 

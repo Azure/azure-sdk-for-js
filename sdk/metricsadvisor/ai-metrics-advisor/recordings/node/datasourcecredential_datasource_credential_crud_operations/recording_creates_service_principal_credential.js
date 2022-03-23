@@ -5,43 +5,43 @@ module.exports.hash = "2e4fa53335bfc4a276c6308e83b59eb2";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/credentials', {"dataSourceCredentialType":"ServicePrincipal","dataSourceCredentialName":"js-test-servicePrincipalCred-162527918841009052","dataSourceCredentialDescription":"used for testing purposes only","parameters":{"clientId":"client-id","clientSecret":"client-secret","tenantId":"tenant-id"}})
+  .post('/metricsadvisor/v1.0/credentials', {"dataSourceCredentialType":"ServicePrincipal","dataSourceCredentialName":"js-test-servicePrincipalCred-164264036985605505","dataSourceCredentialDescription":"used for testing purposes only","parameters":{"clientId":"client-id","clientSecret":"client-secret","tenantId":"tenant-id"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/credentials/d1916ee9-be4b-453c-a9c3-38ccdad5672a',
+  'https://endpoint/metricsadvisor/v1.0/credentials/60cae6ef-62d5-4dcf-9491-c0a0884b64e4',
   'x-request-id',
-  '819c88c5-a5ef-4d3a-bc28-d767e36cd42e',
+  'f5e98405-60b0-462b-b04a-39c532bc0c7a',
   'x-envoy-upstream-service-time',
-  '907',
+  '225',
   'apim-request-id',
-  '819c88c5-a5ef-4d3a-bc28-d767e36cd42e',
+  'f5e98405-60b0-462b-b04a-39c532bc0c7a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 02:26:38 GMT'
+  'Thu, 20 Jan 2022 00:59:31 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/credentials/d1916ee9-be4b-453c-a9c3-38ccdad5672a')
-  .reply(200, {"dataSourceCredentialId":"d1916ee9-be4b-453c-a9c3-38ccdad5672a","dataSourceCredentialName":"js-test-servicePrincipalCred-162527918841009052","dataSourceCredentialDescription":"used for testing purposes only","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"client-id","tenantId":"tenant-id"}}, [
+  .get('/metricsadvisor/v1.0/credentials/60cae6ef-62d5-4dcf-9491-c0a0884b64e4')
+  .reply(200, {"dataSourceCredentialId":"60cae6ef-62d5-4dcf-9491-c0a0884b64e4","dataSourceCredentialName":"js-test-servicePrincipalCred-164264036985605505","dataSourceCredentialDescription":"used for testing purposes only","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"client-id","tenantId":"tenant-id"}}, [
   'Content-Length',
   '316',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'f4bdd220-695e-4974-acd6-1c04a5da9b8a',
+  'f92bbe88-9b04-464c-ae66-3345a31a82dc',
   'x-envoy-upstream-service-time',
-  '5326',
+  '96',
   'apim-request-id',
-  'f4bdd220-695e-4974-acd6-1c04a5da9b8a',
+  'f92bbe88-9b04-464c-ae66-3345a31a82dc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 03 Jul 2021 02:26:44 GMT'
+  'Thu, 20 Jan 2022 00:59:31 GMT'
 ]);

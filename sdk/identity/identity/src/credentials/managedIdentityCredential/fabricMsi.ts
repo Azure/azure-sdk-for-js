@@ -2,39 +2,64 @@
 // Licensed under the MIT license.
 
 import https from "https";
-import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions,
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { MSI, MSIConfiguration } from "./models";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
-import { mapScopesToResource, msiGenericGetToken } from "./utils";
+import { MSI, MSIConfiguration } from "./models";
+import { mapScopesToResource } from "./utils";
 import { azureFabricVersion } from "./constants";
+
+// This MSI can be easily tested by deploying a container to Azure Service Fabric with the Dockerfile:
+//
+//   FROM node:12
+//   RUN wget https://host.any/path/bash.sh
+//   CMD ["bash", "bash.sh"]
+//
+// Where the bash script contains:
+//
+//   curl --insecure $IDENTITY_ENDPOINT'?api-version=2019-07-01-preview&resource=https://vault.azure.net/' -H "Secret: $IDENTITY_HEADER"
+//
 
 const msiName = "ManagedIdentityCredential - Fabric MSI";
 const logger = credentialLogger(msiName);
 
-function expiresInParser(requestBody: any): number {
-  // Parses a string representation of the seconds since epoch into a number value
+/**
+ * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
+ */
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
+  // Parses a string representation of the milliseconds since epoch into a number value
   return Number(requestBody.expires_on);
 }
 
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
 
-  const queryParameters: any = {
+  const queryParameters: Record<string, string> = {
     resource,
-    "api-version": azureFabricVersion
+    "api-version": azureFabricVersion,
   };
 
   if (clientId) {
     queryParameters.client_id = clientId;
   }
-
+  if (resourceId) {
+    queryParameters.msi_res_id = resourceId;
+  }
   const query = new URLSearchParams(queryParameters);
 
   // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
@@ -50,24 +75,16 @@ function prepareRequestOptions(
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      Secret: process.env.IDENTITY_HEADER
-    })
+      secret: process.env.IDENTITY_HEADER,
+    }),
   };
 }
 
-// This credential can be easily tested by deploying a container to Azure Service Fabric with the Dockerfile:
-//
-//   FROM node:12
-//   RUN wget https://host.any/path/bash.sh
-//   CMD ["bash", "bash.sh"]
-//
-// Where the bash script contains:
-//
-//   curl --insecure $IDENTITY_ENDPOINT'?api-version=2019-07-01-preview&resource=https://vault.azure.net/' -H "Secret: $IDENTITY_HEADER"
-//
-
+/**
+ * Defines how to determine whether the Azure Service Fabric MSI is available, and also how to retrieve a token from the Azure Service Fabric MSI.
+ */
 export const fabricMsi: MSI = {
-  async isAvailable(scopes): Promise<boolean> {
+  async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -88,7 +105,13 @@ export const fabricMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { scopes, identityClient, clientId } = configuration;
+    const { scopes, identityClient, clientId, resourceId } = configuration;
+
+    if (resourceId) {
+      logger.warning(
+        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
+      );
+    }
 
     logger.info(
       [
@@ -96,20 +119,24 @@ export const fabricMsi: MSI = {
         "Using the endpoint and the secret coming from the environment variables:",
         `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
         "IDENTITY_HEADER=[REDACTED] and",
-        "IDENTITY_SERVER_THUMBPRINT=[REDACTED]."
+        "IDENTITY_SERVER_THUMBPRINT=[REDACTED].",
       ].join(" ")
     );
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(scopes, clientId),
-      expiresInParser,
-      getTokenOptions,
-      new https.Agent({
-        // This is necessary because Service Fabric provides a self-signed certificate.
-        // The alternative path is to verify the certificate using the IDENTITY_SERVER_THUMBPRINT env variable.
-        rejectUnauthorized: false
-      })
-    );
-  }
+    const request = createPipelineRequest({
+      abortSignal: getTokenOptions.abortSignal,
+      ...prepareRequestOptions(scopes, clientId, resourceId),
+      // The service fabric MSI endpoint will be HTTPS (however, the certificate will be self-signed).
+      // allowInsecureConnection: true
+    });
+
+    request.agent = new https.Agent({
+      // This is necessary because Service Fabric provides a self-signed certificate.
+      // The alternative path is to verify the certificate using the IDENTITY_SERVER_THUMBPRINT env variable.
+      rejectUnauthorized: false,
+    });
+
+    const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+    return (tokenResponse && tokenResponse.accessToken) || null;
+  },
 };

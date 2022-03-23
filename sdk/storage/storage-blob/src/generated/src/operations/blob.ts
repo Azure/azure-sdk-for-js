@@ -1068,6 +1068,7 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifTags,
     Parameters.immutabilityPolicyExpiry,
     Parameters.immutabilityPolicyMode,
+    Parameters.encryptionScope,
     Parameters.tier,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,

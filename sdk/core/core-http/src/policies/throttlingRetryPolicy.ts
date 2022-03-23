@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
 import {
   BaseRequestPolicy,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyFactory
 } from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
-import { HttpOperationResponse } from "../httpOperationResponse";
+import { AbortError } from "@azure/abort-controller";
 import { Constants } from "../util/constants";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 import { delay } from "../util/delay";
 
 type ResponseHandler = (
@@ -20,17 +20,30 @@ type ResponseHandler = (
 ) => Promise<HttpOperationResponse>;
 const StatusCodes = Constants.HttpConstants.StatusCodes;
 
+/**
+ * Creates a policy that re-sends the request if the response indicates the request failed because of throttling reasons.
+ * For example, if the response contains a `Retry-After` header, it will retry sending the request based on the value of that header.
+ *
+ * To learn more, please refer to
+ * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
+ * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
+ * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
+ * @returns
+ */
 export function throttlingRetryPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ThrottlingRetryPolicy(nextPolicy, options);
-    }
+    },
   };
 }
 
 const StandardAbortMessage = "The operation was aborted.";
 
 /**
+ * Creates a policy that re-sends the request if the response indicates the request failed because of throttling reasons.
+ * For example, if the response contains a `Retry-After` header, it will retry sending the request based on the value of that header.
+ *
  * To learn more, please refer to
  * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
  * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
@@ -70,15 +83,14 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     );
 
     if (retryAfterHeader) {
-      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(
-        retryAfterHeader
-      );
+      const delayInMs: number | undefined =
+        ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterHeader);
       if (delayInMs) {
         this.numberOfRetries += 1;
 
         await delay(delayInMs, undefined, {
           abortSignal: httpRequest.abortSignal,
-          abortErrorMsg: StandardAbortMessage
+          abortErrorMsg: StandardAbortMessage,
         });
 
         if (httpRequest.abortSignal?.aborted) {

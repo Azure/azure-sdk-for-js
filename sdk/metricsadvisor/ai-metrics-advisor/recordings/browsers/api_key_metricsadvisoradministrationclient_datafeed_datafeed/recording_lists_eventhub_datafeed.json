@@ -1,0 +1,43 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
+   "query": {
+    "dataSourceType": "AzureEventHubs"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "474bd9df-64a6-4980-b438-65e774f49d19",
+    "content-length": "12",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 08 Nov 2021 09:41:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "194",
+    "x-request-id": "474bd9df-64a6-4980-b438-65e774f49d19"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "js-test-datafeed-": "js-test-datafeed-163636451071503565",
+   "js-test-appInsightsFeed-": "js-test-appInsightsFeed-163636451071605234",
+   "js-test-sqlServerFeed-": "js-test-sqlServerFeed-163636451071609385",
+   "js-test-cosmosFeed-": "js-test-cosmosFeed-163636451071604842",
+   "js-test-dataExplorerFeed-": "js-test-dataExplorerFeed-163636451071602711",
+   "js-test-tableFeed-": "js-test-tableFeed-163636451071604792",
+   "js-test-eventhubRequestFeed-": "js-test-eventhubRequestFeed-163636451071603189",
+   "js-test-logAnalyticsFeed-": "js-test-logAnalyticsFeed-163636451071603612",
+   "js-test-influxdbFeed-": "js-test-influxdbFeed-163636451071604526",
+   "js-test-mongoDbFeed-": "js-test-mongoDbFeed-163636451071607383",
+   "js-test-mySqlFeed-": "js-test-mySqlFeed-163636451071601997",
+   "js-test-postgreSqlFeed-": "js-test-postgreSqlFeed-163636451071609545",
+   "js-test-dataLakeGenFeed-": "js-test-dataLakeGenFeed-163636451071607331"
+  },
+  "newDate": {}
+ },
+ "hash": "aa4c25b6b59cda347135f5d57e9f03d3"
+}

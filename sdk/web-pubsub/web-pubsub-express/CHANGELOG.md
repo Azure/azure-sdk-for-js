@@ -1,8 +1,37 @@
 # Release History
 
-## 1.0.0-beta.4 (2021-11-01)
+## 1.0.3 (Unreleased)
 
 ### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.2 (2022-01-30)
+
+### Bugs Fixed
+
+- Fix the issue that `UserEventRequest` failed to process request with content-type `application/octet-stream` correctly into `dataType` `binary`
+
+### Other Changes
+
+- Remove `cloudevents` package dependency
+
+## 1.0.1 (2022-01-11)
+
+### Bugs Fixed
+
+- Fix the `data` definition for `UserEventRequest` when `dataType` is `json`. When `dataType` is `json`, `data` is the JSON parsed result from request body, so the type of `data` depends on the user scenario.
+- Fix the CloudEvents parsing issue that now `data` also can be `boolean` or `number`.
+
+## 1.0.0 (2021-11-11)
+
+No changes.
+
+## 1.0.0-beta.4 (2021-11-09)
 
 ### Breaking Changes
 
@@ -27,10 +56,6 @@
   ```
 
 - Remove `dumpRequest` flag and leverage @azure/logger instead.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.3 (2021-07-30)
 
