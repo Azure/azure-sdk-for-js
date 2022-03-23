@@ -71,14 +71,13 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * constrolled by the message factory option.
    */
   async serializeMessageData(value: unknown, schema: string): Promise<MessageT> {
-    const { serializer, addCacheEntry } = await this.getSchemaByDefinition(schema);
-    const buffer = serializer.toBuffer(value);
+    const entry = await this.getSchemaByDefinition(schema);
+    const buffer = entry.serializer.toBuffer(value);
     const payload = new Uint8Array(
       buffer.buffer,
       buffer.byteOffset,
       buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
     );
-    const entry = await addCacheEntry();
     const contentType = `${avroMimeType}+${entry.id}`;
     return this.messageAdapter
       ? this.messageAdapter.produceMessage({
@@ -143,16 +142,10 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     return this.cache(schemaId, schemaResponse.definition, avroType).serializer;
   }
 
-  private getSchemaByDefinition(schema: string): {
-    addCacheEntry: () => Promise<CacheEntry>;
-    serializer: AVSCSerializer;
-  } {
+  private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
     const cached = this.cacheBySchemaDefinition.get(schema);
     if (cached) {
-      return {
-        addCacheEntry: () => Promise.resolve(cached),
-        serializer: cached.serializer,
-      };
+      return cached;
     }
 
     const avroType = getSerializerForSchema(schema);
@@ -173,29 +166,24 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
       definition: schema,
     };
 
-    return {
-      addCacheEntry: async () => {
-        let id: string;
-        if (this.autoRegisterSchemas) {
-          id = (await this.registry.registerSchema(description)).id;
+    let id: string;
+    if (this.autoRegisterSchemas) {
+      id = (await this.registry.registerSchema(description)).id;
+    } else {
+      try {
+        id = (await this.registry.getSchemaProperties(description)).id;
+      } catch (e) {
+        if (e.statusCode === 404) {
+          throw new Error(
+            `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
+          );
         } else {
-          try {
-            id = (await this.registry.getSchemaProperties(description)).id;
-          } catch (e) {
-            if (e.statusCode === 404) {
-              throw new Error(
-                `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
-              );
-            } else {
-              throw e;
-            }
-          }
+          throw e;
         }
+      }
+    }
 
-        return this.cache(id, schema, avroType);
-      },
-      serializer: avroType,
-    };
+    return this.cache(id, schema, avroType);
   }
 
   private cache(id: string, schema: string, serializer: AVSCSerializer): CacheEntry {
