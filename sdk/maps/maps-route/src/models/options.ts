@@ -16,7 +16,7 @@ import {
   VehicleEngineType,
   VehicleLoadType,
   WindingnessLevel,
-} from "src/generated";
+} from "../generated";
 import { GeoJsonMultiPoint, LatLon } from "@azure/maps-common";
 
 /**

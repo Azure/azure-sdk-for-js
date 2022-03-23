@@ -13,7 +13,7 @@ import {
   RouteReport,
   RouteSection,
   RouteSummary,
-} from "src/generated/models";
+} from "../generated/models";
 import { LatLon } from "@azure/maps-common";
 
 /** This object is returned from a successful Route Reachable Range call */
