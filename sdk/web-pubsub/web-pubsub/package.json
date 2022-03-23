@@ -20,7 +20,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "integration-test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/*.spec.js\"",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
@@ -29,7 +29,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "unit-test:node": "mocha --exit -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -82,8 +82,8 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^2.0.1",
-    "@azure-tools/test-recorder": "^1.0.0",
+    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-recorder": "^2.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
     "@types/jsonwebtoken": "~8.5.0",
