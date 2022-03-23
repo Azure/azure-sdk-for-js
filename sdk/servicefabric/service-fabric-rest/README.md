@@ -1,10 +1,11 @@
-# Azure  Service Fabric REST client library for JavaScript
+# Azure Service Fabric REST client library for JavaScript
 
 [Service Description]
 
 **Please rely heavily on the [service's documentation][product_documentation] and our [REST client docs][rest_client] to use this library**
 
 Key links:
+
 - [Source code][source_code]
 - [Package (NPM)][npm]
 - [API reference documentation][ref_docs]
@@ -26,7 +27,7 @@ Follow [these][resource] instructions to create your resource
 
 ### Install the `@azure-rest/service-fabric` package
 
-Install the Azure  Service Fabric client library for JavaScript with `npm`:
+Install the Azure Service Fabric client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/service-fabric
@@ -53,10 +54,7 @@ Use the returned token credential to authenticate the client:
 ```typescript
 import ServiceFabric from "@azure-rest/service-fabric";
 import { DefaultAzureCredential } from "@azure/identity";
-const client = ServiceFabric(
-  "<my-endpoint>",
-  new DefaultAzureCredential()
-);
+const client = ServiceFabric("<my-endpoint>", new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -114,15 +112,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[product_documentation]: https://azure.microsoft.com/services/servicefabric/
+[product_documentation]: https://docs.microsoft.com/en-us/azure/service-fabric/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/service-fabric-rest
 [npm]: https://www.npmjs.com/org/azure-rest
 [ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
-[resource]: https://docs.microsoft.com/azure/servicefabric/sample-url
+[resource]: https://docs.microsoft.com/en-us/azure/service-fabric/quickstart-managed-cluster-template
 [authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
-[enable_aad]: https://docs.microsoft.com/azure/servicefabric/sample-url
+[enable_aad]: https://docs.microsoft.com/en-us/azure/service-fabric/quickstart-managed-cluster-template
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
