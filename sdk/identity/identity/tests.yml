@@ -54,3 +54,4 @@ stages:
         IDENTITY_SP_CERT_PFX: $(Agent.TempDirectory)/test.pfx
         IDENTITY_SP_CERT_PEM: $(Agent.TempDirectory)/test.pem
         IDENTITY_SP_CERT_SNI: $(Agent.TempDirectory)/testsni.pfx
+        IDENTITY_PEM_CONTENTS: $(net-identity-spcert-pem)

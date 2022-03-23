@@ -30,7 +30,7 @@ describe("ClientCertificateCredential", function () {
     await cleanup();
   });
 
-  const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join(ASSET_PATH, "fake-cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function (this: Context) {
@@ -51,7 +51,8 @@ describe("ClientCertificateCredential", function () {
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       {
-        certificate: readFileSync(certificatePath, { encoding: "utf-8" }),
+        certificate:
+          env.IDENTITY_PEM_CONTENTS || readFileSync(certificatePath, { encoding: "utf-8" }),
       },
       recorder.configureClientOptions({})
     );
