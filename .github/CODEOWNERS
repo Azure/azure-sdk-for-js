@@ -1433,4 +1433,4 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
 
 # Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @xirzec
+/eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
