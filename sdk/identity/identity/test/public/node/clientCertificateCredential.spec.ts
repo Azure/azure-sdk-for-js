@@ -64,7 +64,9 @@ describe("ClientCertificateCredential", function () {
 
   it("authenticates with sendCertificateChain", async function (this: Context) {
     if (isLiveMode()) {
-      // Running this live causes "AADSTS700030: Invalid certificate - subject name in certificate is not authorized. SubjectNames/SubjectAlternativeNames (up to 10) in token certificate are: identitytestdomain.com"
+      // For this test to pass, we need to use the SNI certificate.
+      // At the moment, the SNI certificate is only provided to our tests in PFX form.
+      // We currently don't have PFX support.
       this.skip();
     }
     if (isPlaybackMode()) {
