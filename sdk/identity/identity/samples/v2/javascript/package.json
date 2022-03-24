@@ -1,5 +1,5 @@
 {
-  "name": "azure-identity-samples-js",
+  "name": "@azure-samples/identity-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Identity client library samples for JavaScript",

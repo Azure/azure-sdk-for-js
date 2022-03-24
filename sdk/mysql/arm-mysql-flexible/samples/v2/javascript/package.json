@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-mysql-flexible-samples-js",
+  "name": "@azure-samples/arm-mysql-flexible-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",

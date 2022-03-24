@@ -1,5 +1,5 @@
 {
-  "name": "azure-monitor-query-samples-ts",
+  "name": "@azure-samples/monitor-query-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Monitor Query client library samples for TypeScript",

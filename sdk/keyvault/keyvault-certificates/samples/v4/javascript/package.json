@@ -1,5 +1,5 @@
 {
-  "name": "azure-keyvault-certificates-samples-js",
+  "name": "@azure-samples/keyvault-certificates-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Certificates client library samples for JavaScript",

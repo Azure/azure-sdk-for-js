@@ -33,7 +33,7 @@ export interface Snapshots {
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Lists snapshots in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -42,7 +42,7 @@ export interface Snapshots {
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Gets a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ export interface Snapshots {
   ): Promise<SnapshotsGetResponse>;
   /**
    * Creates or updates a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The snapshot to create or update.
    * @param options The options parameters.
@@ -66,7 +66,7 @@ export interface Snapshots {
   ): Promise<SnapshotsCreateOrUpdateResponse>;
   /**
    * Updates tags on a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Update snapshot Tags operation.
    * @param options The options parameters.
@@ -79,7 +79,7 @@ export interface Snapshots {
   ): Promise<SnapshotsUpdateTagsResponse>;
   /**
    * Deletes a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */

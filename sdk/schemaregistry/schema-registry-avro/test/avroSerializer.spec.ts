@@ -7,7 +7,7 @@ import {
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
-import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
+import { testAvroType, testGroup, testSchema, testValue } from "./utils/dummies";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
@@ -17,67 +17,6 @@ describe("AvroSerializer", function () {
   const noAutoRegisterOptions: CreateTestSerializerOptions<any> = {
     serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
   };
-  it("rejects invalid format", async () => {
-    const serializer = await createTestSerializer();
-    await assert.isRejected(
-      serializer.deserializeMessageData({
-        body: Buffer.alloc(1),
-        contentType: "application/json+1234",
-      }),
-      /application\/json.*avro\/binary/
-    );
-  });
-
-  it("rejects schema with no name", async () => {
-    const serializer = await createTestSerializer();
-    const schema = JSON.stringify({ type: "record", fields: [] });
-    await assert.isRejected(serializer.serializeMessageData({}, schema), /name/);
-  });
-
-  it("rejects a schema with different format", async () => {
-    const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
-    const serializer = await createTestSerializer({
-      ...noAutoRegisterOptions,
-      registry,
-    });
-    const schema = await registry.registerSchema({
-      name: "_",
-      definition: "_",
-      format: "NotAvro",
-      groupName: testGroup,
-    });
-
-    await assert.isRejected(
-      serializer.deserializeMessageData({
-        body: Buffer.alloc(1),
-        contentType: `avro/binary+${schema.id}`,
-      }),
-      new RegExp(`${schema.id}.*NotAvro.*avro`)
-    );
-  });
-
-  it("rejects serializing when schema is not found", async () => {
-    const serializer = await createTestSerializer(noAutoRegisterOptions);
-    const schema = JSON.stringify({
-      type: "record",
-      name: "NeverRegistered",
-      namespace: "my.example",
-      fields: [{ name: "count", type: "int" }],
-    });
-    await assert.isRejected(serializer.serializeMessageData({ count: 42 }, schema), /not found/);
-  });
-
-  it("rejects deserializing when schema is not found", async () => {
-    const serializer = await createTestSerializer(noAutoRegisterOptions);
-    const payload = testAvroType.toBuffer(testValue);
-    await assert.isRejected(
-      serializer.deserializeMessageData({
-        body: payload,
-        contentType: `avro/binary+${testSchemaIds[1]}`,
-      }),
-      /does not exist/
-    );
-  });
 
   it("serializes to the expected format", async () => {
     const registry = createTestRegistry();
@@ -180,31 +119,6 @@ describe("AvroSerializer", function () {
     assert.isUndefined(deserializedValue.favoriteNumber);
     assert.equal(deserializedValue.name, testValue.name);
     assert.equal(deserializedValue.age, 30);
-  });
-
-  it("fails to deserialize from an incompatible reader schema", async () => {
-    const serializer = await createTestSerializer();
-    const message = await serializer.serializeMessageData(testValue, testSchema);
-    assert.isRejected(
-      serializer.deserializeMessageData(message, {
-        schema: JSON.stringify({
-          type: "record",
-          name: "AvroUser",
-          namespace: "com.azure.schemaregistry.samples",
-          fields: [
-            {
-              name: "name",
-              type: "string",
-            },
-            {
-              name: "age",
-              type: "int",
-            },
-          ],
-        }),
-      }),
-      /no matching field for default-less com.azure.schemaregistry.samples.AvroUser.age/
-    );
   });
 
   it("deserializes from the old format", async () => {

@@ -32,14 +32,16 @@ import {
 /** Interface representing a Profiles. */
 export interface Profiles {
   /**
-   * Lists all of the CDN profiles within an Azure subscription.
+   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an
+   * Azure subscription.
    * @param options The options parameters.
    */
   list(
     options?: ProfilesListOptionalParams
   ): PagedAsyncIterableIterator<Profile>;
   /**
-   * Lists all of the CDN profiles within a resource group.
+   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
+   * resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The options parameters.
    */
@@ -48,9 +50,11 @@ export interface Profiles {
     options?: ProfilesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Profile>;
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
+   * Front Door Premium or CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   listResourceUsage(
@@ -59,10 +63,11 @@ export interface Profiles {
     options?: ProfilesListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<ResourceUsage>;
   /**
-   * Gets a CDN profile with the specified profile name under the specified subscription and resource
-   * group.
+   * Gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified
+   * profile name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   get(
@@ -71,9 +76,11 @@ export interface Profiles {
     options?: ProfilesGetOptionalParams
   ): Promise<ProfilesGetResponse>;
   /**
-   * Creates a new CDN profile with a profile name under the specified subscription and resource group.
+   * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
+   * name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
    * @param options The options parameters.
    */
@@ -89,9 +96,11 @@ export interface Profiles {
     >
   >;
   /**
-   * Creates a new CDN profile with a profile name under the specified subscription and resource group.
+   * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
+   * name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
    * @param options The options parameters.
    */
@@ -102,10 +111,11 @@ export interface Profiles {
     options?: ProfilesCreateOptionalParams
   ): Promise<ProfilesCreateResponse>;
   /**
-   * Updates an existing CDN profile with the specified profile name under the specified subscription and
-   * resource group.
+   * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified profile name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
    * @param options The options parameters.
    */
@@ -121,10 +131,11 @@ export interface Profiles {
     >
   >;
   /**
-   * Updates an existing CDN profile with the specified profile name under the specified subscription and
-   * resource group.
+   * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified profile name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
    * @param options The options parameters.
    */
@@ -135,10 +146,12 @@ export interface Profiles {
     options?: ProfilesUpdateOptionalParams
   ): Promise<ProfilesUpdateResponse>;
   /**
-   * Deletes an existing CDN profile with the specified parameters. Deleting a profile will result in the
-   * deletion of all of the sub-resources including endpoints, origins and custom domains.
+   * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
+   * including endpoints, origins and custom domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   beginDelete(
@@ -147,10 +160,12 @@ export interface Profiles {
     options?: ProfilesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes an existing CDN profile with the specified parameters. Deleting a profile will result in the
-   * deletion of all of the sub-resources including endpoints, origins and custom domains.
+   * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
+   * including endpoints, origins and custom domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -176,7 +191,8 @@ export interface Profiles {
    * Gets the supported optimization types for the current profile. A user can create an endpoint with an
    * optimization type from the listed values.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   listSupportedOptimizationTypes(
