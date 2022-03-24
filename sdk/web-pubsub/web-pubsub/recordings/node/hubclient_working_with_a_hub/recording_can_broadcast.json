@@ -11,7 +11,7 @@
         "Content-Length": "5",
         "Content-Type": "text/plain",
         "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.7.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "58edb46e-e986-485b-a7f9-b2d1d10a904d"
+        "x-ms-client-request-id": "2378f0bc-787e-47f9-83e8-bb566a9d5560"
       },
       "RequestBody": "hello",
       "StatusCode": 202,
@@ -19,7 +19,7 @@
         "api-supported-versions": "2021-10-01",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Thu, 24 Mar 2022 00:35:43 GMT",
+        "Date": "Thu, 24 Mar 2022 19:42:23 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
@@ -35,7 +35,7 @@
         "Content-Length": "13",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.7.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "90cb72b5-5d58-4301-b0d5-56796ca3f255"
+        "x-ms-client-request-id": "3cba1c29-534f-4f6a-8c54-dff27a942756"
       },
       "RequestBody": {
         "x": 1,
@@ -46,7 +46,7 @@
         "api-supported-versions": "2021-10-01",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Thu, 24 Mar 2022 00:35:43 GMT",
+        "Date": "Thu, 24 Mar 2022 19:42:23 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
@@ -62,7 +62,7 @@
         "Content-Length": "10",
         "Content-Type": "application/octet-stream",
         "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.7.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5a8a236e-cf15-49ae-9898-369802fb8213"
+        "x-ms-client-request-id": "88dad610-a5b4-4080-a6ad-71fe0defda38"
       },
       "RequestBody": "AAAAAAAAAAAAAA==",
       "StatusCode": 202,
@@ -70,7 +70,7 @@
         "api-supported-versions": "2021-10-01",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Thu, 24 Mar 2022 00:35:43 GMT",
+        "Date": "Thu, 24 Mar 2022 19:42:23 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
