@@ -73,7 +73,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    */
   async serializeMessageData(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
-    const buffer = wrapException(
+    const buffer = wrapError(
       () => entry.serializer.toBuffer(value),
       "Avro serialization failed. See innerError for more details."
     );
@@ -118,16 +118,16 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     const writerSchemaSerializer = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
       const readerSchemaSerializer = getSerializerForSchema(readerSchema);
-      const resolver = wrapException(
+      const resolver = wrapError(
         () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
         `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`
       );
-      return wrapException(
+      return wrapError(
         () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
         `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`
       );
     } else {
-      return wrapException(
+      return wrapError(
         () => writerSchemaSerializer.fromBuffer(buffer),
         `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`
       );
@@ -287,13 +287,13 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
 }
 
 function getSerializerForSchema(schema: string): AVSCSerializer {
-  return wrapException(
+  return wrapError(
     () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
     `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`
   );
 }
 
-function wrapException<T>(f: () => T, message: string): T {
+function wrapError<T>(f: () => T, message: string): T {
   let result: T;
   try {
     result = f();
