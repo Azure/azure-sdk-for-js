@@ -15,16 +15,12 @@ import { AzureLogger, setLogLevel } from "@azure/logger";
 describe("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
-  let clientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46"; // Live test client ID
+  let liveClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46"; // Live test client ID
 
   beforeEach(async function (this: Context) {
     const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
-
-    if (!isLiveMode() && env.AZURE_CLIENT_ID) {
-      clientId = env.AZURE_CLIENT_ID;
-    }
   });
   afterEach(async function () {
     await cleanup();
@@ -33,8 +29,11 @@ describe("UsernamePasswordCredential", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function (this: Context) {
+    let tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    let clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+
     const credential = new UsernamePasswordCredential(
-      env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
+      tenantId,
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
@@ -51,8 +50,11 @@ describe("UsernamePasswordCredential", function () {
       // The recorder clears the access tokens.
       this.skip();
     }
+    let tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    let clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+
     const credential = new UsernamePasswordCredential(
-      env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
+      tenantId,
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
@@ -67,9 +69,10 @@ describe("UsernamePasswordCredential", function () {
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());
     assert.ok(spy.getCall(spy.callCount - 2).args[0]);
-    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${env.AZURE_TENANT_ID}. User Principal Name: ${env.AZURE_USERNAME}. Object ID (user): HIDDEN`;
+    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${tenantId}. User Principal Name: HIDDEN. Object ID (user): HIDDEN`;
     assert.equal(
       (spy.getCall(spy.callCount - 2).args[0] as any as string)
+        .replace(/User Principal Name: [^.]./g, "User Principal Name: HIDDEN.")
         .replace(
           /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
           "Object ID (user): HIDDEN"
@@ -82,8 +85,11 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("allows cancelling the authentication", async function () {
+    let tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    let clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+
     const credential = new UsernamePasswordCredential(
-      env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
+      tenantId,
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!
@@ -108,10 +114,13 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("supports tracing", async function (this: Context) {
+    let tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    let clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+
     await testTracing({
       test: async (tracingOptions) => {
         const credential = new UsernamePasswordCredential(
-          env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
+          tenantId,
           clientId,
           env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
           env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,

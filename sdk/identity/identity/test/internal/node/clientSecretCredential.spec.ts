@@ -7,7 +7,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { GetTokenOptions } from "@azure/core-auth";
 import { AbortController } from "@azure/abort-controller";
-import { env, delay, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, delay, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
@@ -93,6 +93,9 @@ describe("ClientSecretCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function () {
+    if (isLiveMode()) {
+      this.skip();
+    }
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
