@@ -552,6 +552,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/identity-spa",
+      "projectFolder": "sdk/identity/identity-spa",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/identity-cache-persistence",
       "projectFolder": "sdk/identity/identity-cache-persistence",
       "versionPolicyName": "client"
