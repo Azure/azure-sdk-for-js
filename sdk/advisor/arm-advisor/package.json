@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AdvisorManagementClient.",
-  "version": "3.0.2",
+  "version": "3.0.1",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -104,5 +104,13 @@
       }
     ]
   },
-  "autoPublish": true
+  "autoPublish": true,
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-advisor?view=azure-node-preview"
+  }
 }
