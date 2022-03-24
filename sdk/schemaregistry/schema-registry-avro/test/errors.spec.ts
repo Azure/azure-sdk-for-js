@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
-import { AvroSerializationError } from "../src/models";
 import { AvroSerializer } from "../src/avroSerializer";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
@@ -12,33 +11,9 @@ import { createTestSerializer } from "./utils/mockedSerializer";
 import { isLive } from "./utils/isLive";
 import { testGroup } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
+import { assertSerializationError } from "./utils/assertSerializationError";
 
 chaiUse(chaiPromises);
-
-async function assertSerializationError<T>(
-  p: Promise<T>,
-  expectations: {
-    innerMessage?: RegExp;
-    message?: RegExp;
-  } = {}
-): Promise<void> {
-  const { innerMessage, message } = expectations;
-  try {
-    await p;
-    assert.fail(`Expected promise to error, but resolved successfully`);
-  } catch (e) {
-    assert.instanceOf(e, AvroSerializationError);
-    const error = e as AvroSerializationError;
-    if (message) {
-      assert.match(error.message, message);
-    }
-    if (innerMessage) {
-      assert.isDefined(error.innerError, "innerError is not found");
-      const innerError = error.innerError as Error;
-      assert.match(innerError.message, innerMessage);
-    }
-  }
-}
 
 describe("Error scenarios", function () {
   let serializer: AvroSerializer;

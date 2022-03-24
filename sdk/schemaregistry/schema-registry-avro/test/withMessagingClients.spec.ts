@@ -25,6 +25,7 @@ import { createTestSerializer } from "./utils/mockedSerializer";
 import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
+import { assertSerializationError } from "./utils/assertSerializationError";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -283,7 +284,9 @@ describe("With messaging clients", function () {
           writerSchema,
           readerSchema,
           processMessage: async (p: Promise<unknown>) =>
-            assert.isRejected(p, /no matching field for default-less/),
+            assertSerializationError(p, {
+              innerMessage: /no matching field for default-less/,
+            }),
         });
       });
     });
