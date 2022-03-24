@@ -101,7 +101,7 @@ describe("HubClient", function () {
         env.WPS_CONNECTION_STRING ?? "",
         "simplechat",
         recorder.configureClientOptions({
-          reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT,
+          reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT ?? "",
         })
       );
 
