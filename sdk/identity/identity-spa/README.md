@@ -22,13 +22,12 @@ async function main() {
   });
 
   try {
-	  // If the redirection has already happened, client authentication will work.
-		const client = new KeyClient(vaultUrl, credential);
+    // If the redirection has already happened, client authentication will work.
+    const client = new KeyClient(vaultUrl, credential);
   } catch(e) {
-	  // If the redirection needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the redirection needs to happen, getToken will throw a `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
-
-		  // Interactive authentication will happen via redirection once the authenticate() method is called.
+      // Interactive authentication will happen via redirection once the authenticate() method is called.
       await credential.authenticate(scope);
     }
   }
@@ -51,13 +50,12 @@ async function main() {
   });
 
   try {
-	  // If the redirection has already happened, client authentication will work.
-		const client = new KeyClient(vaultUrl, credential);
+    // If the redirection has already happened, client authentication will work.
+    const client = new KeyClient(vaultUrl, credential);
   } catch(e) {
-	  // If the popup authentication needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the popup authentication needs to happen, getToken will throw a `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
-
-		  // Interactive authentication will happen via a popup window that will appear when the authenticate() method is called.
+      // Interactive authentication will happen via a popup window that will appear when the authenticate() method is called.
       await credential.authenticate(scope);
     }
   }
@@ -115,39 +113,39 @@ async function main() {
   });
 
   // To log out a previously authenticated user...
-	let authenticationRecord = window.localStorage.authenticationRecord;
-	if (authenticationRecord) {
+  let authenticationRecord = window.localStorage.authenticationRecord;
+  if (authenticationRecord) {
     await credential.logout(JSON.parse(authenticationRecord));
-	}
+  }
 
-	// A browser application can keep track of its own state and resume after authenticating.
-	let state = {
+  // A browser application can keep track of its own state and resume after authenticating.
+  let state = {
     application: "state"
-	};
+  };
 
   // On page load, developers can retrieve the state of the previous authentication.
   const pageLoadResult = await credential.onPageLoad();
-	if (pageLoadResult) {
-	  state = JSON.parse(pageLoadResult.state);
-	}
+  if (pageLoadResult) {
+    state = JSON.parse(pageLoadResult.state);
+  }
   
   try {
-	  // If the redirection has already happened, client authentication will work.
-		const client = new KeyClient(vaultUrl, credential);
+    // If the redirection has already happened, client authentication will work.
+    const client = new KeyClient(vaultUrl, credential);
   } catch(e) {
-	  // If the redirection needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the redirection needs to happen, getToken will throw a `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
 
-		  // Interactive authentication will happen via redirection once the authenticate() method is called.
+      // Interactive authentication will happen via redirection once the authenticate() method is called.
       await credential.authenticate(scope, {
-			  // The authenticate() method supports sending the browser application state.
-			  state: JSON.stringify(state)
+        // The authenticate() method supports sending the browser application state.
+        state: JSON.stringify(state)
       });
     }
   }
 
-	// One authentication record can be retrieved per credential based on the last authenticated user
-	// and the credential constructor parameters.
+  // One authentication record can be retrieved per credential based on the last authenticated user
+  // and the credential constructor parameters.
   const newAuthenticationRecord = await credential.authenticate(scope);
   window.localStorage.authenticationRecord = JSON.stringify(newAuthenticationRecord)
 }
@@ -169,33 +167,33 @@ async function main() {
   });
 
   // To log out a previously authenticated user...
-	let authenticationRecord = window.localStorage.authenticationRecord;
-	if (authenticationRecord) {
+  let authenticationRecord = window.localStorage.authenticationRecord;
+  if (authenticationRecord) {
     await credential.logout(JSON.parse(authenticationRecord));
-	}
+  }
 
-	// A browser application can keep track of its own state and resume after authenticating.
-	let state = {
+  // A browser application can keep track of its own state and resume after authenticating.
+  let state = {
     application: "state"
-	};
+  };
 
   try {
-	  // If the redirection has already happened, client authentication will work.
-		const client = new KeyClient(vaultUrl, credential);
+    // If the redirection has already happened, client authentication will work.
+    const client = new KeyClient(vaultUrl, credential);
   } catch(e) {
-	  // If the popup authentication needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the popup authentication needs to happen, getToken will throw a `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
 
-		  // Interactive authentication will happen via a popup window that will appear when the authenticate() method is called.
+      // Interactive authentication will happen via a popup window that will appear when the authenticate() method is called.
       await credential.authenticate(scope, {
-			  // The authenticate() method supports sending the browser application state.
-			  state: JSON.stringify(state)
+        // The authenticate() method supports sending the browser application state.
+        state: JSON.stringify(state)
       });
     }
   }
 
-	// One authentication record can be retrieved per credential based on the last authenticated user
-	// and the credential constructor parameters.
+  // One authentication record can be retrieved per credential based on the last authenticated user
+  // and the credential constructor parameters.
   const newAuthenticationRecord = await credential.authenticate(scope);
   window.localStorage.authenticationRecord = JSON.stringify(newAuthenticationRecord)
 }
