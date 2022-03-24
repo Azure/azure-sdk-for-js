@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/keyvault-certificates-samples-ts",
+  "name": "@azure-samples/keyvault-certificates-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Certificates client library samples for TypeScript",

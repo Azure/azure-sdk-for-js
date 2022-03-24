@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/storage-queue-samples-js",
+  "name": "@azure-samples/storage-queue-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Storage Queue client library samples for JavaScript",

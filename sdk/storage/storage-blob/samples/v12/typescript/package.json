@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/storage-blob-samples-ts",
+  "name": "@azure-samples/storage-blob-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Storage Blob client library samples for TypeScript",

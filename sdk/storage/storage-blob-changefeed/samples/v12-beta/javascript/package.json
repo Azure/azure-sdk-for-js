@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/storage-blob-changefeed-samples-js-beta",
+  "name": "@azure-samples/storage-blob-changefeed-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Storage Blob Change Feed client library samples for JavaScript (Beta)",

@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-mobilenetwork-samples-ts-beta",
+  "name": "@azure-samples/arm-mobilenetwork-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

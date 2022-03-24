@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/cosmos-samples-ts",
+  "name": "@azure-samples/cosmos-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Cosmos DB client library samples for TypeScript",

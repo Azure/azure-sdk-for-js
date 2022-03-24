@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/schema-registry-avro-samples-js-beta",
+  "name": "@azure-samples/schema-registry-avro-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Schema Registry client library samples for JavaScript (Beta)",

@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-peering-samples-js",
+  "name": "@azure-samples/arm-peering-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",

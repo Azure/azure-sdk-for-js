@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/web-pubsub-samples-js",
+  "name": "@azure-samples/web-pubsub-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Web PubSub client library samples for JavaScript",

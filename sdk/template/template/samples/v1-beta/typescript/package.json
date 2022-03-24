@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/template-samples-ts-beta",
+  "name": "@azure-samples/template-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Template client library samples for TypeScript (Beta)",

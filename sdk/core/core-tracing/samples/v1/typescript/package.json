@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/core-tracing-samples-ts",
+  "name": "@azure-samples/core-tracing-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure SDK Core client library samples for TypeScript",

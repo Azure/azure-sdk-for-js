@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-oep-samples-ts-beta",
+  "name": "@azure-samples/arm-oep-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

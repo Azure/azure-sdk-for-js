@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/container-registry-samples-ts",
+  "name": "@azure-samples/container-registry-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Container Registry client library samples for TypeScript",

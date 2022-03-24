@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/storage-file-share-samples-ts",
+  "name": "@azure-samples/storage-file-share-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Storage File Share client library samples for TypeScript",

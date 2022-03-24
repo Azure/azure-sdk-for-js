@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-appconfiguration-samples-ts-beta",
+  "name": "@azure-samples/arm-appconfiguration-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

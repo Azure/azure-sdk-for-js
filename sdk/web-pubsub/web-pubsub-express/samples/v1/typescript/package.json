@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/web-pubsub-express-samples-ts",
+  "name": "@azure-samples/web-pubsub-express-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Web PubSub CloudEvents Handlers for Express client library samples for TypeScript",

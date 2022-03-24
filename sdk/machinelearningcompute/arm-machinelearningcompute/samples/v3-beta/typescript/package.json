@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-machinelearningcompute-samples-ts-beta",
+  "name": "@azure-samples/arm-machinelearningcompute-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

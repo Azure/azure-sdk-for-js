@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-msi-samples-ts-beta",
+  "name": "@azure-samples/arm-msi-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

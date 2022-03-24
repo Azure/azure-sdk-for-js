@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-storsimple8000series-samples-ts",
+  "name": "@azure-samples/arm-storsimple8000series-ts",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",

@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-hybridkubernetes-samples-ts",
+  "name": "@azure-samples/arm-hybridkubernetes-ts",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",
