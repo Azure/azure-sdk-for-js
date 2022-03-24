@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  InteractiveCredentialOptions,
-  CredentialPersistenceOptions,
-} from "@azure/identity";
+import { InteractiveCredentialOptions, CredentialPersistenceOptions } from "@azure/identity";
 
 /**
  * Defines the common options for the RedirectCredential class.
  */
-export interface SPACredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
+export interface SPACredentialOptions
+  extends InteractiveCredentialOptions,
+    CredentialPersistenceOptions {
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.

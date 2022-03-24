@@ -1,26 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, AccessToken } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
+import { AuthenticationRecord } from "@azure/identity";
 
-import { TokenCredentialOptions } from "../../identity/src/tokenCredentialOptions";
 import { credentialLogger, formatError } from "../../identity/src/util/logging";
 import { SPACredentialOptions } from "./options";
 
 const BrowserNotSupportedError = new Error("RedirectCredential is not supported in Node.js");
 const logger = credentialLogger("RedirectCredential");
 
+/**
+ * (Only available in browsers)
+ * Enables authentication to Azure Active Directory inside of the web browser
+ * using the interactive login flow through redirecting within the same browser window.
+ */
 export class RedirectCredential implements TokenCredential {
   /**
-   * Only available in Node.js
+   * (Only available in browsers)
+   * Creates an instance of the RedirectCredential with the
+   * details needed to authenticate against Azure Active Directory with
+   * a user identity.
+   *
+   * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
+   * On Node.js, it will open a browser window while it listens for a redirect response from the authentication service.
+   * On browsers, it authenticates via popups. The `loginStyle` optional parameter can be set to `redirect` to authenticate by redirecting the user to an Azure secure login page, which then will redirect the user back to the web application where the authentication started.
+   *
+   * Configure your AAD Application to authenticate using a Single Page Application redirect endpoint.
+   * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
+   *
+   * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(options: SPACredentialOptions);
-  constructor() {
+  constructor(_options: SPACredentialOptions) {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
+  /**
+   * (Only available in browsers)
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
+   *
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
   public getToken(): Promise<AccessToken | null> {
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
+    throw BrowserNotSupportedError;
+  }
+
+  /**
+   * (Only available in browsers)
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
+   *
+   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   *
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                  TokenCredential implementation might make.
+   */
+  async authenticate(): Promise<AuthenticationRecord | undefined> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

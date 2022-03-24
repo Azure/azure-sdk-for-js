@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AuthenticationRecord } from "@azure/identity";
 
 import { credentialLogger, formatError } from "../../identity/src/util/logging";
 import { trace } from "../../identity/src/util/tracing";
 import { MsalFlow } from "../../identity/src/msal/flows";
-import { AuthenticationRecord } from "../../identity/src/msal/types";
 import { MSALAuthCode } from "../../identity/src/msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../../identity/src/msal/browserFlows/msalBrowserCommon";
 import { SPACredentialOptions } from "./options";
@@ -15,7 +15,7 @@ const logger = credentialLogger("RedirectCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
- * using the interactive login flow.
+ * using the interactive login flow through redirecting within the same browser window.
  */
 export class RedirectCredential implements TokenCredential {
   private msalFlow: MsalFlow;
@@ -68,7 +68,7 @@ export class RedirectCredential implements TokenCredential {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
-        disableAutomaticAuthentication: true
+        disableAutomaticAuthentication: true,
       });
     });
   }
