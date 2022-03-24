@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { env, Recorder, record } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
 import { assert } from "chai";
 import environmentSetup from "./testEnv";
@@ -16,10 +16,20 @@ describe("Group client working with a group", function () {
   function onResponse(response: FullOperationResponse) {
     lastResponse = response;
   }
-  beforeEach(function () {
-    recorder = record(this, environmentSetup);
-    const hubClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
+    const hubClient = new WebPubSubServiceClient(
+      env.WPS_CONNECTION_STRING ?? "",
+      "simplechat",
+      recorder.configureClientOptions({})
+    );
     client = hubClient.group("group");
+
+    await recorder.start({
+      envSetupForPlayback: {
+        environmentSetup,
+      },
+    });
   });
 
   it("can broadcast to groups", async () => {
@@ -65,8 +75,6 @@ describe("Group client working with a group", function () {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      recorder.stop();
-    }
+    await recorder.stop();
   });
 });
