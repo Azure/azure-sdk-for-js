@@ -30,6 +30,10 @@ stages:
               pwsh: true
             displayName: Spell check public API
 
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 10.x
+
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:
               Directory: ""
