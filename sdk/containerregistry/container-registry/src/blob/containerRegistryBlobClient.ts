@@ -327,17 +327,20 @@ export class ContainerRegistryBlobClient {
       throw new Error("Expected Docker-Content-Digest header in response");
     }
 
+    console.log(rawResponse.readableStreamBody);
     const body = rawResponse.bodyAsText;
+    console.log(body);
     if (!body) {
       throw new Error("downloadManifest did not return a text body");
     }
 
     const bodyData = Buffer.from(body);
-
-    const expectedDigest = await calculateDigest(Buffer.from(body));
+    const expectedDigest = await calculateDigest(bodyData);
 
     if (digest !== expectedDigest) {
-      throw new Error("Docker-Content-Digest header does not match calculated digest");
+      throw new Error(`Docker-Content-Digest header does not match calculated digest.
+        Expected: ${expectedDigest}
+        Actual: ${digest}`);
     }
 
     const manifest = deserializeManifest(JSON.parse(body));

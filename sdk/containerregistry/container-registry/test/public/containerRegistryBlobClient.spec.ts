@@ -67,6 +67,23 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.uploadBlob(config);
     };
 
+    /**
+     * The test proxy goes to the liberty of trimming whitespace from JSON (including our manifests) when responding to
+     * requests. This means that the recorded Docker-Content-Digest header from the does not match the digest our client
+     * computes, causing test failures.
+     *
+     * We use a transform to substitute in the digest of the whitespace-trimmed JSON so that our client doesn't reject
+     * the played back request.
+     */
+    const mockDockerContentDigestHeader = () =>
+      recorder.addTransform({
+        type: "HeaderTransform",
+        params: {
+          key: "Docker-Content-Digest",
+          value: "sha256:70e2ffca8e79adc4bd34b67363a972522d75933e435084826d39a19f958579ed",
+        },
+      });
+
     it("can upload OCI manifest", async () => {
       await uploadManifestPrerequisites();
 
@@ -81,6 +98,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     it("can upload OCI manifest from stream", async () => {
       await uploadManifestPrerequisites();
+
+      await mockDockerContentDigestHeader();
 
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
       const uploadResult = await client.uploadManifest(manifestStream);
@@ -107,6 +126,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
     it("can upload OCI manifest stream with tag", async () => {
       await uploadManifestPrerequisites();
 
+      await mockDockerContentDigestHeader();
+
       const manifestStream = fs.createReadStream("test/data/oci-artifact/manifest.json");
       const uploadResult = await client.uploadManifest(manifestStream, { tag: "my_artifact" });
       const downloadResult = await client.downloadManifest("my_artifact");
@@ -117,7 +138,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
-    it("can upload blob", async () => {
+    it.only("can upload blob", async () => {
       const blob = fs.createReadStream(
         "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
       );
