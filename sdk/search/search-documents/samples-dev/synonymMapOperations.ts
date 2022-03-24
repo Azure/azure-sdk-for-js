@@ -20,12 +20,7 @@ async function createSynonymMap(synonymMapName: string, client: SearchIndexClien
     name: synonymMapName,
     synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
   };
-  await client.createSynonymMap(sm, {
-    onResponse: function (r) {
-      console.log("IN THE CUSTOM ONRESPOSNE METHOD");
-      console.log(r.headers);
-    },
-  });
+  await client.createSynonymMap(sm);
 }
 
 async function getAndUpdateSynonymMap(synonymMapName: string, client: SearchIndexClient) {

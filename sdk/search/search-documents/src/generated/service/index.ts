@@ -8,4 +8,5 @@
 
 export * from "./models";
 export { SearchServiceClient } from "./searchServiceClient";
+export { SearchServiceClientContext } from "./searchServiceClientContext";
 export * from "./operationsInterfaces";

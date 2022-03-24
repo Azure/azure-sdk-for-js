@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   DataSourcesImpl,
   IndexersImpl,
@@ -26,18 +25,16 @@ import {
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
+import { SearchServiceClientContext } from "./searchServiceClientContext";
 import {
-  ApiVersion20210430Preview,
   SearchServiceClientOptionalParams,
-  GetServiceStatisticsOptionalParams,
-  GetServiceStatisticsResponse
+  ApiVersion20210430Preview,
+  SearchServiceClientGetServiceStatisticsOptionalParams,
+  SearchServiceClientGetServiceStatisticsResponse
 } from "./models";
 
 /** @internal */
-export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
-  endpoint: string;
-  apiVersion: ApiVersion20210430Preview;
-
+export class SearchServiceClient extends SearchServiceClientContext {
   /**
    * Initializes a new instance of the SearchServiceClient class.
    * @param endpoint The endpoint URL of the search service.
@@ -49,39 +46,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     apiVersion: ApiVersion20210430Preview,
     options?: SearchServiceClientOptionalParams
   ) {
-    if (endpoint === undefined) {
-      throw new Error("'endpoint' cannot be null");
-    }
-    if (apiVersion === undefined) {
-      throw new Error("'apiVersion' cannot be null");
-    }
-
-    // Initializing default values for options
-    if (!options) {
-      options = {};
-    }
-    const defaults: SearchServiceClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
-    };
-
-    const packageDetails = `azsdk-js-search-documents/1.0.0-beta.1`;
-    const userAgentPrefix =
-      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
-        : `${packageDetails}`;
-
-    const optionsWithDefaults = {
-      ...defaults,
-      ...options,
-      userAgentOptions: {
-        userAgentPrefix
-      },
-      baseUri: options.endpoint || "{endpoint}"
-    };
-    super(optionsWithDefaults);
-    // Parameter assignments
-    this.endpoint = endpoint;
-    this.apiVersion = apiVersion;
+    super(endpoint, apiVersion, options);
     this.dataSources = new DataSourcesImpl(this);
     this.indexers = new IndexersImpl(this);
     this.skillsets = new SkillsetsImpl(this);
@@ -95,8 +60,8 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   getServiceStatistics(
-    options?: GetServiceStatisticsOptionalParams
-  ): Promise<GetServiceStatisticsResponse> {
+    options?: SearchServiceClientGetServiceStatisticsOptionalParams
+  ): Promise<SearchServiceClientGetServiceStatisticsResponse> {
     return this.sendOperationRequest(
       { options },
       getServiceStatisticsOperationSpec

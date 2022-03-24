@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreHttpCompat from "@azure/core-http-compat";
 
 export type SearchIndexerDataIdentityUnion =
   | SearchIndexerDataIdentity
@@ -4181,18 +4180,18 @@ export interface AliasesGetOptionalParams extends coreClient.OperationOptions {
 export type AliasesGetResponse = SearchAlias;
 
 /** Optional parameters. */
-export interface GetServiceStatisticsOptionalParams
+export interface SearchServiceClientGetServiceStatisticsOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the getServiceStatistics operation. */
-export type GetServiceStatisticsResponse = ServiceStatistics;
+export type SearchServiceClientGetServiceStatisticsResponse = ServiceStatistics;
 
 /** Optional parameters. */
 export interface SearchServiceClientOptionalParams
-  extends coreHttpCompat.ExtendedServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }
