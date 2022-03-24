@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isObjectWithProperties } from "../typeGuards";
 import { CertificateCredential } from "./clientCertificatePolicy";
 

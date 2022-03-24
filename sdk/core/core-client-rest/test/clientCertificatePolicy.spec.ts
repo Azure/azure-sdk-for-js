@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 import * as https from "https";
 import { assert } from "chai";
