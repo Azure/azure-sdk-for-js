@@ -70,12 +70,12 @@ describe("[AAD] ConfigurationClient functional tests", function () {
     await recorder.stop();
   });
 
-  describe("#getConfigurationSetting", () => {
+  describe("#getConfigurationSetting1", () => {
     it("predetermined setting has expected value", async () => {
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
       const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
 
-      const setting = await client.getConfigurationSetting(key);
+      const setting = await client.getConfigurationSetting1(key);
 
       // Make sure the key returned is the same as the key we asked for
       assert.equal(key, setting.key);

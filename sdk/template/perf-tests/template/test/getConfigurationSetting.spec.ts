@@ -34,7 +34,7 @@ export class GetConfigurationSettingTest extends TemplateTest<GetConfigurationSe
   }
 
   async run(): Promise<void> {
-    await this.templateClient.getConfigurationSetting(
+    await this.templateClient.getConfigurationSetting1(
       GetConfigurationSettingTest.prefix + this.parsedOptions.settingName.value
     );
   }

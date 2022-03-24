@@ -116,7 +116,7 @@ export class ConfigurationClient {
    * @param key - the unique name of the setting to get
    * @param options - optional configuration for the operation
    */
-  public async getConfigurationSetting(
+  public async getConfigurationSetting1(
     key: string,
     options?: GetConfigurationSettingOptions
   ): Promise<ConfigurationSetting>;
