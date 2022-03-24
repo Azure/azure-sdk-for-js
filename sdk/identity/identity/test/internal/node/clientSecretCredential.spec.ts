@@ -93,6 +93,7 @@ describe("ClientSecretCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function () {
+    // The live environment isn't ready for this test
     if (isLiveMode()) {
       this.skip();
     }

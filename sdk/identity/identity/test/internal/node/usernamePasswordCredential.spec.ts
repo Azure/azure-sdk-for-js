@@ -126,6 +126,10 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {
+    // The live environment isn't ready for this test
+    if (isLiveMode()) {
+      this.skip();
+    }
     const credential = new UsernamePasswordCredential(
       env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
       env.AZURE_IDENTITY_TEST_CLIENTID || env.AZURE_CLIENT_ID!,
