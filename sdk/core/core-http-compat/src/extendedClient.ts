@@ -40,29 +40,9 @@ export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClient
 export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedClientOptions;
 
 /**
- * Response Object with _response property
- */
-export interface ModifiedResponseObject {
-  /**
-   * Full Operation response from the service
-   */
-  _response: FullOperationResponse | undefined;
-}
-
-/**
  * Client to provide compatability between core V1 & V2.
  */
 export class ExtendedServiceClient extends ServiceClient {
-  /**
-   * Full Operation response from the service
-   */
-  response: FullOperationResponse | undefined;
-
-  /**
-   * Callback (if any) provided by the user.
-   */
-  userProvidedCallBack: RawResponseCallback | undefined;
-
   constructor(options: ExtendedServiceClientOptions) {
     super(options);
 
@@ -87,38 +67,30 @@ export class ExtendedServiceClient extends ServiceClient {
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
     operationSpec: OperationSpec
-  ): Promise<T & ModifiedResponseObject> {
-    this.userProvidedCallBack = operationArguments?.options?.onResponse;
+  ): Promise<T> {
+    const userProvidedCallBack: RawResponseCallback | undefined =
+      operationArguments?.options?.onResponse;
 
     if (!operationArguments.options) operationArguments.options = {};
-    operationArguments.options.onResponse = this.onResponse.bind(this);
+    let lastResponse: FullOperationResponse | undefined;
 
-    const result: T = await super.sendOperationRequest(operationArguments, operationSpec);
-
-    // Object.defineProperty(result, "_response", {
-    //   value: this.response,
-    // });
-    // return result;
-
-    const mResult: T & ModifiedResponseObject = {
-      ...result,
-      _response: this.response,
-    };
-
-    return mResult;
-  }
-
-  /**
-   * Custom callback method to capture the raw response and then call the user provided callback.
-   *
-   * @param rawResponse - Raw response from the service
-   * @param flatResponse - Flat response from the service
-   * @param error - Error returned from the service
-   */
-  onResponse(rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown): void {
-    this.response = rawResponse;
-    if (this.userProvidedCallBack) {
-      this.userProvidedCallBack(rawResponse, flatResponse, error);
+    function onResponse(
+      rawResponse: FullOperationResponse,
+      flatResponse: unknown,
+      error?: unknown
+    ): void {
+      lastResponse = rawResponse;
+      if (userProvidedCallBack) {
+        userProvidedCallBack(rawResponse, flatResponse, error);
+      }
     }
+
+    operationArguments.options.onResponse = onResponse;
+    const result: T = await super.sendOperationRequest(operationArguments, operationSpec);
+    Object.defineProperty(result, "_response", {
+      value: lastResponse,
+    });
+
+    return result;
   }
 }

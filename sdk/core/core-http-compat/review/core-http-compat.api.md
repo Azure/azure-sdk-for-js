@@ -5,10 +5,8 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
-import { FullOperationResponse } from '@azure/core-client';
 import { OperationArguments } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
-import { RawResponseCallback } from '@azure/core-client';
 import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
 
@@ -27,10 +25,7 @@ export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedClientOp
 // @public
 export class ExtendedServiceClient extends ServiceClient {
     constructor(options: ExtendedServiceClientOptions);
-    onResponse(rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown): void;
-    response: FullOperationResponse | undefined;
-    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T & ModifiedResponseObject>;
-    userProvidedCallBack: RawResponseCallback | undefined;
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
 }
 
 // @public
@@ -39,11 +34,6 @@ export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClient
 // @public
 export interface KeepAliveOptions {
     enable?: boolean;
-}
-
-// @public
-export interface ModifiedResponseObject {
-    _response: FullOperationResponse | undefined;
 }
 
 // @public
