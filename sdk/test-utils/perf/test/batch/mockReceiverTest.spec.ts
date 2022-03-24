@@ -4,48 +4,46 @@
 import { BatchPerfTest, PerfOptionDictionary } from "../../src";
 
 interface MockReceiverOptions {
-  "max-count": number;
-  "min-count": number;
+  "max-message-count": number;
+  "min-message-count": number;
 }
 
 export class MockReceiverTest extends BatchPerfTest<MockReceiverOptions> {
   public client: MockReceiver;
+  private minMessageCount: number;
+  private maxMessageCount: number;
+
   public options: PerfOptionDictionary<MockReceiverOptions> = {
-    "min-count": {
+    "min-message-count": {
       required: true,
       description: "Required option",
       shortName: "min",
-      longName: "minimum",
-      defaultValue: 5,
+      longName: "min-message-count",
+      defaultValue: 0,
     },
-    "max-count": {
+    "max-message-count": {
       required: true,
       description: "Required option",
       shortName: "max",
-      longName: "maximum",
-      defaultValue: 50,
+      longName: "max-message-count",
+      defaultValue: 10,
     },
   };
   constructor() {
     super();
     this.client = new MockReceiver();
+    this.minMessageCount = this.parsedOptions["min-message-count"].value;
+    this.maxMessageCount = this.parsedOptions["max-message-count"].value;
   }
 
   public runBatch(): Promise<number> {
-    return this.client.receive(
-      this.parsedOptions["min-count"].value,
-      this.parsedOptions["max-count"].value
-    );
+    return this.client.receive(this.minMessageCount, this.maxMessageCount);
   }
 }
 
 class MockReceiver {
   public async receive(minMessageCount: number, maxMessageCount: number) {
-    return new Promise<number>((resolve) => {
-      setTimeout(() => {
-        resolve(this.getRandomInteger(minMessageCount, maxMessageCount));
-      }, 5);
-    });
+    return Promise.resolve(this.getRandomInteger(minMessageCount, maxMessageCount));
   }
 
   private getRandomInteger(min: number, max: number): number {

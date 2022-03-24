@@ -16,6 +16,8 @@ import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import { AdditionalPolicyConfig } from "@azure/core-client";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
 if (isNode) {
   dotenv.config();
@@ -38,6 +40,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
   COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
+  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -51,6 +54,13 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
+const additionalPolicies: AdditionalPolicyConfig[] = [
+  {
+    policy: createMSUserAgentPolicy(),
+    position: "perRetry",
+  },
+];
+
 export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
   const recorder = record(context, environmentSetup);
 
@@ -58,6 +68,7 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   return {
     client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
       httpClient,
+      additionalPolicies,
     }),
     recorder,
   };
@@ -106,6 +117,7 @@ export function createRecordedClientWithToken(
   return {
     client: new PhoneNumbersClient(endpoint, credential, {
       httpClient,
+      additionalPolicies,
     }),
     recorder,
   };

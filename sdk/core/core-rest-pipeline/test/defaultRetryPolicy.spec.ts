@@ -57,4 +57,18 @@ describe("defaultRetryPolicy", function () {
     assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
+
+  it("It should not retry on RestError with status 416", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+    });
+    const testError = new RestError("Test Error!", { statusCode: 416 });
+
+    const policy = defaultRetryPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
+
+    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
+    assert.strictEqual(next.callCount, 1);
+  });
 });

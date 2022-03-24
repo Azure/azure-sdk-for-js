@@ -4,7 +4,7 @@
       "method": "POST",
       "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--0/create",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "",
       "status": 401,
@@ -56,7 +56,7 @@
       "method": "POST",
       "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--0/create",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "{\"kty\":\"RSA\"}",
       "status": 200,
@@ -83,7 +83,7 @@
       "method": "POST",
       "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--1/create",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": "{\"kty\":\"RSA\"}",
       "status": 200,
@@ -110,7 +110,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -137,7 +137,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -164,7 +164,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -191,7 +191,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -218,7 +218,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -245,7 +245,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -272,7 +272,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -299,7 +299,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -326,7 +326,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -353,7 +353,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -380,7 +380,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -407,7 +407,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -434,7 +434,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -461,7 +461,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -488,7 +488,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -515,7 +515,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -542,7 +542,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -569,7 +569,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -596,7 +596,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -623,7 +623,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -650,7 +650,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -677,7 +677,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -704,7 +704,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -731,7 +731,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -758,7 +758,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -785,7 +785,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -812,7 +812,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -839,7 +839,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -866,7 +866,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 404,
@@ -893,7 +893,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -920,7 +920,7 @@
       "method": "GET",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 200,
@@ -947,7 +947,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,
@@ -972,7 +972,7 @@
       "method": "DELETE",
       "url": "https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1",
       "query": {
-        "api-version": "7.3-preview"
+        "api-version": "7.3"
       },
       "requestBody": null,
       "status": 204,

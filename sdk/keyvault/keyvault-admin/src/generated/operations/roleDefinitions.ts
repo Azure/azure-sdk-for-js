@@ -24,7 +24,7 @@ import {
   RoleDefinitionsListNextResponse
 } from "../models";
 
-/** Class representing a RoleDefinitions. */
+/** Class containing RoleDefinitions operations. */
 export class RoleDefinitionsImpl implements RoleDefinitions {
   private readonly client: KeyVaultClientContext;
 
