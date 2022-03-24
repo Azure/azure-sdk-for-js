@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
+  '@rush-temp/adp': file:./projects/adp.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
@@ -274,6 +275,7 @@ specifiers:
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
+  '@rush-temp/adp': file:projects/adp.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
@@ -8686,6 +8688,33 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/adp.tgz:
+    resolution: {integrity: sha512-RL5BVEC9ITul0eRH2prgzs7FSgbHwyX9pti3QtJHbrZjh2F5G3+IhrguIUSgGTPTXWux+NoCOw/bETtdNc4MLg==, tarball: file:projects/adp.tgz}
+    name: '@rush-temp/adp'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.3
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/agrifood-farming.tgz:
     resolution: {integrity: sha512-WkOPi4KrjmrSJOBZKum4E3Fu6mh41Dj6+gpvcvjeiVan9iaNjcfx1/GqQPD6W0/CfXfralQNK6yB+OYYT5eGOQ==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
@@ -9114,19 +9143,19 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.1
+      uglify-js: 3.15.3
     transitivePeerDependencies:
       - '@types/node'
       - debug
