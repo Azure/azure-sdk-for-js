@@ -15,7 +15,7 @@ import { v4 as uuid } from "uuid";
 
 chaiUse(chaiPromises);
 
-async function assertError<T>(
+async function assertSerializationError<T>(
   p: Promise<T>,
   expectations: {
     innerMessage?: RegExp;
@@ -25,6 +25,7 @@ async function assertError<T>(
   const { innerMessage, message } = expectations;
   try {
     await p;
+    assert.fail(`Expected promise to error, but resolved successfully`);
   } catch (e) {
     assert.instanceOf(e, AvroSerializationError);
     const error = e as AvroSerializationError;
@@ -146,7 +147,7 @@ describe("Error scenarios", function () {
         },
         JSON.stringify(writerSchema)
       );
-      await assertError(
+      await assertSerializationError(
         serializer.deserializeMessageData(message, {
           schema: JSON.stringify(incompatibleReaderSchema),
         }),
@@ -156,7 +157,7 @@ describe("Error scenarios", function () {
       );
     });
     it("null schema", async function () {
-      await assertError(
+      await assertSerializationError(
         /**
          * The type checking will prevent this from happening but I am including
          * it for completeness.
@@ -171,7 +172,7 @@ describe("Error scenarios", function () {
       /**
        * The serializer expects a record schema as the top-level schema
        */
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -185,7 +186,7 @@ describe("Error scenarios", function () {
       );
     });
     it("enum schema without symbols", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -207,7 +208,7 @@ describe("Error scenarios", function () {
       );
     });
     it("fixed schema without size", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -229,7 +230,7 @@ describe("Error scenarios", function () {
       );
     });
     it("array schema without items", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -251,7 +252,7 @@ describe("Error scenarios", function () {
       );
     });
     it("map schema without values", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -273,7 +274,7 @@ describe("Error scenarios", function () {
       );
     });
     it("record schema without fields", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -301,7 +302,7 @@ describe("Error scenarios", function () {
           groupName: testGroup,
         },
       });
-      await assertError(
+      await assertSerializationError(
         customSerializer.serializeMessageData(
           {
             field: 1,
@@ -324,7 +325,7 @@ describe("Error scenarios", function () {
       );
     });
     it("null", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -347,7 +348,7 @@ describe("Error scenarios", function () {
       );
     });
     it("boolean", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -370,7 +371,7 @@ describe("Error scenarios", function () {
       );
     });
     it("int", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: null,
@@ -393,7 +394,7 @@ describe("Error scenarios", function () {
       );
     });
     it("long", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 9007199254740991,
@@ -416,7 +417,7 @@ describe("Error scenarios", function () {
       );
     });
     it("float", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "",
@@ -439,7 +440,7 @@ describe("Error scenarios", function () {
       );
     });
     it("double", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "",
@@ -462,7 +463,7 @@ describe("Error scenarios", function () {
       );
     });
     it("string", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -485,7 +486,7 @@ describe("Error scenarios", function () {
       );
     });
     it("bytes", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -508,7 +509,7 @@ describe("Error scenarios", function () {
       );
     });
     it("union", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -531,7 +532,7 @@ describe("Error scenarios", function () {
       );
     });
     it("enum", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -559,7 +560,7 @@ describe("Error scenarios", function () {
       );
     });
     it("fixed", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -586,7 +587,7 @@ describe("Error scenarios", function () {
       );
     });
     it("map", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -616,7 +617,7 @@ describe("Error scenarios", function () {
       );
     });
     it("array", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -646,7 +647,7 @@ describe("Error scenarios", function () {
       );
     });
     it("record", async function () {
-      await assertError(
+      await assertSerializationError(
         serializer.serializeMessageData(
           "x",
           JSON.stringify({
@@ -692,11 +693,11 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([2, 2, 120]));
       serializedValue.body = Buffer.from([2, 2]);
-      await assertError(serializer.deserializeMessageData(serializedValue), {
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /truncated buffer/,
       });
       serializedValue.body = Buffer.from([2, 2, 120, 5]);
-      await assertError(serializer.deserializeMessageData(serializedValue), {
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /trailing data/,
       });
     });
@@ -722,7 +723,7 @@ describe("Error scenarios", function () {
         Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31])
       );
       serializedValue.body = Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 32]);
-      await assertError(serializer.deserializeMessageData(serializedValue), {
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /potential precision loss/,
       });
     });
@@ -745,7 +746,7 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([2, 2, 120]));
       serializedValue.body = Uint8Array.from([5, 2, 120]);
-      await assertError(serializer.deserializeMessageData(serializedValue), {
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /invalid union index: -3/,
       });
     });
@@ -772,7 +773,7 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([0]));
       serializedValue.body = Uint8Array.from([10]);
-      await assertError(serializer.deserializeMessageData(serializedValue), {
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /invalid validation.foo enum index: 5/,
       });
     });
