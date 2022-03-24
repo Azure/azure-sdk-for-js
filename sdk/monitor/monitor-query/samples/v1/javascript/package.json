@@ -1,5 +1,5 @@
 {
-  "name": "azure-monitor-query-samples-js",
+  "name": "@azure-samples/monitor-query-js",
   "private": true,
   "version": "1.0.0",
   "description": "Monitor Query client library samples for JavaScript",

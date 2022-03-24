@@ -1,5 +1,5 @@
 {
-  "name": "azure-mixed-reality-authentication-samples-ts",
+  "name": "@azure-samples/mixed-reality-authentication-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Mixed Reality Authentication client library samples for TypeScript",

@@ -1,5 +1,5 @@
 {
-  "name": "azure-simple-samples-js",
+  "name": "@azure-samples/simple-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Template client library samples for JavaScript",

@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-metrics-advisor-samples-js",
+  "name": "@azure-samples/ai-metrics-advisor-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Metrics Advisor client library samples for JavaScript",

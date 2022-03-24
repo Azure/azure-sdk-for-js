@@ -1,5 +1,5 @@
 {
-  "name": "azure-confidential-ledger-samples-js",
+  "name": "@azure-samples/confidential-ledger-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Confidential Ledger rest client library samples for JavaScript",
