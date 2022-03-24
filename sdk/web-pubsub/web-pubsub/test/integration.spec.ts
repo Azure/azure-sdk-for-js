@@ -97,7 +97,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     const messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING ?? "", hub);
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
     // Start simple WebSocket connections
@@ -137,7 +137,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     const messages: PubSubWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING ?? "", hub);
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
     const connectedSignal = defer<void>();

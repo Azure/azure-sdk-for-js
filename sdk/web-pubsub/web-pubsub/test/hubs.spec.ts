@@ -4,7 +4,7 @@
 import { env, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import { assert } from "chai";
-import environmentSetup from "./testEnv";
+import recorderOptions from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -58,11 +58,7 @@ describe("HubClient", function () {
         recorder.configureClientOptions({})
       );
 
-      await recorder.start({
-        envSetupForPlayback: {
-          environmentSetup,
-        },
-      });
+      await recorder.start(recorderOptions);
     });
 
     afterEach(async function () {

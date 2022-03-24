@@ -4,7 +4,7 @@
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
 import { assert } from "chai";
-import environmentSetup from "./testEnv";
+import recorderOptions from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -23,13 +23,9 @@ describe("Group client working with a group", function () {
       "simplechat",
       recorder.configureClientOptions({})
     );
-    client = hubClient.group("group");
+    await recorder.start(recorderOptions);
 
-    await recorder.start({
-      envSetupForPlayback: {
-        environmentSetup,
-      },
-    });
+    client = hubClient.group("group");
   });
 
   it("can broadcast to groups", async () => {

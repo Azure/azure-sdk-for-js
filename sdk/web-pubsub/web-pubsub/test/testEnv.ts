@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const environmentSetup: Record<string, string> = {
+import { RecorderStartOptions } from "@azure-tools/test-recorder";
+
+const envSetupForPlayback: Record<string, string> = {
   WPS_CONNECTION_STRING: "Endpoint=endpoint;AccessKey=api_key;Version=1.0;",
   WPS_API_KEY: "api_key",
   WPS_ENDPOINT: "https://endpoint",
@@ -11,4 +13,8 @@ const environmentSetup: Record<string, string> = {
   AZURE_TENANT_ID: "azuretenantid",
 };
 
-export default environmentSetup;
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+};
+
+export default recorderOptions;
