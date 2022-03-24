@@ -92,7 +92,7 @@ describe("ClientSecretCredential (internal)", function () {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
-  it("Authenticates with tenantId on getToken", async function () {
+  it("Authenticates with tenantId on getToken", async function (this: Context) {
     // The live environment isn't ready for this test
     if (isLiveMode()) {
       this.skip();
