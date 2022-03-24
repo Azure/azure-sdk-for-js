@@ -128,12 +128,12 @@ export class ConfigurationClient {
    * @param setting - the setting to retrieve from the service
    * @param options - optional configuration for the operation
    */
-  public async getConfigurationSetting(
+  public async getConfigurationSetting1(
     setting: ConfigurationSetting,
     options?: GetConfigurationSettingOptions
   ): Promise<ConfigurationSetting>;
 
-  public async getConfigurationSetting(
+  public async getConfigurationSetting1(
     keyOrSetting: string | ConfigurationSetting,
     options: GetConfigurationSettingOptions = {}
   ): Promise<ConfigurationSetting> {
@@ -142,7 +142,7 @@ export class ConfigurationClient {
 
     return this.tracingClient.withSpan(
       // Span names should take the form "<className>.<methodName>".
-      "ConfigurationClient.getConfigurationSetting",
+      "ConfigurationClient.getConfigurationSetting1",
       options,
       (updatedOptions) => {
         if (typeof keyOrSetting === "string") {

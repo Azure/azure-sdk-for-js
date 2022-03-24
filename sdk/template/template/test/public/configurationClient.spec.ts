@@ -97,8 +97,8 @@ describe("[AAD] ConfigurationClient functional tests", function () {
       await recorder.setMatcher("HeaderlessMatcher");
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
       await assert.supportsTracing(
-        (options) => client.getConfigurationSetting(key, options),
-        ["ConfigurationClient.getConfigurationSetting"]
+        (options) => client.getConfigurationSetting1(key, options),
+        ["ConfigurationClient.getConfigurationSetting1"]
       );
     });
   });
