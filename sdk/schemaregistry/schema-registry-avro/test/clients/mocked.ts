@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { MessagingTestClient } from "./models";
-import { env } from "../utils/env";
+import { isLive } from "../utils/isLive";
 
 /**
  * Returns a mocked messaging client that can work in both live and playback modes.
@@ -12,7 +12,7 @@ import { env } from "../utils/env";
 export function createMockedMessagingClient<MessageT>(
   createLiveClient: () => MessagingTestClient<MessageT>
 ): MessagingTestClient<MessageT> {
-  if (env.TEST_MODE === "live") {
+  if (isLive) {
     return createLiveClient();
   }
   const messageBuffer: MessageT[] = [];

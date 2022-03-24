@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * Cross-language testing makes sure payloads serialized in other languages is
+ * Cross-language testing makes sure payloads serialized in other languages are
  * still deserializable by the JavaScript serializer.
  *
  * By default, the test will send and receive messages with serialized payload.
