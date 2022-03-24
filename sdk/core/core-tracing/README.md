@@ -6,21 +6,18 @@ This is the core tracing library that provides low-level interfaces and helper m
 
 ### Installation
 
-Install this library using npm as follows
-
-```
-npm install @azure/core-tracing
-```
+This package is primarily used in Azure client libraries and not meant to be consumed directly by end users.
 
 ## Key Concepts
 
-The `@azure/core-tracing` package supports enabling tracing for Azure SDK packages, using an [OpenTelemetry](https://opentelemetry.io/) `Tracer`.
-
-By default, all libraries log with a `NoOpTracer` that takes no action. To enable tracing, you will need to set a global tracer provider following the instructions in the [OpenTelemetry getting started guide](https://opentelemetry.io/docs/js/getting_started/nodejs) or the [Enabling Tracing using OpenTelemetry example](#enabling-tracing-using-opentelemetry) below.
+- `TracingClient` is the primary interface providing tracing functionality to client libraries. Client libraries should only be aware of and interact with a `TracingClient` instance.
+- `Instrumenter` provides an abstraction over an instrumentation and acts tas the interop point for using third party libraries like OpenTelemetry. By default, a no-op `Instrumenter` is used. Customers who wish to enable `OpenTelemetry` based tracing will do so by installing and registering the [@azure/opentelemetry-instrumentation-azure-sdk] package.
+- `TracingContext` is an **immutable** data container, used to pass operation-specific information around (such as span parenting information).
+- `TracingSpan` is an abstraction of a `Span` which can be used to record events, attributes, and exceptions.
 
 ### Span Propagation
 
-Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API and will work well in most scenarios when run in `Node.js`.
+Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API (when used in conjunction with the OpenTelemetry instrumentation package) and will work well in most scenarios when run in `Node.js`.
 
 For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept an optional options collection where a tracingContext can be passed in and used as the currently active context. Please see the [Manual Span Propagation example](#manual-span-propagation-using-opentelemetry) below for more details.
 
@@ -42,24 +39,16 @@ Some incompatibility between the libraries is due to mismatches between the Open
 | 1.0.0-preview.11 | 2.1.0-2.1.3          | 1.0.0-rc.0         |
 | 1.0.0-preview.12 | ^2.1.4               | ^1.0.0             |
 | 1.0.0-preview.13 | ^2.1.4               | ^1.0.0             |
+| 1.0.0-preview.14 | ^2.2.3               | ^1.0.0             |
+| 1.0.0            | ^2.2.3               | ^1.0.0             |
 
 Please see the [troubleshooting](#troubleshooting) section for additional information about handling compatibility errors.
 
 ## Examples
 
-### Enabling tracing using OpenTelemetry
+### Using core-tracing as a package owner
 
-```ts
-const opentelemetry = require("@opentelemetry/api");
-const { NodeTracerProvider } = require("@opentelemetry/node");
-const { SimpleSpanProcessor, ConsoleSpanExporter } = require("@opentelemetry/tracing");
-
-const provider = new NodeTracerProvider();
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-provider.register();
-
-// Call some client library methods using automatic span propagation.
-```
+Examples can be found in the `samples` folder.
 
 ### Manual Span Propagation using OpenTelemetry
 
@@ -113,5 +102,7 @@ You may then upgrade client libraries as needed to ensure compatibility. Things 
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+[@azure/opentelemetry-instrumentation-azure-sdk]: https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-tracing%2FREADME.png)
