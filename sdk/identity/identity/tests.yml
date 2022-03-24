@@ -46,7 +46,6 @@ stages:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        AZURE_IDENTITY_TEST_CLIENTID: $(net-identity-clientid)
         AZURE_IDENTITY_TEST_TENANTID: $(net-identity-tenantid)
         AZURE_IDENTITY_TEST_USERNAME: $(net-identity-username)
         AZURE_IDENTITY_TEST_PASSWORD: $(net-identity-password)
