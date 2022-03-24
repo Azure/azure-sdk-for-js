@@ -121,7 +121,7 @@ export interface HttpOnlyIfUnchangedField {
 
 // @public
 export interface HttpResponseFields {
-    statusCode: number;
+    statusCode: number | undefined;
 }
 
 // @public
