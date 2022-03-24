@@ -61,3 +61,21 @@ export interface DeserializeMessageDataOptions {
    */
   schema?: string;
 }
+
+/**
+ * A custom error type for failed Avro serialization/deserialization.
+ */
+export class AvroSerializationError extends Error {
+  /**
+   * The inner exception that was thrown by the Avro implementation.
+   */
+  public innerError?: unknown;
+
+  constructor(message: string, innerError?: unknown) {
+    super(message);
+    this.innerError = innerError;
+    this.name = "AvroSerializationError";
+
+    Object.setPrototypeOf(this, AvroSerializationError.prototype);
+  }
+}
