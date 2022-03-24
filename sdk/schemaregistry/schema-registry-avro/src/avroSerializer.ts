@@ -70,6 +70,8 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * @param schema - The Avro schema to use.
    * @returns A new message with the serialized value. The structure of message is
    * constrolled by the message factory option.
+   * @throws {@link AvroSerializationError}
+   * Thrown if the schema can not be parsed or the value does not match the schema.
    */
   async serializeMessageData(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
@@ -106,6 +108,8 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * @param message - The message with the payload to be deserialized.
    * @param options - Decoding options.
    * @returns The deserialized value.
+   * @throws {@link AvroSerializationError}
+   * Thrown if the deserialization failed, e.g. because reader and writer schemas are incompatible.
    */
   async deserializeMessageData(
     message: MessageT,

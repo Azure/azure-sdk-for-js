@@ -67,7 +67,7 @@ export interface DeserializeMessageDataOptions {
  */
 export class AvroSerializationError extends Error {
   /**
-   * The inner exception that was thrown by the Avro implementation.
+   * The inner error that was thrown by the Avro implementation library.
    */
   public innerError?: unknown;
 
