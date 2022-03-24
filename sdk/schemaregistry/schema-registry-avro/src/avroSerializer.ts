@@ -75,7 +75,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = wrapException(
       () => entry.serializer.toBuffer(value),
-      "Avro serialization failed. See innerException for more details."
+      "Avro serialization failed. See innerError for more details."
     );
     const payload = new Uint8Array(
       buffer.buffer,
@@ -120,16 +120,16 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
       const readerSchemaSerializer = getSerializerForSchema(readerSchema);
       const resolver = wrapException(
         () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
-        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerException for more details.`
+        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`
       );
       return wrapException(
         () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
-        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerException for more details.`
+        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`
       );
     } else {
       return wrapException(
         () => writerSchemaSerializer.fromBuffer(buffer),
-        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerException for more details.`
+        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`
       );
     }
   }
@@ -289,7 +289,7 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
 function getSerializerForSchema(schema: string): AVSCSerializer {
   return wrapException(
     () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
-    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerException for more details.`
+    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`
   );
 }
 
@@ -297,8 +297,8 @@ function wrapException<T>(f: () => T, message: string): T {
   let result: T;
   try {
     result = f();
-  } catch (innerException) {
-    throw new AvroSerializationError(message, innerException);
+  } catch (innerError) {
+    throw new AvroSerializationError(message, innerError);
   }
   return result;
 }
