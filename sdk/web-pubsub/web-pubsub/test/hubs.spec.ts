@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { env, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import { assert } from "chai";
 import recorderOptions from "./testEnv";
@@ -14,7 +14,7 @@ describe("HubClient", function () {
     const credential = createTestCredential();
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(env.WPS_CONNECTION_STRING ?? "", "test-hub", {
+        new WebPubSubServiceClient(assertEnvironmentVariable("WPS_CONNECTION_STRING"), "test-hub", {
           retryOptions: { maxRetries: 2 },
         });
       });
@@ -23,8 +23,8 @@ describe("HubClient", function () {
     it("takes an endpoint, an API key, a hub name, and options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubServiceClient(
-          env.WPS_ENDPOINT ?? "",
-          new AzureKeyCredential(env.WPS_API_KEY ?? ""),
+          assertEnvironmentVariable("WPS_ENDPOINT"),
+          new AzureKeyCredential(assertEnvironmentVariable("WPS_API_KEY")),
           "test-hub",
           {
             retryOptions: { maxRetries: 2 },
@@ -35,9 +35,14 @@ describe("HubClient", function () {
 
     it("takes an endpoint, DefaultAzureCredential, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubSubServiceClient(env.WPS_ENDPOINT ?? "", credential, "test-hub", {
-          retryOptions: { maxRetries: 2 },
-        });
+        new WebPubSubServiceClient(
+          assertEnvironmentVariable("WPS_ENDPOINT"),
+          credential,
+          "test-hub",
+          {
+            retryOptions: { maxRetries: 2 },
+          }
+        );
       });
     });
   });
@@ -55,7 +60,7 @@ describe("HubClient", function () {
       await recorder.start(recorderOptions);
 
       client = new WebPubSubServiceClient(
-        env.WPS_CONNECTION_STRING ?? "",
+        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
         "simplechat",
         recorder.configureClientOptions({})
       );
@@ -79,7 +84,7 @@ describe("HubClient", function () {
 
     it("can broadcast using the DAC", async () => {
       const dacClient = new WebPubSubServiceClient(
-        env.WPS_ENDPOINT ?? "",
+        assertEnvironmentVariable("WPS_ENDPOINT"),
         credential,
         "simplechat",
         recorder.configureClientOptions({})
@@ -98,10 +103,10 @@ describe("HubClient", function () {
 
     it("can broadcast using APIM", async () => {
       const apimClient = new WebPubSubServiceClient(
-        env.WPS_CONNECTION_STRING ?? "",
+        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
         "simplechat",
         recorder.configureClientOptions({
-          reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT ?? "",
+          reverseProxyEndpoint: assertEnvironmentVariable("WPS_REVERSE_PROXY_ENDPOINT"),
         })
       );
 

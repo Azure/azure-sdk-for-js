@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
 import { assert } from "chai";
 import recorderOptions from "./testEnv";
@@ -20,7 +20,7 @@ describe("Group client working with a group", function () {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
     const hubClient = new WebPubSubServiceClient(
-      env.WPS_CONNECTION_STRING ?? "",
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
       "simplechat",
       recorder.configureClientOptions({})
     );
