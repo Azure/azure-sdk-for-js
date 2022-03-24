@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Updated `redirectPolicy` to remove the `Authorization` header from redirected requests. [#21026](https://github.com/Azure/azure-sdk-for-js/pull/21026)
+
 ### Other Changes
 
 ## 1.7.0 (2022-03-21)
