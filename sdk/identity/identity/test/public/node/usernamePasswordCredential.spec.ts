@@ -72,7 +72,7 @@ describe("UsernamePasswordCredential", function () {
     const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${tenantId}. User Principal Name: HIDDEN. Object ID (user): HIDDEN`;
     assert.equal(
       (spy.getCall(spy.callCount - 2).args[0] as any as string)
-        .replace(/User Principal Name: [^.]./g, "User Principal Name: HIDDEN.")
+        .replace(/User Principal Name: [^ ]+. /g, "User Principal Name: HIDDEN. ")
         .replace(
           /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
           "Object ID (user): HIDDEN"
