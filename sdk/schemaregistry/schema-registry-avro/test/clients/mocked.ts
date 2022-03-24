@@ -15,24 +15,30 @@ export function createMockedMessagingClient<MessageT>(
   if (env.TEST_MODE === "live") {
     return createLiveClient();
   }
-  let message: MessageT;
+  const messageBuffer: MessageT[] = [];
+  let initialized = false;
   return {
+    isInitialized(): boolean {
+      return initialized;
+    },
     async initialize(): Promise<void> {
-      /** empty body */
+      initialized = true;
     },
     async send(inputMessage: MessageT): Promise<void> {
-      message = inputMessage;
-      return;
+      messageBuffer.push(inputMessage);
     },
-    async receive(): Promise<MessageT> {
-      if (message !== undefined) {
-        return message;
-      } else {
-        throw new Error("No message was sent!");
+    receive: async function* ({ eventCount = 1 } = {}) {
+      let currEventCount = 0;
+      while (currEventCount < eventCount) {
+        const message = messageBuffer.shift();
+        if (message !== undefined) {
+          ++currEventCount;
+          yield message;
+        }
       }
     },
     async cleanup(): Promise<void> {
-      /** empty body */
+      initialized = false;
     },
   };
 }

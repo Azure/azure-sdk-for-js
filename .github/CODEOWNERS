@@ -13,13 +13,13 @@
 ###########
 
 # Catch all
-/sdk/ @ramya-rao-a
+/sdk/ @xirzec
 
 # PRLabel: %Azure.Core
 /sdk/core/ @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Core
 /sdk/core/core-auth/ @sadasant @xirzec @jeremymeng @deyaaeldeen
@@ -68,7 +68,7 @@
 /sdk/eventgrid/ @ellismg @xirzec
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
+/sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @sadasant @witemple-msft @schaabs
@@ -83,7 +83,7 @@
 /sdk/instrumentation/ @maorleger @joheredi
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
+/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Storage
 /sdk/storage/ @EmmaZhu @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377
@@ -148,10 +148,10 @@
 /sdk/videoanalyzer/video-analyzer-edge @hivyas @bterlson
 
 # Smoke Tests
-/common/smoke-test/ @ramya-rao-a @sadasant @jeremymeng
+/common/smoke-test/ @xirzec @sadasant @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @ramya-rao-a @jeremymeng
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng
 
 
 # Management Plane
@@ -1433,4 +1433,4 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
 
 # Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @ramya-rao-a
+/eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
