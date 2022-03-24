@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-azurestackhci-samples-js-beta",
+  "name": "@azure-samples/arm-azurestackhci-samples-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript (Beta)",

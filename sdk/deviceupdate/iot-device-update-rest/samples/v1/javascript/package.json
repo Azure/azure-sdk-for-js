@@ -1,5 +1,5 @@
 {
-  "name": "azure-iot-device-update-samples-js",
+  "name": "@azure-samples/iot-device-update-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure IoT Hub Device Update rest client library samples for JavaScript",

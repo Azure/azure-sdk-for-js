@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-privatedns-samples-ts",
+  "name": "@azure-samples/arm-privatedns-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",

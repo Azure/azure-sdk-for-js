@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-appconfiguration-samples-js-beta",
+  "name": "@azure-samples/arm-appconfiguration-samples-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript (Beta)",

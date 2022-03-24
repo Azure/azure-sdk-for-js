@@ -1,5 +1,5 @@
 {
-  "name": "azure-storage-queue-samples-ts",
+  "name": "@azure-samples/storage-queue-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Storage Queue client library samples for TypeScript",

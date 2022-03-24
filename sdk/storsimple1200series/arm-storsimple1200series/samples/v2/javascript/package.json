@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-storsimple1200series-samples-js",
+  "name": "@azure-samples/arm-storsimple1200series-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",

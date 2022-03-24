@@ -1,5 +1,5 @@
 {
-  "name": "azure-event-hubs-samples-js",
+  "name": "@azure-samples/event-hubs-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Event Hubs client library samples for JavaScript",

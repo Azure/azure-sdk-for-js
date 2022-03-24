@@ -1,5 +1,5 @@
 {
-  "name": "azure-service-bus-samples-ts",
+  "name": "@azure-samples/service-bus-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Service Bus client library samples for TypeScript",

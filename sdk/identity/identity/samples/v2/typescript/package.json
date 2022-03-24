@@ -1,5 +1,5 @@
 {
-  "name": "azure-identity-samples-ts",
+  "name": "@azure-samples/identity-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Identity client library samples for TypeScript",

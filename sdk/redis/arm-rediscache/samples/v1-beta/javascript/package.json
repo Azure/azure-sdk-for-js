@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-rediscache-samples-js-beta",
+  "name": "@azure-samples/arm-rediscache-samples-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript (Beta)",

@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-workspaces-samples-js",
+  "name": "@azure-samples/arm-workspaces-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",

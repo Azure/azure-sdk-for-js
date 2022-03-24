@@ -1,5 +1,5 @@
 {
-  "name": "azure-storage-file-share-samples-js",
+  "name": "@azure-samples/storage-file-share-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Storage File Share client library samples for JavaScript",

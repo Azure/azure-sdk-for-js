@@ -1,5 +1,5 @@
 {
-  "name": "azure-core-tracing-samples-js",
+  "name": "@azure-samples/core-tracing-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure SDK Core client library samples for JavaScript",

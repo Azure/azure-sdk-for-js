@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-sms-samples-ts",
+  "name": "@azure-samples/communication-sms-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - SMS client library samples for TypeScript",

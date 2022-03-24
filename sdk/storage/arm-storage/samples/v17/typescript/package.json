@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-storage-samples-ts",
+  "name": "@azure-samples/arm-storage-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",

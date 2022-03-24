@@ -1,5 +1,5 @@
 {
-  "name": "azure-container-registry-samples-js",
+  "name": "@azure-samples/container-registry-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Container Registry client library samples for JavaScript",

@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-network-traversal-samples-ts",
+  "name": "@azure-samples/communication-network-traversal-samples-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - Network Traversal client library samples for TypeScript",
