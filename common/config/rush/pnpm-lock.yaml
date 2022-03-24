@@ -123,6 +123,7 @@ specifiers:
   '@rush-temp/arm-postgresql-flexible': file:./projects/arm-postgresql-flexible.tgz
   '@rush-temp/arm-powerbidedicated': file:./projects/arm-powerbidedicated.tgz
   '@rush-temp/arm-powerbiembedded': file:./projects/arm-powerbiembedded.tgz
+  '@rush-temp/arm-powerbiprivatelinks': file:./projects/arm-powerbiprivatelinks.tgz
   '@rush-temp/arm-privatedns': file:./projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
@@ -395,6 +396,7 @@ dependencies:
   '@rush-temp/arm-postgresql-flexible': file:projects/arm-postgresql-flexible.tgz
   '@rush-temp/arm-powerbidedicated': file:projects/arm-powerbidedicated.tgz
   '@rush-temp/arm-powerbiembedded': file:projects/arm-powerbiembedded.tgz
+  '@rush-temp/arm-powerbiprivatelinks': file:projects/arm-powerbiprivatelinks.tgz
   '@rush-temp/arm-privatedns': file:projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
@@ -9114,19 +9116,19 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.1
+      uglify-js: 3.15.3
     transitivePeerDependencies:
       - '@types/node'
       - debug
@@ -12103,6 +12105,33 @@ packages:
   file:projects/arm-powerbiembedded.tgz:
     resolution: {integrity: sha512-XDVKG/OeKhGu3Nhtlaxs3TJqyQioKrcLuB/fHHFka2gcpLeCWbFt0Texap/xxIhQ+HTSfSqvb4TQawPCNsYEEg==, tarball: file:projects/arm-powerbiembedded.tgz}
     name: '@rush-temp/arm-powerbiembedded'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.3
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-powerbiprivatelinks.tgz:
+    resolution: {integrity: sha512-64tImh2F01qIXrv2YeuWbUvQwL9wS60Izo35Hwr+e2PRY+Psq9OneOCnSYnhNglQAvCG5ZKL5dVniBzmPfP0Ng==, tarball: file:projects/arm-powerbiprivatelinks.tgz}
+    name: '@rush-temp/arm-powerbiprivatelinks'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
