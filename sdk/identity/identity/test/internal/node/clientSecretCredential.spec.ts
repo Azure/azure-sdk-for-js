@@ -158,7 +158,7 @@ describe("ClientSecretCredential (internal)", function () {
   });
 
   it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (this: Context) {
-    if (isPlaybackMode()) {
+    if (isLiveMode() || isPlaybackMode()) {
       // The recorder clears the access tokens.
       this.skip();
     }
