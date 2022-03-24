@@ -18,12 +18,8 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-client";
-import { createTraceFunction } from "../../tracingHelpers";
+import { tracingClient } from "../../tracing";
 
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultSelectiveKeyRestorePoller");
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
@@ -76,8 +72,11 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     keyName: string,
     options: SelectiveKeyRestoreOperationOptionalParams
   ): Promise<SelectiveKeyRestoreOperationResponse> {
-    return withTrace("selectiveRestore", options, (updatedOptions) =>
-      this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
+    return tracingClient.withSpan(
+      "KeyVaultBackupClient.selectiveRestore",
+      options,
+      (updatedOptions) =>
+        this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
     );
   }
 
@@ -85,7 +84,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
    * Tracing the restoreStatus operation.
    */
   private restoreStatus(jobId: string, options: OperationOptions): Promise<RestoreStatusResponse> {
-    return withTrace("restoreStatus", options, (updatedOptions) =>
+    return tracingClient.withSpan("KeyVaultBackupClient.restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }

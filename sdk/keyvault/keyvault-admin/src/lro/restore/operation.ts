@@ -16,12 +16,7 @@ import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backup
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-client";
-import { createTraceFunction } from "../../tracingHelpers";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultRestorePoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -73,7 +68,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
   private fullRestore(
     options: FullRestoreOperationOptionalParams
   ): Promise<FullRestoreOperationResponse> {
-    return withTrace("fullRestore", options, (updatedOptions) =>
+    return tracingClient.withSpan("KeyVaultBackupClient.fullRestore", options, (updatedOptions) =>
       this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
     );
   }
@@ -85,7 +80,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<RestoreStatusResponse> {
-    return withTrace("restoreStatus", options, (updatedOptions) =>
+    return tracingClient.withSpan("KeyVaultBackupClient.restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }

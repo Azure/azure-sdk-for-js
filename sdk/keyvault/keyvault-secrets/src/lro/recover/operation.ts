@@ -15,13 +15,7 @@ import {
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
 import { OperationOptions } from "@azure/core-http";
-
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Secrets.RecoverDeletedSecretPoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -50,7 +44,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    * This operation requires the secrets/get permission.
    */
   private getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    return withTrace("getSecret", options, async (updatedOptions) => {
+    return tracingClient.withSpan("SecretClient.getSecret", options, async (updatedOptions) => {
       const response = await this.client.getSecret(
         this.vaultUrl,
         name,
@@ -69,10 +63,18 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     name: string,
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
-    return withTrace("recoverDeletedSecret", options, async (updatedOptions) => {
-      const response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
-      return getSecretFromSecretBundle(response);
-    });
+    return tracingClient.withSpan(
+      "SecretClient.recoverDeletedSecret",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.recoverDeletedSecret(
+          this.vaultUrl,
+          name,
+          updatedOptions
+        );
+        return getSecretFromSecretBundle(response);
+      }
+    );
   }
 
   /**

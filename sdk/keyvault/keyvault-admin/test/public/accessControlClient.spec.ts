@@ -12,8 +12,8 @@ import {
   KnownKeyVaultDataAction,
 } from "../../src";
 import { authenticate } from "./utils/authentication";
-import { supportsTracing } from "./utils/supportsTracing";
 import { getServiceVersion } from "./utils/common";
+import { KnownRoleScope } from "../../src/generated";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -187,23 +187,6 @@ describe("KeyVaultAccessControlClient", () => {
         await assert.isFulfilled(client.deleteRoleDefinition(globalScope, "foobar"));
       });
     });
-
-    it("supports tracing", async function () {
-      await supportsTracing(
-        async (tracingOptions) => {
-          try {
-            await client.getRoleDefinition(globalScope, "Managed HSM Crypto Auditor", {
-              tracingOptions,
-            });
-          } catch (error) {
-            if (error.statusCode !== 404) {
-              throw error;
-            }
-          }
-        },
-        ["Azure.KeyVault.Admin.KeyVaultAccessControlClient.getRoleDefinition"]
-      );
-    });
   });
 
   describe("role assignments", async function () {
@@ -280,19 +263,43 @@ describe("KeyVaultAccessControlClient", () => {
     it("succeeds when deleting a role assignment that doesn't exist", async () => {
       await assert.isFulfilled(client.deleteRoleAssignment(globalScope, generateFakeUUID()));
     });
+  });
 
-    it("supports tracing", async function () {
-      await supportsTracing(
-        async (tracingOptions) => {
-          try {
-            await client.getRoleAssignment(globalScope, generateFakeUUID(), { tracingOptions });
-          } catch (err) {
-            if (err.statusCode !== 404) {
-              throw err;
-            }
-          }
+  describe("tracing", () => {
+    it("traces through the various operations", async () => {
+      const roleDefinitionName = generateFakeUUID();
+      const roleAssignmentName = generateFakeUUID();
+      await assert.supportsTracing(
+        async (options) => {
+          const roleDefinition = await client.setRoleDefinition(KnownRoleScope.Global, {
+            roleDefinitionName,
+            roleName: roleDefinitionName,
+            ...options,
+          });
+          await client.getRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+          await client.createRoleAssignment(
+            globalScope,
+            roleAssignmentName,
+            roleDefinition.id,
+            env.CLIENT_OBJECT_ID,
+            options
+          );
+          await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
+          await client.listRoleAssignments(KnownRoleScope.Global, options).next();
+          await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
+          await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
+          await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
         },
-        ["Azure.KeyVault.Admin.KeyVaultAccessControlClient.getRoleAssignment"]
+        [
+          "KeyVaultAccessControlClient.setRoleDefinition",
+          "KeyVaultAccessControlClient.getRoleDefinition",
+          "KeyVaultAccessControlClient.createRoleAssignment",
+          "KeyVaultAccessControlClient.getRoleAssignment",
+          "KeyVaultAccessControlClient.listRoleAssignmentsPage",
+          "KeyVaultAccessControlClient.listRoleDefinitionsPage",
+          "KeyVaultAccessControlClient.deleteRoleAssignment",
+          "KeyVaultAccessControlClient.deleteRoleDefinition",
+        ]
       );
     });
   });

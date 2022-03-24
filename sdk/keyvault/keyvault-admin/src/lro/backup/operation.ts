@@ -14,12 +14,7 @@ import {
 import { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { createTraceFunction } from "../../tracingHelpers";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultBackupPoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
@@ -61,7 +56,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
    * Tracing the fullBackup operation
    */
   private fullBackup(options: FullBackupOptionalParams): Promise<FullBackupResponse> {
-    return withTrace("fullBackup", options, (updatedOptions) =>
+    return tracingClient.withSpan("KeyVaultBackupClient.fullBackup", options, (updatedOptions) =>
       this.client.fullBackup(this.vaultUrl, updatedOptions)
     );
   }
@@ -73,8 +68,10 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: KeyVaultBeginBackupOptions
   ): Promise<FullBackupStatusResponse> {
-    return withTrace("fullBackupStatus", options, (updatedOptions) =>
-      this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
+    return tracingClient.withSpan(
+      "KeyVaultBackupClient.fullBackupStatus",
+      options,
+      (updatedOptions) => this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }
 
