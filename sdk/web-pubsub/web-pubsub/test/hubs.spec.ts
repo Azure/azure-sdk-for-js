@@ -52,13 +52,13 @@ describe("HubClient", function () {
     }
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
+      await recorder.start(recorderOptions);
+
       client = new WebPubSubServiceClient(
         env.WPS_CONNECTION_STRING ?? "",
         "simplechat",
         recorder.configureClientOptions({})
       );
-
-      await recorder.start(recorderOptions);
     });
 
     afterEach(async function () {
@@ -81,7 +81,8 @@ describe("HubClient", function () {
       const dacClient = new WebPubSubServiceClient(
         env.WPS_ENDPOINT ?? "",
         credential,
-        "simplechat"
+        "simplechat",
+        recorder.configureClientOptions({})
       );
 
       await dacClient.sendToAll("hello", { contentType: "text/plain", onResponse });
@@ -96,9 +97,13 @@ describe("HubClient", function () {
     });
 
     it("can broadcast using APIM", async () => {
-      const apimClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING ?? "", "simplechat", {
-        reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT,
-      });
+      const apimClient = new WebPubSubServiceClient(
+        env.WPS_CONNECTION_STRING ?? "",
+        "simplechat",
+        recorder.configureClientOptions({
+          reverseProxyEndpoint: env.WPS_REVERSE_PROXY_ENDPOINT,
+        })
+      );
 
       await apimClient.sendToAll("hello", { contentType: "text/plain", onResponse });
       assert.equal(lastResponse?.status, 202);

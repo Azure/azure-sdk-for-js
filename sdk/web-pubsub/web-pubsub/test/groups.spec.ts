@@ -18,12 +18,12 @@ describe("Group client working with a group", function () {
   }
   beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
     const hubClient = new WebPubSubServiceClient(
       env.WPS_CONNECTION_STRING ?? "",
       "simplechat",
       recorder.configureClientOptions({})
     );
-    await recorder.start(recorderOptions);
 
     client = hubClient.group("group");
   });
