@@ -905,6 +905,7 @@
           "pathFilter": [
             "/sdk/communication/arm-communication/"
           ]
+        },
         {
           "label": "Container Registry",
           "pathFilter": [
