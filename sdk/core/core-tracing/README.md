@@ -6,12 +6,12 @@ This is the core tracing library that provides low-level interfaces and helper m
 
 ### Installation
 
-This package is primarily used in Azure client libraries and not meant to be consumed directly by end users.
+This package is primarily used in Azure client libraries and not meant to be used directly by consumers of Azure SDKs.
 
 ## Key Concepts
 
 - `TracingClient` is the primary interface providing tracing functionality to client libraries. Client libraries should only be aware of and interact with a `TracingClient` instance.
-- `Instrumenter` provides an abstraction over an instrumentation and acts tas the interop point for using third party libraries like OpenTelemetry. By default, a no-op `Instrumenter` is used. Customers who wish to enable `OpenTelemetry` based tracing will do so by installing and registering the [@azure/opentelemetry-instrumentation-azure-sdk] package.
+- `Instrumenter` provides an abstraction over an instrumentation and acts as the interop point for using third party libraries like OpenTelemetry. By default, a no-op `Instrumenter` is used. Customers who wish to enable `OpenTelemetry` based tracing will do so by installing and registering the [@azure/opentelemetry-instrumentation-azure-sdk] package.
 - `TracingContext` is an **immutable** data container, used to pass operation-specific information around (such as span parenting information).
 - `TracingSpan` is an abstraction of a `Span` which can be used to record events, attributes, and exceptions.
 
@@ -19,7 +19,7 @@ This package is primarily used in Azure client libraries and not meant to be con
 
 Core Tracing supports both automatic and manual span propagation. Automatic propagation is handled using OpenTelemetry's API (when used in conjunction with the OpenTelemetry instrumentation package) and will work well in most scenarios when run in `Node.js`.
 
-For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept an optional options collection where a tracingContext can be passed in and used as the currently active context. Please see the [Manual Span Propagation example](#manual-span-propagation-using-opentelemetry) below for more details.
+For customers who require manual propagation, or to provide context propagation in the browser, all client library operations accept an additional options collection where a tracingContext can be passed in and used as the currently active context. Please see the [Manual Span Propagation example](#manual-span-propagation-using-opentelemetry) below for more details.
 
 ### OpenTelemetry Compatibility
 
