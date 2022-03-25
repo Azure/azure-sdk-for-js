@@ -26,7 +26,9 @@ import {
   CustomDomainsCreateResponse,
   CustomDomainsDeleteOptionalParams,
   CustomDomainsDisableCustomHttpsOptionalParams,
+  CustomDomainsDisableCustomHttpsResponse,
   CustomDomainsEnableCustomHttpsOptionalParams,
+  CustomDomainsEnableCustomHttpsResponse,
   CustomDomainsListByEndpointNextResponse
 } from "../models";
 
@@ -242,10 +244,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -341,10 +345,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -380,54 +386,14 @@ export class CustomDomainsImpl implements CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param options The options parameters.
    */
-  async beginDisableCustomHttps(
+  disableCustomHttps(
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
+  ): Promise<CustomDomainsDisableCustomHttpsResponse> {
+    return this.client.sendOperationRequest(
       {
         resourceGroupName,
         profileName,
@@ -437,35 +403,6 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       disableCustomHttpsOperationSpec
     );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Disable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param endpointName Name of the endpoint under the profile which is unique globally.
-   * @param customDomainName Name of the custom domain within an endpoint.
-   * @param options The options parameters.
-   */
-  async beginDisableCustomHttpsAndWait(
-    resourceGroupName: string,
-    profileName: string,
-    endpointName: string,
-    customDomainName: string,
-    options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDisableCustomHttps(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      customDomainName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -476,54 +413,14 @@ export class CustomDomainsImpl implements CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param options The options parameters.
    */
-  async beginEnableCustomHttps(
+  enableCustomHttps(
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
+  ): Promise<CustomDomainsEnableCustomHttpsResponse> {
+    return this.client.sendOperationRequest(
       {
         resourceGroupName,
         profileName,
@@ -533,35 +430,6 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       enableCustomHttpsOperationSpec
     );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Enable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param endpointName Name of the endpoint under the profile which is unique globally.
-   * @param customDomainName Name of the custom domain within an endpoint.
-   * @param options The options parameters.
-   */
-  async beginEnableCustomHttpsAndWait(
-    resourceGroupName: string,
-    profileName: string,
-    endpointName: string,
-    customDomainName: string,
-    options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginEnableCustomHttps(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      customDomainName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -629,8 +497,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -663,10 +531,10 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -689,8 +557,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -701,9 +569,9 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
-    201: {},
-    202: {},
-    204: {},
+    202: {
+      bodyMapper: Mappers.CustomDomain
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -714,8 +582,8 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -726,9 +594,9 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
-    201: {},
-    202: {},
-    204: {},
+    202: {
+      bodyMapper: Mappers.CustomDomain
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -740,10 +608,10 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

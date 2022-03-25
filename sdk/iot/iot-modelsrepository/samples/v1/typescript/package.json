@@ -1,5 +1,5 @@
 {
-  "name": "azure-iot-modelsrepository-samples-ts",
+  "name": "@azure-samples/iot-modelsrepository-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure IoT Models Repository client library samples for TypeScript",

@@ -70,6 +70,8 @@ async function handleRedirect(
       delete request.body;
     }
 
+    request.headers.delete("Authorization");
+
     const res = await next(request);
     return handleRedirect(next, res, maxRetries, currentRetries + 1);
   }

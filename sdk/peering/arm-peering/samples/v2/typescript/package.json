@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-peering-samples-ts",
+  "name": "@azure-samples/arm-peering-ts",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",

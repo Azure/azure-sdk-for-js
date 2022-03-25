@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-text-analytics-samples-js",
+  "name": "@azure-samples/ai-text-analytics-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Text Analytics client library samples for JavaScript",
