@@ -88,6 +88,7 @@ specifiers:
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid': file:./projects/arm-locks-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
+  '@rush-temp/arm-m365securityandcompliance': file:./projects/arm-m365securityandcompliance.tgz
   '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-machinelearningservices': file:./projects/arm-machinelearningservices.tgz
@@ -360,6 +361,7 @@ dependencies:
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid': file:projects/arm-locks-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
+  '@rush-temp/arm-m365securityandcompliance': file:projects/arm-m365securityandcompliance.tgz
   '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-machinelearningservices': file:projects/arm-machinelearningservices.tgz
@@ -9114,19 +9116,19 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
-      uglify-js: 3.15.1
+      uglify-js: 3.15.3
     transitivePeerDependencies:
       - '@types/node'
       - debug
@@ -11166,6 +11168,33 @@ packages:
       rimraf: 3.0.2
       rollup: 2.70.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.3
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-m365securityandcompliance.tgz:
+    resolution: {integrity: sha512-xZ8Y7QNtZzatIxPvVptRQmTokduR/EHtSxca27puYOUhSPD+rTKTKeMLH2GQK0Xqp0TAmFz8XIoMghn2NNu7EQ==, tarball: file:projects/arm-m365securityandcompliance.tgz}
+    name: '@rush-temp/arm-m365securityandcompliance'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.3
