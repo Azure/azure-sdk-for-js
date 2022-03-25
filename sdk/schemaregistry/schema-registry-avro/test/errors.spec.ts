@@ -5,13 +5,13 @@ import { assert, use as chaiUse } from "chai";
 import { AvroSerializer } from "../src/avroSerializer";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
+import { assertSerializationError } from "./utils/assertSerializationError";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { isLive } from "./utils/isLive";
 import { testGroup } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
-import { assertSerializationError } from "./utils/assertSerializationError";
 
 chaiUse(chaiPromises);
 
@@ -46,21 +46,14 @@ describe("Error scenarios", function () {
       );
     });
     it("a schema with non-avro format", async function (this: Context) {
-      if (isLive) {
-        this.skip();
-      }
-      const schema = await registry.registerSchema({
-        name: "_",
-        definition: "_",
-        format: "NotAvro",
-        groupName: testGroup,
-      });
       await assert.isRejected(
-        serializer.deserializeMessageData({
-          body: Buffer.alloc(1),
-          contentType: `avro/binary+${schema.id}`,
+        registry.registerSchema({
+          name: "_",
+          definition: "_",
+          format: "notavro",
+          groupName: testGroup,
         }),
-        new RegExp(`${schema.id}.*NotAvro.*avro`)
+        /Invalid schema type for PUT request.*notavro/
       );
     });
     it("schema to serialize with is not found", async function () {
@@ -264,10 +257,21 @@ describe("Error scenarios", function () {
     });
   });
   describe("Unserialized value validation", function () {
-    it.skip("schema is not registered if serialization fails", async function () {
+    it("schema is still registered if serialization fails", async function (this: Context) {
+      /**
+       * This test checks for service calls using the onResponse callback but
+       * onResponse is not implemented in the mocked registry because it will
+       * add very little value so the test is skipped in playback mode.
+       */
+      if (!isLive) {
+        this.skip();
+      }
+      let ran = false;
       const unusedRegistry = createTestRegistry({
         registerSchemaOptions: {
-          onResponse: () => assert.fail(`unexpected service call`),
+          onResponse: () => {
+            ran = true;
+          },
         },
       });
       const customSerializer = await createTestSerializer({
@@ -298,6 +302,7 @@ describe("Error scenarios", function () {
           innerMessage: /invalid "null": 1/,
         }
       );
+      assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
     });
     it("null", async function () {
       await assertSerializationError(
