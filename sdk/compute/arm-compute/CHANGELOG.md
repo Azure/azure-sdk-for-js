@@ -1,14 +1,10 @@
 # Release History
 
-## 17.3.1 (Unreleased)
+## 17.3.1 (2022-03-25)
 
-### Features Added
+**features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - bug fix
 
 ## 17.3.0 (2022-03-02)
     

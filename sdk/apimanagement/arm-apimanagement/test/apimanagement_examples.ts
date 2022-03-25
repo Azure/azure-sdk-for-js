@@ -48,7 +48,7 @@ describe("Apimanagement test", () => {
   let serviceName: string;
 
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     subscriptionId = env.SUBSCRIPTION_ID;
     // This is an example of how the environment variables are used
@@ -63,76 +63,76 @@ describe("Apimanagement test", () => {
     serviceName = "myserviceyyy2";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  function sleep(ms: number){
-    return new Promise(resolve => setTimeout(resolve,ms))
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-  it("apiManagementService create test", async function() {
-    const res = await client.apiManagementService.beginCreateOrUpdateAndWait(resourceGroupName,serviceName,{
+  it("apiManagementService create test", async function () {
+    const res = await client.apiManagementService.beginCreateOrUpdateAndWait(resourceGroupName, serviceName, {
       location: location,
-        sku: {
-            name: "Standard",
-            capacity: 1
-        },
-        publisherEmail: "foo@contoso.com",
-        publisherName: "foo"  
-    },testPollingOptions);
-    assert.equal(res.name,serviceName);
+      sku: {
+        name: "Standard",
+        capacity: 1
+      },
+      publisherEmail: "foo@contoso.com",
+      publisherName: "foo"
+    }, testPollingOptions);
+    assert.equal(res.name, serviceName);
   }).timeout(3600000);
 
-  it("apiManagementService get test", async function() {
-    const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-    assert.equal(res.name,serviceName);
+  it("apiManagementService get test", async function () {
+    const res = await client.apiManagementService.get(resourceGroupName, serviceName);
+    assert.equal(res.name, serviceName);
   });
 
-  it("apiManagementService listByResourceGroup test", async function() {
+  it("apiManagementService listByResourceGroup test", async function () {
     const resArray = new Array();
-    for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
-        resArray.push(item);
+    for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
+      resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("apiManagementService update test", async function() {
+  it("apiManagementService update test", async function () {
     // this.timeout(3600000);
     let count = 0;
-    while( count < 20 ){
+    while (count < 20) {
       count++;
-      const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-      if(res.provisioningState == "Succeeded"){
-        const res = await client.apiManagementService.beginUpdateAndWait(resourceGroupName,serviceName,{
-            customProperties: {
-              "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false"
-            }
-        },testPollingOptions);
-        assert.equal(res.type,"Microsoft.ApiManagement/service");
+      const res = await client.apiManagementService.get(resourceGroupName, serviceName);
+      if (res.provisioningState == "Succeeded") {
+        const res = await client.apiManagementService.beginUpdateAndWait(resourceGroupName, serviceName, {
+          customProperties: {
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "false"
+          }
+        }, testPollingOptions);
+        assert.equal(res.type, "Microsoft.ApiManagement/service");
         break;
-      }else {
+      } else {
         // The resource is activating
         await delay(300000)
       }
     }
   }).timeout(3600000);
 
-  it("apiManagementService delete test", async function() {
+  it("apiManagementService delete test", async function () {
     let count = 0;
-    while( count < 20 ){
+    while (count < 20) {
       count++;
-      const res = await client.apiManagementService.get(resourceGroupName,serviceName);
-      if(res.provisioningState == "Succeeded"){
-        const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName,serviceName,testPollingOptions);
-        const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName,location,testPollingOptions);
+      const res = await client.apiManagementService.get(resourceGroupName, serviceName);
+      if (res.provisioningState == "Succeeded") {
+        const res = await client.apiManagementService.beginDeleteAndWait(resourceGroupName, serviceName, testPollingOptions);
+        const purge_resource = await client.deletedServices.beginPurgeAndWait(serviceName, location, testPollingOptions);
         const resArray = new Array();
-        for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)){
-            resArray.push(item);
+        for await (let item of client.apiManagementService.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
         }
-        assert.equal(resArray.length,0);
+        assert.equal(resArray.length, 0);
         break;
-      }else {
+      } else {
         // The resource is activating
         await delay(300000);
       }
