@@ -69,6 +69,12 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     const headers = buildFetchHeaders(request.headers);
     const requestBody = buildRequestBody(request);
 
+    /**
+     * Developers of the future:
+     * Do not set redirect: "manual" as part
+     * of request options.
+     * It will not work as you expect.
+     */
     const response = await fetch(request.url, {
       body: requestBody,
       method: request.method,
