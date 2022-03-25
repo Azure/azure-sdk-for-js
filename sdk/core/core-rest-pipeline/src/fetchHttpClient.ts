@@ -75,7 +75,6 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       headers: headers,
       signal: abortController.signal,
       credentials: request.withCredentials ? "include" : "same-origin",
-      redirect: "manual",
       cache: "no-store",
     });
     return buildPipelineResponse(response, request);
