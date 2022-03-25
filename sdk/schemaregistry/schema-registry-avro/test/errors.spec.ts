@@ -11,6 +11,7 @@ import { createTestSerializer } from "./utils/mockedSerializer";
 import { isLive } from "./utils/isLive";
 import { testGroup } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
+import { assertSerializationError } from "./utils/assertSerializationError";
 
 chaiUse(chaiPromises);
 
@@ -121,28 +122,32 @@ describe("Error scenarios", function () {
         },
         JSON.stringify(writerSchema)
       );
-      assert.isRejected(
+      await assertSerializationError(
         serializer.deserializeMessageData(message, {
           schema: JSON.stringify(incompatibleReaderSchema),
         }),
-        /no matching field for default-less validation.AvroUser.age/
+        {
+          innerMessage: /no matching field for default-less validation.AvroUser.age/,
+        }
       );
     });
     it("null schema", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         /**
          * The type checking will prevent this from happening but I am including
          * it for completeness.
          */
         serializer.serializeMessageData(null, null as any),
-        /invalid type: null/
+        {
+          innerMessage: /invalid type: null/,
+        }
       );
     });
     it("schema without a name", async function () {
       /**
        * The serializer expects a record schema as the top-level schema
        */
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -150,11 +155,13 @@ describe("Error scenarios", function () {
             items: "int",
           })
         ),
-        /Schema must have a name/
+        {
+          message: /Schema must have a name/,
+        }
       );
     });
     it("enum schema without symbols", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -170,11 +177,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid enum symbols: undefined/
+        {
+          innerMessage: /invalid enum symbols: undefined/,
+        }
       );
     });
     it("fixed schema without size", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -190,11 +199,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid fixed size/
+        {
+          innerMessage: /invalid fixed size/,
+        }
       );
     });
     it("array schema without items", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -210,11 +221,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /missing array items: {"type":"array"}/
+        {
+          innerMessage: /missing array items: {"type":"array"}/,
+        }
       );
     });
     it("map schema without values", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -230,11 +243,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /missing map values: {"type":"map"}/
+        {
+          innerMessage: /missing map values: {"type":"map"}/,
+        }
       );
     });
     it("record schema without fields", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -242,7 +257,9 @@ describe("Error scenarios", function () {
             name: "foo",
           })
         ),
-        /non-array record fields: undefined/
+        {
+          innerMessage: /non-array record fields: undefined/,
+        }
       );
     });
   });
@@ -260,7 +277,7 @@ describe("Error scenarios", function () {
           groupName: testGroup,
         },
       });
-      await assert.isRejected(
+      await assertSerializationError(
         customSerializer.serializeMessageData(
           {
             field: 1,
@@ -277,11 +294,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "null": 1/
+        {
+          innerMessage: /invalid "null": 1/,
+        }
       );
     });
     it("null", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -298,11 +317,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "null": 1/
+        {
+          innerMessage: /invalid "null": 1/,
+        }
       );
     });
     it("boolean", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -319,11 +340,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "boolean": 1/
+        {
+          innerMessage: /invalid "boolean": 1/,
+        }
       );
     });
     it("int", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: null,
@@ -340,11 +363,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "int": null/
+        {
+          innerMessage: /invalid "int": null/,
+        }
       );
     });
     it("long", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 9007199254740991,
@@ -361,11 +386,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "long": 9007199254740991/
+        {
+          innerMessage: /invalid "long": 9007199254740991/,
+        }
       );
     });
     it("float", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "",
@@ -382,11 +409,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "float": ""/
+        {
+          innerMessage: /invalid "float": ""/,
+        }
       );
     });
     it("double", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "",
@@ -403,11 +432,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "double": ""/
+        {
+          innerMessage: /invalid "double": ""/,
+        }
       );
     });
     it("string", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -424,11 +455,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "string": 1/
+        {
+          innerMessage: /invalid "string": 1/,
+        }
       );
     });
     it("bytes", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -445,11 +478,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "bytes": 1/
+        {
+          innerMessage: /invalid "bytes": 1/,
+        }
       );
     });
     it("union", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -466,11 +501,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid \["null","string"\]: 1/
+        {
+          innerMessage: /invalid \["null","string"\]: 1/,
+        }
       );
     });
     it("enum", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -491,11 +528,14 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid {"name":"validation.foo","type":"enum","symbols":\["A","B"\]}: "x"/
+        {
+          innerMessage:
+            /invalid {"name":"validation.foo","type":"enum","symbols":\["A","B"\]}: "x"/,
+        }
       );
     });
     it("fixed", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -516,11 +556,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid {"name":"validation.foo","type":"fixed","size":16}: "x"/
+        {
+          innerMessage: /invalid {"name":"validation.foo","type":"fixed","size":16}: "x"/,
+        }
       );
     });
     it("map", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -544,11 +586,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid {"type":"map","values":"long"}: "x"/
+        {
+          innerMessage: /invalid {"type":"map","values":"long"}: "x"/,
+        }
       );
     });
     it("array", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -572,11 +616,13 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid {"type":"array","items":"long"}: "x"/
+        {
+          innerMessage: /invalid {"type":"array","items":"long"}: "x"/,
+        }
       );
     });
     it("record", async function () {
-      await assert.isRejected(
+      await assertSerializationError(
         serializer.serializeMessageData(
           "x",
           JSON.stringify({
@@ -591,7 +637,9 @@ describe("Error scenarios", function () {
             ],
           })
         ),
-        /invalid "int": undefined/
+        {
+          innerMessage: /invalid "int": undefined/,
+        }
       );
     });
   });
@@ -620,12 +668,13 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([2, 2, 120]));
       serializedValue.body = Buffer.from([2, 2]);
-      await assert.isRejected(
-        serializer.deserializeMessageData(serializedValue),
-        /truncated buffer/
-      );
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+        innerMessage: /truncated buffer/,
+      });
       serializedValue.body = Buffer.from([2, 2, 120, 5]);
-      await assert.isRejected(serializer.deserializeMessageData(serializedValue), /trailing data/);
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+        innerMessage: /trailing data/,
+      });
     });
     it("long", async function () {
       const serializedValue = await serializer.serializeMessageData(
@@ -649,10 +698,9 @@ describe("Error scenarios", function () {
         Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31])
       );
       serializedValue.body = Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 32]);
-      await assert.isRejected(
-        serializer.deserializeMessageData(serializedValue),
-        /potential precision loss/
-      );
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+        innerMessage: /potential precision loss/,
+      });
     });
     it("union", async function () {
       const serializedValue = await serializer.serializeMessageData(
@@ -673,10 +721,9 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([2, 2, 120]));
       serializedValue.body = Uint8Array.from([5, 2, 120]);
-      await assert.isRejected(
-        serializer.deserializeMessageData(serializedValue),
-        /invalid union index: -3/
-      );
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+        innerMessage: /invalid union index: -3/,
+      });
     });
     it("enum", async function () {
       const serializedValue = await serializer.serializeMessageData(
@@ -701,10 +748,9 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([0]));
       serializedValue.body = Uint8Array.from([10]);
-      await assert.isRejected(
-        serializer.deserializeMessageData(serializedValue),
-        /invalid validation.foo enum index: 5/
-      );
+      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+        innerMessage: /invalid validation.foo enum index: 5/,
+      });
     });
   });
 });
