@@ -852,6 +852,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/perf-tests/schema-registry-avro",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
