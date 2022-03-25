@@ -13,6 +13,9 @@ import { SPACredentialOptions } from "./options";
 
 const logger = credentialLogger("RedirectCredential");
 
+// We keep a copy of the redirect hash.
+const redirectHash = self.location.hash;
+
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow through redirecting within the same browser window.
@@ -92,5 +95,16 @@ export class RedirectCredential implements TokenCredential {
       await this.msalFlow.getToken(arrayScopes, newOptions);
       return this.msalFlow.getActiveAccount();
     });
+  }
+
+  /**
+   * Retrieves parameters from the URL hash.
+   */
+  async onPageLoad(): Promise<{ code?: string; state?: string }> {
+    const hash = new URLSearchParams(redirectHash);
+    return {
+      code: hash.get("code") || undefined,
+      state: hash.get("state") || undefined,
+    };
   }
 }

@@ -15,6 +15,10 @@ export class PopupCredential implements TokenCredential {
     constructor(_options: SPACredentialOptions);
     authenticate(): Promise<AuthenticationRecord | undefined>;
     getToken(): Promise<AccessToken | null>;
+    onPageLoad(): Promise<{
+        code?: string;
+        state?: string;
+    }>;
 }
 
 // @public
@@ -22,6 +26,10 @@ export class RedirectCredential implements TokenCredential {
     constructor(_options: SPACredentialOptions);
     authenticate(): Promise<AuthenticationRecord | undefined>;
     getToken(): Promise<AccessToken | null>;
+    onPageLoad(): Promise<{
+        code?: string;
+        state?: string;
+    }>;
 }
 
 // @public

@@ -65,4 +65,12 @@ export class PopupCredential implements TokenCredential {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
+
+  /**
+   * Tries to authenticate and retrieves parameters from the URL hash
+   */
+  async onPageLoad(): Promise<{ code?: string; state?: string }> {
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
+    throw BrowserNotSupportedError;
+  }
 }
