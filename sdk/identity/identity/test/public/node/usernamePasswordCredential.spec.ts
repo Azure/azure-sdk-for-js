@@ -10,7 +10,8 @@ import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
 
-const liveClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46"; // Live test client ID
+// https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
+const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
 
 describe("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -29,7 +30,7 @@ describe("UsernamePasswordCredential", function () {
 
   it("authenticates", async function (this: Context) {
     const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
 
     const credential = new UsernamePasswordCredential(
       tenantId,
@@ -46,7 +47,7 @@ describe("UsernamePasswordCredential", function () {
 
   it("allows cancelling the authentication", async function () {
     const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
 
     const credential = new UsernamePasswordCredential(
       tenantId,
@@ -75,7 +76,7 @@ describe("UsernamePasswordCredential", function () {
 
   it("supports tracing", async function (this: Context) {
     const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
-    const clientId = isLiveMode() ? liveClientId : env.AZURE_CLIENT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
 
     await testTracing({
       test: async (tracingOptions) => {
