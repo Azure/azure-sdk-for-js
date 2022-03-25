@@ -62,12 +62,16 @@ steps:
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
+  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+
   - pwsh: |
-      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -sdkType "${{parameters.SDKType}}" --verbose
+      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
   - script: |
-      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}" -sdkType "${{parameters.SDKType}}"
+      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)"
     condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
     displayName: "Audit libraries"
 
