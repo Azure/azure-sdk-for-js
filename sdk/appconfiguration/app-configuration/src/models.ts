@@ -275,7 +275,7 @@ export interface ListSettingsOptions extends OptionalFields {
    *    | Value        | Matches                                           |
    *    |--------------|---------------------------------------------------|
    *    | omitted or * | Matches any key                                   |
-   *    | %00          | Matches any key without a label                   |
+   *    | \0           | Matches any key without a label                   |
    *    | prod         | Matches a key with label named prod               |
    *    | prod*        | Matches key with label names that start with prod |
    *
