@@ -46,37 +46,7 @@ Please see the [troubleshooting](#troubleshooting) section for additional inform
 
 ## Examples
 
-### Using core-tracing as a package owner
-
 Examples can be found in the `samples` folder.
-
-### Manual Span Propagation using OpenTelemetry
-
-```ts
-const opentelemetry = require("@opentelemetry/api");
-// Get a tracer from a registered provider, create a span, and get the current context
-const tracer = opentelemetry.trace.getTracer("my-tracer");
-const span = tracer.startSpan("main");
-const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), span);
-const { BlobClient } = require("@azure/storage-blob");
-
-// Assuming we have an existing BlobClient, let's see if the blob exists.
-// The context is passed to the client library as a tracingContext option and will be propagated downstream to any child spans.
-async function main() {
-  const blobClient = new BlobClient(
-    "<account connection string>",
-    "<container name>",
-    "<blob name>"
-  );
-  const result = await blobClient.exists({
-    tracingOptions: {
-      tracingContext: ctx,
-    },
-  });
-}
-
-main();
-```
 
 ## Next steps
 
