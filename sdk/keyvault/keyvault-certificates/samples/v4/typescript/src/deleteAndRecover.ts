@@ -5,11 +5,12 @@
  * @summary Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).
  */
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -24,12 +25,12 @@ export async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `delete-recover-${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   const pendingCertificate = createPoller.getResult();

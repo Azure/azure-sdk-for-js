@@ -12,18 +12,17 @@ urlFragment: keyvault-certificates-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Certificates in some common scenarios.
 
-| **File Name**                                   | **Description**                                                                                                            |
-| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [backupAndRestore.js][backupandrestore]         | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
-| [contacts.js][contacts]                         | Creates, updates, and deletes certificate contacts.                                                                        |
-| [deleteAndRecover.js][deleteandrecover]         | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
-| [helloWorld.js][helloworld]                     | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
-| [importCertificate.js][importcertificate]       | Imports a PFX and PEM certificate and then deletes them.                                                                   |
-| [issuers.js][issuers]                           | Creates, updates and deletes certificate issuers.                                                                          |
-| [listCertificates.js][listcertificates]         | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
-| [mergeCertificate.js][mergecertificate]         | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
-| [operations.js][operations]                     | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
-| [purgeAllCertificates.js][purgeallcertificates] | Purges all deleted certificates from a Key Vault.                                                                          |
+| **File Name**                             | **Description**                                                                                                            |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [backupAndRestore.js][backupandrestore]   | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
+| [contacts.js][contacts]                   | Creates, updates, and deletes certificate contacts.                                                                        |
+| [deleteAndRecover.js][deleteandrecover]   | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
+| [helloWorld.js][helloworld]               | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
+| [importCertificate.js][importcertificate] | Imports a PFX and PEM certificate and then deletes them.                                                                   |
+| [issuers.js][issuers]                     | Creates, updates and deletes certificate issuers.                                                                          |
+| [listCertificates.js][listcertificates]   | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
+| [mergeCertificate.js][mergecertificate]   | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
+| [operations.js][operations]               | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
 
 ## Prerequisites
 
@@ -80,7 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/listCertificates.js
 [mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/mergeCertificate.js
 [operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/operations.js
-[purgeallcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/purgeAllCertificates.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal

@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/keyvault-secrets-js",
+  "name": "azure-keyvault-secrets-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Keys client library samples for JavaScript",
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets",
   "dependencies": {
-    "@azure/keyvault-secrets": "next",
+    "@azure/keyvault-secrets": "latest",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1"
   }

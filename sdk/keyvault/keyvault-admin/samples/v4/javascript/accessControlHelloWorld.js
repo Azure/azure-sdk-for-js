@@ -8,14 +8,13 @@
 const {
   KeyVaultAccessControlClient,
   KnownKeyVaultDataAction,
-  KnownKeyVaultRoleScope
+  KnownKeyVaultRoleScope,
 } = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
 const uuid = require("uuid");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -37,14 +36,17 @@ async function main() {
   const roleDefinitionName = uuid.v4();
   const permissions = [
     {
-      dataActions: [KnownKeyVaultDataAction.StartHsmBackup, KnownKeyVaultDataAction.StartHsmRestore]
-    }
+      dataActions: [
+        KnownKeyVaultDataAction.StartHsmBackup,
+        KnownKeyVaultDataAction.StartHsmRestore,
+      ],
+    },
   ];
   let roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,
-    description: "Allow backup actions"
+    description: "Allow backup actions",
   });
   console.log(roleDefinition);
 
@@ -76,3 +78,5 @@ main().catch((err) => {
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
 });
+
+module.exports = { main };
