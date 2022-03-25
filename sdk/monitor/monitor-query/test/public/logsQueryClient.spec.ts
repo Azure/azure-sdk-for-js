@@ -25,7 +25,7 @@ describe("LogsQueryClient live tests", function () {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
-    monitorWorkspaceId = getMonitorWorkspaceId(this);
+    monitorWorkspaceId = getMonitorWorkspaceId();
     logsClient = recordedClient.client;
   });
   afterEach(async function () {
@@ -470,7 +470,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
     });
     logsClient = recordedClient.client;
     recorder = recordedClient.recorder;
-    monitorWorkspaceId = getMonitorWorkspaceId(this);
+    monitorWorkspaceId = getMonitorWorkspaceId();
   });
   afterEach(async function () {
     loggerForTest.verbose("Recorder: stopping");

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { redirectPolicy } from "../src/policies/redirectPolicy";
 import * as sinon from "sinon";
-import { createHttpHeaders, createPipelineRequest, PipelineResponse, SendRequest } from "../src";
+import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {
@@ -313,5 +313,34 @@ describe("RedirectPolicy", () => {
 
     assert.strictEqual(result.status, expectedStatusCode);
     assert.strictEqual(next.callCount, 21);
+  });
+
+  it("should remove Authorization header on redirected request", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      method: "GET",
+      headers: createHttpHeaders({ authorization: "Basic blahblahblah" }),
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "https://example.com/redirect",
+      }),
+      request,
+      status: 307,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const policy = redirectPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(redirectResponse);
+    next.onSecondCall().resolves(successResponse);
+
+    await policy.sendRequest(request, next);
+    assert.isFalse(next.args[1][0].headers.has("Authorization"));
   });
 });

@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-form-recognizer-samples-js",
+  "name": "@azure-samples/ai-form-recognizer-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Form Recognizer client library samples for JavaScript",

@@ -27,7 +27,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       let entities: UnpackReturnType<ServiceBusTestHelpers["createTestEntities"]>;
 
       before(async () => {
-        tempClient = await createServiceBusClientForTests();
+        tempClient = createServiceBusClientForTests();
         entities = await tempClient.test.createTestEntities(entityType);
       });
 
@@ -39,7 +39,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       it("ServiceBusClient with connection string", async () => {
         const client = new ServiceBusClient(serviceBusConnectionString);
 
-        const sender = await tempClient.createSender(entities.queue ?? entities.topic!);
+        const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
           body: "Hello",
@@ -76,7 +76,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
           new AzureNamedKeyCredential(parsed.sharedAccessKeyName!, parsed.sharedAccessKey!)
         );
 
-        const sender = await tempClient.createSender(entities.queue ?? entities.topic!);
+        const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
           body: "Hello",
@@ -114,7 +114,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       let sharedAccessSignature: string;
 
       before(async () => {
-        tempClient = await createServiceBusClientForTests();
+        tempClient = createServiceBusClientForTests();
         entities = await tempClient.test.createTestEntities(entityType);
 
         const endpoint = parseServiceBusConnectionString(serviceBusConnectionString).endpoint;
@@ -139,7 +139,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       it("ServiceBusClient with connection string", async () => {
         const client = new ServiceBusClient(sasConnectionString);
 
-        const sender = await tempClient.createSender(entities.queue ?? entities.topic!);
+        const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
           body: "Hello",
@@ -176,7 +176,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
           new AzureSASCredential(sharedAccessSignature)
         );
 
-        const sender = await tempClient.createSender(entities.queue ?? entities.topic!);
+        const sender = tempClient.createSender(entities.queue ?? entities.topic!);
 
         await sender.sendMessages({
           body: "Hello",

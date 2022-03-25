@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 
@@ -69,6 +69,8 @@ async function handleRedirect(
       request.headers.delete("Content-Length");
       delete request.body;
     }
+
+    request.headers.delete("Authorization");
 
     const res = await next(request);
     return handleRedirect(next, res, maxRetries, currentRetries + 1);

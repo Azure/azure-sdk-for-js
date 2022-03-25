@@ -21,7 +21,7 @@ import {
 import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
 import { IdentityTestContext } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
-import { setLogLevel } from "@azure/logger";
+import { AzureLogger, setLogLevel } from "@azure/logger";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
 import { Context } from "mocha";
 
@@ -110,6 +110,57 @@ describe("ManagedIdentityCredential", function () {
 
     assert.equal(query.get("client_id"), undefined);
     assert.equal(decodeURIComponent(query.get("resource")!), "someResource");
+  });
+
+  it("sends an authorization request with allowLoggingAccountIdentifiers set to true", async function () {
+    setLogLevel("info");
+    const spy = testContext.sandbox.spy(process.stderr, "write");
+
+    const accessTokenData = {
+      appid: "HIDDEN",
+      tid: "HIDDEN",
+      oid: "HIDDEN",
+    };
+    const base64AccessTokenData = Buffer.from(JSON.stringify(accessTokenData), "utf8").toString(
+      "base64"
+    );
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client", {
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
+      }),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          access_token: `token.${base64AccessTokenData}`,
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    // The first request is the IMDS ping.
+    // This ping request has to skip a header and the query parameters for it to work on POD identity.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.ok(!imdsPingRequest.headers!.metadata);
+    assert.equal(imdsPingRequest.url, new URL(imdsEndpointPath, imdsHost).toString());
+
+    // The first request is the IMDS ping.
+    // The second one tries to authenticate against IMDS once we know the endpoint is available.
+    const authRequest = authDetails.requests[1];
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
+    assert.ok(
+      authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
+      "URL does not have expected version"
+    );
+    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: No User Principal Name available. Object ID (user): HIDDEN`;
+    assert.equal((spy.getCall(spy.callCount - 4).args[0] as any as string).trim(), expectedMessage);
+    AzureLogger.destroy();
   });
 
   it("sends an authorization request with tenantId on getToken", async () => {
@@ -502,6 +553,86 @@ describe("ManagedIdentityCredential", function () {
     );
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly in an App Service 2019 environment by client id", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "HEADER";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2021 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    const authRequest = authDetails.requests[0];
+    console.log(`authDetails = ${authDetails}`);
+    console.log(`authRequest = ${authRequest}`);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+    assert.equal(authRequest.headers["X-IDENTITY-HEADER"], process.env.IDENTITY_HEADER);
+    assert.ok(
+      authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
+      "URL does not have expected version"
+    );
+    if (authDetails.result?.token) {
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly in an App Service 2019 environment by resource id", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "HEADER";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2021 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    const authRequest = authDetails.requests[0];
+    console.log(`authDetails = ${authDetails}`);
+    console.log(`authRequest = ${authRequest}`);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.equal(decodeURIComponent(query.get("mi_res_id")!), "RESOURCE-ID");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+    assert.equal(authRequest.headers["X-IDENTITY-HEADER"], process.env.IDENTITY_HEADER);
+    assert.ok(
+      authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
+      "URL does not have expected version"
+    );
+    if (authDetails.result?.token) {
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
     } else {
       assert.fail("No token was returned!");
     }

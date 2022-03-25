@@ -2,6 +2,14 @@
 
 ## 2.0.0 (Unreleased)
 
+## 2022-03-02
+
+- Allows adding sanitizers in playback mode as well. [#20612](https://github.com/Azure/azure-sdk-for-js/pull/20612)
+
+  - If the sanitizer options are passed as part of the `recorder.start()`, they'll only be used in "record" mode and will be applied on the recordings.
+  - Use the `recorder.addSanitizers()` call instead if you want the sanitizers to be added in a specific test mode or in a combination of modes by providing the optional "mode" argument.
+  - "live" mode has no impact as usual.
+
 ## 2022-03-01
 
 - Add support for `addTransform`, which allows for transforms to be applied to saved recordings in playback mode. The following transforms are supported:

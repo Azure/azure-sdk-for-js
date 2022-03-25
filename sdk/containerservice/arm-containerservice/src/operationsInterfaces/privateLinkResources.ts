@@ -15,7 +15,7 @@ import {
 export interface PrivateLinkResources {
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */

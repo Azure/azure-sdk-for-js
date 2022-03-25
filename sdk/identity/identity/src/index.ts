@@ -34,7 +34,7 @@ export {
   DefaultAzureCredential,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
-  DefaultAzureCredentialOptionsWithResourceId as DefaultAzureCredentialResourceIdOptions,
+  DefaultAzureCredentialResourceIdOptions,
 } from "./credentials/defaultAzureCredential";
 export {
   EnvironmentCredential,
@@ -45,6 +45,8 @@ export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredent
 export {
   ClientCertificateCredential,
   ClientCertificateCredentialPEMConfiguration,
+  ClientCertificatePEMCertificatePath,
+  ClientCertificatePEMCertificate,
 } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
@@ -58,7 +60,6 @@ export {
 } from "./credentials/interactiveBrowserCredentialOptions";
 export {
   ManagedIdentityCredential,
-  ManagedIdentityCredentialOptions,
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
 } from "./credentials/managedIdentityCredential";

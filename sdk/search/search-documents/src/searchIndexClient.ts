@@ -32,6 +32,13 @@ import {
   IndexNameIterator,
   SearchIndexStatistics,
   SearchServiceStatistics,
+  CreateAliasOptions,
+  SearchIndexAlias,
+  CreateOrUpdateAliasOptions,
+  DeleteAliasOptions,
+  GetAliasOptions,
+  ListAliasesOptions,
+  AliasIterator,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -221,6 +228,52 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesPage(options);
+      },
+    };
+  }
+
+  private async *listAliasesPage(
+    options: ListAliasesOptions = {}
+  ): AsyncIterableIterator<SearchIndexAlias[]> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
+    try {
+      const result = await this.client.aliases.list(updatedOptions);
+      yield result.aliases;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listAliasesAll(
+    options: ListAliasesOptions = {}
+  ): AsyncIterableIterator<SearchIndexAlias> {
+    for await (const page of this.listAliasesPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all aliases available for a search service.
+   * @param options - The options parameters.
+   */
+  public listAliases(options: ListAliasesOptions = {}): AliasIterator {
+    const iter = this.listAliasesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAliasesPage(options);
       },
     };
   }
@@ -539,6 +592,114 @@ export class SearchIndexClient {
         ...updatedOptions,
         ifMatch: etag,
       });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new search alias or updates an alias if it already exists.
+   * @param alias - The definition of the alias to create or update.
+   * @param options - The options parameters.
+   */
+  public async createOrUpdateAlias(
+    alias: SearchIndexAlias,
+    options: CreateOrUpdateAliasOptions = {}
+  ): Promise<SearchIndexAlias> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
+    try {
+      const etag = options.onlyIfUnchanged ? alias.etag : undefined;
+
+      const result = await this.client.aliases.createOrUpdate(alias.name, alias, {
+        ...updatedOptions,
+        ifMatch: etag,
+      });
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new search alias.
+   * @param alias - The definition of the alias to create.
+   * @param options - The options parameters.
+   */
+  public async createAlias(
+    alias: SearchIndexAlias,
+    options: CreateAliasOptions = {}
+  ): Promise<SearchIndexAlias> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-createAlias", options);
+    try {
+      const result = await this.client.aliases.create(alias, updatedOptions);
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
+   * recovery option. The mapped index is untouched by this operation.
+   * @param alias - Alias/Name name of the alias to delete.
+   * @param options - The options parameters.
+   */
+  public async deleteAlias(
+    alias: string | SearchIndexAlias,
+    options: DeleteAliasOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
+    try {
+      const aliasName: string = typeof alias === "string" ? alias : alias.name;
+      const etag =
+        typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
+
+      await this.client.aliases.delete(aliasName, {
+        ...updatedOptions,
+        ifMatch: etag,
+      });
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves an alias definition.
+   * @param aliasName - The name of the alias to retrieve.
+   * @param options - The options parameters.
+   */
+  public async getAlias(
+    aliasName: string,
+    options: GetAliasOptions = {}
+  ): Promise<SearchIndexAlias> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-getAlias", options);
+    try {
+      const result = await this.client.aliases.get(aliasName, updatedOptions);
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

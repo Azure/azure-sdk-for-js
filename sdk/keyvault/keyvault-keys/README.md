@@ -80,7 +80,6 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
   {
     "appId": "generated-app-ID",
     "displayName": "dummy-app-name",
-    "name": "http://dummy-app-name",
     "password": "random-password",
     "tenant": "tenant-ID"
   }

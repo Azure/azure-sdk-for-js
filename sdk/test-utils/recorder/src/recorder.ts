@@ -108,11 +108,19 @@ export class Recorder {
    * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
    *
    * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   *
+   * By default, it applies only to record mode.
+   *
+   * If you want this to be applied in a specific mode or in a combination of modes, use the "mode" argument.
    */
-  async addSanitizers(options: SanitizerOptions): Promise<void> {
-    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
+  async addSanitizers(
+    options: SanitizerOptions,
+    mode: ("record" | "playback")[] = ["record"]
+  ): Promise<void> {
+    if (isLiveMode()) return;
+    const actualTestMode = getTestMode() as "record" | "playback";
     if (
-      isRecordMode() &&
+      mode.includes(actualTestMode) &&
       ensureExistence(this.httpClient, "this.httpClient") &&
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
@@ -138,7 +146,7 @@ export class Recorder {
    * Takes RecorderStartOptions as the input, which will get used in record and playback modes.
    * Includes
    * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
-   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
+   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isLiveMode()) return;

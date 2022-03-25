@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-preview.15 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 

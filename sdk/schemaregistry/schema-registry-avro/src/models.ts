@@ -33,9 +33,9 @@ export interface MessageAdapter<MessageT> {
 /**
  * Options for Schema
  */
-export interface AvroEncoderOptions<MessageT> {
+export interface AvroSerializerOptions<MessageT> {
   /**
-   * When true, register new schemas passed to encodeMessageData. Otherwise, and by
+   * When true, register new schemas passed to serializeMessageData. Otherwise, and by
    * default, fail if schema has not already been registered.
    *
    * Automatic schema registration is NOT recommended for production scenarios.
@@ -43,21 +43,39 @@ export interface AvroEncoderOptions<MessageT> {
   autoRegisterSchemas?: boolean;
   /**
    * The group name to be used when registering/looking up a schema. Must be specified
-   * if `encodeMessageData` will be called.
+   * if `serializeMessageData` will be called.
    */
   groupName?: string;
   /**
-   * Message Adapter enables the encoder to produce and consume custom messages.
+   * Message Adapter enables the serializer to produce and consume custom messages.
    */
   messageAdapter?: MessageAdapter<MessageT>;
 }
 
 /**
- * The options to the decodeMessageData method.
+ * The options to the deserializeMessageData method.
  */
-export interface DecodeMessageDataOptions {
+export interface DeserializeMessageDataOptions {
   /**
-   * The schema to be used for decoding.
+   * The schema to be used for deserializing.
    */
   schema?: string;
+}
+
+/**
+ * A custom error type for failed Avro serialization/deserialization.
+ */
+export class AvroSerializationError extends Error {
+  /**
+   * The inner error that was thrown by the Avro implementation library.
+   */
+  public innerError?: unknown;
+
+  constructor(message: string, innerError?: unknown) {
+    super(message);
+    this.innerError = innerError;
+    this.name = "AvroSerializationError";
+
+    Object.setPrototypeOf(this, AvroSerializationError.prototype);
+  }
 }

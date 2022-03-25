@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
@@ -9,9 +9,9 @@ import { RetryStrategy } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogger } from "@azure/logger";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
-const DEFAULT_MAX_RETRIES = 10;
 
 /**
  * The programmatic identifier of the retryPolicy.
@@ -23,7 +23,7 @@ const retryPolicyName = "retryPolicy";
  */
 export interface RetryPolicyOptions {
   /**
-   * Maximum number of retries. If not specified, it will limit to 10 retries.
+   * Maximum number of retries. If not specified, it will limit to 3 retries.
    */
   maxRetries?: number;
   /**
@@ -37,7 +37,7 @@ export interface RetryPolicyOptions {
  */
 export function retryPolicy(
   strategies: RetryStrategy[],
-  options: RetryPolicyOptions = { maxRetries: DEFAULT_MAX_RETRIES }
+  options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT }
 ): PipelinePolicy {
   const logger = options.logger || retryPolicyLogger;
   return {
@@ -59,10 +59,15 @@ export function retryPolicy(
           logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
         } catch (e) {
           logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
+
+          // RestErrors are valid targets for the retry strategies.
+          // If none of the retry strategies can work with them, they will be thrown later in this policy.
+          // If the received error is not a RestError, it is immediately thrown.
           responseError = e as RestError;
           if (!e || responseError.name !== "RestError") {
             throw e;
           }
+
           response = responseError.response;
         }
 
@@ -72,14 +77,17 @@ export function retryPolicy(
           throw abortError;
         }
 
-        if (retryCount >= (options.maxRetries ?? DEFAULT_MAX_RETRIES)) {
+        if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
           logger.info(
             `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
           );
-          if (response !== undefined) {
+          if (responseError) {
+            throw responseError;
+          } else if (response) {
             return response;
+          } else {
+            throw new Error("Maximum retries reached with no response or error to throw");
           }
-          throw responseError;
         }
 
         logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);
@@ -109,11 +117,11 @@ export function retryPolicy(
             throw errorToThrow;
           }
 
-          if (retryAfterInMs) {
+          if (retryAfterInMs || retryAfterInMs === 0) {
             strategyLogger.info(
               `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
             );
-            await delay(retryAfterInMs);
+            await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
             continue retryRequest;
           }
 
@@ -126,8 +134,16 @@ export function retryPolicy(
           }
         }
 
+        if (responseError) {
+          logger.info(
+            `None of the retry strategies could work with the received error. Throwing it.`
+          );
+          throw responseError;
+        }
         if (response) {
-          logger.info(`Returning the last received response.`);
+          logger.info(
+            `None of the retry strategies could work with the received response. Returning it.`
+          );
           return response;
         }
 

@@ -858,10 +858,58 @@
         {
           "label": "Communication",
           "pathFilter": [
-            "sdk/communication/communication-identity/"
+            "sdk/communication/"
           ],
           "exclude": [
             ""
+          ]
+        },
+        {
+          "label": "Communication - Chat",
+          "pathFilter": [
+            "/sdk/communication/communication-chat/"
+          ]
+        },
+        {
+          "label": "Communication - Common",
+          "pathFilter": [
+            "/sdk/communication/communication-common/"
+          ]
+        },
+        {
+          "label": "Communication - Identity",
+          "pathFilter": [
+            "/sdk/communication/communication-identity/"
+          ]
+        },
+        {
+          "label": "Communication - Network Traversal",
+          "pathFilter": [
+            "/sdk/communication/communication-network-traversal/"
+          ]
+        },
+        {
+          "label": "Communication - Phone Numbers",
+          "pathFilter": [
+            "/sdk/communication/communication-phone-numbers/"
+          ]
+        },
+        {
+          "label": "Communication - Short Codes",
+          "pathFilter": [
+            "/sdk/communication/communication-short-codes/"
+          ]
+        },
+        {
+          "label": "Communication - SMS",
+          "pathFilter": [
+            "/sdk/communication/communication-sms/"
+          ]
+        },
+        {
+          "label": "Communication - Resource Manager",
+          "pathFilter": [
+            "/sdk/communication/arm-communication/"
           ]
         },
         {
@@ -3676,7 +3724,8 @@
             "Event Hubs"
           ],
           "mentionees": [
-            "kasun04"
+            "kasun04",
+            "saglodha"
           ]
         },
         {
@@ -4256,7 +4305,7 @@
             "Service Bus"
           ],
           "mentionees": [
-            "jfggdl",
+            "saglodha",
             "EldertGrootenboer"
           ]
         },

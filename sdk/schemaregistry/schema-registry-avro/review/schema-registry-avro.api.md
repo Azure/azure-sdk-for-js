@@ -7,21 +7,27 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export class AvroEncoder<MessageT = MessageWithMetadata> {
-    constructor(client: SchemaRegistry, options?: AvroEncoderOptions<MessageT>);
-    decodeMessageData(message: MessageT, options?: DecodeMessageDataOptions): Promise<unknown>;
-    encodeMessageData(value: unknown, schema: string): Promise<MessageT>;
+export class AvroSerializationError extends Error {
+    constructor(message: string, innerError?: unknown);
+    innerError?: unknown;
 }
 
 // @public
-export interface AvroEncoderOptions<MessageT> {
+export class AvroSerializer<MessageT = MessageWithMetadata> {
+    constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
+    deserializeMessageData(message: MessageT, options?: DeserializeMessageDataOptions): Promise<unknown>;
+    serializeMessageData(value: unknown, schema: string): Promise<MessageT>;
+}
+
+// @public
+export interface AvroSerializerOptions<MessageT> {
     autoRegisterSchemas?: boolean;
     groupName?: string;
     messageAdapter?: MessageAdapter<MessageT>;
 }
 
 // @public
-export interface DecodeMessageDataOptions {
+export interface DeserializeMessageDataOptions {
     schema?: string;
 }
 
