@@ -12,18 +12,17 @@ urlFragment: keyvault-certificates-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Certificates in some common scenarios.
 
-| **File Name**                                   | **Description**                                                                                                            |
-| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [backupAndRestore.ts][backupandrestore]         | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
-| [contacts.ts][contacts]                         | Creates, updates, and deletes certificate contacts.                                                                        |
-| [deleteAndRecover.ts][deleteandrecover]         | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
-| [helloWorld.ts][helloworld]                     | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
-| [importCertificate.ts][importcertificate]       | Imports a PFX and PEM certificate and then deletes them.                                                                   |
-| [issuers.ts][issuers]                           | Creates, updates and deletes certificate issuers.                                                                          |
-| [listCertificates.ts][listcertificates]         | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
-| [mergeCertificate.ts][mergecertificate]         | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
-| [operations.ts][operations]                     | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
-| [purgeAllCertificates.ts][purgeallcertificates] | Purges all deleted certificates from a Key Vault.                                                                          |
+| **File Name**                             | **Description**                                                                                                            |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [backupAndRestore.ts][backupandrestore]   | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
+| [contacts.ts][contacts]                   | Creates, updates, and deletes certificate contacts.                                                                        |
+| [deleteAndRecover.ts][deleteandrecover]   | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
+| [helloWorld.ts][helloworld]               | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
+| [importCertificate.ts][importcertificate] | Imports a PFX and PEM certificate and then deletes them.                                                                   |
+| [issuers.ts][issuers]                     | Creates, updates and deletes certificate issuers.                                                                          |
+| [listCertificates.ts][listcertificates]   | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
+| [mergeCertificate.ts][mergecertificate]   | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
+| [operations.ts][operations]               | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
 
 ## Prerequisites
 
@@ -92,7 +91,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/listCertificates.ts
 [mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/mergeCertificate.ts
 [operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/operations.ts
-[purgeallcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/typescript/src/purgeAllCertificates.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
