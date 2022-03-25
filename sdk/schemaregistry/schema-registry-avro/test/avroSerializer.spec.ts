@@ -8,8 +8,10 @@ import {
 } from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
 import { testAvroType, testGroup, testSchema, testValue } from "./utils/dummies";
+import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
+import { isLive } from "./utils/isLive";
 
 chaiUse(chaiPromises);
 
@@ -139,7 +141,14 @@ describe("AvroSerializer", function () {
     );
   });
 
-  it("cache size growth is bounded", async () => {
+  it("cache size growth is bounded", async function (this: Context) {
+    /**
+     * This test is very expensive to run in live because it registers too many
+     * schemas but the standard-tier resource allows for up to 25 schemas only
+     */
+    if (isLive) {
+      this.skip();
+    }
     function makeRndStr(length: number): string {
       let result = "";
       const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -155,7 +164,7 @@ describe("AvroSerializer", function () {
      * The standard tier resource supports registering up to 25 schemas per a schema group.
      */
     const maxSchemaCount = 25;
-    const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2 - 5);
+    const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2);
     (serializer["cacheById"] as any).max = maxCacheEntriesCount;
     (serializer["cacheBySchemaDefinition"] as any).max = maxCacheEntriesCount;
     const itersCount = 2 * maxCacheEntriesCount;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
 import { AvroSerializationError } from "../../src/models";
+import { assert } from "@azure/test-utils";
 
 export async function assertSerializationError<T>(
   p: Promise<T>,

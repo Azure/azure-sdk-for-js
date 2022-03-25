@@ -64,6 +64,10 @@ function createMockedTestRegistry(): SchemaRegistry {
   ): Promise<SchemaProperties> {
     let result = mapByContent.get(schema.definition);
     if (!result) {
+      const format = schema.format.toLowerCase();
+      if (format !== "avro") {
+        throw new Error(`Invalid schema type for PUT request. '${format}' is not supported`);
+      }
       result = {
         definition: schema.definition,
         properties: {

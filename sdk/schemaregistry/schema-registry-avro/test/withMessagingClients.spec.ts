@@ -19,13 +19,13 @@ import { AvroSerializer } from "../src/avroSerializer";
 import { MessageAdapter } from "../src/models";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
+import { assertSerializationError } from "./utils/assertSerializationError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
-import { assertSerializationError } from "./utils/assertSerializationError";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -120,8 +120,13 @@ describe("With messaging clients", function () {
           eventCount = alreadyEnqueued ? 4 : 1,
         } = settings;
         if (!alreadyEnqueued) {
-          const message = await serializer.serializeMessageData(value, writerSchema);
-          await client.send(message);
+          try {
+            const message = await serializer.serializeMessageData(value, writerSchema);
+            await client.send(message);
+          } catch (e) {
+            await client.cleanup();
+            throw e;
+          }
         }
         const errors: {
           error: Error;
