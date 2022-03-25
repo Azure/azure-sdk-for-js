@@ -863,7 +863,13 @@
           "exclude": [
             ""
           ]
-        },        
+        },
+        {
+          "label": "Communication - Chat",
+          "pathFilter": [
+            "/sdk/communication/communication-chat/"
+          ]
+        },
         {
           "label": "Communication - Common",
           "pathFilter": [
