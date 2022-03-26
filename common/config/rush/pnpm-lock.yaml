@@ -15735,7 +15735,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-XBU1oX83XzOy7sdbZ6U+HeeQ3saLOCMy5HWhlPfmdd0ltqILiNhL7gosanb4aB4T17CGapH3Y0KACYU4dJOx9A==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-1E/qoYAKZ6WWY2SRWxVxAPGgC2mgtjY0pTO+B+6fMeH6lZUmGW15OMft8rSVKOgHfjUMR91C7uabYHgDdqHlyA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
