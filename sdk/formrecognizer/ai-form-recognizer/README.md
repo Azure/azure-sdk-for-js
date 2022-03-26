@@ -408,7 +408,7 @@ async function main() {
 
   // The PrebuiltModels.Receipt `DocumentModel` encodes both the model ID and a stronger return type for the operation
   const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, readStream, {
-    onProgress: ({status}}) => {
+    onProgress: ({status}) => {
       console.log(`status: ${status}`);
     }
   });
