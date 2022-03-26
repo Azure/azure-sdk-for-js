@@ -13,7 +13,8 @@
 
 ### Other Changes
 
-- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0)
+- Updated `@opentelemetry/*` dependencies to the latest versions.
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
 
 ## 1.0.0-beta.1 (2022-02-08)
 
