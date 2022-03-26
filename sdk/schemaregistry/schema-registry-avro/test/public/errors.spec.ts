@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
-import { AvroSerializer } from "../../src/avroSerializer";
+import { AvroSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
-import { assertSerializationError } from "../utils/assertSerializationError";
+import { assertSerializationError } from "./utils/assertSerializationError";
 import chaiPromises from "chai-as-promised";
-import { createTestRegistry } from "../utils/mockedRegistryClient";
-import { createTestSerializer } from "../utils/mockedSerializer";
-import { isLive } from "../utils/isLive";
-import { testGroup } from "../utils/dummies";
+import { createTestRegistry } from "./utils/mockedRegistryClient";
+import { createTestSerializer } from "./utils/mockedSerializer";
+import { isLive } from "./utils/isLive";
+import { testGroup } from "./utils/dummies";
 import { v4 as uuid } from "uuid";
 
 chaiUse(chaiPromises);

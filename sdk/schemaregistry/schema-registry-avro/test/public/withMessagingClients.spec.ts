@@ -14,18 +14,17 @@
  *    to read from corresponding event hubs
  */
 
+import { AvroSerializer, MessageAdapter } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { AvroSerializer } from "../../src/avroSerializer";
-import { MessageAdapter } from "../../src/models";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
-import { assertSerializationError } from "../utils/assertSerializationError";
+import { assertSerializationError } from "./utils/assertSerializationError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
-import { createTestSerializer } from "../utils/mockedSerializer";
-import { env } from "../utils/env";
+import { createTestSerializer } from "./utils/mockedSerializer";
+import { env } from "./utils/env";
 import { matrix } from "@azure/test-utils";
-import { testGroup } from "../utils/dummies";
+import { testGroup } from "./utils/dummies";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { MessagingTestClient } from "./models";
-import { isLive } from "../../utils/isLive";
+import { isLive } from "./../utils/isLive";
 
 /**
  * Returns a mocked messaging client that can work in both live and playback modes.

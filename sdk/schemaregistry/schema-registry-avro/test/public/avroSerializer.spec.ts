@@ -5,13 +5,13 @@ import {
   CreateTestSerializerOptions,
   createTestSerializer,
   registerTestSchema,
-} from "../utils/mockedSerializer";
+} from "./utils/mockedSerializer";
 import { assert, use as chaiUse } from "chai";
-import { testAvroType, testGroup, testSchema, testValue } from "../utils/dummies";
+import { testAvroType, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
-import { createTestRegistry } from "../utils/mockedRegistryClient";
-import { isLive } from "../utils/isLive";
+import { createTestRegistry } from "./utils/mockedRegistryClient";
+import { isLive } from "./utils/isLive";
 
 chaiUse(chaiPromises);
 
