@@ -1,51 +1,51 @@
 let nock = require('nock');
 
-module.exports.hash = "0a9248d8e4f22c09ece69db40608873c";
+module.exports.hash = "0c4c4a853dc5a67bccc786c52a88279e";
 
-module.exports.testInfo = {"uniqueName":{"share":"share164847142444103758","dir":"dir164847142593505796","file":"file164847142622306616","destfile":"destfile164847142622402231","sourcefile":"sourcefile164847142647600624"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"share":"share164847196832304856","dir":"dir164847197010601340","file":"file164847197041603847","destfile":"destfile164847197042006954","sourcefile":"sourcefile164847197042001221"},"newDate":{}}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share164847142444103758')
+  .put('/share164847196832304856')
   .query(true)
   .reply(201, "", [
   'Transfer-Encoding',
   'chunked',
   'Last-Modified',
-  'Mon, 28 Mar 2022 12:43:46 GMT',
+  'Mon, 28 Mar 2022 12:52:50 GMT',
   'ETag',
-  '"0x8DA10B899682081"',
+  '"0x8DA10B9DDC2BDEF"',
   'x-ms-request-id',
-  '540255d9-701a-0008-25a1-42c247000000',
+  '30e30984-e01a-0007-6da2-42fda4000000',
   'x-ms-client-request-id',
-  '290b5430-0f39-42b6-9d39-eab8d07cf149',
+  'd55ea458-0bc1-4470-ada2-f81024481088',
   'x-ms-version',
   '2021-06-08',
   'Date',
-  'Mon, 28 Mar 2022 12:43:46 GMT'
+  'Mon, 28 Mar 2022 12:52:50 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share164847142444103758/dir164847142593505796')
+  .put('/share164847196832304856/dir164847197010601340')
   .query(true)
   .reply(201, "", [
   'Transfer-Encoding',
   'chunked',
   'Last-Modified',
-  'Mon, 28 Mar 2022 12:43:46 GMT',
+  'Mon, 28 Mar 2022 12:52:50 GMT',
   'ETag',
-  '"0x8DA10B8999B3234"',
+  '"0x8DA10B9DDF7A14C"',
   'x-ms-request-id',
-  '540255dc-701a-0008-26a1-42c247000000',
+  '30e30987-e01a-0007-6ea2-42fda4000000',
   'x-ms-client-request-id',
-  '562a1014-35ea-400c-9512-74466f8b1f4b',
+  'b0d0b3e5-40c7-428c-b33b-68c20b3234dd',
   'x-ms-version',
   '2021-06-08',
   'x-ms-file-change-time',
-  '2022-03-28T12:43:46.3458356Z',
+  '2022-03-28T12:52:50.5334092Z',
   'x-ms-file-last-write-time',
-  '2022-03-28T12:43:46.3458356Z',
+  '2022-03-28T12:52:50.5334092Z',
   'x-ms-file-creation-time',
-  '2022-03-28T12:43:46.3458356Z',
+  '2022-03-28T12:52:50.5334092Z',
   'x-ms-file-permission-key',
   '1690096059463891404*11228742651815927693',
   'x-ms-file-attributes',
@@ -57,48 +57,30 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Mon, 28 Mar 2022 12:43:46 GMT'
+  'Mon, 28 Mar 2022 12:52:50 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share164847142444103758', {"permission":"O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)"})
-  .query(true)
-  .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
-  'x-ms-request-id',
-  '540255de-701a-0008-27a1-42c247000000',
-  'x-ms-client-request-id',
-  '0f79d4b4-d5a7-4898-9c28-29c2ea633cbc',
-  'x-ms-version',
-  '2021-06-08',
-  'x-ms-file-permission-key',
-  '4328888732566833788*11228742651815927693',
-  'Date',
-  'Mon, 28 Mar 2022 12:43:46 GMT'
-]);
-
-nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share164847142444103758/sourcefile164847142647600624')
+  .put('/share164847196832304856/sourcefile164847197042001221')
   .reply(201, "", [
   'Transfer-Encoding',
   'chunked',
   'Last-Modified',
-  'Mon, 28 Mar 2022 12:43:46 GMT',
+  'Mon, 28 Mar 2022 12:52:50 GMT',
   'ETag',
-  '"0x8DA10B899E9C7D3"',
+  '"0x8DA10B9DE20D45A"',
   'x-ms-request-id',
-  '540255df-701a-0008-28a1-42c247000000',
+  '30e30989-e01a-0007-6fa2-42fda4000000',
   'x-ms-client-request-id',
-  '4de97c59-fd5d-46ad-8af4-b3eaccc13be1',
+  '4bfae4a2-8245-41da-a91b-4f8a8c3e7f48',
   'x-ms-version',
   '2021-06-08',
   'x-ms-file-change-time',
-  '2022-03-28T12:43:46.8608467Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-last-write-time',
-  '2022-03-28T12:43:46.8608467Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-creation-time',
-  '2022-03-28T12:43:46.8608467Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-permission-key',
   '8782974441151326443*11228742651815927693',
   'x-ms-file-attributes',
@@ -110,35 +92,35 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Mon, 28 Mar 2022 12:43:46 GMT'
+  'Mon, 28 Mar 2022 12:52:50 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share164847142444103758/destfile164847142622402231')
+  .put('/share164847196832304856/destfile164847197042006954')
   .query(true)
   .reply(200, "", [
   'Transfer-Encoding',
   'chunked',
   'Last-Modified',
-  'Mon, 28 Mar 2022 12:43:47 GMT',
+  'Mon, 28 Mar 2022 12:52:51 GMT',
   'ETag',
-  '"0x8DA10B89A119B42"',
+  '"0x8DA10B9DE50E567"',
   'x-ms-request-id',
-  '540255e0-701a-0008-29a1-42c247000000',
+  '30e3098a-e01a-0007-70a2-42fda4000000',
   'x-ms-client-request-id',
-  '55c84dde-46b7-46f3-8b50-2f1f6886babc',
+  '6d65a8a7-6041-4c59-9e88-cbd83cc3edaf',
   'x-ms-version',
   '2021-06-08',
   'x-ms-file-change-time',
-  '2019-10-25T14:48:00.0000000Z',
+  '2022-03-28T12:52:51.1184231Z',
   'x-ms-file-last-write-time',
-  '2019-10-15T14:48:00.0000000Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-creation-time',
-  '2019-10-05T14:48:00.0000000Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-permission-key',
-  '4328888732566833788*11228742651815927693',
+  '8782974441151326443*11228742651815927693',
   'x-ms-file-attributes',
-  'ReadOnly | Hidden',
+  'Archive',
   'x-ms-file-id',
   '11529285414812647424',
   'x-ms-file-parent-id',
@@ -146,24 +128,24 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Mon, 28 Mar 2022 12:43:47 GMT'
+  'Mon, 28 Mar 2022 12:52:50 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/share164847142444103758/destfile164847142622402231')
+  .head('/share164847196832304856/destfile164847197042006954')
   .reply(200, "", [
   'Content-Length',
   '2048',
   'Content-Type',
-  'application/octet-stream',
+  'contenttype/subtype',
   'Last-Modified',
-  'Mon, 28 Mar 2022 12:43:47 GMT',
+  'Mon, 28 Mar 2022 12:52:51 GMT',
   'ETag',
-  '"0x8DA10B89A119B42"',
+  '"0x8DA10B9DE50E567"',
   'x-ms-request-id',
-  '540255e1-701a-0008-2aa1-42c247000000',
+  '30e3098b-e01a-0007-71a2-42fda4000000',
   'x-ms-client-request-id',
-  '790f5f7e-07e2-4066-bd41-96d0cad3ea02',
+  '358a94ce-28d4-44cf-91e0-35e1b976bd50',
   'x-ms-version',
   '2021-06-08',
   'x-ms-type',
@@ -175,15 +157,15 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'x-ms-lease-state',
   'available',
   'x-ms-file-change-time',
-  '2019-10-25T14:48:00.0000000Z',
+  '2022-03-28T12:52:51.1184231Z',
   'x-ms-file-last-write-time',
-  '2019-10-15T14:48:00.0000000Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-creation-time',
-  '2019-10-05T14:48:00.0000000Z',
+  '2022-03-28T12:52:50.8034138Z',
   'x-ms-file-permission-key',
-  '4328888732566833788*11228742651815927693',
+  '8782974441151326443*11228742651815927693',
   'x-ms-file-attributes',
-  'ReadOnly | Hidden',
+  'Archive',
   'x-ms-file-id',
   '11529285414812647424',
   'x-ms-file-parent-id',
@@ -193,18 +175,18 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Mon, 28 Mar 2022 12:43:47 GMT'
+  'Mon, 28 Mar 2022 12:52:51 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/share164847142444103758/sourcefile164847142647600624')
+  .head('/share164847196832304856/sourcefile164847197042001221')
   .reply(404, "", [
   'Transfer-Encoding',
   'chunked',
   'x-ms-request-id',
-  '540255e2-701a-0008-2ba1-42c247000000',
+  '30e3098c-e01a-0007-72a2-42fda4000000',
   'x-ms-client-request-id',
-  '063f5365-c257-484f-ada0-49a4c392d9cf',
+  'f82f72a0-92d1-48eb-9167-f958ee72ae5a',
   'x-ms-version',
   '2021-06-08',
   'x-ms-error-code',
@@ -214,21 +196,21 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Mon, 28 Mar 2022 12:43:47 GMT'
+  'Mon, 28 Mar 2022 12:52:51 GMT'
 ]);
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share164847142444103758')
+  .delete('/share164847196832304856')
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'x-ms-request-id',
-  '540255e3-701a-0008-2ca1-42c247000000',
+  '30e3098d-e01a-0007-73a2-42fda4000000',
   'x-ms-client-request-id',
-  '0f1b2c4d-967a-4bc9-a21c-cd56c6b2b280',
+  'bb3fdbd6-bbdd-4bb4-ad0f-9b2f50f2fffb',
   'x-ms-version',
   '2021-06-08',
   'Date',
-  'Mon, 28 Mar 2022 12:43:47 GMT'
+  'Mon, 28 Mar 2022 12:52:51 GMT'
 ]);
