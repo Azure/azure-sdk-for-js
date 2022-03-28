@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
-  bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { Descriptor, GeneratedClient } from "../generated";
@@ -13,18 +13,18 @@ import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTok
 import { logger } from "../logger";
 import { calculateDigest } from "../utils/digest";
 import {
-  UploadManifestOptions,
-  OciManifest,
-  UploadBlobResult,
-  DownloadManifestResult,
   DeleteBlobOptions,
-  DownloadManifestOptions,
   DeleteManifestOptions,
   DownloadBlobOptions,
   DownloadBlobResult,
-  UploadManifestResult,
+  DownloadManifestOptions,
+  DownloadManifestResult,
   OciAnnotations,
   OciBlobDescriptor,
+  OciManifest,
+  UploadBlobResult,
+  UploadManifestOptions,
+  UploadManifestResult,
 } from "./models";
 import { OCIManifest as GeneratedOciManifest } from "../generated/models";
 import { FullOperationResponse } from "@azure/core-client";
@@ -34,7 +34,7 @@ import { Readable } from "stream";
 const LATEST_API_VERSION = "2021-07-01";
 
 enum KnownManifestMediaType {
-  OciManifest = "application/vnd.oci.image.manifest.v1+json",
+  OciManifestMediaType = "application/vnd.oci.image.manifest.v1+json",
 }
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
@@ -291,7 +291,7 @@ export class ContainerRegistryBlobClient {
       this.repositoryName,
       tagOrDigest,
       manifestBody,
-      { contentType: KnownManifestMediaType.OciManifest, ...options }
+      { contentType: KnownManifestMediaType.OciManifestMediaType, ...options }
     );
 
     if (!dockerContentDigest) {
@@ -313,7 +313,7 @@ export class ContainerRegistryBlobClient {
   ): Promise<DownloadManifestResult> {
     const rawResponse = await new Promise<FullOperationResponse>((resolve) =>
       this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-        accept: KnownManifestMediaType.OciManifest,
+        accept: KnownManifestMediaType.OciManifestMediaType,
         ...options,
         onResponse: (rawResponseProvided, flatResponse, error) => {
           options?.onResponse?.(rawResponseProvided, flatResponse, error);

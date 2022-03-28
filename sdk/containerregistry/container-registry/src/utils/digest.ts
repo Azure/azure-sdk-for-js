@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import crypto from "crypto";
 
 export function calculateDigest(buffer: Buffer): Promise<string>;

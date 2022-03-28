@@ -1,4 +1,7 @@
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { ContainerRegistryBlobClient, OciManifest } from "@azure/container-registry";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
