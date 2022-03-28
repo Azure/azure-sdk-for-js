@@ -234,7 +234,7 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 export interface OciAnnotations {
     [additionalProperties: string]: unknown;
     authors?: string;
-    createdAt?: Date;
+    createdOn?: Date;
     description?: string;
     documentation?: string;
     licenses?: string;

@@ -42,7 +42,7 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 }
 
 const annotationMappings = {
-  createdAt: "org.opencontainers.image.created",
+  createdOn: "org.opencontainers.image.created",
   authors: "org.opencontainers.image.authors",
   url: "org.opencontainers.image.url",
   documentation: "org.opencontainers.image.documentation",

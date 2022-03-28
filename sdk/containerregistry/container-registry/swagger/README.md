@@ -164,7 +164,7 @@ directive:
     delete $["x-accessibility"]
 ```
 
-# Rename created to createdAt in OciAnnotations
+# Rename created to createdOn in OciAnnotations
 
 to make our naming consistent
 
@@ -177,6 +177,6 @@ directive:
       "description": "Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6)",
       "type": "string",
       "format": "date-time",
-      "x-ms-client-name": "CreatedAt"
+      "x-ms-client-name": "CreatedOn"
     }
 ```

@@ -97,7 +97,7 @@ export interface OciManifest {
 /** Additional information provided through arbitrary metadata */
 export interface OciAnnotations {
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  createdAt?: Date;
+  createdOn?: Date;
   /** Contact details of the people or organization responsible for the image. */
   authors?: string;
   /** URL to find more information on the image. */

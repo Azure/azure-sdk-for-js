@@ -71,7 +71,7 @@ export interface Annotations {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  createdAt?: Date;
+  createdOn?: Date;
   /** Contact details of the people or organization responsible for the image. */
   authors?: string;
   /** URL to find more information on the image. */
