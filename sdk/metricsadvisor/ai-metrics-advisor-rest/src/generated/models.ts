@@ -38,8 +38,11 @@ export interface MetricAlertingConfiguration {
   /** Negation operation */
   negationOperation?: boolean;
   dimensionAnomalyScope?: DimensionGroupIdentity;
+  /** Group Scope for Top N values */
   topNAnomalyScope?: TopNGroupScope;
+  /** Alert Severity Condition */
   severityFilter?: SeverityCondition;
+  /** Represents Conditions to snooze Alerts */
   snoozeFilter?: AlertSnoozeCondition;
   valueFilter?: ValueCondition;
 }
@@ -169,6 +172,7 @@ export interface WholeMetricConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: "AND" | "OR";
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -179,6 +183,7 @@ export interface SmartDetectionCondition {
   sensitivity: number;
   /** detection direction */
   anomalyDetectorDirection: "Both" | "Down" | "Up";
+  /** Represents Suppress Condition */
   suppressCondition: SuppressCondition;
 }
 
@@ -204,6 +209,7 @@ export interface HardThresholdCondition {
   upperBound?: number;
   /** detection direction */
   anomalyDetectorDirection: "Both" | "Down" | "Up";
+  /** Represents Suppress Condition */
   suppressCondition: SuppressCondition;
 }
 
@@ -219,6 +225,7 @@ export interface ChangeThresholdCondition {
   withinRange: boolean;
   /** detection direction */
   anomalyDetectorDirection: "Both" | "Down" | "Up";
+  /** Represents Suppress Condition */
   suppressCondition: SuppressCondition;
 }
 
@@ -230,6 +237,7 @@ export interface DimensionGroupConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: "AND" | "OR";
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -243,6 +251,7 @@ export interface SeriesConfiguration {
    * should be specified when combining multiple detection conditions
    */
   conditionOperator?: "AND" | "OR";
+  /** Represents Smart Condition */
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -340,6 +349,7 @@ export interface DetectionAnomalyResultQuery {
 export interface DetectionAnomalyFilterCondition {
   /** dimension filter */
   dimensionFilter?: Array<DimensionGroupIdentity>;
+  /** Represents Conditions to filter severity */
   severityFilter?: SeverityFilterCondition;
 }
 
@@ -1226,6 +1236,7 @@ export interface EmailHookParameter {
 }
 
 export interface EmailHookInfo extends HookInfoBase {
+  /** Parameters for Email Hook */
   hookParameter: EmailHookParameter;
   hookType: "Email";
 }

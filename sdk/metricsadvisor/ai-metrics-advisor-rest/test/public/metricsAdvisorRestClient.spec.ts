@@ -8,14 +8,14 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
-import { MetricsAdvisorClient } from "../../src/metricsAdvisorClient";
+import { GeneratedClientLike } from "../../src/generated";
 import { paginatePost } from "../../src/paginateHelper";
 import { createRecorder, createClient } from "./util/recordedClient";
 
 
 describe("MetricsAdvisorRestClient", () => {
   let recorder: Recorder;
-  let client: MetricsAdvisorClient;
+  let client: GeneratedClientLike;
 
   beforeEach(async function () {
     recorder = createRecorder(this);
@@ -49,7 +49,7 @@ describe("MetricsAdvisorRestClient", () => {
       }
     });
     // console.log("init resp:", response);
-    const iter = paginatePost(client.client, response);
+    const iter = paginatePost(client, response);
     let result = getYieldedValue(await iter.next());
     // console.log("1", result)
     // assert.ok(result, "Expecting first data feed");

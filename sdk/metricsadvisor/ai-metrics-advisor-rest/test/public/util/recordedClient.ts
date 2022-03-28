@@ -20,7 +20,8 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { createXhrHttpClient } from "@azure/test-utils";
 import { MetricsAdvisorKeyCredential } from "../../../src/metricsAdvisorKeyCredentialPolicy";
-import { MetricsAdvisorClient } from "../../../src/metricsAdvisorClient";
+import { createClient as createMetricsAdvisorClient } from "../../../src/credentialHelper";
+import { GeneratedClientLike } from "../../../src/generated";
 
 const blobConnectionString = "blob_connection_string";
 const blobTemplate = "blob_template";
@@ -81,9 +82,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(useAad: boolean, options?: ClientOptions): MetricsAdvisorClient {
+export function createClient(useAad: boolean, options?: ClientOptions): GeneratedClientLike {
   const credential = makeCredential(useAad);
-  return new MetricsAdvisorClient(env.METRICS_ADVISOR_ENDPOINT, credential, { ...options, httpClient });
+  return createMetricsAdvisorClient(env.METRICS_ADVISOR_ENDPOINT, credential, { ...options, httpClient });
 }
 
 /**
