@@ -14,6 +14,7 @@ import {
   FullOperationResponse,
   RawResponseCallback,
 } from "@azure/core-client";
+import { toWebResourceLike, toHttpHeaderLike } from "./util";
 
 /**
  * Options specific to Shim Clients.
@@ -71,7 +72,6 @@ export class ExtendedServiceClient extends ServiceClient {
     const userProvidedCallBack: RawResponseCallback | undefined =
       operationArguments?.options?.onResponse;
 
-    if (!operationArguments.options) operationArguments.options = {};
     let lastResponse: FullOperationResponse | undefined;
 
     function onResponse(
@@ -85,11 +85,22 @@ export class ExtendedServiceClient extends ServiceClient {
       }
     }
 
-    operationArguments.options.onResponse = onResponse;
+    operationArguments.options = {
+      ...operationArguments.options,
+      onResponse,
+    };
+
     const result: T = await super.sendOperationRequest(operationArguments, operationSpec);
-    Object.defineProperty(result, "_response", {
-      value: lastResponse,
-    });
+
+    if (lastResponse) {
+      Object.defineProperty(result, "_response", {
+        value: {
+          ...lastResponse,
+          request: toWebResourceLike(lastResponse.request),
+          headers: toHttpHeaderLike(lastResponse.headers),
+        },
+      });
+    }
 
     return result;
   }

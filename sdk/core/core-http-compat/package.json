@@ -55,7 +55,8 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-rest-pipeline": "^1.3.0",
-    "@azure/core-client": "^1.3.0"
+    "@azure/core-client": "^1.3.0",
+    "@azure/abort-controller": "^1.0.4"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
