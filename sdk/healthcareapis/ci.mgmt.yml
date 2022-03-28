@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/healthcareapis/ci.mgmt.yml
       - sdk/healthcareapis/arm-healthcareapis/
+      - sdk/healthcareapis/arm-healthcareapis
 pr:
   branches:
     include:
@@ -23,11 +24,11 @@ pr:
     include:
       - sdk/healthcareapis/ci.mgmt.yml
       - sdk/healthcareapis/arm-healthcareapis/
-
+      - sdk/healthcareapis/arm-healthcareapis
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: healthcareapis
     Artifacts:
       - name: azure-arm-healthcareapis
-        safeName: azurearmhealthcareapis   
+        safeName: azurearmhealthcareapis

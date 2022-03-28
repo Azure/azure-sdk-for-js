@@ -5,11 +5,13 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 // Load the .env file if it exists
 const dotenv = require("dotenv");
+
+const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
+
+const { DefaultAzureCredential } = require("@azure/identity");
+
 dotenv.config();
 
 async function main() {
@@ -25,7 +27,7 @@ async function main() {
 
   // Create unique certificate name
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `hello-world-${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
@@ -55,9 +57,9 @@ async function main() {
   const properties = {
     tags: {
       projectName: "certificate-sample",
-      projectOwner: "REPLACE-WITH-YOUR-NAME"
+      projectOwner: "REPLACE-WITH-YOUR-NAME",
     },
-    enabled: true
+    enabled: true,
   };
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
@@ -71,7 +73,7 @@ async function main() {
     issuerName: "Self",
     subject: "cn=MyOtherCert",
     exportable: true,
-    enabled: true
+    enabled: true,
   };
   await client.updateCertificatePolicy(certificateName, policy);
 
@@ -91,3 +93,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };
