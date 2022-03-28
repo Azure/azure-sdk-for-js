@@ -25,12 +25,6 @@ export interface Arp {
 
 // @public
 export type AttachedDataNetwork = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     userPlaneDataInterface: InterfaceProperties;
     naptConfiguration?: NaptConfiguration;
@@ -104,9 +98,6 @@ export interface AttachedDataNetworksUpdateTagsOptionalParams extends coreClient
 export type AttachedDataNetworksUpdateTagsResponse = AttachedDataNetwork;
 
 // @public
-export type ConfigurationState = string;
-
-// @public
 export type CoreNetworkType = string;
 
 // @public
@@ -119,12 +110,6 @@ export interface CustomLocationResourceId {
 
 // @public
 export type DataNetwork = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     description?: string;
 };
@@ -229,22 +214,15 @@ export interface ErrorResponse {
 
 // @public
 export interface InterfaceProperties {
+    ipv4Address?: string;
+    ipv4Gateway?: string;
+    ipv4Subnet?: string;
     name: string;
 }
 
 // @public
-export enum KnownConfigurationState {
-    // (undocumented)
-    Complete = "Complete",
-    // (undocumented)
-    Incomplete = "Incomplete"
-}
-
-// @public
 export enum KnownCoreNetworkType {
-    // (undocumented)
     EPC = "EPC",
-    // (undocumented)
     FiveGC = "5GC"
 }
 
@@ -262,9 +240,7 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownNaptEnabled {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -278,17 +254,13 @@ export enum KnownPduSessionType {
 
 // @public
 export enum KnownPreemptionCapability {
-    // (undocumented)
     MayPreempt = "MayPreempt",
-    // (undocumented)
     NotPreempt = "NotPreempt"
 }
 
 // @public
 export enum KnownPreemptionVulnerability {
-    // (undocumented)
     NotPreemptable = "NotPreemptable",
-    // (undocumented)
     Preemptable = "Preemptable"
 }
 
@@ -312,30 +284,26 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownSdfDirection {
-    // (undocumented)
     Bidirectional = "Bidirectional",
-    // (undocumented)
     Downlink = "Downlink",
-    // (undocumented)
     Uplink = "Uplink"
 }
 
 // @public
+export enum KnownSimState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownTrafficControlPermission {
-    // (undocumented)
     Blocked = "Blocked",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export type MobileNetwork = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     publicLandMobileNetworkIdentifier: PlmnId;
     readonly serviceKey?: string;
@@ -526,12 +494,6 @@ export type OperationsListResponse = OperationList;
 
 // @public
 export type PacketCoreControlPlane = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     mobileNetwork: MobileNetworkResourceId;
     customLocation?: CustomLocationResourceId;
@@ -617,12 +579,6 @@ export type PacketCoreControlPlanesUpdateTagsResponse = PacketCoreControlPlane;
 
 // @public
 export type PacketCoreDataPlane = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     userPlaneAccessInterface: InterfaceProperties;
 };
@@ -751,6 +707,7 @@ export interface QosPolicy {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -759,12 +716,6 @@ export type SdfDirection = string;
 
 // @public
 export type Service = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     servicePrecedence: number;
     serviceQosPolicy?: QosPolicy;
@@ -847,14 +798,8 @@ export type ServicesUpdateTagsResponse = Service;
 
 // @public
 export type Sim = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
-    readonly configurationState?: ConfigurationState;
+    readonly simState?: SimState;
     internationalMobileSubscriberIdentity: string;
     integratedCircuitCardIdentifier?: string;
     authenticationKey?: string;
@@ -933,12 +878,6 @@ export type SimPoliciesUpdateTagsResponse = SimPolicy;
 
 // @public
 export type SimPolicy = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     ueAmbr: Ambr;
     defaultSlice: SliceResourceId;
@@ -1021,6 +960,9 @@ export interface SimsListBySubscriptionOptionalParams extends coreClient.Operati
 export type SimsListBySubscriptionResponse = SimListResult;
 
 // @public
+export type SimState = string;
+
+// @public
 export interface SimStaticIpProperties {
     attachedDataNetwork?: AttachedDataNetworkResourceId;
     slice?: SliceResourceId;
@@ -1041,12 +983,6 @@ export type SimsUpdateTagsResponse = Sim;
 
 // @public
 export type Site = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     networkFunctions?: SubResource[];
 };
@@ -1113,12 +1049,6 @@ export type SitesUpdateTagsResponse = Site;
 
 // @public
 export type Slice = TrackedResource & {
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    createdAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
     readonly provisioningState?: ProvisioningState;
     snssai: Snssai;
     description?: string;
@@ -1205,6 +1135,16 @@ export interface Snssai {
 // @public
 export interface SubResource {
     id: string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
