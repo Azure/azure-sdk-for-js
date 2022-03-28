@@ -16092,6 +16092,27 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/perf-schema-registry-avro.tgz:
+    resolution: {integrity: sha512-8obR0/zpOspvvZygai4qIDVwKDBER/WTPy3Ozo4XH/dZcG/rzd/teN/s3g1rJ82OBWTOfdOqSvayfmiveJYWCQ==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    name: '@rush-temp/perf-schema-registry-avro'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@types/node': 12.20.47
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 2.5.1
+      rimraf: 3.0.2
+      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      tslib: 2.3.1
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/perf-search-documents.tgz:
     resolution: {integrity: sha512-fDGQFcgVitwZW22LuRwj1sHE0wCl34WzYcSfeZAnr+k/lf9LCZKPxmDkCejI+PV5N2MY1bnoKw873zzOma8Adw==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
