@@ -3892,9 +3892,8 @@ export const DataFlowReference: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       type: {
-        defaultValue: "DataFlowReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -3932,9 +3931,8 @@ export const ManagedVirtualNetworkReference: coreClient.CompositeMapper = {
     className: "ManagedVirtualNetworkReference",
     modelProperties: {
       type: {
-        defaultValue: "ManagedVirtualNetworkReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -3957,9 +3955,8 @@ export const CredentialReference: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       type: {
-        defaultValue: "CredentialReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -7014,9 +7011,8 @@ export const TriggerReference: coreClient.CompositeMapper = {
     className: "TriggerReference",
     modelProperties: {
       type: {
-        defaultValue: "TriggerReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -24848,6 +24844,12 @@ export const WebActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WebActivityAuthentication"
+        }
+      },
+      disableCertValidation: {
+        serializedName: "typeProperties.disableCertValidation",
+        type: {
+          name: "Boolean"
         }
       },
       datasets: {

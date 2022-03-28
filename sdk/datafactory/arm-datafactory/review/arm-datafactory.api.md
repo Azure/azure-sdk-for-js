@@ -1480,8 +1480,11 @@ export { Credential_2 as Credential }
 export interface CredentialReference {
     [property: string]: any;
     referenceName: string;
-    type: "CredentialReference";
+    type: CredentialReferenceType;
 }
+
+// @public
+export type CredentialReferenceType = string;
 
 // @public
 export type CredentialResource = SubResource & {
@@ -1788,8 +1791,11 @@ export interface DataFlowReference {
         [propertyName: string]: Record<string, unknown>;
     };
     referenceName: string;
-    type: "DataFlowReference";
+    type: DataFlowReferenceType;
 }
+
+// @public
+export type DataFlowReferenceType = string;
 
 // @public
 export type DataFlowResource = SubResource & {
@@ -4048,6 +4054,12 @@ export enum KnownCosmosDbServicePrincipalCredentialType {
 }
 
 // @public
+export enum KnownCredentialReferenceType {
+    // (undocumented)
+    CredentialReference = "CredentialReference"
+}
+
+// @public
 export enum KnownDataFlowComputeType {
     // (undocumented)
     ComputeOptimized = "ComputeOptimized",
@@ -4065,6 +4077,12 @@ export enum KnownDataFlowDebugCommandType {
     ExecutePreviewQuery = "executePreviewQuery",
     // (undocumented)
     ExecuteStatisticsQuery = "executeStatisticsQuery"
+}
+
+// @public
+export enum KnownDataFlowReferenceType {
+    // (undocumented)
+    DataFlowReference = "DataFlowReference"
 }
 
 // @public
@@ -4395,6 +4413,12 @@ export enum KnownManagedIntegrationRuntimeNodeStatus {
     Starting = "Starting",
     // (undocumented)
     Unavailable = "Unavailable"
+}
+
+// @public
+export enum KnownManagedVirtualNetworkReferenceType {
+    // (undocumented)
+    ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
 }
 
 // @public
@@ -4920,6 +4944,12 @@ export enum KnownTeradataPartitionOption {
 }
 
 // @public
+export enum KnownTriggerReferenceType {
+    // (undocumented)
+    TriggerReference = "TriggerReference"
+}
+
+// @public
 export enum KnownTriggerRunStatus {
     // (undocumented)
     Failed = "Failed",
@@ -5301,8 +5331,11 @@ export interface ManagedVirtualNetworkListResponse {
 // @public
 export interface ManagedVirtualNetworkReference {
     referenceName: string;
-    type: "ManagedVirtualNetworkReference";
+    type: ManagedVirtualNetworkReferenceType;
 }
+
+// @public
+export type ManagedVirtualNetworkReferenceType = string;
 
 // @public
 export type ManagedVirtualNetworkResource = SubResource & {
@@ -7900,8 +7933,11 @@ export interface TriggerQueryResponse {
 // @public
 export interface TriggerReference {
     referenceName: string;
-    type: "TriggerReference";
+    type: TriggerReferenceType;
 }
+
+// @public
+export type TriggerReferenceType = string;
 
 // @public
 export type TriggerResource = SubResource & {
@@ -8193,6 +8229,7 @@ export type WebActivity = ExecutionActivity & {
     headers?: Record<string, unknown>;
     body?: Record<string, unknown>;
     authentication?: WebActivityAuthentication;
+    disableCertValidation?: boolean;
     datasets?: DatasetReference[];
     linkedServices?: LinkedServiceReference[];
     connectVia?: IntegrationRuntimeReference;

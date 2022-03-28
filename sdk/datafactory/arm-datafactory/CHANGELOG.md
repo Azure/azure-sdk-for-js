@@ -1,15 +1,20 @@
 # Release History
+    
+## 10.3.0 (2022-03-28)
+    
+**Features**
 
-## 10.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias CredentialReferenceType
+  - Added Type Alias DataFlowReferenceType
+  - Added Type Alias ManagedVirtualNetworkReferenceType
+  - Added Type Alias TriggerReferenceType
+  - Type Alias WebActivity has a new parameter disableCertValidation
+  - Added Enum KnownCredentialReferenceType
+  - Added Enum KnownDataFlowReferenceType
+  - Added Enum KnownManagedVirtualNetworkReferenceType
+  - Added Enum KnownTriggerReferenceType
+    
+    
 ## 10.2.0 (2022-02-22)
     
 **Features**

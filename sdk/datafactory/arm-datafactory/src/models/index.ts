@@ -2342,7 +2342,7 @@ export interface DataFlowReference {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Data flow reference type. */
-  type: "DataFlowReference";
+  type: DataFlowReferenceType;
   /** Reference data flow name. */
   referenceName: string;
   /** Reference data flow parameters from dataset. */
@@ -2354,7 +2354,7 @@ export interface DataFlowReference {
 /** Managed Virtual Network reference type. */
 export interface ManagedVirtualNetworkReference {
   /** Managed Virtual Network reference type. */
-  type: "ManagedVirtualNetworkReference";
+  type: ManagedVirtualNetworkReferenceType;
   /** Reference ManagedVirtualNetwork name. */
   referenceName: string;
 }
@@ -2364,7 +2364,7 @@ export interface CredentialReference {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Credential reference type. */
-  type: "CredentialReference";
+  type: CredentialReferenceType;
   /** Reference credential name. */
   referenceName: string;
 }
@@ -3608,7 +3608,7 @@ export interface DependencyReference {
 /** Trigger reference type. */
 export interface TriggerReference {
   /** Trigger reference type. */
-  type: "TriggerReference";
+  type: TriggerReferenceType;
   /** Reference trigger name. */
   referenceName: string;
 }
@@ -9573,6 +9573,8 @@ export type WebActivity = ExecutionActivity & {
   body?: Record<string, unknown>;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
+  /** When set to true, Certificate validation will be disabled. */
+  disableCertValidation?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
@@ -10851,6 +10853,48 @@ export enum KnownDataFlowDebugCommandType {
  */
 export type DataFlowDebugCommandType = string;
 
+/** Known values of {@link DataFlowReferenceType} that the service accepts. */
+export enum KnownDataFlowReferenceType {
+  DataFlowReference = "DataFlowReference"
+}
+
+/**
+ * Defines values for DataFlowReferenceType. \
+ * {@link KnownDataFlowReferenceType} can be used interchangeably with DataFlowReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DataFlowReference**
+ */
+export type DataFlowReferenceType = string;
+
+/** Known values of {@link ManagedVirtualNetworkReferenceType} that the service accepts. */
+export enum KnownManagedVirtualNetworkReferenceType {
+  ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
+}
+
+/**
+ * Defines values for ManagedVirtualNetworkReferenceType. \
+ * {@link KnownManagedVirtualNetworkReferenceType} can be used interchangeably with ManagedVirtualNetworkReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ManagedVirtualNetworkReference**
+ */
+export type ManagedVirtualNetworkReferenceType = string;
+
+/** Known values of {@link CredentialReferenceType} that the service accepts. */
+export enum KnownCredentialReferenceType {
+  CredentialReference = "CredentialReference"
+}
+
+/**
+ * Defines values for CredentialReferenceType. \
+ * {@link KnownCredentialReferenceType} can be used interchangeably with CredentialReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CredentialReference**
+ */
+export type CredentialReferenceType = string;
+
 /** Known values of {@link DataFlowComputeType} that the service accepts. */
 export enum KnownDataFlowComputeType {
   General = "General",
@@ -11904,6 +11948,20 @@ export enum KnownTumblingWindowFrequency {
  * **Month**
  */
 export type TumblingWindowFrequency = string;
+
+/** Known values of {@link TriggerReferenceType} that the service accepts. */
+export enum KnownTriggerReferenceType {
+  TriggerReference = "TriggerReference"
+}
+
+/**
+ * Defines values for TriggerReferenceType. \
+ * {@link KnownTriggerReferenceType} can be used interchangeably with TriggerReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TriggerReference**
+ */
+export type TriggerReferenceType = string;
 
 /** Known values of {@link JsonFormatFilePattern} that the service accepts. */
 export enum KnownJsonFormatFilePattern {
