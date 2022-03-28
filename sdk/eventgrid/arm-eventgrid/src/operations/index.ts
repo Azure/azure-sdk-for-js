@@ -6,14 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./channels";
 export * from "./domains";
 export * from "./domainTopics";
+export * from "./eventChannels";
 export * from "./eventSubscriptions";
+export * from "./domainTopicEventSubscriptions";
+export * from "./topicEventSubscriptions";
+export * from "./domainEventSubscriptions";
 export * from "./systemTopicEventSubscriptions";
+export * from "./partnerTopicEventSubscriptions";
 export * from "./operations";
-export * from "./topics";
+export * from "./partnerConfigurations";
+export * from "./partnerDestinations";
+export * from "./partnerNamespaces";
+export * from "./partnerRegistrations";
+export * from "./partnerTopics";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./systemTopics";
+export * from "./topics";
 export * from "./extensionTopics";
 export * from "./topicTypes";
+export * from "./verifiedPartners";

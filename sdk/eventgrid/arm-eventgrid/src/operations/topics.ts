@@ -304,10 +304,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, topicInfo, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -387,10 +389,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -469,10 +473,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, topicUpdateParameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -604,10 +610,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, regenerateKeyRequest, options },
       regenerateKeyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -848,7 +856,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.regenerateKeyRequest1,
+  requestBody: Parameters.regenerateKeyRequest2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -9,30 +9,54 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ChannelsImpl,
   DomainsImpl,
   DomainTopicsImpl,
+  EventChannelsImpl,
   EventSubscriptionsImpl,
+  DomainTopicEventSubscriptionsImpl,
+  TopicEventSubscriptionsImpl,
+  DomainEventSubscriptionsImpl,
   SystemTopicEventSubscriptionsImpl,
+  PartnerTopicEventSubscriptionsImpl,
   OperationsImpl,
-  TopicsImpl,
+  PartnerConfigurationsImpl,
+  PartnerDestinationsImpl,
+  PartnerNamespacesImpl,
+  PartnerRegistrationsImpl,
+  PartnerTopicsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   SystemTopicsImpl,
+  TopicsImpl,
   ExtensionTopicsImpl,
-  TopicTypesImpl
+  TopicTypesImpl,
+  VerifiedPartnersImpl
 } from "./operations";
 import {
+  Channels,
   Domains,
   DomainTopics,
+  EventChannels,
   EventSubscriptions,
+  DomainTopicEventSubscriptions,
+  TopicEventSubscriptions,
+  DomainEventSubscriptions,
   SystemTopicEventSubscriptions,
+  PartnerTopicEventSubscriptions,
   Operations,
-  Topics,
+  PartnerConfigurations,
+  PartnerDestinations,
+  PartnerNamespaces,
+  PartnerRegistrations,
+  PartnerTopics,
   PrivateEndpointConnections,
   PrivateLinkResources,
   SystemTopics,
+  Topics,
   ExtensionTopics,
-  TopicTypes
+  TopicTypes,
+  VerifiedPartners
 } from "./operationsInterfaces";
 import { EventGridManagementClientOptionalParams } from "./models";
 
@@ -69,7 +93,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/13.0.0`;
+    const packageDetails = `azsdk-js-arm-eventgrid/14.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,7 +108,8 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -92,31 +117,59 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-12-01";
+    this.apiVersion = options.apiVersion || "2021-10-15-preview";
+    this.channels = new ChannelsImpl(this);
     this.domains = new DomainsImpl(this);
     this.domainTopics = new DomainTopicsImpl(this);
+    this.eventChannels = new EventChannelsImpl(this);
     this.eventSubscriptions = new EventSubscriptionsImpl(this);
+    this.domainTopicEventSubscriptions = new DomainTopicEventSubscriptionsImpl(
+      this
+    );
+    this.topicEventSubscriptions = new TopicEventSubscriptionsImpl(this);
+    this.domainEventSubscriptions = new DomainEventSubscriptionsImpl(this);
     this.systemTopicEventSubscriptions = new SystemTopicEventSubscriptionsImpl(
       this
     );
+    this.partnerTopicEventSubscriptions = new PartnerTopicEventSubscriptionsImpl(
+      this
+    );
     this.operations = new OperationsImpl(this);
-    this.topics = new TopicsImpl(this);
+    this.partnerConfigurations = new PartnerConfigurationsImpl(this);
+    this.partnerDestinations = new PartnerDestinationsImpl(this);
+    this.partnerNamespaces = new PartnerNamespacesImpl(this);
+    this.partnerRegistrations = new PartnerRegistrationsImpl(this);
+    this.partnerTopics = new PartnerTopicsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.systemTopics = new SystemTopicsImpl(this);
+    this.topics = new TopicsImpl(this);
     this.extensionTopics = new ExtensionTopicsImpl(this);
     this.topicTypes = new TopicTypesImpl(this);
+    this.verifiedPartners = new VerifiedPartnersImpl(this);
   }
 
+  channels: Channels;
   domains: Domains;
   domainTopics: DomainTopics;
+  eventChannels: EventChannels;
   eventSubscriptions: EventSubscriptions;
+  domainTopicEventSubscriptions: DomainTopicEventSubscriptions;
+  topicEventSubscriptions: TopicEventSubscriptions;
+  domainEventSubscriptions: DomainEventSubscriptions;
   systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
+  partnerTopicEventSubscriptions: PartnerTopicEventSubscriptions;
   operations: Operations;
-  topics: Topics;
+  partnerConfigurations: PartnerConfigurations;
+  partnerDestinations: PartnerDestinations;
+  partnerNamespaces: PartnerNamespaces;
+  partnerRegistrations: PartnerRegistrations;
+  partnerTopics: PartnerTopics;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   systemTopics: SystemTopics;
+  topics: Topics;
   extensionTopics: ExtensionTopics;
   topicTypes: TopicTypes;
+  verifiedPartners: VerifiedPartners;
 }

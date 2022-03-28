@@ -95,7 +95,7 @@ export interface SystemTopicEventSubscriptions {
     options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
   ): Promise<SystemTopicEventSubscriptionsCreateOrUpdateResponse>;
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -109,7 +109,7 @@ export interface SystemTopicEventSubscriptions {
     options?: SystemTopicEventSubscriptionsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -123,7 +123,7 @@ export interface SystemTopicEventSubscriptions {
     options?: SystemTopicEventSubscriptionsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -144,7 +144,7 @@ export interface SystemTopicEventSubscriptions {
     >
   >;
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
