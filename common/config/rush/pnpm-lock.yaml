@@ -236,6 +236,7 @@ specifiers:
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
   '@rush-temp/perf-monitor-query': file:./projects/perf-monitor-query.tgz
+  '@rush-temp/perf-schema-registry-avro': file:./projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:./projects/perf-search-documents.tgz
   '@rush-temp/perf-service-bus': file:./projects/perf-service-bus.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
@@ -508,6 +509,7 @@ dependencies:
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
   '@rush-temp/perf-monitor-query': file:projects/perf-monitor-query.tgz
+  '@rush-temp/perf-schema-registry-avro': file:projects/perf-schema-registry-avro.tgz
   '@rush-temp/perf-search-documents': file:projects/perf-search-documents.tgz
   '@rush-temp/perf-service-bus': file:projects/perf-service-bus.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
@@ -16058,6 +16060,27 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 2.6.1
+      rimraf: 3.0.2
+      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      tslib: 2.3.1
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - debug
+      - supports-color
+    dev: false
+
+  file:projects/perf-schema-registry-avro.tgz:
+    resolution: {integrity: sha512-8obR0/zpOspvvZygai4qIDVwKDBER/WTPy3Ozo4XH/dZcG/rzd/teN/s3g1rJ82OBWTOfdOqSvayfmiveJYWCQ==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    name: '@rush-temp/perf-schema-registry-avro'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@types/node': 12.20.47
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
