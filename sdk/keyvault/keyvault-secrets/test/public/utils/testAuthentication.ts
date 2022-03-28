@@ -3,7 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { SecretClient } from "../../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, isLiveMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
@@ -32,7 +32,7 @@ export async function authenticate(
     queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
-  const identityHttpClient = isNode ? undefined : createXhrHttpClient();
+  const identityHttpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,

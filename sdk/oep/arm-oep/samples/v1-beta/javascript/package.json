@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-oep-samples-js-beta",
+  "name": "@azure-samples/arm-oep-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript (Beta)",

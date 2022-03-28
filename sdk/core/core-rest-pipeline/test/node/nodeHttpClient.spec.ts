@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { PassThrough } from "stream";
+import { PassThrough, Writable } from "stream";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import * as https from "https";
 import * as http from "http";
@@ -342,6 +342,56 @@ describe("NodeHttpClient", function () {
     stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
+  });
+
+  it("should handle NodeJS.ReadableStream bodies correctly", async function () {
+    const requestText = "testing resettable stream";
+    const client = createDefaultHttpClient();
+    let bodySent = false;
+    const writable = new Writable({
+      write: (chunk, _, next) => {
+        bodySent = true;
+        assert.equal(chunk.toString(), requestText, "Unexpected body");
+        next();
+      },
+    });
+    stubbedHttpsRequest.returns(writable);
+
+    const stream = new PassThrough();
+    stream.write(requestText);
+    stream.end();
+    const body = stream;
+    const request = createPipelineRequest({ url: "https://example.com", body });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    await promise;
+    assert.isTrue(bodySent, "body should have been piped to request");
+  });
+
+  it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
+    const requestText = "testing resettable stream";
+    const client = createDefaultHttpClient();
+    let bodySent = false;
+    const writable = new Writable({
+      write: (chunk, _, next) => {
+        bodySent = true;
+        assert.equal(chunk.toString(), requestText, "Unexpected body");
+        next();
+      },
+    });
+    stubbedHttpsRequest.returns(writable);
+
+    const body = () => {
+      const stream = new PassThrough();
+      stream.write(requestText);
+      stream.end();
+      return stream;
+    };
+    const request = createPipelineRequest({ url: "https://example.com", body });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    await promise;
+    assert.isTrue(bodySent, "body should have been piped to request");
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {

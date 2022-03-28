@@ -27,8 +27,9 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys",
   "dependencies": {
-    "@azure/keyvault-keys": "next",
+    "@azure/keyvault-keys": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^2.0.1",
+    "dayjs": "^1.10.7"
   }
 }

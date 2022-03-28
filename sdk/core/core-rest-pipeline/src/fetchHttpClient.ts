@@ -198,13 +198,12 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 function buildRequestBody(request: PipelineRequest) {
-  if (isNodeReadableStream(request.body)) {
+  const body = typeof request.body === "function" ? request.body() : request.body;
+  if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(request.body)
-    ? buildBodyStream(request.body, request.onUploadProgress)
-    : request.body;
+  return isReadableStream(body) ? buildBodyStream(body, request.onUploadProgress) : body;
 }
 
 /**
