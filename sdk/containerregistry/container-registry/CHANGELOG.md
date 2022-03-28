@@ -1,8 +1,10 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Add a new `ContainerRegistryBlobClient` to allow upload and download of OCI blobs and manifests. [PR #20529](https://github.com/Azure/azure-sdk-for-js/pull/20529)
 
 ### Breaking Changes
 
