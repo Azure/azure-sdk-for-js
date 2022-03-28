@@ -383,7 +383,7 @@ export enum KnownDeletionRecoveryLevels {
 }
 
 // @public
-export const enum KnownKeyUsageTypes {
+export enum KnownKeyUsageTypes {
     CRLSign = "cRLSign",
     DataEncipherment = "dataEncipherment",
     DecipherOnly = "decipherOnly",

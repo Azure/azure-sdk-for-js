@@ -1,5 +1,5 @@
 {
-  "name": "azure-storage-file-datalake-samples-js",
+  "name": "@azure-samples/storage-file-datalake-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Data Lake Storage client library samples for JavaScript",

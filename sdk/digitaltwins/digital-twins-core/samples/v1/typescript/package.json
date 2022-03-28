@@ -1,5 +1,5 @@
 {
-  "name": "azure-digital-twins-core-samples-ts",
+  "name": "@azure-samples/digital-twins-core-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Digital Twins client library samples for TypeScript",

@@ -1,5 +1,5 @@
 {
-  "name": "azure-mixed-reality-authentication-samples-js",
+  "name": "@azure-samples/mixed-reality-authentication-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Mixed Reality Authentication client library samples for JavaScript",
