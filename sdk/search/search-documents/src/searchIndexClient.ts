@@ -458,8 +458,6 @@ export class SearchIndexClient {
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
         updatedOptions
       );
-      console.log(`Create _response: ${(result as any)._response.headers}`);
-      console.log(`Create _response Body as text: ${(result as any)._response.parsedBody}`);
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
