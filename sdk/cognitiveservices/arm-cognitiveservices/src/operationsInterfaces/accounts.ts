@@ -12,6 +12,8 @@ import {
   Account,
   AccountsListByResourceGroupOptionalParams,
   AccountsListOptionalParams,
+  AccountModel,
+  AccountsListModelsOptionalParams,
   AccountsCreateOptionalParams,
   AccountsCreateResponse,
   AccountsUpdateOptionalParams,
@@ -49,6 +51,17 @@ export interface Accounts {
   list(
     options?: AccountsListOptionalParams
   ): PagedAsyncIterableIterator<Account>;
+  /**
+   * List available Models for the requested Cognitive Services account
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param options The options parameters.
+   */
+  listModels(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsListModelsOptionalParams
+  ): PagedAsyncIterableIterator<AccountModel>;
   /**
    * Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the
    * keys for developer to access intelligent APIs. It's also the resource type for billing.

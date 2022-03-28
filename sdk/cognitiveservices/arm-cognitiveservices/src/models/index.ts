@@ -117,7 +117,7 @@ export interface AccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  /** Whether or not public endpoint access is allowed for this account. */
   publicNetworkAccess?: PublicNetworkAccess;
   /** The api properties for special APIs. */
   apiProperties?: ApiProperties;
@@ -131,6 +131,8 @@ export interface AccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly callRateLimit?: CallRateLimit;
+  /** The flag to enable dynamic throttling. */
+  dynamicThrottlingEnabled?: boolean;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly quotaLimit?: QuotaLimit;
   restrictOutboundNetworkAccess?: boolean;
@@ -142,6 +144,16 @@ export interface AccountProperties {
    */
   readonly endpoints?: { [propertyName: string]: string };
   restore?: boolean;
+  /**
+   * The deletion date, only available for deleted account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletionDate?: string;
+  /**
+   * The scheduled purge date, only available for deleted account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledPurgeDate?: string;
 }
 
 /** SkuCapability indicates the capability of a certain feature. */
@@ -485,6 +497,32 @@ export interface MetricName {
   localizedValue?: string;
 }
 
+/** The list of cognitive services accounts operation response. */
+export interface AccountModelListResult {
+  /** The link used to get the next page of Model. */
+  nextLink?: string;
+  /** Gets the list of Cognitive Services accounts Model and their properties. */
+  value?: AccountModel[];
+}
+
+/** Properties of Cognitive Services account deployment model. */
+export interface DeploymentModel {
+  /** Deployment model format. */
+  format?: string;
+  /** Deployment model name. */
+  name?: string;
+  /** Deployment model version. */
+  version?: string;
+}
+
+/** Cognitive Services account ModelDeprecationInfo. */
+export interface ModelDeprecationInfo {
+  /** The datetime of deprecation of the fineTune Model. */
+  fineTune?: string;
+  /** The datetime of deprecation of the inference Model. */
+  inference?: string;
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -710,21 +748,16 @@ export interface DeploymentProperties {
 }
 
 /** Properties of Cognitive Services account deployment model. */
-export interface DeploymentModel {
-  /** Deployment model format. */
-  format?: string;
-  /** Deployment model name. */
-  name?: string;
-  /** Deployment model version. */
-  version?: string;
-}
-
-/** Properties of Cognitive Services account deployment model. */
 export interface DeploymentScaleSettings {
   /** Deployment scale type. */
   scaleType?: DeploymentScaleType;
   /** Deployment capacity. */
   capacity?: number;
+  /**
+   * Deployment active capacity. This value might be different from `capacity` if customer recently updated `capacity`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activeCapacity?: number;
 }
 
 /** The list of cognitive services accounts operation response. */
@@ -797,6 +830,23 @@ export type PrivateLinkResource = Resource & {
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export type ProxyResource = Resource & {};
+
+/** Cognitive Services account Model. */
+export type AccountModel = DeploymentModel & {
+  /** Base Model Identifier. */
+  baseModel?: DeploymentModel;
+  /** The max capacity. */
+  maxCapacity?: number;
+  /** The capabilities. */
+  capabilities?: { [propertyName: string]: string };
+  /** Cognitive Services account ModelDeprecationInfo. */
+  deprecation?: ModelDeprecationInfo;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+};
 
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnection = AzureEntityResource & {
@@ -1264,6 +1314,13 @@ export interface AccountsListUsagesOptionalParams
 export type AccountsListUsagesResponse = UsageListResult;
 
 /** Optional parameters. */
+export interface AccountsListModelsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listModels operation. */
+export type AccountsListModelsResponse = AccountModelListResult;
+
+/** Optional parameters. */
 export interface AccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1276,6 +1333,13 @@ export interface AccountsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type AccountsListNextResponse = AccountListResult;
+
+/** Optional parameters. */
+export interface AccountsListModelsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listModelsNext operation. */
+export type AccountsListModelsNextResponse = AccountModelListResult;
 
 /** Optional parameters. */
 export interface DeletedAccountsGetOptionalParams

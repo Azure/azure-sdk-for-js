@@ -20,6 +20,9 @@ import {
   AccountsListByResourceGroupOptionalParams,
   AccountsListNextOptionalParams,
   AccountsListOptionalParams,
+  AccountModel,
+  AccountsListModelsNextOptionalParams,
+  AccountsListModelsOptionalParams,
   AccountsCreateOptionalParams,
   AccountsCreateResponse,
   AccountsUpdateOptionalParams,
@@ -38,8 +41,10 @@ import {
   AccountsListSkusResponse,
   AccountsListUsagesOptionalParams,
   AccountsListUsagesResponse,
+  AccountsListModelsResponse,
   AccountsListByResourceGroupNextResponse,
-  AccountsListNextResponse
+  AccountsListNextResponse,
+  AccountsListModelsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -151,6 +156,77 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
+   * List available Models for the requested Cognitive Services account
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param options The options parameters.
+   */
+  public listModels(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsListModelsOptionalParams
+  ): PagedAsyncIterableIterator<AccountModel> {
+    const iter = this.listModelsPagingAll(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listModelsPagingPage(
+          resourceGroupName,
+          accountName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listModelsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsListModelsOptionalParams
+  ): AsyncIterableIterator<AccountModel[]> {
+    let result = await this._listModels(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listModelsNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listModelsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsListModelsOptionalParams
+  ): AsyncIterableIterator<AccountModel> {
+    for await (const page of this.listModelsPagingPage(
+      resourceGroupName,
+      accountName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the
    * keys for developer to access intelligent APIs. It's also the resource type for billing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -213,10 +289,12 @@ export class AccountsImpl implements Accounts {
       { resourceGroupName, accountName, account, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -304,10 +382,12 @@ export class AccountsImpl implements Accounts {
       { resourceGroupName, accountName, account, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -387,10 +467,12 @@ export class AccountsImpl implements Accounts {
       { resourceGroupName, accountName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -525,6 +607,23 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
+   * List available Models for the requested Cognitive Services account
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param options The options parameters.
+   */
+  private _listModels(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsListModelsOptionalParams
+  ): Promise<AccountsListModelsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listModelsOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -553,6 +652,25 @@ export class AccountsImpl implements Accounts {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListModelsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param nextLink The nextLink from the previous successful call to the ListModels method.
+   * @param options The options parameters.
+   */
+  private _listModelsNext(
+    resourceGroupName: string,
+    accountName: string,
+    nextLink: string,
+    options?: AccountsListModelsNextOptionalParams
+  ): Promise<AccountsListModelsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listModelsNextOperationSpec
     );
   }
 }
@@ -801,6 +919,28 @@ const listUsagesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listModelsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/models",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccountModelListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -836,6 +976,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listModelsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccountModelListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.nextLink
   ],
