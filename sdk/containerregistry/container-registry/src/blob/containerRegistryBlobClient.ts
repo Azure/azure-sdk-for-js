@@ -327,9 +327,7 @@ export class ContainerRegistryBlobClient {
       throw new Error("Expected Docker-Content-Digest header in response");
     }
 
-    console.log(rawResponse.readableStreamBody);
     const body = rawResponse.bodyAsText;
-    console.log(body);
     if (!body) {
       throw new Error("downloadManifest did not return a text body");
     }
