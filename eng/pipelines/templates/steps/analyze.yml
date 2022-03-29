@@ -43,6 +43,12 @@ steps:
       ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
         Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
+  
+  - script: |
+    echo "TEST INFO"
+    echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip"
+    echo "$(Build.SourcesDirectory)/html-docs/"
+    echo "parameters"
 
   # Add Step Here
   # FIRST CONSUME ARTIFACTS ()
@@ -66,14 +72,7 @@ steps:
       destinationFolder: $(Build.SourcesDirectory)/html-docs/
       #cleanDestinationFolder: true 
       #overwriteExistingFiles: false
-  
-  - script: |
-    echo "TEST INFO"
-    echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip"
-    echo "$(Build.SourcesDirectory)/html-docs/"
-    echo "parameters"
-    
-
+ 
   # NOW CALL VERIFY LINKS, again, with the artifact url
   
   - template: /eng/common/pipelines/templates/steps/verify-links.yml

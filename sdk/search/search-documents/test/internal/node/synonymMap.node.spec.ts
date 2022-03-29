@@ -11,6 +11,7 @@ describe("synonymmap", () => {
       "my-synonym-map-1",
       "./test/internal/synonymMap.txt"
     );
+    console.log("test change");
     assert.equal(synonymMap.name, "my-synonym-map-1");
     assert.equal(synonymMap.synonyms.length, 2);
     assert.equal(synonymMap.synonyms[0], "United States, United States of America => USA");
