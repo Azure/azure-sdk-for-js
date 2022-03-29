@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
-import { AvroSerializer } from "../src/avroSerializer";
+import { AvroSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { assertSerializationError } from "./utils/assertSerializationError";

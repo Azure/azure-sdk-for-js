@@ -14,9 +14,8 @@
  *    to read from corresponding event hubs
  */
 
+import { AvroSerializer, MessageAdapter } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { AvroSerializer } from "../src/avroSerializer";
-import { MessageAdapter } from "../src/models";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
 import { assertSerializationError } from "./utils/assertSerializationError";

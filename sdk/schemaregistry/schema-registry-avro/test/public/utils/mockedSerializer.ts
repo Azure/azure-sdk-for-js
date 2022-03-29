@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AvroSerializer, AvroSerializerOptions } from "../../../src";
 import { testGroup, testSchema, testSchemaObject } from "./dummies";
-import { AvroSerializer } from "../../src/avroSerializer";
-import { AvroSerializerOptions } from "../../src/models";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./mockedRegistryClient";
 

@@ -16,6 +16,7 @@
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js",
+    "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
   "types": "core-rest-pipeline.shims.d.ts",

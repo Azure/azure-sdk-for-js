@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "types": "types/schema-registry-avro.shims.d.ts",
   "scripts": {
@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@azure/logger": "^1.0.0",
-    "@azure/schema-registry": "1.0.2",
+    "@azure/schema-registry": "^1.0.1",
     "avsc": "^5.5.1",
     "lru-cache": "^7.4.1",
     "tslib": "^2.2.0"

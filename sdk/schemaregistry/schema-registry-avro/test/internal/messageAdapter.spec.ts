@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
-import { MessageAdapter } from "../src/models";
+import { MessageAdapter } from "../../src/models";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
