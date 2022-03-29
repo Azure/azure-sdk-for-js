@@ -16,14 +16,11 @@ import { CommonClientOptions } from "@azure/core-client";
 import { createSpan, logger } from "./utils";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 
-import { UpdateConsentOptionalParams } from "./";
+import { Consent, CreateConsentParams, UpdateConsentParams, RemoveConsentParams, Operator } from "./";
+import * as Mapper from "./mappers";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
 import {
   KnownConsentStatus,
-  ConsentStatus,
-  Contact,
-  Operator,
-  Consent,
   GetOperatorsOptionalParams,
   GetConsentsOptionalParams,
   GetConsentOptionalParams,
@@ -117,7 +114,7 @@ export class OperatorConnectClient {
     );
     const iter = this.client.listOperators(updatedOptions);
     span.end();
-    return iter;
+    return Mapper.toOperatorsResponseIterator(iter);
   }
 
   /**
@@ -134,7 +131,7 @@ export class OperatorConnectClient {
     );
     const iter = this.client.listConsents(updatedOptions);
     span.end();
-    return iter;
+    return Mapper.toConsentResponseIterator(iter);
   }
 
   /**
@@ -152,7 +149,8 @@ export class OperatorConnectClient {
       options
     );
     try {
-      return await this.client.getConsent(operatorId, updatedOptions);
+      var consent = await this.client.getConsent(operatorId, updatedOptions);
+      return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -167,41 +165,25 @@ export class OperatorConnectClient {
   /**
    * Create new consent.
    *
-   * @param operatorId - OperatorConnect operator ID for which consent is created.
-   * @param companyName - Consented company name.
-   * @param consentedCountries - List of countries where consent is given.
-   * @param consentedBy - Contact of consented person.
-   * @param contacts - List of contacts used for communication with operator.
-   * @param status - Status of consent, can be 'Active', 'Suspended', 'Removed'.
+   * @param operationOptions - Create consent parameters.
    */
   public async createConsent(
-    operatorId: string,
-    companyName: string,
-    consentedCountries: string[],
-    consentedBy: Contact,
-    contacts?: Contact[],
-    status?: ConsentStatus
+    operationOptions: CreateConsentParams
   ): Promise<Consent> {
-    if (contacts == null) {
-      contacts = [consentedBy]
+    if (operationOptions.contacts == null) {
+      operationOptions.contacts = [operationOptions.consentedBy]
     }
-    if (status == null) {
-      status = KnownConsentStatus.Active
+    if (operationOptions.status == null) {
+      operationOptions.status = KnownConsentStatus.Active
     }
-    const createOptions: CreateOrUpdateConsentOptionalParams = {
-      companyName: companyName,
-      consentedCountries: consentedCountries,
-      status: status,
-      consentedBy: consentedBy,
-      contacts: contacts,
-    };
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-createConsent",
-      createOptions
+      operationOptions
     );
 
     try {
-      return await this.client.createOrUpdateConsent(operatorId, updatedOptions);
+      const consent = await this.client.createOrUpdateConsent(operationOptions.operatorId, updatedOptions);
+      return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -214,26 +196,22 @@ export class OperatorConnectClient {
   }
 
   /**
-   * Delete consent.
+   * Remove consent.
    *
-   * @param operatorId - OperatorConnect operator ID for which consent should be deleted.
-   * @param lastModifiedBy - Contact of person that makes the cahange.
+   * @param operationOptions - Remove consent parameters.
    */
   public async removeConsent(
-    operatorId: string,
-    lastModifiedBy: Contact
+    operationOptions: RemoveConsentParams
   ): Promise<Consent> {
-    const deleteOptions: CreateOrUpdateConsentOptionalParams = {
-      status: KnownConsentStatus.Removed,
-      lastModifiedBy: lastModifiedBy
-    };
+    (operationOptions as CreateOrUpdateConsentOptionalParams).status = KnownConsentStatus.Removed;
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-removeConsent",
-      deleteOptions
+      operationOptions
     );
 
     try {
-      return await this.client.createOrUpdateConsent(operatorId, updatedOptions);
+      const consent = await this.client.createOrUpdateConsent(operationOptions.operatorId, updatedOptions);
+      return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -248,32 +226,19 @@ export class OperatorConnectClient {
   /**
    * Update consent details.
    *
-   * @param operatorId - OperatorConnect operator ID for which consent is created.
-   * @param lastModifiedBy - Contact of person that makes the cahange.
-   * @param companyName - Consented company name.
-   * @param consentedCountries - List of countries where consent is given.
-   * @param contacts - List of contacts used for communication with operator.
-   * @param status - Status of consent, can be 'Active', 'Suspended', 'Removed'.
+   * @param operationOptions - Update consent parameters.
    */
   public async updateConsent(
-    operatorId: string,
-    lastModifiedBy: Contact,
-    optionalParameters: UpdateConsentOptionalParams
+    operationOptions: UpdateConsentParams
   ): Promise<Consent> {
-    const updateOptions: CreateOrUpdateConsentOptionalParams = {
-      companyName: optionalParameters.companyName,
-      consentedCountries: optionalParameters.consentedCountries,
-      status: optionalParameters.status,
-      lastModifiedBy: lastModifiedBy,
-      contacts: optionalParameters.contacts,
-    };
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-updateConsent",
-      updateOptions
+      operationOptions
     );
 
     try {
-      return await this.client.createOrUpdateConsent(operatorId, updatedOptions);
+      const consent = await this.client.createOrUpdateConsent(operationOptions.operatorId, updatedOptions);
+      return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

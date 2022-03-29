@@ -33,21 +33,19 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 
 // @public (undocumented)
 export interface Consent {
-    companyName?: string;
-    consentedBy?: Contact;
-    consentedCountries?: string[];
-    consentedOn?: Date;
-    consentId?: string;
-    contacts?: Contact[];
-    lastModifiedBy?: Contact;
-    lastModifiedOn?: Date;
-    operatorId?: string;
-    resourceId?: string;
-    status?: ConsentStatus;
+    companyName: string;
+    consentedBy: Contact;
+    consentedCountries: string[];
+    consentedOn: Date;
+    contacts: Contact[];
+    lastModifiedBy: Contact;
+    lastModifiedOn: Date;
+    operatorId: string;
+    status: ConsentStatus;
 }
 
-// @public
-export type ConsentStatus = string;
+// @public (undocumented)
+export type ConsentStatus = "Active" | "Removed" | "Suspended";
 
 // @public (undocumented)
 export interface Contact {
@@ -57,17 +55,34 @@ export interface Contact {
 }
 
 // @public
-export type GetPurchasedPhoneNumberOptions = OperationOptions;
+export interface CreateConsentParams extends OperationOptions {
+    // (undocumented)
+    companyName?: string;
+    consentedBy: Contact;
+    consentedCountries?: string[];
+    contacts?: Contact[];
+    operatorId: string;
+    status?: ConsentStatus;
+}
 
 // @public
-export enum KnownConsentStatus {
-    // (undocumented)
-    Active = "Active",
-    // (undocumented)
-    Removed = "Removed",
-    // (undocumented)
-    Suspended = "Suspended"
+export interface GetConsentOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface GetConsentsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface GetOperatorsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
@@ -75,14 +90,14 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface Operator {
-    acquiredNumbersCount?: number;
-    friendlyName?: string;
-    landingPage?: string;
-    logoThumbnailUri?: string;
-    logoUri?: string;
+    acquiredNumbersCount: number;
+    friendlyName: string;
+    landingPage: string;
+    logoThumbnailUri: string;
+    logoUri: string;
     // (undocumented)
-    offerings?: OperatorOffering[];
-    operatorId?: string;
+    offerings: OperatorOffering[];
+    operatorId: string;
 }
 
 // @public
@@ -90,16 +105,22 @@ export class OperatorConnectClient {
     constructor(connectionString: string, options?: OperatorConnectClientOptions);
     constructor(url: string, credential: KeyCredential, options?: OperatorConnectClientOptions);
     constructor(url: string, credential: TokenCredential, options?: OperatorConnectClientOptions);
-    createConsent(operatorId: string, companyName: string, consentedCountries: string[], consentedBy: Contact, contacts?: Contact[], status?: ConsentStatus): Promise<Consent>;
+    createConsent(operationOptions: CreateConsentParams): Promise<Consent>;
     getConsent(operatorId: string, options?: GetConsentOptionalParams): Promise<Consent>;
     listConsents(options?: GetConsentsOptionalParams): PagedAsyncIterableIterator<Consent>;
     listOperators(options?: GetOperatorsOptionalParams): PagedAsyncIterableIterator<Operator>;
-    removeConsent(operatorId: string, lastModifiedBy: Contact): Promise<Consent>;
-    updateConsent(operatorId: string, lastModifiedBy: Contact, optionalParameters: UpdateConsentOptionalParams): Promise<Consent>;
+    removeConsent(operationOptions: RemoveConsentParams): Promise<Consent>;
+    updateConsent(operationOptions: UpdateConsentParams): Promise<Consent>;
 }
 
 // @public
 export interface OperatorConnectClientOptions extends CommonClientOptions {
+}
+
+// @public (undocumented)
+export interface OperatorOffering {
+    availableCountries?: string[];
+    offerType?: string;
 }
 
 // @public
@@ -188,16 +209,24 @@ export interface ReleasePhoneNumberResult {
 }
 
 // @public
+export interface RemoveConsentParams extends OperationOptions {
+    lastModifiedBy: Contact;
+    operatorId: string;
+}
+
+// @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
 }
 
 // @public
-export interface UpdateConsentOptionalParams {
+export interface UpdateConsentParams extends OperationOptions {
     // (undocumented)
     companyName?: string;
     consentedCountries?: string[];
     contacts?: Contact[];
+    lastModifiedBy: Contact;
+    operatorId: string;
     status?: ConsentStatus;
 }
 

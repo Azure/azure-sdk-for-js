@@ -22,7 +22,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve operators list", async function (this: Context) {
       let all = 0;
-      for await (const operator of client.listOperators()) {
+      for await (const operator of client.listOperators({requestOptions:{allowInsecureConnection:true,customHeaders:{"x-ms-useragent": "acs-mock-test"}}})) {
         assert.isNotEmpty(operator.friendlyName);
         all++;
       }

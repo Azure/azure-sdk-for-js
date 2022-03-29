@@ -3,10 +3,7 @@
 
 import { OperationOptions } from "@azure/core-client";
 import { PhoneNumberSearchRequest } from "./generated/src/models/";
-import {
-  Contact,
-  ConsentStatus,
-} from "./generated/src/operatorConnect/models/";
+
 
 /**
  * The result of the phone numbers purchase operation.
@@ -50,24 +47,3 @@ export {
   PhoneNumberSearchRequest,
   PhoneNumberType,
 } from "./generated/src/models/";
-
-/**
- * Parameters that could be used fo updating consent.
- */
-export interface UpdateConsentOptionalParams {
-  /** Status of the consent */
-  status?: ConsentStatus;
-  /** List of 2 character codes of available countries in ISO 3166-1 format */
-  consentedCountries?: string[];
-  /** Array of Contact */
-  contacts?: Contact[];
-  companyName?: string;
-}
-
-export {
-  KnownConsentStatus,
-  ConsentStatus,
-  Contact,
-  Operator,
-  Consent
-} from "./generated/src/operatorConnect/models/";

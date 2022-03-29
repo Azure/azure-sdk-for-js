@@ -218,18 +218,6 @@ export const Consent: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Consent",
     modelProperties: {
-      consentId: {
-        serializedName: "consentId",
-        type: {
-          name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      },
       operatorId: {
         serializedName: "operatorId",
         type: {

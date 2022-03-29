@@ -131,17 +131,12 @@ export class OperatorConnectRecordedClient extends OperatorConnectClient {
 
   constructor(context: Context, useAad: boolean) {
     if (!useAad) {
-      super(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, { httpClient });
+      super(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, { httpClient});
+    } else {
+      let credential: TokenCredential = getAadCredential();
+      const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING).endpoint;
+      super(endpoint, credential, { httpClient });
     }
-
-    let credential: TokenCredential = getAadCredential();
-    const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING).endpoint;
-    super(endpoint, credential, {
-      httpClient,
-      userAgentOptions: {
-        userAgentPrefix: "acs-mock-test" // mark requests as test, so mocked response returned
-      }
-    });
 
     this.recorder = record(context, environmentSetup);
   }

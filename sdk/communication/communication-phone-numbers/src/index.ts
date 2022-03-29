@@ -5,3 +5,4 @@ export * from "./models";
 export * from "./phoneNumbersClient";
 export * from "./operatorConnectClient";
 export * from "./lroModels";
+export * from "./operatorConnectModels";

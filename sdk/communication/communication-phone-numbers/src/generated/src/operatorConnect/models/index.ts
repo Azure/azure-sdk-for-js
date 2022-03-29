@@ -73,10 +73,6 @@ export interface ListOfConsents {
 }
 
 export interface Consent {
-  /** Unique GUID that represents the consent record */
-  consentId?: string;
-  /** Unique GUID that represents the Azure resource */
-  resourceId?: string;
   /** Unique GUID that represents the operator record */
   operatorId?: string;
   /** Status of the consent */
