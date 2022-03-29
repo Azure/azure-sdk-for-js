@@ -9,6 +9,7 @@ import {
   RequestBodyType,
 } from "@azure/core-rest-pipeline";
 import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "../../keyvault-common/src";
+
 import { GetTokenOptions } from "@azure/core-auth";
 
 /**

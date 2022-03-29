@@ -5,6 +5,8 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
+import { OperationArguments } from '@azure/core-client';
+import { OperationSpec } from '@azure/core-client';
 import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
 
@@ -23,6 +25,7 @@ export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedClientOp
 // @public
 export class ExtendedServiceClient extends ServiceClient {
     constructor(options: ExtendedServiceClientOptions);
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
 }
 
 // @public

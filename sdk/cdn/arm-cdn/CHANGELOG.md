@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.1 (Unreleased)
+## 7.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,329 @@
 
 ### Other Changes
 
+## 7.0.0 (2022-03-23)
+    
+**Features**
+
+  - Added operation group AfdCustomDomains
+  - Added operation group AfdEndpoints
+  - Added operation group AfdOriginGroups
+  - Added operation group AfdOrigins
+  - Added operation group AfdProfiles
+  - Added operation CustomDomains.disableCustomHttps
+  - Added operation CustomDomains.enableCustomHttps
+  - Added operation RuleSets.create
+  - Added Interface ActivatedResourceReference
+  - Added Interface AfdCustomDomainsCreateOptionalParams
+  - Added Interface AfdCustomDomainsDeleteOptionalParams
+  - Added Interface AfdCustomDomainsGetOptionalParams
+  - Added Interface AfdCustomDomainsListByProfileNextOptionalParams
+  - Added Interface AfdCustomDomainsListByProfileOptionalParams
+  - Added Interface AfdCustomDomainsRefreshValidationTokenOptionalParams
+  - Added Interface AfdCustomDomainsUpdateOptionalParams
+  - Added Interface AfdEndpointsCreateOptionalParams
+  - Added Interface AfdEndpointsDeleteOptionalParams
+  - Added Interface AfdEndpointsGetOptionalParams
+  - Added Interface AfdEndpointsListByProfileNextOptionalParams
+  - Added Interface AfdEndpointsListByProfileOptionalParams
+  - Added Interface AfdEndpointsListResourceUsageNextOptionalParams
+  - Added Interface AfdEndpointsListResourceUsageOptionalParams
+  - Added Interface AfdEndpointsPurgeContentOptionalParams
+  - Added Interface AfdEndpointsUpdateOptionalParams
+  - Added Interface AfdEndpointsValidateCustomDomainOptionalParams
+  - Added Interface AfdOriginGroupsCreateOptionalParams
+  - Added Interface AfdOriginGroupsDeleteOptionalParams
+  - Added Interface AfdOriginGroupsGetOptionalParams
+  - Added Interface AfdOriginGroupsListByProfileNextOptionalParams
+  - Added Interface AfdOriginGroupsListByProfileOptionalParams
+  - Added Interface AfdOriginGroupsListResourceUsageNextOptionalParams
+  - Added Interface AfdOriginGroupsListResourceUsageOptionalParams
+  - Added Interface AfdOriginGroupsUpdateOptionalParams
+  - Added Interface AfdOriginsCreateOptionalParams
+  - Added Interface AfdOriginsDeleteOptionalParams
+  - Added Interface AfdOriginsGetOptionalParams
+  - Added Interface AfdOriginsListByOriginGroupNextOptionalParams
+  - Added Interface AfdOriginsListByOriginGroupOptionalParams
+  - Added Interface AfdOriginsUpdateOptionalParams
+  - Added Interface AfdProfilesCheckHostNameAvailabilityOptionalParams
+  - Added Interface AfdProfilesListResourceUsageNextOptionalParams
+  - Added Interface AfdProfilesListResourceUsageOptionalParams
+  - Added Interface AfdRouteCacheConfiguration
+  - Added Interface CacheConfiguration
+  - Added Interface CheckEndpointNameAvailabilityInput
+  - Added Interface CheckEndpointNameAvailabilityOptionalParams
+  - Added Interface CheckEndpointNameAvailabilityOutput
+  - Added Interface CheckHostNameAvailabilityInput
+  - Added Interface ClientPortMatchConditionParameters
+  - Added Interface DimensionProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface HostNameMatchConditionParameters
+  - Added Interface LogSpecification
+  - Added Interface MetricAvailability
+  - Added Interface MetricSpecification
+  - Added Interface OriginGroupOverride
+  - Added Interface RouteConfigurationOverrideActionParameters
+  - Added Interface SecurityPolicyPropertiesParameters
+  - Added Interface SecurityPolicyUpdateParameters
+  - Added Interface ServerPortMatchConditionParameters
+  - Added Interface ServiceSpecification
+  - Added Interface SocketAddrMatchConditionParameters
+  - Added Interface SslProtocolMatchConditionParameters
+  - Added Type Alias AfdCustomDomainsCreateResponse
+  - Added Type Alias AfdCustomDomainsGetResponse
+  - Added Type Alias AfdCustomDomainsListByProfileNextResponse
+  - Added Type Alias AfdCustomDomainsListByProfileResponse
+  - Added Type Alias AfdCustomDomainsUpdateResponse
+  - Added Type Alias AfdEndpointsCreateResponse
+  - Added Type Alias AfdEndpointsGetResponse
+  - Added Type Alias AfdEndpointsListByProfileNextResponse
+  - Added Type Alias AfdEndpointsListByProfileResponse
+  - Added Type Alias AfdEndpointsListResourceUsageNextResponse
+  - Added Type Alias AfdEndpointsListResourceUsageResponse
+  - Added Type Alias AfdEndpointsUpdateResponse
+  - Added Type Alias AfdEndpointsValidateCustomDomainResponse
+  - Added Type Alias AfdOriginGroupsCreateResponse
+  - Added Type Alias AfdOriginGroupsGetResponse
+  - Added Type Alias AfdOriginGroupsListByProfileNextResponse
+  - Added Type Alias AfdOriginGroupsListByProfileResponse
+  - Added Type Alias AfdOriginGroupsListResourceUsageNextResponse
+  - Added Type Alias AfdOriginGroupsListResourceUsageResponse
+  - Added Type Alias AfdOriginGroupsUpdateResponse
+  - Added Type Alias AfdOriginsCreateResponse
+  - Added Type Alias AfdOriginsGetResponse
+  - Added Type Alias AfdOriginsListByOriginGroupNextResponse
+  - Added Type Alias AfdOriginsListByOriginGroupResponse
+  - Added Type Alias AfdOriginsUpdateResponse
+  - Added Type Alias AfdProfilesCheckHostNameAvailabilityResponse
+  - Added Type Alias AfdProfilesListResourceUsageNextResponse
+  - Added Type Alias AfdProfilesListResourceUsageResponse
+  - Added Type Alias AutoGeneratedDomainNameLabelScope
+  - Added Type Alias AzureFirstPartyManagedCertificate
+  - Added Type Alias AzureFirstPartyManagedCertificateParameters
+  - Added Type Alias CheckEndpointNameAvailabilityResponse
+  - Added Type Alias ClientPortOperator
+  - Added Type Alias CustomDomainsDisableCustomHttpsResponse
+  - Added Type Alias CustomDomainsEnableCustomHttpsResponse
+  - Added Type Alias DeliveryRuleClientPortCondition
+  - Added Type Alias DeliveryRuleHostNameCondition
+  - Added Type Alias DeliveryRuleRouteConfigurationOverrideAction
+  - Added Type Alias DeliveryRuleServerPortCondition
+  - Added Type Alias DeliveryRuleSocketAddrCondition
+  - Added Type Alias DeliveryRuleSslProtocolCondition
+  - Added Type Alias HostNameOperator
+  - Added Type Alias PolicySettingsDefaultCustomBlockResponseStatusCode
+  - Added Type Alias ResourceType
+  - Added Type Alias RuleCacheBehavior
+  - Added Type Alias RuleIsCompressionEnabled
+  - Added Type Alias RuleQueryStringCachingBehavior
+  - Added Type Alias SecurityPolicyPropertiesParametersUnion
+  - Added Type Alias ServerPortOperator
+  - Added Type Alias SocketAddrOperator
+  - Added Type Alias SslProtocol
+  - Added Type Alias SslProtocolOperator
+  - Added Type Alias WafMatchVariable
+  - Interface AFDDomainUpdateParameters has a new optional parameter preValidatedCustomDomainResourceId
+  - Interface AFDDomainUpdateParameters has a new optional parameter profileName
+  - Interface AFDDomainUpdatePropertiesParameters has a new optional parameter preValidatedCustomDomainResourceId
+  - Interface AFDDomainUpdatePropertiesParameters has a new optional parameter profileName
+  - Interface AFDEndpointPropertiesUpdateParameters has a new optional parameter profileName
+  - Interface AFDEndpointUpdateParameters has a new optional parameter profileName
+  - Interface AFDOriginGroupUpdateParameters has a new optional parameter profileName
+  - Interface AFDOriginGroupUpdatePropertiesParameters has a new optional parameter profileName
+  - Interface AFDOriginUpdateParameters has a new optional parameter enforceCertificateNameCheck
+  - Interface AFDOriginUpdateParameters has a new optional parameter originGroupName
+  - Interface AFDOriginUpdatePropertiesParameters has a new optional parameter enforceCertificateNameCheck
+  - Interface AFDOriginUpdatePropertiesParameters has a new optional parameter originGroupName
+  - Interface Certificate has a new optional parameter type
+  - Interface DeepCreatedOrigin has a new optional parameter privateEndpointStatus
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface HttpVersionMatchConditionParameters has a new optional parameter transforms
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Operation has a new optional parameter serviceSpecification
+  - Interface OperationDisplay has a new optional parameter description
+  - Interface ProfileUpdateParameters has a new optional parameter originResponseTimeoutSeconds
+  - Interface RequestMethodMatchConditionParameters has a new optional parameter transforms
+  - Interface RequestSchemeMatchConditionParameters has a new optional parameter transforms
+  - Interface RouteUpdateParameters has a new optional parameter cacheConfiguration
+  - Interface RouteUpdateParameters has a new optional parameter endpointName
+  - Interface RouteUpdatePropertiesParameters has a new optional parameter cacheConfiguration
+  - Interface RouteUpdatePropertiesParameters has a new optional parameter endpointName
+  - Interface RuleUpdateParameters has a new optional parameter ruleSetName
+  - Interface RuleUpdatePropertiesParameters has a new optional parameter ruleSetName
+  - Interface ValidateSecretInput has a new optional parameter secretVersion
+  - Class CdnManagementClient has a new parameter afdCustomDomains
+  - Class CdnManagementClient has a new parameter afdEndpoints
+  - Class CdnManagementClient has a new parameter afdOriginGroups
+  - Class CdnManagementClient has a new parameter afdOrigins
+  - Class CdnManagementClient has a new parameter afdProfiles
+  - Add parameters of SecurityPolicyPropertiesParameters to TypeAlias SecurityPolicyWebApplicationFirewallParameters
+  - Type Alias AFDDomain has a new parameter profileName
+  - Type Alias AFDDomain has a new parameter preValidatedCustomDomainResourceId
+  - Type Alias AFDEndpoint has a new parameter profileName
+  - Type Alias AFDEndpoint has a new parameter autoGeneratedDomainNameLabelScope
+  - Type Alias AFDEndpointProperties has a new parameter autoGeneratedDomainNameLabelScope
+  - Type Alias AFDOrigin has a new parameter originGroupName
+  - Type Alias AFDOrigin has a new parameter enforceCertificateNameCheck
+  - Type Alias AFDOriginGroup has a new parameter profileName
+  - Type Alias CustomerCertificate has a new parameter secretSource
+  - Type Alias CustomerCertificate has a new parameter secretVersion
+  - Type Alias CustomerCertificate has a new parameter thumbprint
+  - Type Alias CustomerCertificateParameters has a new parameter subject
+  - Type Alias CustomerCertificateParameters has a new parameter expirationDate
+  - Type Alias CustomerCertificateParameters has a new parameter thumbprint
+  - Type Alias Endpoint has a new parameter customDomains
+  - Type Alias EndpointProperties has a new parameter customDomains
+  - Type Alias ManagedCertificateParameters has a new parameter subject
+  - Type Alias ManagedCertificateParameters has a new parameter expirationDate
+  - Type Alias Profile has a new parameter kind
+  - Type Alias Profile has a new parameter frontDoorId
+  - Type Alias Profile has a new parameter originResponseTimeoutSeconds
+  - Type Alias Route has a new parameter endpointName
+  - Type Alias Route has a new parameter cacheConfiguration
+  - Type Alias Rule has a new parameter ruleSetName
+  - Type Alias RuleSet has a new parameter profileName
+  - Type Alias RuleSetProperties has a new parameter profileName
+  - Type Alias Secret has a new parameter profileName
+  - Type Alias SecretProperties has a new parameter profileName
+  - Type Alias SecurityPolicy has a new parameter profileName
+  - Type Alias SecurityPolicyProperties has a new parameter profileName
+  - Added Enum KnownAfdQueryStringCachingBehavior
+  - Added Enum KnownAutoGeneratedDomainNameLabelScope
+  - Added Enum KnownClientPortOperator
+  - Added Enum KnownHostNameOperator
+  - Added Enum KnownPolicySettingsDefaultCustomBlockResponseStatusCode
+  - Added Enum KnownResourceType
+  - Added Enum KnownRuleCacheBehavior
+  - Added Enum KnownRuleIsCompressionEnabled
+  - Added Enum KnownRuleQueryStringCachingBehavior
+  - Added Enum KnownServerPortOperator
+  - Added Enum KnownSocketAddrOperator
+  - Added Enum KnownSslProtocol
+  - Added Enum KnownSslProtocolOperator
+  - Added Enum KnownWafMatchVariable
+  - Enum KnownAfdCertificateType has a new value AzureFirstPartyManagedCertificate
+  - Enum KnownDeliveryRuleAction has a new value RouteConfigurationOverride
+  - Enum KnownDomainValidationState has a new value InternalError
+  - Enum KnownDomainValidationState has a new value RefreshingValidationToken
+  - Enum KnownDomainValidationState has a new value Rejected
+  - Enum KnownLogMetricsGroupBy has a new value CountryOrRegion
+  - Enum KnownMatchVariable has a new value ClientPort
+  - Enum KnownMatchVariable has a new value HostName
+  - Enum KnownMatchVariable has a new value ServerPort
+  - Enum KnownMatchVariable has a new value SslProtocol
+  - Enum KnownMetricsResponseSeriesItemUnit has a new value MilliSeconds
+  - Enum KnownSecretType has a new value AzureFirstPartyManagedCertificate
+  - Enum KnownTransform has a new value RemoveNulls
+  - Enum KnownTransform has a new value Trim
+  - Enum KnownTransform has a new value UrlDecode
+  - Enum KnownTransform has a new value UrlEncode
+  - Enum KnownWafRankingType has a new value CountryOrRegion
+
+**Breaking Changes**
+
+  - Removed operation group AFDCustomDomains
+  - Removed operation group AFDEndpoints
+  - Removed operation group AFDOriginGroups
+  - Removed operation group AFDOrigins
+  - Removed operation group AFDProfiles
+  - Removed operation CustomDomains.beginDisableCustomHttps
+  - Removed operation CustomDomains.beginDisableCustomHttpsAndWait
+  - Removed operation CustomDomains.beginEnableCustomHttps
+  - Removed operation CustomDomains.beginEnableCustomHttpsAndWait
+  - Removed operation RuleSets.beginCreate
+  - Removed operation RuleSets.beginCreateAndWait
+  - Removed operation Secrets.beginUpdate
+  - Removed operation Secrets.beginUpdateAndWait
+  - Operation SecurityPolicies.beginPatch has a new signature
+  - Operation SecurityPolicies.beginPatchAndWait has a new signature
+  - Interface AFDEndpointPropertiesUpdateParameters no longer has parameter originResponseTimeoutSeconds
+  - Interface AFDEndpointUpdateParameters no longer has parameter originResponseTimeoutSeconds
+  - Interface AFDOriginGroupUpdateParameters no longer has parameter responseBasedAfdOriginErrorDetectionSettings
+  - Interface AFDOriginGroupUpdatePropertiesParameters no longer has parameter responseBasedAfdOriginErrorDetectionSettings
+  - Interface CacheExpirationActionParameters no longer has parameter odataType
+  - Interface CacheKeyQueryStringActionParameters no longer has parameter odataType
+  - Interface CdnCertificateSourceParameters no longer has parameter odataType
+  - Interface Certificate no longer has parameter thumbprint
+  - Interface CookiesMatchConditionParameters no longer has parameter odataType
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams no longer has parameter resumeFrom
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams no longer has parameter updateIntervalInMs
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams no longer has parameter resumeFrom
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams no longer has parameter updateIntervalInMs
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+  - Interface HeaderActionParameters no longer has parameter odataType
+  - Interface HttpVersionMatchConditionParameters no longer has parameter odataType
+  - Interface IsDeviceMatchConditionParameters no longer has parameter odataType
+  - Interface KeyVaultCertificateSourceParameters no longer has parameter odataType
+  - Interface KeyVaultSigningKeyParameters no longer has parameter odataType
+  - Interface OriginGroupOverrideActionParameters no longer has parameter odataType
+  - Interface PostArgsMatchConditionParameters no longer has parameter odataType
+  - Interface QueryStringMatchConditionParameters no longer has parameter odataType
+  - Interface RemoteAddressMatchConditionParameters no longer has parameter odataType
+  - Interface RequestBodyMatchConditionParameters no longer has parameter odataType
+  - Interface RequestHeaderMatchConditionParameters no longer has parameter odataType
+  - Interface RequestMethodMatchConditionParameters no longer has parameter odataType
+  - Interface RequestSchemeMatchConditionParameters no longer has parameter odataType
+  - Interface RequestUriMatchConditionParameters no longer has parameter odataType
+  - Interface RouteUpdateParameters no longer has parameter compressionSettings
+  - Interface RouteUpdateParameters no longer has parameter queryStringCachingBehavior
+  - Interface RouteUpdatePropertiesParameters no longer has parameter compressionSettings
+  - Interface RouteUpdatePropertiesParameters no longer has parameter queryStringCachingBehavior
+  - Interface RuleSetsCreateOptionalParams no longer has parameter resumeFrom
+  - Interface RuleSetsCreateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface UrlFileExtensionMatchConditionParameters no longer has parameter odataType
+  - Interface UrlFileNameMatchConditionParameters no longer has parameter odataType
+  - Interface UrlPathMatchConditionParameters no longer has parameter odataType
+  - Interface UrlRedirectActionParameters no longer has parameter odataType
+  - Interface UrlRewriteActionParameters no longer has parameter odataType
+  - Interface UrlSigningActionParameters no longer has parameter odataType
+  - Interface CacheExpirationActionParameters has a new required parameter typeName
+  - Interface CacheKeyQueryStringActionParameters has a new required parameter typeName
+  - Interface CdnCertificateSourceParameters has a new required parameter typeName
+  - Interface CookiesMatchConditionParameters has a new required parameter typeName
+  - Interface HeaderActionParameters has a new required parameter typeName
+  - Interface HttpVersionMatchConditionParameters has a new required parameter typeName
+  - Interface IsDeviceMatchConditionParameters has a new required parameter typeName
+  - Interface KeyVaultCertificateSourceParameters has a new required parameter typeName
+  - Interface KeyVaultSigningKeyParameters has a new required parameter typeName
+  - Interface OriginGroupOverrideActionParameters has a new required parameter typeName
+  - Interface PostArgsMatchConditionParameters has a new required parameter typeName
+  - Interface QueryStringMatchConditionParameters has a new required parameter typeName
+  - Interface RemoteAddressMatchConditionParameters has a new required parameter typeName
+  - Interface RequestBodyMatchConditionParameters has a new required parameter typeName
+  - Interface RequestHeaderMatchConditionParameters has a new required parameter typeName
+  - Interface RequestMethodMatchConditionParameters has a new required parameter typeName
+  - Interface RequestSchemeMatchConditionParameters has a new required parameter typeName
+  - Interface RequestUriMatchConditionParameters has a new required parameter typeName
+  - Interface UrlFileExtensionMatchConditionParameters has a new required parameter typeName
+  - Interface UrlFileNameMatchConditionParameters has a new required parameter typeName
+  - Interface UrlPathMatchConditionParameters has a new required parameter typeName
+  - Interface UrlRedirectActionParameters has a new required parameter typeName
+  - Interface UrlRewriteActionParameters has a new required parameter typeName
+  - Interface UrlSigningActionParameters has a new required parameter typeName
+  - Class CdnManagementClient no longer has parameter aFDCustomDomains
+  - Class CdnManagementClient no longer has parameter aFDEndpoints
+  - Class CdnManagementClient no longer has parameter aFDOriginGroups
+  - Class CdnManagementClient no longer has parameter aFDOrigins
+  - Class CdnManagementClient no longer has parameter aFDProfiles
+  - Delete parameters of SecurityPolicyParameters in TypeAlias SecurityPolicyWebApplicationFirewallParameters
+  - Type Alias AFDEndpoint no longer has parameter originResponseTimeoutSeconds
+  - Type Alias AFDOriginGroup no longer has parameter responseBasedAfdOriginErrorDetectionSettings
+  - Type Alias CustomerCertificate no longer has parameter version
+  - Type Alias CustomerCertificate no longer has parameter certificateUrl
+  - Type Alias Profile no longer has parameter frontdoorId
+  - Type Alias Route no longer has parameter compressionSettings
+  - Type Alias Route no longer has parameter queryStringCachingBehavior
+  - Removed Enum KnownEnum46
+  - Removed Enum KnownValidateSecretType
+  - Enum KnownLogMetricsGroupBy no longer has value Country
+  - Enum KnownMatchVariable no longer has value RemoteAddr
+  - Enum KnownSkuName no longer has value PremiumChinaCdn
+  - Enum KnownWafRankingType no longer has value Country
+    
+    
 ## 6.0.0 (2021-12-16)
 
 The package of @azure/arm-cdn is using our next generation design principles since version 6.0.0, which contains breaking changes.

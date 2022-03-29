@@ -1,5 +1,5 @@
 {
-  "name": "azure-synapse-access-control-samples-ts",
+  "name": "@azure-samples/synapse-access-control-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Synapse Access Control Rest client library samples for TypeScript",

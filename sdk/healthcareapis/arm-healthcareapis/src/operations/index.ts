@@ -7,7 +7,15 @@
  */
 
 export * from "./services";
-export * from "./operations";
-export * from "./operationResults";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./workspaces";
+export * from "./dicomServices";
+export * from "./iotConnectors";
+export * from "./fhirDestinations";
+export * from "./iotConnectorFhirDestination";
+export * from "./fhirServices";
+export * from "./workspacePrivateEndpointConnections";
+export * from "./workspacePrivateLinkResources";
+export * from "./operations";
+export * from "./operationResults";

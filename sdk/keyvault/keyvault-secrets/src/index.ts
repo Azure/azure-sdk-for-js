@@ -19,7 +19,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
-  KeyVaultClientGetSecretsOptionalParams,
+  GetSecretsOptionalParams,
   SecretBundle,
   DeletedSecretBundle,
 } from "./generated/models";
@@ -484,7 +484,7 @@ export class SecretClient {
     options: ListPropertiesOfSecretVersionsOptions = {}
   ): AsyncIterableIterator<SecretProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
+      const optionsComplete: GetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -585,7 +585,7 @@ export class SecretClient {
     options: ListPropertiesOfSecretsOptions = {}
   ): AsyncIterableIterator<SecretProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
+      const optionsComplete: GetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -678,7 +678,7 @@ export class SecretClient {
     options: ListDeletedSecretsOptions = {}
   ): AsyncIterableIterator<DeletedSecret[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
+      const optionsComplete: GetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };

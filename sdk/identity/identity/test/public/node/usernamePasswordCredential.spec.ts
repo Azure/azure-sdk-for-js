@@ -10,6 +10,9 @@ import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
 
+// https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
+const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
+
 describe("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
@@ -26,15 +29,14 @@ describe("UsernamePasswordCredential", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function (this: Context) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
+    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!,
+      tenantId,
+      clientId,
+      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
       recorder.configureClientOptions({})
     );
 
@@ -44,12 +46,14 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("allows cancelling the authentication", async function () {
+    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({})
+      tenantId,
+      clientId,
+      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!
     );
 
     const controller = new AbortController();
@@ -71,17 +75,16 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("supports tracing", async function (this: Context) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
+    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+
     await testTracing({
       test: async (tracingOptions) => {
         const credential = new UsernamePasswordCredential(
-          env.AZURE_TENANT_ID!,
-          env.AZURE_CLIENT_ID!,
-          env.AZURE_USERNAME!,
-          env.AZURE_PASSWORD!,
+          tenantId,
+          clientId,
+          env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
+          env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
           recorder.configureClientOptions({})
         );
 
