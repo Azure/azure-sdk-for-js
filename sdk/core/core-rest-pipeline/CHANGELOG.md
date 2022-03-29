@@ -1,12 +1,25 @@
 # Release History
 
-## 1.7.0 (Unreleased)
+## 1.8.0 (Unreleased)
+
+### Features Added
+
+- Support resettable streams in the form of `() => NodeJS.ReadableStream` for NodeJS and `() => ReadableStream` for browser. [#21013](https://github.com/Azure/azure-sdk-for-js/pull/21013)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Updated `redirectPolicy` to remove the `Authorization` header from redirected requests. [#21026](https://github.com/Azure/azure-sdk-for-js/pull/21026)
+- Fixed an issue introduced in 1.6.0 where redirects were not properly followed in the browser. [#21051](https://github.com/Azure/azure-sdk-for-js/pull/21051)
+
+### Other Changes
+
+## 1.7.0 (2022-03-21)
 
 ### Features Added
 
 - Supports the `"retry-after-ms"` and `"x-ms-retry-after-ms"` headers along with the `"Retry-After"` header from throttling retry responses from the services. [#20817](https://github.com/Azure/azure-sdk-for-js/issues/20817)
-
-### Breaking Changes
 
 ### Bugs Fixed
 

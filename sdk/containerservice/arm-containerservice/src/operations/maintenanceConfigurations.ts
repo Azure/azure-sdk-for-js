@@ -41,7 +41,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets a list of maintenance configurations in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -112,7 +112,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets a list of maintenance configurations in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -129,7 +129,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets the specified maintenance configuration of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
@@ -148,7 +148,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Creates or updates a maintenance configuration in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param parameters The maintenance configuration to create or update.
@@ -169,7 +169,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Deletes a maintenance configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
@@ -188,7 +188,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * ListByManagedClusterNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
    * @param options The options parameters.

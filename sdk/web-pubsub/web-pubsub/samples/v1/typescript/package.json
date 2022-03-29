@@ -1,5 +1,5 @@
 {
-  "name": "azure-web-pubsub-samples-ts",
+  "name": "@azure-samples/web-pubsub-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Web PubSub client library samples for TypeScript",

@@ -1,5 +1,5 @@
 {
-  "name": "azure-monitor-opentelemetry-exporter-samples-ts",
+  "name": "@azure-samples/monitor-opentelemetry-exporter-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Monitor Trace Exporter client library samples for TypeScript",
