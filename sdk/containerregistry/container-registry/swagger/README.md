@@ -134,34 +134,11 @@ directive:
   from: swagger-document
   where: $.definitions.OCIManifest
   transform: >
-    $["x-csharp-usage"] = "model,input,output,converter";
-    $["x-csharp-formats"] = "json";
-    delete $["x-accessibility"];
     delete $["allOf"];
     $.properties["schemaVersion"] = {
           "type": "integer",
           "description": "Schema version"
         };
-```
-
-# Make ArtifactBlobDescriptor a public type
-
-```yaml
-directive:
-  from: swagger-document
-  where: $.definitions.Descriptor
-  transform: >
-    delete $["x-accessibility"]
-```
-
-# Make OciAnnotations a public type
-
-```yaml
-directive:
-  from: swagger-document
-  where: $.definitions.Annotations
-  transform: >
-    delete $["x-accessibility"]
 ```
 
 # Rename created to createdOn in OciAnnotations
