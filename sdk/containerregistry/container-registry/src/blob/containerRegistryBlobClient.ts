@@ -96,7 +96,14 @@ export class ContainerRegistryBlobClient {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"],
+        additionalAllowedQueryParameters: [
+          "last",
+          "n",
+          "orderby",
+          "digest",
+          "_nouploadcache",
+          "_state",
+        ],
       },
     };
     // Require audience now until we have a default ACR audience from the service.
