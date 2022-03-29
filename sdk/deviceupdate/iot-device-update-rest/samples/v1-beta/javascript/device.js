@@ -5,14 +5,11 @@
  * This sample demonstrates how get a list of devices
  *
  * @summary Demonstrates the use of a DeviceUpdateClient to list all devices connected to Device Update for IoT Hub.
- * @azsdk-weight 40
  */
 
-import DeviceUpdate from "@azure-rest/iot-device-update";
-import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+const DeviceUpdate = require("@azure-rest/iot-device-update").default;
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";

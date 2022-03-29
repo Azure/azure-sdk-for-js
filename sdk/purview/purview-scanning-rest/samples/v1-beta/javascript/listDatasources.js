@@ -5,15 +5,12 @@
  * This sample demonstrates how get a list of datasources
  *
  * @summary gets a list of datasources
- * @azsdk-weight 40
  */
 
-import PurviewScanning, { DataSource, paginate } from "@azure-rest/purview-scanning";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+const PurviewScanning = require("@azure-rest/purview-scanning").default,
+  { paginate } = require("@azure-rest/purview-scanning");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
@@ -27,11 +24,9 @@ async function main() {
   }
   const iter = paginate(client, dataSources);
 
-  const items: DataSource[] = [];
+  const items = [];
 
-  for await (const item of <PagedAsyncIterableIterator<DataSource, DataSource[], PageSettings>>(
-    iter
-  )) {
+  for await (const item of iter) {
     items.push(item);
   }
   console.log(items.map((ds) => ds.name).join("\n"));

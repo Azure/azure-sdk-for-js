@@ -48,7 +48,7 @@
       "Azure Iot Device Update instance": "https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/iot-device-update"
+    "apiRefLink": "https://docs.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
