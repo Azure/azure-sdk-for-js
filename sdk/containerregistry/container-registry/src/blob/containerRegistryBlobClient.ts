@@ -6,7 +6,7 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
-import { Descriptor, GeneratedClient } from "../generated";
+import { GeneratedClient } from "../generated";
 import { ContainerRegistryClientOptions } from "..";
 import { ChallengeHandler } from "../containerRegistryChallengeHandler";
 import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential";
@@ -19,15 +19,13 @@ import {
   DownloadBlobResult,
   DownloadManifestOptions,
   DownloadManifestResult,
-  OciAnnotations,
-  OciBlobDescriptor,
   OciManifest,
   UploadBlobResult,
   UploadManifestOptions,
   UploadManifestResult,
 } from "./models";
-import { OCIManifest as GeneratedOciManifest } from "../generated/models";
-import { FullOperationResponse } from "@azure/core-client";
+import * as Mappers from "../generated/models/mappers";
+import { createSerializer, FullOperationResponse } from "@azure/core-client";
 import { readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 
@@ -41,115 +39,7 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
 
-const annotationMappings = {
-  createdOn: "org.opencontainers.image.created",
-  authors: "org.opencontainers.image.authors",
-  url: "org.opencontainers.image.url",
-  documentation: "org.opencontainers.image.documentation",
-  source: "org.opencontainers.image.source",
-  version: "org.opencontainers.image.version",
-  revision: "org.opencontainers.image.revision",
-  vendor: "org.opencontainers.image.vendor",
-  licenses: "org.opencontainers.image.licenses",
-  name: "org.opencontainers.image.ref.name",
-  title: "org.opencontainers.image.title",
-  description: "org.opencontainers.image.description",
-} as { [k: string]: string };
-
-const reverseAnnotationMappings = Object.entries(annotationMappings).reduce(
-  (acc, [k, v]) => ({ [v]: k, ...acc }),
-  {}
-) as {
-  [k: string]: string;
-};
-
-function serializeAnnotations(annotations?: OciAnnotations): any {
-  return (
-    annotations &&
-    Object.entries(annotations).reduce(
-      (acc, [property, value]) => ({
-        [annotationMappings[property] ?? property]: value,
-        ...acc,
-      }),
-      {}
-    )
-  );
-}
-
-function deserializeAnnotations(annotations: any): OciAnnotations | undefined {
-  return (
-    annotations &&
-    Object.entries(annotations).reduce(
-      (acc, [property, value]) => ({
-        [reverseAnnotationMappings[property] ?? property]: value,
-        ...acc,
-      }),
-      {}
-    )
-  );
-}
-
-function serializeDescriptor(descriptor: OciBlobDescriptor): Descriptor {
-  if (descriptor.annotations) {
-    return {
-      ...descriptor,
-      annotations: serializeAnnotations(descriptor.annotations),
-    };
-  } else {
-    return descriptor;
-  }
-}
-
-function deserializeDescriptor(descriptor: Descriptor): OciBlobDescriptor {
-  if (descriptor.annotations) {
-    return {
-      ...descriptor,
-      annotations: deserializeAnnotations(descriptor.annotations),
-    };
-  } else {
-    return descriptor;
-  }
-}
-
-function serializeManifest(manifest: OciManifest): GeneratedOciManifest {
-  if (manifest.annotations) {
-    return {
-      ...manifest,
-      config: manifest.config && serializeDescriptor(manifest.config),
-      layers: manifest.layers?.map(serializeDescriptor),
-      annotations: serializeAnnotations(manifest.annotations),
-    };
-  } else {
-    return {
-      ...manifest,
-      config: manifest.config && serializeDescriptor(manifest.config),
-      layers: manifest.layers?.map(serializeDescriptor),
-    };
-  }
-}
-
-function deserializeManifest(manifest: GeneratedOciManifest): OciManifest {
-  if (!manifest.schemaVersion) {
-    throw new Error("schemaVersion must be defined");
-  }
-
-  if (manifest.annotations) {
-    return {
-      ...manifest,
-      config: manifest.config && deserializeDescriptor(manifest.config),
-      layers: manifest.layers?.map(deserializeDescriptor),
-      annotations: deserializeAnnotations(manifest.annotations),
-      schemaVersion: manifest.schemaVersion as number,
-    };
-  } else {
-    return {
-      ...manifest,
-      config: manifest.config && deserializeDescriptor(manifest.config),
-      layers: manifest.layers?.map(deserializeDescriptor),
-      schemaVersion: manifest.schemaVersion as number,
-    };
-  }
-}
+const serializer = createSerializer(Mappers, /* isXML */ false);
 
 /**
  * The Azure Container Registry blob client, responsible for uploading and downloading blobs and manifests, the building blocks of artifacts.
@@ -282,7 +172,8 @@ export class ContainerRegistryBlobClient {
     } else if (typeof manifestOrManifestStream === "function") {
       manifestBody = await readStreamToEnd(manifestOrManifestStream());
     } else {
-      manifestBody = Buffer.from(JSON.stringify(serializeManifest(manifestOrManifestStream)));
+      const serialized = serializer.serialize(Mappers.OCIManifest, manifestOrManifestStream);
+      manifestBody = Buffer.from(JSON.stringify(serialized));
     }
 
     const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
@@ -341,7 +232,7 @@ export class ContainerRegistryBlobClient {
         Actual: ${digest}`);
     }
 
-    const manifest = deserializeManifest(JSON.parse(body));
+    const manifest = serializer.deserialize(Mappers.OCIManifest, JSON.parse(body), "OCIManifest");
 
     return {
       digest,

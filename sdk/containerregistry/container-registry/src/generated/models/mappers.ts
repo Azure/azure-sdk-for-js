@@ -198,73 +198,73 @@ export const Annotations: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       createdOn: {
-        serializedName: "org\\.opencontainers.image.created",
+        serializedName: "org\\.opencontainers\\.image\\.created",
         type: {
           name: "DateTime"
         }
       },
       authors: {
-        serializedName: "org\\.opencontainers.image.authors",
+        serializedName: "org\\.opencontainers\\.image\\.authors",
         type: {
           name: "String"
         }
       },
       url: {
-        serializedName: "org\\.opencontainers.image.url",
+        serializedName: "org\\.opencontainers\\.image\\.url",
         type: {
           name: "String"
         }
       },
       documentation: {
-        serializedName: "org\\.opencontainers.image.documentation",
+        serializedName: "org\\.opencontainers\\.image\\.documentation",
         type: {
           name: "String"
         }
       },
       source: {
-        serializedName: "org\\.opencontainers.image.source",
+        serializedName: "org\\.opencontainers\\.image\\.source",
         type: {
           name: "String"
         }
       },
       version: {
-        serializedName: "org\\.opencontainers.image.version",
+        serializedName: "org\\.opencontainers\\.image\\.version",
         type: {
           name: "String"
         }
       },
       revision: {
-        serializedName: "org\\.opencontainers.image.revision",
+        serializedName: "org\\.opencontainers\\.image\\.revision",
         type: {
           name: "String"
         }
       },
       vendor: {
-        serializedName: "org\\.opencontainers.image.vendor",
+        serializedName: "org\\.opencontainers\\.image\\.vendor",
         type: {
           name: "String"
         }
       },
       licenses: {
-        serializedName: "org\\.opencontainers.image.licenses",
+        serializedName: "org\\.opencontainers\\.image\\.licenses",
         type: {
           name: "String"
         }
       },
       name: {
-        serializedName: "org\\.opencontainers.image.ref.name",
+        serializedName: "org\\.opencontainers\\.image\\.ref.name",
         type: {
           name: "String"
         }
       },
       title: {
-        serializedName: "org\\.opencontainers.image.title",
+        serializedName: "org\\.opencontainers\\.image\\.title",
         type: {
           name: "String"
         }
       },
       description: {
-        serializedName: "org\\.opencontainers.image.description",
+        serializedName: "org\\.opencontainers\\.image\\.description",
         type: {
           name: "String"
         }

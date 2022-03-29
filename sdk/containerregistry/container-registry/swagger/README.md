@@ -180,3 +180,20 @@ directive:
       "x-ms-client-name": "CreatedOn"
     }
 ```
+
+# Add escaping to second and third periods of property names
+
+to work around a code generator bug where only the first period is escaped.
+This should be removed when the code gen bug is fixed.
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.Annotations
+  transform: >
+    $.properties = Object.keys($.properties).reduce((acc, key) => {
+      const newKey = key.replace("org.opencontainers.image.", "org.opencontainers\\.image\\.");
+      acc[newKey] = $.properties[key];
+      return acc;
+    }, {});
+```
