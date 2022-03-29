@@ -3,23 +3,39 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
-import { PurviewCatalogLike } from "./clientDefinitions";
+import { PurviewCatalogClient } from "./clientDefinitions";
 
-export default function PurviewCatalog(
+export default function createClient(
   Endpoint: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
-): PurviewCatalogLike {
+): PurviewCatalogClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/catalog/api`;
   options.apiVersion = options.apiVersion ?? "2021-05-01-preview";
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"],
-    },
+      scopes: ["https://purview.azure.net/.default"]
+    }
   };
 
-  const client = getClient(baseUrl, credentials, options) as PurviewCatalogLike;
+  const userAgentInfo = `azsdk-js-purview-catalog-rest/1.0.0-beta.4`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
+    ...options,
+    userAgentOptions: {
+      userAgentPrefix
+    }
+  };
+
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as PurviewCatalogClient;
 
   return client;
 }
