@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import {
   // getLongRunningPoller,
-  PurviewCatalogLike,
+  PurviewCatalogClient,
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -12,7 +12,7 @@ import { Context } from "mocha";
 
 describe("purview catalog test", () => {
   let recorder: Recorder;
-  let client: PurviewCatalogLike;
+  let client: PurviewCatalogClient;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);

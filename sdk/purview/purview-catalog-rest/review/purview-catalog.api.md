@@ -918,6 +918,10 @@ export interface ContactSearchResultValueOutput {
 }
 
 // @public (undocumented)
+function createClient(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogClient;
+export default createClient;
+
+// @public (undocumented)
 export interface DateFormat {
     availableLocales?: Array<string>;
     // (undocumented)
@@ -3194,11 +3198,7 @@ export interface PListOutput {
 }
 
 // @public (undocumented)
-function PurviewCatalog(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogLike;
-export default PurviewCatalog;
-
-// @public (undocumented)
-export type PurviewCatalogLike = Client & {
+export type PurviewCatalogClient = Client & {
     path: Routes;
 };
 
