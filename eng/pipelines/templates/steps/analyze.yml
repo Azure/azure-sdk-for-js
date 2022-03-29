@@ -44,6 +44,44 @@ steps:
         Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
 
+  # Add Step Here
+  # FIRST CONSUME ARTIFACTS ()
+  - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
+
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: 'current'
+      downloadType: 'single'
+      # This is the name of the docs that you want to download.
+      artifactName: '$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip'
+      downloadPath: '$(Build.SourcesDirectory)/html-docs/'
+
+  # Then I have tu extract the files and store them somewhere.
+  # Extract files
+  # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
+  - task: ExtractFiles@1
+    inputs:
+      #archiveFilePatterns: '**/*.zip' 
+      #### IS THIS PATH OK?
+      destinationFolder: $(Build.SourcesDirectory)/html-docs/
+      #cleanDestinationFolder: true 
+      #overwriteExistingFiles: false
+
+  # NOW CALL VERIFY LINKS, again, with the artifact url
+  
+  - template: /eng/common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/*.zip"
+        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
+      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: sdk/${{ parameters.ServiceDirectory }}
+      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+        # HERE I NEED A PATH TO THE HTML FOLDER
+        Urls: '(Get-ChildItem -Path ./ -Recurse -Include *.html)'
+      CheckLinkGuidance: $true
+    
+
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
