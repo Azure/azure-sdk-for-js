@@ -28,6 +28,8 @@ import * as Mappers from "../generated/models/mappers";
 import { createSerializer, FullOperationResponse } from "@azure/core-client";
 import { readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
+import { createSpan } from "../tracing";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -125,7 +127,19 @@ export class ContainerRegistryBlobClient {
    * @param options - optional configuration used to send requests to the service
    */
   public async deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void> {
-    await this.client.containerRegistryBlob.deleteBlob(this.repositoryName, digest, options);
+    const { span, updatedOptions } = createSpan("ContainerRegistryBlobClient-deleteBlob", options);
+
+    try {
+      await this.client.containerRegistryBlob.deleteBlob(
+        this.repositoryName,
+        digest,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -165,31 +179,43 @@ export class ContainerRegistryBlobClient {
     manifestOrManifestStream: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult> {
-    let manifestBody: Buffer | NodeJS.ReadableStream;
-
-    if (isReadableStream(manifestOrManifestStream)) {
-      manifestBody = await readStreamToEnd(manifestOrManifestStream);
-    } else if (typeof manifestOrManifestStream === "function") {
-      manifestBody = await readStreamToEnd(manifestOrManifestStream());
-    } else {
-      const serialized = serializer.serialize(Mappers.OCIManifest, manifestOrManifestStream);
-      manifestBody = Buffer.from(JSON.stringify(serialized));
-    }
-
-    const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
-
-    const { dockerContentDigest } = await this.client.containerRegistry.createManifest(
-      this.repositoryName,
-      tagOrDigest,
-      manifestBody,
-      { contentType: KnownManifestMediaType.OciManifestMediaType, ...options }
+    const { span, updatedOptions } = createSpan(
+      "ContainerRegistryBlobClient-uploadManifest",
+      options
     );
 
-    if (!dockerContentDigest) {
-      throw new Error("Digest not provided");
-    }
+    try {
+      let manifestBody: Buffer | NodeJS.ReadableStream;
 
-    return { digest: dockerContentDigest };
+      if (isReadableStream(manifestOrManifestStream)) {
+        manifestBody = await readStreamToEnd(manifestOrManifestStream);
+      } else if (typeof manifestOrManifestStream === "function") {
+        manifestBody = await readStreamToEnd(manifestOrManifestStream());
+      } else {
+        const serialized = serializer.serialize(Mappers.OCIManifest, manifestOrManifestStream);
+        manifestBody = Buffer.from(JSON.stringify(serialized));
+      }
+
+      const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
+
+      const { dockerContentDigest } = await this.client.containerRegistry.createManifest(
+        this.repositoryName,
+        tagOrDigest,
+        manifestBody,
+        { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
+      );
+
+      if (!dockerContentDigest) {
+        throw new Error("Digest not provided");
+      }
+
+      return { digest: dockerContentDigest };
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -202,43 +228,55 @@ export class ContainerRegistryBlobClient {
     tagOrDigest: string,
     options?: DownloadManifestOptions
   ): Promise<DownloadManifestResult> {
-    const rawResponse = await new Promise<FullOperationResponse>((resolve) =>
-      this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-        accept: KnownManifestMediaType.OciManifestMediaType,
-        ...options,
-        onResponse: (rawResponseProvided, flatResponse, error) => {
-          options?.onResponse?.(rawResponseProvided, flatResponse, error);
-          resolve(rawResponseProvided);
-        },
-      })
+    const { span, updatedOptions } = createSpan(
+      "ContainerRegistryBlobClient-downloadManifest",
+      options
     );
 
-    const digest = rawResponse.headers.get("Docker-Content-Digest");
-    if (!digest) {
-      throw new Error("Expected Docker-Content-Digest header in response");
-    }
+    try {
+      const rawResponse = await new Promise<FullOperationResponse>(async (resolve) => {
+        this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
+          accept: KnownManifestMediaType.OciManifestMediaType,
+          ...updatedOptions,
+          onResponse: (rawResponseProvided, flatResponse, error) => {
+            updatedOptions?.onResponse?.(rawResponseProvided, flatResponse, error);
+            resolve(rawResponseProvided);
+          },
+        });
+      });
 
-    const body = rawResponse.bodyAsText;
-    if (!body) {
-      throw new Error("downloadManifest did not return a text body");
-    }
+      const digest = rawResponse.headers.get("Docker-Content-Digest");
+      if (!digest) {
+        throw new Error("Expected Docker-Content-Digest header in response");
+      }
 
-    const bodyData = Buffer.from(body);
-    const expectedDigest = await calculateDigest(bodyData);
+      const body = rawResponse.bodyAsText;
+      if (!body) {
+        throw new Error("downloadManifest did not return a text body");
+      }
 
-    if (digest !== expectedDigest) {
-      throw new Error(`Docker-Content-Digest header does not match calculated digest.
+      const bodyData = Buffer.from(body);
+      const expectedDigest = await calculateDigest(bodyData);
+
+      if (digest !== expectedDigest) {
+        throw new Error(`Docker-Content-Digest header does not match calculated digest.
         Expected: ${expectedDigest}
         Actual: ${digest}`);
+      }
+
+      const manifest = serializer.deserialize(Mappers.OCIManifest, JSON.parse(body), "OCIManifest");
+
+      return {
+        digest,
+        manifest,
+        manifestStream: Readable.from(bodyData),
+      };
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    const manifest = serializer.deserialize(Mappers.OCIManifest, JSON.parse(body), "OCIManifest");
-
-    return {
-      digest,
-      manifest,
-      manifestStream: Readable.from(bodyData),
-    };
   }
 
   /**
@@ -248,7 +286,23 @@ export class ContainerRegistryBlobClient {
    * @param options - optional configuration used to send requests to the service
    */
   public async deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void> {
-    await this.client.containerRegistry.deleteManifest(this.repositoryName, digest, options);
+    const { span, updatedOptions } = createSpan(
+      "ContainerRegistryBlobClient-deleteManifest",
+      options
+    );
+
+    try {
+      await this.client.containerRegistry.deleteManifest(
+        this.repositoryName,
+        digest,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -271,49 +325,58 @@ export class ContainerRegistryBlobClient {
   public async uploadBlob(
     blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream
   ): Promise<UploadBlobResult> {
-    const startUploadResult = await this.client.containerRegistryBlob.startUpload(
-      this.repositoryName
-    );
+    const { span } = createSpan("ContainerRegistryBlobClient-uploadBlob", undefined);
 
-    let requestBody: NodeJS.ReadableStream | Buffer;
-    let digest: string;
-
-    if (typeof blobStreamOrFactory === "function") {
-      requestBody = blobStreamOrFactory();
-      digest = await calculateDigest(blobStreamOrFactory());
-    } else {
-      requestBody = await readStreamToEnd(blobStreamOrFactory);
-      digest = await calculateDigest(requestBody);
-    }
-
-    if (!startUploadResult.location) {
-      throw new Error("startUpload did not return a location");
-    }
-
-    const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
-      startUploadResult.location.substring(1),
-      requestBody
-    );
-
-    if (!uploadChunkResult.location) {
-      throw new Error("uploadChunk did not return a location");
-    }
-
-    const { dockerContentDigest: digestFromResponse } =
-      await this.client.containerRegistryBlob.completeUpload(
-        digest,
-        uploadChunkResult.location.substring(1)
+    try {
+      const startUploadResult = await this.client.containerRegistryBlob.startUpload(
+        this.repositoryName
       );
 
-    if (!digestFromResponse) {
-      throw new Error("completeUpload did not provide a digest");
-    }
+      let requestBody: NodeJS.ReadableStream | Buffer;
+      let digest: string;
 
-    if (digest !== digestFromResponse) {
-      throw new Error("Digest of blob to upload does not match the digest from the server.");
-    }
+      if (typeof blobStreamOrFactory === "function") {
+        requestBody = blobStreamOrFactory();
+        digest = await calculateDigest(blobStreamOrFactory());
+      } else {
+        requestBody = await readStreamToEnd(blobStreamOrFactory);
+        digest = await calculateDigest(requestBody);
+      }
 
-    return { digest };
+      if (!startUploadResult.location) {
+        throw new Error("startUpload did not return a location");
+      }
+
+      const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
+        startUploadResult.location.substring(1),
+        requestBody
+      );
+
+      if (!uploadChunkResult.location) {
+        throw new Error("uploadChunk did not return a location");
+      }
+
+      const { dockerContentDigest: digestFromResponse } =
+        await this.client.containerRegistryBlob.completeUpload(
+          digest,
+          uploadChunkResult.location.substring(1)
+        );
+
+      if (!digestFromResponse) {
+        throw new Error("completeUpload did not provide a digest");
+      }
+
+      if (digest !== digestFromResponse) {
+        throw new Error("Digest of blob to upload does not match the digest from the server.");
+      }
+
+      return { digest };
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -327,19 +390,31 @@ export class ContainerRegistryBlobClient {
     digest: string,
     options?: DownloadBlobOptions
   ): Promise<DownloadBlobResult> {
-    const { readableStreamBody: content } = await this.client.containerRegistryBlob.getBlob(
-      this.repositoryName,
-      digest,
+    const { span, updatedOptions } = createSpan(
+      "ContainerRegistryBlobClient-downloadBlob",
       options
     );
 
-    if (!content) {
-      throw new Error("Expected response with content");
-    }
+    try {
+      const { readableStreamBody: content } = await this.client.containerRegistryBlob.getBlob(
+        this.repositoryName,
+        digest,
+        updatedOptions
+      );
 
-    return {
-      digest,
-      content,
-    };
+      if (!content) {
+        throw new Error("Expected response with content");
+      }
+
+      return {
+        digest,
+        content,
+      };
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
