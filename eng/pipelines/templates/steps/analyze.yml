@@ -45,10 +45,11 @@ steps:
       CheckLinkGuidance: $true
   
   - script: |
-    echo "TEST INFO"
-    echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip"
-    echo "$(Build.SourcesDirectory)/html-docs/"
-    echo "parameters"
+      echo "TEST INFO";
+      echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip";
+      echo "$(Build.SourcesDirectory)/html-docs/";
+      echo "parameters";
+    displayName: "Unlink dependencies"
 
   # Add Step Here
   # FIRST CONSUME ARTIFACTS ()
