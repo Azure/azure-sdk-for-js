@@ -5,6 +5,7 @@
 ### Features Added
 
 - Support resettable streams in the form of `() => NodeJS.ReadableStream` for NodeJS and `() => ReadableStream` for browser. [#21013](https://github.com/Azure/azure-sdk-for-js/pull/21013)
+- Add a React-Native mapping for default HTTP Client to the old `XhrHttpClient` because the Fetch API implementation in React-Native runtime is missing streaming support.
 
 ### Breaking Changes
 
