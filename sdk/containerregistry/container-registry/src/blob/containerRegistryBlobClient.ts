@@ -64,11 +64,12 @@ export class ContainerRegistryBlobClient {
    *
    * Example usage:
    * ```ts
-   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { ContainerRegistryBlobClient } from "@azure/container-registry";
    * import { DefaultAzureCredential} from "@azure/identity";
    *
-   * const client = new ContainerRegistryClient(
+   * const client = new ContainerRegistryBlobClient(
    *    "<container registry API endpoint>",
+   *    "<repository name>",
    *    new DefaultAzureCredential()
    * );
    * ```
