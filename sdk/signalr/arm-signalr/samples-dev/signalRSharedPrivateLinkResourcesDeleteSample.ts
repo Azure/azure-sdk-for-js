@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete the specified shared private link resource
  *
  * @summary Delete the specified shared private link resource
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalRSharedPrivateLinkResources_Delete.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalRSharedPrivateLinkResources_Delete.json
  */
 async function signalRSharedPrivateLinkResourcesDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

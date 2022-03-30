@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Operation to update an exiting resource.
  *
  * @summary Operation to update an exiting resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalR_Update.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalR_Update.json
  */
 async function signalRUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -33,10 +33,6 @@ async function signalRUpdate() {
     ],
     identity: { type: "SystemAssigned" },
     kind: "SignalR",
-    liveTraceConfiguration: {
-      categories: [{ name: "ConnectivityLogs", enabled: "true" }],
-      enabled: "false"
-    },
     location: "eastus",
     networkACLs: {
       defaultAction: "Deny",

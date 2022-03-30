@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Checks that the resource name is valid and is not already in use.
  *
  * @summary Checks that the resource name is valid and is not already in use.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalR_CheckNameAvailability.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalR_CheckNameAvailability.json
  */
 async function signalRCheckNameAvailability() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

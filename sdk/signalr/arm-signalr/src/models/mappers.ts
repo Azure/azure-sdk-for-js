@@ -745,55 +745,6 @@ export const SignalRFeature: coreClient.CompositeMapper = {
   }
 };
 
-export const LiveTraceConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LiveTraceConfiguration",
-    modelProperties: {
-      enabled: {
-        defaultValue: "false",
-        serializedName: "enabled",
-        type: {
-          name: "String"
-        }
-      },
-      categories: {
-        serializedName: "categories",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LiveTraceCategory"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const LiveTraceCategory: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LiveTraceCategory",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ResourceLogConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1076,75 +1027,6 @@ export const UserAssignedIdentityProperty: coreClient.CompositeMapper = {
       clientId: {
         serializedName: "clientId",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CustomCertificateList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomCertificateList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CustomCertificate"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CustomDomainList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomDomainList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CustomDomain"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceReference",
-    modelProperties: {
-      id: {
-        serializedName: "id",
         type: {
           name: "String"
         }
@@ -1588,88 +1470,6 @@ export const SharedPrivateLinkResource: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomCertificate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomCertificate",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultBaseUri: {
-        serializedName: "properties.keyVaultBaseUri",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultSecretName: {
-        serializedName: "properties.keyVaultSecretName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultSecretVersion: {
-        serializedName: "properties.keyVaultSecretVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CustomDomain: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomDomain",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      domainName: {
-        serializedName: "properties.domainName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      customCertificate: {
-        serializedName: "properties.customCertificate",
-        type: {
-          name: "Composite",
-          className: "ResourceReference"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateLinkResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1845,13 +1645,6 @@ export const SignalRResource: coreClient.CompositeMapper = {
               className: "SignalRFeature"
             }
           }
-        }
-      },
-      liveTraceConfiguration: {
-        serializedName: "properties.liveTraceConfiguration",
-        type: {
-          name: "Composite",
-          className: "LiveTraceConfiguration"
         }
       },
       resourceLogConfiguration: {

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List resource usage quotas by location.
  *
  * @summary List resource usage quotas by location.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/Usages_List.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/Usages_List.json
  */
 async function usagesList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -15,8 +15,6 @@ import {
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
   SignalRResource as SignalRResourceMapper,
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
-  CustomCertificate as CustomCertificateMapper,
-  CustomDomain as CustomDomainMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SharedPrivateLinkResource as SharedPrivateLinkResourceMapper
 } from "../models/mappers";
@@ -48,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-02-01",
+    defaultValue: "2021-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -140,38 +138,6 @@ export const parameters2: OperationParameter = {
   mapper: RegenerateKeyParametersMapper
 };
 
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CustomCertificateMapper
-};
-
-export const name: OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CustomDomainMapper
-};
-
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -183,7 +149,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const parameters5: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -199,7 +165,7 @@ export const sharedPrivateLinkResourceName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: SharedPrivateLinkResourceMapper
 };

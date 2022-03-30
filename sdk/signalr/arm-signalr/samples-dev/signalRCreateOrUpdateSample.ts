@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a resource.
  *
  * @summary Create or update a resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalR_CreateOrUpdate.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalR_CreateOrUpdate.json
  */
 async function signalRCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -33,10 +33,6 @@ async function signalRCreateOrUpdate() {
     ],
     identity: { type: "SystemAssigned" },
     kind: "SignalR",
-    liveTraceConfiguration: {
-      categories: [{ name: "ConnectivityLogs", enabled: "true" }],
-      enabled: "false"
-    },
     location: "eastus",
     networkACLs: {
       defaultAction: "Deny",

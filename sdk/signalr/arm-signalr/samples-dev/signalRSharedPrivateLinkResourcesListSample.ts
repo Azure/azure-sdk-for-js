@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List shared private link resources
  *
  * @summary List shared private link resources
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalRSharedPrivateLinkResources_List.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalRSharedPrivateLinkResources_List.json
  */
 async function signalRSharedPrivateLinkResourcesList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

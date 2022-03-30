@@ -12,8 +12,6 @@ import {
   OperationsImpl,
   SignalRImpl,
   UsagesImpl,
-  SignalRCustomCertificatesImpl,
-  SignalRCustomDomainsImpl,
   SignalRPrivateEndpointConnectionsImpl,
   SignalRPrivateLinkResourcesImpl,
   SignalRSharedPrivateLinkResourcesImpl
@@ -22,8 +20,6 @@ import {
   Operations,
   SignalR,
   Usages,
-  SignalRCustomCertificates,
-  SignalRCustomDomains,
   SignalRPrivateEndpointConnections,
   SignalRPrivateLinkResources,
   SignalRSharedPrivateLinkResources
@@ -87,12 +83,10 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-02-01";
+    this.apiVersion = options.apiVersion || "2021-10-01";
     this.operations = new OperationsImpl(this);
     this.signalR = new SignalRImpl(this);
     this.usages = new UsagesImpl(this);
-    this.signalRCustomCertificates = new SignalRCustomCertificatesImpl(this);
-    this.signalRCustomDomains = new SignalRCustomDomainsImpl(this);
     this.signalRPrivateEndpointConnections = new SignalRPrivateEndpointConnectionsImpl(
       this
     );
@@ -107,8 +101,6 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   signalR: SignalR;
   usages: Usages;
-  signalRCustomCertificates: SignalRCustomCertificates;
-  signalRCustomDomains: SignalRCustomDomains;
   signalRPrivateEndpointConnections: SignalRPrivateEndpointConnections;
   signalRPrivateLinkResources: SignalRPrivateLinkResources;
   signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;

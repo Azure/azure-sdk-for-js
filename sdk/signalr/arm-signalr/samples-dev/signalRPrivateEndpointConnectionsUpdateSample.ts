@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update the state of specified private endpoint connection
  *
  * @summary Update the state of specified private endpoint connection
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalRPrivateEndpointConnections_Update.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalRPrivateEndpointConnections_Update.json
  */
 async function signalRPrivateEndpointConnectionsUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

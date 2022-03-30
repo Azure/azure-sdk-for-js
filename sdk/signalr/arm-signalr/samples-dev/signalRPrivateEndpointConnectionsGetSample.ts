@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get the specified private endpoint connection
  *
  * @summary Get the specified private endpoint connection
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalRPrivateEndpointConnections_Get.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/SignalRPrivateEndpointConnections_Get.json
  */
 async function signalRPrivateEndpointConnectionsGet() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
