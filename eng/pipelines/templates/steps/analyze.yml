@@ -71,7 +71,7 @@ steps:
         buildType: 'current'
         downloadType: 'single'
         # This is the name of the docs that you want to download.
-        artifactName: '$(Build.ArtifactStagingDirectory)/packages/${{ artifact.name }}/documentation/${{ artifact.name }}.zip'
+        artifactName: '${{ artifact.name }}.zip'
         downloadPath: '$(Pipeline.Workspace)/html-docs/'
 
     # Then I have tu extract the files and store them somewhere.
