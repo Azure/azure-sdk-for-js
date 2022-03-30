@@ -5818,10 +5818,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteEnvelope, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -6079,10 +6081,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, backupId, request, options },
       restoreOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -6672,10 +6676,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, options },
       listPublishingCredentialsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -7317,10 +7323,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, mSDeploy, options },
       createMSDeployOperationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -7479,10 +7487,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, functionName, functionEnvelope, options },
       createFunctionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -8119,10 +8129,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, instanceId, mSDeploy, options },
       createInstanceMSDeployOperationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -8443,10 +8455,12 @@ export class WebAppsImpl implements WebApps {
       { subscriptionName, resourceGroupName, name, migrationOptions, options },
       migrateStorageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -8536,10 +8550,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, migrationRequestEnvelope, options },
       migrateMySqlOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -8778,10 +8794,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, options },
       startWebSiteNetworkTraceOperationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -9174,10 +9192,12 @@ export class WebAppsImpl implements WebApps {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -9267,10 +9287,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -9645,10 +9667,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, request, options },
       restoreFromBackupBlobOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -9730,10 +9754,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, restoreRequest, options },
       restoreFromDeletedAppOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -9816,10 +9842,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, restoreRequest, options },
       restoreSnapshotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -9943,10 +9971,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteExtensionId, options },
       installSiteExtensionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -10093,10 +10123,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, siteEnvelope, options },
       createOrUpdateSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -10385,10 +10417,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, backupId, slot, request, options },
       restoreSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -11050,10 +11084,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, options },
       listPublishingCredentialsSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -11741,10 +11777,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, mSDeploy, options },
       createMSDeployOperationSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -11923,10 +11961,12 @@ export class WebAppsImpl implements WebApps {
       },
       createInstanceFunctionSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -12649,10 +12689,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, instanceId, mSDeploy, options },
       createInstanceMSDeployOperationSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -13189,10 +13231,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, options },
       startWebSiteNetworkTraceOperationSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -13646,10 +13690,12 @@ export class WebAppsImpl implements WebApps {
       },
       approveOrRejectPrivateEndpointConnectionSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -13744,10 +13790,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, privateEndpointConnectionName, slot, options },
       deletePrivateEndpointConnectionSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14173,10 +14221,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, request, options },
       restoreFromBackupBlobSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14264,10 +14314,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, restoreRequest, options },
       restoreFromDeletedAppSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14355,10 +14407,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, restoreRequest, options },
       restoreSnapshotSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14494,10 +14548,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteExtensionId, slot, options },
       installSiteExtensionSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14630,10 +14686,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, slotSwapEntity, options },
       swapSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14785,10 +14843,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, siteSourceControl, options },
       createOrUpdateSourceControlSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -14941,10 +15001,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, options },
       startNetworkTraceSlotOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -15522,10 +15584,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slotSwapEntity, options },
       swapSlotWithProductionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -15663,10 +15727,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteSourceControl, options },
       createOrUpdateSourceControlOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -15804,10 +15870,12 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, options },
       startNetworkTraceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

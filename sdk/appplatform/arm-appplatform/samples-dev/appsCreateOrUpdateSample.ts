@@ -45,15 +45,12 @@ async function appsCreateOrUpdate() {
     properties: {
       addonConfigs: {
         applicationConfigurationService: {
-          resourceId: {
-            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
-          }
-            
+          resourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
         },
         serviceRegistry: {
-          resourceId: {
-            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
-          }      
+          resourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
         }
       },
       customPersistentDisks: [
