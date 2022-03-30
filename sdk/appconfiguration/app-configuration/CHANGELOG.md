@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file.
+
 ### Other Changes
 
 ## 1.3.1 (2021-12-14)
