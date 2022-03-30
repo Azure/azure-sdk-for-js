@@ -7,7 +7,6 @@ Monitor Query client library for Javascript.
 
 - [General Troubleshooting](#general-troubleshooting)
   - [Enable client logging](#enable-client-logging)
-  - [Enable HTTP request/response logging](#enable-http-requestresponse-logging)
   - [Troubleshooting authentication issues with logs and metrics query requests](#authentication-errors)
   - [Troubleshooting NoSuchMethodError or NoClassDefFoundError](#dependency-conflicts)
 - [Troubleshooting Logs Query](#troubleshooting-logs-query)
@@ -26,12 +25,29 @@ Monitor Query client library for Javascript.
 
 ### Enable client logging
 
-To troubleshoot issues with Azure Monitor query library, it is important to first enable logging to monitor the
-behavior of the application. The errors and warnings in the logs generally provide
-useful insights into what went wrong and sometimes include corrective actions to fix issues.
+To troubleshoot issues with Azure Monitor query library, it is important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues.
 
 The Azure client libraries for JS allow you to enable logging either through the environment variable or at runtime.
+
+The following log levels are supported from most verbose to least verbose:
+- verbose
+- info
+- warning
+- error
+
+When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` environment variable, any logs that are written using a log level equal to or less than the one you choose will be emitted.
+
+For example, setting the log level to `warning` will cause all logs that have the log level `warning` or `error` to be emitted.
+
+#### Logging via environment variable
+
 To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
+
+```ts
+require("dotenv").config({ path: ".env" });
+```
+#### Logging using setLogLevel()
+
 Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```ts
@@ -40,88 +56,35 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
+**NOTE**: When logging the body of request and response, please ensure that they do not contain confidential information.
+
 For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
-### Enable HTTP request/response logging
-
-Reviewing the HTTP request sent or response received over the wire to/from the Azure Monitor service can be useful in
-troubleshooting issues. To enable logging the HTTP request and response payload, the LogsQueryClient and the
-MetricsQueryClient can be configured as shown below:
-
-```java readme-sample-enablehttplogging
-LogsQueryClient logsQueryClient = new LogsQueryClientBuilder()
-        .credential(credential)
-        .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
-        .buildClient();
-// or
-MetricsQueryClient metricsQueryClient = new MetricsQueryClientBuilder()
-        .credential(credential)
-        .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
-        .buildClient();
-```
-
-Alternatively, you can configure logging HTTP requests and responses for your entire application by setting the
-following environment variable. Note that this change will enable logging for every Azure client that supports logging
-HTTP request/response.
-
-Environment variable name: `AZURE_HTTP_LOG_DETAIL_LEVEL`
-
-| Value            | Logging level                                                        |
-| ---------------- | -------------------------------------------------------------------- |
-| none             | HTTP request/response logging is disabled                            |
-| basic            | Logs only URLs, HTTP methods, and time to finish the request.        |
-| headers          | Logs everything in BASIC, plus all the request and response headers. |
-| body             | Logs everything in BASIC, plus all the request and response body.    |
-| body_and_headers | Logs everything in HEADERS and BODY.                                 |
-
-**NOTE**: When logging the body of request and response, please ensure that they do not contain confidential
-information. When logging headers, the client library has a default set of headers that are considered safe to log
-but this set can be updated by updating the log options in the builder as shown below:
-
-```java
-clientBuilder.httpLogOptions(new HttpLogOptions().addAllowedHeaderName("safe-to-log-header-name"))
-```
 
 ### Authentication errors
 
-Azure Monitor Query supports Azure Active Directory authentication. Both LogsQueryClientBuilder and
-MetricsQueryClientBuilder have methods to set the `credential`. To provide a valid credential, you can use
-`azure-identity` dependency. For more details on getting started, refer to
-the [README](https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/monitor/azure-monitor-query#create-the-client)
-of Azure Monitor Query library. You can also refer to
-the [Azure Identity documentation](https://docs.microsoft.com/azure/developer/java/sdk/identity)
-for more details on the various types of credential supported in `azure-identity`.
-
-### Dependency Conflicts
-
-If you see `NoSuchMethodError` or `NoClassDefFoundError` during your application runtime, this is due to a
-dependency version conflict. Please take a look at [troubleshooting dependency version conflicts](https://docs.microsoft.com/azure/developer/java/sdk/troubleshooting-dependency-version-conflict) for more information on
-why this happens and [ways to mitigate this issue](https://docs.microsoft.com/azure/developer/java/sdk/troubleshooting-dependency-version-conflict#mitigate-version-mismatch-issues).
+Azure Monitor Query supports Azure Active Directory authentication. Both `logsQueryClient` and `metricsQueryClient` have methods to set the `credential`. To provide a valid credential, you can use `@azure/identity` dependency. For more details on getting started, refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#create-the-client) of Azure Monitor Query library. You can also refer to the [Azure Identity documentation](https://aka.ms/azsdk/js/identity/troubleshoot) for more details on the various types of credential supported in `@azure/identity`.
 
 ## Troubleshooting Logs Query
 
 ### Troubleshooting insufficient access error for logs query
 
-If you get an HTTP error with status code 403 (Forbidden), it means that the provided credentials does not have
-sufficient permissions to query the workspace.
+If you get an HTTP error with status code 403 (Forbidden), it means that the provided credentials does not have sufficient permissions to query the workspace.
 
 ```text
-com.azure.core.exception.HttpResponseException: Status code 403, "{"error":{"message":"The provided credentials have insufficient access to perform the requested operation","code":"InsufficientAccessError","correlationId":""}}"
-	at com.azure.monitor.query/com.azure.monitor.query.LogsQueryAsyncClient.lambda$queryWorkspaceWithResponse$7(LogsQueryAsyncClient.java:346)
+{"error":{"message":"The provided credentials have insufficient access to perform the requested operation","code":"InsufficientAccessError","correlationId":""}}
 ```
 
 1. Check that the application or user that is making the request has sufficient permissions:
    - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, make sure you are
    authenticating as that user/application. If you are authenticating using the
-   [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/identity/azure-identity/README.md#authenticating-with-defaultazurecredential)
+   [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential)
    then check the logs to verify that the credential used is the one you expected. To enable logging, see [enable
    client logging](#enable-client-logging) section above.
 
 ### Troubleshooting invalid Kusto query
 
-If you get an HTTP error with status code 400 (Bad Request), you may have an error in your Kusto query and you'll
-see an error message similar to the one below.
+If you get an HTTP error with status code 400 (Bad Request), you may have an error in your Kusto query and you will see an error message similar to the one below.
 
 ```text
 com.azure.core.exception.HttpResponseException: Status code 400, "{"error":{"message":"The request had some invalid properties","code":"BadArgumentError","correlationId":"ff3e2a7e-e95c-4437-82cf-9b15761d0850","innererror":{"code":"SyntaxError","message":"A recognition error occurred in the query.","innererror":{"code":"SYN0002","message":"Query could not be parsed at 'joi' on line [2,244]","line":2,"pos":244,"token":"joi"}}}}"
@@ -150,14 +113,20 @@ results that the query has to fetch. This can lead to the client timing out befo
 To increase the client side timeout, you can configure the HTTP client to have an extended timeout by doing the
 following.
 
-```java readme-sample-responsetimeout
-LogsQueryClient client = new LogsQueryClientBuilder()
-        .credential(credential)
-        .clientOptions(new HttpClientOptions().setResponseTimeout(Duration.ofSeconds(120)))
-        .buildClient();
-```
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient } from "@azure/monitor-query";
 
-The above code will create a LogsQueryClient with a Netty HTTP client that waits for a response for up to 120 seconds.
+const credential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(credential);
+const result = await logsQueryClient.queryWorkspace(
+        monitorWorkspaceId,
+        kustoQuery,
+        { duration: Durations.oneHour },
+        {serverTimeoutInSeconds: 120}
+        );
+```
+The above code will create a `LogsQueryClient` with a Netty HTTP client that waits for a response for up to 120 seconds.
 The default is 60 seconds.
 
 ### Troubleshooting server timeouts when executing logs query request
