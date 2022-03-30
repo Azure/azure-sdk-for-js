@@ -5,7 +5,6 @@
  * This sample demonstrates how get a list of devices
  *
  * @summary Demonstrates the use of a DeviceUpdateClient to list all devices connected to Device Update for IoT Hub.
- * @azsdk-weight 40
  */
 
 import DeviceUpdate from "@azure-rest/iot-device-update";

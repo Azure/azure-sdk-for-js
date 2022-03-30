@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/web-pubsub-express-ts",
+  "name": "@azure-samples/iot-device-update-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Web PubSub CloudEvents Handlers for Express client library samples for TypeScript",
+  "description": "Azure IoT Hub Device Update rest client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -13,25 +13,29 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/web-pubsub/web-pubsub-express"
+    "directory": "sdk/deviceupdate/iot-device-update-rest"
   },
   "keywords": [
+    "node",
     "azure",
-    "cloud"
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest",
   "dependencies": {
-    "@azure/web-pubsub-express": "latest",
-    "dotenv": "latest"
+    "@azure-rest/iot-device-update": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
-    "@types/express": "^4.16.0",
-    "express": "^4.16.3",
+    "@types/node": "^12.0.0",
     "typescript": "~4.4.0",
     "rimraf": "latest"
   }

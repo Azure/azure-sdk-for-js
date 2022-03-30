@@ -46,7 +46,9 @@
     ],
     "requiredResources": {
       "Azure Confidential Compute": "https://azure.microsoft.com/solutions/confidential-compute"
-    }
+    },
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/azure/confidential-ledger"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js",

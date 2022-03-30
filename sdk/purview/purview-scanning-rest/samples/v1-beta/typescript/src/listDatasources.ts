@@ -5,7 +5,6 @@
  * This sample demonstrates how get a list of datasources
  *
  * @summary gets a list of datasources
- * @azsdk-weight 40
  */
 
 import PurviewScanning, { DataSource, paginate } from "@azure-rest/purview-scanning";

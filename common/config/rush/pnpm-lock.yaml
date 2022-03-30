@@ -16265,7 +16265,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-tVSwWmt4vYzGltbigwdCvqdreJfrbJOrMNIKCw3PDcfBwXWInLdOsiBk9lL82qEYkNJnQJO1yl3INLKhOlQLdg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-ADG9wO8rIljoktGdVnP+v8jdrxc43TL0hQgHi7cSXkrJxFGGB6M8XqcDhuT8hYCLfLkRzCwpwH7VSnsjBDVdpg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -17353,7 +17353,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-6OwfNxMgUPq6h7t3G9zMZzpbPUXwN3RcrR36//l+VU9V7llMJTiQ0bcLDmSsXnz8OkriiLTYAQ5GHKIh6VVbKQ==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-trtPcfV0D0NNLODagRW4eH8nrDP1K4qan7vLkFMCLCzQhZ91cnC2oeXsNxb6Mngphz8V5+weCmz1swpIKBrbGg==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -17371,6 +17371,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
+      express: 4.17.3
       karma: 6.3.17
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
