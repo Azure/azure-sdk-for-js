@@ -51,10 +51,10 @@ steps:
       echo "artifacts name = ${{parameters.artifacts[0].name}}";
       echo "workspace = $(Pipeline.Workspace)";
       echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
-      echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip";
-      echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.artifacts.name }}/documentation/${{ parameters.artifacts.name }}.zip";
-      echo "$(Build.SourcesDirectory)/html-docs/";
-      echo "parameters";
+      
+      echo "TREE===========================";
+      tree $(Pipeline.Workspace)/packages/
+
     displayName: "test script"
 
 
