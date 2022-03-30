@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/storage/ci.mgmt.yml
-      - sdk/storage/arm-storage/
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
       - sdk/storage/arm-storage
 pr:
@@ -24,7 +23,6 @@ pr:
   paths:
     include:
       - sdk/storage/ci.mgmt.yml
-      - sdk/storage/arm-storage/
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
       - sdk/storage/arm-storage
 extends:
