@@ -7,9 +7,9 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
   GetActiveSeriesCountOptionalParams,
@@ -156,7 +156,9 @@ import {
 } from "./models";
 
 /** @internal */
-export class GeneratedClient extends GeneratedClientContext {
+export class GeneratedClient extends coreHttpCompat.ExtendedServiceClient {
+  endpoint: string;
+
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
@@ -164,7 +166,35 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
-    super(endpoint, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-ai-metrics-advisor/1.0.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}/metricsadvisor/v1.0"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
   }
 
   /**
