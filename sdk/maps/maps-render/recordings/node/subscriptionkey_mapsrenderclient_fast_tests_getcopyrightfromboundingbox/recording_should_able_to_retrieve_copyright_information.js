@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "a002a93dc743de2f83338809788a521e";
+module.exports.hash = "2245f445bea1690f1045415973078750";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -15,7 +15,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
-  'Wed, 23 Mar 2022 08:16:39 GMT',
+  'Wed, 30 Mar 2022 16:20:54 GMT',
   'ETag',
   'W/"a4c8e46da42c51b617d7e64c6ad70763"',
   'x-ms-azuremaps-region',
@@ -27,7 +27,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: F5F5D311CEEE4615A05A26F270FED5B2 Ref B: TYAEDGE1018 Ref C: 2022-03-23T07:09:31Z',
+  'Ref A: 7319A623F63D4085850A6D95614A3121 Ref B: TPE30EDGE0509 Ref C: 2022-03-30T01:39:09Z',
   'Date',
-  'Wed, 23 Mar 2022 07:09:31 GMT'
+  'Wed, 30 Mar 2022 01:39:08 GMT'
 ]);
