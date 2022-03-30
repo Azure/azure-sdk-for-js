@@ -464,12 +464,6 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
           className: "Identity"
         }
       },
-      allowedCopyScope: {
-        serializedName: "properties.allowedCopyScope",
-        type: {
-          name: "String"
-        }
-      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -515,7 +509,7 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: ["Hot", "Cool", "Premium"]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -527,18 +521,6 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
       },
       enableHttpsTrafficOnly: {
         serializedName: "properties.supportsHttpsTrafficOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isSftpEnabled: {
-        serializedName: "properties.isSftpEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isLocalUserEnabled: {
-        serializedName: "properties.isLocalUserEnabled",
         type: {
           name: "Boolean"
         }
@@ -603,12 +585,6 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImmutableStorageAccount"
-        }
-      },
-      dnsEndpointType: {
-        serializedName: "properties.dnsEndpointType",
-        type: {
-          name: "String"
         }
       }
     }
@@ -929,13 +905,6 @@ export const KeyVaultProperties: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
-      },
-      currentVersionedKeyExpirationTimestamp: {
-        serializedName: "currentVersionedKeyExpirationTimestamp",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
       }
     }
   }
@@ -948,12 +917,6 @@ export const EncryptionIdentity: coreClient.CompositeMapper = {
     modelProperties: {
       encryptionUserAssignedIdentity: {
         serializedName: "userAssignedIdentity",
-        type: {
-          name: "String"
-        }
-      },
-      encryptionFederatedIdentityClientId: {
-        serializedName: "federatedIdentityClientId",
         type: {
           name: "String"
         }
@@ -1170,18 +1133,6 @@ export const ActiveDirectoryProperties: coreClient.CompositeMapper = {
       azureStorageSid: {
         serializedName: "azureStorageSid",
         required: true,
-        type: {
-          name: "String"
-        }
-      },
-      samAccountName: {
-        serializedName: "samAccountName",
-        type: {
-          name: "String"
-        }
-      },
-      accountType: {
-        serializedName: "accountType",
         type: {
           name: "String"
         }
@@ -1636,42 +1587,6 @@ export const BlobRestoreRange: coreClient.CompositeMapper = {
   }
 };
 
-export const StorageAccountSkuConversionStatus: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageAccountSkuConversionStatus",
-    modelProperties: {
-      skuConversionStatus: {
-        serializedName: "skuConversionStatus",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetSkuName: {
-        serializedName: "targetSkuName",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      endTime: {
-        serializedName: "endTime",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1736,7 +1651,7 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: ["Hot", "Cool", "Premium"]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -1748,18 +1663,6 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
       },
       enableHttpsTrafficOnly: {
         serializedName: "properties.supportsHttpsTrafficOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isSftpEnabled: {
-        serializedName: "properties.isSftpEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isLocalUserEnabled: {
-        serializedName: "properties.isLocalUserEnabled",
         type: {
           name: "Boolean"
         }
@@ -1825,18 +1728,6 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImmutableStorageAccount"
-        }
-      },
-      allowedCopyScope: {
-        serializedName: "properties.allowedCopyScope",
-        type: {
-          name: "String"
-        }
-      },
-      dnsEndpointType: {
-        serializedName: "properties.dnsEndpointType",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2490,26 +2381,6 @@ export const DateAfterModification: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      daysAfterLastTierChangeGreaterThan: {
-        constraints: {
-          InclusiveMinimum: 0,
-          MultipleOf: 1
-        },
-        serializedName: "daysAfterLastTierChangeGreaterThan",
-        type: {
-          name: "Number"
-        }
-      },
-      daysAfterCreationGreaterThan: {
-        constraints: {
-          InclusiveMinimum: 0,
-          MultipleOf: 1
-        },
-        serializedName: "daysAfterCreationGreaterThan",
-        type: {
-          name: "Number"
-        }
       }
     }
   }
@@ -2557,16 +2428,6 @@ export const DateAfterCreation: coreClient.CompositeMapper = {
         },
         serializedName: "daysAfterCreationGreaterThan",
         required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      daysAfterLastTierChangeGreaterThan: {
-        constraints: {
-          InclusiveMinimum: 0,
-          MultipleOf: 1
-        },
-        serializedName: "daysAfterLastTierChangeGreaterThan",
         type: {
           name: "Number"
         }
@@ -2698,13 +2559,6 @@ export const BlobInventoryPolicySchema: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
-      destination: {
-        serializedName: "destination",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       type: {
         serializedName: "type",
         required: true,
@@ -2831,17 +2685,6 @@ export const BlobInventoryPolicyFilter: coreClient.CompositeMapper = {
           }
         }
       },
-      excludePrefix: {
-        serializedName: "excludePrefix",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
       blobTypes: {
         serializedName: "blobTypes",
         type: {
@@ -2861,12 +2704,6 @@ export const BlobInventoryPolicyFilter: coreClient.CompositeMapper = {
       },
       includeSnapshots: {
         serializedName: "includeSnapshots",
-        type: {
-          name: "Boolean"
-        }
-      },
-      includeDeleted: {
-        serializedName: "includeDeleted",
         type: {
           name: "Boolean"
         }
@@ -2914,61 +2751,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBody"
-            }
-          }
         }
       }
     }
@@ -3114,122 +2896,6 @@ export const ObjectReplicationPolicyFilter: coreClient.CompositeMapper = {
       },
       minCreationTime: {
         serializedName: "minCreationTime",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LocalUsers: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocalUsers",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LocalUser"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PermissionScope: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PermissionScope",
-    modelProperties: {
-      permissions: {
-        serializedName: "permissions",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      service: {
-        serializedName: "service",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      resourceName: {
-        serializedName: "resourceName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SshPublicKey: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SshPublicKey",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      key: {
-        serializedName: "key",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LocalUserKeys: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocalUserKeys",
-    modelProperties: {
-      sshAuthorizedKeys: {
-        serializedName: "sshAuthorizedKeys",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SshPublicKey"
-            }
-          }
-        }
-      },
-      sharedKey: {
-        serializedName: "sharedKey",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LocalUserRegeneratePasswordResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocalUserRegeneratePasswordResult",
-    modelProperties: {
-      sshPassword: {
-        serializedName: "sshPassword",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -3422,12 +3088,6 @@ export const DeleteRetentionPolicy: coreClient.CompositeMapper = {
         serializedName: "days",
         type: {
           name: "Number"
-        }
-      },
-      allowPermanentDelete: {
-        serializedName: "allowPermanentDelete",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -3913,6 +3573,61 @@ export const LeaseContainerResponse: coreClient.CompositeMapper = {
   }
 };
 
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const FileServiceItems: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4000,6 +3715,61 @@ export const Multichannel: coreClient.CompositeMapper = {
         serializedName: "enabled",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorAutoGenerated",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBodyAutoGenerated"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBodyAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBodyAutoGenerated",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBodyAutoGenerated"
+            }
+          }
         }
       }
     }
@@ -4241,57 +4011,6 @@ export const ListTableServices: coreClient.CompositeMapper = {
   }
 };
 
-export const TableSignedIdentifier: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TableSignedIdentifier",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      accessPolicy: {
-        serializedName: "accessPolicy",
-        type: {
-          name: "Composite",
-          className: "TableAccessPolicy"
-        }
-      }
-    }
-  }
-};
-
-export const TableAccessPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TableAccessPolicy",
-    modelProperties: {
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      expiryTime: {
-        serializedName: "expiryTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      permission: {
-        serializedName: "permission",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ListTableResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4523,78 +4242,6 @@ export const ObjectReplicationPolicy: coreClient.CompositeMapper = {
               className: "ObjectReplicationPolicyRule"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const LocalUser: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocalUser",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
-      permissionScopes: {
-        serializedName: "properties.permissionScopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PermissionScope"
-            }
-          }
-        }
-      },
-      homeDirectory: {
-        serializedName: "properties.homeDirectory",
-        type: {
-          name: "String"
-        }
-      },
-      sshAuthorizedKeys: {
-        serializedName: "properties.sshAuthorizedKeys",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SshPublicKey"
-            }
-          }
-        }
-      },
-      sid: {
-        serializedName: "properties.sid",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      hasSharedKey: {
-        serializedName: "properties.hasSharedKey",
-        type: {
-          name: "Boolean"
-        }
-      },
-      hasSshKey: {
-        serializedName: "properties.hasSshKey",
-        type: {
-          name: "Boolean"
-        }
-      },
-      hasSshPassword: {
-        serializedName: "properties.hasSshPassword",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -4869,18 +4516,6 @@ export const Table: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      signedIdentifiers: {
-        serializedName: "properties.signedIdentifiers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TableSignedIdentifier"
-            }
-          }
-        }
       }
     }
   }
@@ -5026,7 +4661,7 @@ export const StorageAccount: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["Hot", "Cool", "Premium"]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -5047,18 +4682,6 @@ export const StorageAccount: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NetworkRuleSet"
-        }
-      },
-      isSftpEnabled: {
-        serializedName: "properties.isSftpEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isLocalUserEnabled: {
-        serializedName: "properties.isLocalUserEnabled",
-        type: {
-          name: "Boolean"
         }
       },
       isHnsEnabled: {
@@ -5161,25 +4784,6 @@ export const StorageAccount: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImmutableStorageAccount"
-        }
-      },
-      allowedCopyScope: {
-        serializedName: "properties.allowedCopyScope",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountSkuConversionStatus: {
-        serializedName: "properties.storageAccountSkuConversionStatus",
-        type: {
-          name: "Composite",
-          className: "StorageAccountSkuConversionStatus"
-        }
-      },
-      dnsEndpointType: {
-        serializedName: "properties.dnsEndpointType",
-        type: {
-          name: "String"
         }
       }
     }

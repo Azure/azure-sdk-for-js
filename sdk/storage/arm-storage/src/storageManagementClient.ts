@@ -19,7 +19,6 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ObjectReplicationPoliciesOperationsImpl,
-  LocalUsersOperationsImpl,
   EncryptionScopesImpl,
   BlobServicesImpl,
   BlobContainersImpl,
@@ -41,7 +40,6 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ObjectReplicationPoliciesOperations,
-  LocalUsersOperations,
   EncryptionScopes,
   BlobServices,
   BlobContainers,
@@ -86,7 +84,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storage/17.2.0`;
+    const packageDetails = `azsdk-js-arm-storage/18.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -110,7 +108,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01";
+    this.apiVersion = options.apiVersion || "2021-06-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.storageAccounts = new StorageAccountsImpl(this);
@@ -123,7 +121,6 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     this.objectReplicationPoliciesOperations = new ObjectReplicationPoliciesOperationsImpl(
       this
     );
-    this.localUsersOperations = new LocalUsersOperationsImpl(this);
     this.encryptionScopes = new EncryptionScopesImpl(this);
     this.blobServices = new BlobServicesImpl(this);
     this.blobContainers = new BlobContainersImpl(this);
@@ -145,7 +142,6 @@ export class StorageManagementClient extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
-  localUsersOperations: LocalUsersOperations;
   encryptionScopes: EncryptionScopes;
   blobServices: BlobServices;
   blobContainers: BlobContainers;

@@ -23,7 +23,6 @@ import {
   BlobInventoryPolicy as BlobInventoryPolicyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ObjectReplicationPolicy as ObjectReplicationPolicyMapper,
-  LocalUser as LocalUserMapper,
   EncryptionScope as EncryptionScopeMapper,
   BlobServiceProperties as BlobServicePropertiesMapper,
   BlobContainer as BlobContainerMapper,
@@ -36,8 +35,7 @@ import {
   LeaseShareRequest as LeaseShareRequestMapper,
   QueueServiceProperties as QueueServicePropertiesMapper,
   StorageQueue as StorageQueueMapper,
-  TableServiceProperties as TableServicePropertiesMapper,
-  Table as TableMapper
+  TableServiceProperties as TableServicePropertiesMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -67,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01",
+    defaultValue: "2021-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -305,26 +303,6 @@ export const objectReplicationPolicyId: OperationURLParameter = {
 export const properties3: OperationParameter = {
   parameterPath: "properties",
   mapper: ObjectReplicationPolicyMapper
-};
-
-export const username: OperationURLParameter = {
-  parameterPath: "username",
-  mapper: {
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    serializedName: "username",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const properties4: OperationParameter = {
-  parameterPath: "properties",
-  mapper: LocalUserMapper
 };
 
 export const encryptionScope: OperationParameter = {
@@ -592,11 +570,6 @@ export const tableServiceName: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const parameters12: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: TableMapper
 };
 
 export const tableName: OperationURLParameter = {
