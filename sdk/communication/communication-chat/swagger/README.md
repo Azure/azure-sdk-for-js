@@ -19,7 +19,7 @@ typescript: true
 azure-arm: false
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.1.2
+package-version: 1.2.0
 ```
 
 ### Rename CommunicationError to ChatError
