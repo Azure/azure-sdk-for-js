@@ -10,10 +10,6 @@ async function main() {
 
   // Bring all samples and includes into memory
   for (const entry of manifest) {
-    // TODO: do we want to run management samples as well? filter out `arm-` for now
-    if (entry.Name.startsWith("arm-")) {
-      continue;
-    }
     console.log(`Gathering samples for ${entry.Name}...`);
 
     // Read configuration from package.json's //sampleConfiguration field
