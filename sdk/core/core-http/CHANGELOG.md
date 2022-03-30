@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file.
+- delay creating XML parser/builder objects so that packages not requiring XML functionality but running on platforms lacking XML support can still load this package.
+
 ### Other Changes
 
 ## 2.2.4 (2022-02-03)
