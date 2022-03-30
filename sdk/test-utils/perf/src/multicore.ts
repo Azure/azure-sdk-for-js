@@ -81,7 +81,7 @@ const createWorkerUtils = (
 });
 
 const createChildProcess = (data: WorkerData): WorkerLike =>
-  fork(process.argv[1], [JSON.stringify(data)], { stdio: [0, 0, "ipc"] });
+  fork(process.argv[1], [JSON.stringify(data)], { stdio: [0, 0, 0, "ipc"] });
 const createWorkerThread = (data: WorkerData): WorkerLike =>
   new workerThreads.Worker(process.argv[1], { workerData: data });
 
