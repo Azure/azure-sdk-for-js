@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ARmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1%40thread.v2?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ACVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41%40thread.v2?api-version=2021-09-07",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "21",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "5ebd7c77-c5c9-4fa1-941e-6ae513900aad"
+        "User-Agent": "azsdk-js-azure-communication-chat/1.2.0 core-rest-pipeline/1.8.0 Node/v16.14.2 OS/(arm64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "4a6f0375-673f-442a-b54e-f549cdd69603"
       },
       "RequestBody": {
         "topic": "new topic"
@@ -19,47 +19,47 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-        "Date": "Wed, 09 Feb 2022 03:44:23 GMT",
-        "MS-CV": "iwFiEBgcpUu5wNrBS\u002B1Hjg.0",
+        "Date": "Wed, 30 Mar 2022 21:36:31 GMT",
+        "MS-CV": "GP67jz2CpUS4j42N1BYGSQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0mDgDYgAAAAD/qf2IT3BlSqulspBrviM4V1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0X81EYgAAAACunXP/89TtS7DPPQflMHpmUERYMzFFREdFMDIxMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "129ms"
+        "X-Processing-Time": "389ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ARmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1%40thread.v2?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ACVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41%40thread.v2?api-version=2021-09-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "5e880de5-c162-440f-8e59-56c37a9c629d"
+        "User-Agent": "azsdk-js-azure-communication-chat/1.2.0 core-rest-pipeline/1.8.0 Node/v16.14.2 OS/(arm64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "c4386e81-4fe7-4b07-8842-567a11d1849c"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 03:44:23 GMT",
-        "MS-CV": "y204648lLEajrXiRkY7A1w.0",
+        "Date": "Wed, 30 Mar 2022 21:36:31 GMT",
+        "MS-CV": "Oy3xVm1uhEGtMAVpXBCvzg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0mDgDYgAAAACR9a1Ed2uMSpvPaVli5E51V1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0X81EYgAAAAAwtVN8/\u002BwiSZz9vUz11MEQUERYMzFFREdFMDIxMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "84ms"
+        "X-Processing-Time": "256ms"
       },
       "ResponseBody": {
-        "id": "19:RmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1@thread.v2",
+        "id": "19:CVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41@thread.v2",
         "topic": "new topic",
-        "createdOn": "2022-02-09T03:44:23Z",
+        "createdOn": "2022-03-30T21:36:30Z",
         "createdByCommunicationIdentifier": {
-          "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+          "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
           "communicationUser": {
-            "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+            "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
           }
         }
       }

@@ -1,45 +1,45 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ARmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ACVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41%40thread.v2/messages?api-version=2021-09-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "b8400de4-6e6a-4f60-b95f-4a2979e63ca2"
+        "User-Agent": "azsdk-js-azure-communication-chat/1.2.0 core-rest-pipeline/1.8.0 Node/v16.14.2 OS/(arm64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "f7143658-5286-4207-a116-7cd9f9154104"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 03:44:24 GMT",
-        "MS-CV": "hdfrIR63okW0x\u002BJryx72Yg.0",
+        "Date": "Wed, 30 Mar 2022 21:36:34 GMT",
+        "MS-CV": "cI2YfrDUQky2XUWhta3fLQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0mTgDYgAAAAAkPkgjzz8vT74sxARtTEWVV1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Ys1EYgAAAADANPnRaQJ1Sq6rOV/jdmnlUERYMzFFREdFMDIxMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "101ms"
+        "X-Processing-Time": "276ms"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "1644378264388",
+            "id": "1648676192118",
             "type": "text",
             "sequenceId": "4",
-            "version": "1644378264388",
+            "version": "1648676192118",
             "content": {
               "message": "content"
             },
             "senderDisplayName": "",
-            "createdOn": "2022-02-09T03:44:24Z",
+            "createdOn": "2022-03-30T21:36:32Z",
             "senderCommunicationIdentifier": {
-              "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+              "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
               "communicationUser": {
-                "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
               }
             },
             "metadata": {
@@ -47,115 +47,115 @@
             }
           },
           {
-            "id": "1644378264120",
+            "id": "1648676191400",
             "type": "topicUpdated",
             "sequenceId": "3",
-            "version": "1644378264120",
+            "version": "1648676191400",
             "content": {
               "topic": "new topic",
               "initiatorCommunicationIdentifier": {
-                "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                 "communicationUser": {
-                  "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                  "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                 }
               }
             },
-            "createdOn": "2022-02-09T03:44:24Z"
+            "createdOn": "2022-03-30T21:36:31Z"
           },
           {
-            "id": "1644378263710",
+            "id": "1648676190376",
             "type": "topicUpdated",
             "sequenceId": "2",
-            "version": "1644378263710",
+            "version": "1648676190376",
             "content": {
               "topic": "test topic",
               "initiatorCommunicationIdentifier": {
-                "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                 "communicationUser": {
-                  "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                  "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                 }
               }
             },
-            "createdOn": "2022-02-09T03:44:23Z"
+            "createdOn": "2022-03-30T21:36:30Z"
           },
           {
-            "id": "1644378263664",
+            "id": "1648676190344",
             "type": "participantAdded",
             "sequenceId": "1",
-            "version": "1644378263664",
+            "version": "1648676190344",
             "content": {
               "participants": [
                 {
                   "communicationIdentifier": {
-                    "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                    "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                     "communicationUser": {
-                      "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                      "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                     }
                   },
                   "shareHistoryTime": "1970-01-01T00:00:00Z"
                 },
                 {
                   "communicationIdentifier": {
-                    "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b2d0-78fe-343a0d008d94",
+                    "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-da35-5896-09482200137a",
                     "communicationUser": {
-                      "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b2d0-78fe-343a0d008d94"
+                      "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-da35-5896-09482200137a"
                     }
                   },
                   "shareHistoryTime": "1970-01-01T00:00:00Z"
                 }
               ],
               "initiatorCommunicationIdentifier": {
-                "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                 "communicationUser": {
-                  "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                  "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                 }
               }
             },
-            "createdOn": "2022-02-09T03:44:23Z"
+            "createdOn": "2022-03-30T21:36:30Z"
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ARmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1%40thread.v2/messages?maxPageSize=3\u0026api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3ACVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41%40thread.v2/messages?maxPageSize=3\u0026api-version=2021-09-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "021d93c4-1da7-4f25-9bfb-cbe67d214ec2"
+        "User-Agent": "azsdk-js-azure-communication-chat/1.2.0 core-rest-pipeline/1.8.0 Node/v16.14.2 OS/(arm64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "900cd6ab-e183-4004-98f3-69900c2b66e2"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 03:44:24 GMT",
-        "MS-CV": "lVkT09WH0kGi4Zhmz1DnWQ.0",
+        "Date": "Wed, 30 Mar 2022 21:36:34 GMT",
+        "MS-CV": "Ncajb\u002BqapUK68JHVFN1dmg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0mTgDYgAAAAAFpyGtrz5jQIIVtBRh1NkQV1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Ys1EYgAAAACg44MP70bORIs6zO3rYsxtUERYMzFFREdFMDIxMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "91ms"
+        "X-Processing-Time": "272ms"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "1644378264388",
+            "id": "1648676192118",
             "type": "text",
             "sequenceId": "4",
-            "version": "1644378264388",
+            "version": "1648676192118",
             "content": {
               "message": "content"
             },
             "senderDisplayName": "",
-            "createdOn": "2022-02-09T03:44:24Z",
+            "createdOn": "2022-03-30T21:36:32Z",
             "senderCommunicationIdentifier": {
-              "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+              "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
               "communicationUser": {
-                "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
               }
             },
             "metadata": {
@@ -163,101 +163,101 @@
             }
           },
           {
-            "id": "1644378264120",
+            "id": "1648676191400",
             "type": "topicUpdated",
             "sequenceId": "3",
-            "version": "1644378264120",
+            "version": "1648676191400",
             "content": {
               "topic": "new topic",
               "initiatorCommunicationIdentifier": {
-                "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                 "communicationUser": {
-                  "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                  "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                 }
               }
             },
-            "createdOn": "2022-02-09T03:44:24Z"
+            "createdOn": "2022-03-30T21:36:31Z"
           },
           {
-            "id": "1644378263710",
+            "id": "1648676190376",
             "type": "topicUpdated",
             "sequenceId": "2",
-            "version": "1644378263710",
+            "version": "1648676190376",
             "content": {
               "topic": "test topic",
               "initiatorCommunicationIdentifier": {
-                "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                 "communicationUser": {
-                  "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                  "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                 }
               }
             },
-            "createdOn": "2022-02-09T03:44:23Z"
+            "createdOn": "2022-03-30T21:36:30Z"
           }
         ],
-        "nextLink": "https://endpoint/chat/threads/19:RmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1@thread.v2/messages?syncState=3e3900000031393a526d6a57764f73364c425f752d34397042523877355a5034557a4a635056677570374d57726f4f6638396731407468726561642e7632019e1095dc7e010000441395dc7e010000\u0026startTime=1%2F1%2F1970%2012%3A00%3A00%20AM%20%2B00%3A00\u0026maxPageSize=3\u0026api-version=2021-09-07"
+        "nextLink": "https://endpoint/chat/threads/19:CVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41@thread.v2/messages?syncState=3e3900000031393a4356593663533034365137366249434b6b30302d6452375f79355248516f335f334f4e6844544549726b3431407468726561642e763201a838c2dc7f010000763fc2dc7f010000\u0026startTime=1%2F1%2F1970%2012%3A00%3A00%20AM%20%2B00%3A00\u0026maxPageSize=3\u0026api-version=2021-09-07"
       }
     },
     {
-      "RequestUri": "https://endpoint/chat/threads/19:RmjWvOs6LB_u-49pBR8w5ZP4UzJcPVgup7MWroOf89g1@thread.v2/messages?syncState=3e3900000031393a526d6a57764f73364c425f752d34397042523877355a5034557a4a635056677570374d57726f4f6638396731407468726561642e7632019e1095dc7e010000441395dc7e010000\u0026startTime=1%2F1%2F1970 12%3A00%3A00 AM %2B00%3A00\u0026maxPageSize=3\u0026api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19:CVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41@thread.v2/messages?syncState=3e3900000031393a4356593663533034365137366249434b6b30302d6452375f79355248516f335f334f4e6844544549726b3431407468726561642e763201a838c2dc7f010000763fc2dc7f010000\u0026startTime=1%2F1%2F1970%2012%3A00%3A00%20AM%20%2B00%3A00\u0026maxPageSize=3\u0026api-version=2021-09-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-azure-communication-chat/1.1.2 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "a53f581b-26f3-47e7-8cbf-08213295985e"
+        "User-Agent": "azsdk-js-azure-communication-chat/1.2.0 core-rest-pipeline/1.8.0 Node/v16.14.2 OS/(arm64-Darwin-21.4.0)",
+        "x-ms-client-request-id": "0473436b-65e6-4688-a2ff-e81ec2416d1a"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 09 Feb 2022 03:44:24 GMT",
-        "MS-CV": "URFL\u002BYZAOUmmAZGIPiYNFw.0",
+        "Date": "Wed, 30 Mar 2022 21:36:35 GMT",
+        "MS-CV": "NnpoHx0rTkekybJXFUMx9Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0mTgDYgAAAABeBgH/lMtDSqOELJaSNFmHV1NURURHRTA4MTYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Y81EYgAAAABh/6yJ6aKOSaQvYoD8RkSsUERYMzFFREdFMDIxMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "158ms"
+        "X-Processing-Time": "479ms"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "1644378263664",
+            "id": "1648676190344",
             "type": "participantAdded",
             "sequenceId": "1",
-            "version": "1644378263664",
+            "version": "1648676190344",
             "content": {
               "participants": [
                 {
                   "communicationIdentifier": {
-                    "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                    "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                     "communicationUser": {
-                      "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                      "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                     }
                   },
                   "shareHistoryTime": "1970-01-01T00:00:00Z"
                 },
                 {
                   "communicationIdentifier": {
-                    "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b2d0-78fe-343a0d008d94",
+                    "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-da35-5896-09482200137a",
                     "communicationUser": {
-                      "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b2d0-78fe-343a0d008d94"
+                      "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-da35-5896-09482200137a"
                     }
                   },
                   "shareHistoryTime": "1970-01-01T00:00:00Z"
                 }
               ],
               "initiatorCommunicationIdentifier": {
-                "rawId": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93",
+                "rawId": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379",
                 "communicationUser": {
-                  "id": "8:acs:987bcf3f-e830-40de-8e15-a91e0ccccb49_0000000f-7c76-b26a-78fe-343a0d008d93"
+                  "id": "8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000010-7ca3-d956-5896-094822001379"
                 }
               }
             },
-            "createdOn": "2022-02-09T03:44:23Z"
+            "createdOn": "2022-03-30T21:36:30Z"
           }
         ]
       }
