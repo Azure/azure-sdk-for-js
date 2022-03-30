@@ -17,7 +17,7 @@ import {
 } from "../../src";
 chaiUse(chaiPromises);
 
-matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
+matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] MapsRouteClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: MapsRouteClient;
