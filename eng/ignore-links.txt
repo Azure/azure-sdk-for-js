@@ -30,3 +30,5 @@ https://docs.microsoft.com/javascript/api/@azure/arm-appservice-profile-2020-09-
 https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network
 https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible
 https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules
+https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview
