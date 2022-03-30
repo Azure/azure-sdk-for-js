@@ -33,3 +33,4 @@ extends:
     Artifacts:
       - name: azure-search-documents
         safeName: azuresearchdocuments
+    RunUnitTests: false
