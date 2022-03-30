@@ -49,7 +49,7 @@ steps:
       echo "Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)";
       echo "Build.SourcesDirectory = $(Build.SourcesDirectory)";
       echo "artifacts name = ${{parameters.artifacts[0].name}}";
-      eco "workspace = $(Pipeline.Workspace)";
+      echo "workspace = $(Pipeline.Workspace)";
       echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
       echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip";
       echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.artifacts.name }}/documentation/${{ parameters.artifacts.name }}.zip";
