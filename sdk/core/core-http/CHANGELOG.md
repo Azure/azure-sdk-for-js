@@ -8,8 +8,8 @@
 
 ### Bugs Fixed
 
-- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file.
-- delay creating XML parser/builder objects so that packages not requiring XML functionality but running on platforms lacking XML support can still load this package.
+- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
+- delay creating XML parser/builder objects so that packages not requiring XML functionality but running on platforms lacking XML support can still load this package. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
 
 ### Other Changes
 
