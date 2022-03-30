@@ -153,39 +153,6 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload a manifest for an OCI artifact.
    *
-   * @param manifest - the manifest to upload
-   * @param options - optional configuration used to send requests to the service
-   */
-  public async uploadManifest(
-    manifest: OciManifest,
-    options?: UploadManifestOptions
-  ): Promise<UploadManifestResult>;
-
-  /**
-   * Upload a manifest for an OCI artifact.
-   *
-   * @param manifestStream - the raw manifest as a stream
-   * @param options - optional configuration used to send requests to the service
-   */
-  public async uploadManifest(
-    manifestStream: NodeJS.ReadableStream,
-    options?: UploadManifestOptions
-  ): Promise<UploadManifestResult>;
-
-  /**
-   * Upload a manifest for an OCI artifact.
-   *
-   * @param manifestStreamFactory - a function which returns a stream of the raw manifest. This function may be called multiple times; each time the function is called a fresh stream should be returned.
-   * @param options - optional configuration used to send requests to the service
-   */
-  public async uploadManifest(
-    manifestStreamFactory: () => NodeJS.ReadableStream,
-    options?: UploadManifestOptions
-  ): Promise<UploadManifestResult>;
-
-  /**
-   * Upload a manifest for an OCI artifact.
-   *
    * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
    */
   public async uploadManifest(
