@@ -46,10 +46,17 @@ steps:
   
   - script: |
       echo "TEST INFO";
+      echo "Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)"
+      echo "Build.SourcesDirectory = $(Build.SourcesDirectory)"
+      echo "artifacts.name = ${{parameters.artifacts.name}}"
+      echo "artifacts name = ${{parameters.artifacts[1]}}"
+      echo "artifacts = ${{parameters.artifacts}}"
+      echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
       echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/${{ parameters.ServiceDirectory }}.zip";
+      echo "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.artifacts.name }}/documentation/${{ parameters.artifacts.name }}.zip";
       echo "$(Build.SourcesDirectory)/html-docs/";
       echo "parameters";
-    displayName: "Unlink dependencies"
+    displayName: "test script"
 
   # Add Step Here
   # FIRST CONSUME ARTIFACTS ()
