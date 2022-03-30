@@ -6,12 +6,24 @@ import * as https from "https";
 import { assert } from "chai";
 import { getClientCertificatePolicy } from "../src";
 import * as sinon from "sinon";
+import { isNode } from "@azure/core-util";
 
 describe("getClientCertificatePolicy", () => {
   beforeEach(() => {
     sinon.restore();
   });
-  it("should add an agent to the request with the certificate", async () => {
+
+  it("should throw in browsers", async function () {
+    if (isNode) {
+      this.skip();
+    }
+    assert.throws(() => getClientCertificatePolicy({}));
+  });
+
+  it("should add an agent to the request with the certificate", async function () {
+    if (!isNode) {
+      this.skip();
+    }
     const policy = getClientCertificatePolicy({ pfx: "foo", passphrase: "bar" });
     const agentSpy = sinon.spy(https, "Agent");
     await policy.sendRequest({} as PipelineRequest, (req) => {
@@ -21,7 +33,11 @@ describe("getClientCertificatePolicy", () => {
     });
   });
 
-  it("should add an agent to the request with the certificate and key", async () => {
+  it("should add an agent to the request with the certificate and key", async function () {
+    if (!isNode) {
+      this.skip();
+    }
+
     const policy = getClientCertificatePolicy({
       cert: "foo",
       key: "baz",
@@ -38,7 +54,10 @@ describe("getClientCertificatePolicy", () => {
     });
   });
 
-  it("should skip when no certificate is passed", async () => {
+  it("should skip when no certificate is passed", async function () {
+    if (!isNode) {
+      this.skip();
+    }
     const policy = getClientCertificatePolicy();
     await policy.sendRequest({} as PipelineRequest, (req) => {
       assert.isUndefined(req.agent);

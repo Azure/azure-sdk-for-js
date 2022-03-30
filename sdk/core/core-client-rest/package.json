@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
+    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js",
+    "./dist-esm/src/helpers/clientCertificatePolicy.js": "./dist-esm/src/helpers/clientCertificatePolicy.browser.js"
   },
   "types": "types/latest/core-client-rest.d.ts",
   "scripts": {
