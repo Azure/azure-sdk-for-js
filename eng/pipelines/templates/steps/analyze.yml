@@ -27,13 +27,13 @@ steps:
       artifactName: package-diffs
       path: $(Build.ArtifactStagingDirectory)
 
-  - template: /eng/common/pipelines/templates/steps/verify-readme.yml
-    parameters:
-      ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+  # - template: /eng/common/pipelines/templates/steps/verify-readme.yml
+  #   parameters:
+  #     ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
-  - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
-    parameters:
-      SourceDirectory: $(Build.SourcesDirectory)
+  # - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
+  #   parameters:
+  #     SourceDirectory: $(Build.SourcesDirectory)
 
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
@@ -53,7 +53,7 @@ steps:
       echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
       
       echo "TREE===========================";
-      tree $(Pipeline.Workspace)/packages/
+      tree $(Pipeline.Workspace)
 
     displayName: "test script"
 
