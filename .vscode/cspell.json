@@ -36,7 +36,7 @@
     "sdk/purview/purview-catalog-rest/review/*.md",
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
-    "sdk/servicefabric/service-fabric/review/*.md",
+    "sdk/servicefabric/service-fabric-rest/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
