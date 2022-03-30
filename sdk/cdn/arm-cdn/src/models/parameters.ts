@@ -12,26 +12,16 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  Profile as ProfileMapper,
-  ProfileUpdateParameters as ProfileUpdateParametersMapper,
-  Endpoint as EndpointMapper,
-  EndpointUpdateParameters as EndpointUpdateParametersMapper,
-  PurgeParameters as PurgeParametersMapper,
-  LoadParameters as LoadParametersMapper,
-  ValidateCustomDomainInput as ValidateCustomDomainInputMapper,
-  Origin as OriginMapper,
-  OriginUpdateParameters as OriginUpdateParametersMapper,
-  OriginGroup as OriginGroupMapper,
-  OriginGroupUpdateParameters as OriginGroupUpdateParametersMapper,
-  CustomDomainParameters as CustomDomainParametersMapper,
-  CustomDomainHttpsParameters as CustomDomainHttpsParametersMapper,
+  CheckEndpointNameAvailabilityInput as CheckEndpointNameAvailabilityInputMapper,
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   ValidateProbeInput as ValidateProbeInputMapper,
+  CheckHostNameAvailabilityInput as CheckHostNameAvailabilityInputMapper,
   AFDDomain as AFDDomainMapper,
   AFDDomainUpdateParameters as AFDDomainUpdateParametersMapper,
   AFDEndpoint as AFDEndpointMapper,
   AFDEndpointUpdateParameters as AFDEndpointUpdateParametersMapper,
   AfdPurgeParameters as AfdPurgeParametersMapper,
+  ValidateCustomDomainInput as ValidateCustomDomainInputMapper,
   AFDOriginGroup as AFDOriginGroupMapper,
   AFDOriginGroupUpdateParameters as AFDOriginGroupUpdateParametersMapper,
   AFDOrigin as AFDOriginMapper,
@@ -41,13 +31,41 @@ import {
   Rule as RuleMapper,
   RuleUpdateParameters as RuleUpdateParametersMapper,
   SecurityPolicy as SecurityPolicyMapper,
-  SecurityPolicyProperties as SecurityPolicyPropertiesMapper,
+  SecurityPolicyUpdateParameters as SecurityPolicyUpdateParametersMapper,
   Secret as SecretMapper,
-  SecretProperties as SecretPropertiesMapper,
   ValidateSecretInput as ValidateSecretInputMapper,
+  Profile as ProfileMapper,
+  ProfileUpdateParameters as ProfileUpdateParametersMapper,
+  Endpoint as EndpointMapper,
+  EndpointUpdateParameters as EndpointUpdateParametersMapper,
+  PurgeParameters as PurgeParametersMapper,
+  LoadParameters as LoadParametersMapper,
+  Origin as OriginMapper,
+  OriginUpdateParameters as OriginUpdateParametersMapper,
+  OriginGroup as OriginGroupMapper,
+  OriginGroupUpdateParameters as OriginGroupUpdateParametersMapper,
+  CustomDomainParameters as CustomDomainParametersMapper,
+  CustomDomainHttpsParameters as CustomDomainHttpsParametersMapper,
   CdnWebApplicationFirewallPolicy as CdnWebApplicationFirewallPolicyMapper,
   CdnWebApplicationFirewallPolicyPatchParameters as CdnWebApplicationFirewallPolicyPatchParametersMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const checkEndpointNameAvailabilityInput: OperationParameter = {
+  parameterPath: "checkEndpointNameAvailabilityInput",
+  mapper: CheckEndpointNameAvailabilityInputMapper
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -84,18 +102,6 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-09-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -112,6 +118,28 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const checkNameAvailabilityInput: OperationParameter = {
+  parameterPath: "checkNameAvailabilityInput",
+  mapper: CheckNameAvailabilityInputMapper
+};
+
+export const validateProbeInput: OperationParameter = {
+  parameterPath: "validateProbeInput",
+  mapper: ValidateProbeInputMapper
+};
+
 export const profileName: OperationURLParameter = {
   parameterPath: "profileName",
   mapper: {
@@ -123,26 +151,9 @@ export const profileName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const profile: OperationParameter = {
-  parameterPath: "profile",
-  mapper: ProfileMapper
-};
-
-export const profileUpdateParameters: OperationParameter = {
-  parameterPath: "profileUpdateParameters",
-  mapper: ProfileUpdateParametersMapper
+export const checkHostNameAvailabilityInput: OperationParameter = {
+  parameterPath: "checkHostNameAvailabilityInput",
+  mapper: CheckHostNameAvailabilityInputMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -155,6 +166,27 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const customDomainName: OperationURLParameter = {
+  parameterPath: "customDomainName",
+  mapper: {
+    serializedName: "customDomainName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const customDomain: OperationParameter = {
+  parameterPath: "customDomain",
+  mapper: AFDDomainMapper
+};
+
+export const customDomainUpdateProperties: OperationParameter = {
+  parameterPath: "customDomainUpdateProperties",
+  mapper: AFDDomainUpdateParametersMapper
 };
 
 export const endpointName: OperationURLParameter = {
@@ -170,48 +202,22 @@ export const endpointName: OperationURLParameter = {
 
 export const endpoint: OperationParameter = {
   parameterPath: "endpoint",
-  mapper: EndpointMapper
+  mapper: AFDEndpointMapper
 };
 
 export const endpointUpdateProperties: OperationParameter = {
   parameterPath: "endpointUpdateProperties",
-  mapper: EndpointUpdateParametersMapper
+  mapper: AFDEndpointUpdateParametersMapper
 };
 
-export const contentFilePaths: OperationParameter = {
-  parameterPath: "contentFilePaths",
-  mapper: PurgeParametersMapper
-};
-
-export const contentFilePaths1: OperationParameter = {
-  parameterPath: "contentFilePaths",
-  mapper: LoadParametersMapper
+export const contents: OperationParameter = {
+  parameterPath: "contents",
+  mapper: AfdPurgeParametersMapper
 };
 
 export const customDomainProperties: OperationParameter = {
   parameterPath: "customDomainProperties",
   mapper: ValidateCustomDomainInputMapper
-};
-
-export const originName: OperationURLParameter = {
-  parameterPath: "originName",
-  mapper: {
-    serializedName: "originName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const origin: OperationParameter = {
-  parameterPath: "origin",
-  mapper: OriginMapper
-};
-
-export const originUpdateProperties: OperationParameter = {
-  parameterPath: "originUpdateProperties",
-  mapper: OriginUpdateParametersMapper
 };
 
 export const originGroupName: OperationURLParameter = {
@@ -227,18 +233,18 @@ export const originGroupName: OperationURLParameter = {
 
 export const originGroup: OperationParameter = {
   parameterPath: "originGroup",
-  mapper: OriginGroupMapper
+  mapper: AFDOriginGroupMapper
 };
 
 export const originGroupUpdateProperties: OperationParameter = {
   parameterPath: "originGroupUpdateProperties",
-  mapper: OriginGroupUpdateParametersMapper
+  mapper: AFDOriginGroupUpdateParametersMapper
 };
 
-export const customDomainName: OperationURLParameter = {
-  parameterPath: "customDomainName",
+export const originName: OperationURLParameter = {
+  parameterPath: "originName",
   mapper: {
-    serializedName: "customDomainName",
+    serializedName: "originName",
     required: true,
     type: {
       name: "String"
@@ -246,72 +252,12 @@ export const customDomainName: OperationURLParameter = {
   }
 };
 
-export const customDomainProperties1: OperationParameter = {
-  parameterPath: "customDomainProperties",
-  mapper: CustomDomainParametersMapper
-};
-
-export const customDomainHttpsParameters: OperationParameter = {
-  parameterPath: ["options", "customDomainHttpsParameters"],
-  mapper: CustomDomainHttpsParametersMapper
-};
-
-export const checkNameAvailabilityInput: OperationParameter = {
-  parameterPath: "checkNameAvailabilityInput",
-  mapper: CheckNameAvailabilityInputMapper
-};
-
-export const validateProbeInput: OperationParameter = {
-  parameterPath: "validateProbeInput",
-  mapper: ValidateProbeInputMapper
-};
-
-export const checkHostNameAvailabilityInput: OperationParameter = {
-  parameterPath: "checkHostNameAvailabilityInput",
-  mapper: ValidateCustomDomainInputMapper
-};
-
-export const customDomain: OperationParameter = {
-  parameterPath: "customDomain",
-  mapper: AFDDomainMapper
-};
-
-export const customDomainUpdateProperties: OperationParameter = {
-  parameterPath: "customDomainUpdateProperties",
-  mapper: AFDDomainUpdateParametersMapper
-};
-
-export const endpoint1: OperationParameter = {
-  parameterPath: "endpoint",
-  mapper: AFDEndpointMapper
-};
-
-export const endpointUpdateProperties1: OperationParameter = {
-  parameterPath: "endpointUpdateProperties",
-  mapper: AFDEndpointUpdateParametersMapper
-};
-
-export const contents: OperationParameter = {
-  parameterPath: "contents",
-  mapper: AfdPurgeParametersMapper
-};
-
-export const originGroup1: OperationParameter = {
-  parameterPath: "originGroup",
-  mapper: AFDOriginGroupMapper
-};
-
-export const originGroupUpdateProperties1: OperationParameter = {
-  parameterPath: "originGroupUpdateProperties",
-  mapper: AFDOriginGroupUpdateParametersMapper
-};
-
-export const origin1: OperationParameter = {
+export const origin: OperationParameter = {
   parameterPath: "origin",
   mapper: AFDOriginMapper
 };
 
-export const originUpdateProperties1: OperationParameter = {
+export const originUpdateProperties: OperationParameter = {
   parameterPath: "originUpdateProperties",
   mapper: AFDOriginUpdateParametersMapper
 };
@@ -385,9 +331,9 @@ export const securityPolicy: OperationParameter = {
   mapper: SecurityPolicyMapper
 };
 
-export const securityPolicyProperties: OperationParameter = {
-  parameterPath: "securityPolicyProperties",
-  mapper: SecurityPolicyPropertiesMapper
+export const securityPolicyUpdateProperties: OperationParameter = {
+  parameterPath: "securityPolicyUpdateProperties",
+  mapper: SecurityPolicyUpdateParametersMapper
 };
 
 export const secretName: OperationURLParameter = {
@@ -404,11 +350,6 @@ export const secretName: OperationURLParameter = {
 export const secret: OperationParameter = {
   parameterPath: "secret",
   mapper: SecretMapper
-};
-
-export const secretProperties: OperationParameter = {
-  parameterPath: "secretProperties",
-  mapper: SecretPropertiesMapper
 };
 
 export const validateSecretInput: OperationParameter = {
@@ -700,6 +641,66 @@ export const rankings1: OperationQueryParameter = {
     }
   },
   collectionFormat: "Multi"
+};
+
+export const profile: OperationParameter = {
+  parameterPath: "profile",
+  mapper: ProfileMapper
+};
+
+export const profileUpdateParameters: OperationParameter = {
+  parameterPath: "profileUpdateParameters",
+  mapper: ProfileUpdateParametersMapper
+};
+
+export const endpoint1: OperationParameter = {
+  parameterPath: "endpoint",
+  mapper: EndpointMapper
+};
+
+export const endpointUpdateProperties1: OperationParameter = {
+  parameterPath: "endpointUpdateProperties",
+  mapper: EndpointUpdateParametersMapper
+};
+
+export const contentFilePaths: OperationParameter = {
+  parameterPath: "contentFilePaths",
+  mapper: PurgeParametersMapper
+};
+
+export const contentFilePaths1: OperationParameter = {
+  parameterPath: "contentFilePaths",
+  mapper: LoadParametersMapper
+};
+
+export const origin1: OperationParameter = {
+  parameterPath: "origin",
+  mapper: OriginMapper
+};
+
+export const originUpdateProperties1: OperationParameter = {
+  parameterPath: "originUpdateProperties",
+  mapper: OriginUpdateParametersMapper
+};
+
+export const originGroup1: OperationParameter = {
+  parameterPath: "originGroup",
+  mapper: OriginGroupMapper
+};
+
+export const originGroupUpdateProperties1: OperationParameter = {
+  parameterPath: "originGroupUpdateProperties",
+  mapper: OriginGroupUpdateParametersMapper
+};
+
+export const customDomainProperties1: OperationParameter = {
+  parameterPath: "customDomainProperties",
+  mapper: CustomDomainParametersMapper
+};
+
+export const customDomainHttpsParameters: OperationParameter = {
+  parameterPath: ["options", "customDomainHttpsParameters"],
+  mapper: CustomDomainHttpsParametersMapper
 };
 
 export const resourceGroupName1: OperationURLParameter = {

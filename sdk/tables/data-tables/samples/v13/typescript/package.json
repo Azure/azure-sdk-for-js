@@ -1,5 +1,5 @@
 {
-  "name": "azure-data-tables-samples-ts",
+  "name": "@azure-samples/data-tables-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Data Tables client library samples for TypeScript",

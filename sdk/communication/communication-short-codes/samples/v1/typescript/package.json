@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-short-codes-samples-ts",
+  "name": "@azure-samples/communication-short-codes-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - Short Codes client library samples for TypeScript",

@@ -43,15 +43,8 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
    * this parameter allows programs to use these user assigned identities
    * without having to first determine the client Id of the created identity.
    */
-  resourceId?: string;
+  resourceId: string;
 }
-
-/**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- */
-export type ManagedIdentityCredentialOptions =
-  | ManagedIdentityCredentialClientIdOptions
-  | ManagedIdentityCredentialResourceIdOptions;
 
 /**
  * Attempts authentication using a managed identity available at the deployment environment.
@@ -77,17 +70,26 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential
+   * Creates an instance of ManagedIdentityCredential with clientId
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: ManagedIdentityCredentialOptions);
+  constructor(options?: ManagedIdentityCredentialClientIdOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with Resource Id
+   *
+   * @param options - Options for configuring the resource which makes the access token request.
+   */
+  constructor(options?: ManagedIdentityCredentialResourceIdOptions);
   /**
    * @internal
    * @hidden
    */
   constructor(
-    clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
+    clientIdOrOptions?:
+      | string
+      | ManagedIdentityCredentialClientIdOptions
+      | ManagedIdentityCredentialResourceIdOptions,
     options?: TokenCredentialOptions
   ) {
     let _options: TokenCredentialOptions | undefined;

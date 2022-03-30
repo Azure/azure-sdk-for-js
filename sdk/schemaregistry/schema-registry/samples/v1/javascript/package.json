@@ -1,5 +1,5 @@
 {
-  "name": "azure-schema-registry-samples-js",
+  "name": "@azure-samples/schema-registry-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Schema Registry client library samples for JavaScript",

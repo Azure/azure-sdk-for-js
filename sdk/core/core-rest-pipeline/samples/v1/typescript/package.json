@@ -1,5 +1,5 @@
 {
-  "name": "azure-core-rest-pipeline-samples-ts",
+  "name": "@azure-samples/core-rest-pipeline-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure SDK Core client library samples for TypeScript",

@@ -7,11 +7,13 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
+import { AzureLogger, setLogLevel } from "@azure/logger";
 import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
+import { DeveloperSignOnClientId } from "../../../src/constants";
 
 describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -126,20 +128,59 @@ describe("UsernamePasswordCredential (internal)", function () {
   });
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {
-    // These tests should not run live because this credential requires user interaction.
+    // The live environment isn't ready for this test
     if (isLiveMode()) {
       this.skip();
     }
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!,
+      env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!,
+      env.AZURE_IDENTITY_TEST_CLIENTID || env.AZURE_CLIENT_ID!,
+      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
       recorder.configureClientOptions({})
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
     assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  it("authenticates (with allowLoggingAccountIdentifiers set to true)", async function (this: Context) {
+    if (isPlaybackMode()) {
+      // The recorder clears the access tokens.
+      this.skip();
+    }
+    const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
+    const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
+
+    const credential = new UsernamePasswordCredential(
+      tenantId,
+      clientId,
+      env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+      recorder.configureClientOptions({
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
+      })
+    );
+    setLogLevel("info");
+    const spy = Sinon.spy(process.stderr, "write");
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.ok(spy.getCall(spy.callCount - 2).args[0]);
+    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: ${clientId}. Tenant ID: ${tenantId}. User Principal Name: HIDDEN. Object ID (user): HIDDEN`;
+    assert.equal(
+      (spy.getCall(spy.callCount - 2).args[0] as any as string)
+        .replace(/User Principal Name: [^ ]+. /g, "User Principal Name: HIDDEN. ")
+        .replace(
+          /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
+          "Object ID (user): HIDDEN"
+        )
+        .trim(),
+      expectedMessage
+    );
+    spy.restore();
+    AzureLogger.destroy();
   });
 });

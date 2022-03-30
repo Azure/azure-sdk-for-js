@@ -7,7 +7,7 @@ import * as path from "path";
 import fs from "fs";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -30,19 +30,14 @@ describe("ClientCertificateCredential", function () {
     await cleanup();
   });
 
-  const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
+  const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function (this: Context) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
-
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      certificatePath!,
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+      env.IDENTITY_SP_CERT_PEM || certificatePath!,
       recorder.configureClientOptions({})
     );
 
@@ -52,16 +47,12 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("authenticates with a PEM certificate string directly", async function (this: Context) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
-
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       {
-        certificate: readFileSync(certificatePath, { encoding: "utf-8" }),
+        certificate:
+          env.IDENTITY_PEM_CONTENTS || readFileSync(certificatePath, { encoding: "utf-8" }),
       },
       recorder.configureClientOptions({})
     );
@@ -72,10 +63,6 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("authenticates with sendCertificateChain", async function (this: Context) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -84,9 +71,11 @@ describe("ClientCertificateCredential", function () {
     }
 
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      recorder.configureClientOptions({ certificatePath }),
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+      recorder.configureClientOptions({
+        certificatePath: env.IDENTITY_SP_CERT_SNI_PEM || certificatePath,
+      }),
       { sendCertificateChain: true }
     );
 
@@ -102,8 +91,8 @@ describe("ClientCertificateCredential", function () {
       this.skip();
     }
     const credential = new ClientCertificateCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       certificatePath,
       recorder.configureClientOptions({
         httpClient: {
@@ -134,10 +123,6 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("supports tracing", async function (this: Context) {
-    if (isLiveMode()) {
-      // Live test run not supported on CI at the moment. Locally should work though.
-      this.skip();
-    }
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -147,8 +132,8 @@ describe("ClientCertificateCredential", function () {
     await testTracing({
       test: async (tracingOptions) => {
         const credential = new ClientCertificateCredential(
-          env.AZURE_TENANT_ID!,
-          env.AZURE_CLIENT_ID!,
+          env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+          env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
           recorder.configureClientOptions({ certificatePath })
         );
 
