@@ -71,8 +71,12 @@ steps:
         buildType: 'current'
         downloadType: 'single'
         # This is the name of the docs that you want to download.
-        artifactName: '${{ artifact.name }}.zip'
+        artifactName: 'packages'
         downloadPath: '$(Pipeline.Workspace)/html-docs/'
+
+    - script: |
+        tree $(Pipeline.Workspace)
+      displayName: "Show tree"
 
     # Then I have tu extract the files and store them somewhere.
     # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
