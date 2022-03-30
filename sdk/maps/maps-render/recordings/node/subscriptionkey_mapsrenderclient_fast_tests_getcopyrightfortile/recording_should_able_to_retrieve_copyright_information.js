@@ -15,7 +15,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
-  'Wed, 23 Mar 2022 08:16:48 GMT',
+  'Wed, 30 Mar 2022 16:20:58 GMT',
   'ETag',
   'W/"ac740f0632da9f545c2b75b27d4133b5"',
   'x-ms-azuremaps-region',
@@ -27,7 +27,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: E87A77BED36A4EB18C9583C0B8ADCE25 Ref B: TYAEDGE1018 Ref C: 2022-03-23T07:09:30Z',
+  'Ref A: 75B4C49EFB0D4A3F94A43E1FFDD914FE Ref B: TPE30EDGE0509 Ref C: 2022-03-30T01:39:07Z',
   'Date',
-  'Wed, 23 Mar 2022 07:09:29 GMT'
+  'Wed, 30 Mar 2022 01:39:07 GMT'
 ]);

@@ -8,10 +8,10 @@ import { MapsRenderClient } from "src/mapsRenderClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
-import { KnownTilesetID } from "../../src";
+import { KnownRasterTileFormat, KnownTilesetID } from "../../src";
 chaiUse(chaiPromises);
 
-matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
+matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] MapsRenderClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: MapsRenderClient;
@@ -38,6 +38,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isNotEmpty(copyrightCaptionResult.copyrightsCaption);
         });
       });
+
       describe("#getCopyrightForTile", function () {
         it("should able to retrieve copyright information", async function () {
           const tileIndex = { z: 6, x: 9, y: 22 };
@@ -47,6 +48,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isNotEmpty(copyright.regions);
         });
       });
+
       describe("#getCopyrightForWorld", function () {
         it("should able to retrieve copyright information", async function () {
           const copyright = await client.getCopyrightForWorld();
@@ -55,6 +57,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isNotEmpty(copyright.regions);
         });
       });
+
       describe("#getCopyrightFromBoundingBox", function () {
         it("should able to retrieve copyright information", async function () {
           const boundingBox = {
@@ -67,6 +70,7 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isNotEmpty(copyright.regions);
         });
       });
+
       describe("#getMapAttribution", function () {
         it("should able to retrieve copyright information", async function () {
           const boundingBox = {
@@ -82,9 +86,43 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
           assert.isNotEmpty(attribution.copyrights);
         });
       });
-      describe("#getMapStateTile", function () {});
-      describe("#getMapStaticImage", function () {});
-      describe("#getMapTile", function () {});
+
+      describe("#getMapStaticImage", function () {
+        it("should stream response body on successful request", async function () {
+          const mapStaticImageOptions = {
+            layer: "basic",
+            style: "dark",
+            zoom: 2,
+            boundingBox: {
+              bottomRight: { latitude: 42.982261, longitude: 24.980233 },
+              topLeft: { latitude: 56.526017, longitude: 1.355233 },
+            },
+          };
+          const mapTile = await client.getMapStaticImage(
+            KnownRasterTileFormat.Png,
+            mapStaticImageOptions
+          );
+
+          assert.isNotEmpty(mapTile.contentType);
+          assert.ok(mapTile.readableStreamBody);
+        });
+      });
+
+      describe("#getMapTile", function () {
+        it("should stream response body on successful request", async function () {
+          const tileIndex = { z: 6, x: 9, y: 22 };
+          const mapTileOptions = { tileSize: "512" };
+          const mapTile = await client.getMapTile(
+            KnownTilesetID.MicrosoftBase,
+            tileIndex,
+            mapTileOptions
+          );
+
+          assert.isNotEmpty(mapTile.contentType);
+          assert.ok(mapTile.readableStreamBody);
+        });
+      });
+
       describe("#getMapTileset", function () {
         it("should able to retrieve tilest information", async function () {
           const tileset = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
