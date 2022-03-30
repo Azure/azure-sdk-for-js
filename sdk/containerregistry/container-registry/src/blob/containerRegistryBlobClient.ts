@@ -183,8 +183,13 @@ export class ContainerRegistryBlobClient {
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult>;
 
+  /**
+   * Upload a manifest for an OCI artifact.
+   *
+   * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
+   */
   public async uploadManifest(
-    manifestOrManifestStream: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
+    manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult> {
     const { span, updatedOptions } = createSpan(
@@ -195,12 +200,12 @@ export class ContainerRegistryBlobClient {
     try {
       let manifestBody: Buffer | NodeJS.ReadableStream;
 
-      if (isReadableStream(manifestOrManifestStream)) {
-        manifestBody = await readStreamToEnd(manifestOrManifestStream);
-      } else if (typeof manifestOrManifestStream === "function") {
-        manifestBody = await readStreamToEnd(manifestOrManifestStream());
+      if (isReadableStream(manifest)) {
+        manifestBody = await readStreamToEnd(manifest);
+      } else if (typeof manifest === "function") {
+        manifestBody = await readStreamToEnd(manifest());
       } else {
-        const serialized = serializer.serialize(Mappers.OCIManifest, manifestOrManifestStream);
+        const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
         manifestBody = Buffer.from(JSON.stringify(serialized));
       }
 
