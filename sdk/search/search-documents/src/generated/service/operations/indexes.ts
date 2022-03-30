@@ -10,7 +10,7 @@ import { Indexes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClientContext } from "../searchServiceClientContext";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   SearchIndex,
   IndexesCreateOptionalParams,
@@ -31,13 +31,13 @@ import {
 
 /** Class containing Indexes operations. */
 export class IndexesImpl implements Indexes {
-  private readonly client: SearchServiceClientContext;
+  private readonly client: SearchServiceClient;
 
   /**
    * Initialize a new instance of the class Indexes class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClientContext) {
+  constructor(client: SearchServiceClient) {
     this.client = client;
   }
 
