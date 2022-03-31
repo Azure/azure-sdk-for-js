@@ -9,6 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PolicyEvent,
+  PolicyEventsResourceType,
   PolicyEventsListQueryResultsForManagementGroupOptionalParams,
   PolicyEventsListQueryResultsForSubscriptionOptionalParams,
   PolicyEventsListQueryResultsForResourceGroupOptionalParams,
@@ -24,83 +25,107 @@ import {
 export interface PolicyEvents {
   /**
    * Queries policy events for the resources under the management group.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param managementGroupName Management group name.
    * @param options The options parameters.
    */
   listQueryResultsForManagementGroup(
+    policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
     options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resources under the subscription.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param options The options parameters.
    */
   listQueryResultsForSubscription(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resources under the resource group.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param options The options parameters.
    */
   listQueryResultsForResourceGroup(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resource.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param resourceId Resource ID.
    * @param options The options parameters.
    */
   listQueryResultsForResource(
+    policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
     options?: PolicyEventsListQueryResultsForResourceOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the subscription level policy set definition.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param options The options parameters.
    */
   listQueryResultsForPolicySetDefinition(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the subscription level policy definition.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param options The options parameters.
    */
   listQueryResultsForPolicyDefinition(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
     options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the subscription level policy assignment.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
     options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resource group level policy assignment.
+   * @param policyEventsResource The name of the virtual resource under PolicyEvents resource type; only
+   *                             "default" is allowed.
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
    * @param options The options parameters.
    */
   listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,

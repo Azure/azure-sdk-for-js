@@ -164,6 +164,12 @@ export interface AttestationsListForSubscriptionOptionalParams extends coreClien
 export type AttestationsListForSubscriptionResponse = AttestationListResult;
 
 // @public
+export interface CheckManagementGroupRestrictionsRequest {
+    pendingFields?: PendingField[];
+    resourceDetails?: CheckRestrictionsResourceDetails;
+}
+
+// @public
 export interface CheckRestrictionsRequest {
     pendingFields?: PendingField[];
     resourceDetails: CheckRestrictionsResourceDetails;
@@ -324,11 +330,29 @@ export enum KnownFieldRestrictionResult {
 }
 
 // @public
+export enum KnownPolicyEventsResourceType {
+    // (undocumented)
+    Default = "default"
+}
+
+// @public
 export enum KnownPolicyStatesResource {
     // (undocumented)
     Default = "default",
     // (undocumented)
     Latest = "latest"
+}
+
+// @public
+export enum KnownPolicyStatesSummaryResourceType {
+    // (undocumented)
+    Latest = "latest"
+}
+
+// @public
+export enum KnownPolicyTrackedResourcesResourceType {
+    // (undocumented)
+    Default = "default"
 }
 
 // @public
@@ -454,14 +478,14 @@ export interface PolicyEvent {
 
 // @public
 export interface PolicyEvents {
-    listQueryResultsForManagementGroup(managementGroupName: string, options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResource(resourceId: string, options?: PolicyEventsListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForSubscription(subscriptionId: string, options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
-    listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForManagementGroup(policyEventsResource: PolicyEventsResourceType, managementGroupName: string, options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForPolicyDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForPolicySetDefinition(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForResource(policyEventsResource: PolicyEventsResourceType, resourceId: string, options?: PolicyEventsListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForResourceGroup(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForResourceGroupLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForSubscription(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
+    listQueryResultsForSubscriptionLevelPolicyAssignment(policyEventsResource: PolicyEventsResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyEvent>;
 }
 
 // @public
@@ -601,6 +625,9 @@ export interface PolicyEventsQueryResults {
 }
 
 // @public
+export type PolicyEventsResourceType = string;
+
+// @public
 export interface PolicyGroupSummary {
     policyGroupName?: string;
     results?: SummaryResults;
@@ -713,9 +740,17 @@ export interface PolicyReference {
 
 // @public
 export interface PolicyRestrictions {
+    checkAtManagementGroupScope(managementGroupId: string, parameters: CheckManagementGroupRestrictionsRequest, options?: PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams): Promise<PolicyRestrictionsCheckAtManagementGroupScopeResponse>;
     checkAtResourceGroupScope(resourceGroupName: string, parameters: CheckRestrictionsRequest, options?: PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams): Promise<PolicyRestrictionsCheckAtResourceGroupScopeResponse>;
     checkAtSubscriptionScope(parameters: CheckRestrictionsRequest, options?: PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams): Promise<PolicyRestrictionsCheckAtSubscriptionScopeResponse>;
 }
+
+// @public
+export interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyRestrictionsCheckAtManagementGroupScopeResponse = CheckRestrictionsResult;
 
 // @public
 export interface PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams extends coreClient.OperationOptions {
@@ -784,14 +819,14 @@ export interface PolicyStates {
     listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyState>;
     listQueryResultsForSubscription(policyStatesResource: PolicyStatesResource, subscriptionId: string, options?: PolicyStatesListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyState>;
     listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): PagedAsyncIterableIterator<PolicyState>;
-    summarizeForManagementGroup(managementGroupName: string, options?: PolicyStatesSummarizeForManagementGroupOptionalParams): Promise<PolicyStatesSummarizeForManagementGroupResponse>;
-    summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams): Promise<PolicyStatesSummarizeForPolicyDefinitionResponse>;
-    summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams): Promise<PolicyStatesSummarizeForPolicySetDefinitionResponse>;
-    summarizeForResource(resourceId: string, options?: PolicyStatesSummarizeForResourceOptionalParams): Promise<PolicyStatesSummarizeForResourceResponse>;
-    summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesSummarizeForResourceGroupOptionalParams): Promise<PolicyStatesSummarizeForResourceGroupResponse>;
-    summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
-    summarizeForSubscription(subscriptionId: string, options?: PolicyStatesSummarizeForSubscriptionOptionalParams): Promise<PolicyStatesSummarizeForSubscriptionResponse>;
-    summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
+    summarizeForManagementGroup(policyStatesSummaryResource: PolicyStatesSummaryResourceType, managementGroupName: string, options?: PolicyStatesSummarizeForManagementGroupOptionalParams): Promise<PolicyStatesSummarizeForManagementGroupResponse>;
+    summarizeForPolicyDefinition(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesSummarizeForPolicyDefinitionOptionalParams): Promise<PolicyStatesSummarizeForPolicyDefinitionResponse>;
+    summarizeForPolicySetDefinition(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policySetDefinitionName: string, options?: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams): Promise<PolicyStatesSummarizeForPolicySetDefinitionResponse>;
+    summarizeForResource(policyStatesSummaryResource: PolicyStatesSummaryResourceType, resourceId: string, options?: PolicyStatesSummarizeForResourceOptionalParams): Promise<PolicyStatesSummarizeForResourceResponse>;
+    summarizeForResourceGroup(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, resourceGroupName: string, options?: PolicyStatesSummarizeForResourceGroupOptionalParams): Promise<PolicyStatesSummarizeForResourceGroupResponse>;
+    summarizeForResourceGroupLevelPolicyAssignment(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
+    summarizeForSubscription(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, options?: PolicyStatesSummarizeForSubscriptionOptionalParams): Promise<PolicyStatesSummarizeForSubscriptionResponse>;
+    summarizeForSubscriptionLevelPolicyAssignment(policyStatesSummaryResource: PolicyStatesSummaryResourceType, subscriptionId: string, policyAssignmentName: string, options?: PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
 }
 
 // @public
@@ -998,6 +1033,9 @@ export interface PolicyStatesSummarizeForSubscriptionOptionalParams extends core
 export type PolicyStatesSummarizeForSubscriptionResponse = SummarizeResults;
 
 // @public
+export type PolicyStatesSummaryResourceType = string;
+
+// @public
 export interface PolicyStatesTriggerResourceGroupEvaluationOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1020,10 +1058,10 @@ export interface PolicyTrackedResource {
 
 // @public
 export interface PolicyTrackedResources {
-    listQueryResultsForManagementGroup(managementGroupName: string, options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
-    listQueryResultsForResource(resourceId: string, options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
-    listQueryResultsForResourceGroup(resourceGroupName: string, options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
-    listQueryResultsForSubscription(options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForManagementGroup(managementGroupName: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForResource(resourceId: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForResourceGroup(resourceGroupName: string, policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
+    listQueryResultsForSubscription(policyTrackedResourcesResource: PolicyTrackedResourcesResourceType, options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams): PagedAsyncIterableIterator<PolicyTrackedResource>;
 }
 
 // @public
@@ -1095,6 +1133,9 @@ export interface PolicyTrackedResourcesQueryResults {
     readonly nextLink?: string;
     readonly value?: PolicyTrackedResource[];
 }
+
+// @public
+export type PolicyTrackedResourcesResourceType = string;
 
 // @public
 export interface QueryFailure {

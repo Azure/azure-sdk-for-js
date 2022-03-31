@@ -2310,6 +2310,34 @@ export const PolicyEvaluationResult: coreClient.CompositeMapper = {
   }
 };
 
+export const CheckManagementGroupRestrictionsRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckManagementGroupRestrictionsRequest",
+    modelProperties: {
+      resourceDetails: {
+        serializedName: "resourceDetails",
+        type: {
+          name: "Composite",
+          className: "CheckRestrictionsResourceDetails"
+        }
+      },
+      pendingFields: {
+        serializedName: "pendingFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PendingField"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AttestationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
