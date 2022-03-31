@@ -5,13 +5,10 @@
 ### Features Added
 
 - Migrated from using `@azure/core-http` to depend on newer version of Core libraries `@azure/core-client` and `@azure/core-rest-pipeline` which bring better maintainability and performance. [#20766](https://github.com/Azure/azure-sdk-for-js/pull/20766). See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
+  - As part of the migration to `@azure/core-client` and `@azure/core-rest-pipeline`,
+    through the operation options, the methods such as `AppConfgurationClient#addConfigurationSetting` can take a callback (`onResponse`) to access the HTTP response. See [Change to the \_response property](https://github.com/Azure/autorest.typescript/wiki/%60core-http%60-dependency-migration-to-%60core-client%60-%60core-rest-pipeline%60#change-to-the-_response-property).
 
 ### Breaking Changes
-
-- As part of the migration to `@azure/core-client` and `@azure/core-rest-pipeline`,
-  - Responses returned from the methods such as `AppConfgurationClient#addConfigurationSetting` no longer expose the `_response` property.
-  - `HttpResponseField` interface that used to host the `_response` property has been removed.
-  - However, through the operation options, the methods such as `AppConfgurationClient#addConfigurationSetting` can take a callback (`onResponse`) to access the HTTP response. See [Change to the \_response property](https://github.com/Azure/autorest.typescript/wiki/%60core-http%60-dependency-migration-to-%60core-client%60-%60core-rest-pipeline%60#change-to-the-_response-property).
 
 ### Bugs Fixed
 
