@@ -68,7 +68,7 @@ Azure Monitor Query supports Azure Active Directory authentication. Both `logsQu
 
 If you get an HTTP error with status code 403 (Forbidden), it means that the provided credentials does not have sufficient permissions to query the workspace.
 
-```text
+```json
 {"error":{"message":"The provided credentials have insufficient access to perform the requested operation","code":"InsufficientAccessError","correlationId":""}}
 ```
 
@@ -186,13 +186,60 @@ const result = await logsQueryClient.queryWorkspace(
 ### Troubleshooting partially successful logs query requests
 
 By default, if the execution of a Kusto query resulted in a partially successful response, the Azure Monitor Query
-client library will throw an exception to indicate to the user that the query was not fully successful. To turn this
-behavior off and consume the partially successful response, you can set the `allowPartialErrors` property to `true`
-in `LogsQueryOptions` as shown below:
+client library will return the result of type `LogsQueryPartialResult` with the `status` field of `result` object set to `PartialFailure` to indicate to the user that the query was not fully successful. In case of multiple queries, when the results from all queries aren't successful, the `status` field of `result` object may be set to `Failure`.
 
-```java readme-sample-allowpartialerrors
-client.queryWorkspaceWithResponse("{workspaceId}", "{kusto-query-string}", QueryTimeInterval.LAST_DAY,
-        new LogsQueryOptions().setAllowPartialErrors(true), Context.NONE);
+In case of single query, there can be only two possibilities for the value of `status` field of `result` object - `Success` or `PartialFailure`. You can access the details of the partially successful results by the following code snippet -
+
+```ts
+const result = await logsQueryClient.queryWorkspace(${azureLogAnalyticsWorkspaceId}, ${kustoQuery}, {
+    duration: ${duration}
+  });
+
+  if (result.status === LogsQueryResultStatus.Success) {
+    const tablesFromResult: LogsTable[] = result.tables;
+
+    if (tablesFromResult.length === 0) {
+      console.log(`No results for query '${kustoQuery}'`);
+      return;
+    }
+    console.log(`This query has returned table(s) - `);
+    processTables(tablesFromResult);
+  } else {
+    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+    if (result.partialTables.length > 0) {
+      console.log(`This query has also returned partial data in the following table(s) - `);
+      processTables(result.partialTables);
+    }
+  }
+```
+In case of multiple queries, there can be three possibilities for the value of `status` field of `result` object - `Success`, `PartialFailure` or `Failure`. You can access the details of the partially successful results by the following code snippet -
+
+```ts
+async function processBatchResult(result: LogsQueryBatchResult) {
+  let i = 0;
+  for (const response of result) {
+    console.log(`Results for query with query: ${queriesBatch[i]}`);
+    if (response.status === LogsQueryResultStatus.Success) {
+      console.log(
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.tables);
+    } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+      console.log(
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      );
+      processTables(response.partialTables);
+      console.log(
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+      );
+    } else {
+      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+      console.log(` Query had errors:${response.message} with code ${response.code}`);
+    }
+    // next query
+    i++;
+  }
+}
 ```
 
 ## Troubleshooting Metrics Query
