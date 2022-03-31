@@ -86,9 +86,55 @@ If you get an HTTP error with status code 403 (Forbidden), it means that the pro
 
 If you get an HTTP error with status code 400 (Bad Request), you may have an error in your Kusto query and you will see an error message similar to the one below.
 
-```text
-com.azure.core.exception.HttpResponseException: Status code 400, "{"error":{"message":"The request had some invalid properties","code":"BadArgumentError","correlationId":"ff3e2a7e-e95c-4437-82cf-9b15761d0850","innererror":{"code":"SyntaxError","message":"A recognition error occurred in the query.","innererror":{"code":"SYN0002","message":"Query could not be parsed at 'joi' on line [2,244]","line":2,"pos":244,"token":"joi"}}}}"
-	at com.azure.monitor.query/com.azure.monitor.query.LogsQueryAsyncClient.lambda$queryWorkspaceWithResponse$7(LogsQueryAsyncClient.java:346)
+```json
+{
+  "name": "RestError",
+  "code": "BadArgumentError",
+  "statusCode": 400,
+  "request": {
+    "url": "https://api.loganalytics.io/v1/workspaces/598029db-4756-4768-87f3-d6d45ed0ebd7/query",
+    "headers": {
+      "content-type": "application/json",
+      "accept": "application/json",
+      "prefer": "REDACTED",
+      "accept-encoding": "gzip,deflate",
+      "user-agent": "azsdk-js-monitor-query/1.0.0 azsdk-js-monitor-log-query/1.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "x-ms-client-request-id": "6b3ee80a-c21d-4ecf-ba62-59c6ab970c83",
+      "authorization": "REDACTED",
+      "content-length": "157"
+    },
+    "method": "POST",
+    "timeout": 0,
+    "disableKeepAlive": false,
+    "streamResponseStatusCodes": {},
+    "withCredentials": false,
+    "requestId": "6b3ee80a-c21d-4ecf-ba62-59c6ab970c83",
+    "allowInsecureConnection": false,
+    "enableBrowserStreams": false
+  },
+  "details": {
+    "error": {
+      "code": "BadArgumentError",
+      "message": "The request had some invalid properties",
+      "innerError": {
+        "code": "SyntaxError",
+        "message": "A recognition error occurred in the query.",
+        "innerError": {
+          "code": "SYN0002",
+          "message": "Query could not be parsed at 'string' on line [1,4]",
+          "line": 1,
+          "pos": 4,
+          "token": "string"
+        }
+      },
+      "correlationId": "611dc354-bb4e-442f-955c-7b9469ca7f84"
+    }
+  },
+  "message": "The request had some invalid properties"
+}
+
+![image](https://user-images.githubusercontent.com/8968058/161137215-aa1a4477-9e21-4270-9cb0-d394402f3167.png)
+
 ```
 
 The error message may include the line number and position where the Kusto query has an error (line 2, position 244
@@ -149,19 +195,6 @@ client.queryWorkspaceWithResponse("{workspaceId}", "{kusto-query-string}", Query
         new LogsQueryOptions().setServerTimeout(Duration.ofMinutes(10)), Context.NONE);
 ```
 
-### Troubleshooting server timeouts on OkHTTP client
-
-Due to the limitations in OkHTTP client, extending the timeout of a specific logs query request is not supported. So, to
-workaround this, the client has to be configured with longer timeout value at the time of building the client as shown
-below. The downside to doing this is that every request from this client will have this extended client-side timeout.
-
-```java readme-sample-okhttpresponsetimeout
-LogsQueryClient client = new LogsQueryClientBuilder()
-        .credential(credential)
-        .clientOptions(new HttpClientOptions().setResponseTimeout(Duration.ofSeconds(120)))
-        .buildClient();
-```
-
 ### Troubleshooting partially successful logs query requests
 
 By default, if the execution of a Kusto query resulted in a partially successful response, the Azure Monitor Query
@@ -200,10 +233,37 @@ If you notice the following exception, this is due to an invalid time granularit
 query might look something like the following where `MetricsQueryOptions().setGranularity()` is set to an unsupported
 duration.
 
-```text
-com.azure.core.exception.HttpResponseException: Status code 400, "{"code":"BadRequest","message":"Invalid time grain duration: PT10M, supported ones are: 00:01:00,00:05:00,00:15:00,00:30:00,01:00:00,06:00:00,12:00:00,1.00:00:00"}"
+```json
+{
+  "name": "RestError",
+  "code": "BadRequest",
+  "statusCode": 400,
+  "request": {
+    "url": "https://management.azure.com//subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metrics?timespan=REDACTED&interval=REDACTED&metricnames=REDACTED&api-version=2018-01-01",
+    "headers": {
+      "accept": "application/json",
+      "accept-encoding": "gzip,deflate",
+      "user-agent": "azsdk-js-monitor-query/1.0.0 azsdk-js-monitor-metrics/1.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "x-ms-client-request-id": "684a29a9-b01d-41e8-8ba1-98b49a6d6577",
+      "authorization": "REDACTED"
+    },
+    "method": "GET",
+    "timeout": 0,
+    "disableKeepAlive": false,
+    "streamResponseStatusCodes": {},
+    "withCredentials": false,
+    "requestId": "684a29a9-b01d-41e8-8ba1-98b49a6d6577",
+    "allowInsecureConnection": false,
+    "enableBrowserStreams": false
+  },
+  "details": {
+    "code": "BadRequest",
+    "message": "Invalid time grain duration: PT2M, supported ones are: PT1M,PT5M,PT15M,PT30M,PT1H,PT6H,PT12H,P1D,"
+  },
+  "message": "Invalid time grain duration: PT2M, supported ones are: PT1M,PT5M,PT15M,PT30M,PT1H,PT6H,PT12H,P1D,"
+}
+![image](https://user-images.githubusercontent.com/8968058/161137081-1702d2ad-bb71-45e1-b32d-1622f1f03d83.png)
 
-	at com.azure.monitor.query@1.0.0-beta.5/com.azure.monitor.query.MetricsQueryAsyncClient.lambda$queryResourceWithResponse$4(MetricsQueryAsyncClient.java:205)
 ```
 
 As documented in the error message, the supported granularity for metrics queries are 1 minute, 5 minutes, 15 minutes,
