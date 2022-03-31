@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import { AvroSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
-import { assertSerializationError } from "./utils/assertSerializationError";
+import { assertSerializationError } from "./utils/assertSerializerError";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
