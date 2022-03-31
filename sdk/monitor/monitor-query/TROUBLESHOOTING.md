@@ -131,9 +131,6 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
   },
   "message": "The request had some invalid properties"
 }
-
-![image](https://user-images.githubusercontent.com/8968058/161137215-aa1a4477-9e21-4270-9cb0-d394402f3167.png)
-
 ```
 
 The error message may include the line number and position where the Kusto query has an error (line 2, position 244
@@ -265,8 +262,6 @@ duration.
   },
   "message": "Invalid time grain duration: PT2M, supported ones are: PT1M,PT5M,PT15M,PT30M,PT1H,PT6H,PT12H,P1D,"
 }
-![image](https://user-images.githubusercontent.com/8968058/161137081-1702d2ad-bb71-45e1-b32d-1622f1f03d83.png)
-
 ```
 
 As documented in the error message, the supported granularity for metrics queries are 1 minute, 5 minutes, 15 minutes,
