@@ -13,7 +13,6 @@ Monitor Query client library for Javascript.
   - [Troubleshooting insufficient access error](#troubleshooting-insufficient-access-error-for-logs-query)
   - [Troubleshooting invalid Kusto query](#troubleshooting-invalid-kusto-query)
   - [Troubleshooting empty log query results](#troubleshooting-empty-log-query-results)
-  - [Troubleshooting client timeouts when executing logs query request](#troubleshooting-client-timeouts-when-executing-logs-query-request)
   - [Troubleshooting server timeouts when executing logs query request](#troubleshooting-server-timeouts-when-executing-logs-query-request)
   - [Troubleshooting partially successful logs query requests](#troubleshooting-partially-successful-logs-query-requests)
 - [Troubleshooting Metrics Query](#troubleshooting-metrics-query)
@@ -148,34 +147,22 @@ If your Kusto query returns empty no logs, please validate the following:
   these time intervals may not have any logs. To avoid any confusion, it's recommended to remove any time interval in
   the Kusto query string and use `QueryTimeInterval` explicitly.
 
-### Troubleshooting client timeouts when executing logs query request
-
-Some Kusto queries can run for a long time on the server depending on the complexity of the query and the number of
-results that the query has to fetch. This can lead to the client timing out before the server has had chance to respond.
-To increase the client side timeout, you can configure the HTTP client to have an extended timeout by doing the
-following.
-
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient } from "@azure/monitor-query";
-
-const credential = new DefaultAzureCredential();
-const logsQueryClient = new LogsQueryClient(credential);
-const result = await logsQueryClient.queryWorkspace(
-        monitorWorkspaceId,
-        kustoQuery,
-        { duration: Durations.oneHour },
-        {serverTimeoutInSeconds: 120}
-        );
-```
-The above code will create a `LogsQueryClient` with a Netty HTTP client that waits for a response for up to 120 seconds.
-The default is 60 seconds.
-
 ### Troubleshooting server timeouts when executing logs query request
 
-Similar to the above section, complex Kusto queries can take a long time to complete and such queries are aborted by the
+Some complex Kusto queries can take a long time to complete and such queries are aborted by the
 service if they run for more than 3 minutes. For such scenarios, the query APIs on `LogsQueryClient`, provide options to
 configure the timeout on the server. The server timeout can be extended up to 10 minutes.
+
+You may see an error as follows:
+
+```text
+Code: GatewayTimeout
+Message: Gateway timeout
+Inner error: {
+    "code": "GatewayTimeout",
+    "message": "Unable to unzip response"
+}
+```
 
 The following code shows a sample on how to set the server timeout to 10 minutes. Note that by setting this server
 timeout, the Azure Monitor Query library will automatically also extend the client timeout to wait for 10 minutes for
