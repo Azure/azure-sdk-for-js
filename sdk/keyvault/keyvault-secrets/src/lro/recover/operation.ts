@@ -44,15 +44,19 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    * This operation requires the secrets/get permission.
    */
   private getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    return tracingClient.withSpan("SecretClient.getSecret", options, async (updatedOptions) => {
-      const response = await this.client.getSecret(
-        this.vaultUrl,
-        name,
-        options && options.version ? options.version : "",
-        updatedOptions
-      );
-      return getSecretFromSecretBundle(response);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeletedSecretPoller.getSecret",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getSecret(
+          this.vaultUrl,
+          name,
+          options && options.version ? options.version : "",
+          updatedOptions
+        );
+        return getSecretFromSecretBundle(response);
+      }
+    );
   }
 
   /**
@@ -64,7 +68,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
     return tracingClient.withSpan(
-      "SecretClient.recoverDeletedSecret",
+      "RecoverDeletedSecretPoller.recoverDeletedSecret",
       options,
       async (updatedOptions) => {
         const response = await this.client.recoverDeletedSecret(

@@ -64,7 +64,12 @@ onVersions({ minVer: "7.2" }).describe(
         await assert.isRejected(hsmClient.getRandomBytes(129));
       });
 
-      it.skip("supports tracing", async () => {});
+      it("supports tracing", async () => {
+        await assert.supportsTracing(
+          (options) => hsmClient.getRandomBytes(1, options),
+          ["KeyClient.getRandomBytes"]
+        );
+      });
     });
 
     onVersions({ minVer: "7.3" }).describe("releaseKey", () => {

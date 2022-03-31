@@ -389,7 +389,7 @@ export class CertificateClient {
         ...options,
       };
       const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfCertificateVersions",
+        "CertificateClient.listPropertiesOfCertificateVersionsPage",
         optionsComplete,
         (updatedOptions) =>
           this.client.getCertificateVersions(this.vaultUrl, certificateName, updatedOptions)
@@ -401,7 +401,7 @@ export class CertificateClient {
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfCertificateVersions",
+        "CertificateClient.listPropertiesOfCertificateVersionsPage",
         options,
         (updatedOptions) =>
           this.client.getCertificateVersions(

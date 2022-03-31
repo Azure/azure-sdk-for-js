@@ -476,18 +476,28 @@ describe("Keys client - create, read, update and delete operations", () => {
         await assert.isRejected(client.getKeyRotationPolicy(keyName));
       });
 
-      it.skip("getKeyRotationPolicy supports tracing", async () => {
+      it("supports tracing", async () => {
         const keyName = recorder.getUniqueName("rotationpolicytracing");
         const key = await client.createKey(keyName, "RSA");
 
-        await client.updateKeyRotationPolicy(key.name, {
-          lifetimeActions: [
-            {
-              action: "Rotate",
-              timeAfterCreate: "P2M",
-            },
-          ],
-        });
+        await assert.supportsTracing(
+          async (options) => {
+            await client.updateKeyRotationPolicy(
+              key.name,
+              {
+                lifetimeActions: [
+                  {
+                    action: "Rotate",
+                    timeAfterCreate: "P2M",
+                  },
+                ],
+              },
+              options
+            );
+            await client.getKeyRotationPolicy(key.name, options);
+          },
+          ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"]
+        );
       });
     }
   });
