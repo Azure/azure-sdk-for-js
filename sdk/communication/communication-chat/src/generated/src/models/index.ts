@@ -308,7 +308,7 @@ export type ChatMessageType =
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of chat message read receipts to be returned per page. */
+  /** The maximum number of chat message read receipts to be returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** Skips chat message read receipts up to a specified position in response. */
   skip?: number;
@@ -331,7 +331,7 @@ export type ChatThreadSendChatMessageResponse = SendChatMessageResult;
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of messages to be returned per page. */
+  /** The maximum number of messages to be returned per page. The range is [1, 200]. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;
@@ -358,7 +358,7 @@ export interface ChatThreadDeleteChatMessageOptionalParams
 /** Optional parameters. */
 export interface ChatThreadListChatParticipantsOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of participants to be returned per page. */
+  /** The maximum number of participants to be returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** Skips participants up to a specified position in response. */
   skip?: number;
@@ -399,7 +399,7 @@ export interface ChatThreadSendTypingNotificationOptionalParams
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of chat message read receipts to be returned per page. */
+  /** The maximum number of chat message read receipts to be returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** Skips chat message read receipts up to a specified position in response. */
   skip?: number;
@@ -411,7 +411,7 @@ export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceipts
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of messages to be returned per page. */
+  /** The maximum number of messages to be returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;
@@ -423,7 +423,7 @@ export type ChatThreadListChatMessagesNextResponse = ChatMessagesCollection;
 /** Optional parameters. */
 export interface ChatThreadListChatParticipantsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of participants to be returned per page. */
+  /** The maximum number of participants to be returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** Skips participants up to a specified position in response. */
   skip?: number;
@@ -445,7 +445,7 @@ export type ChatCreateChatThreadResponse = CreateChatThreadResult;
 /** Optional parameters. */
 export interface ChatListChatThreadsOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of chat threads returned per page. */
+  /** The maximum number of chat threads returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;
@@ -461,7 +461,7 @@ export interface ChatDeleteChatThreadOptionalParams
 /** Optional parameters. */
 export interface ChatListChatThreadsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The maximum number of chat threads returned per page. */
+  /** The maximum number of chat threads returned per page. The range is [1, 200].*/
   maxPageSize?: number;
   /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;
