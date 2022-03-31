@@ -99,7 +99,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -114,7 +114,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -129,7 +129,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -143,7 +143,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.isNotEmpty(tables);
         const [table] = tables;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
       });
 
@@ -699,7 +699,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
         assert.isNotEmpty(tables);
         const [table] = tables!;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
         validator(invoice as AnalyzedDocument);
@@ -724,7 +724,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
         assert.isNotEmpty(tables);
         const [table] = tables!;
-        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
         validator(invoice as AnalyzedDocument);
