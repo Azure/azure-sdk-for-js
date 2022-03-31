@@ -4,6 +4,7 @@
 
 ```yaml
 package-name: app-configuration
+package-version: "1.4.0-beta.1"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true
@@ -25,7 +26,8 @@ hide-clients: true
 ```
 
 ### Patch endpoints for exception handling
-``` yaml
+
+```yaml
 directive:
   - from: swagger-document
     where: $["paths"]
@@ -42,7 +44,8 @@ directive:
 ```
 
 ### Make .key a required field
-``` yaml
+
+```yaml
 directive:
   - from: swagger-document
     where: $["definitions"]["KeyValue"]
@@ -52,7 +55,8 @@ directive:
 ```
 
 ### Add 304 response to GetKeyValueOperation
-``` yaml
+
+```yaml
 directive:
   - from: swagger-document
     where: $["paths"]["/kv/{key}"]["get"]["responses"]
@@ -75,7 +79,8 @@ directive:
 ```
 
 ### Add 304 response to CheckKeyValueOperation
-``` yaml
+
+```yaml
 directive:
   - from: swagger-document
     where: $["paths"]["/kv/{key}"]["head"]["responses"]
