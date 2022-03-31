@@ -12,6 +12,8 @@ trigger:
     exclude:
       - sdk/migrate/ci.mgmt.yml
       - sdk/mixedreality/arm-migrate/
+      - sdk/mixedreality/arm-mixedreality
+      - sdk/mixedreality/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -27,6 +29,8 @@ pr:
     exclude:
       - sdk/migrate/ci.mgmt.yml
       - sdk/mixedreality/arm-migrate/
+      - sdk/mixedreality/arm-mixedreality
+      - sdk/mixedreality/ci.mgmt.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

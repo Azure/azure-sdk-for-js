@@ -332,6 +332,12 @@ export const MetricDimension: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      toBeExportedForShoebox: {
+        serializedName: "toBeExportedForShoebox",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -684,6 +690,43 @@ export const RemoteRenderingAccountPage: coreClient.CompositeMapper = {
   }
 };
 
+export const ObjectAnchorsAccountPage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccountPage",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ObjectAnchorsAccount"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ObjectAnchorsAccountIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccountIdentity",
+    modelProperties: {
+      ...Identity.type.modelProperties
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -784,6 +827,71 @@ export const RemoteRenderingAccount: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Identity"
+        }
+      },
+      plan: {
+        serializedName: "plan",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      storageAccountName: {
+        serializedName: "properties.storageAccountName",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "properties.accountId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountDomain: {
+        serializedName: "properties.accountDomain",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ObjectAnchorsAccount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ObjectAnchorsAccount",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ObjectAnchorsAccountIdentity"
         }
       },
       plan: {

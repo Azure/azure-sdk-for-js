@@ -11,12 +11,14 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   SpatialAnchorsAccountsImpl,
-  RemoteRenderingAccountsImpl
+  RemoteRenderingAccountsImpl,
+  ObjectAnchorsAccountsImpl
 } from "./operations";
 import {
   Operations,
   SpatialAnchorsAccounts,
-  RemoteRenderingAccounts
+  RemoteRenderingAccounts,
+  ObjectAnchorsAccounts
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -60,7 +62,7 @@ export class MixedRealityClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mixedreality/4.0.1`;
+    const packageDetails = `azsdk-js-arm-mixedreality/4.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -83,10 +85,11 @@ export class MixedRealityClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-01-01";
+    this.apiVersion = options.apiVersion || "2021-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.spatialAnchorsAccounts = new SpatialAnchorsAccountsImpl(this);
     this.remoteRenderingAccounts = new RemoteRenderingAccountsImpl(this);
+    this.objectAnchorsAccounts = new ObjectAnchorsAccountsImpl(this);
   }
 
   /**
@@ -109,6 +112,7 @@ export class MixedRealityClient extends coreClient.ServiceClient {
   operations: Operations;
   spatialAnchorsAccounts: SpatialAnchorsAccounts;
   remoteRenderingAccounts: RemoteRenderingAccounts;
+  objectAnchorsAccounts: ObjectAnchorsAccounts;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
