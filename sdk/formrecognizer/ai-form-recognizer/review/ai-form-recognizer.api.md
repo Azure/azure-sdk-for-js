@@ -69,8 +69,8 @@ export { AzureKeyCredential }
 
 // @public
 export interface BoundingRegion {
-    boundingBox: number[];
     pageNumber: number;
+    polygon: number[];
 }
 
 // @public
@@ -201,7 +201,7 @@ export interface CommonModelCreationOptions {
 }
 
 // @public
-export type ContentType = "application/octet-stream" | "application/pdf" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
+export type ContentType = "application/octet-stream" | "application/pdf" | "application/vnd.openxmlformats-officedocument.presentationml.presentation" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
 export interface CopyAuthorization {
@@ -424,7 +424,8 @@ export interface DocumentObjectField<Properties = {
 export interface DocumentPage {
     angle: number;
     height: number;
-    lines: DocumentLine[];
+    kind: string;
+    lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
     spans: DocumentSpan[];
@@ -441,8 +442,8 @@ export interface DocumentPhoneNumberField extends DocumentFieldCommon {
 
 // @public
 export interface DocumentSelectionMark {
-    boundingBox?: number[];
     confidence: number;
+    polygon?: number[];
     span: DocumentSpan;
     state: SelectionMarkState;
 }
@@ -483,9 +484,18 @@ export interface DocumentStyle {
 // @public
 export interface DocumentTable {
     boundingRegions?: BoundingRegion[];
+    caption?: DocumentTableCaption;
     cells: DocumentTableCell[];
     columnCount: number;
+    footnotes?: DocumentTableFootnote[];
     rowCount: number;
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface DocumentTableCaption {
+    boundingRegions?: BoundingRegion[];
+    content: string;
     spans: DocumentSpan[];
 }
 
@@ -505,6 +515,13 @@ export interface DocumentTableCell {
 export type DocumentTableCellKind = string;
 
 // @public
+export interface DocumentTableFootnote {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
+}
+
+// @public
 export interface DocumentTimeField extends DocumentFieldCommon {
     kind: "time";
     value?: string;
@@ -517,9 +534,9 @@ export interface DocumentValueField<T> extends DocumentFieldCommon {
 
 // @public
 export interface DocumentWord {
-    boundingBox?: number[];
     confidence: number;
     content: string;
+    polygon?: number[];
     span: DocumentSpan;
 }
 
