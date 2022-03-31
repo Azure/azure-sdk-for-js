@@ -1,52 +1,28 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1325",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:30 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - SCUS ProdSlices",
-    "x-ms-request-id": "ef774fe4-b4dc-4a74-a261-96292d207301"
-   }
-  },
-  {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/eventroutes/eventRoute162506697323108244",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/eventroutes/eventRoute164874848486108972",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2021-06-30-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"EventRouteNotFound\",\"message\":\"There is no route available that matches the provided input. Check for all valid event routes by calling EventRoute_List. See Swagger example (http://aka.ms/RouteSwSmpl).\"}}",
+   "response": "{\"error\":{\"code\":\"EventRouteNotFound\",\"message\":\"There is no route available that matches the provided input. Check for all valid event routes by calling EventRoute_List. See Swagger example (https://aka.ms/RouteSwSmpl).\"}}",
    "responseHeaders": {
-    "content-length": "222",
+    "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:31 GMT",
+    "date": "Thu, 31 Mar 2022 17:41:24 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c4cb9320d72f1f4992fd2a1fab18a4bf-96071c6e3b7e3341-01"
+    "traceresponse": "00-7c9194a18379f94f91b0980c6e6674b5-91f375604ff63043-01"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "delete-event-routes-not-existing": "eventRoute162506697323108244"
+   "delete-event-routes-not-existing": "eventRoute164874848486108972"
   },
   "newDate": {}
  },
- "hash": "1825298c216f634a41c05dd92c1ce718"
+ "hash": "3fa710cafe6d79b6d105df1b269fdc73"
 }

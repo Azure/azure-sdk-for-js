@@ -79,7 +79,7 @@ export const tracestate: OperationParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-10-31",
+    defaultValue: "2021-06-30-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

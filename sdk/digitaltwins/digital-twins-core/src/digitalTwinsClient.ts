@@ -56,7 +56,7 @@ import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
 
-export const SDK_VERSION: string = "1.1.0";
+export const SDK_VERSION: string = "1.1.0-beta.1";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**
