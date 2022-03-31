@@ -56,6 +56,9 @@
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/coreHttp.js"
+  },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
