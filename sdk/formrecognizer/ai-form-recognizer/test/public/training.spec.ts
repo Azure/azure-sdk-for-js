@@ -156,7 +156,7 @@ matrix(
               assert.isNotEmpty(tables);
               const [table] = tables!;
 
-              assert.ok(table.boundingRegions?.[0].boundingBox);
+              assert.ok(table.boundingRegions?.[0].polygon);
               assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
               assert.ok(document.fields);
