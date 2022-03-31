@@ -36,7 +36,7 @@ async function main() {
     for (const page of pages) {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
-      console.log(`  ${page.lines?.length} lines, ${page.words.length} words`);
+      console.log(`  ${page.lines && page.lines.length} lines, ${page.words.length} words`);
 
       if (page.lines && page.lines.length > 0) {
         console.log("  Lines:");
