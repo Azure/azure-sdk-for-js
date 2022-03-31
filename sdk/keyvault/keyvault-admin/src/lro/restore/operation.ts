@@ -68,7 +68,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
   private fullRestore(
     options: FullRestoreOperationOptionalParams
   ): Promise<FullRestoreOperationResponse> {
-    return tracingClient.withSpan("KeyVaultBackupClient.fullRestore", options, (updatedOptions) =>
+    return tracingClient.withSpan("KeyVaultRestorePoller.fullRestore", options, (updatedOptions) =>
       this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
     );
   }
@@ -80,8 +80,10 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<RestoreStatusResponse> {
-    return tracingClient.withSpan("KeyVaultBackupClient.restoreStatus", options, (updatedOptions) =>
-      this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+    return tracingClient.withSpan(
+      "KeyVaultRestorePoller.restoreStatus",
+      options,
+      (updatedOptions) => this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }
 

@@ -56,7 +56,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
    * Tracing the fullBackup operation
    */
   private fullBackup(options: FullBackupOptionalParams): Promise<FullBackupResponse> {
-    return tracingClient.withSpan("KeyVaultBackupClient.fullBackup", options, (updatedOptions) =>
+    return tracingClient.withSpan("KeyVaultBackupPoller.fullBackup", options, (updatedOptions) =>
       this.client.fullBackup(this.vaultUrl, updatedOptions)
     );
   }
@@ -69,7 +69,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
     options: KeyVaultBeginBackupOptions
   ): Promise<FullBackupStatusResponse> {
     return tracingClient.withSpan(
-      "KeyVaultBackupClient.fullBackupStatus",
+      "KeyVaultBackupPoller.fullBackupStatus",
       options,
       (updatedOptions) => this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
     );

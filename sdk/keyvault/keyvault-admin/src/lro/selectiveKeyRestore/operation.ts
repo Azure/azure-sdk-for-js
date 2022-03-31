@@ -73,7 +73,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     options: SelectiveKeyRestoreOperationOptionalParams
   ): Promise<SelectiveKeyRestoreOperationResponse> {
     return tracingClient.withSpan(
-      "KeyVaultBackupClient.selectiveRestore",
+      "KeyVaultSelectiveKeyRestorePoller.selectiveRestore",
       options,
       (updatedOptions) =>
         this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
@@ -84,8 +84,10 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
    * Tracing the restoreStatus operation.
    */
   private restoreStatus(jobId: string, options: OperationOptions): Promise<RestoreStatusResponse> {
-    return tracingClient.withSpan("KeyVaultBackupClient.restoreStatus", options, (updatedOptions) =>
-      this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+    return tracingClient.withSpan(
+      "KeyVaultSelectiveKeyRestorePoller.restoreStatus",
+      options,
+      (updatedOptions) => this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }
 
