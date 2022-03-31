@@ -1169,6 +1169,22 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/search-documents/11.3.0-beta.7:
+    resolution: {integrity: sha512-y+8GS1hjdWZA+ObTjyJIUZW+GB/be2LHBKy0VRajAGP2eJOSTVMBzzJmI19/B+DKQQvR/Sm/xyXJ6J68R+NMKQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.5.0
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.7.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      events: 3.3.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/service-bus/7.5.1:
     resolution: {integrity: sha512-fIbI5aJDzN2HctcS+3i7rXY3L5jWG7/SuXOq0cMpwy+aH5aHOZVoxX8eeSnUnr2jUpUflU1wJ9yiYZ/sXqZvqw==}
     engines: {node: '>=12.0.0'}
@@ -8805,7 +8821,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-K9QmmyyQQIUQ49wITFE3k/IL7pCxUdDO7wwxOpY288lEqCgveHCoXsONSXFYElsEUSkkDgX+6AF2arlms36Phg==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-o5Cc5OOH864YpSZKNo7b9aQgOmcieZNh8iaFPi9BHgc0LtgPuFu2DNJmIYskQp8gCSelNQbUnWzc9W+u8cPoTg==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -15958,11 +15974,12 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-fDGQFcgVitwZW22LuRwj1sHE0wCl34WzYcSfeZAnr+k/lf9LCZKPxmDkCejI+PV5N2MY1bnoKw873zzOma8Adw==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-FJDX0jP1sZP2TEal8mZeMWqkomOSt9yAhhdiOpFb3WgO30ZTs1IGDu6hkzulejcycVhvhJ08X6sjL+2LKab3iQ==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
+      '@azure/search-documents': 11.3.0-beta.7
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -16369,7 +16386,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-NCfckozmvMIo4olyprnZy6/IzXw/AnGC1JW1vQZwfhQn+worHw17HhbbObyBZW2d8kes35Vxt8UFcE9DyAZlVA==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
