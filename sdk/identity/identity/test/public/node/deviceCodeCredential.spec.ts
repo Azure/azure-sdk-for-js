@@ -11,7 +11,7 @@ import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestU
 import { Context } from "mocha";
 
 // https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
-export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
+const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
 
 describe("DeviceCodeCredential", function () {
   let cleanup: MsalTestCleanup;

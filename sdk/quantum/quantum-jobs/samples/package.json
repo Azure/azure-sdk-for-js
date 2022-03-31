@@ -1,5 +1,5 @@
 {
-  "name": "azure-quantum-jobs-samples-js",
+  "name": "@azure-samples/quantum-jobs-js",
   "private": true,
   "version": "1.0.0-beta.1",
   "description": "Samples for the azure/quantum-jobs client library for Javascript",

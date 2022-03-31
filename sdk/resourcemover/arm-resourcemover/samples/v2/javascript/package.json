@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-resourcemover-samples-js",
+  "name": "@azure-samples/arm-resourcemover-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",

@@ -10,7 +10,7 @@ import { DataSources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClientContext } from "../searchServiceClientContext";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   SearchIndexerDataSource,
   DataSourcesCreateOrUpdateOptionalParams,
@@ -26,13 +26,13 @@ import {
 
 /** Class containing DataSources operations. */
 export class DataSourcesImpl implements DataSources {
-  private readonly client: SearchServiceClientContext;
+  private readonly client: SearchServiceClient;
 
   /**
    * Initialize a new instance of the class DataSources class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClientContext) {
+  constructor(client: SearchServiceClient) {
     this.client = client;
   }
 

@@ -11,8 +11,7 @@ const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -53,7 +52,7 @@ async function main() {
   // Encrypt and decrypt
   const encrypt = await cryptoClient.encrypt({
     algorithm: "RSA1_5",
-    plaintext: Buffer.from("My Message")
+    plaintext: Buffer.from("My Message"),
   });
   console.log("encrypt result: ", encrypt);
 
@@ -72,3 +71,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };

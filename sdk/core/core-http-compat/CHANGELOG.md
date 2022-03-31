@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.0 (2022-03-28)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Updated response object to have a custom `_response` property. Please refer [#21004](https://github.com/Azure/azure-sdk-for-js/pull/21004) for further details.
 
 ## 1.1.0 (2022-02-25)
 

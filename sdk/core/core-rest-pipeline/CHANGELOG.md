@@ -1,14 +1,16 @@
 # Release History
 
-## 1.7.1 (Unreleased)
+## 1.8.0 (2022-03-31)
 
 ### Features Added
 
-### Breaking Changes
+- Support resettable streams in the form of `() => NodeJS.ReadableStream` for NodeJS and `() => ReadableStream` for browser. [#21013](https://github.com/Azure/azure-sdk-for-js/pull/21013)
+- Add a React-Native mapping for default HTTP Client to the old `XhrHttpClient` because the Fetch API implementation in React-Native runtime is missing streaming support.
 
 ### Bugs Fixed
 
-### Other Changes
+- Updated `redirectPolicy` to remove the `Authorization` header from redirected requests. [#21026](https://github.com/Azure/azure-sdk-for-js/pull/21026)
+- Fixed an issue introduced in 1.6.0 where redirects were not properly followed in the browser. [#21051](https://github.com/Azure/azure-sdk-for-js/pull/21051)
 
 ## 1.7.0 (2022-03-21)
 

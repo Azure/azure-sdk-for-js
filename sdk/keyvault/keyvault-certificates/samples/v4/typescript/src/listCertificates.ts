@@ -5,11 +5,12 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -24,17 +25,17 @@ export async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   const uniqueString = new Date().getTime();
-  const certificateName1 = `cert1${uniqueString}`;
-  const certificateName2 = `cert2${uniqueString}`;
+  const certificateName1 = `list-1${uniqueString}`;
+  const certificateName2 = `list-2${uniqueString}`;
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
   await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   // Listing all the available certificates in a single call.
@@ -55,8 +56,8 @@ export async function main(): Promise<void> {
   // Updating one of the certificates to retrieve the certificate versions afterwards
   const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
-      customTag: "value"
-    }
+      customTag: "value",
+    },
   });
   console.log("Updated certificate:", updatedCertificate);
 

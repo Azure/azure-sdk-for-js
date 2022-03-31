@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** Describes an error condition for the Azure Cognitive Search API. */
 export interface SearchError {
@@ -915,7 +916,7 @@ export type DocumentsAutocompletePostResponse = AutocompleteResult;
 
 /** Optional parameters. */
 export interface SearchClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

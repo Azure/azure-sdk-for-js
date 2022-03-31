@@ -1,5 +1,5 @@
 {
-  "name": "azure-dtdl-parser-samples-js-beta",
+  "name": "@azure-samples/dtdl-parser-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Digital Twins Model Parser client library samples for JavaScript (Beta)",

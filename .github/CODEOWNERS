@@ -40,14 +40,29 @@
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
-# PRLabel: %Communication
+# PRLabel: %Communication - Identity
 /sdk/communication/communication-identity/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+
+# PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
+
+# PRLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
+
+# PRLabel: %Communication - Network Traversal
 /sdk/communication/communication-network-traversal/ @AriZavala2
+
+# PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
+
+# PRLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
+
+# PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+
+# PRLabel: %Communication
+/sdk/communication/communication/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
@@ -62,7 +77,7 @@
 /sdk/deviceupdate/ @dpokluda
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar
+/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar @sjiherzig @Satya-Kolluri
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ellismg @xirzec

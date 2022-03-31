@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin",
   "dependencies": {
-    "@azure/keyvault-admin": "next",
+    "@azure/keyvault-admin": "latest",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1",
     "uuid": "^8.3.0",
