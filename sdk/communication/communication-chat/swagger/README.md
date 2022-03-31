@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-chat
+package-name: "@azure/communication-chat"
 title: ChatApiClient
 description: Chat Client
 generate-metadata: false
