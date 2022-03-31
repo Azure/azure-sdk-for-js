@@ -44,7 +44,7 @@ export const recorderOptions: RecorderStartOptions = {
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptionsCoreV1({})
+    recorder.configureClientOptions({})
   );
   return identityClient.createUserAndToken(["chat"]);
 }
