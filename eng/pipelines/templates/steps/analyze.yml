@@ -4,7 +4,7 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+  # - template: /eng/common/pipelines/templates/steps/check-spelling.yml
 
   - task: PowerShell@2
     inputs:
@@ -35,14 +35,14 @@ steps:
   #   parameters:
   #     SourceDirectory: $(Build.SourcesDirectory)
 
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: ""
-        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: sdk/${{ parameters.ServiceDirectory }}
-      CheckLinkGuidance: $true
+  # - template: /eng/common/pipelines/templates/steps/verify-links.yml
+  #   parameters:
+  #     ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  #       Directory: ""
+  #       Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
+  #     ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+  #       Directory: sdk/${{ parameters.ServiceDirectory }}
+  #     CheckLinkGuidance: $true
   
   - script: |
       echo "TEST INFO";
@@ -69,7 +69,7 @@ steps:
 
     - task: DownloadBuildArtifacts@0
       inputs:
-        buildType: '1472112'
+        buildType: 'current'
         downloadType: 'single'
         # This is the name of the docs that you want to download.
         artifactName: 'packages'
@@ -87,6 +87,10 @@ steps:
         destinationFolder: '$(Pipeline.Workspace)/html-docs/'
         #cleanDestinationFolder: true 
         #overwriteExistingFiles: false
+
+    - script: |
+        tree $(Pipeline.Workspace)/html-docs
+      displayName: "Show tree"
  
     # NOW CALL VERIFY LINKS, again, with the artifact url
   

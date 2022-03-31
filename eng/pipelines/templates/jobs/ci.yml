@@ -51,6 +51,7 @@ jobs:
           IncludeRelease: ${{ parameters.IncludeRelease }}
 
   - job: "Analyze"
+    dependsOn: Build
     variables:
       - template: ../variables/globals.yml
 
