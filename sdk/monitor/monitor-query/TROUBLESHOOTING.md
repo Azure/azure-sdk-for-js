@@ -15,7 +15,6 @@ Monitor Query client library for Javascript.
   - [Troubleshooting empty log query results](#troubleshooting-empty-log-query-results)
   - [Troubleshooting client timeouts when executing logs query request](#troubleshooting-client-timeouts-when-executing-logs-query-request)
   - [Troubleshooting server timeouts when executing logs query request](#troubleshooting-server-timeouts-when-executing-logs-query-request)
-  - [Troubleshooting server timeouts on OkHTTP client](#troubleshooting-server-timeouts-on-okhttp-client)
   - [Troubleshooting partially successful logs query requests](#troubleshooting-partially-successful-logs-query-requests)
 - [Troubleshooting Metrics Query](#troubleshooting-metrics-query)
   - [Troubleshooting insufficient access error](#troubleshooting-insufficient-access-error-for-metrics-query)
@@ -186,13 +185,18 @@ timeout, the Azure Monitor Query library will automatically also extend the clie
 the server to respond. You don't need to configure your HTTP client to extend the response timeout as shown in the
 previous section.
 
-```java readme-sample-servertimeout
-LogsQueryClient client = new LogsQueryClientBuilder()
-        .credential(credential)
-        .buildClient();
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient } from "@azure/monitor-query";
 
-client.queryWorkspaceWithResponse("{workspaceId}", "{kusto-query-string}", QueryTimeInterval.LAST_DAY,
-        new LogsQueryOptions().setServerTimeout(Duration.ofMinutes(10)), Context.NONE);
+const credential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(credential);
+const result = await logsQueryClient.queryWorkspace(
+        monitorWorkspaceId,
+        kustoQuery,
+        { duration: Durations.oneHour },
+        {serverTimeoutInSeconds: 600}
+        );
 ```
 
 ### Troubleshooting partially successful logs query requests
@@ -215,8 +219,7 @@ If you get an HTTP error with status code 403 (Forbidden), it means that the pro
 sufficient permissions to query the workspace.
 
 ```text
-com.azure.core.exception.HttpResponseException: Status code 403, "{"error":{"code":"AuthorizationFailed","message":"The client '71d56230-5920-4856-8f33-c030b269d870' with object id '71d56230-5920-4856-8f33-c030b269d870' does not have authorization to perform action 'microsoft.insights/metrics/read' over scope '/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/srnagar-azuresdkgroup/providers/Microsoft.CognitiveServices/accounts/srnagara-textanalytics/providers/microsoft.insights' or the scope is invalid. If access was recently granted, please refresh your credentials."}}"
-	at com.azure.monitor.query/com.azure.monitor.query.MetricsQueryAsyncClient.lambda$queryResourceWithResponse$4(MetricsQueryAsyncClient.java:227)
+"{"error":{"code":"AuthorizationFailed","message":"The client '71d56230-5920-4856-8f33-c030b269d870' with object id '71d56230-5920-4856-8f33-c030b269d870' does not have authorization to perform action 'microsoft.insights/metrics/read' over scope '/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/srnagar-azuresdkgroup/providers/Microsoft.CognitiveServices/accounts/srnagara-textanalytics/providers/microsoft.insights' or the scope is invalid. If access was recently granted, please refresh your credentials."}}"
 ```
 
 1. Check that the application or user that is making the request has sufficient permissions:
