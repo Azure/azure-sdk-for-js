@@ -150,7 +150,7 @@ export class AppConfigurationClient {
     }
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AppConfiguration(appConfigEndpoint, apiVersion);
+    this.client = new AppConfiguration(appConfigEndpoint, apiVersion, appConfigOptions);
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
     this.client.pipeline.removePolicy({ name: deserializationPolicyName });
