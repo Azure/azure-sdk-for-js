@@ -70,10 +70,22 @@ export class AvroSerializationError extends Error {
    * The inner error that was thrown by the Avro implementation library.
    */
   public innerError?: unknown;
+  /**
+   * The schema ID of the schema that was used during the failing operation.
+   */
+  public schemaId?: string;
 
-  constructor(message: string, innerError?: unknown) {
+  constructor(
+    message: string,
+    options: {
+      innerError?: unknown;
+      schemaId?: string;
+    } = {}
+  ) {
+    const { innerError, schemaId } = options;
     super(message);
     this.innerError = innerError;
+    this.schemaId = schemaId;
     this.name = "AvroSerializationError";
 
     Object.setPrototypeOf(this, AvroSerializationError.prototype);

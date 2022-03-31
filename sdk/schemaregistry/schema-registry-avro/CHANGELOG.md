@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0-beta.8 (Unreleased)
 
 ### Features Added
 - A new error type, `AvroSerializationError`, is added and is thrown in all error cases except for service calls.

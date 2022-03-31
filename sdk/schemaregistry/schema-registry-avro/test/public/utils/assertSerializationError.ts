@@ -9,9 +9,10 @@ export async function assertSerializationError<T>(
   expectations: {
     innerMessage?: RegExp;
     message?: RegExp;
+    schemaId?: string | boolean;
   } = {}
 ): Promise<void> {
-  const { innerMessage, message } = expectations;
+  const { innerMessage, message, schemaId = false } = expectations;
   try {
     await p;
     assert.fail(`Expected promise to error, but resolved successfully`);
@@ -25,6 +26,13 @@ export async function assertSerializationError<T>(
       assert.isDefined(error.innerError, "innerError is not found");
       const innerError = error.innerError as Error;
       assert.match(innerError.message, innerMessage);
+    }
+    if (typeof schemaId === "string") {
+      assert.equal(error.schemaId, schemaId);
+    } else if (schemaId) {
+      assert.isDefined(error.schemaId);
+    } else {
+      assert.isUndefined(error.schemaId);
     }
   }
 }

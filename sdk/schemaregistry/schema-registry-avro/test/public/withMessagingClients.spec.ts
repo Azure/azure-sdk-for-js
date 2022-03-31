@@ -290,6 +290,7 @@ describe("With messaging clients", function () {
           processMessage: async (p: Promise<unknown>) =>
             assertSerializationError(p, {
               innerMessage: /no matching field for default-less/,
+              schemaId: true,
             }),
         });
       });

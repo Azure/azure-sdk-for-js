@@ -8,8 +8,12 @@ import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export class AvroSerializationError extends Error {
-    constructor(message: string, innerError?: unknown);
+    constructor(message: string, options?: {
+        innerError?: unknown;
+        schemaId?: string;
+    });
     innerError?: unknown;
+    schemaId?: string;
 }
 
 // @public

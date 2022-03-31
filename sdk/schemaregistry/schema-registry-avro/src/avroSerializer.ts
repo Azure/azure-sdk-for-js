@@ -77,7 +77,10 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = wrapError(
       () => entry.serializer.toBuffer(value),
-      "Avro serialization failed. See innerError for more details."
+      "Avro serialization failed. See innerError for more details.",
+      {
+        schemaId: entry.id,
+      }
     );
     const payload = new Uint8Array(
       buffer.buffer,
@@ -121,19 +124,30 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
     const writerSchemaId = getSchemaId(contentType);
     const writerSchemaSerializer = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
-      const readerSchemaSerializer = getSerializerForSchema(readerSchema);
+      const readerSchemaSerializer = getSerializerForSchema(readerSchema, {
+        schemaId: writerSchemaId,
+      });
       const resolver = wrapError(
         () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
-        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`
+        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`,
+        {
+          schemaId: writerSchemaId,
+        }
       );
       return wrapError(
         () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
-        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`
+        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`,
+        {
+          schemaId: writerSchemaId,
+        }
       );
     } else {
       return wrapError(
         () => writerSchemaSerializer.fromBuffer(buffer),
-        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`
+        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`,
+        {
+          schemaId: writerSchemaId,
+        }
       );
     }
   }
@@ -155,7 +169,9 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
       );
     }
 
-    const avroType = getSerializerForSchema(schemaResponse.definition);
+    const avroType = getSerializerForSchema(schemaResponse.definition, {
+      schemaId: schemaResponse.properties.id,
+    });
     return this.cache(schemaId, schemaResponse.definition, avroType).serializer;
   }
 
@@ -290,19 +306,35 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
   };
 }
 
-function getSerializerForSchema(schema: string): AVSCSerializer {
+function getSerializerForSchema(
+  schema: string,
+  options: {
+    schemaId?: string;
+  } = {}
+): AVSCSerializer {
   return wrapError(
     () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
-    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`
+    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`,
+    options
   );
 }
 
-function wrapError<T>(f: () => T, message: string): T {
+function wrapError<T>(
+  f: () => T,
+  message: string,
+  options: {
+    schemaId?: string;
+  } = {}
+): T {
   let result: T;
   try {
     result = f();
   } catch (innerError) {
-    throw new AvroSerializationError(message, innerError);
+    const { schemaId } = options;
+    throw new AvroSerializationError(message, {
+      innerError,
+      schemaId,
+    });
   }
   return result;
 }
