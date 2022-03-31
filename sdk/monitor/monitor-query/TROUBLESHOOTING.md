@@ -211,7 +211,7 @@ const result = await logsQueryClient.queryWorkspace(${azureLogAnalyticsWorkspace
     }
   }
 ```
-More details on the hierarchy of the response for single query can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/monitor-query-TS/sdk/monitor/monitor-query/README.md#handle-logs-query-response)
+More details on the hierarchy of the response for single query can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-query-response)
 
 In case of multiple queries, there can be three possibilities for the value of `status` field of `result` object - `Success`, `PartialFailure` or `Failure`. You can access the details of the partially successful results by the following code snippet -
 
