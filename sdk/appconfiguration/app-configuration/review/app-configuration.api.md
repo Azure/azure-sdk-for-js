@@ -67,7 +67,7 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
 });
 
 // @public
-export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 // @public
 export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
@@ -107,7 +107,7 @@ export interface GetConfigurationSettingOptions extends OperationOptions, HttpOn
 }
 
 // @public
-export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields, HttpResponseField<GetConfigurationHeaders> {
 }
 
 // @public

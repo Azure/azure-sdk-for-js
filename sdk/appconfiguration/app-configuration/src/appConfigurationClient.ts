@@ -21,7 +21,6 @@ import {
   DeleteConfigurationSettingResponse,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
-  HttpResponseField,
   ListConfigurationSettingPage,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -216,7 +215,7 @@ export class AppConfigurationClient {
         },
       });
 
-      return transformKeyValueResponseWithStatusCode(originalResponse, status) as unknown as DeleteConfigurationSettingResponse & HttpResponseField<any>;
+      return transformKeyValueResponseWithStatusCode(originalResponse, status) as unknown as DeleteConfigurationSettingResponse;
     });
   }
 
@@ -481,7 +480,7 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
       });
 
-      return transformKeyValueResponse(response) as SetConfigurationSettingResponse & HttpResponseField<any>;
+      return transformKeyValueResponse(response) as SetConfigurationSettingResponse;
     });
   }
 
