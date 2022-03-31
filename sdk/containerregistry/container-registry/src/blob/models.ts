@@ -71,11 +71,11 @@ export interface UploadManifestResult {
 /** Docker V2 image layer descriptor including config and layers. */
 export interface OciBlobDescriptor {
   /** Layer media type */
-  mediaType?: string;
+  mediaType: string;
   /** Layer size */
-  size?: number;
+  size: number;
   /** Layer digest */
-  digest?: string;
+  digest: string;
   /** Specifies a list of URIs from which this object may be downloaded. */
   urls?: string[];
   /** Additional information provided through arbitrary metadata. */

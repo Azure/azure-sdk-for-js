@@ -248,9 +248,9 @@ export interface OciAnnotations {
 // @public
 export interface OciBlobDescriptor {
     annotations?: OciAnnotations;
-    digest?: string;
-    mediaType?: string;
-    size?: number;
+    digest: string;
+    mediaType: string;
+    size: number;
     urls?: string[];
 }
 
