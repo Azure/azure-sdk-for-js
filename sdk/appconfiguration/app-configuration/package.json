@@ -85,7 +85,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-client": "^1.5.0",
-    "@azure/core-http-compat": "^1.1.0",
+    "@azure/core-http-compat": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-rest-pipeline": "^1.6.0",
     "@azure/core-tracing": "1.0.0-preview.13",

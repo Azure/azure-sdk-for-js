@@ -746,6 +746,17 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/core-http-compat/1.2.0:
+    resolution: {integrity: sha512-kfs0KOjHkIQ4aE8PN7OXdFn44rCMaPlXxYFy27UqL8GPj4YO2Ap0HPlw/ZDx6IZFnsqp5wfKmgz+JDUptFpw0w==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-client': 1.5.0
+      '@azure/core-rest-pipeline': 1.6.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-http/1.2.3:
     resolution: {integrity: sha512-g5C1zUJO5dehP2Riv+vy9iCYoS1UwKnZsBVCzanScz9A83LbnXKpZDa9wie26G9dfXUhQoFZoFT8LYWhPKmwcg==}
     engines: {node: '>=8.0.0'}
@@ -8995,11 +9006,12 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-9CPtvE4K2n/9UmKIYOytK6aBiDQeq42PtZ35dhH3QYE22D0lsOkeq1LjzCIC2pSnQkdcmlhXe79YV9eofCrIIQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-f7vpMxZDSLYLUBRrPWo/PmgDQsatIB5y5TRrjd4uTX/W1KaEtEfUoN+Z3RCw1Gw8RiP8tJWnV/k8OIsp6HRp+A==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-http-compat': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
       '@azure/keyvault-secrets': 4.3.0
