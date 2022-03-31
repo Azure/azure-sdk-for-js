@@ -8,7 +8,6 @@ Monitor Query client library for Javascript.
 - [General Troubleshooting](#general-troubleshooting)
   - [Enable client logging](#enable-client-logging)
   - [Troubleshooting authentication issues with logs and metrics query requests](#authentication-errors)
-  - [Troubleshooting NoSuchMethodError or NoClassDefFoundError](#dependency-conflicts)
 - [Troubleshooting Logs Query](#troubleshooting-logs-query)
   - [Troubleshooting insufficient access error](#troubleshooting-insufficient-access-error-for-logs-query)
   - [Troubleshooting invalid Kusto query](#troubleshooting-invalid-kusto-query)
