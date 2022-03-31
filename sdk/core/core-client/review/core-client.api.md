@@ -327,9 +327,12 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions extends CommonClientOptions {
+    apiVersion?: string;
+    // @deprecated
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];
+    endpoint?: string;
     pipeline?: Pipeline;
     requestContentType?: string;
 }

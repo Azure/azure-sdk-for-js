@@ -29,8 +29,20 @@ export interface ServiceClientOptions extends CommonClientOptions {
   /**
    * If specified, this is the base URI that requests will be made against for this ServiceClient.
    * If it is not specified, then all OperationSpecs must contain a baseUrl property.
+   * @deprecated
    */
   baseUri?: string;
+  /**
+   * If specified, this is the endpoint that requests will be made against for this ServiceClient.
+   * If it is not specified, then all OperationSpecs must contain a baseUrl property.
+   * to encourage customer to use endpoint, we mark the baseUri as deprecated.
+   */
+  endpoint?: string;
+  /**
+   * If specified, this is the apiVersion that requests will be made against for this ServiceClient.
+   * If it is not specified, we will use the default apiVersion value defined in specs.
+   */
+  apiVersion?: string;
   /**
    * If specified, will be used to build the BearerTokenAuthenticationPolicy.
    */
