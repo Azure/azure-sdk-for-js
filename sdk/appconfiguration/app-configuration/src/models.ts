@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
 /**
@@ -84,7 +84,25 @@ export interface HttpResponseFields {
    */
   statusCode: number | undefined;
 }
+/**
+ * HTTP response related information - headers and raw body.
+ */
+export interface HttpResponseField<HeadersT> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: FullOperationResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: HeadersT;
 
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+  };
+}
 /**
  * Parameters for adding a new configuration setting
  */
@@ -157,14 +175,14 @@ export interface AddConfigurationSettingOptions extends OperationOptions { }
  */
 export interface AddConfigurationSettingResponse
   extends ConfigurationSetting,
-  SyncTokenHeaderField { }
+  SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Response from deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingResponse
   extends SyncTokenHeaderField,
-  HttpResponseFields { }
+  HttpResponseFields, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options for deleting a ConfigurationSetting.
@@ -185,7 +203,7 @@ export interface SetConfigurationSettingOptions
  */
 export interface SetConfigurationSettingResponse
   extends ConfigurationSetting,
-  SyncTokenHeaderField { }
+  SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Headers from getting a ConfigurationSetting.
@@ -198,7 +216,7 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField { }
 export interface GetConfigurationSettingResponse
   extends ConfigurationSetting,
   GetConfigurationHeaders,
-  HttpResponseFields { }
+  HttpResponseFields, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options for getting a ConfigurationSetting.
@@ -281,7 +299,7 @@ export interface PageSettings {
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListConfigurationSettingPage extends PageSettings {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
   /**
    * The configuration settings for this page of results.
    */
@@ -298,7 +316,7 @@ export interface ListRevisionsOptions extends OperationOptions, ListSettingsOpti
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListRevisionsPage extends PageSettings {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
   /**
    * The configuration settings for this page of results.
    */
@@ -313,7 +331,7 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 /**
  * Response when setting a value to read-only.
  */
-export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField { }
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options that control how to retry failed requests.

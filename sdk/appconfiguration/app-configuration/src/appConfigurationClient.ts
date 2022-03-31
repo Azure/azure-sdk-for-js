@@ -21,6 +21,7 @@ import {
   DeleteConfigurationSettingResponse,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
+  HttpResponseField,
   ListConfigurationSettingPage,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -75,7 +76,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
+export interface AppConfigurationClientOptions extends CommonClientOptions { }
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -186,7 +187,7 @@ export class AppConfigurationClient {
         entity: keyValue,
         ...newOptions,
       });
-      return transformKeyValueResponse(originalResponse);
+      return transformKeyValueResponse(originalResponse) as AddConfigurationSettingResponse;
     });
   }
 
@@ -215,7 +216,7 @@ export class AppConfigurationClient {
         },
       });
 
-      return transformKeyValueResponseWithStatusCode(originalResponse, status);
+      return transformKeyValueResponseWithStatusCode(originalResponse, status) as unknown as DeleteConfigurationSettingResponse & HttpResponseField<any>;
     });
   }
 
@@ -249,7 +250,7 @@ export class AppConfigurationClient {
       const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
         originalResponse,
         status
-      );
+      ) as GetConfigurationSettingResponse;
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -262,7 +263,7 @@ export class AppConfigurationClient {
         makeConfigurationSettingEmpty(response);
       }
 
-      return response;
+      return response as GetConfigurationSettingResponse;
     });
   }
 
@@ -363,7 +364,7 @@ export class AppConfigurationClient {
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
         : undefined,
-    };
+    } as ListConfigurationSettingPage;
   }
 
   /**
@@ -450,7 +451,7 @@ export class AppConfigurationClient {
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
         : undefined,
-    };
+    } as ListRevisionsPage;
   }
 
   /**
@@ -480,7 +481,7 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
       });
 
-      return transformKeyValueResponse(response);
+      return transformKeyValueResponse(response) as SetConfigurationSettingResponse & HttpResponseField<any>;
     });
   }
 
@@ -501,7 +502,7 @@ export class AppConfigurationClient {
           ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
-        return transformKeyValueResponse(response);
+        return transformKeyValueResponse(response) as SetReadOnlyResponse;
       } else {
         const response = await this.client.deleteLock(id.key, {
           ...newOptions,
@@ -509,7 +510,7 @@ export class AppConfigurationClient {
           ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
-        return transformKeyValueResponse(response);
+        return transformKeyValueResponse(response) as SetReadOnlyResponse;
       }
     });
   }
