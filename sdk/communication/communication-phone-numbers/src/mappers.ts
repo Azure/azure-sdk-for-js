@@ -9,11 +9,11 @@ import * as Public from "./";
 export function toConsentResponse(consent: Generated.Consent): Public.Consent {
   return {
     companyName: consent.companyName!,
-    consentedBy: consent.consentedBy!,
+    consentedBy: consent.consentedBy as Public.Contact,
     consentedCountries: consent.consentedCountries!,
     consentedOn: consent.consentedOn!,
-    contacts: consent.contacts!,
-    lastModifiedBy: consent.lastModifiedBy!,
+    contacts: consent.contacts as Public.Contact[],
+    lastModifiedBy: consent.lastModifiedBy as Public.Contact,
     lastModifiedOn: consent.lastModifiedOn!,
     operatorId: consent.operatorId!,
     status: consent.status as Public.ConsentStatus,
@@ -27,7 +27,7 @@ export function toOperatorResponse(operator: Generated.Operator): Public.Operato
     landingPage: operator.landingPage!,
     logoThumbnailUri: operator.logoThumbnailUri!,
     logoUri: operator.logoUri!,
-    offerings: operator.offerings!,
+    offerings: operator.offerings as Public.OperatorOffering[],
   };
 }
 

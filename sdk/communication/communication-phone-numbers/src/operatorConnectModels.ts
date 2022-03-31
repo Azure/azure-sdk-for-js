@@ -3,8 +3,6 @@
 
 import { OperationOptions } from "@azure/core-client";
 
-import { Contact, OperatorOffering } from "./generated/src/operatorConnect/models/";
-
 export type ConsentStatus = "Active" | "Removed" | "Suspended";
 
 /**
@@ -51,6 +49,15 @@ export interface RemoveConsentParams extends OperationOptions {
   lastModifiedBy: Contact;
 }
 
+export interface Contact {
+  /** Full name of the contact */
+  fullName: string;
+  /** Email address of the contact */
+  email: string;
+  /** Phone number of the contact with a leading + and country code */
+  phoneNumber?: string;
+}
+
 export interface Consent {
   /** Unique GUID that represents the operator record */
   operatorId: string;
@@ -72,25 +79,30 @@ export interface Consent {
   companyName: string;
 }
 
+export interface OperatorOffering {
+  /** The type of offer that operator is advertising */
+  offerType: string;
+  /** List of 2 character codes of available countries in ISO 3166-1 format */
+  availableCountries: string[];
+}
+
 export interface Operator {
   /** Unique GUID that represents the operator record */
   operatorId: string;
   /** Public facing brand name of the operator */
   friendlyName: string;
-  /** URL of the Operator's Operator Connect offerings */
-  landingPage: string;
-  /** URL of the Operator's logo */
-  logoUri: string;
-  /** URL of the Operator's thumbnail logo */
-  logoThumbnailUri: string;
   /** Count of phone numbers acquired from the operator */
   acquiredNumbersCount: number;
   offerings: OperatorOffering[];
+  /** URL of the Operator's Operator Connect offerings */
+  landingPage?: string;
+  /** URL of the Operator's logo */
+  logoUri?: string;
+  /** URL of the Operator's thumbnail logo */
+  logoThumbnailUri?: string;
 }
 
 export {
-  Contact,
-  OperatorOffering,
   GetOperatorsOptionalParams,
   GetConsentOptionalParams,
   GetConsentsOptionalParams,
