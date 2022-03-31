@@ -51,6 +51,7 @@ steps:
       echo "artifacts name = ${{parameters.artifacts[0].name}}";
       echo "workspace = $(Pipeline.Workspace)";
       echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
+      echo "ArtifactsDirectory = $(System.ArtifactsDirectory)"
       
       echo "TREE===========================";
       tree $(Pipeline.Workspace)
@@ -68,14 +69,14 @@ steps:
 
     - task: DownloadBuildArtifacts@0
       inputs:
-        buildType: 'current'
+        buildType: '1472112'
         downloadType: 'single'
         # This is the name of the docs that you want to download.
         artifactName: 'packages'
-        downloadPath: '$(Pipeline.Workspace)/html-docs/'
+        downloadPath: '$(System.ArtifactsDirectory)'
 
     - script: |
-        tree $(Pipeline.Workspace)
+        tree $(System.ArtifactsDirectory)
       displayName: "Show tree"
 
     # Then I have tu extract the files and store them somewhere.
