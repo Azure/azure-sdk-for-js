@@ -3,22 +3,18 @@
 
 import { OperationOptions } from "@azure/core-client";
 
-import {
-  Contact,
-  OperatorOffering,
-} from "./generated/src/operatorConnect/models/";
+import { Contact, OperatorOffering } from "./generated/src/operatorConnect/models/";
 
 export type ConsentStatus = "Active" | "Removed" | "Suspended";
 
 /**
  * Parameters that could be used fo creating consent.
  */
-export interface CreateConsentParams
-  extends OperationOptions {
+export interface CreateConsentParams extends OperationOptions {
   /** Id of operator to which consent is given */
-  operatorId: string,
+  operatorId: string;
   /** Contact of person that made the change */
-  consentedBy: Contact,
+  consentedBy: Contact;
   /** Status of the consent */
   status?: ConsentStatus;
   /** List of 2 character codes of available countries in ISO 3166-1 format */
@@ -31,12 +27,11 @@ export interface CreateConsentParams
 /**
  * Parameters that could be used fo updating consent.
  */
-export interface UpdateConsentParams
-  extends OperationOptions {
+export interface UpdateConsentParams extends OperationOptions {
   /** Id of operator to which consent is given */
-  operatorId: string,
+  operatorId: string;
   /** Contact of person that made the change */
-  lastModifiedBy: Contact,
+  lastModifiedBy: Contact;
   /** Status of the consent */
   status?: ConsentStatus;
   /** List of 2 character codes of available countries in ISO 3166-1 format */
@@ -49,12 +44,11 @@ export interface UpdateConsentParams
 /**
  * Parameters that could be used fo removing consent.
  */
-export interface RemoveConsentParams
-  extends OperationOptions {
+export interface RemoveConsentParams extends OperationOptions {
   /** Id of operator to which consent is given */
-  operatorId: string,
+  operatorId: string;
   /** Contact of person that made the change */
-  lastModifiedBy: Contact
+  lastModifiedBy: Contact;
 }
 
 export interface Consent {
@@ -99,5 +93,5 @@ export {
   OperatorOffering,
   GetOperatorsOptionalParams,
   GetConsentOptionalParams,
-  GetConsentsOptionalParams
+  GetConsentsOptionalParams,
 } from "./generated/src/operatorConnect/models/";

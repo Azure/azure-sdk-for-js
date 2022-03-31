@@ -16,7 +16,13 @@ import { CommonClientOptions } from "@azure/core-client";
 import { createSpan, logger } from "./utils";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 
-import { Consent, CreateConsentParams, UpdateConsentParams, RemoveConsentParams, Operator } from "./";
+import {
+  Consent,
+  CreateConsentParams,
+  UpdateConsentParams,
+  RemoveConsentParams,
+  Operator,
+} from "./";
 import * as Mapper from "./mappers";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
 import {
@@ -24,13 +30,13 @@ import {
   GetOperatorsOptionalParams,
   GetConsentsOptionalParams,
   GetConsentOptionalParams,
-  CreateOrUpdateConsentOptionalParams
+  CreateOrUpdateConsentOptionalParams,
 } from "./generated/src/operatorConnect/models/";
 
 /**
  * Client options used to configure the OperatorConnectClient API requests.
  */
-export interface OperatorConnectClientOptions extends CommonClientOptions { }
+export interface OperatorConnectClientOptions extends CommonClientOptions {}
 
 const isOperatorConnectClientOptions = (options: any): options is OperatorConnectClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -40,8 +46,8 @@ const isOperatorConnectClientOptions = (options: any): options is OperatorConnec
  */
 export class OperatorConnectClient {
   /**
-     * A reference to the auto-generated OperatorConnect HTTP client.
-     */
+   * A reference to the auto-generated OperatorConnect HTTP client.
+   */
   private readonly client: OperatorConnectGeneratedClient;
 
   /**
@@ -59,7 +65,11 @@ export class OperatorConnectClient {
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(url: string, credential: KeyCredential, options?: OperatorConnectClientOptions);
+  public constructor(
+    url: string,
+    credential: KeyCredential,
+    options?: OperatorConnectClientOptions
+  );
 
   /**
    * Initializes a new instance of the OperatorConnectClient class using a TokenCredential.
@@ -67,7 +77,11 @@ export class OperatorConnectClient {
    * @param credential - TokenCredential that is used to authenticate requests to the service.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(url: string, credential: TokenCredential, options?: OperatorConnectClientOptions);
+  public constructor(
+    url: string,
+    credential: TokenCredential,
+    options?: OperatorConnectClientOptions
+  );
 
   public constructor(
     connectionStringOrUrl: string,
@@ -108,10 +122,7 @@ export class OperatorConnectClient {
   public listOperators(
     options: GetOperatorsOptionalParams = {}
   ): PagedAsyncIterableIterator<Operator> {
-    const { span, updatedOptions } = createSpan(
-      "OperatorConnectClient-listOperators",
-      options
-    );
+    const { span, updatedOptions } = createSpan("OperatorConnectClient-listOperators", options);
     const iter = this.client.listOperators(updatedOptions);
     span.end();
     return Mapper.toOperatorsResponseIterator(iter);
@@ -125,10 +136,7 @@ export class OperatorConnectClient {
   public listConsents(
     options: GetConsentsOptionalParams = {}
   ): PagedAsyncIterableIterator<Consent> {
-    const { span, updatedOptions } = createSpan(
-      "OperatorConnectClient-listConsents",
-      options
-    );
+    const { span, updatedOptions } = createSpan("OperatorConnectClient-listConsents", options);
     const iter = this.client.listConsents(updatedOptions);
     span.end();
     return Mapper.toConsentResponseIterator(iter);
@@ -144,10 +152,7 @@ export class OperatorConnectClient {
     operatorId: string,
     options: GetConsentOptionalParams = {}
   ): Promise<Consent> {
-    const { span, updatedOptions } = createSpan(
-      "OperatorConnectClient-getConsent",
-      options
-    );
+    const { span, updatedOptions } = createSpan("OperatorConnectClient-getConsent", options);
     try {
       var consent = await this.client.getConsent(operatorId, updatedOptions);
       return Mapper.toConsentResponse(consent);
@@ -167,14 +172,12 @@ export class OperatorConnectClient {
    *
    * @param operationOptions - Create consent parameters.
    */
-  public async createConsent(
-    operationOptions: CreateConsentParams
-  ): Promise<Consent> {
+  public async createConsent(operationOptions: CreateConsentParams): Promise<Consent> {
     if (operationOptions.contacts == null) {
-      operationOptions.contacts = [operationOptions.consentedBy]
+      operationOptions.contacts = [operationOptions.consentedBy];
     }
     if (operationOptions.status == null) {
-      operationOptions.status = KnownConsentStatus.Active
+      operationOptions.status = KnownConsentStatus.Active;
     }
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-createConsent",
@@ -182,7 +185,10 @@ export class OperatorConnectClient {
     );
 
     try {
-      const consent = await this.client.createOrUpdateConsent(operationOptions.operatorId, updatedOptions);
+      const consent = await this.client.createOrUpdateConsent(
+        operationOptions.operatorId,
+        updatedOptions
+      );
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
@@ -200,9 +206,7 @@ export class OperatorConnectClient {
    *
    * @param operationOptions - Remove consent parameters.
    */
-  public async removeConsent(
-    operationOptions: RemoveConsentParams
-  ): Promise<Consent> {
+  public async removeConsent(operationOptions: RemoveConsentParams): Promise<Consent> {
     (operationOptions as CreateOrUpdateConsentOptionalParams).status = KnownConsentStatus.Removed;
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-removeConsent",
@@ -210,7 +214,10 @@ export class OperatorConnectClient {
     );
 
     try {
-      const consent = await this.client.createOrUpdateConsent(operationOptions.operatorId, updatedOptions);
+      const consent = await this.client.createOrUpdateConsent(
+        operationOptions.operatorId,
+        updatedOptions
+      );
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
@@ -228,16 +235,17 @@ export class OperatorConnectClient {
    *
    * @param operationOptions - Update consent parameters.
    */
-  public async updateConsent(
-    operationOptions: UpdateConsentParams
-  ): Promise<Consent> {
+  public async updateConsent(operationOptions: UpdateConsentParams): Promise<Consent> {
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-updateConsent",
       operationOptions
     );
 
     try {
-      const consent = await this.client.createOrUpdateConsent(operationOptions.operatorId, updatedOptions);
+      const consent = await this.client.createOrUpdateConsent(
+        operationOptions.operatorId,
+        updatedOptions
+      );
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({

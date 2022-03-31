@@ -5,21 +5,19 @@ import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { OperatorConnectRecordedClient } from "./utils/recordedClient";
-import {
-  Contact
-} from "../../src";
+import { Contact } from "../../src";
 
 matrix([[true, false]], async function (useAad) {
   describe(`OperatorConnectClient - consent operations${useAad ? " [AAD]" : ""}`, function () {
-    const defaultTimeoutMs = 60000
+    const defaultTimeoutMs = 60000;
 
     const operatorId = "fa82b96a-3352-4594-80f2-a0a18924a001";
     const companyName = "Test Company";
     const contact: Contact = {
       fullName: "Test User",
       email: "BillTest@contoso.com",
-      phoneNumber: "+1234"
-    }
+      phoneNumber: "+1234",
+    };
     const defaultCountry = "US";
 
     let client: OperatorConnectRecordedClient;
@@ -36,7 +34,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve consents list", async function (this: Context) {
       let activeConsentCount = 0;
-      for await (const operator of client.listConsents({ requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } })) {
+      for await (const operator of client.listConsents({
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+      })) {
         if (operator.status == "Active") {
           activeConsentCount++;
         }
@@ -45,7 +45,9 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can get consent", async function (this: Context) {
-      const getResponse = await client.getConsent(operatorId, { requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } });
+      const getResponse = await client.getConsent(operatorId, {
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+      });
       assert.equal(getResponse.operatorId, operatorId);
     }).timeout(defaultTimeoutMs);
 
@@ -55,7 +57,7 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       assert.deepEqual(createResponse.consentedBy, contact);
       assert.deepEqual(createResponse.lastModifiedBy, contact);
@@ -65,7 +67,9 @@ matrix([[true, false]], async function (useAad) {
       assert.equal(createResponse.contacts, [contact]);
       assert.equal(createResponse.status, "Active");
 
-      const getResponse = await client.getConsent(operatorId, { requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } });
+      const getResponse = await client.getConsent(operatorId, {
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+      });
       assert.deepEqual(getResponse, createResponse);
     }).timeout(defaultTimeoutMs);
 
@@ -75,14 +79,14 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       assert.equal(createResponse.status, "Active");
 
       const removeResponse = await client.removeConsent({
         operatorId: operatorId,
         lastModifiedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       assert.equal(removeResponse.status, "Removed");
     }).timeout(defaultTimeoutMs);
@@ -94,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
         consentedCountries: [defaultCountry],
         consentedBy: contact,
         status: "Suspended",
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       assert.equal(createResponse.status, "Suspended");
     }).timeout(defaultTimeoutMs);
@@ -103,51 +107,50 @@ matrix([[true, false]], async function (useAad) {
       const backupContact = {
         fullName: "Test User 2",
         email: "BillTest2@contoso.com",
-        phoneNumber: "+1234"
-      }
+        phoneNumber: "+1234",
+      };
       const createResponse = await client.createConsent({
         operatorId: operatorId,
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
         contacts: [contact, backupContact],
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       assert.equal(createResponse.contacts?.length, 2);
     }).timeout(defaultTimeoutMs);
 
-
     it("can update consent's company name only", async function (this: Context) {
       await client.createConsent({
         operatorId: operatorId,
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       const updateResponse = await client.updateConsent({
         operatorId,
         lastModifiedBy: contact,
         companyName: companyName,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },// Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
 
       assert.equal(updateResponse.companyName, companyName);
     }).timeout(defaultTimeoutMs);
-    
+
     it("can update consent's company name only", async function (this: Context) {
       await client.createConsent({
         operatorId: operatorId,
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       const updateResponse = await client.updateConsent({
         operatorId,
         lastModifiedBy: contact,
         companyName: companyName,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },// Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
 
       assert.equal(updateResponse.companyName, companyName);
@@ -159,13 +162,13 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       const updateResponse = await client.updateConsent({
         operatorId: operatorId,
         lastModifiedBy: contact,
         requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
-        status: "Suspended"
+        status: "Suspended",
       });
 
       assert.equal(updateResponse.status, "Suspended");
@@ -177,7 +180,7 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       const updateResponse = await client.updateConsent({
         operatorId: operatorId,
@@ -195,17 +198,19 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       const updateResponse = await client.updateConsent({
         operatorId: operatorId,
         lastModifiedBy: contact,
         requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
-        contacts: [{
-          fullName: "Some other user",
-          email: "BillTest2@contoso.com",
-          phoneNumber: "+1234"
-        }]
+        contacts: [
+          {
+            fullName: "Some other user",
+            email: "BillTest2@contoso.com",
+            phoneNumber: "+1234",
+          },
+        ],
       });
 
       assert.equal(updateResponse.contacts?.length, 2);
@@ -218,7 +223,7 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         consentedCountries: [defaultCountry],
         consentedBy: contact,
-        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } // Todo: remove. sent to get mocked results while api is not ready
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
       const updateResponse = await client.updateConsent({
         operatorId: operatorId,
@@ -227,11 +232,14 @@ matrix([[true, false]], async function (useAad) {
         companyName: companyName,
         status: "Suspended",
         consentedCountries: [defaultCountry, "UK"],
-        contacts: [contact, {
-          fullName: "Some other user",
-          email: "BillTest2@contoso.com",
-          phoneNumber: "+1234"
-        }]
+        contacts: [
+          contact,
+          {
+            fullName: "Some other user",
+            email: "BillTest2@contoso.com",
+            phoneNumber: "+1234",
+          },
+        ],
       });
 
       assert.equal(updateResponse.companyName, companyName);
@@ -241,15 +249,15 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can handle not found in get consent", async function (this: Context) {
-      assert.fail("Not implemented")
+      assert.fail("Not implemented");
     }).timeout(defaultTimeoutMs);
 
     it("can handle error in get consent", async function (this: Context) {
-      assert.fail("Not implemented")
+      assert.fail("Not implemented");
     }).timeout(defaultTimeoutMs);
 
     it("can handle error in create consent", async function (this: Context) {
-      assert.fail("Not implemented")
+      assert.fail("Not implemented");
     }).timeout(defaultTimeoutMs);
   });
 });

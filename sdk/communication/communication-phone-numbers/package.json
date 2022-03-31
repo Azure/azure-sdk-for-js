@@ -20,7 +20,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
+    "generate:client": "rmdir /s /q \"./src/generated/\" && autorest --typescript ./swagger/README.md && autorest --typescript ./swagger/README-operatorConnect.md && rushx format",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/public/*.spec.js dist-esm/test/public/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",

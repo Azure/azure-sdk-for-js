@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging"
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 import * as Generated from "./generated/src/operatorConnect/models/";
 import * as Public from "./";
 
-
-export function toConsentResponse(
-  consent: Generated.Consent
-): Public.Consent {
+export function toConsentResponse(consent: Generated.Consent): Public.Consent {
   return {
     companyName: consent.companyName!,
     consentedBy: consent.consentedBy!,
@@ -22,8 +19,7 @@ export function toConsentResponse(
     status: consent.status as Public.ConsentStatus,
   };
 }
-export function toOperatorResponse(operator: Generated.Operator)
-  : Public.Operator {
+export function toOperatorResponse(operator: Generated.Operator): Public.Operator {
   return {
     operatorId: operator.operatorId!,
     acquiredNumbersCount: operator.acquiredNumbersCount!,
@@ -32,27 +28,41 @@ export function toOperatorResponse(operator: Generated.Operator)
     logoThumbnailUri: operator.logoThumbnailUri!,
     logoUri: operator.logoUri!,
     offerings: operator.offerings!,
-  }
+  };
 }
 
 export function toConsentResponseIterator(
-  constentsIterator: PagedAsyncIterableIterator<Generated.Consent, Generated.Consent[], PageSettings>
+  constentsIterator: PagedAsyncIterableIterator<
+    Generated.Consent,
+    Generated.Consent[],
+    PageSettings
+  >
 ): PagedAsyncIterableIterator<Public.Consent, Public.Consent[], PageSettings> {
   const inter = getIterator(constentsIterator, toConsentResponse);
   return {
-    [Symbol.asyncIterator]() { return this; },
-    byPage: (settings?: PageSettings) => getNextPage(settings, constentsIterator, toConsentResponse),
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    byPage: (settings?: PageSettings) =>
+      getNextPage(settings, constentsIterator, toConsentResponse),
     next: inter.next,
   };
 }
 
 export function toOperatorsResponseIterator(
-  constentsIterator: PagedAsyncIterableIterator<Generated.Operator, Generated.Operator[], PageSettings>
+  constentsIterator: PagedAsyncIterableIterator<
+    Generated.Operator,
+    Generated.Operator[],
+    PageSettings
+  >
 ): PagedAsyncIterableIterator<Public.Operator, Public.Operator[], PageSettings> {
   const inter = getIterator(constentsIterator, toOperatorResponse);
   return {
-    [Symbol.asyncIterator]() { return this; },
-    byPage: (settings?: PageSettings) => getNextPage(settings, constentsIterator, toOperatorResponse),
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    byPage: (settings?: PageSettings) =>
+      getNextPage(settings, constentsIterator, toOperatorResponse),
     next: inter.next,
   };
 }
@@ -72,6 +82,6 @@ async function* getNextPage<TResult, TOrig>(
   convert: (orig: TOrig) => TResult
 ): AsyncIterableIterator<TResult[]> {
   for await (const page of constentsIterator.byPage(settings)) {
-    yield page.map(item => convert(item));
+    yield page.map((item) => convert(item));
   }
 }

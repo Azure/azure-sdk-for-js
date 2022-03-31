@@ -121,20 +121,22 @@ export function getAadCredential(): TokenCredential {
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET,
-      { httpClient });
+      { httpClient }
+    );
   }
 }
-
 
 export class OperatorConnectRecordedClient extends OperatorConnectClient {
   recorder: Recorder;
 
   constructor(context: Context, useAad: boolean) {
     if (!useAad) {
-      super(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, { httpClient});
+      super(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, { httpClient });
     } else {
       let credential: TokenCredential = getAadCredential();
-      const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING).endpoint;
+      const endpoint = parseConnectionString(
+        env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+      ).endpoint;
       super(endpoint, credential, { httpClient });
     }
 
