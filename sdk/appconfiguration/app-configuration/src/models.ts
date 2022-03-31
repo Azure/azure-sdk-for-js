@@ -120,7 +120,7 @@ export type SetConfigurationSettingParam<
 /**
  * Standard base response for getting, deleting or updating a configuration setting
  */
-export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> &
   Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 /**
@@ -216,7 +216,7 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField { }
 export interface GetConfigurationSettingResponse
   extends ConfigurationSetting,
   GetConfigurationHeaders,
-  HttpResponseFields, HttpResponseField<SyncTokenHeaderField> { }
+  HttpResponseFields, HttpResponseField<GetConfigurationHeaders> { }
 
 /**
  * Options for getting a ConfigurationSetting.
