@@ -216,7 +216,7 @@ export interface SkuDetailsForExistingResource {
 /** Status of gateway is live. */
 export interface GatewayListStatusLive {
   /** Live message of list gateway. Status: 0 - Live */
-  status?: "undefined";
+  status?: 0;
 }
 
 /** Status of gateway is error. */

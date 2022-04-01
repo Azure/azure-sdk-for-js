@@ -2745,7 +2745,7 @@ export interface ContentItemCollection {
 // @public
 export type ContentItemContract = Resource & {
     properties?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 };
 

@@ -169,10 +169,12 @@ export class CloudServicesUpdateDomainImpl
       { resourceGroupName, cloudServiceName, updateDomain, options },
       walkUpdateDomainOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

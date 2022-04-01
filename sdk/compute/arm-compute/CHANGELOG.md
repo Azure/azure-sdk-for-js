@@ -2,13 +2,9 @@
 
 ## 17.3.1 (Unreleased)
 
-### Features Added
+**features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Bug fix
 
 ## 17.3.0 (2022-03-02)
     
