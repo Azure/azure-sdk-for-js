@@ -35,7 +35,5 @@ extends:
         safeName: azuretoolstestcredential
       - name: azure-tools-test-utils
         safeName: azuretoolstestutils
-      - name: azure-tools-test-credential
-        safeName: azuretoolstestcredential
       - name: azure-tools-test-recorder-new
         safeName: azuretoolstestrecordernew
