@@ -344,7 +344,7 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
     }
   },
   "message": "The client 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' with object id 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
-}![image](https://user-images.githubusercontent.com/8968058/161322403-a02f8e08-322c-43ef-899b-081e316253b7.png)
+}
 
 ```
 
