@@ -32,3 +32,5 @@ https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview
 https://docs.microsoft.com/javascript/api/@azure/arm-app?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible
 https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules
+https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview
