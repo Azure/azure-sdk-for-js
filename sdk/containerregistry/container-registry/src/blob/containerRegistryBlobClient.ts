@@ -4,6 +4,7 @@
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
+  RestError,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "../generated";
@@ -38,6 +39,13 @@ enum KnownManifestMediaType {
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+export class DigestMismatchError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "DigestMismatchError";
+  }
 }
 
 /**
@@ -194,11 +202,7 @@ export class ContainerRegistryBlobClient {
         { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
       );
 
-      if (!dockerContentDigest) {
-        throw new Error("Digest not provided");
-      }
-
-      return { digest: dockerContentDigest };
+      return { digest: dockerContentDigest! };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -236,7 +240,9 @@ export class ContainerRegistryBlobClient {
       const expectedDigest = await calculateDigest(bodyData);
 
       if (dockerContentDigest !== expectedDigest) {
-        throw new Error("Docker-Content-Digest header does not match calculated digest.");
+        throw new DigestMismatchError(
+          "Digest of blob to upload does not match the digest from the server."
+        );
       }
 
       const manifest = serializer.deserialize(
@@ -322,31 +328,21 @@ export class ContainerRegistryBlobClient {
         digest = await calculateDigest(requestBody);
       }
 
-      if (!startUploadResult.location) {
-        throw new Error("startUpload did not return a location");
-      }
-
       const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
-        startUploadResult.location.substring(1),
+        startUploadResult.location!.substring(1),
         requestBody
       );
-
-      if (!uploadChunkResult.location) {
-        throw new Error("uploadChunk did not return a location");
-      }
 
       const { dockerContentDigest: digestFromResponse } =
         await this.client.containerRegistryBlob.completeUpload(
           digest,
-          uploadChunkResult.location.substring(1)
+          uploadChunkResult.location!.substring(1)
         );
 
-      if (!digestFromResponse) {
-        throw new Error("completeUpload did not provide a digest");
-      }
-
       if (digest !== digestFromResponse) {
-        throw new Error("Digest of blob to upload does not match the digest from the server.");
+        throw new DigestMismatchError(
+          "Digest of blob to upload does not match the digest from the server."
+        );
       }
 
       return { digest };
@@ -375,19 +371,15 @@ export class ContainerRegistryBlobClient {
     );
 
     try {
-      const { readableStreamBody: content } = await this.client.containerRegistryBlob.getBlob(
+      const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(
         this.repositoryName,
         digest,
         updatedOptions
       );
 
-      if (!content) {
-        throw new Error("Expected response with content");
-      }
-
       return {
         digest,
-        content,
+        content: readableStreamBody ?? Readable.from([]),
       };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
