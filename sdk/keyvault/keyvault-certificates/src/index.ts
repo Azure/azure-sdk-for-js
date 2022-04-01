@@ -87,12 +87,12 @@ import {
 } from "./certificatesModels";
 
 import {
-  KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetCertificateVersionsOptionalParams,
-  KeyVaultClientSetCertificateIssuerOptionalParams,
+  GetCertificatesOptionalParams,
+  GetCertificateIssuersOptionalParams,
+  GetCertificateVersionsOptionalParams,
+  SetCertificateIssuerOptionalParams,
   BackupCertificateResult,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
+  GetDeletedCertificatesOptionalParams,
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
@@ -109,7 +109,7 @@ import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy, createTraceFunction } from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -134,6 +134,7 @@ import {
   toPublicPolicy,
 } from "./transformations";
 import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
+import { tracingClient } from "./tracing";
 
 export {
   CertificateClientOptions,
@@ -230,8 +231,6 @@ export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = 
   TResult
 >;
 
-const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CertificateClient");
-
 /**
  * The client to interact with the KeyVault certificates functionality
  */
@@ -296,13 +295,13 @@ export class CertificateClient {
     options: ListPropertiesOfCertificatesOptions = {}
   ): AsyncIterableIterator<CertificateProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
+      const optionsComplete: GetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         includePending: options.includePending,
         ...options,
       };
-      const currentSetResponse = await withTrace(
-        "listPropertiesOfCertificates",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listPropertiesOfCertificatesPage",
         optionsComplete,
         (updatedOptions) => this.client.getCertificates(this.vaultUrl, updatedOptions)
       );
@@ -312,8 +311,8 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace(
-        "listPropertiesOfCertificates",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listPropertiesOfCertificatesPage",
         options,
         (updatedOptions) =>
           this.client.getCertificates(continuationState.continuationToken!, updatedOptions)
@@ -385,12 +384,12 @@ export class CertificateClient {
     options: ListPropertiesOfCertificateVersionsOptions = {}
   ): AsyncIterableIterator<CertificateProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
+      const optionsComplete: GetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
-      const currentSetResponse = await withTrace(
-        "listPropertiesOfCertificateVersions",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listPropertiesOfCertificateVersionsPage",
         optionsComplete,
         (updatedOptions) =>
           this.client.getCertificateVersions(this.vaultUrl, certificateName, updatedOptions)
@@ -401,8 +400,8 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace(
-        "listPropertiesOfCertificateVersions",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listPropertiesOfCertificateVersionsPage",
         options,
         (updatedOptions) =>
           this.client.getCertificateVersions(
@@ -539,10 +538,14 @@ export class CertificateClient {
   public deleteContacts(
     options: DeleteContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
-    return withTrace("deleteContacts", options, async (updatedOptions) => {
-      const result = await this.client.deleteCertificateContacts(this.vaultUrl, updatedOptions);
-      return coreContactsToCertificateContacts(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.deleteContacts",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.deleteCertificateContacts(this.vaultUrl, updatedOptions);
+        return coreContactsToCertificateContacts(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -571,14 +574,18 @@ export class CertificateClient {
       phone: x ? x.phone : undefined,
     }));
 
-    return withTrace("setContacts", options, async (updatedOptions) => {
-      const result = await this.client.setCertificateContacts(
-        this.vaultUrl,
-        { contactList: coreContacts },
-        updatedOptions
-      );
-      return coreContactsToCertificateContacts(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.setContacts",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.setCertificateContacts(
+          this.vaultUrl,
+          { contactList: coreContacts },
+          updatedOptions
+        );
+        return coreContactsToCertificateContacts(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -599,10 +606,14 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public getContacts(options: GetContactsOptions = {}): Promise<CertificateContact[] | undefined> {
-    return withTrace("getContacts", options, async (updatedOptions) => {
-      const result = await this.client.getCertificateContacts(this.vaultUrl, updatedOptions);
-      return coreContactsToCertificateContacts(result);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.getContacts",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificateContacts(this.vaultUrl, updatedOptions);
+        return coreContactsToCertificateContacts(result);
+      }
+    );
   }
 
   private async *listPropertiesOfIssuersPage(
@@ -610,12 +621,12 @@ export class CertificateClient {
     options: ListPropertiesOfIssuersOptions = {}
   ): AsyncIterableIterator<IssuerProperties[]> {
     if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
+      const requestOptionsComplete: GetCertificateIssuersOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
-      const currentSetResponse = await withTrace(
-        "listPropertiesOfIssuers",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listPropertiesOfIssuersPage",
         requestOptionsComplete,
         (updatedOptions) => this.client.getCertificateIssuers(this.vaultUrl, updatedOptions)
       );
@@ -625,8 +636,8 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace(
-        "listPropertiesOfIssuers",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listPropertiesOfIssuersPage",
         options,
         (updatedOptions) =>
           this.client.getCertificateIssuers(continuationState.continuationToken!, updatedOptions)
@@ -710,48 +721,52 @@ export class CertificateClient {
     provider: string,
     options: CreateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    return withTrace("createIssuer", options, async (updatedOptions) => {
-      const { accountId, password } = updatedOptions;
+    return tracingClient.withSpan(
+      "CertificateClient.createIssuer",
+      options,
+      async (updatedOptions) => {
+        const { accountId, password } = updatedOptions;
 
-      const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
-        ...updatedOptions,
-        credentials: {
-          accountId,
-          password,
-        },
-      };
-
-      if (
-        updatedOptions.organizationId ||
-        (updatedOptions.administratorContacts && updatedOptions.administratorContacts.length)
-      ) {
-        generatedOptions.organizationDetails = {
-          id: updatedOptions.organizationId,
-          adminDetails: updatedOptions.administratorContacts
-            ? updatedOptions.administratorContacts.map((x) => ({
-                emailAddress: x.email,
-                phone: x.phone,
-                firstName: x.firstName,
-                lastName: x.lastName,
-              }))
-            : undefined,
+        const generatedOptions: SetCertificateIssuerOptionalParams = {
+          ...updatedOptions,
+          credentials: {
+            accountId,
+            password,
+          },
         };
-      }
 
-      if (updatedOptions.enabled !== undefined) {
-        generatedOptions.attributes = {
-          enabled: updatedOptions.enabled,
-        };
-      }
+        if (
+          updatedOptions.organizationId ||
+          (updatedOptions.administratorContacts && updatedOptions.administratorContacts.length)
+        ) {
+          generatedOptions.organizationDetails = {
+            id: updatedOptions.organizationId,
+            adminDetails: updatedOptions.administratorContacts
+              ? updatedOptions.administratorContacts.map((x) => ({
+                  emailAddress: x.email,
+                  phone: x.phone,
+                  firstName: x.firstName,
+                  lastName: x.lastName,
+                }))
+              : undefined,
+          };
+        }
 
-      const result = await this.client.setCertificateIssuer(
-        this.vaultUrl,
-        issuerName,
-        provider,
-        generatedOptions
-      );
-      return toPublicIssuer(result._response.parsedBody);
-    });
+        if (updatedOptions.enabled !== undefined) {
+          generatedOptions.attributes = {
+            enabled: updatedOptions.enabled,
+          };
+        }
+
+        const result = await this.client.setCertificateIssuer(
+          this.vaultUrl,
+          issuerName,
+          provider,
+          generatedOptions
+        );
+        return toPublicIssuer(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -774,48 +789,52 @@ export class CertificateClient {
     issuerName: string,
     options: UpdateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    return withTrace("updateIssuer", options, async (updatedOptions) => {
-      const { accountId, password } = options;
+    return tracingClient.withSpan(
+      "CertificateClient.updateIssuer",
+      options,
+      async (updatedOptions) => {
+        const { accountId, password } = options;
 
-      const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
-        ...updatedOptions,
-        credentials: {
-          accountId,
-          password,
-        },
-      };
-
-      if (
-        updatedOptions.organizationId ||
-        (updatedOptions.administratorContacts && updatedOptions.administratorContacts.length)
-      ) {
-        generatedOptions.organizationDetails = {
-          id: updatedOptions.organizationId,
-          adminDetails: updatedOptions.administratorContacts
-            ? updatedOptions.administratorContacts.map((x) => ({
-                emailAddress: x.email,
-                phone: x.phone,
-                firstName: x.firstName,
-                lastName: x.lastName,
-              }))
-            : undefined,
+        const generatedOptions: SetCertificateIssuerOptionalParams = {
+          ...updatedOptions,
+          credentials: {
+            accountId,
+            password,
+          },
         };
+
+        if (
+          updatedOptions.organizationId ||
+          (updatedOptions.administratorContacts && updatedOptions.administratorContacts.length)
+        ) {
+          generatedOptions.organizationDetails = {
+            id: updatedOptions.organizationId,
+            adminDetails: updatedOptions.administratorContacts
+              ? updatedOptions.administratorContacts.map((x) => ({
+                  emailAddress: x.email,
+                  phone: x.phone,
+                  firstName: x.firstName,
+                  lastName: x.lastName,
+                }))
+              : undefined,
+          };
+        }
+
+        if (updatedOptions.enabled) {
+          generatedOptions.attributes = {
+            enabled: updatedOptions.enabled,
+          };
+        }
+
+        const result = await this.client.updateCertificateIssuer(
+          this.vaultUrl,
+          issuerName,
+          generatedOptions
+        );
+
+        return toPublicIssuer(result._response.parsedBody);
       }
-
-      if (updatedOptions.enabled) {
-        generatedOptions.attributes = {
-          enabled: updatedOptions.enabled,
-        };
-      }
-
-      const result = await this.client.updateCertificateIssuer(
-        this.vaultUrl,
-        issuerName,
-        generatedOptions
-      );
-
-      return toPublicIssuer(result._response.parsedBody);
-    });
+    );
   }
 
   /**
@@ -835,14 +854,18 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public getIssuer(issuerName: string, options: GetIssuerOptions = {}): Promise<CertificateIssuer> {
-    return withTrace("getIssuer", options, async (updatedOptions) => {
-      const result = await this.client.getCertificateIssuer(
-        this.vaultUrl,
-        issuerName,
-        updatedOptions
-      );
-      return toPublicIssuer(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.getIssuer",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificateIssuer(
+          this.vaultUrl,
+          issuerName,
+          updatedOptions
+        );
+        return toPublicIssuer(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -863,14 +886,18 @@ export class CertificateClient {
     issuerName: string,
     options: DeleteIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    return withTrace("deleteIssuer", options, async (updatedOptions) => {
-      const result = await this.client.deleteCertificateIssuer(
-        this.vaultUrl,
-        issuerName,
-        updatedOptions
-      );
-      return toPublicIssuer(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.deleteIssuer",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.deleteCertificateIssuer(
+          this.vaultUrl,
+          issuerName,
+          updatedOptions
+        );
+        return toPublicIssuer(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -950,15 +977,19 @@ export class CertificateClient {
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("getCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.getCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          "",
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -986,18 +1017,22 @@ export class CertificateClient {
     version: string,
     options: GetCertificateVersionOptions = {}
   ): Promise<KeyVaultCertificate> {
-    return withTrace("getCertificateVersion", options, async (updatedOptions) => {
-      if (!version) {
-        throw new Error("The 'version' cannot be empty.");
+    return tracingClient.withSpan(
+      "CertificateClient.getCertificateVersion",
+      options,
+      async (updatedOptions) => {
+        if (!version) {
+          throw new Error("The 'version' cannot be empty.");
+        }
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          version,
+          updatedOptions
+        );
+        return getCertificateFromCertificateBundle(result);
       }
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        version,
-        updatedOptions
-      );
-      return getCertificateFromCertificateBundle(result);
-    });
+    );
   }
 
   /**
@@ -1030,19 +1065,23 @@ export class CertificateClient {
     certificateBytes: Uint8Array,
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("importCertificate", options, async (updatedOptions) => {
-      const base64EncodedCertificate = parseCertificateBytes(
-        certificateBytes,
-        updatedOptions.policy?.contentType
-      );
-      const result = await this.client.importCertificate(
-        this.vaultUrl,
-        certificateName,
-        base64EncodedCertificate,
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.importCertificate",
+      options,
+      async (updatedOptions) => {
+        const base64EncodedCertificate = parseCertificateBytes(
+          certificateBytes,
+          updatedOptions.policy?.contentType
+        );
+        const result = await this.client.importCertificate(
+          this.vaultUrl,
+          certificateName,
+          base64EncodedCertificate,
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -1066,14 +1105,18 @@ export class CertificateClient {
     certificateName: string,
     options: GetCertificatePolicyOptions = {}
   ): Promise<CertificatePolicy> {
-    return withTrace("getCertificatePolicy", options, async (updatedOptions) => {
-      const result = await this.client.getCertificatePolicy(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return toPublicPolicy(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.getCertificatePolicy",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificatePolicy(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return toPublicPolicy(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -1088,16 +1131,20 @@ export class CertificateClient {
     policy: CertificatePolicy,
     options: UpdateCertificatePolicyOptions = {}
   ): Promise<CertificatePolicy> {
-    return withTrace("updateCertificatePolicy", options, async (updatedOptions) => {
-      const corePolicy = toCorePolicy(undefined, policy);
-      const result = await this.client.updateCertificatePolicy(
-        this.vaultUrl,
-        certificateName,
-        corePolicy,
-        updatedOptions
-      );
-      return toPublicPolicy(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.updateCertificatePolicy",
+      options,
+      async (updatedOptions) => {
+        const corePolicy = toCorePolicy(undefined, policy);
+        const result = await this.client.updateCertificatePolicy(
+          this.vaultUrl,
+          certificateName,
+          corePolicy,
+          updatedOptions
+        );
+        return toPublicPolicy(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -1130,13 +1177,22 @@ export class CertificateClient {
     version: string,
     options: UpdateCertificatePropertiesOptions = {}
   ): Promise<KeyVaultCertificate> {
-    return withTrace("updateCertificateProperties", options, async (updatedOptions) => {
-      const result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
-        ...updatedOptions,
-        certificateAttributes: toCoreAttributes(options),
-      });
-      return getCertificateFromCertificateBundle(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.updateCertificateProperties",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.updateCertificate(
+          this.vaultUrl,
+          certificateName,
+          version,
+          {
+            ...updatedOptions,
+            certificateAttributes: toCoreAttributes(options),
+          }
+        );
+        return getCertificateFromCertificateBundle(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -1200,18 +1256,22 @@ export class CertificateClient {
     certificateName: string,
     options: DeleteCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("deleteCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.deleteCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.deleteCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.deleteCertificateOperation(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return getCertificateOperationFromCoreOperation(
+          certificateName,
+          this.vaultUrl,
+          result._response.parsedBody
+        );
+      }
+    );
   }
 
   /**
@@ -1253,15 +1313,19 @@ export class CertificateClient {
     x509Certificates: Uint8Array[],
     options: MergeCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("mergeCertificate", options, async (updatedOptions) => {
-      const result = await this.client.mergeCertificate(
-        this.vaultUrl,
-        certificateName,
-        x509Certificates,
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.mergeCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.mergeCertificate(
+          this.vaultUrl,
+          certificateName,
+          x509Certificates,
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -1285,14 +1349,18 @@ export class CertificateClient {
     certificateName: string,
     options: BackupCertificateOptions = {}
   ): Promise<Uint8Array | undefined> {
-    return withTrace("backupCertificate", options, async (updatedOptions) => {
-      const result = await this.client.backupCertificate(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return result._response.parsedBody.value;
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.backupCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.backupCertificate(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return result._response.parsedBody.value;
+      }
+    );
   }
 
   /**
@@ -1319,10 +1387,14 @@ export class CertificateClient {
     backup: Uint8Array,
     options: RestoreCertificateBackupOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("restoreCertificateBackup", options, async (updatedOptions) => {
-      const result = await this.client.restoreCertificate(this.vaultUrl, backup, updatedOptions);
-      return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.restoreCertificateBackup",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.restoreCertificate(this.vaultUrl, backup, updatedOptions);
+        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+      }
+    );
   }
 
   private async *listDeletedCertificatesPage(
@@ -1330,13 +1402,13 @@ export class CertificateClient {
     options: ListDeletedCertificatesOptions = {}
   ): AsyncIterableIterator<DeletedCertificate[]> {
     if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
+      const requestOptionsComplete: GetDeletedCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         includePending: options.includePending,
         ...options,
       };
-      const currentSetResponse = await withTrace(
-        "listDeletedCertificates",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listDeletedCertificatesPage",
         requestOptionsComplete,
         (updatedOptions) => this.client.getDeletedCertificates(this.vaultUrl, updatedOptions)
       );
@@ -1346,8 +1418,8 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace(
-        "listDeletedCertificates",
+      const currentSetResponse = await tracingClient.withSpan(
+        "CertificateClient.listDeletedCertificatesPage",
         options,
         (updatedOptions) =>
           this.client.getDeletedCertificates(continuationState.continuationToken!, updatedOptions)
@@ -1428,14 +1500,18 @@ export class CertificateClient {
     certificateName: string,
     options: GetDeletedCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    return withTrace("getDeletedCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getDeletedCertificate(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.getDeletedCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getDeletedCertificate(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -1458,10 +1534,14 @@ export class CertificateClient {
     certificateName: string,
     options: PurgeDeletedCertificateOptions = {}
   ): Promise<null> {
-    return withTrace("purgeDeletedCertificate", options, async (updatedOptions) => {
-      await this.client.purgeDeletedCertificate(this.vaultUrl, certificateName, updatedOptions);
-      return null;
-    });
+    return tracingClient.withSpan(
+      "CertificateClient.purgeDeletedCertificate",
+      options,
+      async (updatedOptions) => {
+        await this.client.purgeDeletedCertificate(this.vaultUrl, certificateName, updatedOptions);
+        return null;
+      }
+    );
   }
 
   /**

@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.61.2",
+  "rushVersion": "5.63.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.19.1",
+  "pnpmVersion": "6.32.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -852,6 +852,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/perf-tests/schema-registry-avro",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
@@ -1453,7 +1458,8 @@
     },
     {
       "packageName": "@azure/arm-redisenterprisecache",
-      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-reservations",
@@ -1658,6 +1664,21 @@
     {
       "packageName": "@azure/arm-appservice-profile-2020-09-01-hybrid",
       "projectFolder": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mysql-flexible",
+      "projectFolder": "sdk/mysql/arm-mysql-flexible",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-app",
+      "projectFolder": "sdk/app/arm-app",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hardwaresecuritymodules",
+      "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
       "versionPolicyName": "management"
     }
   ]

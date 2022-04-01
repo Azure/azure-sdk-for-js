@@ -3,9 +3,9 @@
 
 import {
   FullBackupOperation,
-  KeyVaultClientFullBackupOptionalParams,
-  KeyVaultClientFullBackupResponse,
-  KeyVaultClientFullBackupStatusResponse,
+  FullBackupOptionalParams,
+  FullBackupResponse,
+  FullBackupStatusResponse,
 } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
@@ -14,12 +14,7 @@ import {
 import { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { createTraceFunction } from "../../tracingHelpers";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultBackupPoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
@@ -60,10 +55,8 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullBackup operation
    */
-  private fullBackup(
-    options: KeyVaultClientFullBackupOptionalParams
-  ): Promise<KeyVaultClientFullBackupResponse> {
-    return withTrace("fullBackup", options, (updatedOptions) =>
+  private fullBackup(options: FullBackupOptionalParams): Promise<FullBackupResponse> {
+    return tracingClient.withSpan("KeyVaultBackupPoller.fullBackup", options, (updatedOptions) =>
       this.client.fullBackup(this.vaultUrl, updatedOptions)
     );
   }
@@ -74,9 +67,11 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
   private fullBackupStatus(
     jobId: string,
     options: KeyVaultBeginBackupOptions
-  ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    return withTrace("fullBackupStatus", options, (updatedOptions) =>
-      this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
+  ): Promise<FullBackupStatusResponse> {
+    return tracingClient.withSpan(
+      "KeyVaultBackupPoller.fullBackupStatus",
+      options,
+      (updatedOptions) => this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }
 

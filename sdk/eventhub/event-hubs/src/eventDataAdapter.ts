@@ -89,7 +89,7 @@ export function createEventDataAdapter(
     consumeMessage: (message: EventData): MessageContent => {
       const { body, contentType } = message;
       if (body === undefined) {
-        throw new Error("Expected the data field to be defined");
+        throw new Error("Expected the body field to be defined");
       }
       if (contentType === undefined) {
         throw new Error("Expected the contentType field to be defined");

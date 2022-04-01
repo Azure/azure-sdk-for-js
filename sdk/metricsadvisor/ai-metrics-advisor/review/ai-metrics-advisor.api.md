@@ -6,7 +6,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { CommonClientOptions } from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { FullOperationResponse } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -885,7 +885,7 @@ export class MetricsAdvisorAdministrationClient {
 }
 
 // @public
-export interface MetricsAdvisorAdministrationClientOptions extends CommonClientOptions {
+export interface MetricsAdvisorAdministrationClientOptions extends ExtendedCommonClientOptions {
 }
 
 // @public
@@ -910,7 +910,7 @@ export class MetricsAdvisorClient {
 }
 
 // @public
-export interface MetricsAdvisorClientOptions extends CommonClientOptions {
+export interface MetricsAdvisorClientOptions extends ExtendedCommonClientOptions {
 }
 
 // @public

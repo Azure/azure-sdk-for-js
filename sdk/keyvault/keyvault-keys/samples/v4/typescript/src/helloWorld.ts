@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
 
   // Update the key
   const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
-    enabled: false
+    enabled: false,
   });
   console.log("updated key: ", updatedKey);
 

@@ -427,6 +427,14 @@ export interface CertificateBaseProperties {
 }
 
 /** Values returned by the List operation. */
+export interface DetectorListResult {
+  /** The collection of Batch account detectors returned by the listing operation. */
+  value?: DetectorResponse[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** Values returned by the List operation. */
 export interface ListPrivateLinkResourcesResult {
   /** The collection of returned private link resources. */
   value?: PrivateLinkResource[];
@@ -502,7 +510,7 @@ export interface ImageReference {
   publisher?: string;
   /** For example, UbuntuServer or WindowsServer. */
   offer?: string;
-  /** For example, 18.04-LTS or 2019-Datacenter. */
+  /** For example, 18.04-LTS or 2022-datacenter. */
   sku?: string;
   /** A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
   version?: string;
@@ -659,6 +667,8 @@ export interface AutoScaleRunError {
 export interface NetworkConfiguration {
   /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For cloudServiceConfiguration pools, only 'classic' VNETs are supported. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
+  /** The scope of dynamic vnet assignment. */
+  dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
   /** Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property. */
   endpointConfiguration?: PoolEndpointConfiguration;
   /** This property is only supported on Pools with the virtualMachineConfiguration property. */
@@ -703,7 +713,7 @@ export interface NetworkSecurityGroupRule {
 export interface PublicIPAddressConfiguration {
   /** The default value is BatchManaged */
   provision?: IPAddressProvisioningType;
-  /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
+  /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
   ipAddressIds?: string[];
 }
 
@@ -847,7 +857,7 @@ export interface ApplicationPackageReference {
 export interface ResizeOperationStatus {
   /** The desired number of dedicated compute nodes in the pool. */
   targetDedicatedNodes?: number;
-  /** The desired number of low-priority compute nodes in the pool. */
+  /** The desired number of Spot/low-priority compute nodes in the pool. */
   targetLowPriorityNodes?: number;
   /** The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
   resizeTimeout?: string;
@@ -1107,6 +1117,12 @@ export type CertificateCreateOrUpdateParameters = ProxyResource & {
   password?: string;
 };
 
+/** Contains the information for a detector. */
+export type DetectorResponse = ProxyResource & {
+  /** A base64 encoded string that represents the content of a detector. */
+  value?: string;
+};
+
 /** Contains information about a private link resource. */
 export type PrivateLinkResource = ProxyResource & {
   /**
@@ -1172,7 +1188,7 @@ export type Pool = ProxyResource & {
    */
   readonly currentDedicatedNodes?: number;
   /**
-   * The number of low-priority compute nodes currently in the pool.
+   * The number of Spot/low-priority compute nodes currently in the pool.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentLowPriorityNodes?: number;
@@ -1492,6 +1508,8 @@ export type ComputeNodeDeallocationOption =
   | "RetainedData";
 /** Defines values for InterNodeCommunicationState. */
 export type InterNodeCommunicationState = "Enabled" | "Disabled";
+/** Defines values for DynamicVNetAssignmentScope. */
+export type DynamicVNetAssignmentScope = "none" | "job";
 /** Defines values for InboundEndpointProtocol. */
 export type InboundEndpointProtocol = "TCP" | "UDP";
 /** Defines values for NetworkSecurityGroupRuleAccess. */
@@ -1588,6 +1606,20 @@ export interface BatchAccountGetKeysOptionalParams
 export type BatchAccountGetKeysResponse = BatchAccountKeys;
 
 /** Optional parameters. */
+export interface BatchAccountListDetectorsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDetectors operation. */
+export type BatchAccountListDetectorsResponse = DetectorListResult;
+
+/** Optional parameters. */
+export interface BatchAccountGetDetectorOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDetector operation. */
+export type BatchAccountGetDetectorResponse = DetectorResponse;
+
+/** Optional parameters. */
 export interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1607,6 +1639,13 @@ export interface BatchAccountListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult;
+
+/** Optional parameters. */
+export interface BatchAccountListDetectorsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDetectorsNext operation. */
+export type BatchAccountListDetectorsNextResponse = DetectorListResult;
 
 /** Optional parameters. */
 export interface BatchAccountListOutboundNetworkDependenciesEndpointsNextOptionalParams

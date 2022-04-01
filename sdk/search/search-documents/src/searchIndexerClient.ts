@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
@@ -38,11 +38,12 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface SearchIndexerClientOptions extends CommonClientOptions {
+export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead

@@ -10,6 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Incident,
   IncidentsListOptionalParams,
+  IncidentsRunPlaybookOptionalParams,
+  IncidentsRunPlaybookResponse,
   IncidentsGetOptionalParams,
   IncidentsGetResponse,
   IncidentsCreateOrUpdateOptionalParams,
@@ -40,6 +42,19 @@ export interface Incidents {
     workspaceName: string,
     options?: IncidentsListOptionalParams
   ): PagedAsyncIterableIterator<Incident>;
+  /**
+   * Triggers playbook on a specific incident
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param incidentIdentifier
+   * @param options The options parameters.
+   */
+  runPlaybook(
+    resourceGroupName: string,
+    workspaceName: string,
+    incidentIdentifier: string,
+    options?: IncidentsRunPlaybookOptionalParams
+  ): Promise<IncidentsRunPlaybookResponse>;
   /**
    * Gets an incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

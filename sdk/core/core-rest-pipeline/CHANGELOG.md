@@ -1,20 +1,43 @@
 # Release History
 
-## 1.7.0 (Unreleased)
+## 1.8.1 (Unreleased)
 
 ### Features Added
-
-- Supports the `"retry-after-ms"` and `"x-ms-retry-after-ms"` headers along with the `"Retry-After"` header from throttling retry responses from the services. [#20817](https://github.com/Azure/azure-sdk-for-js/issues/20817)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 1.8.0 (2022-03-31)
+
+### Features Added
+
+- Support resettable streams in the form of `() => NodeJS.ReadableStream` for NodeJS and `() => ReadableStream` for browser. [#21013](https://github.com/Azure/azure-sdk-for-js/pull/21013)
+- Add a React-Native mapping for default HTTP Client to the old `XhrHttpClient` because the Fetch API implementation in React-Native runtime is missing streaming support.
+
+### Bugs Fixed
+
+- Updated `redirectPolicy` to remove the `Authorization` header from redirected requests. [#21026](https://github.com/Azure/azure-sdk-for-js/pull/21026)
+- Fixed an issue introduced in 1.6.0 where redirects were not properly followed in the browser. [#21051](https://github.com/Azure/azure-sdk-for-js/pull/21051)
+
+## 1.7.0 (2022-03-21)
+
+### Features Added
+
+- Supports the `"retry-after-ms"` and `"x-ms-retry-after-ms"` headers along with the `"Retry-After"` header from throttling retry responses from the services. [#20817](https://github.com/Azure/azure-sdk-for-js/issues/20817)
+
+### Bugs Fixed
+
 - [Bug #20778](https://github.com/Azure/azure-sdk-for-js/pull/20778) Customers can provide abort signals in the options bags for the client libraries but they were not being checked when requests were being retried. The issue is fixed in [#20781](https://github.com/Azure/azure-sdk-for-js/pull/20781).
+- Fixed a bug introduced on 1.4.0 that prevented the retry policies from throwing errors after all the retry steps are exhausted.
+- Fixed a bug introduced on 1.4.0 that prevented the exponential retry policy to retry when the server answered with some expected errors.
 
 ### Other Changes
 
 - Changed the default number of retries from 10 to 3.
+- The retry policies now throw errors (if encountered) at the time they stop retrying, rather than merely returning the response.
 
 ## 1.6.0 (2022-03-03)
 

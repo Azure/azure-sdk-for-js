@@ -12,10 +12,11 @@ urlFragment: keyvault-keys-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                                    |
-| ------------------------------- | ---------------------------------------------------------------------------------- |
-| [cryptography.js][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data. |
-| [helloWorld.js][helloworld]     | Creates, reads, lists, and deletes keys.                                           |
+| **File Name**                   | **Description**                                                                     |
+| ------------------------------- | ----------------------------------------------------------------------------------- |
+| [cryptography.js][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.  |
+| [helloWorld.js][helloworld]     | Creates, reads, lists, and deletes keys.                                            |
+| [keyRotation.js][keyrotation]   | Creates and updates a key's automated rotation policy, and rotates a key on-demand. |
 
 ## Prerequisites
 
@@ -65,6 +66,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/cryptography.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/helloWorld.js
+[keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript/keyRotation.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal

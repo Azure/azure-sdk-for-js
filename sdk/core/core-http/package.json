@@ -56,6 +56,9 @@
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/coreHttp.js"
+  },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -143,7 +146,6 @@
     "@types/tough-cookie": "^4.0.0",
     "@types/uuid": "^8.0.0",
     "@types/xml2js": "^0.4.3",
-    "babel-runtime": "^6.26.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "downlevel-dts": "^0.8.0",

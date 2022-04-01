@@ -107,6 +107,8 @@ const deserializedValue = await serializer.deserialize(message);
 
 ## Troubleshooting
 
+The Avro serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `AvroError` will be thrown when serialization or deserialization fails. The `innerError` property will contain the underlying error that was thrown from the Avro implementation library.
+
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to
@@ -160,3 +162,5 @@ learn more about how to build and test the code.
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[resterror]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
+[schema_registry]: https://docs.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest

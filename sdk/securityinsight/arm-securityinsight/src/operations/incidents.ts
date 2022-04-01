@@ -16,6 +16,8 @@ import {
   Incident,
   IncidentsListNextOptionalParams,
   IncidentsListOptionalParams,
+  IncidentsRunPlaybookOptionalParams,
+  IncidentsRunPlaybookResponse,
   IncidentsListResponse,
   IncidentsGetOptionalParams,
   IncidentsGetResponse,
@@ -104,6 +106,25 @@ export class IncidentsImpl implements Incidents {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Triggers playbook on a specific incident
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param incidentIdentifier
+   * @param options The options parameters.
+   */
+  runPlaybook(
+    resourceGroupName: string,
+    workspaceName: string,
+    incidentIdentifier: string,
+    options?: IncidentsRunPlaybookOptionalParams
+  ): Promise<IncidentsRunPlaybookResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, incidentIdentifier, options },
+      runPlaybookOperationSpec
+    );
   }
 
   /**
@@ -283,6 +304,33 @@ export class IncidentsImpl implements Incidents {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const runPlaybookOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentIdentifier}/runPlaybook",
+  httpMethod: "POST",
+  responses: {
+    204: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.requestBody,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.incidentIdentifier
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents",

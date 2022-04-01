@@ -34,7 +34,7 @@ async function main() {
   )) {
     items.push(item);
   }
-  console.log(items?.map((ds) => ds?.name).join("\n"));
+  console.log(items.map((ds) => ds.name).join("\n"));
 }
 
 main().catch(console.error);

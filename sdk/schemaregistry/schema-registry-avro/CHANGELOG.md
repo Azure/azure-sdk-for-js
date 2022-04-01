@@ -1,8 +1,9 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0-beta.8 (Unreleased)
 
 ### Features Added
+- A new error type, `AvroError`, is added and is thrown in all error cases except for service calls.
 
 ### Breaking Changes
 - The `encodeMessageData` method has been renamed to `serialize`

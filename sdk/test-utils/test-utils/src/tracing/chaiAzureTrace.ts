@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
-import { assert } from "chai";
+import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
+
 import { MockInstrumenter } from "./mockInstrumenter";
 import { MockTracingSpan } from "./mockTracingSpan";
-import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
+import { assert } from "chai";
+
 const instrumenter = new MockInstrumenter();
+
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
  * This function verifies the root span, if all the correct spans are called as expected and if they are closed.
@@ -25,7 +28,6 @@ export async function supportsTracing<
   thisArg?: ThisParameterType<Callback>
 ) {
   useInstrumenter(instrumenter);
-  instrumenter.enable();
   instrumenter.reset();
   try {
     const startSpanOptions = {
@@ -61,7 +63,9 @@ export async function supportsTracing<
       `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`
     );
   } finally {
-    instrumenter.disable();
+    // By resetting the instrumenter to undefined, we force the next call to instantiate the
+    // no-op instrumenter and prevent test pollution.
+    useInstrumenter(<any>undefined);
   }
 }
 
