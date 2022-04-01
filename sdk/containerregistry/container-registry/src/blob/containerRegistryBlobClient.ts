@@ -7,7 +7,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "../generated";
-import { ContainerRegistryClientOptions } from "..";
 import { ChallengeHandler } from "../containerRegistryChallengeHandler";
 import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential";
 import { logger } from "../logger";
@@ -25,7 +24,7 @@ import {
   UploadManifestResult,
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
-import { createSerializer, FullOperationResponse } from "@azure/core-client";
+import { CommonClientOptions, createSerializer, FullOperationResponse } from "@azure/core-client";
 import { readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { createSpan } from "../tracing";
@@ -39,6 +38,22 @@ enum KnownManifestMediaType {
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+/**
+ * Client options used to configure Container Registry Blob API requests.
+ */
+export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
+  /**
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * See {@link KnownContainerRegistryAudience} for known audience values.
+   */
+  audience: string;
+  /**
+   * The version of service API to make calls against.
+   */
+  serviceVersion?: "2021-07-01";
 }
 
 const serializer = createSerializer(Mappers, /* isXML */ false);
@@ -82,7 +97,7 @@ export class ContainerRegistryBlobClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryClientOptions = {}
+    options: ContainerRegistryBlobClientOptions
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -107,12 +122,6 @@ export class ContainerRegistryBlobClient {
         ],
       },
     };
-    // Require audience now until we have a default ACR audience from the service.
-    if (!options.audience) {
-      throw new Error(
-        "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
-      );
-    }
 
     const defaultScope = `${options.audience}/.default`;
     const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
