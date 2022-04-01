@@ -13,11 +13,12 @@ export function calculateDigest(bufferOrStream: NodeJS.ReadableStream | Buffer):
     return Promise.resolve(`sha256:${hash.update(bufferOrStream).digest("hex")}`);
   } else {
     bufferOrStream.pipe(hash);
-    return new Promise((resolve) =>
+    return new Promise((resolve, reject) => {
       bufferOrStream.on("end", () => {
         hash.end();
         resolve(`sha256:${hash.digest("hex")}`);
-      })
-    );
+      });
+      bufferOrStream.on("error", (err) => reject(err));
+    });
   }
 }
