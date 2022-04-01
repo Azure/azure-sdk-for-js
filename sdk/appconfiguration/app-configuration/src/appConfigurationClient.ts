@@ -21,6 +21,7 @@ import {
   DeleteConfigurationSettingResponse,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
+  HttpResponseField,
   ListConfigurationSettingPage,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -45,7 +46,7 @@ import {
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
-import { GetKeyValuesResponse } from "./generated/src/models";
+import { AppConfigurationDeleteKeyValueHeaders, AppConfigurationGetKeyValueHeaders, AppConfigurationGetKeyValuesHeaders, AppConfigurationGetRevisionsHeaders, AppConfigurationPutKeyValueHeaders, DeleteKeyValueResponse, DeleteLockResponse, GetKeyValueResponse, GetKeyValuesResponse, GetRevisionsResponse, PutKeyValueResponse, PutLockResponse } from "./generated/src/models";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
@@ -185,8 +186,8 @@ export class AppConfigurationClient {
         label: configurationSetting.label,
         entity: keyValue,
         ...newOptions,
-      });
-      return transformKeyValueResponse(originalResponse) as AddConfigurationSettingResponse;
+      }) as PutKeyValueResponse & HttpResponseField<AppConfigurationPutKeyValueHeaders>;
+      return transformKeyValueResponse(originalResponse);
     });
   }
 
@@ -213,9 +214,9 @@ export class AppConfigurationClient {
         onResponse: (response) => {
           status = response.status;
         },
-      });
+      }) as DeleteKeyValueResponse & HttpResponseField<AppConfigurationDeleteKeyValueHeaders>;
 
-      return transformKeyValueResponseWithStatusCode(originalResponse, status) as unknown as DeleteConfigurationSettingResponse;
+      return transformKeyValueResponseWithStatusCode(originalResponse, status);
     });
   }
 
@@ -244,12 +245,12 @@ export class AppConfigurationClient {
         onResponse: (response) => {
           status = response.status;
         },
-      });
+      }) as GetKeyValueResponse & HttpResponseField<AppConfigurationGetKeyValueHeaders>;
 
       const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
         originalResponse,
         status
-      ) as GetConfigurationSettingResponse;
+      );
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -262,7 +263,7 @@ export class AppConfigurationClient {
         makeConfigurationSettingEmpty(response);
       }
 
-      return response as GetConfigurationSettingResponse;
+      return response;
     });
   }
 
@@ -323,7 +324,7 @@ export class AppConfigurationClient {
           after: options.continuationToken,
         });
 
-        return response;
+        return response as GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
       }
     );
 
@@ -342,7 +343,7 @@ export class AppConfigurationClient {
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
           });
 
-          return response;
+          return response as GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
         }
       );
 
@@ -355,15 +356,15 @@ export class AppConfigurationClient {
   }
 
   private *createListConfigurationPageFromResponse(
-    currentResponse: GetKeyValuesResponse
+    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
   ): Generator<ListConfigurationSettingPage> {
     yield {
-      ...currentResponse,
+      ...(currentResponse),
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
         : undefined,
-    } as ListConfigurationSettingPage;
+    };
   }
 
   /**
@@ -420,7 +421,7 @@ export class AppConfigurationClient {
         after: options.continuationToken,
       });
 
-      return response;
+      return response as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
     });
 
     yield* this.createListRevisionsPageFromResponse(currentResponse);
@@ -433,7 +434,7 @@ export class AppConfigurationClient {
           ...formatFiltersAndSelect(options),
           after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
         });
-      });
+      }) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
 
       if (!currentResponse.items) {
         break;
@@ -443,14 +444,14 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListRevisionsPageFromResponse(currentResponse: GetKeyValuesResponse) {
+  private *createListRevisionsPageFromResponse(currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
         : undefined,
-    } as ListRevisionsPage;
+    };
   }
 
   /**
@@ -478,9 +479,9 @@ export class AppConfigurationClient {
         label: configurationSetting.label,
         entity: keyValue,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-      });
+      }) as PutKeyValueResponse & HttpResponseField<any>;
 
-      return transformKeyValueResponse(response) as SetConfigurationSettingResponse;
+      return transformKeyValueResponse(response);
     });
   }
 
@@ -499,17 +500,17 @@ export class AppConfigurationClient {
           ...newOptions,
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-        });
+        }) as PutLockResponse & HttpResponseField<any>;
 
-        return transformKeyValueResponse(response) as SetReadOnlyResponse;
+        return transformKeyValueResponse(response);
       } else {
         const response = await this.client.deleteLock(id.key, {
           ...newOptions,
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-        });
+        }) as DeleteLockResponse & HttpResponseField<any>;
 
-        return transformKeyValueResponse(response) as SetReadOnlyResponse;
+        return transformKeyValueResponse(response);
       }
     });
   }

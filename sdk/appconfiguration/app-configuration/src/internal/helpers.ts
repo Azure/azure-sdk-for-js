@@ -7,6 +7,7 @@ import {
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
+  HttpResponseField,
   HttpResponseFields,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -155,8 +156,8 @@ export function makeConfigurationSettingEmpty(
 /**
  * @internal
  */
-export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
-  const setting: ConfigurationSetting & KeyValue = {
+export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSetting {
+  const setting: T & ConfigurationSetting & KeyValue = {
     value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked,
@@ -230,10 +231,10 @@ export function serializeAsConfigurationSettingParam(
 /**
  * @internal
  */
-export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(
   kvp: T,
   status: number | undefined
-): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
+): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
   return {
     ...transformKeyValue(kvp),
     statusCode: status,
@@ -243,11 +244,11 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
 /**
  * @internal
  */
-export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }>(
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string } & HttpResponseField<any>>(
   kvp: T
-): ConfigurationSetting {
+): ConfigurationSetting & HttpResponseField<any> {
   const setting = transformKeyValue(kvp);
-  delete (setting as ConfigurationSetting & { eTag?: string }).eTag;
+  delete (setting).eTag;
   return setting;
 }
 
