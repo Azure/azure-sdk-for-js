@@ -8,13 +8,13 @@ pr:
     include:
       - eng/pipelines/aggregate-reports.yml
 
-pool:
-  name: azsdk-pool-mms-ubuntu-2004-general
-  vmImage: MMSUbuntu20.04
-
 stages:
   - stage: AggregateReports
     displayName: Aggregate Reports
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-2004-general
+      vmImage: MMSUbuntu20.04
 
     jobs:
       - job: GenerateReports
@@ -86,6 +86,11 @@ stages:
   - stage: ComplianceTools
     displayName: Compliance Tools
     dependsOn: []
+
+    pool:
+      # Policheck requires Windows
+      name: azsdk-pool-mms-win-2019-general
+      vmImage: MMS2019
 
     jobs:
       - job: ComplianceTools
