@@ -85,9 +85,7 @@ async function main() {
 
   console.log(" --- Get map tile v2:");
   const mapTileOptions = { tileSize: "512" };
-  result = await client.getMapTile(KnownTilesetID.MicrosoftBase, tileIndex, {
-    ...mapTileOptions,
-  });
+  result = await client.getMapTile(KnownTilesetID.MicrosoftBase, tileIndex, mapTileOptions);
   // use result.blobBody for Browser, readableStreamBody for Node.js:
   result.readableStreamBody &&
     result.readableStreamBody.pipe(fs.createWriteStream("tmp/tile_v2.vector.pbf"));
