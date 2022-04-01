@@ -224,7 +224,6 @@ You may see an error as follows:
   },
   "message": "Gateway timeout"
 }
-![image](https://user-images.githubusercontent.com/8968058/161323749-3b8810a3-85a3-4f47-9527-283c27b8b396.png)
 
 ```
 
