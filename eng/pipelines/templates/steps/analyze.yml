@@ -43,20 +43,6 @@ steps:
   #     ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
   #       Directory: sdk/${{ parameters.ServiceDirectory }}
   #     CheckLinkGuidance: $true
-  
-  - script: |
-      echo "TEST INFO";
-      echo "Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)";
-      echo "Build.SourcesDirectory = $(Build.SourcesDirectory)";
-      echo "artifacts name = ${{parameters.artifacts[0].name}}";
-      echo "workspace = $(Pipeline.Workspace)";
-      echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
-      echo "ArtifactsDirectory = $(System.ArtifactsDirectory)"
-      
-      echo "TREE===========================";
-      tree $(Pipeline.Workspace)
-
-    displayName: "test script"
 
   # - template: /eng/common/pipelines/templates/steps/verify-samples.yml
   #   parameters:

@@ -35,7 +35,6 @@ steps:
       echo "workspace = $(Pipeline.Workspace)";
       echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
       echo "ArtifactsDirectory = $(System.ArtifactsDirectory)"
-      echo "artifact name = ${{ artifact.name }}"
       
       echo "TREE===========================";
       tree $(Pipeline.Workspace)
