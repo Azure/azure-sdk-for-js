@@ -312,8 +312,7 @@ For more details on the response hierarchy for multiple queries, see can be foun
 
 ### Troubleshooting authorization failed error for metrics query
 
-If you get an HTTP error with status code 403 (Forbidden), it means that the provided credentials does not have
-sufficient permissions to query the workspace.
+If you get an HTTP error with status code 403 (Forbidden), the provided credentials lack sufficient permissions to query the workspace.
 
 ```json
 {
