@@ -139,7 +139,7 @@ export interface GatewayListStatusError {
 
 // @public
 export interface GatewayListStatusLive {
-    status?: "undefined";
+    status?: 0;
 }
 
 // @public

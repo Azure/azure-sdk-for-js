@@ -3350,7 +3350,7 @@ export type ContentTypeContract = Resource & {
 /** Content type contract details. */
 export type ContentItemContract = Resource & {
   /** Properties of the content item. */
-  properties?: { [propertyName: string]: Record<string, unknown> };
+  properties?: { [propertyName: string]: any };
 };
 
 /** Deleted API Management Service information. */

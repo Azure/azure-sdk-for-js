@@ -89,10 +89,12 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       { resourceGroupName, vmScaleSetName, options },
       cancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -171,10 +173,12 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       { resourceGroupName, vmScaleSetName, options },
       startOSUpgradeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -255,10 +259,12 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       { resourceGroupName, vmScaleSetName, options },
       startExtensionUpgradeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -180,10 +180,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -275,10 +277,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -363,10 +367,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -488,10 +494,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
