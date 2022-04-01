@@ -115,7 +115,8 @@ export function getAadCredential(): TokenCredential {
   if (isPlaybackMode()) {
     return createMockToken();
   } else if (isNode) {
-    return new DefaultAzureCredential();
+    // TODO revert authorityHost once server is on prod. Needed for int AAD tests.
+    return new DefaultAzureCredential({ authorityHost: "https://login.windows-ppe.net/" });
   } else {
     return new ClientSecretCredential(
       env.AZURE_TENANT_ID,

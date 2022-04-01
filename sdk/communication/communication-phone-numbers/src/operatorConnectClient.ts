@@ -26,7 +26,6 @@ import {
 import * as Mapper from "./mappers";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
 import {
-  KnownConsentStatus,
   GetOperatorsOptionalParams,
   GetConsentsOptionalParams,
   GetConsentOptionalParams,
@@ -177,7 +176,7 @@ export class OperatorConnectClient {
       operationOptions.contacts = [operationOptions.consentedBy];
     }
     if (operationOptions.status == null) {
-      operationOptions.status = KnownConsentStatus.Active;
+      operationOptions.status = "Active";
     }
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-createConsent",
@@ -207,7 +206,7 @@ export class OperatorConnectClient {
    * @param operationOptions - Remove consent parameters.
    */
   public async removeConsent(operationOptions: RemoveConsentParams): Promise<Consent> {
-    (operationOptions as CreateOrUpdateConsentOptionalParams).status = KnownConsentStatus.Removed;
+    (operationOptions as CreateOrUpdateConsentOptionalParams).status = "Removed";
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-removeConsent",
       operationOptions

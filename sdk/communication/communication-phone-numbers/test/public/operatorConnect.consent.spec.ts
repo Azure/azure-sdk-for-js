@@ -12,6 +12,7 @@ matrix([[true, false]], async function (useAad) {
     const defaultTimeoutMs = 60000;
 
     const operatorId = "fa82b96a-3352-4594-80f2-a0a18924a001";
+    const nonExistingOperatorId = "fa82b96a-1111-2222-3333-a0a18924a001";
     const companyName = "Test Company";
     const contact: Contact = {
       fullName: "Test User",
@@ -30,6 +31,7 @@ matrix([[true, false]], async function (useAad) {
       if (!this.currentTest?.isPending()) {
         await client.stopRecorder();
       }
+      await clearConsent();
     });
 
     it("can retrieve consents list", async function (this: Context) {
@@ -45,6 +47,13 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can get consent", async function (this: Context) {
+      await client.createConsent({
+        operatorId: operatorId,
+        companyName: companyName,
+        consentedCountries: [defaultCountry],
+        consentedBy: contact,
+        requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
+      });
       const getResponse = await client.getConsent(operatorId, {
         requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
       });
@@ -247,17 +256,98 @@ matrix([[true, false]], async function (useAad) {
       assert.equal(updateResponse.consentedCountries?.length, 2);
       assert.equal(updateResponse.contacts?.length, 2);
     }).timeout(defaultTimeoutMs);
+    
 
-    it("can handle not found in get consent", async function (this: Context) {
-      assert.fail("Not implemented");
+    it("can handle not found error in get consent", async function (this: Context) {
+      assertThrows(404, async () =>
+        await client.getConsent(operatorId, {
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+        }));
     }).timeout(defaultTimeoutMs);
 
-    it("can handle error in get consent", async function (this: Context) {
-      assert.fail("Not implemented");
+    it("can handle bad request error in get consent", async function (this: Context) {
+      assertThrows(400, async () =>
+        await client.getConsent(nonExistingOperatorId, {
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+        }));
     }).timeout(defaultTimeoutMs);
 
-    it("can handle error in create consent", async function (this: Context) {
-      assert.fail("Not implemented");
+    it("can handle not found error in remove consent", async function (this: Context) {
+      assertThrows(404, async () =>
+        await client.removeConsent({
+          operatorId, 
+          lastModifiedBy: contact,
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+        }));
     }).timeout(defaultTimeoutMs);
+
+    it("can handle bad request error in remove consent", async function (this: Context) {
+      assertThrows(400, async () =>
+        await client.removeConsent({
+          operatorId: nonExistingOperatorId, 
+          lastModifiedBy: contact,
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+        }));
+    }).timeout(defaultTimeoutMs);
+
+    it("can handle bad request error in create consent", async function (this: Context) {
+      assertThrows(400, async () =>
+        await client.createConsent({
+          operatorId: nonExistingOperatorId,
+          companyName: companyName,
+          consentedCountries: [defaultCountry],
+          consentedBy: contact,
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
+        }));
+    }).timeout(defaultTimeoutMs);
+
+    it("can handle not found error in update consent", async function (this: Context) {
+      assertThrows(404, async () =>
+        await client.updateConsent({
+          operatorId: operatorId,
+          companyName: companyName,
+          consentedCountries: [defaultCountry],
+          lastModifiedBy: contact,
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
+        }));
+    }).timeout(defaultTimeoutMs);
+
+    it("can handle bad request error in update consent", async function (this: Context) {
+      assertThrows(400, async () =>
+        await client.updateConsent({
+          operatorId: nonExistingOperatorId,
+          companyName: companyName,
+          consentedCountries: [defaultCountry],
+          lastModifiedBy: contact,
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
+        }));
+    }).timeout(defaultTimeoutMs);
+
+    async function assertThrows(expectedStatus: number, action: () => Promise<any>) {
+      try {
+        await action();
+      } catch (ex: any) {
+        assert.equal(expectedStatus, ex.statusCode);
+        return;
+      }
+      assert.fail("Expected exception was not triggered");
+    }
+
+    async function clearConsent() {
+      try {
+        // Remove consent of default operator
+        await client.removeConsent({
+          operatorId: operatorId,
+          lastModifiedBy: contact,
+          requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready})
+        });
+      } catch (e: any) {
+        if (e.statusCode == 404) {
+          return;
+        }
+        throw e;
+      }
+    }
   });
 });
+
