@@ -140,6 +140,11 @@ export interface DeleteTagOptions extends OperationOptions {
 }
 
 // @public
+export class DigestMismatchError extends Error {
+    constructor(message: string);
+}
+
+// @public
 export interface DownloadBlobOptions extends OperationOptions {
 }
 

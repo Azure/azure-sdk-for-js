@@ -40,6 +40,10 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
 
+/**
+ * Error thrown when the Docker content digest returned from the
+ * server does not match the digest calculated from the content.
+ */
 export class DigestMismatchError extends Error {
   constructor(message: string) {
     super(message);
