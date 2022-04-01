@@ -73,10 +73,10 @@ steps:
         downloadType: 'single'
         # This is the name of the docs that you want to download.
         artifactName: 'packages'
-        downloadPath: '$(System.ArtifactsDirectory)'
+        downloadPath: '$(System.SourcesDirectory)'
 
     - script: |
-        tree $(System.ArtifactsDirectory)
+        tree $(System.SourcesDirectory)
       displayName: "Show tree"
 
     # Then I have tu extract the files and store them somewhere.
