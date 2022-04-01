@@ -59,31 +59,41 @@ steps:
     displayName: "test script"
 
 
-  # WRAP THIS INTO A LOOP FOR EACH ARTIFACT
+  # WRAP THIS INTO A LOOP FOR EACH ARTIFACT - NO NEED ANYMORE
   - ${{ each artifact in parameters.Artifacts }}:
     - script: echo "artifact name = ${{ artifact.name }}"
       displayName: "print artifact name"
 
+    - script: |
+        tree $(Pipeline.Workspace)
+      displayName: "Show tree"
+
     # FIRST CONSUME ARTIFACTS ()
     - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
-
-    - task: DownloadBuildArtifacts@0
+    
+    - task: DownloadPipelineArtifact@2
       inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        # This is the name of the docs that you want to download.
-        artifactName: 'packages'
-        downloadPath: /mnt/vss/_work/1/s
+        source: 'current' # Options: current, specific
+        #project: # Required when source == Specific
+        #pipeline: # Required when source == Specific
+        #preferTriggeringPipeline: false # Optional
+        #runVersion: 'latest' # Required when source == Specific# Options: latest, latestFromBranch, specific
+        #runBranch: 'refs/heads/master' # Required when source == Specific && RunVersion == LatestFromBranch
+        #runId: # Required when source == Specific && RunVersion == Specific
+        #tags: # Optional
+        artifact: 'packages' # Optional
+        #patterns: '**' # Optional
+        path: '$(Pipeline.Workspace)' 
 
     - script: |
-        tree $(System.SourcesDirectory)
+        tree $(Pipeline.Workspace)
       displayName: "Show tree"
 
     # Then I have tu extract the files and store them somewhere.
     # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
     - task: ExtractFiles@1
       inputs:
-        #archiveFilePatterns: '**/*.zip' 
+        #archiveFilePatterns: '$(Pipeline.Workspace)/**/*.zip' 
         destinationFolder: '$(Pipeline.Workspace)/html-docs/'
         #cleanDestinationFolder: true 
         #overwriteExistingFiles: false
