@@ -4,7 +4,6 @@
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
-  RestError,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "../generated";
