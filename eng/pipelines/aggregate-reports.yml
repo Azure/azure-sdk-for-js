@@ -18,7 +18,7 @@ stages:
 
     jobs:
       - job: GenerateReports
-        timeoutInMinutes: 120
+        timeoutInMinutes: 240
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
