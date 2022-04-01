@@ -106,10 +106,9 @@ steps:
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
       ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: "$(Pipeline.Workspace)/html-docs/"
+        Directory: "/html-docs"
+        WorkingDirectory: "$(Pipeline.Workspace)"
         Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
     
 
