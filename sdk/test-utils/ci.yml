@@ -29,11 +29,9 @@ extends:
     Artifacts:
       - name: azure-tools-test-recorder
         safeName: azuretoolstestrecorder
-      - name: azure-tools-test-utils-perf
-        safeName: azuretoolstestutilsperf
+      - name: azure-test-utils-perf
+        safeName: azuretestutilsperf
       - name: azure-tools-test-credential
         safeName: azuretoolstestcredential
-      - name: azure-tools-test-utils
-        safeName: azuretoolstestutils
-      - name: azure-tools-test-recorder-new
-        safeName: azuretoolstestrecordernew
+      - name: azure-test-utils
+        safeName: azuretestutils
