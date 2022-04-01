@@ -201,7 +201,7 @@ describe("helper methods", () => {
       locked: true,
     });
 
-    assert.deepEqual(configurationSetting, {
+    assert.deepEqual(configurationSetting as unknown, {
       // the 'locked' property should not be present in the object since
       // it should be 'renamed' to readOnly
       isReadOnly: true,

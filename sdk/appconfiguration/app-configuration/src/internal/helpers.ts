@@ -7,7 +7,6 @@ import {
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
-  HttpResponseField,
   HttpResponseFields,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -231,10 +230,10 @@ export function serializeAsConfigurationSettingParam(
 /**
  * @internal
  */
-export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
   kvp: T,
   status: number | undefined
-): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
+): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   return {
     ...transformKeyValue(kvp),
     statusCode: status,
@@ -244,9 +243,9 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue & Htt
 /**
  * @internal
  */
-export function transformKeyValueResponse<T extends KeyValue & { eTag?: string } & HttpResponseField<any>>(
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }>(
   kvp: T
-): ConfigurationSetting & HttpResponseField<any> {
+): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
   delete (setting).eTag;
   return setting;
