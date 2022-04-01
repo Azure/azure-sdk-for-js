@@ -249,7 +249,7 @@ const result = await logsQueryClient.queryWorkspace(
 By default, if the execution of a Kusto query resulted in a partially successful response, the Azure Monitor Query
 client library will return the result of type `LogsQueryPartialResult` with the `status` field of `result` object set to `PartialFailure` to indicate to the user that the query was not fully successful. In case of multiple queries, when the results from all queries aren't successful, the `status` field of `result` object may be set to `Failure`.
 
-In case of single query, there can be only two possibilities for the value of `status` field of `result` object - `Success` or `PartialFailure`. You can access the details of the partially successful results by the following code snippet -
+In the case of single query, there can be only two possibilities for the value of `status` field of `result` object: `Success` or `PartialFailure`. You can access the details of the partially successful results with the following code snippet:
 
 ```ts
 const result = await logsQueryClient.queryWorkspace(${azureLogAnalyticsWorkspaceId}, ${kustoQuery}, {
