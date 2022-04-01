@@ -174,3 +174,27 @@ directive:
       return acc;
     }, {});
 ```
+
+# Changes to getManifest definition
+
+Since:
+
+- We need to expose the Docker-Content-Digest header
+- We need the manifest body as text to calculate the digest
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.paths["/v2/{name}/manifests/{reference}"].get.responses["200"]
+  transform: >
+    $.schema = {
+      type: "string",
+      format: "file"
+    };
+    $.headers = {
+      "Docker-Content-Digest": {
+        "type": "string",
+        "description": "Identifies the docker upload uuid for the current request."
+      }
+    };
+```

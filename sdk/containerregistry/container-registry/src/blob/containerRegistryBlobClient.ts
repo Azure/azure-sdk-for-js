@@ -24,7 +24,7 @@ import {
   UploadManifestResult,
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
-import { CommonClientOptions, createSerializer, FullOperationResponse } from "@azure/core-client";
+import { CommonClientOptions, createSerializer } from "@azure/core-client";
 import { readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { createSpan } from "../tracing";
@@ -223,38 +223,30 @@ export class ContainerRegistryBlobClient {
     );
 
     try {
-      const rawResponse = await new Promise<FullOperationResponse>(async (resolve) => {
-        this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
+      const { dockerContentDigest, readableStreamBody } =
+        await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
           accept: KnownManifestMediaType.OciManifestMediaType,
           ...updatedOptions,
-          onResponse: (rawResponseProvided, flatResponse, error) => {
-            updatedOptions?.onResponse?.(rawResponseProvided, flatResponse, error);
-            resolve(rawResponseProvided);
-          },
         });
-      });
 
-      const digest = rawResponse.headers.get("Docker-Content-Digest");
-      if (!digest) {
-        throw new Error("Expected Docker-Content-Digest header in response");
-      }
+      const bodyData = readableStreamBody
+        ? await readStreamToEnd(readableStreamBody)
+        : Buffer.alloc(0);
 
-      const body = rawResponse.bodyAsText;
-      if (!body) {
-        throw new Error("downloadManifest did not return a text body");
-      }
-
-      const bodyData = Buffer.from(body);
       const expectedDigest = await calculateDigest(bodyData);
 
-      if (digest !== expectedDigest) {
+      if (dockerContentDigest !== expectedDigest) {
         throw new Error("Docker-Content-Digest header does not match calculated digest.");
       }
 
-      const manifest = serializer.deserialize(Mappers.OCIManifest, JSON.parse(body), "OCIManifest");
+      const manifest = serializer.deserialize(
+        Mappers.OCIManifest,
+        JSON.parse(bodyData.toString()),
+        "OCIManifest"
+      );
 
       return {
-        digest,
+        digest: dockerContentDigest,
         manifest,
         manifestStream: Readable.from(bodyData),
       };

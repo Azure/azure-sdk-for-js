@@ -369,7 +369,11 @@ const getManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManifestWrapper
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse"
+      },
+      headersMapper: Mappers.ContainerRegistryGetManifestHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
