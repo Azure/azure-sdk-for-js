@@ -154,12 +154,40 @@ configure the timeout on the server. The server timeout can be extended up to 10
 
 You may see an error as follows:
 
-```text
-Code: GatewayTimeout
-Message: Gateway timeout
-Inner error: {
-    "code": "GatewayTimeout",
-    "message": "Unable to unzip response"
+```json
+ {
+  "name": "RestError",
+  "code": "InsufficientAccessError",
+  "statusCode": 403,
+  "request": {
+    "url": "https://api.loganalytics.io/v1/workspaces/08e1f3a5-9cf2-47a4-94b6-285bf25dc4be/query",
+    "headers": {
+      "content-type": "application/json",
+      "accept": "application/json",
+      "prefer": "REDACTED",
+      "accept-encoding": "gzip,deflate",
+      "user-agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "x-ms-client-request-id": "56ee42f9-56f3-41ec-866c-bdfa7aa708a3",
+      "authorization": "REDACTED",
+      "content-length": "79"
+    },
+    "method": "POST",
+    "timeout": 0,
+    "disableKeepAlive": false,
+    "streamResponseStatusCodes": {},
+    "withCredentials": false,
+    "requestId": "56ee42f9-56f3-41ec-866c-bdfa7aa708a3",
+    "allowInsecureConnection": false,
+    "enableBrowserStreams": false
+  },
+  "details": {
+    "error": {
+      "code": "InsufficientAccessError",
+      "message": "The provided credentials have insufficient access to perform the requested operation",
+      "correlationId": "1e1ad3fe-88ab-43a4-af9b-15e75b67d8a9"
+    }
+  },
+  "message": "The provided credentials have insufficient access to perform the requested operation"
 }
 ```
 
