@@ -25,7 +25,8 @@ To troubleshoot issues with Azure Monitor Query library, it's important to first
 
 The Azure client libraries for JavaScript allow you to enable logging either through the environment variable or at runtime.
 
-The following log levels are supported from most verbose to least verbose:
+The following log levels are supported. They're listed from most to least verbose.
+
 - verbose
 - info
 - warning
