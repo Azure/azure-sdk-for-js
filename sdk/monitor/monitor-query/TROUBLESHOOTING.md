@@ -110,7 +110,7 @@ If you get an HTTP error with status code 403 (Forbidden), it means the provided
 }
 ```
 
-1. Check that the application or user that is making the request has sufficient permissions:
+1. Check that the application or user making the request has sufficient permissions:
    - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, make sure you are
    authenticating as that user/application. If you are authenticating using the
