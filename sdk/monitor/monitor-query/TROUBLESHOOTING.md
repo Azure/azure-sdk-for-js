@@ -65,7 +65,7 @@ For detailed instructions on how to enable logs, see the [@azure/logger package 
 
 ### Authentication errors
 
-Azure Monitor Query supports Azure Active Directory authentication. Both `logsQueryClient` and `metricsQueryClient` have methods to set the `credential`. To provide a valid credential, you can use `@azure/identity` dependency. For more details on getting started, refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#create-the-client) of Azure Monitor Query library. You can also refer to the [Azure Identity documentation](https://aka.ms/azsdk/js/identity/troubleshoot) for more details on the various types of credential supported in `@azure/identity`.
+Azure Monitor Query supports Azure Active Directory authentication. Both `logsQueryClient` and `metricsQueryClient` have methods to set the `credential`. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#create-the-client) of Azure Monitor Query library. You can also refer to the [Azure Identity documentation](https://aka.ms/azsdk/js/identity/troubleshoot) for more details on the various credential types supported in `@azure/identity`.
 
 ## Troubleshooting Logs Query
 
