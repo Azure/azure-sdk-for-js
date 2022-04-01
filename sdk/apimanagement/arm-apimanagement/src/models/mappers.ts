@@ -10896,9 +10896,7 @@ export const ContentItemContract: coreClient.CompositeMapper = {
         xmlName: "properties",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
