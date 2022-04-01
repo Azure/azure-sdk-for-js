@@ -1,5 +1,34 @@
 # Release History
     
+## 17.2.0 (2022-03-30)
+    
+**Features**
+
+  - Added Interface StorageAccountSkuConversionStatus
+  - Added Interface TableAccessPolicy
+  - Added Interface TableSignedIdentifier
+  - Added Type Alias DnsEndpointType
+  - Added Type Alias SkuConversionStatus
+  - Interface BlobInventoryPolicyFilter has a new optional parameter excludePrefix
+  - Interface BlobInventoryPolicyFilter has a new optional parameter includeDeleted
+  - Interface BlobInventoryPolicySchema has a new optional parameter destination
+  - Interface DateAfterCreation has a new optional parameter daysAfterLastTierChangeGreaterThan
+  - Interface DateAfterModification has a new optional parameter daysAfterCreationGreaterThan
+  - Interface DateAfterModification has a new optional parameter daysAfterLastTierChangeGreaterThan
+  - Interface DeleteRetentionPolicy has a new optional parameter allowPermanentDelete
+  - Interface KeyVaultProperties has a new optional parameter currentVersionedKeyExpirationTimestamp
+  - Interface StorageAccountCreateParameters has a new optional parameter dnsEndpointType
+  - Interface StorageAccountUpdateParameters has a new optional parameter dnsEndpointType
+  - Interface TableCreateOptionalParams has a new optional parameter parameters
+  - Interface TableUpdateOptionalParams has a new optional parameter parameters
+  - Type Alias StorageAccount has a new parameter storageAccountSkuConversionStatus
+  - Type Alias StorageAccount has a new parameter dnsEndpointType
+  - Type Alias Table has a new parameter signedIdentifiers
+  - Added Enum KnownDnsEndpointType
+  - Added Enum KnownSkuConversionStatus
+  - Enum KnownCorsRuleAllowedMethodsItem has a new value Patch
+    
+    
 ## 17.1.0 (2022-02-14)
     
 **Features**
