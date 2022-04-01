@@ -42,7 +42,7 @@ getCollectionOfPolicyMetadataResources().catch(console.error);
 async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const top = 1;
-  const options: PolicyMetadataListOptionalParams = { top };
+  const options: PolicyMetadataListOptionalParams = { queryOptions: { top: top } };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();

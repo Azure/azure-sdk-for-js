@@ -29,7 +29,7 @@ async function listRemediationsAtResourceGroupScopeWithQueryParameters() {
   const resArray = new Array();
   for await (let item of client.remediations.listForResourceGroup(
     resourceGroupName,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

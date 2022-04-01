@@ -24,7 +24,7 @@ async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyMetadataOperations.list(options)) {
+  for await (let item of client.policyMetadataOperations.list({ queryOptions: options })) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function queryLatestAtResourceGroupLevelPolicyAssignmentScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const policyAssignmentName = "myPolicyAssignment";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -30,10 +30,10 @@ async function queryLatestAtResourceGroupLevelPolicyAssignmentScopeWithNextLink(
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResourceGroupLevelPolicyAssignment(
     policyStatesResource,
-    subscriptionId,
+    subscriptionId2,
     resourceGroupName,
     policyAssignmentName,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

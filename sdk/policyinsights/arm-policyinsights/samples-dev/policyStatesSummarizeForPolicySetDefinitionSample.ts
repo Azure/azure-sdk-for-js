@@ -23,23 +23,20 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function summarizeAtPolicySetDefinitionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const top = 1;
   const fromParam = new Date("2019-10-05T18:00:00Z");
   const to = new Date("2019-10-06T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const options: PolicyStatesSummarizeForPolicySetDefinitionOptionalParams = {
-    top,
-    fromParam,
-    to,
-    filter
+    queryOptions: { top: top, to: to, from: fromParam, filter: filter }
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForPolicySetDefinition(
     policyStatesSummaryResource,
-    subscriptionId,
+    subscriptionId2,
     policySetDefinitionName,
     options
   );

@@ -20,14 +20,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function summarizeAtPolicyAssignmentScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesSummaryResource = "latest";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const policyAssignmentName = "b7a1ca2596524e3ab19597f2";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForResourceGroupLevelPolicyAssignment(
     policyStatesSummaryResource,
-    subscriptionId,
+    subscriptionId2,
     resourceGroupName,
     policyAssignmentName
   );

@@ -27,7 +27,8 @@ async function queryAtManagementGroupScopeWithNextLink() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForManagementGroup(
     managementGroupName,
-    options
+    "",
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

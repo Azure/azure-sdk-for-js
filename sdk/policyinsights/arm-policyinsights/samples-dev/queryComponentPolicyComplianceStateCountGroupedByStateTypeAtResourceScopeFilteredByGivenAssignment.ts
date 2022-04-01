@@ -33,7 +33,7 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }
