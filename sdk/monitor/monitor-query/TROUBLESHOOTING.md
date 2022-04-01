@@ -188,8 +188,45 @@ You may see an error as follows:
 
 ```json
 {
-code: GatewayTimeout
+  "name": "RestError",
+  "code": "GatewayTimeout",
+  "statusCode": 504,
+  "request": {
+    "url": "https://api.loganalytics.io/v1/workspaces/598029db-4756-4768-87f3-d6d45ed0ebd7/query",
+    "headers": {
+      "content-type": "application/json",
+      "accept": "application/json",
+      "prefer": "REDACTED",
+      "accept-encoding": "gzip,deflate",
+      "user-agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "x-ms-client-request-id": "b3269277-18d7-4971-9eb8-4a2259bc8576",
+      "authorization": "REDACTED",
+      "content-length": "76"
+    },
+    "method": "POST",
+    "timeout": 0,
+    "disableKeepAlive": false,
+    "streamResponseStatusCodes": {},
+    "withCredentials": false,
+    "requestId": "b3269277-18d7-4971-9eb8-4a2259bc8576",
+    "allowInsecureConnection": false,
+    "enableBrowserStreams": false
+  },
+  "details": {
+    "error": {
+      "code": "GatewayTimeout",
+      "message": "Gateway timeout",
+      "innerError": {
+        "code": "GatewayTimeout",
+        "message": "Kusto query timed out"
+      },
+      "correlationId": "2572d63e-99ae-4d3c-92d0-032ba7651ed3"
+    }
+  },
+  "message": "Gateway timeout"
 }
+![image](https://user-images.githubusercontent.com/8968058/161323749-3b8810a3-85a3-4f47-9527-283c27b8b396.png)
+
 ```
 
 The following code shows a sample on how to set the server timeout to 10 minutes. Note that by setting this server
