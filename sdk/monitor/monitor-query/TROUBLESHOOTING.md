@@ -14,7 +14,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
   - [Troubleshooting server timeouts when executing logs query request](#troubleshooting-server-timeouts-when-executing-logs-query-request)
   - [Troubleshooting partially successful logs query requests](#troubleshooting-partially-successful-logs-query-requests)
 - [Troubleshooting Metrics Query](#troubleshooting-metrics-query)
-  - [Troubleshooting insufficient access error](#troubleshooting-insufficient-access-error-for-metrics-query)
+  - [Troubleshooting authorization failed error](#troubleshooting-authorization-failed-error-for-metrics-query)
   - [Troubleshooting unsupported granularity for metrics query](#troubleshooting-unsupported-granularity-for-metrics-query)
 
 ## General Troubleshooting
@@ -275,13 +275,43 @@ More details on the hierarchy of the response for multiple queries can be found 
 
 ## Troubleshooting Metrics Query
 
-### Troubleshooting insufficient access error for metrics query
+### Troubleshooting authorization failed error for metrics query
 
 If you get an HTTP error with status code 403 (Forbidden), it means that the provided credentials does not have
 sufficient permissions to query the workspace.
 
-```text
-"{"error":{"code":"AuthorizationFailed","message":"The client '71d56230-5920-4856-8f33-c030b269d870' with object id '71d56230-5920-4856-8f33-c030b269d870' does not have authorization to perform action 'microsoft.insights/metrics/read' over scope '/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/srnagar-azuresdkgroup/providers/Microsoft.CognitiveServices/accounts/srnagara-textanalytics/providers/microsoft.insights' or the scope is invalid. If access was recently granted, please refresh your credentials."}}"
+```json
+{
+  "name": "RestError",
+  "code": "AuthorizationFailed",
+  "statusCode": 403,
+  "request": {
+    "url": "https://management.azure.com//subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metricDefinitions?api-version=2018-01-01",
+    "headers": {
+      "accept": "application/json",
+      "accept-encoding": "gzip,deflate",
+      "user-agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics-definitions/1.0.1 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "x-ms-client-request-id": "66dbf2ce-390c-4f9a-ae7f-a5ee3869ab8d",
+      "authorization": "REDACTED"
+    },
+    "method": "GET",
+    "timeout": 0,
+    "disableKeepAlive": false,
+    "streamResponseStatusCodes": {},
+    "withCredentials": false,
+    "requestId": "66dbf2ce-390c-4f9a-ae7f-a5ee3869ab8d",
+    "allowInsecureConnection": false,
+    "enableBrowserStreams": false
+  },
+  "details": {
+    "error": {
+      "code": "AuthorizationFailed",
+      "message": "The client 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' with object id 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
+    }
+  },
+  "message": "The client 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' with object id 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
+}![image](https://user-images.githubusercontent.com/8968058/161322403-a02f8e08-322c-43ef-899b-081e316253b7.png)
+
 ```
 
 1. Check that the application or user that is making the request has sufficient permissions:
