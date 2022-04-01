@@ -1,0 +1,97 @@
+parameters:
+  Artifacts: []
+  ServiceDirectory: not-specified
+  TestPipeline: false
+
+steps:
+  # - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: eng/scripts/spell-check-public-api.ps1
+      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      pwsh: true
+    displayName: Spell check public API
+
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
+
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    displayName: "Publish Report Artifacts"
+    inputs:
+      artifactName: package-diffs
+      path: $(Build.ArtifactStagingDirectory)
+  
+  - script: |
+      echo "TEST INFO";
+      echo "Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)";
+      echo "Build.SourcesDirectory = $(Build.SourcesDirectory)";
+      echo "artifacts name = ${{parameters.artifacts[0].name}}";
+      echo "workspace = $(Pipeline.Workspace)";
+      echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
+      echo "ArtifactsDirectory = $(System.ArtifactsDirectory)"
+      echo "artifact name = ${{ artifact.name }}"
+      
+      echo "TREE===========================";
+      tree $(Pipeline.Workspace)
+
+    displayName: "Log script"
+
+  - script: |
+      tree $(Pipeline.Workspace)
+    displayName: "Show tree"
+
+  # FIRST CONSUME ARTIFACTS ()
+  # - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
+  
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      source: 'current' # Options: current, specific
+      #project: # Required when source == Specific
+      #pipeline: # Required when source == Specific
+      #preferTriggeringPipeline: false # Optional
+      #runVersion: 'latest' # Required when source == Specific# Options: latest, latestFromBranch, specific
+      #runBranch: 'refs/heads/master' # Required when source == Specific && RunVersion == LatestFromBranch
+      #runId: # Required when source == Specific && RunVersion == Specific
+      #tags: # Optional
+      artifact: 'packages' # Optional
+      #patterns: '**' # Optional
+      path: '$(Pipeline.Workspace)/downloaded-artifacts'
+  - script: |
+      tree $(Pipeline.Workspace)/downloaded-artifacts
+    displayName: "Show tree"
+
+  # Then I have tu extract the files and store them somewhere.
+  # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: '$(Pipeline.Workspace)/downloaded-artifacts/**/*.zip' 
+      destinationFolder: '$(Pipeline.Workspace)/html-docs/'
+      #cleanDestinationFolder: true 
+      #overwriteExistingFiles: false
+
+  - script: |
+      tree $(Pipeline.Workspace)/html-docs
+    displayName: "Show tree"
+
+  # NOW CALL VERIFY LINKS, again, with the artifact url
+
+  - template: /eng/common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: "/html-docs/"
+        WorkingDirectory: "$(Pipeline.Workspace)"
+        Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
+      CheckLinkGuidance: $true
+
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'reports'
+
+  - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

@@ -50,7 +50,24 @@ jobs:
           TestPipeline: ${{ parameters.TestPipeline }}
           IncludeRelease: ${{ parameters.IncludeRelease }}
 
-  - job: "Analyze"
+  # - job: "Analyze"
+  #   variables:
+  #     - template: ../variables/globals.yml
+
+  #   pool:
+  #     name: azsdk-pool-mms-ubuntu-2004-general
+  #     vmImage: MMSUbuntu20.04
+
+  #   steps:
+  #     - template: ../steps/common.yml
+
+  #     - template: ../steps/analyze.yml
+  #       parameters:
+  #         Artifacts: ${{ parameters.Artifacts }}
+  #         ServiceDirectory: ${{ parameters.ServiceDirectory }}
+  #         TestPipeline: ${{ parameters.TestPipeline }}
+
+  - job: "Analyze Artifacts"
     dependsOn: Build
     variables:
       - template: ../variables/globals.yml
@@ -62,7 +79,7 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
-      - template: ../steps/analyze.yml
+      - template: ../steps/analyze-artifacts.yml
         parameters:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}

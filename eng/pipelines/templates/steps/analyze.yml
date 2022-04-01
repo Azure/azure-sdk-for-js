@@ -58,60 +58,6 @@ steps:
 
     displayName: "test script"
 
-
-  # WRAP THIS INTO A LOOP FOR EACH ARTIFACT - NO NEED ANYMORE
-  - ${{ each artifact in parameters.Artifacts }}:
-    - script: echo "artifact name = ${{ artifact.name }}"
-      displayName: "print artifact name"
-
-    - script: |
-        tree $(Pipeline.Workspace)
-      displayName: "Show tree"
-
-    # FIRST CONSUME ARTIFACTS ()
-    - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
-    
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        source: 'current' # Options: current, specific
-        #project: # Required when source == Specific
-        #pipeline: # Required when source == Specific
-        #preferTriggeringPipeline: false # Optional
-        #runVersion: 'latest' # Required when source == Specific# Options: latest, latestFromBranch, specific
-        #runBranch: 'refs/heads/master' # Required when source == Specific && RunVersion == LatestFromBranch
-        #runId: # Required when source == Specific && RunVersion == Specific
-        #tags: # Optional
-        artifact: 'packages' # Optional
-        #patterns: '**' # Optional
-        path: '$(Pipeline.Workspace)/downloaded-artifacts'
-    - script: |
-        tree $(Pipeline.Workspace)/downloaded-artifacts
-      displayName: "Show tree"
-
-    # Then I have tu extract the files and store them somewhere.
-    # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
-    - task: ExtractFiles@1
-      inputs:
-        archiveFilePatterns: '$(Pipeline.Workspace)/downloaded-artifacts/**/*.zip' 
-        destinationFolder: '$(Pipeline.Workspace)/html-docs/'
-        #cleanDestinationFolder: true 
-        #overwriteExistingFiles: false
-
-    - script: |
-        tree $(Pipeline.Workspace)/html-docs
-      displayName: "Show tree"
- 
-    # NOW CALL VERIFY LINKS, again, with the artifact url
-  
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: "/html-docs/"
-        WorkingDirectory: "$(Pipeline.Workspace)"
-        Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
-      CheckLinkGuidance: $true
-    
-
   # - template: /eng/common/pipelines/templates/steps/verify-samples.yml
   #   parameters:
   #     ServiceDirectory: ${{ parameters.ServiceDirectory }}
