@@ -67,7 +67,7 @@ jobs:
   #         ServiceDirectory: ${{ parameters.ServiceDirectory }}
   #         TestPipeline: ${{ parameters.TestPipeline }}
 
-  - job: "Analyze Artifacts"
+  - job: "Analyze_artifacts"
     dependsOn: Build
     variables:
       - template: ../variables/globals.yml
