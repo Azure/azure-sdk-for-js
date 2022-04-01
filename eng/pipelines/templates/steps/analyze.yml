@@ -103,22 +103,19 @@ steps:
  
     # NOW CALL VERIFY LINKS, again, with the artifact url
   
-    - template: /eng/common/pipelines/templates/steps/verify-links.yml
-      parameters:
-        ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-          Directory: "$(Build.ArtifactStagingDirectory)/packages/${{ parameters.ServiceDirectory }}/documentation/*.zip"
-          Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
-        ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-          Directory: sdk/${{ parameters.ServiceDirectory }}
-        ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-          # HERE I NEED A PATH TO THE HTML FOLDER
-          Urls: '(Get-ChildItem -Path $(Pipeline.Workspace)/html-docs/ -Recurse -Include *.html)'
-        CheckLinkGuidance: $true
+  - template: /eng/common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: "$(Pipeline.Workspace)/html-docs/"
+        Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
+      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+        Directory: sdk/${{ parameters.ServiceDirectory }}
+      CheckLinkGuidance: $true
     
 
-  - template: /eng/common/pipelines/templates/steps/verify-samples.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+  # - template: /eng/common/pipelines/templates/steps/verify-samples.yml
+  #   parameters:
+  #     ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - script: |
       npm ci
