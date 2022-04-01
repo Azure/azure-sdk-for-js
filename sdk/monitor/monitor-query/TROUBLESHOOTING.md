@@ -7,7 +7,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 - [General troubleshooting](#general-troubleshooting)
   - [Enable client logging](#enable-client-logging)
   - [Troubleshooting authentication issues with logs and metrics query requests](#authentication-errors)
-- [Troubleshooting Logs Query](#troubleshooting-logs-query)
+- [Troubleshooting logs query](#troubleshooting-logs-query)
   - [Troubleshooting insufficient access error](#troubleshooting-insufficient-access-error-for-logs-query)
   - [Troubleshooting invalid Kusto query](#troubleshooting-invalid-kusto-query)
   - [Troubleshooting empty log query results](#troubleshooting-empty-log-query-results)
