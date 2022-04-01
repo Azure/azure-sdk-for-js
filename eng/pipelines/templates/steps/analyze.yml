@@ -106,9 +106,9 @@ steps:
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
       ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: "/html-docs"
+        Directory: "/html-docs/"
         WorkingDirectory: "$(Pipeline.Workspace)"
-        Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
+        Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
       CheckLinkGuidance: $true
     
 
