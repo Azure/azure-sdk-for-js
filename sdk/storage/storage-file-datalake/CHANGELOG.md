@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Add missing browser mapping for `./dist-esm/storage-common/src/BufferScheduler.js`
+
 ### Other Changes
 
 ## 12.8.0 (2022-03-11)
