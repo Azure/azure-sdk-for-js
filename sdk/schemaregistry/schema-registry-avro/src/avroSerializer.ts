@@ -3,7 +3,7 @@
 
 import * as avro from "avsc";
 import {
-  AvroSerializerError,
+  AvroError,
   AvroSerializerOptions,
   DeserializeMessageDataOptions,
   MessageAdapter,
@@ -70,7 +70,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * @param schema - The Avro schema to use.
    * @returns A new message with the serialized value. The structure of message is
    * constrolled by the message factory option.
-   * @throws {@link AvroSerializerError}
+   * @throws {@link AvroError}
    * Thrown if the schema can not be parsed or the value does not match the schema.
    */
   async serializeMessageData(value: unknown, schema: string): Promise<MessageT> {
@@ -111,7 +111,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
    * @param message - The message with the payload to be deserialized.
    * @param options - Decoding options.
    * @returns The deserialized value.
-   * @throws {@link AvroSerializerError}
+   * @throws {@link AvroError}
    * Thrown if the deserialization failed, e.g. because reader and writer schemas are incompatible.
    */
   async deserializeMessageData(
@@ -160,11 +160,11 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
 
     const schemaResponse = await this.registry.getSchema(schemaId);
     if (!schemaResponse) {
-      throw new AvroSerializerError(`Schema with ID '${schemaId}' not found.`);
+      throw new AvroError(`Schema with ID '${schemaId}' not found.`);
     }
 
     if (!schemaResponse.properties.format.match(/^avro$/i)) {
-      throw new AvroSerializerError(
+      throw new AvroError(
         `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'avro'.`
       );
     }
@@ -183,11 +183,11 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
 
     const avroType = getSerializerForSchema(schema);
     if (!avroType.name) {
-      throw new AvroSerializerError("Schema must have a name.");
+      throw new AvroError("Schema must have a name.");
     }
 
     if (!this.schemaGroup) {
-      throw new AvroSerializerError(
+      throw new AvroError(
         "Schema group must have been specified in the constructor options when the client was created in order to serialize."
       );
     }
@@ -207,7 +207,7 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
         id = (await this.registry.getSchemaProperties(description)).id;
       } catch (e) {
         if (e.statusCode === 404) {
-          throw new AvroSerializerError(
+          throw new AvroError(
             `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
           );
         } else {
@@ -233,12 +233,10 @@ export class AvroSerializer<MessageT = MessageWithMetadata> {
 function getSchemaId(contentType: string): string {
   const contentTypeParts = contentType.split("+");
   if (contentTypeParts.length !== 2) {
-    throw new AvroSerializerError(
-      "Content type was not in the expected format of MIME type + schema ID"
-    );
+    throw new AvroError("Content type was not in the expected format of MIME type + schema ID");
   }
   if (contentTypeParts[0] !== avroMimeType) {
-    throw new AvroSerializerError(
+    throw new AvroError(
       `Received content of type ${contentTypeParts[0]} but an avro serializer may only be used on content that is of '${avroMimeType}' type`
     );
   }
@@ -274,7 +272,7 @@ function convertMessage<MessageT>(
   } else if (isMessageWithMetadata(message)) {
     return convertPayload(message.body, message.contentType);
   } else {
-    throw new AvroSerializerError(
+    throw new AvroError(
       `Expected either a message adapter to be provided to the serializer or the input message to have body and contentType fields`
     );
   }
@@ -331,7 +329,7 @@ function wrapError<T>(
     result = f();
   } catch (innerError) {
     const { schemaId } = options;
-    throw new AvroSerializerError(message, {
+    throw new AvroError(message, {
       innerError,
       schemaId,
     });

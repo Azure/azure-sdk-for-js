@@ -7,20 +7,20 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export class AvroSerializer<MessageT = MessageWithMetadata> {
-    constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
-    deserializeMessageData(message: MessageT, options?: DeserializeMessageDataOptions): Promise<unknown>;
-    serializeMessageData(value: unknown, schema: string): Promise<MessageT>;
-}
-
-// @public
-export class AvroSerializerError extends Error {
+export class AvroError extends Error {
     constructor(message: string, options?: {
         innerError?: unknown;
         schemaId?: string;
     });
     innerError?: unknown;
     schemaId?: string;
+}
+
+// @public
+export class AvroSerializer<MessageT = MessageWithMetadata> {
+    constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
+    deserializeMessageData(message: MessageT, options?: DeserializeMessageDataOptions): Promise<unknown>;
+    serializeMessageData(value: unknown, schema: string): Promise<MessageT>;
 }
 
 // @public

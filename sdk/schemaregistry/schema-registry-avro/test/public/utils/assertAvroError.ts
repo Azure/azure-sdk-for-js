@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AvroSerializerError } from "../../../src";
+import { AvroError } from "../../../src";
 import { assert } from "@azure/test-utils";
 
-export async function assertSerializationError<T>(
+export async function assertAvroError<T>(
   p: Promise<T>,
   expectations: {
     innerMessage?: RegExp;
@@ -17,8 +17,8 @@ export async function assertSerializationError<T>(
     await p;
     assert.fail(`Expected promise to error, but resolved successfully`);
   } catch (e) {
-    assert.instanceOf(e, AvroSerializerError);
-    const error = e as AvroSerializerError;
+    assert.instanceOf(e, AvroError);
+    const error = e as AvroError;
     if (message) {
       assert.match(error.message, message);
     }
