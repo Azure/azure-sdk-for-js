@@ -61,7 +61,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^2.0.0",
-    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-rest-pipeline": "^1.8.0",
     "tslib": "^2.2.0",
     "node-fetch": "^2.6.6",
     "minimist": "~1.2.5",
