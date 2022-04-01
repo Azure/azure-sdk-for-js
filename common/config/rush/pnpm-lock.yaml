@@ -1023,6 +1023,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/keyvault-certificates/4.4.0:
+    resolution: {integrity: sha512-42RSptwsDTfMYREnlYZgj85wMj5SyVhtsP2wQePq/k1s7MUKlX3dygCLkkVVJ6rpi1ivQZItwQ/grYu4Zek7TQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 2.2.4
+      '@azure/core-lro': 2.2.4
+      '@azure/core-paging': 1.2.1
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@azure/keyvault-keys/4.2.0:
     resolution: {integrity: sha512-8RoXLWoB9xQ/Knf10A/G0XrQPH49CcadN5DY9qtr2UNdGPTJrlxSr8u7+/4MFwEVQI9vtIt/dUjdOT9xoFCWww==}
     engines: {node: '>=8.0.0'}
@@ -1032,6 +1047,21 @@ packages:
       '@azure/core-lro': 1.0.5
       '@azure/core-paging': 1.2.1
       '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.3
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@azure/keyvault-secrets/4.4.0:
+    resolution: {integrity: sha512-D7s5f+YDJYBLjjAY25Bl0P32h0ztFdHExViqbydsx8QjcrRgq62DJfbYBC4+9/M80BSBH5jRzKw5VWNFFp++AA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 2.2.4
+      '@azure/core-lro': 2.2.4
+      '@azure/core-paging': 1.2.1
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.3
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -8923,13 +8953,14 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-TqaoZ24wc8xAa4r42njRTpH4sbVTGfvEi3eMpHpgvInRLn9z41sOQFXcr/j5/JIIX2ShfwA/JYnzOxBl4hx1lQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-uyrepJ22xaI7YRKoj836BZZvdlSapK28XMSnGqz0uFz6du/cF3TlVWEo45p8RImylkFy6Eq/emY5wu/MQ46VVA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.5
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
@@ -15201,7 +15232,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-O5UYJ+N//lyyfC75Ge1WE9Zyem7pgUc6w/n1U+UADsd9WO6CcDXfJXouIpuoZyxpEMG2WNmbT3+673EAf2bXzA==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-ZWp+ZE6sEGjEbz5n6yAwDW1rY9GlKYG0+J5k8POj1ZubPmblQzU4HNKobBQ/7LJSfYQgc1zxOyBSihbH5amLKg==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -15234,12 +15265,13 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-6XL5Ge2vVQ+kOXHHc7k5pvnXRr3rog9Yvw760sdmYMh1H/5yjgdGsNmXt7GbfaPsPQ+uu6OqAoqYNLxD7uAArg==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-ct6NmYtwck8R55s7cIt56nACxn0YI+BuE/VLF9XHRFKOAU03wm1mqYMnvqwH0oZ1iguu/KcNwElA/WmF1nRYLg==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.5
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -15281,7 +15313,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-HttizuBsTZidkvb3eSDhsCbTVOKn0ZqHdltvQaPR6p9IrLep0ujcQBBj5zzv5d+jC2f/T6ypCtUbhCJWmTsvdQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-BPj4BnN3yufrL4X2HIbxF2INDi1hggcwe8p07w9zPA2KIZ+tlkRxz06a5IPZGuVG0VOuCRO50JHHFNKQMvlkLw==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -15296,7 +15328,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-eP7db/lzqYoGKCOVyZHyDZFnjAlGPrpCgTD77TxT3tJsg0Kgwri9Uft0IwpQgQ7M/D6UX7bV/tNIUJtyC8EGWQ==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-kgSMzd+SujJOrfAoEpE6Gk8Km8bJ51DQ65bElKr6u/5FW/Yk9LyT2/zM8gPY52ExpGoGWzvet/UsyR0ZUcds5g==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -15344,7 +15376,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-wb1ViaEcRHOWPMzy1yLu+3GFICwJygQJtQHE02g+Qcdo6M7eaUydk3FKqMHREHF3VmvlSugg9FCY80VwIE1GsA==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-UIZLrHpMVleOn8mKQkGwuf1OWSmjqGzBKves59k/FqcGf/yNKEvrjbzxxbPuylDcZxQwpqSEIW5BmnPmtdW5kw==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -15896,11 +15928,12 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-MCOTMz4IfgwIZaM8qep+TDZCvXDAAT+IC3fYsPHyyvGPxWShJVH/BZNk0Pdzdenx+BxUoHoGX5Y1CH809HM+Aw==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-yqHGbkqaIAUUV9n7ZrQmhOSlIl9Uh38alfEkU3jiYavkwl4+/e+a+HTefm58hj1R+M+PclDi0oG+gHPSbvnchw==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
+      '@azure/keyvault-certificates': 4.4.0
       '@types/node': 12.20.47
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
@@ -15915,6 +15948,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - debug
+      - encoding
       - supports-color
     dev: false
 
@@ -15942,11 +15976,12 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-5XW0jVhtf0GRP2I8ftVgGWMZpLHXFt0JCNOybaCxxj7ng4sJNY7F3zpx4B1CxXmOXUXvzZJkUIgDGIGcMIKZ6A==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-IykYoGzFD1/XYiIS0P76Ja2KuTfUhcZk87AiUIWYdHGC9VJlWf1ph67cw0E1A8/QP0EQLEeEgB2og0vnM7GSLA==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
+      '@azure/keyvault-secrets': 4.4.0
       '@types/node': 12.20.47
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
@@ -15961,6 +15996,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - debug
+      - encoding
       - supports-color
     dev: false
 
