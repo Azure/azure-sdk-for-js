@@ -116,7 +116,7 @@ If you get an HTTP error with status code 403 (Forbidden), it means the provided
 
 ### Troubleshooting invalid Kusto query
 
-If you get an HTTP error with status code 400 (Bad Request), you may have an error in your Kusto query and you will see an error message similar to the one below.
+If you get an HTTP error with status code 400 (Bad Request), you may have an error in your Kusto query. You'll see an error message similar to the one below.
 
 ```json
 {
