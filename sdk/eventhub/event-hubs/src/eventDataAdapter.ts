@@ -33,11 +33,11 @@ export interface MessageAdapter<MessageT> {
   /**
    * defines how to create a message from a payload and a content type
    */
-  produceMessage: (MessageContent: MessageContent) => MessageT;
+  produce: (MessageContent: MessageContent) => MessageT;
   /**
    * defines how to access the payload and the content type of a message
    */
-  consumeMessage: (message: MessageT) => MessageContent;
+  consume: (message: MessageT) => MessageContent;
 }
 
 // This type should always be equivalent to Omit<Omit<EventData, "body">, "contentType">
@@ -79,14 +79,14 @@ export function createEventDataAdapter(
   params: EventDataAdapterParameters = {}
 ): MessageAdapter<EventData> {
   return {
-    produceMessage: ({ data: body, contentType }: MessageContent) => {
+    produce: ({ data: body, contentType }: MessageContent) => {
       return {
         ...params,
         body,
         contentType,
       };
     },
-    consumeMessage: (message: EventData): MessageContent => {
+    consume: (message: EventData): MessageContent => {
       const { body, contentType } = message;
       if (body === undefined) {
         throw new Error("Expected the body field to be defined");

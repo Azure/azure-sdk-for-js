@@ -234,8 +234,8 @@ export const logger: AzureLogger;
 
 // @public
 export interface MessageAdapter<MessageT> {
-    consumeMessage: (message: MessageT) => MessageContent;
-    produceMessage: (MessageContent: MessageContent) => MessageT;
+    consume: (message: MessageT) => MessageContent;
+    produce: (MessageContent: MessageContent) => MessageT;
 }
 
 // @public
