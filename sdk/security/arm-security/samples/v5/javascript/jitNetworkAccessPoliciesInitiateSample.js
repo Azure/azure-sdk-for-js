@@ -27,7 +27,9 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
     virtualMachines: [
       {
         id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389 }],
+        ports: [
+          { allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() },
+        ],
       },
     ],
   };
