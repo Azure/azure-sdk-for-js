@@ -32,9 +32,7 @@ The following log levels are supported. They're listed from most to least verbos
 - warning
 - error
 
-When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` environment variable, any logs that are written using a log level equal to or less than the one you choose will be emitted.
-
-For example, setting the log level to `warning` will cause all logs that have the log level `warning` or `error` to be emitted.
+When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` environment variable, any logs that are written using a log level equal to or less than the one you choose will be emitted. For example, setting the log level to `warning` will cause all logs that have the log level `warning` or `error` to be emitted.
 
 #### Logging via environment variable
 
