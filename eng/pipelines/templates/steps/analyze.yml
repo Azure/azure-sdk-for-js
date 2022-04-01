@@ -73,7 +73,7 @@ steps:
         downloadType: 'single'
         # This is the name of the docs that you want to download.
         artifactName: 'packages'
-        downloadPath: '$(System.SourcesDirectory)'
+        downloadPath: $(System.SourcesDirectory)
 
     - script: |
         tree $(System.SourcesDirectory)
