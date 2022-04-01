@@ -176,10 +176,7 @@ If your Kusto query returns empty no logs, validate the following:
 - You have the right workspace ID
 - You are setting the correct time interval for the query. Try expanding the time interval for your query to see if that
   returns any results.
-- If your Kusto query also has a time interval, the query is evaluated for the intersection of the time interval in the
-  query string and the time interval set in the `QueryTimeInterval` param provided the query API. The intersection of
-  these time intervals may not have any logs. To avoid any confusion, it's recommended to remove any time interval in
-  the Kusto query string and use `QueryTimeInterval` explicitly.
+- If your Kusto query also has a time interval, the query is evaluated for the intersection of the time interval in the query string and the time interval set in the `QueryTimeInterval` parameter provided to the query API. The intersection of these time intervals may not have any logs. To avoid any confusion, it's recommended to remove any time interval in the Kusto query string. Use `QueryTimeInterval` explicitly.
 
 ### Troubleshooting server timeouts when executing logs query request
 
