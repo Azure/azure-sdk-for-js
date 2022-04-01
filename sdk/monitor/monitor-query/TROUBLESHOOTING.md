@@ -357,9 +357,7 @@ sufficient permissions to query the workspace.
 
 ### Troubleshooting unsupported granularity for metrics query
 
-If you notice the following exception, this is due to an invalid time granularity in the metrics query request. Your
-query might look something like the following where `MetricsQueryOptions().setGranularity()` is set to an unsupported
-duration.
+If you notice the following exception, this is due to an invalid time granularity in the metrics query request. Your query might look something like the following, where `MetricsQueryOptions().setGranularity()` is set to an unsupported duration.
 
 ```json
 {
