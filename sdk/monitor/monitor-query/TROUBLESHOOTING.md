@@ -171,7 +171,7 @@ in the above example). You may also refer to the [Kusto Query Language](https://
 
 ### Troubleshooting empty log query results
 
-If your Kusto query returns empty no logs, please validate the following:
+If your Kusto query returns empty no logs, validate the following:
 
 - You have the right workspace ID
 - You are setting the correct time interval for the query. Try expanding the time interval for your query to see if that
