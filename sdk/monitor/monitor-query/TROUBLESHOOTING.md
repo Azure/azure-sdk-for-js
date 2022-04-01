@@ -229,10 +229,7 @@ You may see an error as follows:
 
 ```
 
-The following code shows a sample on how to set the server timeout to 10 minutes. Note that by setting this server
-timeout, the Azure Monitor Query library will automatically also extend the client timeout to wait for 10 minutes for
-the server to respond. You don't need to configure your HTTP client to extend the response timeout as shown in the
-previous section.
+The following code shows a sample of setting the server timeout to 10 minutes. By setting this server timeout, the Azure Monitor Query library automatically extends the client timeout to wait for 10 minutes for the server to respond. You don't need to configure your HTTP client to extend the response timeout, as shown in the previous section.
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
