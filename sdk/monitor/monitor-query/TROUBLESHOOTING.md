@@ -48,7 +48,8 @@ Add the following to the code
 import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 ```
-#### Logging using setLogLevel()
+
+#### Logging using setLogLevel
 
 Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
