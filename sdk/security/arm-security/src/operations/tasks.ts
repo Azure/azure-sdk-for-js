@@ -24,7 +24,7 @@ import {
   TasksListByHomeRegionResponse,
   TasksGetSubscriptionLevelTaskOptionalParams,
   TasksGetSubscriptionLevelTaskResponse,
-  Enum15,
+  TaskUpdateActionType,
   TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   TasksListByResourceGroupResponse,
   TasksGetResourceGroupLevelTaskOptionalParams,
@@ -92,12 +92,15 @@ export class TasksImpl implements Tasks {
 
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByHomeRegion(
+    ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams
   ): PagedAsyncIterableIterator<SecurityTask> {
-    const iter = this.listByHomeRegionPagingAll(options);
+    const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
       next() {
         return iter.next();
@@ -106,28 +109,37 @@ export class TasksImpl implements Tasks {
         return this;
       },
       byPage: () => {
-        return this.listByHomeRegionPagingPage(options);
+        return this.listByHomeRegionPagingPage(ascLocation, options);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
+    ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams
   ): AsyncIterableIterator<SecurityTask[]> {
-    let result = await this._listByHomeRegion(options);
+    let result = await this._listByHomeRegion(ascLocation, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(continuationToken, options);
+      result = await this._listByHomeRegionNext(
+        ascLocation,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listByHomeRegionPagingAll(
+    ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams
   ): AsyncIterableIterator<SecurityTask> {
-    for await (const page of this.listByHomeRegionPagingPage(options)) {
+    for await (const page of this.listByHomeRegionPagingPage(
+      ascLocation,
+      options
+    )) {
       yield* page;
     }
   }
@@ -136,13 +148,20 @@ export class TasksImpl implements Tasks {
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
+    ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<SecurityTask> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    const iter = this.listByResourceGroupPagingAll(
+      resourceGroupName,
+      ascLocation,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -151,21 +170,31 @@ export class TasksImpl implements Tasks {
         return this;
       },
       byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          ascLocation,
+          options
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
+    ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams
   ): AsyncIterableIterator<SecurityTask[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result = await this._listByResourceGroup(
+      resourceGroupName,
+      ascLocation,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
+        ascLocation,
         continuationToken,
         options
       );
@@ -176,10 +205,12 @@ export class TasksImpl implements Tasks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
+    ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams
   ): AsyncIterableIterator<SecurityTask> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
+      ascLocation,
       options
     )) {
       yield* page;
@@ -196,45 +227,54 @@ export class TasksImpl implements Tasks {
 
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByHomeRegion(
+    ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams
   ): Promise<TasksListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { ascLocation, options },
       listByHomeRegionOperationSpec
     );
   }
 
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param taskName Name of the task object, will be a GUID
    * @param options The options parameters.
    */
   getSubscriptionLevelTask(
+    ascLocation: string,
     taskName: string,
     options?: TasksGetSubscriptionLevelTaskOptionalParams
   ): Promise<TasksGetSubscriptionLevelTaskResponse> {
     return this.client.sendOperationRequest(
-      { taskName, options },
+      { ascLocation, taskName, options },
       getSubscriptionLevelTaskOperationSpec
     );
   }
 
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param taskName Name of the task object, will be a GUID
    * @param taskUpdateActionType Type of the action to do on the task
    * @param options The options parameters.
    */
   updateSubscriptionLevelTaskState(
+    ascLocation: string,
     taskName: string,
-    taskUpdateActionType: Enum15,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { taskName, taskUpdateActionType, options },
+      { ascLocation, taskName, taskUpdateActionType, options },
       updateSubscriptionLevelTaskStateOperationSpec
     );
   }
@@ -243,14 +283,17 @@ export class TasksImpl implements Tasks {
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
+    ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams
   ): Promise<TasksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, ascLocation, options },
       listByResourceGroupOperationSpec
     );
   }
@@ -259,16 +302,19 @@ export class TasksImpl implements Tasks {
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param taskName Name of the task object, will be a GUID
    * @param options The options parameters.
    */
   getResourceGroupLevelTask(
     resourceGroupName: string,
+    ascLocation: string,
     taskName: string,
     options?: TasksGetResourceGroupLevelTaskOptionalParams
   ): Promise<TasksGetResourceGroupLevelTaskResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, taskName, options },
+      { resourceGroupName, ascLocation, taskName, options },
       getResourceGroupLevelTaskOperationSpec
     );
   }
@@ -277,18 +323,27 @@ export class TasksImpl implements Tasks {
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param taskName Name of the task object, will be a GUID
    * @param taskUpdateActionType Type of the action to do on the task
    * @param options The options parameters.
    */
   updateResourceGroupLevelTaskState(
     resourceGroupName: string,
+    ascLocation: string,
     taskName: string,
-    taskUpdateActionType: Enum15,
+    taskUpdateActionType: TaskUpdateActionType,
     options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, taskName, taskUpdateActionType, options },
+      {
+        resourceGroupName,
+        ascLocation,
+        taskName,
+        taskUpdateActionType,
+        options
+      },
       updateResourceGroupLevelTaskStateOperationSpec
     );
   }
@@ -310,15 +365,18 @@ export class TasksImpl implements Tasks {
 
   /**
    * ListByHomeRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByHomeRegion method.
    * @param options The options parameters.
    */
   private _listByHomeRegionNext(
+    ascLocation: string,
     nextLink: string,
     options?: TasksListByHomeRegionNextOptionalParams
   ): Promise<TasksListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { ascLocation, nextLink, options },
       listByHomeRegionNextOperationSpec
     );
   }
@@ -327,16 +385,19 @@ export class TasksImpl implements Tasks {
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
+    ascLocation: string,
     nextLink: string,
     options?: TasksListByResourceGroupNextOptionalParams
   ): Promise<TasksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
+      { resourceGroupName, ascLocation, nextLink, options },
       listByResourceGroupNextOperationSpec
     );
   }

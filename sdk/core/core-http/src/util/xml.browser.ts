@@ -8,9 +8,31 @@ if (!self.document || !self.DOMParser || !self.Node || !self.XMLSerializer) {
     `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment. For more information, please refer to https://aka.ms/azsdk/js/web-workers. `
   );
 }
-const doc = document.implementation.createDocument(null, null, null);
 
-const parser = new DOMParser();
+let cachedDoc: Document | undefined;
+function getDoc(): Document {
+  if (!cachedDoc) {
+    cachedDoc = document.implementation.createDocument(null, null, null);
+  }
+  return cachedDoc;
+}
+
+let cachedParser: DOMParser | undefined;
+function getParser(): DOMParser {
+  if (!cachedParser) {
+    cachedParser = new DOMParser();
+  }
+  return cachedParser;
+}
+
+let cachedSerializer: XMLSerializer | undefined;
+function getSerializer(): XMLSerializer {
+  if (!cachedSerializer) {
+    cachedSerializer = new XMLSerializer();
+  }
+  return cachedSerializer;
+}
+
 export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any> {
   try {
     const updatedOptions: Required<SerializerOptions> = {
@@ -18,7 +40,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
       includeRoot: opts.includeRoot ?? false,
       xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
     };
-    const dom = parser.parseFromString(str, "application/xml");
+    const dom = getParser().parseFromString(str, "application/xml");
     throwIfError(dom);
 
     let obj;
@@ -40,7 +62,7 @@ function getErrorNamespace(): string {
   if (errorNS === undefined) {
     try {
       errorNS =
-        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+        getParser().parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
           .namespaceURI! ?? "";
     } catch (ignored) {
       // Most browsers will return a document containing <parsererror>, but IE will throw.
@@ -124,8 +146,6 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
   return result;
 }
 
-const serializer = new XMLSerializer();
-
 export function stringifyXML(content: unknown, opts: SerializerOptions = {}): string {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",
@@ -134,14 +154,15 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
-    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    getSerializer().serializeToString(dom)
   );
 }
 
 function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
-    const attr = doc.createAttribute(key);
+    const attr = getDoc().createAttribute(key);
     attr.value = attrs[key].toString();
     result.push(attr);
   }
@@ -156,7 +177,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     typeof obj === "number" ||
     typeof obj === "boolean"
   ) {
-    const elem = doc.createElement(elementName);
+    const elem = getDoc().createElement(elementName);
     elem.textContent = obj === undefined || obj === null ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
@@ -168,7 +189,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     }
     return result;
   } else if (typeof obj === "object") {
-    const elem = doc.createElement(elementName);
+    const elem = getDoc().createElement(elementName);
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {

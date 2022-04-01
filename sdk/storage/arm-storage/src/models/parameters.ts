@@ -36,7 +36,8 @@ import {
   LeaseShareRequest as LeaseShareRequestMapper,
   QueueServiceProperties as QueueServicePropertiesMapper,
   StorageQueue as StorageQueueMapper,
-  TableServiceProperties as TableServicePropertiesMapper
+  TableServiceProperties as TableServicePropertiesMapper,
+  Table as TableMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -66,7 +67,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2021-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -591,6 +592,11 @@ export const tableServiceName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: TableMapper
 };
 
 export const tableName: OperationURLParameter = {

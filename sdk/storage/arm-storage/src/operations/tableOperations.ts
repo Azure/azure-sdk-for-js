@@ -255,6 +255,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -263,7 +264,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName1,
     Parameters.tableName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -278,6 +280,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -286,7 +289,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName1,
     Parameters.tableName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
