@@ -1,7 +1,6 @@
 # Troubleshooting Azure Monitor Query client library issues
 
-This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure
-Monitor Query client library for Javascript.
+This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Monitor Query client library for JavaScript.
 
 ## Table of contents
 
