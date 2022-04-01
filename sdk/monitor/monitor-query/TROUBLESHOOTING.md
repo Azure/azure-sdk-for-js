@@ -37,7 +37,9 @@ When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` e
 #### Logging via environment variable
 
 To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
-
+Add the following to the .env
+```text
+AZURE_LOG_LEVEL = info
 ```ts
 require("dotenv").config({ path: ".env" });
 ```
