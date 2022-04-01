@@ -112,11 +112,7 @@ If you get an HTTP error with status code 403 (Forbidden), it means the provided
 
 1. Check that the application or user making the request has sufficient permissions:
    - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
-2. If the user or application is granted sufficient privileges to query the workspace, make sure you are
-   authenticating as that user/application. If you are authenticating using the
-   [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential)
-   then check the logs to verify that the credential used is the one you expected. To enable logging, see [enable
-   client logging](#enable-client-logging) section above.
+2. If the user or application is granted sufficient privileges to query the workspace, ensure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential), check the logs to verify the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
 ### Troubleshooting invalid Kusto query
 
