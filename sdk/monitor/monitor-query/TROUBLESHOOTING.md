@@ -387,5 +387,4 @@ If you notice the following exception, this is due to an invalid time granularit
 }
 ```
 
-As documented in the error message, the supported granularity for metrics queries are 1 minute, 5 minutes, 15 minutes,
-30 minutes, 1 hour, 6 hours, 12 hours and 1 day.
+As documented in the error message, the supported metrics query granularities are 1 minute, 5 minutes, 15 minutes, 30 minutes, 1 hour, 6 hours, 12 hours, and 1 day.
