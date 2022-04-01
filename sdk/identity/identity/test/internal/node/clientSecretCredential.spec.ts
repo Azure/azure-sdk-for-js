@@ -94,9 +94,9 @@ describe("ClientSecretCredential (internal)", function () {
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {
     // The live environment isn't ready for this test
-    // if (isLiveMode()) {
-    //   this.skip();
-    // }
+    if (isLiveMode()) {
+      this.skip();
+    }
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,

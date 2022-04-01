@@ -7,9 +7,10 @@ import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
-import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { OperationOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import {
@@ -49,7 +50,7 @@ import { logger } from "./logger";
 /**
  * Client options used to configure Metrics Advisor API requests.
  */
-export interface MetricsAdvisorClientOptions extends CommonClientOptions {}
+export interface MetricsAdvisorClientOptions extends ExtendedCommonClientOptions {}
 
 /**
  * Options for listing incidents for detection configurations

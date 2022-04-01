@@ -28,30 +28,39 @@ export interface AdaptiveApplicationControls {
   ): Promise<AdaptiveApplicationControlsListResponse>;
   /**
    * Gets an application control VM/server group.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param groupName Name of an application control machine group
    * @param options The options parameters.
    */
   get(
+    ascLocation: string,
     groupName: string,
     options?: AdaptiveApplicationControlsGetOptionalParams
   ): Promise<AdaptiveApplicationControlsGetResponse>;
   /**
    * Update an application control machine group
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param groupName Name of an application control machine group
    * @param body
    * @param options The options parameters.
    */
   put(
+    ascLocation: string,
     groupName: string,
     body: AdaptiveApplicationControlGroup,
     options?: AdaptiveApplicationControlsPutOptionalParams
   ): Promise<AdaptiveApplicationControlsPutResponse>;
   /**
    * Delete an application control machine group
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param groupName Name of an application control machine group
    * @param options The options parameters.
    */
   delete(
+    ascLocation: string,
     groupName: string,
     options?: AdaptiveApplicationControlsDeleteOptionalParams
   ): Promise<void>;
