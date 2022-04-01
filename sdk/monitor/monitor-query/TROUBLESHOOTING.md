@@ -17,7 +17,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
   - [Troubleshooting authorization failed error](#troubleshooting-authorization-failed-error-for-metrics-query)
   - [Troubleshooting unsupported granularity for metrics query](#troubleshooting-unsupported-granularity-for-metrics-query)
 
-## General Troubleshooting
+## General troubleshooting
 
 ### Enable client logging
 
