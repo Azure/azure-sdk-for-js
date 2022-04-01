@@ -321,6 +321,36 @@ export interface SignalRFeature {
   properties?: { [propertyName: string]: string };
 }
 
+/** Live trace configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceConfiguration {
+  /**
+   * Indicates whether or not enable live trace.
+   * When it's set to true, live trace client can connect to the service.
+   * Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories".
+   * Available values: true, false.
+   * Case insensitive.
+   */
+  enabled?: string;
+  /** Gets or sets the list of category configurations. */
+  categories?: LiveTraceCategory[];
+}
+
+/** Live trace category configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceCategory {
+  /**
+   * Gets or sets the live trace category's name.
+   * Available values: ConnectivityLogs, MessagingLogs.
+   * Case insensitive.
+   */
+  name?: string;
+  /**
+   * Indicates whether or the live trace category is enabled.
+   * Available values: true, false.
+   * Case insensitive.
+   */
+  enabled?: string;
+}
+
 /** Resource log configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogConfiguration {
   /** Gets or sets the list of category configurations. */
@@ -363,25 +393,25 @@ export interface UpstreamTemplate {
   /**
    * Gets or sets the matching pattern for hub names. If not set, it matches any hub.
    * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any hub name
-   *     2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
-   *     3. The single hub name, for example, "hub1", it matches "hub1"
+   *     1. "*", it to matches any hub name.
+   *     2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2".
+   *     3. The single hub name, for example, "hub1", it matches "hub1".
    */
   hubPattern?: string;
   /**
    * Gets or sets the matching pattern for event names. If not set, it matches any event.
    * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any event name
-   *     2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
-   *     3. The single event name, for example, "connect", it matches "connect"
+   *     1. "*", it to matches any event name.
+   *     2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect".
+   *     3. The single event name, for example, "connect", it matches "connect".
    */
   eventPattern?: string;
   /**
    * Gets or sets the matching pattern for category names. If not set, it matches any category.
    * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any category name
-   *     2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages"
-   *     3. The single category name, for example, "connections", it matches the category "connections"
+   *     1. "*", it to matches any category name.
+   *     2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages".
+   *     3. The single category name, for example, "connections", it matches the category "connections".
    */
   categoryPattern?: string;
   /**
@@ -462,6 +492,34 @@ export interface UserAssignedIdentityProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+}
+
+/** Custom certificates list. */
+export interface CustomCertificateList {
+  /** List of custom certificates of this resource. */
+  value?: CustomCertificate[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Custom domains list */
+export interface CustomDomainList {
+  /** List of custom domains that bind to this resource. */
+  value?: CustomDomain[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Reference to a resource. */
+export interface ResourceReference {
+  /** Resource ID. */
+  id?: string;
 }
 
 /** A class represents the access keys of the resource. */
@@ -655,6 +713,44 @@ export type SharedPrivateLinkResource = ProxyResource & {
   readonly status?: SharedPrivateLinkResourceStatus;
 };
 
+/** A custom certificate. */
+export type CustomCertificate = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Base uri of the KeyVault that stores certificate. */
+  keyVaultBaseUri: string;
+  /** Certificate secret name. */
+  keyVaultSecretName: string;
+  /** Certificate secret version. */
+  keyVaultSecretVersion?: string;
+};
+
+/** A custom domain */
+export type CustomDomain = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The custom domain name. */
+  domainName: string;
+  /** Reference to a resource. */
+  customCertificate: ResourceReference;
+};
+
 /** Private link resource */
 export type PrivateLinkResource = ProxyResource & {
   /** Group Id of the private link resource */
@@ -736,6 +832,8 @@ export type SignalRResource = TrackedResource & {
    * But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
    */
   features?: SignalRFeature[];
+  /** Live trace configuration of a Microsoft.SignalRService resource. */
+  liveTraceConfiguration?: LiveTraceConfiguration;
   /** Resource log configuration of a Microsoft.SignalRService resource. */
   resourceLogConfiguration?: ResourceLogConfiguration;
   /** Cross-Origin Resource Sharing (CORS) settings. */
@@ -1153,6 +1251,85 @@ export interface UsagesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = SignalRUsageList;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SignalRCustomCertificatesListResponse = CustomCertificateList;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SignalRCustomCertificatesGetResponse = CustomCertificate;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SignalRCustomCertificatesCreateOrUpdateResponse = CustomCertificate;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SignalRCustomCertificatesListNextResponse = CustomCertificateList;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SignalRCustomDomainsListResponse = CustomDomainList;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SignalRCustomDomainsGetResponse = CustomDomain;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SignalRCustomDomainsCreateOrUpdateResponse = CustomDomain;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SignalRCustomDomainsListNextResponse = CustomDomainList;
 
 /** Optional parameters. */
 export interface SignalRPrivateEndpointConnectionsListOptionalParams

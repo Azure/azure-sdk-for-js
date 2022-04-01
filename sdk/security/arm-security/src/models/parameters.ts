@@ -226,7 +226,7 @@ export const complianceResultName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-06-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -982,7 +982,7 @@ export const body5: OperationParameter = {
 export const apiVersion13: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-01-01",
+    defaultValue: "2021-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import { ApiVersion73, KeyVaultClientOptionalParams } from "./models";
 
-export const packageVersion = "4.2.1";
+export const packageVersion = "4.3.0-beta.1";
 
 export class KeyVaultClientContext extends coreClient.ServiceClient {
   apiVersion: ApiVersion73;

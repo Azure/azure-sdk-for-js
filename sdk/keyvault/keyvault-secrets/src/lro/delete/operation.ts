@@ -10,12 +10,7 @@ import {
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
 import { OperationOptions } from "@azure/core-http";
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Secrets.DeleteSecretPoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -44,10 +39,14 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    */
   private deleteSecret(name: string, options: DeleteSecretOptions = {}): Promise<DeletedSecret> {
-    return withTrace("deleteSecret", options, async (updatedOptions) => {
-      const response = await this.client.deleteSecret(this.vaultUrl, name, updatedOptions);
-      return getSecretFromSecretBundle(response);
-    });
+    return tracingClient.withSpan(
+      "DeleteSecretPoller.deleteSecret",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.deleteSecret(this.vaultUrl, name, updatedOptions);
+        return getSecretFromSecretBundle(response);
+      }
+    );
   }
 
   /**
@@ -58,10 +57,14 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     name: string,
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
-    return withTrace("getDeletedSecret", options, async (updatedOptions) => {
-      const response = await this.client.getDeletedSecret(this.vaultUrl, name, updatedOptions);
-      return getSecretFromSecretBundle(response);
-    });
+    return tracingClient.withSpan(
+      "DeleteSecretPoller.getDeletedSecret",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getDeletedSecret(this.vaultUrl, name, updatedOptions);
+        return getSecretFromSecretBundle(response);
+      }
+    );
   }
 
   /**

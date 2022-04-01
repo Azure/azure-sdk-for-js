@@ -27,20 +27,26 @@ export interface ExternalSecuritySolutions {
   ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
   /**
    * Gets a list of external Security Solutions for the subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   listByHomeRegion(
+    ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
   ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
   /**
    * Gets a specific external Security Solution.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param externalSecuritySolutionsName Name of an external security solution.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     externalSecuritySolutionsName: string,
     options?: ExternalSecuritySolutionsGetOptionalParams
   ): Promise<ExternalSecuritySolutionsGetResponse>;

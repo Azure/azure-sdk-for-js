@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import { AvroSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
-import { assertSerializationError } from "./utils/assertSerializationError";
+import { assertAvroError } from "./utils/assertAvroError";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
@@ -77,6 +77,53 @@ describe("Error scenarios", function () {
         /does not exist/
       );
     });
+    it("invalid reader schema", async function () {
+      const writerSchema = {
+        type: "record",
+        name: "AvroUser",
+        namespace: "validation",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "favoriteNumber",
+            type: "int",
+          },
+        ],
+      };
+      const invalidReaderSchema = {
+        type: "record",
+        name: "AvroUser",
+        namespace: "validation",
+        fields: [
+          {
+            name: "name",
+            type: {
+              type: "array",
+              values: [],
+            },
+          },
+        ],
+      };
+      const message = await serializer.serializeMessageData(
+        {
+          name: "",
+          favoriteNumber: 1,
+        },
+        JSON.stringify(writerSchema)
+      );
+      await assertAvroError(
+        serializer.deserializeMessageData(message, {
+          schema: JSON.stringify(invalidReaderSchema),
+        }),
+        {
+          innerMessage: /missing array items/,
+          schemaId: true,
+        }
+      );
+    });
     it("incompatible reader schema", async function () {
       const writerSchema = {
         type: "record",
@@ -115,17 +162,124 @@ describe("Error scenarios", function () {
         },
         JSON.stringify(writerSchema)
       );
-      await assertSerializationError(
+      await assertAvroError(
         serializer.deserializeMessageData(message, {
           schema: JSON.stringify(incompatibleReaderSchema),
         }),
         {
           innerMessage: /no matching field for default-less validation.AvroUser.age/,
+          schemaId: true,
         }
       );
     });
+    it("invalid writer schema at time of deserializing", async function (this: Context) {
+      /**
+       * This test can not run in live mode because the service will validate the schema.
+       */
+      if (isLive) {
+        this.skip();
+      }
+      const { id } = await registry.registerSchema({
+        definition: "",
+        format: "avro",
+        groupName: testGroup,
+        name: "test",
+      });
+      const writerSchema = {
+        type: "record",
+        name: "AvroUser",
+        namespace: "validation",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "favoriteNumber",
+            type: "int",
+          },
+        ],
+      };
+      const { body } = await serializer.serializeMessageData(
+        {
+          name: "",
+          favoriteNumber: 1,
+        },
+        JSON.stringify(writerSchema)
+      );
+      await assertAvroError(
+        serializer.deserializeMessageData({
+          body,
+          contentType: `avro/binary+${id}`,
+        }),
+        {
+          innerMessage: /Unexpected end of JSON input/,
+          schemaId: true,
+        }
+      );
+    });
+    it("incompatible writer schema", async function () {
+      const writerSchema1 = {
+        type: "record",
+        name: "AvroUser",
+        namespace: "validation",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "favoriteNumber",
+            type: "int",
+          },
+        ],
+      };
+      const writerSchema2 = {
+        type: "record",
+        name: "AvroUser",
+        namespace: "validation",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "description",
+            type: "string",
+          },
+        ],
+      };
+      const { id } = await registry.registerSchema({
+        definition: JSON.stringify(writerSchema2),
+        format: "avro",
+        groupName: testGroup,
+        name: "test",
+      });
+      const { body } = await serializer.serializeMessageData(
+        {
+          name: "",
+          favoriteNumber: 1,
+        },
+        JSON.stringify(writerSchema1)
+      );
+      await assertAvroError(
+        serializer.deserializeMessageData({
+          body,
+          contentType: `avro/binary+${id}`,
+        }),
+        {
+          innerMessage: /truncated buffer/,
+          schemaId: true,
+        }
+      );
+    });
+    it("not JSON schema", async function () {
+      await assertAvroError(serializer.serializeMessageData(null, ""), {
+        innerMessage: /Unexpected end of JSON input/,
+      });
+    });
     it("null schema", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         /**
          * The type checking will prevent this from happening but I am including
          * it for completeness.
@@ -140,7 +294,7 @@ describe("Error scenarios", function () {
       /**
        * The serializer expects a record schema as the top-level schema
        */
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -154,7 +308,7 @@ describe("Error scenarios", function () {
       );
     });
     it("enum schema without symbols", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -176,7 +330,7 @@ describe("Error scenarios", function () {
       );
     });
     it("fixed schema without size", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -198,7 +352,7 @@ describe("Error scenarios", function () {
       );
     });
     it("array schema without items", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -220,7 +374,7 @@ describe("Error scenarios", function () {
       );
     });
     it("map schema without values", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -242,7 +396,7 @@ describe("Error scenarios", function () {
       );
     });
     it("record schema without fields", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           null,
           JSON.stringify({
@@ -281,7 +435,7 @@ describe("Error scenarios", function () {
           groupName: testGroup,
         },
       });
-      await assertSerializationError(
+      await assertAvroError(
         customSerializer.serializeMessageData(
           {
             field: 1,
@@ -305,7 +459,7 @@ describe("Error scenarios", function () {
       assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
     });
     it("null", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -324,11 +478,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "null": 1/,
+          schemaId: true,
         }
       );
     });
     it("boolean", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -347,11 +502,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "boolean": 1/,
+          schemaId: true,
         }
       );
     });
     it("int", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: null,
@@ -370,11 +526,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "int": null/,
+          schemaId: true,
         }
       );
     });
     it("long", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: 9007199254740991,
@@ -393,11 +550,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "long": 9007199254740991/,
+          schemaId: true,
         }
       );
     });
     it("float", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: "",
@@ -416,11 +574,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "float": ""/,
+          schemaId: true,
         }
       );
     });
     it("double", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: "",
@@ -439,11 +598,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "double": ""/,
+          schemaId: true,
         }
       );
     });
     it("string", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -462,11 +622,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "string": 1/,
+          schemaId: true,
         }
       );
     });
     it("bytes", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -485,11 +646,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "bytes": 1/,
+          schemaId: true,
         }
       );
     });
     it("union", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: 1,
@@ -508,11 +670,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid \["null","string"\]: 1/,
+          schemaId: true,
         }
       );
     });
     it("enum", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -536,11 +699,12 @@ describe("Error scenarios", function () {
         {
           innerMessage:
             /invalid {"name":"validation.foo","type":"enum","symbols":\["A","B"\]}: "x"/,
+          schemaId: true,
         }
       );
     });
     it("fixed", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -563,11 +727,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid {"name":"validation.foo","type":"fixed","size":16}: "x"/,
+          schemaId: true,
         }
       );
     });
     it("map", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -593,11 +758,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid {"type":"map","values":"long"}: "x"/,
+          schemaId: true,
         }
       );
     });
     it("array", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           {
             field: "x",
@@ -623,11 +789,12 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid {"type":"array","items":"long"}: "x"/,
+          schemaId: true,
         }
       );
     });
     it("record", async function () {
-      await assertSerializationError(
+      await assertAvroError(
         serializer.serializeMessageData(
           "x",
           JSON.stringify({
@@ -644,6 +811,7 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "int": undefined/,
+          schemaId: true,
         }
       );
     });
@@ -673,12 +841,14 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([2, 2, 120]));
       serializedValue.body = Buffer.from([2, 2]);
-      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+      await assertAvroError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /truncated buffer/,
+        schemaId: true,
       });
       serializedValue.body = Buffer.from([2, 2, 120, 5]);
-      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+      await assertAvroError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /trailing data/,
+        schemaId: true,
       });
     });
     it("long", async function () {
@@ -703,8 +873,9 @@ describe("Error scenarios", function () {
         Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31])
       );
       serializedValue.body = Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 32]);
-      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+      await assertAvroError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /potential precision loss/,
+        schemaId: true,
       });
     });
     it("union", async function () {
@@ -726,8 +897,9 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([2, 2, 120]));
       serializedValue.body = Uint8Array.from([5, 2, 120]);
-      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+      await assertAvroError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /invalid union index: -3/,
+        schemaId: true,
       });
     });
     it("enum", async function () {
@@ -753,8 +925,9 @@ describe("Error scenarios", function () {
       );
       assert.deepEqual(serializedValue.body, Uint8Array.from([0]));
       serializedValue.body = Uint8Array.from([10]);
-      await assertSerializationError(serializer.deserializeMessageData(serializedValue), {
+      await assertAvroError(serializer.deserializeMessageData(serializedValue), {
         innerMessage: /invalid validation.foo enum index: 5/,
+        schemaId: true,
       });
     });
   });

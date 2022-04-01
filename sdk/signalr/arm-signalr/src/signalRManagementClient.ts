@@ -12,6 +12,8 @@ import {
   OperationsImpl,
   SignalRImpl,
   UsagesImpl,
+  SignalRCustomCertificatesImpl,
+  SignalRCustomDomainsImpl,
   SignalRPrivateEndpointConnectionsImpl,
   SignalRPrivateLinkResourcesImpl,
   SignalRSharedPrivateLinkResourcesImpl
@@ -20,6 +22,8 @@ import {
   Operations,
   SignalR,
   Usages,
+  SignalRCustomCertificates,
+  SignalRCustomDomains,
   SignalRPrivateEndpointConnections,
   SignalRPrivateLinkResources,
   SignalRSharedPrivateLinkResources
@@ -59,7 +63,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-signalr/5.0.0`;
+    const packageDetails = `azsdk-js-arm-signalr/5.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -74,7 +78,8 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -82,10 +87,12 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2022-02-01";
     this.operations = new OperationsImpl(this);
     this.signalR = new SignalRImpl(this);
     this.usages = new UsagesImpl(this);
+    this.signalRCustomCertificates = new SignalRCustomCertificatesImpl(this);
+    this.signalRCustomDomains = new SignalRCustomDomainsImpl(this);
     this.signalRPrivateEndpointConnections = new SignalRPrivateEndpointConnectionsImpl(
       this
     );
@@ -100,6 +107,8 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   signalR: SignalR;
   usages: Usages;
+  signalRCustomCertificates: SignalRCustomCertificates;
+  signalRCustomDomains: SignalRCustomDomains;
   signalRPrivateEndpointConnections: SignalRPrivateEndpointConnections;
   signalRPrivateLinkResources: SignalRPrivateLinkResources;
   signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;
