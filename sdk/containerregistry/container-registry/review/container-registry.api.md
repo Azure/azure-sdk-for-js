@@ -59,7 +59,7 @@ export interface ArtifactTagProperties {
 
 // @public
 export class ContainerRegistryBlobClient {
-    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpoint: string, repositoryName: string, credential: TokenCredential, options: ContainerRegistryBlobClientOptions);
     deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void>;
     deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void>;
     downloadBlob(digest: string, options?: DownloadBlobOptions): Promise<DownloadBlobResult>;
@@ -69,6 +69,12 @@ export class ContainerRegistryBlobClient {
     uploadBlob(blobStreamFactory: () => NodeJS.ReadableStream): Promise<UploadBlobResult>;
     uploadBlob(blobStream: NodeJS.ReadableStream): Promise<UploadBlobResult>;
     uploadManifest(manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+}
+
+// @public
+export interface ContainerRegistryBlobClientOptions extends CommonClientOptions {
+    audience: string;
+    serviceVersion?: "2021-07-01";
 }
 
 // @public
