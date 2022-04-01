@@ -38,9 +38,9 @@ Install the Azure Maps Render client library with `npm`:
 npm install @azure/maps-render
 ```
 
-### Create and authenticate a `RenderClient`
+### Create and authenticate a `MapsRenderClient`
 
-To create a client object to access the Azure Maps Render API, you will need a `credential` object. The Azure Maps Render client can use an Azure Active Directory credential to authenticate.
+To create a client object to access the Azure Maps Render API, you will need a `credential` object. The Azure Maps Render client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
 
 #### Using an Azure Active Directory Credential
 
@@ -54,17 +54,33 @@ You will also need to register a new AAD application and grant access to Azure M
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
+You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options. The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
+
 ```javascript
-const { RenderClient } = require("@azure/maps-render");
+const { MapsRenderClient } = require("@azure/maps-render");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new RenderClient(new DefaultAzureCredential());
+const client = new MapsRenderClient(new DefaultAzureCredential(), "<maps-account-client-id>");
+```
+
+#### Using a Subscription Key Credential
+
+You can authenticate with your Azure Maps Subscription Key. Please install the `@azure/core-auth` package:
+
+```bash
+npm install @azure/core-auth
+```
+
+```javascript
+const { MapsRenderClient } = require("@azure/maps-render");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const client = new MapsRenderClient(new AzureKeyCredential("<subscription-key>"));
 ```
 
 ## Key concepts
 
 ### RenderClient
 
-`RenderClient` is the primary interface for developers using the Azure Maps Render client library. Explore the methods on this client object to understand the different features of the Azure Maps Render service that you can access.
+`MapsRenderClient` is the primary interface for developers using the Azure Maps Render client library. Explore the methods on this client object to understand the different features of the Azure Maps Render service that you can access.
 
 ## Examples
 
@@ -77,20 +93,9 @@ The following sections provide several code snippets covering some of the most c
 ### Request map tiles in vector or raster formats
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const operationOptions = {
-  requestOptions: {
-    customHeaders: { "x-ms-client-id": process.env.MAPS_CLIENT_ID },
-  },
-};
-
-const client = new RenderClient(credential);
-const mapTileOptions = { tileSize: "512" };
 const tileIndex = { z: 6, x: 9, y: 22 };
-const response = await client.getMapTileV2("microsoft.base", tileIndex, {
-  ...mapTileOptions,
-  ...operationOptions,
-});
+const mapTileOptions = { tileSize: "512" };
+const mapTile = await client.getMapTile(KnownTilesetID.MicrosoftBase, tileIndex, mapTileOptions);
 ```
 
 The response will contain the tile object based on the request parameters.
@@ -98,61 +103,17 @@ The response will contain the tile object based on the request parameters.
 ### Request map copyright attribution information
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const operationOptions = {
-  requestOptions: {
-    customHeaders: { "x-ms-client-id": process.env.MAPS_CLIENT_ID },
-  },
+const boundingBox = {
+  bottomRight: { latitude: 47.57949, longitude: -122.247157 },
+  topLeft: { latitude: 47.668372, longitude: -122.414162 },
 };
-
-const client = new RenderClient(credential).renderV2;
-const attribution = await client.getMapAttribution(
-  "microsoft.base",
-  6,
-  [-122.414162, 47.57949, -122.247157, 47.668372],
-  operationOptions
-);
-```
-
-Response
-
-```yaml
-{ copyrights: ['<a data-azure-maps-attribution-tileset="microsoft.base">&copy;2021 TomTom</a>'] }
+const attribution = await client.getMapAttribution(KnownTilesetID.MicrosoftBase, 6, boundingBox);
 ```
 
 ### Request metadata for a tileset
 
 ```javascript
-const credential = new DefaultAzureCredential();
-const operationOptions = {
-  requestOptions: {
-    customHeaders: { "x-ms-client-id": process.env.MAPS_CLIENT_ID },
-  },
-};
-
-const client = new RenderClient(credential).renderV2;
-const metadata = await client.getMapTileset("microsoft.base", operationOptions);
-```
-
-Response
-
-```yaml
-{
-  tilejson: "2.2.0",
-  name: "microsoft.base",
-  version: "1.0.0",
-  attribution: '<a data-azure-maps-attribution-tileset="microsoft.base">&copy;2021 TomTom</a>',
-  scheme: "xyz",
-  tiles:
-    [
-      "https://atlas.microsoft.com/map/tile?api-version=2.1&tilesetId=microsoft.base&zoom={z}&x={x}&y={y}",
-    ],
-  grids: [],
-  data: [],
-  minzoom: 0,
-  maxzoom: 22,
-  bounds: [-180, -90, 180, 90],
-}
+const tileset = await client.getMapTileset(KnownTilesetID.MicrosoftBase);
 ```
 
 ## Troubleshooting
