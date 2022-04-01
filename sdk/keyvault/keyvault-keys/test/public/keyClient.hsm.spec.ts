@@ -9,7 +9,6 @@ import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
 import { getServiceVersion, onVersions } from "./utils/common";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 
@@ -66,9 +65,9 @@ onVersions({ minVer: "7.2" }).describe(
       });
 
       it("supports tracing", async () => {
-        await supportsTracing(
-          (tracingOptions) => hsmClient.getRandomBytes(128, { tracingOptions }),
-          ["Azure.KeyVault.Keys.KeyClient.getRandomBytes"]
+        await assert.supportsTracing(
+          (options) => hsmClient.getRandomBytes(1, options),
+          ["KeyClient.getRandomBytes"]
         );
       });
     });

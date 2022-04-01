@@ -3,7 +3,6 @@
 
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
@@ -356,13 +355,31 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("supports tracing", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await supportsTracing(
-      (tracingOptions) => client.setSecret(secretName, "value", { tracingOptions }),
-      ["Azure.KeyVault.Secrets.SecretClient.setSecret"]
+  it("traces through the various operations", async () => {
+    const secretName = recorder.getUniqueName("secrettrace");
+
+    await assert.supportsTracing(
+      async (options) => {
+        const secret = await client.setSecret(secretName, "someValue", options);
+        await client.getSecret(secretName, options);
+        await client.updateSecretProperties(secretName, secret.properties.version!, options);
+        await client.backupSecret(secretName, options);
+        const poller = await client.beginDeleteSecret(secretName, {
+          ...options,
+          ...testPollerProperties,
+        });
+        await poller.pollUntilDone();
+        await client.purgeDeletedSecret(secretName, options);
+      },
+      [
+        "SecretClient.setSecret",
+        "SecretClient.getSecret",
+        "SecretClient.updateSecretProperties",
+        "SecretClient.backupSecret",
+        "DeleteSecretPoller.deleteSecret",
+        "DeleteSecretPoller.getDeletedSecret",
+        "SecretClient.purgeDeletedSecret",
+      ]
     );
   });
 });
