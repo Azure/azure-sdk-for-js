@@ -15,7 +15,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
   - [Troubleshooting partially successful logs query requests](#troubleshooting-partially-successful-logs-query-requests)
 - [Troubleshooting metrics query](#troubleshooting-metrics-query)
   - [Troubleshooting authorization failed error](#troubleshooting-authorization-failed-error-for-metrics-query)
-  - [Troubleshooting unsupported granularity for metrics query](#troubleshooting-unsupported-granularity-for-metrics-query)
+  - [Troubleshooting unsupported granularity](#troubleshooting-unsupported-granularity-for-metrics-query)
 
 ## General troubleshooting
 
