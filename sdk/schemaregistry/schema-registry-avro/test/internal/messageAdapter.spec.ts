@@ -70,7 +70,7 @@ describe("Message Adapters", function () {
               body: undefined,
               contentType: "",
             }),
-          /Expected the data field to be defined/
+          /Expected the body field to be defined/
         );
       });
       it("consumeMessage rejects messages with no contentType", async () => {
