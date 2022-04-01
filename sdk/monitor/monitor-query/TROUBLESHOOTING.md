@@ -52,7 +52,7 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-**NOTE**: When logging the body of request and response, please ensure that they do not contain confidential information.
+**NOTE**: When logging the body of request and response, ensure that they don't contain confidential information.
 
 For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
