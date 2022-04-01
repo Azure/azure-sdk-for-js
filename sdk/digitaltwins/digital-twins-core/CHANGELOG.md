@@ -4,10 +4,10 @@
 
 ### Features Added
 
-- This release is a preview targeting the new data-plane api version: 2021-06-30-preview.
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Added support for [property sourceTime](https://docs.microsoft.com/en-us/azure/digital-twins/how-to-manage-twin#update-a-propertys-sourcetime).
 
 ## 1.0.3 (2021-01-15)
 
