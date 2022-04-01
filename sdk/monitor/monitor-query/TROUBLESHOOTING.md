@@ -4,7 +4,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 ## Table of contents
 
-- [General Troubleshooting](#general-troubleshooting)
+- [General troubleshooting](#general-troubleshooting)
   - [Enable client logging](#enable-client-logging)
   - [Troubleshooting authentication issues with logs and metrics query requests](#authentication-errors)
 - [Troubleshooting Logs Query](#troubleshooting-logs-query)
