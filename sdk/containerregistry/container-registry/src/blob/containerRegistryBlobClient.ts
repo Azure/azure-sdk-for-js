@@ -248,9 +248,7 @@ export class ContainerRegistryBlobClient {
       const expectedDigest = await calculateDigest(bodyData);
 
       if (digest !== expectedDigest) {
-        throw new Error(`Docker-Content-Digest header does not match calculated digest.
-        Expected: ${expectedDigest}
-        Actual: ${digest}`);
+        throw new Error("Docker-Content-Digest header does not match calculated digest.");
       }
 
       const manifest = serializer.deserialize(Mappers.OCIManifest, JSON.parse(body), "OCIManifest");
