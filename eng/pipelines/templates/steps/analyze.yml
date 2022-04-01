@@ -83,17 +83,16 @@ steps:
         #tags: # Optional
         artifact: 'packages' # Optional
         #patterns: '**' # Optional
-        path: '$(Pipeline.Workspace)' 
-
+        path: '$(Pipeline.Workspace)/downloaded-artifacts'
     - script: |
-        tree $(Pipeline.Workspace)
+        tree $(Pipeline.Workspace)/downloaded-artifacts
       displayName: "Show tree"
 
     # Then I have tu extract the files and store them somewhere.
     # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
     - task: ExtractFiles@1
       inputs:
-        #archiveFilePatterns: '$(Pipeline.Workspace)/**/*.zip' 
+        archiveFilePatterns: '$(Pipeline.Workspace)/downloaded-artifacts/**/*.zip' 
         destinationFolder: '$(Pipeline.Workspace)/html-docs/'
         #cleanDestinationFolder: true 
         #overwriteExistingFiles: false
