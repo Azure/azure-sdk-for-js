@@ -21,7 +21,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 ### Enable client logging
 
-To troubleshoot issues with Azure Monitor query library, it is important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues.
+To troubleshoot issues with Azure Monitor Query library, it's important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues.
 
 The Azure client libraries for JS allow you to enable logging either through the environment variable or at runtime.
 
