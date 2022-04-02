@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
 import * as express from "express";
 import { readFileSync } from "fs";
 import { Server } from "http";
@@ -35,13 +34,11 @@ export interface PepareServerResult {
  */
 export async function prepareServer(serverOptions: ServerOptions): Promise<PepareServerResult> {
   const app = express();
-  const database: Record<string, UserState> = {};
-  const { port, serverSecret } = serverOptions;
 
   /**
    * Logging calls.
    */
-  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+  app.use((req: express.Request, _res: express.Response, next: express.NextFunction) => {
     console.log("Playwright Express test server:", req.url);
     next();
   });
@@ -49,7 +46,7 @@ export async function prepareServer(serverOptions: ServerOptions): Promise<Pepar
   /**
    * Endpoint that loads the index.js
    */
-  app.get("/index.js", async (req: express.Request, res: express.Response) => {
+  app.get("/index.js", async (_req: express.Request, res: express.Response) => {
     const indexContent = readFileSync("./test/playwright/rollup/dist/index.js", {
       encoding: "utf8",
     });
@@ -59,7 +56,7 @@ export async function prepareServer(serverOptions: ServerOptions): Promise<Pepar
   /**
    * Home URI
    */
-  app.get("/", async (req: express.Request, res: express.Response) => {
+  app.get("/", async (_req: express.Request, res: express.Response) => {
     const indexContent = readFileSync("./test/playwright/index.html", { encoding: "utf8" });
     res.send(indexContent);
   });
@@ -74,7 +71,9 @@ export async function prepareServer(serverOptions: ServerOptions): Promise<Pepar
       });
     },
     async stop() {
-      server.close();
+      if (server) {
+        server.close();
+      }
     },
   };
 }

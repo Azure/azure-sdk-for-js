@@ -33,3 +33,4 @@ stages:
         IDENTITY_SP_CERT_SNI: $(Agent.TempDirectory)/testsni.pfx
         IDENTITY_SP_CERT_SNI_PEM: $(Agent.TempDirectory)/testsni.pem
         IDENTITY_PEM_CONTENTS: $(net-identity-spcert-pem)
+        AZURE_IDENTITY_BROWSER_CLIENT_ID: $(identity-azure-sdk-js-test-browser-client-id)
