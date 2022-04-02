@@ -41,12 +41,13 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
 
-function withRequiredProperty<T, U extends keyof T>(property: U, obj: T): T & Required<Pick<T, U>> {
+function assertHasProperty<T, U extends keyof T>(
+  obj: T,
+  property: U
+): asserts obj is T & Required<Pick<T, U>> {
   if (!Object.prototype.hasOwnProperty.call(obj, property)) {
     throw new RestError(`Expected property ${property} to be defined.`);
   }
-
-  return obj as T & Required<Pick<T, U>>;
 }
 
 /**
@@ -207,17 +208,16 @@ export class ContainerRegistryBlobClient {
 
       const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
 
-      const { dockerContentDigest } = withRequiredProperty(
-        "dockerContentDigest",
-        await this.client.containerRegistry.createManifest(
-          this.repositoryName,
-          tagOrDigest,
-          manifestBody,
-          { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
-        )
+      const createManifestResult = await this.client.containerRegistry.createManifest(
+        this.repositoryName,
+        tagOrDigest,
+        manifestBody,
+        { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
       );
 
-      return { digest: dockerContentDigest };
+      assertHasProperty(createManifestResult, "dockerContentDigest");
+
+      return { digest: createManifestResult.dockerContentDigest };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -328,10 +328,11 @@ export class ContainerRegistryBlobClient {
     const { span } = createSpan("ContainerRegistryBlobClient-uploadBlob", undefined);
 
     try {
-      const startUploadResult = withRequiredProperty(
-        "location",
-        await this.client.containerRegistryBlob.startUpload(this.repositoryName)
+      const startUploadResult = await this.client.containerRegistryBlob.startUpload(
+        this.repositoryName
       );
+
+      assertHasProperty(startUploadResult, "location");
 
       let requestBody: NodeJS.ReadableStream | Buffer;
       let digest: string;
@@ -344,13 +345,12 @@ export class ContainerRegistryBlobClient {
         digest = await calculateDigest(requestBody);
       }
 
-      const uploadChunkResult = withRequiredProperty(
-        "location",
-        await this.client.containerRegistryBlob.uploadChunk(
-          startUploadResult.location.substring(1),
-          requestBody
-        )
+      const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
+        startUploadResult.location.substring(1),
+        requestBody
       );
+
+      assertHasProperty(uploadChunkResult, "location");
 
       const { dockerContentDigest: digestFromResponse } =
         await this.client.containerRegistryBlob.completeUpload(
