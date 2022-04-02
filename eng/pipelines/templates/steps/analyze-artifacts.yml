@@ -60,22 +60,22 @@ steps:
       #tags: # Optional
       artifact: 'packages' # Optional
       #patterns: '**' # Optional
-      path: '$(Pipeline.Workspace)/downloaded-artifacts'
+      path: '$(Build.SourcesDirectory)/downloaded-artifacts'
   - script: |
-      tree $(Pipeline.Workspace)/downloaded-artifacts
+      tree $(Build.SourcesDirectory)/downloaded-artifacts
     displayName: "Show tree"
 
   # Then I have tu extract the files and store them somewhere.
   # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
   - task: ExtractFiles@1
     inputs:
-      archiveFilePatterns: '$(Pipeline.Workspace)/downloaded-artifacts/**/*.zip' 
-      destinationFolder: '$(Pipeline.Workspace)/html-docs/'
+      archiveFilePatterns: '$(Build.SourcesDirectory)/downloaded-artifacts/**/*.zip' 
+      destinationFolder: '$(Build.SourcesDirectory)/html-docs/'
       #cleanDestinationFolder: true 
       #overwriteExistingFiles: false
 
   - script: |
-      tree $(Pipeline.Workspace)/html-docs
+      tree $(Build.SourcesDirectory)/html-docs
     displayName: "Show tree"
 
   # NOW CALL VERIFY LINKS, again, with the artifact url
@@ -83,9 +83,18 @@ steps:
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: "/html-docs/"
-      WorkingDirectory: "$(Pipeline.Workspace)"
+      WorkingDirectory: "$(Build.SourcesDirectory)"
       Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
       CheckLinkGuidance: $true
+
+  # Experiment: Hardcoded path
+  - template: /eng/common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      Directory: "/html-docs/azure-search-documents/11.3.0-beta.8/classes"
+      WorkingDirectory: "$(Build.SourcesDirectory)"
+      Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
+      CheckLinkGuidance: $true
+      DisplayName: "Experiment: Verify Links in Classes htmls"
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
