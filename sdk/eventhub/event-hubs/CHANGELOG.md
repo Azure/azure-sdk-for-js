@@ -5,6 +5,9 @@
 ### Features Added
 
 ### Breaking Changes
+- `MessageWithMetadata` has been renamed to `MessageContent`.
+- `MessageContent`'s `body` has been renamed to `data`.
+- `MessageAdapter`'s `consumeMessage` and `produceMessage` have been renamed to `consume` and `produce`.
 
 ### Bugs Fixed
 

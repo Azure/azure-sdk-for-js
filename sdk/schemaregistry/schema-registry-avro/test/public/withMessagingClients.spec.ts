@@ -120,7 +120,7 @@ describe("With messaging clients", function () {
         } = settings;
         if (!alreadyEnqueued) {
           try {
-            const message = await serializer.serializeMessageData(value, writerSchema);
+            const message = await serializer.serialize(value, writerSchema);
             await client.send(message);
           } catch (e) {
             await client.cleanup();
@@ -136,7 +136,7 @@ describe("With messaging clients", function () {
         })) {
           try {
             await processMessage(
-              serializer.deserializeMessageData(receivedMessage, {
+              serializer.deserialize(receivedMessage, {
                 schema: readerSchema,
               })
             );

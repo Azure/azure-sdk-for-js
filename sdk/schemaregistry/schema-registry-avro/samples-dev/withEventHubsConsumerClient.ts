@@ -69,7 +69,7 @@ export async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `serializeMessageData` automatically register
+  // You can also skip this step and let `serialize` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
@@ -104,7 +104,7 @@ export async function main() {
           if (event.contentType !== undefined && event.body) {
             const contentTypeParts = event.contentType.split("+");
             if (contentTypeParts[0] === "avro/binary") {
-              const deserializedEvent = await serializer.deserializeMessageData(event);
+              const deserializedEvent = await serializer.deserialize(event);
               console.log(`Deserialized message: '${JSON.stringify(deserializedEvent)}'`);
             }
           }
