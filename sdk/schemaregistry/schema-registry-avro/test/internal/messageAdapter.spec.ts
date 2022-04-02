@@ -63,11 +63,10 @@ describe("Message Adapters", function () {
       it("implements MessageAdapter", async () => {
         assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
       });
-      it("consumeMessage rejects undefined data", async () => {
+      it("consumeMessage rejects undefined body", async () => {
         assert.throws(
           () =>
             adapter.consume({
-              body: undefined,
               contentType: "",
             }),
           /Expected the body field to be defined/
