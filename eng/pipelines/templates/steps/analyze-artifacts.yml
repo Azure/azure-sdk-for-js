@@ -80,21 +80,20 @@ steps:
 
   # NOW CALL VERIFY LINKS, again, with the artifact url
 
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      Directory: "/html-docs/"
-      WorkingDirectory: "$(Build.SourcesDirectory)"
-      Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
-      CheckLinkGuidance: $true
+  # - template: /eng/common/pipelines/templates/steps/verify-links.yml
+  #   parameters:
+  #     Directory: "/html-docs/"
+  #     WorkingDirectory: "$(Build.SourcesDirectory)"
+  #     Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
+  #     CheckLinkGuidance: $true
 
   # Experiment: Hardcoded path
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: "/html-docs/azure-search-documents/11.3.0-beta.8/classes"
       WorkingDirectory: "$(Build.SourcesDirectory)"
-      Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html -Exclude assets)
+      Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
       CheckLinkGuidance: $true
-      DisplayName: "Experiment: Verify Links in Classes htmls"
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
