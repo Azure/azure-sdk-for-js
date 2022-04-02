@@ -5,13 +5,7 @@ import * as http from "http";
 import * as https from "https";
 import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
-import {
-  HttpHeaders,
-  PipelineRequest,
-  PipelineResponse,
-  ProxySettings,
-  SendRequest,
-} from "../interfaces";
+import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
@@ -36,6 +30,15 @@ const globalBypassedMap: Map<string, boolean> = new Map();
 
 let httpsProxyAgent: https.Agent | undefined;
 let httpProxyAgent: http.Agent | undefined;
+
+/**
+ * A function to reset the cached agents.
+ * @internal
+ */
+export function resetCachedProxyAgents(): void {
+  httpsProxyAgent = undefined;
+  httpProxyAgent = undefined;
+}
 
 function getEnvironmentValue(name: string): string | undefined {
   if (process.env[name]) {
@@ -139,7 +142,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
  */
 export function getProxyAgentOptions(
   proxySettings: ProxySettings,
-  requestHeaders: HttpHeaders
+  { headers, tlsSettings }: PipelineRequest
 ): HttpProxyAgentOptions {
   let parsedProxyUrl: URL;
   try {
@@ -154,7 +157,8 @@ export function getProxyAgentOptions(
     hostname: parsedProxyUrl.hostname,
     port: proxySettings.port,
     protocol: parsedProxyUrl.protocol,
-    headers: requestHeaders.toJSON(),
+    headers: headers.toJSON(),
+    ...tlsSettings,
   };
   if (proxySettings.username && proxySettings.password) {
     proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
@@ -165,6 +169,12 @@ export function getProxyAgentOptions(
 }
 
 function setProxyAgentOnRequest(request: PipelineRequest): void {
+  // Custom Agent should take precedence so if one is present
+  // we should skip to avoid overwriting it.
+  if (request.agent) {
+    return;
+  }
+
   const url = new URL(request.url);
 
   const isInsecure = url.protocol !== "https:";
@@ -173,13 +183,13 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
   if (proxySettings) {
     if (isInsecure) {
       if (!httpProxyAgent) {
-        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
         httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
       }
       request.agent = httpProxyAgent;
     } else {
       if (!httpsProxyAgent) {
-        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
         httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
       }
       request.agent = httpsProxyAgent;

@@ -3,6 +3,7 @@
 ## 1.8.1 (Unreleased)
 
 ### Features Added
+- Support TLS Settigs for client certificate authentication. [#]()
 
 - Exposed type guard for RestError called `isRestError` for typesafe exception handling.
 

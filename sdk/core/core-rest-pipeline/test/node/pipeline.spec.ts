@@ -1,0 +1,153 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { assert } from "chai";
+import * as https from "https";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import sinon from "sinon";
+import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
+import { createHttpHeaders } from "../../src/httpHeaders";
+import { HttpClient } from "../../src/interfaces";
+import { createNodeHttpClient } from "../../src/nodeHttpClient";
+import { createEmptyPipeline } from "../../src/pipeline";
+import {
+  proxyPolicy,
+  proxyPolicyName,
+  resetCachedProxyAgents,
+} from "../../src/policies/proxyPolicy";
+import { tlsPolicy } from "../../src/policies/tlsPolicy";
+
+describe("HttpsPipeline", function () {
+  afterEach(() => {
+    resetCachedProxyAgents();
+  });
+
+  describe("Agent creation", function () {
+    afterEach(() => {
+      sinon.restore();
+      sinon.reset();
+    });
+
+    it("should create a proxy agent", async function () {
+      const pipeline = createPipelineFromOptions({
+        proxyOptions: { host: "https://foo", port: 12345 },
+      });
+      const httpClient: HttpClient = {
+        sendRequest: async (request) => {
+          assert.instanceOf(request.agent, HttpsProxyAgent);
+          return {
+            request,
+            headers: createHttpHeaders(),
+            status: 200,
+          };
+        },
+      };
+      await pipeline.sendRequest(httpClient, {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "1",
+        timeout: 10000,
+        url: "https://localhost",
+        withCredentials: false,
+      });
+    });
+
+    it("should pass tlsSettings to proxy", async function () {
+      const fakePfx = "fakeCert";
+      const pipeline = createPipelineFromOptions({
+        proxyOptions: { host: "https://foo2", port: 12345 },
+      });
+      const httpClient: HttpClient = {
+        sendRequest: async (request) => {
+          assert.instanceOf(request.agent, HttpsProxyAgent);
+          assert.equal((request.agent as any).proxy.pfx, fakePfx);
+          return {
+            request,
+            headers: createHttpHeaders(),
+            status: 200,
+          };
+        },
+      };
+
+      pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }), { beforePolicies: [proxyPolicyName] });
+
+      await pipeline.sendRequest(httpClient, {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "1",
+        timeout: 10000,
+        url: "https://localhost2",
+        withCredentials: false,
+      });
+    });
+
+    it("should create an agent with certificates", async function () {
+      const pipeline = createEmptyPipeline();
+      const fakePfx = "fakecert";
+      const httpClient: HttpClient = createNodeHttpClient();
+      sinon.stub(https, "request").callsFake((request: any) => {
+        assert.equal(request.agent.options.pfx, fakePfx);
+        throw new Error("ok");
+      });
+
+      pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+    });
+
+    it("should honor custom agent when proxy policy is enabled", async () => {
+      const pipeline = createEmptyPipeline();
+      const httpClient: HttpClient = {
+        sendRequest: (req) => {
+          assert.equal(req.agent?.maxSockets, 99);
+          return {} as any;
+        },
+      };
+      pipeline.addPolicy(proxyPolicy());
+
+      await pipeline.sendRequest(httpClient, {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "1",
+        timeout: 1000,
+        url: "https://localhost",
+        withCredentials: false,
+        agent: new https.Agent({ maxSockets: 99 }),
+        proxySettings: { host: "https://localhost", port: 12345 },
+      });
+    });
+
+    it("should honor custom agent when tlsSettings are passed", async () => {
+      const pipeline = createEmptyPipeline();
+      const httpClient: HttpClient = {
+        sendRequest: (req) => {
+          assert.equal(req.agent?.maxSockets, 99);
+          return {} as any;
+        },
+      };
+      pipeline.addPolicy(tlsPolicy({ pfx: "foo" }));
+
+      await pipeline.sendRequest(httpClient, {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "1",
+        timeout: 1000,
+        url: "https://localhost",
+        withCredentials: false,
+        agent: new https.Agent({ maxSockets: 99 }),
+        proxySettings: { host: "https://localhost", port: 12345 },
+      });
+    });
+  });
+});

@@ -243,28 +243,21 @@ class NodeHttpClient implements HttpClient {
   }
 
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
-    if (!request.disableKeepAlive) {
-      if (isInsecure) {
-        if (!this.httpKeepAliveAgent) {
-          this.httpKeepAliveAgent = new http.Agent({
-            keepAlive: true,
-          });
-        }
+    if (!request.tlsSettings && request.disableKeepAlive) {
+      return isInsecure ? http.globalAgent : https.globalAgent;
+    }
 
-        return this.httpKeepAliveAgent;
-      } else {
-        if (!this.httpsKeepAliveAgent) {
-          this.httpsKeepAliveAgent = new https.Agent({
-            keepAlive: true,
-          });
-        }
+    const agentOptions: https.AgentOptions = {
+      ...request.tlsSettings,
+      keepAlive: !request.disableKeepAlive,
+    };
 
-        return this.httpsKeepAliveAgent;
-      }
-    } else if (isInsecure) {
-      return http.globalAgent;
+    if (isInsecure) {
+      this.httpKeepAliveAgent = new http.Agent(agentOptions);
+      return this.httpKeepAliveAgent;
     } else {
-      return https.globalAgent;
+      this.httpsKeepAliveAgent = new https.Agent(agentOptions);
+      return this.httpsKeepAliveAgent;
     }
   }
 }
