@@ -19,3 +19,13 @@ export function extractNextLink(value: string | undefined): string | undefined {
 export function isDigest(tagOrDigest: string): boolean {
   return tagOrDigest.includes(":");
 }
+
+export async function readStreamToEnd(stream: NodeJS.ReadableStream): Promise<Buffer> {
+  const buffers: Buffer[] = [];
+
+  return new Promise((resolve, reject) => {
+    stream.on("data", (chunk) => buffers.push(chunk));
+    stream.on("end", () => resolve(Buffer.concat(buffers)));
+    stream.on("error", (err) => reject(err));
+  });
+}

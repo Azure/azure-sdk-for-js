@@ -25,127 +25,6 @@ export interface AcrErrorInfo {
   detail?: Record<string, unknown>;
 }
 
-/** Returns the requested manifest file */
-export interface Manifest {
-  /** Schema version */
-  schemaVersion?: number;
-}
-
-export interface ManifestListAttributes {
-  /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
-  mediaType?: string;
-  /** The size in bytes of the object */
-  size?: number;
-  /** The digest of the content, as defined by the Registry V2 HTTP API Specification */
-  digest?: string;
-  /** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
-  platform?: Platform;
-}
-
-/** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
-export interface Platform {
-  /** Specifies the CPU architecture, for example amd64 or ppc64le. */
-  architecture?: string;
-  /** The os field specifies the operating system, for example linux or windows. */
-  os?: string;
-  /** The optional os.version field specifies the operating system version, for example 10.0.10586. */
-  osVersion?: string;
-  /** The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k */
-  osFeatures?: string[];
-  /** The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU. */
-  variant?: string;
-  /** The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes */
-  features?: string[];
-}
-
-/** Docker V2 image layer descriptor including config and layers */
-export interface Descriptor {
-  /** Layer media type */
-  mediaType?: string;
-  /** Layer size */
-  size?: number;
-  /** Layer digest */
-  digest?: string;
-  /** Specifies a list of URIs from which this object may be downloaded. */
-  urls?: string[];
-  /** Additional information provided through arbitrary metadata. */
-  annotations?: Annotations;
-}
-
-/** Additional information provided through arbitrary metadata. */
-export interface Annotations {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  created?: Date;
-  /** Contact details of the people or organization responsible for the image. */
-  authors?: string;
-  /** URL to find more information on the image. */
-  url?: string;
-  /** URL to get documentation on the image. */
-  documentation?: string;
-  /** URL to get source code for building the image. */
-  source?: string;
-  /** Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible */
-  version?: string;
-  /** Source control revision identifier for the packaged software. */
-  revision?: string;
-  /** Name of the distributing entity, organization or individual. */
-  vendor?: string;
-  /** License(s) under which contained software is distributed as an SPDX License Expression. */
-  licenses?: string;
-  /** Name of the reference for a target. */
-  name?: string;
-  /** Human-readable title of the image */
-  title?: string;
-  /** Human-readable description of the software packaged in the image */
-  description?: string;
-}
-
-/** Image layer information */
-export interface FsLayer {
-  /** SHA of an image layer */
-  blobSum?: string;
-}
-
-/** A list of unstructured historical data for v1 compatibility */
-export interface History {
-  /** The raw v1 compatibility information */
-  v1Compatibility?: string;
-}
-
-/** Signature of a signed manifest */
-export interface ImageSignature {
-  /** A JSON web signature */
-  header?: Jwk;
-  /** A signature for the image manifest, signed by a libtrust private key */
-  signature?: string;
-  /** The signed protected header */
-  protected?: string;
-}
-
-/** A JSON web signature */
-export interface Jwk {
-  /** JSON web key parameter */
-  jwk?: JWKHeader;
-  /** The algorithm used to sign or encrypt the JWT */
-  alg?: string;
-}
-
-/** JSON web key parameter */
-export interface JWKHeader {
-  /** crv value */
-  crv?: string;
-  /** kid value */
-  kid?: string;
-  /** kty value */
-  kty?: string;
-  /** x value */
-  x?: string;
-  /** y value */
-  y?: string;
-}
-
 /** List of repositories */
 export interface Repositories {
   /** Repository names */
@@ -478,6 +357,44 @@ export interface RepositoryTags {
   tags?: string[];
 }
 
+/** Signature of a signed manifest */
+export interface ImageSignature {
+  /** A JSON web signature */
+  header?: Jwk;
+  /** A signature for the image manifest, signed by a libtrust private key */
+  signature?: string;
+  /** The signed protected header */
+  protected?: string;
+}
+
+/** A JSON web signature */
+export interface Jwk {
+  /** JSON web key parameter */
+  jwk?: JWKHeader;
+  /** The algorithm used to sign or encrypt the JWT */
+  alg?: string;
+}
+
+/** JSON web key parameter */
+export interface JWKHeader {
+  /** crv value */
+  crv?: string;
+  /** kid value */
+  kid?: string;
+  /** kty value */
+  kty?: string;
+  /** x value */
+  x?: string;
+  /** y value */
+  y?: string;
+}
+
+/** A list of unstructured historical data for v1 compatibility */
+export interface History {
+  /** The raw v1 compatibility information */
+  v1Compatibility?: string;
+}
+
 /** Deleted repository */
 export interface DeleteRepositoryResult {
   /**
@@ -492,6 +409,56 @@ export interface DeleteRepositoryResult {
   readonly deletedTags?: string[];
 }
 
+/** Image layer information */
+export interface FsLayer {
+  /** SHA of an image layer */
+  blobSum?: string;
+}
+
+/** Docker V2 image layer descriptor including config and layers */
+export interface Descriptor {
+  /** Layer media type */
+  mediaType?: string;
+  /** Layer size */
+  size?: number;
+  /** Layer digest */
+  digest?: string;
+  /** Specifies a list of URIs from which this object may be downloaded. */
+  urls?: string[];
+  /** Additional information provided through arbitrary metadata. */
+  annotations?: Annotations;
+}
+
+/** Additional information provided through arbitrary metadata. */
+export interface Annotations {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
+  createdOn?: Date;
+  /** Contact details of the people or organization responsible for the image. */
+  authors?: string;
+  /** URL to find more information on the image. */
+  url?: string;
+  /** URL to get documentation on the image. */
+  documentation?: string;
+  /** URL to get source code for building the image. */
+  source?: string;
+  /** Version of the packaged software. The version MAY match a label or tag in the source code repository, may also be Semantic versioning-compatible */
+  version?: string;
+  /** Source control revision identifier for the packaged software. */
+  revision?: string;
+  /** Name of the distributing entity, organization or individual. */
+  vendor?: string;
+  /** License(s) under which contained software is distributed as an SPDX License Expression. */
+  licenses?: string;
+  /** Name of the reference for a target. */
+  name?: string;
+  /** Human-readable title of the image */
+  title?: string;
+  /** Human-readable description of the software packaged in the image */
+  description?: string;
+}
+
 /** Tag */
 export interface TagAttributesTag {
   /** SignatureRecord value */
@@ -502,6 +469,51 @@ export interface TagAttributesTag {
 export interface ManifestAttributesManifest {
   /** List of manifest attributes details */
   references?: ArtifactManifestPlatform[];
+}
+
+/** Returns the requested manifest file */
+export interface Manifest {
+  /** Schema version */
+  schemaVersion?: number;
+}
+
+export interface ManifestListAttributes {
+  /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
+  mediaType?: string;
+  /** The size in bytes of the object */
+  size?: number;
+  /** The digest of the content, as defined by the Registry V2 HTTP API Specification */
+  digest?: string;
+  /** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
+  platform?: Platform;
+}
+
+/** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
+export interface Platform {
+  /** Specifies the CPU architecture, for example amd64 or ppc64le. */
+  architecture?: string;
+  /** The os field specifies the operating system, for example linux or windows. */
+  os?: string;
+  /** The optional os.version field specifies the operating system version, for example 10.0.10586. */
+  osVersion?: string;
+  /** The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k */
+  osFeatures?: string[];
+  /** The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU. */
+  variant?: string;
+  /** The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes */
+  features?: string[];
+}
+
+/** Returns the requested OCI Manifest file */
+export interface OCIManifest {
+  /** V2 image config descriptor */
+  config?: Descriptor;
+  /** List of V2 image layer information */
+  layers?: Descriptor[];
+  /** Additional information provided through arbitrary metadata. */
+  annotations?: Annotations;
+  /** Schema version */
+  schemaVersion?: number;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
@@ -572,16 +584,6 @@ export type V2Manifest = Manifest & {
   layers?: Descriptor[];
 };
 
-/** Returns the requested OCI Manifest file */
-export type OCIManifest = Manifest & {
-  /** V2 image config descriptor */
-  config?: Descriptor;
-  /** List of V2 image layer information */
-  layers?: Descriptor[];
-  /** Additional information provided through arbitrary metadata. */
-  annotations?: Annotations;
-};
-
 /** Returns the requested OCI index file */
 export type OCIIndex = Manifest & {
   /** List of OCI image layer information */
@@ -605,6 +607,12 @@ export type V1Manifest = Manifest & {
   /** Image signature */
   signatures?: ImageSignature[];
 };
+
+/** Defines headers for ContainerRegistry_getManifest operation. */
+export interface ContainerRegistryGetManifestHeaders {
+  /** Identifies the docker upload uuid for the current request. */
+  dockerContentDigest?: string;
+}
 
 /** Defines headers for ContainerRegistry_createManifest operation. */
 export interface ContainerRegistryCreateManifestHeaders {
@@ -880,17 +888,32 @@ export interface ContainerRegistryGetManifestOptionalParams
 }
 
 /** Contains response data for the getManifest operation. */
-export type ContainerRegistryGetManifestResponse = ManifestWrapper;
+export type ContainerRegistryGetManifestResponse = ContainerRegistryGetManifestHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
 
 /** Optional parameters. */
 export interface ContainerRegistryCreateManifestOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The manifest's Content-Type. */
+  contentType?: string;
+}
 
 /** Contains response data for the createManifest operation. */
-export type ContainerRegistryCreateManifestResponse = ContainerRegistryCreateManifestHeaders & {
-  /** The parsed response body. */
-  body: any;
-};
+export type ContainerRegistryCreateManifestResponse = ContainerRegistryCreateManifestHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistryDeleteManifestOptionalParams
