@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/Tables?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval\u0026$filter=TableName%20eq%20%27ListTableTestnode1%27",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "DataServiceVersion": "3.0",
+        "User-Agent": "azsdk-js-data-tables/13.1.0 core-rest-pipeline/1.8.1 Node/v14.17.5 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "3a1cdbab-5311-40b7-b867-b19ab922b789",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
+        "Date": "Sat, 02 Apr 2022 17:42:24 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "3a1cdbab-5311-40b7-b867-b19ab922b789",
+        "x-ms-request-id": "211c3124-8002-005c-65b9-469ab2000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#Tables",
+        "value": [
+          {
+            "TableName": "ListTableTestnode1"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

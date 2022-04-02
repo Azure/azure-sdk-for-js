@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
+import { TableItem, TableItemResultPage, TableServiceClient, odata } from "../../src";
 
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
@@ -92,6 +92,19 @@ describe(`TableServiceClient`, () => {
       }
     });
 
+    it("should list with filter", async () => {
+      const tableName = `ListTableTest${suffix}1`;
+      const tables = client.listTables({
+        queryOptions: { filter: odata`TableName eq ${tableName}` },
+      });
+      const all: TableItem[] = [];
+      for await (const table of tables) {
+        all.push(table);
+      }
+
+      assert.lengthOf(all, 1);
+    });
+
     it("should list by page", async function () {
       let all: TableItem[] = [];
       const maxPageSize = 5;
@@ -109,6 +122,20 @@ describe(`TableServiceClient`, () => {
           `Couldn't find table ListTableTest${suffix}${i}`
         );
       }
+    });
+
+    it("should list by page with filter", async function () {
+      let all: TableItem[] = [];
+      const tableName = `ListTableTest${suffix}1`;
+      const tables = client.listTables({
+        queryOptions: { filter: odata`TableName eq ${tableName}` },
+      });
+
+      for await (const page of tables.byPage()) {
+        all = [...all, ...page];
+      }
+
+      assert.lengthOf(all, 1);
     });
 
     it("should list a specific page with continuationToken", async function () {
