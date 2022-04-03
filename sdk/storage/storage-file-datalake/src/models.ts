@@ -477,11 +477,11 @@ export interface Path {
   /**
    * Creation time of the path.
    */
-  creationTime?: string;
+  createdOn?: Date;
   /**
    * Expiry time of the path.
    */
-  expiryTime?: string;
+  expiresOn?: Date;
 }
 
 export interface PathList {

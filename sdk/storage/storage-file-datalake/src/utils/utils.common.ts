@@ -568,3 +568,21 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
     host
   );
 }
+
+/**
+ * This is to convert a Windows File Time ticks to a Date object.
+ */
+export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date | undefined {
+  if (!timeNumber) return undefined;
+  const timeNumberInternal = parseInt(timeNumber!);
+
+  if (timeNumberInternal === 0) return undefined;
+
+  // A windows file time is a 64-bit value that represents the number of 100-nanosecond intervals that have elapsed
+  // since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
+  // Date accepts a value that represents miliseconds from 12:00 A.M. January 1, 1970
+  // Here should correct the year number after converting.
+  const date = new Date(timeNumberInternal / 10000);
+  date.setUTCFullYear(date.getUTCFullYear() - 369);
+  return date;
+}
