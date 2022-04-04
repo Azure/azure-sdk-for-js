@@ -196,7 +196,6 @@ export class ManagerPerfProgram implements PerfProgram {
     )) as ReportResultsMessage[];
 
     // stop the handleUpdate part when it next gets a chance
-    // TODO use AbortController
     done = true;
 
     const results = resultMessages.map((m) => m.parallels).flat();
