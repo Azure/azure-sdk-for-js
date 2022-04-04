@@ -224,7 +224,7 @@ export class ManagerPerfProgram implements PerfProgram {
    * If the command line option for help (--help or -h) is passed in, the program will output
    * the information available of all of the options and close, with no test executions.
    *
-   * This method will invoke the test class's "globalSetup" and "globalCleanup" exactly once,
+   * This method will invoke the test class's "globalSetup" and "globalCleanup" once per CPU,
    * and the "setup" and "cleanup" as many times as tests were instantiated
    * (up to the "parallel" command line parameter, which defaults to 1).
    *

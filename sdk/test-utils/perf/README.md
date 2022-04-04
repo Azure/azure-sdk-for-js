@@ -13,9 +13,10 @@ Link to the wiki - [Writing-Performance-Tests](https://github.com/Azure/azure-sd
 - A **PerfOption** is a command line parameter. We use `minimist` to parse them appropriately, and then to consolidate them in a dictionary of options that is called `PerfOptionDictionary<string>`. The dictionary class accepts a union type of strings that defines the options that are allowed by each test.
 - Some default options are parsed by the Perf program. Their longer names are: `help`, `no-cleanups`, `parallel`, `duration`, `warmup`, `iterations`, `no-cleanup` and `milliseconds-to-log`.
 - Perf tests are executed as many times as possible until the `duration` parameter is specified. This process may repeat as many `iterations` are given. Before each iteration, tests might be called for a period of time up to `warmup`, to adjust to possible runtime optimizations. In each iteration, as many as `parallel` instances of the same test are called without waiting for each other, letting the event loop decide which one is prioritized (it's not true parallelism, but it's an approximation that aligns with the design in other languages, we might improve it over time).
-- Each test can have a `globalSetup` method, which is called once before the process begins, a `globalCleanup` method, which is called once after the process finishes.
+- Each test can have a `globalSetup` method, which is called once before per CPU the process begins, a `globalCleanup` method, which is called once after the process finishes.
 - Each test can have a `setup` method, which is called as many times as test instances are created (up to `parallel`), and help specify local state for each test instance. A `cleanup` method is also optional, called the same amount of times, but after finishing running the tests.
 - `test-proxies` url option - this option can be leveraged to avoid hitting throttling scenarios while testing the services. This option lets the requests go through proxy server(s) based on the url(s) provided, we run the `run` method once in record mode to save the requests and responses in memory and then a ton of times in playback. Workflow with the test-proxies below.
+- `parallel` and `cpus` options: `cpus` specifies the number of CPU cores to distribute parallel runs across; `parallel` specifies the number of parallel runs to perform.
 
 ## Workflow with test proxy
 
@@ -47,11 +48,11 @@ Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/
 
 ## Running the tests in `/test` folder
 
-> `ts-node ./test/index.spec.ts ${testClassName} ${options}`
+> `npm run perf-test:node -- ${testClassName} ${options}`
 
 ### Example
 
-> `ts-node ./test/index.spec.ts NoOp --parallel 2 --duration 7 --iterations 2 --warmup 2`
+> `npm run perf-test:node -- NoOp --parallel 2 --duration 7 --iterations 2 --warmup 2`
 
 If you would like to run all the tests at once in sequence, use the following command
 
