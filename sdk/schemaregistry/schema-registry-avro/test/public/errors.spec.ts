@@ -451,6 +451,7 @@ describe("Error scenarios", function () {
         ),
         {
           innerMessage: /invalid "null": 1/,
+          schemaId: true,
         }
       );
       assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
