@@ -97,7 +97,7 @@ export class WorkerPerfProgram implements PerfProgram {
     await Promise.all(this.tests.map((test) => test.preCleanup?.()));
     await exitStage("preCleanup");
 
-    if (!this.options["no-cleanup"]) {
+    if (!this.options["no-cleanup"].value) {
       await enterStage("cleanup");
       await Promise.all(this.tests.map((test) => test.cleanup?.()));
       await exitStage("cleanup");

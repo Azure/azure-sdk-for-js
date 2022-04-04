@@ -129,7 +129,7 @@ const createManagerUtils = (mode: "worker_threads" | "child_processes"): Manager
     offMessage,
     getMessage,
     getMessageFromAll,
-    sendMessage: sendMessage,
+    sendMessage,
     broadcastMessage: (message: ManagerToWorkerMessage) => {
       for (const worker of workers) {
         sendMessage(worker, message);
