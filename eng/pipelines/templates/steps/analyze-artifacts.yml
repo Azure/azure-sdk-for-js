@@ -4,16 +4,6 @@ parameters:
   TestPipeline: false
 
 steps:
-  # - template: /eng/common/pipelines/templates/steps/check-spelling.yml
-
-  - task: PowerShell@2
-    inputs:
-      targetType: 'filePath'
-      filePath: eng/scripts/spell-check-public-api.ps1
-      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
-      pwsh: true
-    displayName: Spell check public API
-
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"
@@ -35,17 +25,13 @@ steps:
       echo "workspace = $(Pipeline.Workspace)";
       echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
       echo "ArtifactsDirectory = $(System.ArtifactsDirectory)"
-      
-      echo "TREE===========================";
-      tree $(Pipeline.Workspace)
-
     displayName: "Log script"
 
   - script: |
       tree $(Pipeline.Workspace)
     displayName: "Show tree"
 
-  # FIRST CONSUME ARTIFACTS ()
+  # FIRST CONSUME ARTIFACTS
   # - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
   
   - task: DownloadPipelineArtifact@2
@@ -65,7 +51,7 @@ steps:
       tree $(Build.SourcesDirectory)/downloaded-artifacts
     displayName: "Show tree"
 
-  # Then I have tu extract the files and store them somewhere.
+  # THEN CONSUME THE FILES AND STORE THEM SOMEWHERE
   # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
   - task: ExtractFiles@1
     inputs:
@@ -78,7 +64,7 @@ steps:
       tree $(Build.SourcesDirectory)/html-docs
     displayName: "Show tree"
 
-  # NOW CALL VERIFY LINKS, again, with the artifact url
+  # NOW CALL VERIFY LINKS, with the artifactS url
 
   # - template: /eng/common/pipelines/templates/steps/verify-links.yml
   #   parameters:
