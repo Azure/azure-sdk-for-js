@@ -9,6 +9,7 @@ pr:
       - eng/pipelines/aggregate-reports.yml
 
 pool:
+  # Test no-op change
   vmImage: 'windows-2019'
 
 stages:
