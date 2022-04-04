@@ -36,10 +36,7 @@ export class WorkerPerfProgram implements PerfProgram {
     const updateInterval = setInterval(() => {
       this.workerUtils.sendMessage({
         tag: "statusUpdate",
-        parallels: this.tests.map((test) => ({
-          completedOperations: test.completedOperations,
-          lastMillisecondsElapsed: test.lastMillisecondsElapsed,
-        })),
+        snapshots: this.tests.map((test) => test.getSnapshot()),
       });
     }, this.options["milliseconds-to-log"].value);
 
@@ -53,10 +50,7 @@ export class WorkerPerfProgram implements PerfProgram {
 
     this.workerUtils.sendMessage({
       tag: "reportResults",
-      parallels: this.tests.map((test) => ({
-        completedOperations: test.completedOperations,
-        lastMillisecondsElapsed: test.lastMillisecondsElapsed,
-      })),
+      snapshots: this.tests.map((test) => test.getSnapshot()),
     });
 
     // if the runAll ended before the duration, we need to clear the timeout

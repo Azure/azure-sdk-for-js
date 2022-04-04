@@ -1,14 +1,14 @@
 import type { BarrierMessage } from "./barrier";
-import { PerfParallel } from "./parallel";
+import { Snapshot } from "./snapshot";
 
 export interface StatusUpdateMessage {
   tag: "statusUpdate";
-  parallels: PerfParallel[];
+  snapshots: Snapshot[];
 }
 
 export interface ReportResultsMessage {
   tag: "reportResults";
-  parallels: PerfParallel[];
+  snapshots: Snapshot[];
 }
 
 export type WorkerToManagerMessage = BarrierMessage | StatusUpdateMessage | ReportResultsMessage;

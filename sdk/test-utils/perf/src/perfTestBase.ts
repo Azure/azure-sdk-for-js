@@ -11,6 +11,7 @@ import {
   ParsedPerfOptions,
 } from "./options";
 import { AbortController } from "@azure/abort-controller";
+import { Snapshot } from "./snapshot";
 
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
@@ -89,4 +90,11 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void>;
+
+  public getSnapshot(): Snapshot {
+    return {
+      lastMillisecondsElapsed: this.lastMillisecondsElapsed,
+      completedOperations: this.completedOperations,
+    };
+  }
 }

@@ -8,7 +8,7 @@ import {
 } from "./messages";
 import { ManagerMulticoreUtils, multicoreUtils } from "./multicore";
 import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
-import { PerfParallel } from "./parallel";
+import { Snapshot } from "./snapshot";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
 import { formatDuration } from "./utils";
@@ -65,11 +65,11 @@ export class ManagerPerfProgram implements PerfProgram {
     this.parallelNumber = Number(this.parsedOptions.parallel.value);
   }
 
-  private getCompletedOperations(parallels: PerfParallel[]): number {
+  private getCompletedOperations(parallels: Snapshot[]): number {
     return parallels.reduce((sum, i) => sum + i.completedOperations, 0);
   }
 
-  private getOperationsPerSecond(parallels: PerfParallel[]): number {
+  private getOperationsPerSecond(parallels: Snapshot[]): number {
     return parallels.reduce((sum, parallel) => {
       let parallelResult = 0;
       if (parallel.completedOperations > 0) {
@@ -99,7 +99,7 @@ export class ManagerPerfProgram implements PerfProgram {
    *
    * @param parallels Parallel executions
    */
-  private logResults(parallels: PerfParallel[]): void {
+  private logResults(parallels: Snapshot[]): void {
     const totalOperations = this.getCompletedOperations(parallels);
     const operationsPerSecond = this.getOperationsPerSecond(parallels);
     const secondsPerOperation = 1 / operationsPerSecond;
@@ -123,7 +123,7 @@ export class ManagerPerfProgram implements PerfProgram {
     );
   }
 
-  private logUpdate(parallels: PerfParallel[]): void {
+  private logUpdate(parallels: Snapshot[]): void {
     const totalCompleted = this.getCompletedOperations(parallels);
     const currentCompleted = totalCompleted - this.lastCompleted;
     const averageCompleted = this.getOperationsPerSecond(parallels);
@@ -185,7 +185,7 @@ export class ManagerPerfProgram implements PerfProgram {
     const handleUpdate = (messages: WorkerToManagerMessageWithId[]) => {
       if (done) return;
 
-      const parallels = messages.map((m) => (m as StatusUpdateMessage).parallels).flat();
+      const parallels = messages.map((m) => (m as StatusUpdateMessage).snapshots).flat();
       this.logUpdate(parallels);
       this.managerUtils.getMessageFromAll((m) => m.tag === "statusUpdate").then(handleUpdate);
     };
@@ -198,7 +198,7 @@ export class ManagerPerfProgram implements PerfProgram {
     // stop the handleUpdate part when it next gets a chance
     done = true;
 
-    const results = resultMessages.map((m) => m.parallels).flat();
+    const results = resultMessages.map((m) => m.snapshots).flat();
 
     console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
     this.logResults(results);

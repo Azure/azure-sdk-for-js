@@ -6,6 +6,5 @@ export { BatchPerfTest } from "./batchPerfTest";
 export { EventPerfTest } from "./eventPerfTest";
 export * from "./options";
 export * from "./policy";
-export * from "./parallel";
 export * from "./program";
 export { getEnvVar, drainStream } from "./utils";
