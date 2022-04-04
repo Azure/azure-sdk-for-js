@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src";
+
+import { TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
-import { SDK_VERSION } from "../../src/constants";
-import { packageVersion } from "../../src/generated/keyVaultClientContext";
+import fs from "fs";
 import { isNode } from "@azure/core-util";
 import path from "path";
-import fs from "fs";
 
 describe("Key Vault Admin's user agent (only in Node, because of fs)", function () {
   beforeEach(function () {
@@ -16,7 +17,32 @@ describe("Key Vault Admin's user agent (only in Node, because of fs)", function 
   });
 
   it("SDK_VERSION and packageVersion should match", async function () {
-    assert.equal(SDK_VERSION, packageVersion);
+    let userAgent: string | undefined;
+    const client = new KeyVaultAccessControlClient(
+      "https://myvault.vault.azure.net",
+      {} as TokenCredential,
+      {
+        additionalPolicies: [
+          {
+            policy: {
+              name: "fetchUserAgent",
+              sendRequest: (request, next) => {
+                userAgent = request.headers.get("user-agent");
+                return next(request);
+              },
+            },
+            position: "perCall",
+          },
+        ],
+      }
+    );
+    try {
+      await client.getRoleAssignment("/", "");
+    } catch {
+      // no-op, we don't care about the response, only the user-agent header
+    }
+    assert.exists(userAgent);
+    assert.include(userAgent!, `azsdk-js-keyvault-admin/${SDK_VERSION}`);
   });
 
   it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function () {
@@ -32,6 +58,6 @@ describe("Key Vault Admin's user agent (only in Node, because of fs)", function 
       );
       version = fileContents.version;
     }
-    assert.equal(version, packageVersion);
+    assert.equal(version, SDK_VERSION);
   });
 });
