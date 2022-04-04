@@ -2,32 +2,30 @@
 // Licensed under the MIT license.
 
 import {
-  JobRouterCreateClassificationPolicyV2Response,
-  JobRouterPatchClassificationPolicyV2Response,
-  JobRouterCreateExceptionPolicyV2Response,
-  JobRouterPatchExceptionPolicyV2Response
+  JobRouterCreateClassificationPolicyResponse,
+  JobRouterUpdateClassificationPolicyResponse,
+  JobRouterCreateExceptionPolicyResponse,
+  JobRouterUpdateExceptionPolicyResponse
 } from "../generated/src";
 
 /**
  * Options to create a classification policy.
  */
 export interface CreateClassificationPolicyResponse
-  extends JobRouterCreateClassificationPolicyV2Response {}
+  extends JobRouterCreateClassificationPolicyResponse {}
 
 /**
  * Options to update a classification policy.
  */
-export interface PatchClassificationPolicyResponse
-  extends JobRouterPatchClassificationPolicyV2Response {}
+export interface UpdateClassificationPolicyResponse
+  extends JobRouterUpdateClassificationPolicyResponse {}
 
 /**
  * Options to create a exception policy.
  */
-export interface CreateExceptionPolicyResponse extends JobRouterCreateExceptionPolicyV2Response {}
+export interface CreateExceptionPolicyResponse extends JobRouterCreateExceptionPolicyResponse {}
 
 /**
  * Options to update a exception policy.
  */
-export interface PatchExceptionPolicyResponse extends JobRouterPatchExceptionPolicyV2Response {}
-
-
+export interface UpdateExceptionPolicyResponse extends JobRouterUpdateExceptionPolicyResponse {}

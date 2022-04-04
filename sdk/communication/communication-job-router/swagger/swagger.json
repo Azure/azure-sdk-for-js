@@ -12,7 +12,7 @@
           "ClassificationPolicies"
         ],
         "summary": "Creates a new classification policy.",
-        "operationId": "JobRouter_CreateClassificationPolicyV2",
+        "operationId": "JobRouter_CreateClassificationPolicy",
         "consumes": [
           "application/json"
         ],
@@ -22,83 +22,41 @@
         "parameters": [
           {
             "in": "header",
-            "name": "repeatabilityHeaders"
+            "name": "repeatability-request-id",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
           },
           {
             "in": "body",
-            "name": "createClassificationPolicyRequest",
-            "description": "Request to create or update classification policy",
+            "name": "classificationPolicy",
+            "description": "Model of classification policy to create",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateClassificationPolicyRequest"
+              "$ref": "#/definitions/ClassificationPolicy"
             }
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "201": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ClassificationPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -119,84 +77,28 @@
         "parameters": [
           {
             "in": "query",
-            "name": "maxPageSize",
+            "name": "maxpagesize",
             "description": "Maximum page size",
             "type": "integer",
             "format": "int32",
             "default": 20
           },
           {
-            "in": "query",
-            "name": "continuationToken",
-            "description": "Continuation token to retrieve next page",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ClassificationPolicyCollection"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -216,7 +118,7 @@
           "ClassificationPolicies"
         ],
         "summary": "Updates a classification policy.",
-        "operationId": "JobRouter_PatchClassificationPolicyV2",
+        "operationId": "JobRouter_UpdateClassificationPolicy",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -227,6 +129,7 @@
           {
             "in": "path",
             "name": "id",
+            "description": "The id of classification policy.",
             "required": true,
             "type": "string"
           },
@@ -236,79 +139,30 @@
           {
             "in": "body",
             "name": "patch",
-            "description": "JSON Document containined the partial update for the classification policy",
+            "description": "JSON Document contained the partial update for the classification policy.",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/ClassificationPolicy"
             }
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ClassificationPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
           "Update a Classification policy": {
-            "$ref": "./examples/ClassificationPolicies_PatchClassificationPolicy.json"
+            "$ref": "./examples/ClassificationPolicies_UpdateClassificationPolicy.json"
           }
         }
       },
@@ -334,67 +188,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ClassificationPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -425,64 +229,14 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "204": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -498,7 +252,7 @@
           "DistributionPolicies"
         ],
         "summary": "Creates a new distribution policy.",
-        "operationId": "JobRouter_CreateDistributionPolicyV2",
+        "operationId": "JobRouter_CreateDistributionPolicy",
         "consumes": [
           "application/json"
         ],
@@ -508,7 +262,15 @@
         "parameters": [
           {
             "in": "header",
-            "name": "repeatabilityHeaders"
+            "name": "repeatability-request-id",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -524,67 +286,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "201": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/DistributionPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -605,84 +317,28 @@
         "parameters": [
           {
             "in": "query",
-            "name": "maxPageSize",
+            "name": "maxpagesize",
             "description": "Maximum page size",
             "type": "integer",
             "format": "int32",
             "default": 20
           },
           {
-            "in": "query",
-            "name": "continuationToken",
-            "description": "Continuation token to retrieve next page",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/DistributionPolicyCollection"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -702,7 +358,7 @@
           "DistributionPolicies"
         ],
         "summary": "Updates a distribution policy.",
-        "operationId": "JobRouter_PatchDistributionPolicy",
+        "operationId": "JobRouter_UpdateDistributionPolicy",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -730,72 +386,22 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/DistributionPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
           "Update a Distribution policy": {
-            "$ref": "./examples/DistributionPolicies_PatchDistributionPolicy.json"
+            "$ref": "./examples/DistributionPolicies_UpdateDistributionPolicy.json"
           }
         }
       },
@@ -821,67 +427,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/DistributionPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -912,64 +468,14 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "204": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -985,7 +491,7 @@
           "ExceptionPolicies"
         ],
         "summary": "Creates an exception policy",
-        "operationId": "JobRouter_CreateExceptionPolicyV2",
+        "operationId": "JobRouter_CreateExceptionPolicy",
         "consumes": [
           "application/json"
         ],
@@ -995,8 +501,15 @@
         "parameters": [
           {
             "in": "header",
-            "name": "repeatabilityHeaders",
-            "description": "Headers to support idempotency"
+            "name": "repeatability-request-id",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1012,67 +525,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "201": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ExceptionPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1093,84 +556,28 @@
         "parameters": [
           {
             "in": "query",
-            "name": "maxPageSize",
+            "name": "maxpagesize",
             "description": "Number of objects to return per page",
             "type": "integer",
             "format": "int32",
             "default": 20
           },
           {
-            "in": "query",
-            "name": "continuationToken",
-            "description": "Token for pagination",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ExceptionPolicyCollection"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1190,7 +597,7 @@
           "ExceptionPolicies"
         ],
         "summary": "Updates an exception policy",
-        "operationId": "JobRouter_PatchExceptionPolicyV2",
+        "operationId": "JobRouter_UpdateExceptionPolicy",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -1210,7 +617,7 @@
           },
           {
             "in": "body",
-            "name": "patchExceptionPolicy",
+            "name": "patch",
             "description": "Model of exception policy to be updated",
             "schema": {
               "$ref": "#/definitions/ExceptionPolicy"
@@ -1218,72 +625,22 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ExceptionPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
           "Update a Exception policy": {
-            "$ref": "./examples/ExceptionPolicies_PatchExceptionPolicy.json"
+            "$ref": "./examples/ExceptionPolicies_UpdateExceptionPolicy.json"
           }
         }
       },
@@ -1309,67 +666,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/ExceptionPolicy"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1400,64 +707,14 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "204": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1473,7 +730,7 @@
           "Jobs"
         ],
         "summary": "Creates a new job to be routed.",
-        "operationId": "JobRouter_CreateJobV2",
+        "operationId": "JobRouter_CreateJob",
         "consumes": [
           "application/json"
         ],
@@ -1483,8 +740,15 @@
         "parameters": [
           {
             "in": "header",
-            "name": "repeatabilityHeaders",
-            "description": "Repeatability headers for idempotency"
+            "name": "repeatability-request-id",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1500,67 +764,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "201": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RouterJob"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1615,84 +829,28 @@
           },
           {
             "in": "query",
-            "name": "maxPageSize",
+            "name": "maxpagesize",
             "description": "Number of objects to return per page",
             "type": "integer",
             "format": "int32",
             "default": 20
           },
           {
-            "in": "query",
-            "name": "continuationToken",
-            "description": "Token for pagination",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/JobCollection"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1729,67 +887,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RouterJob"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -1838,72 +946,60 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RouterJob"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
           "Update a job": {
             "$ref": "./examples/Jobs_UpdateJob.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Deletes a job and all of its traces.",
+        "operationId": "JobRouter_DeleteJob",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        },
+        "x-ms-examples": {
+          "Deletes a job and all of its traces": {
+            "$ref": "./examples/Jobs_DeleteJob.json"
           }
         }
       }
@@ -1943,64 +1039,17 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
+          "default": {
+            "description": "Error",
             "schema": {
               "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+            }
           },
-          "409": {
-            "description": "Conflict.",
+          "200": {
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+              "$ref": "#/definitions/CancelJobResponse"
+            }
           }
         },
         "x-ms-examples": {
@@ -2045,64 +1094,17 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
+          "default": {
+            "description": "Error",
             "schema": {
               "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+            }
           },
-          "409": {
-            "description": "Conflict.",
+          "200": {
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+              "$ref": "#/definitions/CompleteJobResponse"
+            }
           }
         },
         "x-ms-examples": {
@@ -2147,64 +1149,23 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
+          "default": {
+            "description": "Error",
             "schema": {
               "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+            }
           },
-          "409": {
-            "description": "Conflict.",
+          "200": {
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+              "$ref": "#/definitions/CloseJobResponse"
+            }
           },
-          "400": {
-            "description": "BadRequest.",
+          "202": {
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+              "$ref": "#/definitions/CloseJobResponse"
+            }
           }
         },
         "x-ms-examples": {
@@ -2237,162 +1198,22 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/JobPositionDetails"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
           "Gets a job position in a queue": {
             "$ref": "./examples/Jobs_GetInQueuePosition.json"
-          }
-        }
-      }
-    },
-    "/routing/jobs/{id}:delete": {
-      "post": {
-        "tags": [
-          "Jobs"
-        ],
-        "summary": "Deletes a job and all of its traces.",
-        "operationId": "JobRouter_DeleteJob",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          }
-        },
-        "x-ms-examples": {
-          "Deletes a job and all of its traces": {
-            "$ref": "./examples/Jobs_DeleteJob.json"
           }
         }
       }
@@ -2427,67 +1248,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/AcceptJobOfferResponse"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -2527,64 +1298,17 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
+          "default": {
+            "description": "Error",
             "schema": {
               "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+            }
           },
-          "409": {
-            "description": "Conflict.",
+          "200": {
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
+              "$ref": "#/definitions/DeclineJobOfferResponse"
+            }
           }
         },
         "x-ms-examples": {
@@ -2610,8 +1334,15 @@
         "parameters": [
           {
             "in": "header",
-            "name": "repeatabilityHeaders",
-            "description": "Repeatability headers for idempotency"
+            "name": "repeatability-request-id",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -2627,67 +1358,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "201": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/JobQueue"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -2708,84 +1389,28 @@
         "parameters": [
           {
             "in": "query",
-            "name": "maxPageSize",
+            "name": "maxpagesize",
             "description": "Number of objects to return per page",
             "type": "integer",
             "format": "int32",
             "default": 20
           },
           {
-            "in": "query",
-            "name": "continuationToken",
-            "description": "Token for pagination",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/QueueCollection"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -2833,67 +1458,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/JobQueue"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -2924,67 +1499,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/JobQueue"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -3015,64 +1540,14 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "204": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -3082,13 +1557,56 @@
         }
       }
     },
-    "/routing/workers/{workerId}:register": {
-      "put": {
+    "/routing/queues/{id}/statistics": {
+      "get": {
+        "tags": [
+          "Queues"
+        ],
+        "summary": "Retrieves a queue's statistics",
+        "operationId": "JobRouter_GetQueueStatistics",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id of the queue to retrieve statistics",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/QueueStatistics"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a single Queue": {
+            "$ref": "./examples/Queues_GetQueueStatistics.json"
+          }
+        }
+      }
+    },
+    "/routing/workers": {
+      "post": {
         "tags": [
           "Workers"
         ],
-        "summary": "Registers a worker to process jobs.",
-        "operationId": "JobRouter_RegisterWorkerV2",
+        "summary": "Create a worker to process jobs.",
+        "operationId": "JobRouter_CreateWorker",
         "consumes": [
           "application/json"
         ],
@@ -3097,10 +1615,15 @@
         ],
         "parameters": [
           {
-            "in": "path",
-            "name": "workerId",
-            "description": "Id of the worker to register",
-            "required": true,
+            "in": "header",
+            "name": "repeatability-request-id",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "As described in https://docs.oasis-open.org/odata/repeatable-requests/v1.0/cs01/repeatable-requests-v1.0-cs01.html.",
             "type": "string"
           },
           {
@@ -3108,176 +1631,34 @@
           },
           {
             "in": "body",
-            "name": "registerWorkerRequest",
-            "description": "The request to register the worker",
+            "name": "routerWorker",
+            "description": "Request to create a worker",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RegisterWorkerRequest"
+              "$ref": "#/definitions/RouterWorker"
             }
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RouterWorker"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
-          "Register a Worker": {
-            "$ref": "./examples/Workers_RegisterWorker.json"
+          "Create a Worker": {
+            "$ref": "./examples/Workers_CreateWorker.json"
           }
         }
-      }
-    },
-    "/routing/workers/{workerId}:deregister": {
-      "put": {
-        "tags": [
-          "Workers"
-        ],
-        "summary": "Deregisters a worker from processing jobs.",
-        "operationId": "JobRouter_DeregisterWorkerV2",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "workerId",
-            "description": "Id of the worker to deregister",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          }
-        },
-        "x-ms-examples": {
-          "Deregister a Worker": {
-            "$ref": "./examples/Workers_DeregisterWorker.json"
-          }
-        }
-      }
-    },
-    "/routing/workers": {
+      },
       "get": {
         "tags": [
           "Workers"
@@ -3325,84 +1706,28 @@
           },
           {
             "in": "query",
-            "name": "maxPageSize",
+            "name": "maxpagesize",
             "description": "Number of objects to return per page",
             "type": "integer",
             "format": "int32",
             "default": 20
           },
           {
-            "in": "query",
-            "name": "continuationToken",
-            "description": "Token for pagination",
-            "type": "string"
-          },
-          {
             "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/WorkerCollection"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -3420,6 +1745,67 @@
       }
     },
     "/routing/workers/{workerId}": {
+      "patch": {
+        "tags": [
+          "Workers"
+        ],
+        "summary": "Updates a worker.",
+        "operationId": "JobRouter_UpdateWorker",
+        "consumes": [
+          "application/merge-patch+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workerId",
+            "description": "Id of the worker",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "patch",
+            "description": "Model of worker properties to be patched. See also: https://datatracker.ietf.org/doc/html/rfc7386",
+            "schema": {
+              "$ref": "#/definitions/RouterWorker"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RouterWorker"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a Worker properties": {
+            "$ref": "./examples/Workers_UpdateWorker.json"
+          },
+          "Register a Worker": {
+            "$ref": "./examples/Workers_RegisterWorker.json"
+          },
+          "Deregister an active Worker": {
+            "$ref": "./examples/Workers_DeregisterActiveWorker.json"
+          },
+          "Deregister a inactive Worker": {
+            "$ref": "./examples/Workers_DeregisterInactiveWorker.json"
+          }
+        }
+      },
       "get": {
         "tags": [
           "Workers"
@@ -3442,67 +1828,17 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RouterWorker"
             }
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -3510,118 +1846,8 @@
             "$ref": "./examples/Workers_GetWorker.json"
           }
         }
-      }
-    },
-    "/routing/workers/{workerId}/assignments/{assignmentId}:release": {
-      "post": {
-        "tags": [
-          "Workers"
-        ],
-        "summary": "Releases capacity consumed by an assignment within a workers socket collection.",
-        "operationId": "JobRouter_ReleaseAssignmentAction",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "workerId",
-            "description": "Id of the worker to release assignment capacity",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "assignmentId",
-            "description": "Id of the assignment to release capacity",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          },
-          {
-            "in": "body",
-            "name": "releaseAssignmentRequest",
-            "description": "Request to release assignment",
-            "schema": {
-              "$ref": "#/definitions/ReleaseAssignmentRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          }
-        },
-        "x-ms-examples": {
-          "Release a Worker's Assignment": {
-            "$ref": "./examples/Workers_ReleaseAssignment.json"
-          }
-        }
-      }
-    },
-    "/routing/workers/{workerId}:delete": {
-      "post": {
+      },
+      "delete": {
         "tags": [
           "Workers"
         ],
@@ -3643,64 +1869,14 @@
           }
         ],
         "responses": {
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          },
           "204": {
             "description": "Success"
-          },
-          "401": {
-            "description": "Unauthorized.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "409": {
-            "description": "Conflict.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "400": {
-            "description": "BadRequest.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "404": {
-            "description": "NotFound.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "412": {
-            "description": "PreconditionFailed.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "403": {
-            "description": "Forbidden.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "429": {
-            "description": "Too many requests.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
-          },
-          "503": {
-            "description": "Service unavailable.",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            },
-            "x-ms-error-response": true
           }
         },
         "x-ms-examples": {
@@ -3799,8 +1975,7 @@
           "readOnly": true
         },
         "scoringRule": {
-          "description": "(Optional)\r\nDefine a scoring rule to use, when calculating a score to determine the best worker.\r\nIf not set, will use a default scoring formula that uses the number of job labels that the worker\r\nlabels match, as well as the number of label selectors the worker labels match and/or exceed\r\nusing a logistic function (https://en.wikipedia.org/wiki/Logistic_function).",
-          "x-nullable": true
+          "description": "(Optional)\r\nDefine a scoring rule to use, when calculating a score to determine the best worker.\r\nIf not set, will use a default scoring formula that uses the number of job labels that the worker\r\nlabels match, as well as the number of label selectors the worker labels match and/or exceed\r\nusing a logistic function (https://en.wikipedia.org/wiki/Logistic_function)."
         },
         "scoringRuleOptions": {
           "$ref": "#/definitions/ScoringRuleOptions"
@@ -3822,13 +1997,13 @@
           "readOnly": true
         },
         "note": {
-          "description": "(Optional) Customer supplied note, e.g., cancellation reason.",
+          "description": "(Optional) A note that will be appended to the jobs' Notes collection with th current timestamp.",
           "maxLength": 2000,
           "minLength": 0,
           "type": "string"
         },
         "dispositionCode": {
-          "description": "(Optional) Customer supplied disposition code for specifying any short label",
+          "description": "(Optional) Indicates the outcome of the job, populate this field with your own custom values.",
           "maxLength": 500,
           "minLength": 0,
           "type": "string"
@@ -3841,18 +2016,21 @@
       "type": "object",
       "properties": {
         "note": {
-          "description": "(Optional) Customer supplied note, e.g., cancellation reason.",
+          "description": "(Optional) A note that will be appended to the jobs' Notes collection with th current timestamp.",
           "maxLength": 2000,
           "minLength": 0,
           "type": "string"
         },
         "dispositionCode": {
-          "description": "(Optional) Customer supplied disposition code for specifying any short label\r\nIf not provided, default value of \"CancelledByUser\" is set.",
+          "description": "Indicates the outcome of the job, populate this field with your own custom values.\r\nIf not provided, default value of \"Cancelled\" is set.",
           "maxLength": 500,
           "minLength": 0,
           "type": "string"
         }
       }
+    },
+    "CancelJobResponse": {
+      "type": "object"
     },
     "ChannelConfiguration": {
       "required": [
@@ -3869,14 +2047,12 @@
     },
     "ClassificationPolicy": {
       "description": "A container for the rules that govern how jobs are classified.",
-      "required": [
-        "id"
-      ],
       "type": "object",
       "properties": {
         "id": {
           "description": "Unique identifier of this policy.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "name": {
           "description": "Friendly name of this policy.",
@@ -3889,18 +2065,15 @@
         "queueSelectors": {
           "description": "The queue selectors to resolve a queue for a given job.",
           "type": "array",
-          "items": { },
-          "x-nullable": true
+          "items": { }
         },
         "prioritizationRule": {
-          "description": "The rule to determine a priority score for a given job.",
-          "x-nullable": true
+          "description": "The rule to determine a priority score for a given job."
         },
         "workerSelectors": {
           "description": "The worker label selectors to attach to a given job.",
           "type": "array",
-          "items": { },
-          "x-nullable": true
+          "items": { }
         }
       }
     },
@@ -3942,55 +2115,24 @@
           "minLength": 0,
           "type": "string"
         },
-        "releaseTime": {
+        "closeTime": {
           "format": "date-time",
-          "description": "If not provided, capacity will be released immediately.\r\nIf provided, the future time at which to release the capacity.",
-          "type": "string",
-          "x-nullable": true
+          "description": "If not provided, worker capacity is released immediately along with a JobClosedEvent notification.\r\nIf provided, worker capacity is released along with a JobClosedEvent notification at a future time.",
+          "type": "string"
         },
         "note": {
-          "description": "(Optional) Customer supplied note.",
+          "description": "(Optional) A note that will be appended to the jobs' Notes collection with th current timestamp.",
           "maxLength": 2000,
           "minLength": 0,
           "type": "string"
         }
       }
     },
-    "CommunicationError": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "string",
-          "readOnly": true
-        },
-        "message": {
-          "type": "string",
-          "readOnly": true
-        },
-        "target": {
-          "type": "string",
-          "readOnly": true
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CommunicationError"
-          },
-          "readOnly": true,
-          "x-nullable": true
-        }
-      }
+    "CloseJobResponse": {
+      "type": "object"
     },
     "CommunicationErrorResponse": {
-      "required": [
-        "communicationError"
-      ],
-      "type": "object",
-      "properties": {
-        "communicationError": {
-          "$ref": "#/definitions/CommunicationError"
-        }
-      }
+      "$ref": "https://github.com/Azure/azure-rest-api-specs/blob/4b3d05177ad63685fbbb69f147ab104b85ecd7f4/specification/communication/data-plane/Common/stable/2021-03-07/common.json#/definitions/CommunicationErrorResponse"
     },
     "CompleteJobRequest": {
       "description": "Request payload for completing jobs",
@@ -4006,14 +2148,17 @@
           "type": "string"
         },
         "note": {
-          "description": "(Optional) Customer supplied note.",
+          "description": "(Optional) A note that will be appended to the jobs' Notes collection with th current timestamp.",
           "maxLength": 2000,
           "minLength": 0,
           "type": "string"
         }
       }
     },
-    "ConditionalLabelSelector": {
+    "CompleteJobResponse": {
+      "type": "object"
+    },
+    "ConditionalQueueSelector": {
       "description": "Describes a set of label selectors that will be attached if the given condition resolves to true",
       "required": [
         "condition",
@@ -4022,7 +2167,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/LabelSelectorAttachment"
+          "$ref": "#/definitions/QueueSelectorAttachment"
         }
       ],
       "properties": {
@@ -4037,45 +2182,44 @@
           "description": "The label selectors to attach",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LabelSelector"
+            "$ref": "#/definitions/QueueSelector"
           }
         }
       },
       "x-ms-discriminator-value": "conditional"
     },
-    "CreateClassificationPolicyRequest": {
-      "description": "Request payload for creating or updating a Classification Policy",
+    "ConditionalWorkerSelector": {
+      "description": "Describes a set of label selectors that will be attached if the given condition resolves to true",
+      "required": [
+        "condition",
+        "labelSelectors"
+      ],
       "type": "object",
-      "properties": {
-        "name": {
-          "description": "Friendly name of this policy.",
-          "maxLength": 500,
-          "minLength": 0,
-          "type": "string"
-        },
-        "fallbackQueueId": {
-          "description": "The fallback queue to select if the queue selector doesn't find a match.",
-          "maxLength": 50,
-          "minLength": 0,
-          "type": "string"
-        },
-        "queueSelectors": {
-          "description": "The queue selectors to resolve a queue for a given job.",
-          "type": "array",
-          "items": { },
-          "x-nullable": true
-        },
-        "prioritizationRule": {
-          "description": "The rule to determine a priority score for a given job.",
-          "x-nullable": true
-        },
-        "workerSelectors": {
-          "description": "The worker label selectors to attach to a given job.",
-          "type": "array",
-          "items": { },
-          "x-nullable": true
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkerSelectorAttachment"
         }
-      }
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "readOnly": true
+        },
+        "condition": {
+          "description": "The condition that must be true for the label selectors to be attached"
+        },
+        "labelSelectors": {
+          "description": "The label selectors to attach",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkerSelector"
+          }
+        }
+      },
+      "x-ms-discriminator-value": "conditional"
+    },
+    "DeclineJobOfferResponse": {
+      "type": "object"
     },
     "DirectMapRule": {
       "description": "A rule that return the same labels as the input labels.",
@@ -4118,8 +2262,7 @@
         },
         "bypassSelectors": {
           "description": "(Optional)\r\nIf set to true, then router will match workers to jobs even if they don't match label selectors.\r\nWarning: You may get workers that are not qualified for the job they are matched with if you set this\r\nvariable to true. This flag is intended more for temporary usage.\r\nBy default, set to false.",
-          "type": "boolean",
-          "x-nullable": true
+          "type": "boolean"
         }
       },
       "discriminator": "kind"
@@ -4128,7 +2271,7 @@
       "description": "Policy governing how jobs are distributed to workers",
       "required": [
         "mode",
-        "offerTTL"
+        "offerTTLSeconds"
       ],
       "type": "object",
       "properties": {
@@ -4141,9 +2284,10 @@
           "description": "The human readable name of the policy.",
           "type": "string"
         },
-        "offerTTL": {
-          "description": "The expiry time of any offers created under this policy will be governed by the offer time to live. Requires input conforming to ISO8601 duration format.",
-          "type": "string"
+        "offerTTLSeconds": {
+          "format": "double",
+          "description": "The expiry time of any offers created under this policy will be governed by the offer time to live.",
+          "type": "number"
         },
         "mode": {
           "description": "The policy governing the specific distribution method."
@@ -4184,7 +2328,7 @@
       "discriminator": "kind"
     },
     "ExceptionPolicy": {
-      "description": "A single exception policy",
+      "description": "A policy that defines actions to execute when exception are triggered.",
       "type": "object",
       "properties": {
         "id": {
@@ -4201,8 +2345,7 @@
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/ExceptionRule"
-          },
-          "x-nullable": true
+          }
         }
       }
     },
@@ -4226,7 +2369,7 @@
       }
     },
     "ExceptionRule": {
-      "description": "A single exception rule",
+      "description": "A rule that defines actions to execute upon a specific trigger.",
       "required": [
         "actions",
         "trigger"
@@ -4299,20 +2442,18 @@
         },
         "assignTime": {
           "format": "date-time",
-          "description": "The Assignment time of the job.",
+          "description": "The assignment time of the job.",
           "type": "string"
         },
         "completeTime": {
           "format": "date-time",
           "description": "The time the job was marked as completed after being assigned.",
-          "type": "string",
-          "x-nullable": true
+          "type": "string"
         },
         "closeTime": {
           "format": "date-time",
           "description": "The time the job was marked as closed after being completed.",
-          "type": "string",
-          "x-nullable": true
+          "type": "string"
         }
       }
     },
@@ -4362,7 +2503,7 @@
           "type": "string"
         },
         "jobId": {
-          "description": "The Id of the job assigned.",
+          "description": "The Id of the job.",
           "type": "string"
         },
         "capacityCost": {
@@ -4373,20 +2514,19 @@
         "offerTimeUtc": {
           "format": "date-time",
           "description": "The time the offer was created.",
-          "type": "string",
-          "x-nullable": true
+          "type": "string"
         },
         "expiryTimeUtc": {
           "format": "date-time",
-          "description": "The time that indicates when the offer will expire.",
-          "type": "string",
-          "x-nullable": true
+          "description": "The time that the offer will expire.",
+          "type": "string"
         }
       }
     },
     "JobPositionDetails": {
       "description": "Dto for JobPositionDetails.",
       "required": [
+        "estimatedWaitTimeMinutes",
         "jobId",
         "position",
         "queueId",
@@ -4411,6 +2551,11 @@
           "format": "int32",
           "description": "Length of the queue: total number of enqueued jobs.",
           "type": "integer"
+        },
+        "estimatedWaitTimeMinutes": {
+          "format": "double",
+          "description": "Estimated wait time of the job rounded up to the nearest minute",
+          "type": "number"
         }
       }
     },
@@ -4435,70 +2580,15 @@
           "type": "string"
         },
         "labels": {
-          "description": "(Optional) A set of key/value pairs used by the classification process to determine queue to assign a job.",
+          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         },
         "exceptionPolicyId": {
           "description": "(Optional) The ID of the exception policy that determines various job escalation rules.",
           "type": "string"
         }
       }
-    },
-    "LabelSelector": {
-      "description": "Describes a condition that must be met against a set of labels",
-      "required": [
-        "key",
-        "operator"
-      ],
-      "type": "object",
-      "properties": {
-        "key": {
-          "description": "The label key to query against",
-          "maxLength": 500,
-          "minLength": 0,
-          "type": "string"
-        },
-        "operator": {
-          "description": "Describes how the value of the label is compared to the value defined on the label selector",
-          "enum": [
-            "equal",
-            "notEqual",
-            "lessThan",
-            "lessThanEqual",
-            "greaterThan",
-            "greaterThanEqual"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "LabelOperator",
-            "modelAsString": false
-          }
-        },
-        "value": {
-          "description": "The value to compare against the actual label value with the given operator",
-          "x-nullable": true
-        },
-        "ttl": {
-          "description": "Describes how long this label selector is valid. Requires input conforming to ISO8601 duration format.",
-          "type": "string",
-          "x-nullable": true
-        }
-      }
-    },
-    "LabelSelectorAttachment": {
-      "required": [
-        "kind"
-      ],
-      "type": "object",
-      "properties": {
-        "kind": {
-          "description": "The type discriminator describing the type of label selector attachment",
-          "type": "string"
-        }
-      },
-      "discriminator": "kind"
     },
     "LongestIdleMode": {
       "description": "Jobs are directed to the worker who has been idle longest.",
@@ -4538,29 +2628,25 @@
         "priority": {
           "format": "int32",
           "description": "Updated Priority.",
-          "type": "integer",
-          "x-nullable": true
+          "type": "integer"
         },
         "workerSelectors": {
           "description": "Updated WorkerSelectors.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LabelSelector"
-          },
-          "x-nullable": true
+            "$ref": "#/definitions/WorkerSelector"
+          }
         }
       },
       "x-ms-discriminator-value": "manual-reclassify"
     },
     "PagedClassificationPolicy": {
-      "required": [
-        "id"
-      ],
       "type": "object",
       "properties": {
         "id": {
           "description": "Unique identifier of this policy.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "name": {
           "description": "Friendly name of this policy.",
@@ -4573,25 +2659,22 @@
         "queueSelectors": {
           "description": "The queue selectors to resolve a queue for a given job.",
           "type": "array",
-          "items": { },
-          "x-nullable": true
+          "items": { }
         },
         "prioritizationRule": {
-          "description": "The rule to determine a priority score for a given job.",
-          "x-nullable": true
+          "description": "The rule to determine a priority score for a given job."
         },
         "workerSelectors": {
           "description": "The worker label selectors to attach to a given job.",
           "type": "array",
-          "items": { },
-          "x-nullable": true
+          "items": { }
         }
       }
     },
     "PagedDistributionPolicy": {
       "required": [
         "mode",
-        "offerTTL"
+        "offerTTLSeconds"
       ],
       "type": "object",
       "properties": {
@@ -4604,9 +2687,10 @@
           "description": "The human readable name of the policy.",
           "type": "string"
         },
-        "offerTTL": {
-          "description": "The expiry time of any offers created under this policy will be governed by the offer time to live. Requires input conforming to ISO8601 duration format.",
-          "type": "string"
+        "offerTTLSeconds": {
+          "format": "double",
+          "description": "The expiry time of any offers created under this policy will be governed by the offer time to live.",
+          "type": "number"
         },
         "mode": {
           "description": "The policy governing the specific distribution method."
@@ -4630,8 +2714,7 @@
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/ExceptionRule"
-          },
-          "x-nullable": true
+          }
         }
       }
     },
@@ -4672,11 +2755,10 @@
           "format": "date-time",
           "description": "The time a job was queued.",
           "type": "string",
-          "readOnly": true,
-          "x-nullable": true
+          "readOnly": true
         },
         "channelId": {
-          "description": "The channel or modality upon which this job will be executed.",
+          "description": "The channel identifier. eg. voice, chat, etc.",
           "type": "string"
         },
         "classificationPolicyId": {
@@ -4684,14 +2766,13 @@
           "type": "string"
         },
         "queueId": {
-          "description": "The Id of the Queue that a job is queued to.",
+          "description": "The Id of the Queue that this job is queued to.",
           "type": "string"
         },
         "priority": {
           "format": "int32",
           "description": "The priority of this job.",
-          "type": "integer",
-          "x-nullable": true
+          "type": "integer"
         },
         "dispositionCode": {
           "description": "Reason code for cancelled or closed jobs.",
@@ -4701,24 +2782,21 @@
           "description": "A collection of manually specified label selectors, which a worker must satisfy in order to process this job.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LabelSelector"
-          },
-          "x-nullable": true
+            "$ref": "#/definitions/WorkerSelector"
+          }
         },
         "attachedWorkerSelectors": {
           "description": "A collection of label selectors attached by a classification policy, which a worker must satisfy in order to process this job.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LabelSelector"
+            "$ref": "#/definitions/WorkerSelector"
           },
-          "readOnly": true,
-          "x-nullable": true
+          "readOnly": true
         },
         "labels": {
-          "description": "A set of key/value pairs used by the classification process to determine queue, priority and attach label selectors.",
+          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         },
         "assignments": {
           "description": "A collection of the assignments of the job.\r\nKey is AssignmentId.",
@@ -4726,22 +2804,19 @@
           "additionalProperties": {
             "$ref": "#/definitions/JobAssignment"
           },
-          "readOnly": true,
-          "x-nullable": true
+          "readOnly": true
         },
         "tags": {
-          "description": "A set of key/value pairs that can be used for storing non-routing related data.",
+          "description": "A set of non-identifying attributes attached to this job",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         },
         "notes": {
-          "description": "Generic text notes attached to a job, sorted by timestamp",
+          "description": "Notes attached to a job, sorted by timestamp",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "x-nullable": true
+          }
         }
       }
     },
@@ -4765,10 +2840,9 @@
           "type": "string"
         },
         "labels": {
-          "description": "(Optional) A set of key/value pairs used by the classification process to determine queue to assign a job.",
+          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         },
         "exceptionPolicyId": {
           "description": "(Optional) The ID of the exception policy that determines various job escalation rules.",
@@ -4778,81 +2852,91 @@
     },
     "PagedWorker": {
       "required": [
-        "id",
-        "loadRatio",
-        "state",
         "totalCapacity"
       ],
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "state": {
+          "description": "The current state of the worker.",
           "enum": [
             "active",
             "draining",
             "inactive"
           ],
           "type": "string",
-          "x-ms-enum": {
-            "name": "WorkerState",
-            "modelAsString": false
-          }
+          "readOnly": true
         },
         "queueAssignments": {
+          "description": "The queue(s) that this worker can receive work from.",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/QueueAssignment"
-          },
-          "x-nullable": true
+          }
         },
         "totalCapacity": {
           "format": "int32",
+          "description": "The total capacity score this worker has to manage multiple concurrent jobs.",
           "type": "integer"
         },
         "labels": {
+          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
+        },
+        "tags": {
+          "description": "A set of non-identifying attributes attached to this worker.",
+          "type": "object",
+          "additionalProperties": { }
         },
         "channelConfigurations": {
+          "description": "The channel(s) this worker can handle and their impact on the workers capacity.",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/ChannelConfiguration"
-          },
-          "x-nullable": true
+          }
         },
         "offers": {
+          "description": "A list of active offers issued to this worker.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JobOffer"
           },
-          "x-nullable": true
+          "readOnly": true
         },
         "assignedJobs": {
+          "description": "A list of assigned jobs attached to this worker.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/WorkerAssignment"
           },
-          "x-nullable": true
+          "readOnly": true
         },
         "loadRatio": {
           "format": "double",
-          "type": "number"
+          "description": "A value indicating the workers capacity. A value of '1' means all capacity is consumed. A value of '0' means no capacity is currently consumed.",
+          "type": "number",
+          "readOnly": true
+        },
+        "availableForOffers": {
+          "description": "A flag indicating this worker is open to receive offers or not.",
+          "type": "boolean"
         }
       }
     },
-    "PassThroughLabelSelector": {
+    "PassThroughQueueSelector": {
       "description": "Attaches a label selector where the value is pass through from the job label with the same key",
       "required": [
         "key",
-        "operator"
+        "labelOperator"
       ],
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/LabelSelectorAttachment"
+          "$ref": "#/definitions/QueueSelectorAttachment"
         }
       ],
       "properties": {
@@ -4866,7 +2950,49 @@
           "minLength": 0,
           "type": "string"
         },
-        "operator": {
+        "labelOperator": {
+          "description": "Describes how the value of the label is compared to the value pass through",
+          "enum": [
+            "equal",
+            "notEqual",
+            "lessThan",
+            "lessThanEqual",
+            "greaterThan",
+            "greaterThanEqual"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "LabelOperator",
+            "modelAsString": false
+          }
+        }
+      },
+      "x-ms-discriminator-value": "pass-through"
+    },
+    "PassThroughWorkerSelector": {
+      "description": "Attaches a label selector where the value is pass through from the job label with the same key",
+      "required": [
+        "key",
+        "labelOperator"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkerSelectorAttachment"
+        }
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "readOnly": true
+        },
+        "key": {
+          "description": "The label key to query against",
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string"
+        },
+        "labelOperator": {
           "description": "Describes how the value of the label is compared to the value pass through",
           "enum": [
             "equal",
@@ -4882,10 +3008,10 @@
             "modelAsString": false
           }
         },
-        "ttl": {
-          "description": "Describes how long the attached label selector is valid. Requires input conforming to ISO8601 duration format.",
-          "type": "string",
-          "x-nullable": true
+        "ttlSeconds": {
+          "format": "double",
+          "description": "Describes how long the attached label selector is valid in seconds.",
+          "type": "number"
         }
       },
       "x-ms-discriminator-value": "pass-through"
@@ -4931,11 +3057,111 @@
         },
         "threshold": {
           "format": "int32",
-          "description": "Threshold of number of jobs queued to for this trigger",
+          "description": "Threshold of number of jobs ahead in the queue to for this trigger to fire.",
           "type": "integer"
         }
       },
       "x-ms-discriminator-value": "queue-length"
+    },
+    "QueueSelector": {
+      "required": [
+        "key",
+        "labelOperator"
+      ],
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "The label key to query against",
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string"
+        },
+        "labelOperator": {
+          "description": "Describes how the value of the label is compared to the value defined on the label selector",
+          "enum": [
+            "equal",
+            "notEqual",
+            "lessThan",
+            "lessThanEqual",
+            "greaterThan",
+            "greaterThanEqual"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "LabelOperator",
+            "modelAsString": false
+          }
+        },
+        "value": {
+          "description": "The value to compare against the actual label value with the given operator"
+        }
+      }
+    },
+    "QueueSelectorAttachment": {
+      "required": [
+        "kind"
+      ],
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "The type discriminator describing the type of label selector attachment",
+          "type": "string"
+        }
+      },
+      "discriminator": "kind"
+    },
+    "QueueStatistics": {
+      "description": "Statistics for the queue",
+      "required": [
+        "length",
+        "queueId"
+      ],
+      "type": "object",
+      "properties": {
+        "queueId": {
+          "description": "Id of the queue these details are about.",
+          "type": "string"
+        },
+        "length": {
+          "format": "int32",
+          "description": "Length of the queue: total number of enqueued jobs.",
+          "type": "integer"
+        },
+        "estimatedWaitTimeMinutes": {
+          "description": "The estimated wait time of this queue rounded up to the nearest minute, grouped by job priority",
+          "type": "object",
+          "additionalProperties": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "longestJobWaitTimeMinutes": {
+          "format": "double",
+          "description": "The wait time of the job that has been enqueued in this queue for the longest.",
+          "type": "number"
+        }
+      }
+    },
+    "QueueWeightedAllocation": {
+      "required": [
+        "labelSelectors",
+        "weight"
+      ],
+      "type": "object",
+      "properties": {
+        "weight": {
+          "format": "double",
+          "description": "The percentage of this weight, expressed as a fraction of 1.",
+          "type": "number"
+        },
+        "labelSelectors": {
+          "description": "A collection of label selectors that will be applied if this allocation is selected.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/QueueSelector"
+          }
+        }
+      }
     },
     "ReclassifyExceptionAction": {
       "description": "An action that modifies labels on a job and then reclassifies it",
@@ -4959,76 +3185,10 @@
         "labelsToUpsert": {
           "description": "(optional) Dictionary containing the labels to update (or add if not existing) in key-value pairs",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         }
       },
       "x-ms-discriminator-value": "reclassify"
-    },
-    "RegisterWorkerRequest": {
-      "description": "Request payload for registering workers.",
-      "required": [
-        "id",
-        "totalCapacity"
-      ],
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Unique key that identifies this worker.",
-          "maxLength": 50,
-          "minLength": 0,
-          "type": "string"
-        },
-        "queueAssignments": {
-          "description": "A dictionary collection of the queues assignments for this worker. Key is the Id of each queue.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/QueueAssignment"
-          },
-          "x-nullable": true
-        },
-        "totalCapacity": {
-          "format": "int32",
-          "description": "Total score that can be consumed by offers and assignments under this worker.",
-          "type": "integer"
-        },
-        "labels": {
-          "description": "A set of properties of this worker that are used to determine if it matches a set on label selectors.",
-          "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
-        },
-        "channelConfigurations": {
-          "description": "A dictionary collection of channel configurations that define how the worker can do concurrent work per channel. Key is the Id of each channel.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/ChannelConfiguration"
-          },
-          "x-nullable": true
-        }
-      }
-    },
-    "ReleaseAssignmentRequest": {
-      "type": "object",
-      "properties": {
-        "releaseTime": {
-          "format": "date-time",
-          "description": "If not provided, capacity will be released immediately.\r\nIf provided, the future time at which to release the capacity.",
-          "type": "string",
-          "x-nullable": true
-        }
-      }
-    },
-    "RepeatabilityHeaders": {
-      "type": "object",
-      "properties": {
-        "repeatabilityRequestId": {
-          "type": "string"
-        },
-        "repeatabilityFirstSent": {
-          "type": "string"
-        }
-      }
     },
     "RoundRobinMode": {
       "description": "Jobs are distributed in order to workers, starting with the worker that is after the last worker to receive a job.",
@@ -5084,11 +3244,10 @@
           "format": "date-time",
           "description": "The time a job was queued.",
           "type": "string",
-          "readOnly": true,
-          "x-nullable": true
+          "readOnly": true
         },
         "channelId": {
-          "description": "The channel or modality upon which this job will be executed.",
+          "description": "The channel identifier. eg. voice, chat, etc.",
           "type": "string"
         },
         "classificationPolicyId": {
@@ -5096,14 +3255,13 @@
           "type": "string"
         },
         "queueId": {
-          "description": "The Id of the Queue that a job is queued to.",
+          "description": "The Id of the Queue that this job is queued to.",
           "type": "string"
         },
         "priority": {
           "format": "int32",
           "description": "The priority of this job.",
-          "type": "integer",
-          "x-nullable": true
+          "type": "integer"
         },
         "dispositionCode": {
           "description": "Reason code for cancelled or closed jobs.",
@@ -5113,24 +3271,21 @@
           "description": "A collection of manually specified label selectors, which a worker must satisfy in order to process this job.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LabelSelector"
-          },
-          "x-nullable": true
+            "$ref": "#/definitions/WorkerSelector"
+          }
         },
         "attachedWorkerSelectors": {
           "description": "A collection of label selectors attached by a classification policy, which a worker must satisfy in order to process this job.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LabelSelector"
+            "$ref": "#/definitions/WorkerSelector"
           },
-          "readOnly": true,
-          "x-nullable": true
+          "readOnly": true
         },
         "labels": {
-          "description": "A set of key/value pairs used by the classification process to determine queue, priority and attach label selectors.",
+          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         },
         "assignments": {
           "description": "A collection of the assignments of the job.\r\nKey is AssignmentId.",
@@ -5138,22 +3293,19 @@
           "additionalProperties": {
             "$ref": "#/definitions/JobAssignment"
           },
-          "readOnly": true,
-          "x-nullable": true
+          "readOnly": true
         },
         "tags": {
-          "description": "A set of key/value pairs that can be used for storing non-routing related data.",
+          "description": "A set of non-identifying attributes attached to this job",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
         },
         "notes": {
-          "description": "Generic text notes attached to a job, sorted by timestamp",
+          "description": "Notes attached to a job, sorted by timestamp",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "x-nullable": true
+          }
         }
       }
     },
@@ -5172,79 +3324,89 @@
     },
     "RouterWorker": {
       "required": [
-        "id",
-        "loadRatio",
-        "state",
         "totalCapacity"
       ],
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "state": {
+          "description": "The current state of the worker.",
           "enum": [
             "active",
             "draining",
             "inactive"
           ],
           "type": "string",
-          "x-ms-enum": {
-            "name": "WorkerState",
-            "modelAsString": false
-          }
+          "readOnly": true
         },
         "queueAssignments": {
+          "description": "The queue(s) that this worker can receive work from.",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/QueueAssignment"
-          },
-          "x-nullable": true
+          }
         },
         "totalCapacity": {
           "format": "int32",
+          "description": "The total capacity score this worker has to manage multiple concurrent jobs.",
           "type": "integer"
         },
         "labels": {
+          "description": "A set of key/value pairs that are identifying attributes used by the rules engines to make decisions.",
           "type": "object",
-          "additionalProperties": { },
-          "x-nullable": true
+          "additionalProperties": { }
+        },
+        "tags": {
+          "description": "A set of non-identifying attributes attached to this worker.",
+          "type": "object",
+          "additionalProperties": { }
         },
         "channelConfigurations": {
+          "description": "The channel(s) this worker can handle and their impact on the workers capacity.",
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/ChannelConfiguration"
-          },
-          "x-nullable": true
+          }
         },
         "offers": {
+          "description": "A list of active offers issued to this worker.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/JobOffer"
           },
-          "x-nullable": true
+          "readOnly": true
         },
         "assignedJobs": {
+          "description": "A list of assigned jobs attached to this worker.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/WorkerAssignment"
           },
-          "x-nullable": true
+          "readOnly": true
         },
         "loadRatio": {
           "format": "double",
-          "type": "number"
+          "description": "A value indicating the workers capacity. A value of '1' means all capacity is consumed. A value of '0' means no capacity is currently consumed.",
+          "type": "number",
+          "readOnly": true
+        },
+        "availableForOffers": {
+          "description": "A flag indicating this worker is open to receive offers or not.",
+          "type": "boolean"
         }
       }
     },
-    "RuleLabelSelector": {
+    "RuleEngineQueueSelector": {
       "required": [
         "rule"
       ],
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/LabelSelectorAttachment"
+          "$ref": "#/definitions/QueueSelectorAttachment"
         }
       ],
       "properties": {
@@ -5256,7 +3418,28 @@
           "description": "A RouterRule that resolves a collection of LabelSelector to attach"
         }
       },
-      "x-ms-discriminator-value": "rule"
+      "x-ms-discriminator-value": "rule-engine"
+    },
+    "RuleEngineWorkerSelector": {
+      "required": [
+        "rule"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkerSelectorAttachment"
+        }
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "readOnly": true
+        },
+        "rule": {
+          "description": "A RouterRule that resolves a collection of LabelSelector to attach"
+        }
+      },
+      "x-ms-discriminator-value": "rule-engine"
     },
     "ScoringRuleOptions": {
       "description": "Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode",
@@ -5265,8 +3448,7 @@
         "batchSize": {
           "format": "int32",
           "description": "(Optional) Set batch size when AllowScoringBatchOfWorkers is set to true",
-          "type": "integer",
-          "x-nullable": true
+          "type": "integer"
         },
         "scoringParameters": {
           "description": "(Optional) List of extra parameters from the job that will be sent as part of the payload to scoring rule.\r\nIf not set, the job's labels (sent in the payload as `job`) and the job's worker selectors (sent in the payload as `selectors`)\r\nare added to the payload of the scoring rule by default.\r\nNote: Worker labels are always sent with scoring payload.",
@@ -5275,29 +3457,26 @@
             "description": "Supported parameters for scoring workers",
             "enum": [
               "jobLabels",
-              "labelSelectors"
+              "workerSelectors"
             ],
             "type": "string",
             "x-ms-enum": {
               "name": "ScoringRuleParameterSelector",
               "modelAsString": false
             }
-          },
-          "x-nullable": true
+          }
         },
         "allowScoringBatchOfWorkers": {
           "description": "(Optional)\r\nIf set to true, will score workers in batches, and the parameter name of the worker labels will be sent as `workers`.\r\nBy default, set to false and the parameter name for the worker labels will be sent as `worker`.\r\nNote: If enabled, use BatchSize to set batch size.",
-          "type": "boolean",
-          "x-nullable": true
+          "type": "boolean"
         },
         "descendingOrder": {
           "description": "(Optional)\r\nIf false, will sort scores by ascending order. By default, set to true.",
-          "type": "boolean",
-          "x-nullable": true
+          "type": "boolean"
         }
       }
     },
-    "StaticLabelSelector": {
+    "StaticQueueSelector": {
       "description": "Describes a label selector that will always be attached",
       "required": [
         "labelSelector"
@@ -5305,7 +3484,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/LabelSelectorAttachment"
+          "$ref": "#/definitions/QueueSelectorAttachment"
         }
       ],
       "properties": {
@@ -5314,7 +3493,7 @@
           "readOnly": true
         },
         "labelSelector": {
-          "$ref": "#/definitions/LabelSelector"
+          "$ref": "#/definitions/QueueSelector"
         }
       },
       "x-ms-discriminator-value": "static"
@@ -5335,11 +3514,32 @@
         "value": {
           "description": "The static value this rule always returns.",
           "maxLength": 500,
-          "minLength": 0,
-          "x-nullable": true
+          "minLength": 0
         }
       },
       "x-ms-discriminator-value": "static-rule"
+    },
+    "StaticWorkerSelector": {
+      "description": "Describes a label selector that will always be attached",
+      "required": [
+        "labelSelector"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkerSelectorAttachment"
+        }
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "readOnly": true
+        },
+        "labelSelector": {
+          "$ref": "#/definitions/WorkerSelector"
+        }
+      },
+      "x-ms-discriminator-value": "static"
     },
     "WaitTimeExceptionTrigger": {
       "description": "Trigger for an exception action on exceeding wait time",
@@ -5364,29 +3564,7 @@
       },
       "x-ms-discriminator-value": "wait-time"
     },
-    "WeightedAllocation": {
-      "description": "A percentage based allocation.",
-      "required": [
-        "labelSelectors",
-        "weight"
-      ],
-      "type": "object",
-      "properties": {
-        "weight": {
-          "format": "double",
-          "description": "The percentage of this weight, expressed as a fraction of 1.",
-          "type": "number"
-        },
-        "labelSelectors": {
-          "description": "A collection of label selectors that will be applied if this allocation is selected.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LabelSelector"
-          }
-        }
-      }
-    },
-    "WeightedAllocationLabelSelector": {
+    "WeightedAllocationQueueSelector": {
       "description": "Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting",
       "required": [
         "allocations"
@@ -5394,7 +3572,7 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/LabelSelectorAttachment"
+          "$ref": "#/definitions/QueueSelectorAttachment"
         }
       ],
       "properties": {
@@ -5406,11 +3584,37 @@
           "description": "A collection of percentage based weighted allocations.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/WeightedAllocation"
+            "$ref": "#/definitions/QueueWeightedAllocation"
           }
         }
       },
-      "x-ms-discriminator-value": "weighted-allocation"
+      "x-ms-discriminator-value": "weighted-allocation-queue-selector"
+    },
+    "WeightedAllocationWorkerSelector": {
+      "description": "Describes multiple sets of label selectors, of which one will be selected and attached according to a weighting",
+      "required": [
+        "allocations"
+      ],
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WorkerSelectorAttachment"
+        }
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "readOnly": true
+        },
+        "allocations": {
+          "description": "A collection of percentage based weighted allocations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkerWeightedAllocation"
+          }
+        }
+      },
+      "x-ms-discriminator-value": "weighted-allocation-worker-selector"
     },
     "WorkerAssignment": {
       "required": [
@@ -5431,12 +3635,12 @@
         },
         "capacityCost": {
           "format": "int32",
-          "description": "The amount of capacity this assignment has consumed for a worker.",
+          "description": "The amount of capacity this assignment has consumed on the worker.",
           "type": "integer"
         },
         "assignTime": {
           "format": "date-time",
-          "description": "The Assignment time of the job.",
+          "description": "The assignment time of the job.",
           "type": "string"
         }
       }
@@ -5459,6 +3663,83 @@
           "readOnly": true
         }
       }
+    },
+    "WorkerSelector": {
+      "required": [
+        "key",
+        "labelOperator"
+      ],
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "The label key to query against",
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string"
+        },
+        "labelOperator": {
+          "description": "Describes how the value of the label is compared to the value defined on the label selector",
+          "enum": [
+            "equal",
+            "notEqual",
+            "lessThan",
+            "lessThanEqual",
+            "greaterThan",
+            "greaterThanEqual"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "LabelOperator",
+            "modelAsString": false
+          }
+        },
+        "value": {
+          "description": "The value to compare against the actual label value with the given operator"
+        },
+        "ttlSeconds": {
+          "format": "double",
+          "description": "Describes how long this label selector is valid in seconds.",
+          "type": "number"
+        },
+        "expedite": {
+          "description": "Pushes the job to the front of the queue as long as this selector is active.",
+          "type": "boolean"
+        }
+      }
+    },
+    "WorkerSelectorAttachment": {
+      "required": [
+        "kind"
+      ],
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "The type discriminator describing the type of label selector attachment",
+          "type": "string"
+        }
+      },
+      "discriminator": "kind"
+    },
+    "WorkerWeightedAllocation": {
+      "required": [
+        "labelSelectors",
+        "weight"
+      ],
+      "type": "object",
+      "properties": {
+        "weight": {
+          "format": "double",
+          "description": "The percentage of this weight, expressed as a fraction of 1.",
+          "type": "number"
+        },
+        "labelSelectors": {
+          "description": "A collection of label selectors that will be applied if this allocation is selected.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkerSelector"
+          }
+        }
+      }
     }
   },
   "parameters": {
@@ -5478,5 +3759,14 @@
       "x-ms-skip-url-encoding": true,
       "x-ms-parameter-location": "client"
     }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
   }
 }

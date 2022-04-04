@@ -21,46 +21,50 @@ import {
   JobRouterListQueuesOptionalParams,
   PagedWorker,
   JobRouterListWorkersOptionalParams,
-  CreateClassificationPolicyRequest,
-  JobRouterCreateClassificationPolicyV2OptionalParams,
-  JobRouterCreateClassificationPolicyV2Response,
-  JobRouterPatchClassificationPolicyV2OptionalParams,
-  JobRouterPatchClassificationPolicyV2Response,
+  ClassificationPolicy,
+  JobRouterCreateClassificationPolicyOptionalParams,
+  JobRouterCreateClassificationPolicyResponse,
+  JobRouterUpdateClassificationPolicyOptionalParams,
+  JobRouterUpdateClassificationPolicyResponse,
   JobRouterGetClassificationPolicyOptionalParams,
   JobRouterGetClassificationPolicyResponse,
   JobRouterDeleteClassificationPolicyOptionalParams,
   DistributionPolicy,
-  JobRouterCreateDistributionPolicyV2OptionalParams,
-  JobRouterCreateDistributionPolicyV2Response,
-  JobRouterPatchDistributionPolicyOptionalParams,
-  JobRouterPatchDistributionPolicyResponse,
+  JobRouterCreateDistributionPolicyOptionalParams,
+  JobRouterCreateDistributionPolicyResponse,
+  JobRouterUpdateDistributionPolicyOptionalParams,
+  JobRouterUpdateDistributionPolicyResponse,
   JobRouterGetDistributionPolicyOptionalParams,
   JobRouterGetDistributionPolicyResponse,
   JobRouterDeleteDistributionPolicyOptionalParams,
   ExceptionPolicy,
-  JobRouterCreateExceptionPolicyV2OptionalParams,
-  JobRouterCreateExceptionPolicyV2Response,
-  JobRouterPatchExceptionPolicyV2OptionalParams,
-  JobRouterPatchExceptionPolicyV2Response,
+  JobRouterCreateExceptionPolicyOptionalParams,
+  JobRouterCreateExceptionPolicyResponse,
+  JobRouterUpdateExceptionPolicyOptionalParams,
+  JobRouterUpdateExceptionPolicyResponse,
   JobRouterGetExceptionPolicyOptionalParams,
   JobRouterGetExceptionPolicyResponse,
   JobRouterDeleteExceptionPolicyOptionalParams,
   RouterJob,
-  JobRouterCreateJobV2OptionalParams,
-  JobRouterCreateJobV2Response,
+  JobRouterCreateJobOptionalParams,
+  JobRouterCreateJobResponse,
   JobRouterGetJobOptionalParams,
   JobRouterGetJobResponse,
   JobRouterUpdateJobOptionalParams,
   JobRouterUpdateJobResponse,
+  JobRouterDeleteJobOptionalParams,
   JobRouterCancelJobActionOptionalParams,
+  JobRouterCancelJobActionResponse,
   JobRouterCompleteJobActionOptionalParams,
+  JobRouterCompleteJobActionResponse,
   JobRouterCloseJobActionOptionalParams,
+  JobRouterCloseJobActionResponse,
   JobRouterGetInQueuePositionOptionalParams,
   JobRouterGetInQueuePositionResponse,
-  JobRouterDeleteJobOptionalParams,
   JobRouterAcceptJobActionOptionalParams,
   JobRouterAcceptJobActionResponse,
   JobRouterDeclineJobActionOptionalParams,
+  JobRouterDeclineJobActionResponse,
   JobQueue,
   JobRouterCreateQueueOptionalParams,
   JobRouterCreateQueueResponse,
@@ -69,13 +73,15 @@ import {
   JobRouterGetQueueOptionalParams,
   JobRouterGetQueueResponse,
   JobRouterDeleteQueueOptionalParams,
-  RegisterWorkerRequest,
-  JobRouterRegisterWorkerV2OptionalParams,
-  JobRouterRegisterWorkerV2Response,
-  JobRouterDeregisterWorkerV2OptionalParams,
+  JobRouterGetQueueStatisticsOptionalParams,
+  JobRouterGetQueueStatisticsResponse,
+  RouterWorker,
+  JobRouterCreateWorkerOptionalParams,
+  JobRouterCreateWorkerResponse,
+  JobRouterUpdateWorkerOptionalParams,
+  JobRouterUpdateWorkerResponse,
   JobRouterGetWorkerOptionalParams,
   JobRouterGetWorkerResponse,
-  JobRouterReleaseAssignmentActionOptionalParams,
   JobRouterDeleteWorkerOptionalParams
 } from "../models";
 
@@ -126,22 +132,24 @@ export interface JobRouter {
   ): PagedAsyncIterableIterator<PagedWorker>;
   /**
    * Creates a new classification policy.
-   * @param createClassificationPolicyRequest Request to create or update classification policy
+   * @param classificationPolicy Model of classification policy to create
    * @param options The options parameters.
    */
-  createClassificationPolicyV2(
-    createClassificationPolicyRequest: CreateClassificationPolicyRequest,
-    options?: JobRouterCreateClassificationPolicyV2OptionalParams
-  ): Promise<JobRouterCreateClassificationPolicyV2Response>;
+  createClassificationPolicy(
+    classificationPolicy: ClassificationPolicy,
+    options?: JobRouterCreateClassificationPolicyOptionalParams
+  ): Promise<JobRouterCreateClassificationPolicyResponse>;
   /**
    * Updates a classification policy.
-   * @param id
+   * @param id The id of classification policy.
+   * @param patch JSON Document contained the partial update for the classification policy.
    * @param options The options parameters.
    */
-  patchClassificationPolicyV2(
+  updateClassificationPolicy(
     id: string,
-    options?: JobRouterPatchClassificationPolicyV2OptionalParams
-  ): Promise<JobRouterPatchClassificationPolicyV2Response>;
+    patch: ClassificationPolicy,
+    options?: JobRouterUpdateClassificationPolicyOptionalParams
+  ): Promise<JobRouterUpdateClassificationPolicyResponse>;
   /**
    * Retrieves an existing classification policy by Id
    * @param id Id of the classification policy
@@ -165,19 +173,19 @@ export interface JobRouter {
    * @param distributionPolicy Request to create distribution policy
    * @param options The options parameters.
    */
-  createDistributionPolicyV2(
+  createDistributionPolicy(
     distributionPolicy: DistributionPolicy,
-    options?: JobRouterCreateDistributionPolicyV2OptionalParams
-  ): Promise<JobRouterCreateDistributionPolicyV2Response>;
+    options?: JobRouterCreateDistributionPolicyOptionalParams
+  ): Promise<JobRouterCreateDistributionPolicyResponse>;
   /**
    * Updates a distribution policy.
    * @param id Id of the distribution policy
    * @param options The options parameters.
    */
-  patchDistributionPolicy(
+  updateDistributionPolicy(
     id: string,
-    options?: JobRouterPatchDistributionPolicyOptionalParams
-  ): Promise<JobRouterPatchDistributionPolicyResponse>;
+    options?: JobRouterUpdateDistributionPolicyOptionalParams
+  ): Promise<JobRouterUpdateDistributionPolicyResponse>;
   /**
    * Retrieves an existing distribution policy by Id
    * @param id Id of the distribution policy
@@ -201,19 +209,19 @@ export interface JobRouter {
    * @param exceptionPolicy Model of exception policy to be created
    * @param options The options parameters.
    */
-  createExceptionPolicyV2(
+  createExceptionPolicy(
     exceptionPolicy: ExceptionPolicy,
-    options?: JobRouterCreateExceptionPolicyV2OptionalParams
-  ): Promise<JobRouterCreateExceptionPolicyV2Response>;
+    options?: JobRouterCreateExceptionPolicyOptionalParams
+  ): Promise<JobRouterCreateExceptionPolicyResponse>;
   /**
    * Updates an exception policy
    * @param id Id of the exception policy
    * @param options The options parameters.
    */
-  patchExceptionPolicyV2(
+  updateExceptionPolicy(
     id: string,
-    options?: JobRouterPatchExceptionPolicyV2OptionalParams
-  ): Promise<JobRouterPatchExceptionPolicyV2Response>;
+    options?: JobRouterUpdateExceptionPolicyOptionalParams
+  ): Promise<JobRouterUpdateExceptionPolicyResponse>;
   /**
    * Retrieves an existing exception policy by Id
    * @param id Id of the exception policy to retrieve
@@ -237,10 +245,10 @@ export interface JobRouter {
    * @param routerJob Model of job to be created
    * @param options The options parameters.
    */
-  createJobV2(
+  createJob(
     routerJob: RouterJob,
-    options?: JobRouterCreateJobV2OptionalParams
-  ): Promise<JobRouterCreateJobV2Response>;
+    options?: JobRouterCreateJobOptionalParams
+  ): Promise<JobRouterCreateJobResponse>;
   /**
    * Retrieves an existing job by Id
    * @param id Id of the job to retrieve
@@ -260,6 +268,15 @@ export interface JobRouter {
     options?: JobRouterUpdateJobOptionalParams
   ): Promise<JobRouterUpdateJobResponse>;
   /**
+   * Deletes a job and all of its traces.
+   * @param id
+   * @param options The options parameters.
+   */
+  deleteJob(
+    id: string,
+    options?: JobRouterDeleteJobOptionalParams
+  ): Promise<coreHttp.RestResponse>;
+  /**
    * Submits request to cancel an existing job by Id while supplying free-form cancellation reason.
    * @param id Id of the job
    * @param options The options parameters.
@@ -267,7 +284,7 @@ export interface JobRouter {
   cancelJobAction(
     id: string,
     options?: JobRouterCancelJobActionOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<JobRouterCancelJobActionResponse>;
   /**
    * Completes an assigned job.
    * @param id Id of the job
@@ -278,7 +295,7 @@ export interface JobRouter {
     id: string,
     assignmentId: string,
     options?: JobRouterCompleteJobActionOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<JobRouterCompleteJobActionResponse>;
   /**
    * Closes a completed job.
    * @param id Id of the job
@@ -289,7 +306,7 @@ export interface JobRouter {
     id: string,
     assignmentId: string,
     options?: JobRouterCloseJobActionOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<JobRouterCloseJobActionResponse>;
   /**
    * Gets a job's position details.
    * @param id Id of the job
@@ -299,15 +316,6 @@ export interface JobRouter {
     id: string,
     options?: JobRouterGetInQueuePositionOptionalParams
   ): Promise<JobRouterGetInQueuePositionResponse>;
-  /**
-   * Deletes a job and all of its traces.
-   * @param id
-   * @param options The options parameters.
-   */
-  deleteJob(
-    id: string,
-    options?: JobRouterDeleteJobOptionalParams
-  ): Promise<coreHttp.RestResponse>;
   /**
    * Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job
    * already.
@@ -330,7 +338,7 @@ export interface JobRouter {
     offerId: string,
     workerId: string,
     options?: JobRouterDeclineJobActionOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<JobRouterDeclineJobActionResponse>;
   /**
    * Creates a queue.
    * @param jobQueue Model of queue to be created
@@ -368,25 +376,32 @@ export interface JobRouter {
     options?: JobRouterDeleteQueueOptionalParams
   ): Promise<coreHttp.RestResponse>;
   /**
-   * Registers a worker to process jobs.
-   * @param workerId Id of the worker to register
-   * @param registerWorkerRequest The request to register the worker
+   * Retrieves a queue's statistics
+   * @param id Id of the queue to retrieve statistics
    * @param options The options parameters.
    */
-  registerWorkerV2(
-    workerId: string,
-    registerWorkerRequest: RegisterWorkerRequest,
-    options?: JobRouterRegisterWorkerV2OptionalParams
-  ): Promise<JobRouterRegisterWorkerV2Response>;
+  getQueueStatistics(
+    id: string,
+    options?: JobRouterGetQueueStatisticsOptionalParams
+  ): Promise<JobRouterGetQueueStatisticsResponse>;
   /**
-   * Deregisters a worker from processing jobs.
-   * @param workerId Id of the worker to deregister
+   * Create a worker to process jobs.
+   * @param routerWorker Request to create a worker
    * @param options The options parameters.
    */
-  deregisterWorkerV2(
+  createWorker(
+    routerWorker: RouterWorker,
+    options?: JobRouterCreateWorkerOptionalParams
+  ): Promise<JobRouterCreateWorkerResponse>;
+  /**
+   * Updates a worker.
+   * @param workerId Id of the worker
+   * @param options The options parameters.
+   */
+  updateWorker(
     workerId: string,
-    options?: JobRouterDeregisterWorkerV2OptionalParams
-  ): Promise<coreHttp.RestResponse>;
+    options?: JobRouterUpdateWorkerOptionalParams
+  ): Promise<JobRouterUpdateWorkerResponse>;
   /**
    * Retrieves an existing worker by Id
    * @param workerId Id of the worker to retrieve
@@ -396,17 +411,6 @@ export interface JobRouter {
     workerId: string,
     options?: JobRouterGetWorkerOptionalParams
   ): Promise<JobRouterGetWorkerResponse>;
-  /**
-   * Releases capacity consumed by an assignment within a workers socket collection.
-   * @param workerId Id of the worker to release assignment capacity
-   * @param assignmentId Id of the assignment to release capacity
-   * @param options The options parameters.
-   */
-  releaseAssignmentAction(
-    workerId: string,
-    assignmentId: string,
-    options?: JobRouterReleaseAssignmentActionOptionalParams
-  ): Promise<coreHttp.RestResponse>;
   /**
    * Deletes a worker and all of its traces.
    * @param workerId Id of the worker to delete

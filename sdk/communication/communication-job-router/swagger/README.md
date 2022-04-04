@@ -56,22 +56,15 @@ directive:
   - from: swagger-document
     where: "$.definitions.ClassificationPolicy.properties"
     transform: >
-      $.queueSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
-      $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
+      $.queueSelectors.items["$ref"] = "#/definitions/QueueSelectorAttachment";
+      $.workerSelectors.items["$ref"] = "#/definitions/WorkerSelectorAttachment";
       $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
       
   - from: swagger-document
-    where: "$.definitions.CreateClassificationPolicyRequest.properties"
-    transform: >
-      $.queueSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
-      $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
-      $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
-
-  - from: swagger-document
     where: "$.definitions.PagedClassificationPolicy.properties"
     transform: >
-      $.queueSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
-      $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
+      $.queueSelectors.items["$ref"] = "#/definitions/QueueSelectorAttachment";
+      $.workerSelectors.items["$ref"] = "#/definitions/WorkerSelectorAttachment";
       $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
 
   - from: swagger-document

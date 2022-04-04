@@ -18,22 +18,21 @@ import {
   JobRouterCreateQueueOptionalParams,
   JobRouterGetJobOptionalParams,
   JobRouterGetInQueuePositionOptionalParams,
-  JobRouterCreateJobV2OptionalParams,
+  JobRouterCreateJobOptionalParams,
   JobRouterGetExceptionPolicyOptionalParams,
-  JobRouterCreateExceptionPolicyV2OptionalParams,
-  JobRouterPatchExceptionPolicyV2OptionalParams,
+  JobRouterCreateExceptionPolicyOptionalParams,
+  JobRouterUpdateExceptionPolicyOptionalParams,
   JobRouterGetDistributionPolicyOptionalParams,
-  JobRouterCreateDistributionPolicyV2OptionalParams,
-  JobRouterPatchDistributionPolicyOptionalParams,
+  JobRouterCreateDistributionPolicyOptionalParams,
+  JobRouterUpdateDistributionPolicyOptionalParams,
   JobRouterGetClassificationPolicyOptionalParams,
-  JobRouterCreateClassificationPolicyV2OptionalParams,
-  JobRouterPatchClassificationPolicyV2OptionalParams,
+  JobRouterCreateClassificationPolicyOptionalParams,
+  JobRouterUpdateClassificationPolicyOptionalParams,
   JobRouterUpdateJobOptionalParams,
   JobRouterDeleteJobOptionalParams,
-  JobRouterReleaseAssignmentActionOptionalParams,
   JobRouterCancelJobActionOptionalParams,
-  JobRouterRegisterWorkerV2OptionalParams,
-  JobRouterDeregisterWorkerV2OptionalParams,
+  JobRouterCreateWorkerOptionalParams,
+  JobRouterUpdateWorkerOptionalParams,
   JobRouterAcceptJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
   JobRouterCompleteJobActionOptionalParams,
@@ -72,13 +71,13 @@ export interface ListClassificationPoliciesOptions
  * Options to create a distribution policy.
  */
 export interface CreateDistributionPolicyOptions
-  extends JobRouterCreateDistributionPolicyV2OptionalParams {}
+  extends JobRouterCreateDistributionPolicyOptionalParams {}
 
 /**
  * Options to update a distribution policy.
  */
 export interface UpdateDistributionPolicyOptions
-  extends JobRouterPatchDistributionPolicyOptionalParams {}
+  extends JobRouterUpdateDistributionPolicyOptionalParams {}
 
 /**
  * Options to get a distribution policy.
@@ -102,13 +101,13 @@ export interface ListDistributionPoliciesOptions
  * Options to create a exception policy.
  */
 export interface CreateExceptionPolicyOptions
-  extends JobRouterCreateExceptionPolicyV2OptionalParams {}
+  extends JobRouterCreateExceptionPolicyOptionalParams {}
 
 /**
  * Options to update a exception policy.
  */
 export interface UpdateExceptionPolicyOptions
-  extends JobRouterPatchExceptionPolicyV2OptionalParams {}
+  extends JobRouterUpdateExceptionPolicyOptionalParams {}
 
 /**
  * Options to get a exception policy.
@@ -130,10 +129,15 @@ export interface ListExceptionPoliciesOptions
 /**
  * Options to create a job.
  */
-export interface CreateJobOptions extends JobRouterCreateJobV2OptionalParams {
+export interface CreateJobOptions extends JobRouterCreateJobOptionalParams {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   idempotencyToken?: string;
 }
+
+/**
+ * Options to update a job.
+ */
+export interface UpdateJobOptions extends JobRouterUpdateJobOptionalParams {}
 
 /**
  * Options to update or insert a job's labels.
@@ -141,16 +145,21 @@ export interface CreateJobOptions extends JobRouterCreateJobV2OptionalParams {
 export interface UpdateJobLabelsOptions extends JobRouterUpdateJobOptionalParams {}
 
 /**
+ * Options to update a job's classification.
+ */
+export interface UpdateJobClassificationOptions extends JobRouterUpdateJobOptionalParams {}
+
+/**
  * Options to create a classification policy.
  */
 export interface CreateClassificationPolicyOptions
-  extends JobRouterCreateClassificationPolicyV2OptionalParams {}
+  extends JobRouterCreateClassificationPolicyOptionalParams {}
 
 /**
  * Options to update a classification policy.
  */
 export interface UpdateClassificationPolicyOptions
-  extends JobRouterPatchClassificationPolicyV2OptionalParams {}
+  extends JobRouterUpdateClassificationPolicyOptionalParams {}
 
 /**
  * Options to get a job's position details.
@@ -198,19 +207,14 @@ export interface ListJobsOptions extends JobRouterListJobsOptionalParams {}
 export interface DeleteJobOptions extends JobRouterDeleteJobOptionalParams {}
 
 /**
- * Options to register a worker.
+ * Options to create a worker.
  */
-export interface RegisterWorkerOptions extends JobRouterRegisterWorkerV2OptionalParams {}
+export interface CreateWorkerOptions extends JobRouterCreateWorkerOptionalParams {}
 
 /**
- * Options to deregister a worker.
+ * Options to update a worker.
  */
-export interface DeregisterWorkerOptions extends JobRouterDeregisterWorkerV2OptionalParams {}
-
-/**
- * Options to release a worker.
- */
-export interface ReleaseWorkerOptions extends JobRouterReleaseAssignmentActionOptionalParams {}
+export interface UpdateWorkerOptions extends JobRouterUpdateWorkerOptionalParams {}
 
 /**
  * Options to get a worker.

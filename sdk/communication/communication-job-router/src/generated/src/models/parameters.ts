@@ -12,7 +12,6 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  CreateClassificationPolicyRequest as CreateClassificationPolicyRequestMapper,
   ClassificationPolicy as ClassificationPolicyMapper,
   DistributionPolicy as DistributionPolicyMapper,
   ExceptionPolicy as ExceptionPolicyMapper,
@@ -21,8 +20,7 @@ import {
   CompleteJobRequest as CompleteJobRequestMapper,
   CloseJobRequest as CloseJobRequestMapper,
   JobQueue as JobQueueMapper,
-  RegisterWorkerRequest as RegisterWorkerRequestMapper,
-  ReleaseAssignmentRequest as ReleaseAssignmentRequestMapper
+  RouterWorker as RouterWorkerMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -37,9 +35,9 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const createClassificationPolicyRequest: OperationParameter = {
-  parameterPath: "createClassificationPolicyRequest",
-  mapper: CreateClassificationPolicyRequestMapper
+export const classificationPolicy: OperationParameter = {
+  parameterPath: "classificationPolicy",
+  mapper: ClassificationPolicyMapper
 };
 
 export const accept: OperationParameter = {
@@ -54,10 +52,10 @@ export const accept: OperationParameter = {
   }
 };
 
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
+export const endpoint: OperationURLParameter = {
+  parameterPath: "endpoint",
   mapper: {
-    serializedName: "$host",
+    serializedName: "endpoint",
     required: true,
     type: {
       name: "String"
@@ -66,12 +64,22 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const repeatabilityHeaders: OperationParameter = {
-  parameterPath: ["options", "repeatabilityHeaders"],
+export const repeatabilityRequestId: OperationParameter = {
+  parameterPath: ["options", "repeatabilityRequestId"],
   mapper: {
-    serializedName: "repeatabilityHeaders",
+    serializedName: "repeatability-request-id",
     type: {
-      name: "any"
+      name: "String"
+    }
+  }
+};
+
+export const repeatabilityFirstSent: OperationParameter = {
+  parameterPath: ["options", "repeatabilityFirstSent"],
+  mapper: {
+    serializedName: "repeatability-first-sent",
+    type: {
+      name: "String"
     }
   }
 };
@@ -88,23 +96,13 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
+export const maxpagesize: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
     defaultValue: 20,
-    serializedName: "maxPageSize",
+    serializedName: "maxpagesize",
     type: {
       name: "Number"
-    }
-  }
-};
-
-export const continuationToken: OperationQueryParameter = {
-  parameterPath: ["options", "continuationToken"],
-  mapper: {
-    serializedName: "continuationToken",
-    type: {
-      name: "String"
     }
   }
 };
@@ -122,7 +120,7 @@ export const contentType1: OperationParameter = {
 };
 
 export const patch: OperationParameter = {
-  parameterPath: ["options", "patch"],
+  parameterPath: "patch",
   mapper: ClassificationPolicyMapper
 };
 
@@ -152,8 +150,8 @@ export const exceptionPolicy: OperationParameter = {
   mapper: ExceptionPolicyMapper
 };
 
-export const patchExceptionPolicy: OperationParameter = {
-  parameterPath: ["options", "patchExceptionPolicy"],
+export const patch2: OperationParameter = {
+  parameterPath: ["options", "patch"],
   mapper: ExceptionPolicyMapper
 };
 
@@ -204,7 +202,7 @@ export const channelId: OperationQueryParameter = {
   }
 };
 
-export const patch2: OperationParameter = {
+export const patch3: OperationParameter = {
   parameterPath: ["options", "patch"],
   mapper: RouterJobMapper
 };
@@ -250,8 +248,8 @@ export const dispositionCode1: OperationParameter = {
   mapper: CloseJobRequestMapper
 };
 
-export const releaseTime: OperationParameter = {
-  parameterPath: ["options", "releaseTime"],
+export const closeTime: OperationParameter = {
+  parameterPath: ["options", "closeTime"],
   mapper: CloseJobRequestMapper
 };
 
@@ -287,14 +285,14 @@ export const jobQueue: OperationParameter = {
   mapper: JobQueueMapper
 };
 
-export const patch3: OperationParameter = {
+export const patch4: OperationParameter = {
   parameterPath: ["options", "patch"],
   mapper: JobQueueMapper
 };
 
-export const registerWorkerRequest: OperationParameter = {
-  parameterPath: "registerWorkerRequest",
-  mapper: RegisterWorkerRequestMapper
+export const routerWorker: OperationParameter = {
+  parameterPath: "routerWorker",
+  mapper: RouterWorkerMapper
 };
 
 export const status1: OperationQueryParameter = {
@@ -319,20 +317,9 @@ export const hasCapacity: OperationQueryParameter = {
   }
 };
 
-export const releaseAssignmentRequest: OperationParameter = {
-  parameterPath: ["options", "releaseAssignmentRequest"],
-  mapper: ReleaseAssignmentRequestMapper
-};
-
-export const assignmentId2: OperationURLParameter = {
-  parameterPath: "assignmentId",
-  mapper: {
-    serializedName: "assignmentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const patch5: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: RouterWorkerMapper
 };
 
 export const nextLink: OperationURLParameter = {
