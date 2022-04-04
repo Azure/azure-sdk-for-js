@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { UnknownObject, isObject } from "./helpers";
-import { URL } from "./url";
 
 /**
  * @internal

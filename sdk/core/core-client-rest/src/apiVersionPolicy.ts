@@ -3,7 +3,6 @@
 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ClientOptions } from "./common";
-import { URL } from "./url";
 
 export const apiVersionPolicyName = "ApiVersionPolicy";
 
