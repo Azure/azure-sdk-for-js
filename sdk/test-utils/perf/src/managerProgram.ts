@@ -36,8 +36,8 @@ import { formatDuration } from "./utils";
 export class ManagerPerfProgram implements PerfProgram {
   private testName: string;
   private parallelNumber: number;
-  private lastCompleted: number = 0;
-  private startMillis: number = 0;
+  private lastCompleted = 0;
+  private startMillis = 0;
   private managerUtils: ManagerMulticoreUtils;
   private parsedOptions: ParsedPerfOptions<DefaultPerfOptions>;
 
@@ -152,7 +152,7 @@ export class ManagerPerfProgram implements PerfProgram {
       ++allocations[i];
     }
 
-    for (let alloc of allocations) {
+    for (const alloc of allocations) {
       this.managerUtils.createWorker({
         testClassName: this.testName,
         assignedParallels: alloc,
