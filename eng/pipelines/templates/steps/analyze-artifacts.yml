@@ -89,7 +89,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
-      Directory: "/html-docs/html-docs/azure-search-documents/11.3.0-beta.8/classes"
+      Directory: "/html-docs/azure-search-documents/11.3.0-beta.8/classes"
       WorkingDirectory: "$(Build.SourcesDirectory)"
       Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
       CheckLinkGuidance: $true
