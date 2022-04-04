@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { SerializeTest } from "./serialize.spec";
 
 import dotenv from "dotenv";
 dotenv.config();
 
-const perfProgram = createPerfProgram([SerializeTest]);
+console.log("=== Starting the perf test ===");
+
+const perfProgram = new PerfProgram(selectPerfTest([SerializeTest]));
 
 perfProgram.run();

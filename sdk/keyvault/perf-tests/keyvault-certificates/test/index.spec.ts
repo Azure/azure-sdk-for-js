@@ -1,6 +1,8 @@
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { GetCertificateTest } from "./getCertificate.spec";
 
-const perfProgram = createPerfProgram([GetCertificateTest]);
+console.log("=== Starting the perf test ===");
+
+const perfProgram = new PerfProgram(selectPerfTest([GetCertificateTest]));
 
 perfProgram.run();

@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { MetricsQueryTest } from "./metricQuery.spec";
 import { LogQueryBatchTest } from "./logQueryBatch.spec";
 import { LogQueryTest } from "./logQuery.spec";
-import { createPerfProgram } from "@azure/test-utils-perf";
 
-const perfProgram = createPerfProgram([MetricsQueryTest, LogQueryBatchTest, LogQueryTest]);
+console.log("=== Starting the perf test ===");
+
+const perfProgram = new PerfProgram(
+  selectPerfTest([MetricsQueryTest, LogQueryBatchTest, LogQueryTest])
+);
 perfProgram.run();

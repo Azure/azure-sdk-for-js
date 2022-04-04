@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { DetectLanguageTest } from "./detectLanguage.spec";
 
 import dotenv from "dotenv";
 dotenv.config();
 
-console.log("");
+console.log("=== Starting the perf test ===");
 
-const perfProgram = createPerfProgram([DetectLanguageTest]);
+const perfProgram = new PerfProgram(selectPerfTest([DetectLanguageTest]));
 
 perfProgram.run();
