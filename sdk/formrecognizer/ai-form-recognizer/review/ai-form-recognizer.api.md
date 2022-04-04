@@ -551,7 +551,7 @@ export type FormRecognizerApiVersion = "2022-01-30-preview";
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2022-01-30-preview";
+    readonly Latest: "2022-03-31-preview";
 };
 
 // @public

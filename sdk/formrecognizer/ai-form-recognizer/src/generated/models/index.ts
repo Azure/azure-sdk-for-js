@@ -606,7 +606,7 @@ export type StringIndexType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
-  TwoThousandTwentyTwo0531Preview = "2022-05-31-preview"
+  TwoThousandTwentyTwo0331Preview = "2022-03-31-preview"
 }
 
 /**
@@ -614,7 +614,7 @@ export enum KnownApiVersion {
  * {@link KnownApiVersion} can be used interchangeably with ApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2022-05-31-preview**
+ * **2022-03-31-preview**
  */
 export type ApiVersion = string;
 

@@ -3,7 +3,7 @@
   "info": {
     "title": "Form Recognizer Client",
     "description": "Extracts content, layout, and structured data from documents.",
-    "version": "2022-05-31-preview"
+    "version": "2022-03-31-preview"
   },
   "securityDefinitions": {
     "apim_key": {
@@ -734,7 +734,7 @@
     "ApiVersion": {
       "description": "API version.",
       "type": "string",
-      "enum": ["2022-05-31-preview"],
+      "enum": ["2022-03-31-preview"],
       "x-ms-enum": {
         "name": "ApiVersion",
         "modelAsString": true
@@ -1973,11 +1973,6 @@
       "required": true,
       "type": "string",
       "in": "query",
-      "enum": ["2022-05-31-preview"],
-      "x-ms-enum": {
-        "name": "ApiVersion",
-        "modelAsString": true
-      },
       "x-ms-parameter-location": "client"
     },
     "PathModelId": {
