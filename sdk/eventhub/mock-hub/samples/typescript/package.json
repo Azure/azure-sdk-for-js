@@ -1,5 +1,5 @@
 {
-  "name": "azure-mock-hub-samples-ts",
+  "name": "@azure-samples/mock-hub-ts",
   "private": true,
   "version": "0.1.0",
   "description": "Azure Mock Hub client library samples for TypeScript",

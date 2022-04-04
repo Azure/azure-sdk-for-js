@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import { join } from "path";
 import { tmpdir } from "os";
+import { GetTokenOptions } from "@azure/core-auth";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ManagedIdentityCredential } from "../../../src";
@@ -20,7 +21,7 @@ import {
 import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
 import { IdentityTestContext } from "../../httpRequests";
 import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
-import { setLogLevel } from "@azure/logger";
+import { AzureLogger, setLogLevel } from "@azure/logger";
 import { logger } from "../../../src/credentials/managedIdentityCredential/cloudShellMsi";
 import { Context } from "mocha";
 
@@ -91,6 +92,81 @@ describe("ManagedIdentityCredential", function () {
   it("sends an authorization request with an unmodified resource name", async () => {
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["someResource"],
+      credential: new ManagedIdentityCredential(),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    // The first request is the IMDS ping.
+    // The second one tries to authenticate against IMDS once we know the endpoint is available.
+    const authRequest = authDetails.requests[1];
+
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(query.get("client_id"), undefined);
+    assert.equal(decodeURIComponent(query.get("resource")!), "someResource");
+  });
+
+  it("sends an authorization request with allowLoggingAccountIdentifiers set to true", async function () {
+    setLogLevel("info");
+    const spy = testContext.sandbox.spy(process.stderr, "write");
+
+    const accessTokenData = {
+      appid: "HIDDEN",
+      tid: "HIDDEN",
+      oid: "HIDDEN",
+    };
+    const base64AccessTokenData = Buffer.from(JSON.stringify(accessTokenData), "utf8").toString(
+      "base64"
+    );
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client", {
+        loggingOptions: { allowLoggingAccountIdentifiers: true },
+      }),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        createResponse(200, {
+          access_token: `token.${base64AccessTokenData}`,
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    // The first request is the IMDS ping.
+    // This ping request has to skip a header and the query parameters for it to work on POD identity.
+    const imdsPingRequest = authDetails.requests[0];
+    assert.ok(!imdsPingRequest.headers!.metadata);
+    assert.equal(imdsPingRequest.url, new URL(imdsEndpointPath, imdsHost).toString());
+
+    // The first request is the IMDS ping.
+    // The second one tries to authenticate against IMDS once we know the endpoint is available.
+    const authRequest = authDetails.requests[1];
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
+    assert.ok(
+      authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
+      "URL does not have expected version"
+    );
+    const expectedMessage = `azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: No User Principal Name available. Object ID (user): HIDDEN`;
+    assert.equal((spy.getCall(spy.callCount - 4).args[0] as any as string).trim(), expectedMessage);
+    AzureLogger.destroy();
+  });
+
+  it("sends an authorization request with tenantId on getToken", async () => {
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["someResource"],
+      getTokenOptions: { tenantId: "TENANT-ID" } as GetTokenOptions,
       credential: new ManagedIdentityCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
@@ -358,7 +434,11 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
-    assert.ok(await imdsMsi.isAvailable("https://endpoint/.default"));
+    assert.ok(
+      await imdsMsi.isAvailable({
+        scopes: "https://endpoint/.default",
+      })
+    );
   });
 
   it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function () {
@@ -366,7 +446,9 @@ describe("ManagedIdentityCredential", function () {
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://service/.default"],
-      credential: new ManagedIdentityCredential("client"),
+      credential: new ManagedIdentityCredential({
+        resourceId: "resource-id",
+      }),
       insecureResponses: [
         createResponse(200, {
           access_token: "token",
@@ -379,7 +461,7 @@ describe("ManagedIdentityCredential", function () {
     const imdsPingRequest = authDetails.requests[0];
     assert.equal(
       imdsPingRequest.url,
-      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&msi_res_id=resource-id"
     );
   });
 
@@ -476,6 +558,86 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
+  it("sends an authorization request correctly in an App Service 2019 environment by client id", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "HEADER";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential("client"),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2021 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    const authRequest = authDetails.requests[0];
+    console.log(`authDetails = ${authDetails}`);
+    console.log(`authRequest = ${authRequest}`);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+    assert.equal(authRequest.headers["X-IDENTITY-HEADER"], process.env.IDENTITY_HEADER);
+    assert.ok(
+      authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
+      "URL does not have expected version"
+    );
+    if (authDetails.result?.token) {
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly in an App Service 2019 environment by resource id", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "HEADER";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: "06/20/2021 02:57:58 +00:00",
+        }),
+      ],
+    });
+
+    const authRequest = authDetails.requests[0];
+    console.log(`authDetails = ${authDetails}`);
+    console.log(`authRequest = ${authRequest}`);
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.equal(decodeURIComponent(query.get("mi_res_id")!), "RESOURCE-ID");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+    assert.equal(authRequest.headers["X-IDENTITY-HEADER"], process.env.IDENTITY_HEADER);
+    assert.ok(
+      authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
+      "URL does not have expected version"
+    );
+    if (authDetails.result?.token) {
+      assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
   it("sends an authorization request correctly in an Cloud Shell environment", async () => {
     // Trigger Cloud Shell behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
@@ -485,6 +647,36 @@ describe("ManagedIdentityCredential", function () {
       secureResponses: [createResponse(200, { access_token: "token" })],
     });
     const authRequest = authDetails.requests[0];
+    assert.equal(authRequest.method, "POST");
+    assert.equal(authDetails.result!.token, "token");
+  });
+
+  it("sends an authorization request correctly in an Cloud Shell environment (with clientId)", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({ clientId: "CLIENT-ID" }),
+      secureResponses: [createResponse(200, { access_token: "token" })],
+    });
+    const authRequest = authDetails.requests[0];
+    const body = new URLSearchParams(authRequest.body);
+    assert.strictEqual(decodeURIComponent(body.get("client_id")!), "CLIENT-ID");
+    assert.equal(authRequest.method, "POST");
+    assert.equal(authDetails.result!.token, "token");
+  });
+
+  it("sends an authorization request correctly in an Cloud Shell environment (with resourceId)", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      secureResponses: [createResponse(200, { access_token: "token" })],
+    });
+    const authRequest = authDetails.requests[0];
+    const body = new URLSearchParams(authRequest.body);
+    assert.strictEqual(decodeURIComponent(body.get("msi_res_id")!), "RESOURCE-ID");
     assert.equal(authRequest.method, "POST");
     assert.equal(authDetails.result!.token, "token");
   });
@@ -504,7 +696,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(msiGetTokenSpy.called, true);
     assert.equal(loggerSpy.calledOnce, true);
     assert.deepEqual(loggerSpy.args[0], [
-      "ManagedIdentityCredential - CloudShellMSI: does not support user-assigned identities in the Cloud Shell environment. Argument clientId will be ignored.",
+      "ManagedIdentityCredential - CloudShellMSI: user-assigned identities not supported. The argument clientId might be ignored by the service.",
     ]);
   });
 
@@ -577,6 +769,150 @@ describe("ManagedIdentityCredential", function () {
     }
   });
 
+  it("sends an authorization request correctly in an Azure Arc environment (with resourceId)", async function (this: Mocha.Context) {
+    // Trigger Azure Arc behavior by setting environment variables
+
+    process.env.IMDS_ENDPOINT = "http://endpoint";
+    process.env.IDENTITY_ENDPOINT = "http://endpoint";
+
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const key = "challenge key";
+    writeFileSync(tempFile, key, { encoding: "utf8" });
+
+    try {
+      const authDetails = await testContext.sendCredentialRequests({
+        scopes: ["https://service/.default"],
+        credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+        insecureResponses: [
+          createResponse(
+            401,
+            {},
+            {
+              "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
+            }
+          ),
+          createResponse(200, {
+            access_token: "token",
+            expires_in: 1,
+          }),
+        ],
+      });
+
+      // File request
+      const validationRequest = authDetails.requests[0];
+      console.log(validationRequest.url.split("?")[1]);
+      let query = new URLSearchParams(validationRequest.url.split("?")[1]);
+
+      assert.equal(validationRequest.method, "GET");
+      assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+
+      assert.ok(
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      // Authorization request, which comes after getting the file path, for now at least.
+      const authRequest = authDetails.requests[1];
+      console.log(authRequest.url.split("?")[1]);
+      query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+      assert.equal(authRequest.method, "GET");
+      assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+      assert.equal(decodeURIComponent(query.get("msi_res_id")!), "RESOURCE-ID");
+
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
+      if (authDetails.result!.token) {
+        // We use Date.now underneath.
+        assert.ok(authDetails.result!.expiresOnTimestamp);
+      } else {
+        assert.fail("No token was returned!");
+      }
+    } finally {
+      unlinkSync(tempFile);
+      rmdirSync(tempDir);
+    }
+  });
+
+  it("sends an authorization request correctly in an Azure Arc environment (with clientId)", async function (this: Mocha.Context) {
+    // Trigger Azure Arc behavior by setting environment variables
+
+    process.env.IMDS_ENDPOINT = "http://endpoint";
+    process.env.IDENTITY_ENDPOINT = "http://endpoint";
+
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const key = "challenge key";
+    writeFileSync(tempFile, key, { encoding: "utf8" });
+
+    try {
+      const authDetails = await testContext.sendCredentialRequests({
+        scopes: ["https://service/.default"],
+        credential: new ManagedIdentityCredential({ clientId: "CLIENT-ID" }),
+        insecureResponses: [
+          createResponse(
+            401,
+            {},
+            {
+              "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
+            }
+          ),
+          createResponse(200, {
+            access_token: "token",
+            expires_in: 1,
+          }),
+        ],
+      });
+
+      // File request
+      const validationRequest = authDetails.requests[0];
+      console.log(validationRequest.url.split("?")[1]);
+      let query = new URLSearchParams(validationRequest.url.split("?")[1]);
+
+      assert.equal(validationRequest.method, "GET");
+      assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+
+      assert.ok(
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      // Authorization request, which comes after getting the file path, for now at least.
+      const authRequest = authDetails.requests[1];
+      console.log(authRequest.url.split("?")[1]);
+      query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+      assert.equal(authRequest.method, "GET");
+      assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+      assert.equal(decodeURIComponent(query.get("client_id")!), "CLIENT-ID");
+
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
+      if (authDetails.result!.token) {
+        // We use Date.now underneath.
+        assert.ok(authDetails.result!.expiresOnTimestamp);
+      } else {
+        assert.fail("No token was returned!");
+      }
+    } finally {
+      unlinkSync(tempFile);
+      rmdirSync(tempDir);
+    }
+  });
+
   it("sends an authorization request correctly in an Azure Fabric environment", async () => {
     // Trigger App Service behavior by setting environment variables
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
@@ -603,6 +939,48 @@ describe("ManagedIdentityCredential", function () {
 
     assert.equal(authRequest.method, "GET");
     assert.equal(query.get("client_id"), "client");
+    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
+    assert.ok(
+      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+      "URL does not start with expected host and path"
+    );
+
+    assert.equal(authRequest.headers.secret, process.env.IDENTITY_HEADER);
+
+    if (authDetails.result!.token) {
+      // We use Date.now underneath.
+      assert.equal(authDetails.result!.expiresOnTimestamp, 1);
+    } else {
+      assert.fail("No token was returned!");
+    }
+  });
+
+  it("sends an authorization request correctly in an Azure Fabric environment (resourceId)", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "secret";
+
+    // We're not verifying the certificate yet, but we still check for it:
+    process.env.IDENTITY_SERVER_THUMBPRINT = "certificate-thumbprint";
+
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new ManagedIdentityCredential({ resourceId: "RESOURCE-ID" }),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_on: 1,
+        }),
+      ],
+    });
+
+    // Authorization request, which comes after validating again, for now at least.
+    const authRequest = authDetails.requests[0];
+
+    const query = new URLSearchParams(authRequest.url.split("?")[1]);
+
+    assert.equal(authRequest.method, "GET");
+    assert.equal(query.get("msi_res_id"), "RESOURCE-ID");
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),

@@ -2,29 +2,23 @@
 // Licensed under the MIT license.
 
 import {
-  createCommunicationAuthPolicy,
-  parseClientArguments,
-  isKeyCredential,
-  CommunicationUserIdentifier,
-} from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./common/logger";
-import { createSpan } from "./common/tracing";
-import {
-  CommunicationIdentityClientOptions,
-  TokenScope,
-  CommunicationUserToken,
   CommunicationAccessToken,
+  CommunicationIdentityClientOptions,
+  CommunicationUserToken,
+  TokenScope,
 } from "./models";
+import {
+  CommunicationUserIdentifier,
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
+} from "@azure/communication-common";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { IdentityRestClient } from "./generated/src/identityRestClient";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./common/tracing";
+import { logger } from "./common/logger";
 
 const isCommunicationIdentityClientOptions = (
   options: any
@@ -38,7 +32,7 @@ export class CommunicationIdentityClient {
   /**
    * A reference to the auto-generated UserToken HTTP client.
    */
-  private readonly client: CommunicationIdentity;
+  private readonly client: IdentityRestClient;
 
   /**
    * Initializes a new instance of the CommunicationIdentity class.
@@ -83,19 +77,8 @@ export class CommunicationIdentityClient {
     const options = isCommunicationIdentityClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-identity/${SDK_VERSION}`;
 
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
@@ -104,9 +87,10 @@ export class CommunicationIdentityClient {
       },
     };
 
+    this.client = new IdentityRestClient(url, { endpoint: url, ...internalPipelineOptions });
+
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new IdentityRestClient(url, pipeline).communicationIdentity;
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -123,12 +107,11 @@ export class CommunicationIdentityClient {
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      const { _response, ...result } = await this.client.issueAccessToken(
+      return await this.client.communicationIdentityOperations.issueAccessToken(
         user.communicationUserId,
-        { scopes },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        scopes,
+        updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -152,9 +135,9 @@ export class CommunicationIdentityClient {
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
     try {
-      await this.client.revokeAccessTokens(
+      await this.client.communicationIdentityOperations.revokeAccessTokens(
         user.communicationUserId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -175,7 +158,7 @@ export class CommunicationIdentityClient {
   public async createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const result = await this.client.create(operationOptionsToRequestOptionsBase(updatedOptions));
+      const result = await this.client.communicationIdentityOperations.create(updatedOptions);
       return {
         communicationUserId: result.identity.id,
       };
@@ -205,9 +188,9 @@ export class CommunicationIdentityClient {
       options
     );
     try {
-      const { identity, accessToken } = await this.client.create({
-        body: { createTokenWithScopes: scopes },
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
+      const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
+        createTokenWithScopes: scopes,
+        ...updatedOptions,
       });
       return {
         ...accessToken!,
@@ -236,9 +219,9 @@ export class CommunicationIdentityClient {
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
     try {
-      await this.client.delete(
+      await this.client.communicationIdentityOperations.delete(
         user.communicationUserId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
@@ -266,11 +249,10 @@ export class CommunicationIdentityClient {
       options
     );
     try {
-      const { _response, ...result } = await this.client.exchangeTeamsUserAccessToken(
-        { token: teamsUserAadToken },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+      return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
+        teamsUserAadToken,
+        updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

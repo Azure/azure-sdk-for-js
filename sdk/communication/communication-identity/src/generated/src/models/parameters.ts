@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
   TeamsUserAccessTokenRequest as TeamsUserAccessTokenRequestMapper,
@@ -29,8 +29,20 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const createTokenWithScopes: OperationParameter = {
+  parameterPath: ["options", "createTokenWithScopes"],
   mapper: CommunicationIdentityCreateRequestMapper
 };
 
@@ -69,12 +81,12 @@ export const id: OperationURLParameter = {
   }
 };
 
-export const body1: OperationParameter = {
-  parameterPath: "body",
+export const token: OperationParameter = {
+  parameterPath: "token",
   mapper: TeamsUserAccessTokenRequestMapper
 };
 
-export const body2: OperationParameter = {
-  parameterPath: "body",
+export const scopes: OperationParameter = {
+  parameterPath: "scopes",
   mapper: CommunicationIdentityAccessTokenRequestMapper
 };

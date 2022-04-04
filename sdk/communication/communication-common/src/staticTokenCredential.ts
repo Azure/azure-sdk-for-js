@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
 import { TokenCredential } from "./communicationTokenCredential";
 
 /**

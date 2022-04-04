@@ -10,11 +10,11 @@ import * as coreClient from "@azure/core-client";
 
 export type AutomationRuleConditionUnion =
   | AutomationRuleCondition
-  | AutomationRulePropertyValuesCondition;
+  | PropertyConditionProperties;
 export type AutomationRuleActionUnion =
   | AutomationRuleAction
-  | AutomationRuleRunPlaybookAction
-  | AutomationRuleModifyPropertiesAction;
+  | AutomationRuleModifyPropertiesAction
+  | AutomationRuleRunPlaybookAction;
 export type EntityTimelineItemUnion =
   | EntityTimelineItem
   | ActivityTimelineItem
@@ -35,8 +35,11 @@ export type DataConnectorsCheckRequirementsUnion =
   | MtpCheckRequirements
   | OfficeATPCheckRequirements
   | OfficeIRMCheckRequirements
+  | Office365ProjectCheckRequirements
+  | OfficePowerBICheckRequirements
   | TICheckRequirements
-  | TiTaxiiCheckRequirements;
+  | TiTaxiiCheckRequirements
+  | IoTCheckRequirements;
 export type AlertRuleTemplateUnion =
   | AlertRuleTemplate
   | MLBehaviorAnalyticsAlertRuleTemplate
@@ -71,9 +74,6 @@ export type EntityUnion =
 export type EntityQueryTemplateUnion =
   | EntityQueryTemplate
   | ActivityEntityQueryTemplate;
-export type ThreatIntelligenceInformationUnion =
-  | ThreatIntelligenceInformation
-  | ThreatIntelligenceIndicatorModel;
 export type AlertRuleUnion =
   | AlertRule
   | MLBehaviorAnalyticsAlertRule
@@ -95,6 +95,9 @@ export type SettingsUnion =
   | EyesOn
   | EntityAnalytics
   | Ueba;
+export type ThreatIntelligenceInformationUnion =
+  | ThreatIntelligenceInformation
+  | ThreatIntelligenceIndicatorModel;
 export type DataConnectorUnion =
   | DataConnector
   | AADDataConnector
@@ -107,11 +110,14 @@ export type DataConnectorUnion =
   | McasDataConnector
   | Dynamics365DataConnector
   | OfficeATPDataConnector
+  | Office365ProjectDataConnector
+  | OfficePowerBIDataConnector
   | OfficeIRMDataConnector
   | MdatpDataConnector
   | OfficeDataConnector
   | TIDataConnector
   | TiTaxiiDataConnector
+  | IoTDataConnector
   | CodelessUiDataConnector
   | CodelessApiPollingDataConnector;
 
@@ -214,26 +220,13 @@ export interface AlertRuleTemplatesList {
   value: AlertRuleTemplateUnion[];
 }
 
-/** List all the automation rules. */
-export interface AutomationRulesList {
-  /**
-   * URL to fetch the next set of automation rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of automation rules. */
-  value: AutomationRule[];
-}
-
 /** Describes automation rule triggering logic */
 export interface AutomationRuleTriggeringLogic {
-  /** Determines whether the automation rule is enabled or disabled. */
+  /** Determines whether the automation rule is enabled or disabled */
   isEnabled: boolean;
   /** Determines when the automation rule should automatically expire and be disabled. */
   expirationTimeUtc?: Date;
-  /** The type of object the automation rule triggers on */
   triggersOn: TriggersOn;
-  /** The type of event the automation rule triggers on */
   triggersWhen: TriggersWhen;
   /** The conditions to evaluate to determine if the automation rule should be triggered on a given object */
   conditions?: AutomationRuleConditionUnion[];
@@ -248,8 +241,7 @@ export interface AutomationRuleCondition {
 /** Describes an automation rule action */
 export interface AutomationRuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  actionType: "RunPlaybook" | "ModifyProperties";
-  /** The order of execution of the automation rule action */
+  actionType: "ModifyProperties" | "RunPlaybook";
   order: number;
 }
 
@@ -265,10 +257,20 @@ export interface ClientInfo {
   userPrincipalName?: string;
 }
 
+export interface AutomationRulesList {
+  value?: AutomationRule[];
+  nextLink?: string;
+}
+
+export interface ManualTriggerRequestBody {
+  tenantId?: string;
+  logicAppsResourceId?: string;
+}
+
 /** List all the bookmarks. */
 export interface BookmarkList {
   /**
-   * URL to fetch the next set of cases.
+   * URL to fetch the next set of bookmarks.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
@@ -302,6 +304,22 @@ export interface IncidentInfo {
   title?: string;
   /** Relation Name */
   relationName?: string;
+}
+
+/** Describes the entity mappings of a single entity */
+export interface BookmarkEntityMappings {
+  /** The entity type */
+  entityType?: string;
+  /** Array of fields mapping for that entity type */
+  fieldMappings?: EntityFieldMapping[];
+}
+
+/** Map identifiers of a single entity */
+export interface EntityFieldMapping {
+  /** Alert V3 identifier */
+  identifier?: string;
+  /** The value of the identifier */
+  value?: string;
 }
 
 /** List of relations. */
@@ -483,17 +501,6 @@ export interface EnrichmentDomainWhoisContact {
   fax?: string;
   /** The email address for this contact */
   email?: string;
-}
-
-/** List of all the entity queries. */
-export interface EntityQueryList {
-  /**
-   * URL to fetch the next set of entity queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of entity queries. */
-  value: EntityQueryUnion[];
 }
 
 /** List of all the entities. */
@@ -689,6 +696,28 @@ export interface InsightsTableResultColumnsItem {
   name?: string;
 }
 
+/** List of all the entity queries. */
+export interface EntityQueryList {
+  /**
+   * URL to fetch the next set of entity queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of entity queries. */
+  value: EntityQueryUnion[];
+}
+
+/** List of all the entity query templates. */
+export interface EntityQueryTemplateList {
+  /**
+   * URL to fetch the next set of entity query templates.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of entity query templates. */
+  value: EntityQueryTemplateUnion[];
+}
+
 /** List all the incidents. */
 export interface IncidentList {
   /**
@@ -723,10 +752,20 @@ export interface IncidentAdditionalData {
    */
   readonly alertProductNames?: string[];
   /**
+   * The provider incident url to the incident in Microsoft 365 Defender portal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly providerIncidentUrl?: string;
+  /**
    * The tactics associated with incident
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tactics?: AttackTactic[];
+  /**
+   * The techniques associated with incident's tactics'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly techniques?: string[];
 }
 
 /** Represents an incident label */
@@ -932,6 +971,17 @@ export interface MetadataCategories {
   verticals?: string[];
 }
 
+/** List of all the office365 consents. */
+export interface OfficeConsentList {
+  /**
+   * URL to fetch the next set of office consents.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of the consents. */
+  value: OfficeConsent[];
+}
+
 /** List of the Sentinel onboarding states */
 export interface SentinelOnboardingStatesList {
   /** Array of Sentinel onboarding states */
@@ -998,133 +1048,64 @@ export interface ContentPathMap {
   path?: string;
 }
 
-/** List all the watchlists. */
-export interface WatchlistList {
-  /**
-   * URL to fetch the next set of watchlists.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of watchlist. */
-  value: Watchlist[];
+/** Resources created in user's repository for the source-control. */
+export interface RepositoryResourceInfo {
+  /** The webhook object created for the source-control. */
+  webhook?: Webhook;
+  /** Resources created in GitHub for this source-control. */
+  gitHubResourceInfo?: GitHubResourceInfo;
+  /** Resources created in Azure DevOps for this source-control. */
+  azureDevOpsResourceInfo?: AzureDevOpsResourceInfo;
 }
 
-/** List all the watchlist items. */
-export interface WatchlistItemList {
-  /**
-   * URL to fetch the next set of watchlist item.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of watchlist items. */
-  value: WatchlistItem[];
+/** Detail about the webhook object. */
+export interface Webhook {
+  /** Unique identifier for the webhook. */
+  webhookId?: string;
+  /** URL that gets invoked by the webhook. */
+  webhookUrl?: string;
+  /** Time when the webhook secret was updated. */
+  webhookSecretUpdateTime?: string;
+  /** A flag to instruct the backend service to rotate webhook secret. */
+  rotateWebhookSecret?: boolean;
 }
 
-/** List all the data connectors. */
-export interface DataConnectorList {
-  /**
-   * URL to fetch the next set of data connectors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of data connectors. */
-  value: DataConnectorUnion[];
+/** Resources created in GitHub repository. */
+export interface GitHubResourceInfo {
+  /** GitHub application installation id. */
+  appInstallationId?: string;
 }
 
-/** Represents Codeless API Polling data connector. */
-export interface DataConnectorConnectBody {
-  /** The authentication kind used to poll the data */
-  kind?: ConnectAuthKind;
-  /** The API key of the audit server. */
-  apiKey?: string;
-  /** The client secret of the OAuth 2.0 application. */
-  clientSecret?: string;
-  /** The client id of the OAuth 2.0 application. */
-  clientId?: string;
-  /** The authorization code used in OAuth 2.0 code flow to issue a token. */
-  authorizationCode?: string;
-  /** The user name in the audit log server. */
-  userName?: string;
-  /** The user password in the audit log server. */
-  password?: string;
-  requestConfigUserInputValues?: Record<string, unknown>[];
+/** Resources created in Azure DevOps repository. */
+export interface AzureDevOpsResourceInfo {
+  /** Id of the pipeline created for the source-control. */
+  pipelineId?: string;
+  /** Id of the service-connection created for the source-control. */
+  serviceConnectionId?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
+/** Information regarding a deployment. */
+export interface DeploymentInfo {
+  /** Status while fetching the last deployment. */
+  deploymentFetchStatus?: DeploymentFetchStatus;
+  /** Deployment information. */
+  deployment?: Deployment;
+  /** Additional details about the deployment that can be shown to the user. */
+  message?: string;
 }
 
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** Data connector requirements properties. */
-export interface DataConnectorsCheckRequirements {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind:
-    | "AzureActiveDirectory"
-    | "AzureAdvancedThreatProtection"
-    | "AzureSecurityCenter"
-    | "AmazonWebServicesCloudTrail"
-    | "AmazonWebServicesS3"
-    | "Dynamics365"
-    | "MicrosoftCloudAppSecurity"
-    | "MicrosoftDefenderAdvancedThreatProtection"
-    | "MicrosoftThreatIntelligence"
-    | "MicrosoftThreatProtection"
-    | "OfficeATP"
-    | "OfficeIRM"
-    | "ThreatIntelligence"
-    | "ThreatIntelligenceTaxii";
-}
-
-/** Data connector requirements status. */
-export interface DataConnectorRequirementsState {
-  /** Authorization state for this connector */
-  authorizationState?: DataConnectorAuthorizationState;
-  /** License state for this connector */
-  licenseState?: DataConnectorLicenseState;
+/** Description about a deployment. */
+export interface Deployment {
+  /** Deployment identifier. */
+  deploymentId?: string;
+  /** Current status of the deployment. */
+  deploymentState?: DeploymentState;
+  /** The outcome of the deployment. */
+  deploymentResult?: DeploymentResult;
+  /** The time when the deployment finished. */
+  deploymentTime?: Date;
+  /** Url to access repository action logs. */
+  deploymentLogsUrl?: string;
 }
 
 /** Describes threat kill chain phase entity */
@@ -1173,12 +1154,6 @@ export interface ThreatIntelligenceGranularMarkingModel {
   markingRef?: number;
   /** granular marking model selectors */
   selectors?: string[];
-}
-
-/** Describes an entity with kind. */
-export interface ThreatIntelligenceResourceKind {
-  /** The kind of the entity. */
-  kind: ThreatIntelligenceResourceKindEnum;
 }
 
 /** List of all the threat intelligence information objects. */
@@ -1268,6 +1243,89 @@ export interface ThreatIntelligenceAppendTags {
   threatIntelligenceTags?: string[];
 }
 
+/** List all the watchlists. */
+export interface WatchlistList {
+  /**
+   * URL to fetch the next set of watchlists.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of watchlist. */
+  value: Watchlist[];
+}
+
+/** List all the watchlist items. */
+export interface WatchlistItemList {
+  /**
+   * URL to fetch the next set of watchlist item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of watchlist items. */
+  value: WatchlistItem[];
+}
+
+/** List all the data connectors. */
+export interface DataConnectorList {
+  /**
+   * URL to fetch the next set of data connectors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of data connectors. */
+  value: DataConnectorUnion[];
+}
+
+/** Represents Codeless API Polling data connector. */
+export interface DataConnectorConnectBody {
+  /** The authentication kind used to poll the data */
+  kind?: ConnectAuthKind;
+  /** The API key of the audit server. */
+  apiKey?: string;
+  /** The client secret of the OAuth 2.0 application. */
+  clientSecret?: string;
+  /** The client id of the OAuth 2.0 application. */
+  clientId?: string;
+  /** The authorization code used in OAuth 2.0 code flow to issue a token. */
+  authorizationCode?: string;
+  /** The user name in the audit log server. */
+  userName?: string;
+  /** The user password in the audit log server. */
+  password?: string;
+  requestConfigUserInputValues?: Record<string, unknown>[];
+}
+
+/** Data connector requirements properties. */
+export interface DataConnectorsCheckRequirements {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind:
+    | "AzureActiveDirectory"
+    | "AzureAdvancedThreatProtection"
+    | "AzureSecurityCenter"
+    | "AmazonWebServicesCloudTrail"
+    | "AmazonWebServicesS3"
+    | "Dynamics365"
+    | "MicrosoftCloudAppSecurity"
+    | "MicrosoftDefenderAdvancedThreatProtection"
+    | "MicrosoftThreatIntelligence"
+    | "MicrosoftThreatProtection"
+    | "OfficeATP"
+    | "OfficeIRM"
+    | "Office365Project"
+    | "OfficePowerBI"
+    | "ThreatIntelligence"
+    | "ThreatIntelligenceTaxii"
+    | "IOT";
+}
+
+/** Data connector requirements status. */
+export interface DataConnectorRequirementsState {
+  /** Authorization state for this connector */
+  authorizationState?: DataConnectorAuthorizationState;
+  /** License state for this connector */
+  licenseState?: DataConnectorLicenseState;
+}
+
 /** Lists the operations available in the SecurityInsights RP. */
 export interface OperationsList {
   /**
@@ -1301,28 +1359,6 @@ export interface OperationDisplay {
   provider?: string;
   /** Resource name */
   resource?: string;
-}
-
-/** List of all the office365 consents. */
-export interface OfficeConsentList {
-  /**
-   * URL to fetch the next set of office consents.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of the consents. */
-  value: OfficeConsent[];
-}
-
-/** List of all the entity query templates. */
-export interface EntityQueryTemplateList {
-  /**
-   * URL to fetch the next set of entity query templates.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of entity query templates. */
-  value: EntityQueryTemplateUnion[];
 }
 
 /** alert rule template data sources */
@@ -1363,8 +1399,6 @@ export interface QueryBasedAlertRuleTemplateProperties {
   query?: string;
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-  /** The tactics of the alert rule */
-  tactics?: AttackTactic[];
   /** The version of this template - in format <a.b.c>, where all are numbers. For example <1.0.2>. */
   version?: string;
   /** Dictionary of string key-value pairs of columns to be attached to the alert */
@@ -1403,6 +1437,87 @@ export interface AlertDetailsOverride {
   alertSeverityColumnName?: string;
 }
 
+/** Represents a supported source signal configuration in Fusion detection. */
+export interface FusionSourceSettings {
+  /** Determines whether this source signal is enabled or disabled in Fusion detection. */
+  enabled: boolean;
+  /** Name of the Fusion source signal. Refer to Fusion alert rule template for supported values. */
+  sourceName: string;
+  /** Configuration for all source subtypes under this source signal consumed in fusion detection. */
+  sourceSubTypes?: FusionSourceSubTypeSetting[];
+}
+
+/** Represents a supported source subtype configuration under a source signal in Fusion detection. */
+export interface FusionSourceSubTypeSetting {
+  /** Determines whether this source subtype under source signal is enabled or disabled in Fusion detection. */
+  enabled: boolean;
+  /** The Name of the source subtype under a given source signal in Fusion detection. Refer to Fusion alert rule template for supported values. */
+  sourceSubTypeName: string;
+  /**
+   * The display name of source subtype under a source signal consumed in Fusion detection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceSubTypeDisplayName?: string;
+  /** Severity configuration for a source subtype consumed in fusion detection. */
+  severityFilters: FusionSubTypeSeverityFilter;
+}
+
+/** Represents severity configuration for a source subtype consumed in Fusion detection. */
+export interface FusionSubTypeSeverityFilter {
+  /**
+   * Determines whether this source subtype supports severity configuration or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSupported?: boolean;
+  /** Individual Severity configuration settings for a given source subtype consumed in Fusion detection. */
+  filters?: FusionSubTypeSeverityFiltersItem[];
+}
+
+/** Represents a Severity filter setting for a given source subtype consumed in Fusion detection. */
+export interface FusionSubTypeSeverityFiltersItem {
+  /** The Severity for a given source subtype consumed in Fusion detection. */
+  severity: AlertSeverity;
+  /** Determines whether this severity is enabled or disabled for this source subtype consumed in Fusion detection. */
+  enabled: boolean;
+}
+
+/** Represents a Fusion scenario exclusion patterns in Fusion detection. */
+export interface FusionScenarioExclusionPattern {
+  /** Scenario exclusion pattern. */
+  exclusionPattern: string;
+  /** DateTime when scenario exclusion pattern is added in UTC. */
+  dateAddedInUTC: string;
+}
+
+/** Represents a source signal consumed in Fusion detection. */
+export interface FusionTemplateSourceSetting {
+  /** The name of a source signal consumed in Fusion detection. */
+  sourceName: string;
+  /** All supported source subtypes under this source signal consumed in fusion detection. */
+  sourceSubTypes?: FusionTemplateSourceSubType[];
+}
+
+/** Represents a source subtype under a source signal consumed in Fusion detection. */
+export interface FusionTemplateSourceSubType {
+  /** The name of source subtype under a source signal consumed in Fusion detection. */
+  sourceSubTypeName: string;
+  /**
+   * The display name of source subtype under a source signal consumed in Fusion detection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceSubTypeDisplayName?: string;
+  /** Severity configuration available for a source subtype consumed in fusion detection. */
+  severityFilter: FusionTemplateSubTypeSeverityFilter;
+}
+
+/** Represents severity configurations available for a source subtype consumed in Fusion detection. */
+export interface FusionTemplateSubTypeSeverityFilter {
+  /** Determines whether severity configuration is supported for this source subtype consumed in Fusion detection. */
+  isSupported: boolean;
+  /** List of all supported severities for this source subtype consumed in Fusion detection. */
+  severityFilters?: AlertSeverity[];
+}
+
 /** MicrosoftSecurityIncidentCreation rule common property bag. */
 export interface MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
   /** the alerts' displayNames on which the cases will be generated */
@@ -1413,43 +1528,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
   productFilter: MicrosoftSecurityProductName;
   /** the alerts' severities on which the cases will be generated */
   severitiesFilter?: AlertSeverity[];
-}
-
-/** Query based alert rule base property bag. */
-export interface QueryBasedAlertRuleProperties {
-  /** The Name of the alert rule template used to create this rule. */
-  alertRuleTemplateName?: string;
-  /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
-  templateVersion?: string;
-  /** The description of the alert rule. */
-  description?: string;
-  /** The query that creates alerts for this rule. */
-  query?: string;
-  /** The display name for alerts created by this alert rule. */
-  displayName: string;
-  /** Determines whether this alert rule is enabled or disabled. */
-  enabled: boolean;
-  /**
-   * The last time that this alert rule has been modified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedUtc?: Date;
-  /** The suppression (in ISO 8601 duration format) to wait since last time this alert rule been triggered. */
-  suppressionDuration: string;
-  /** Determines whether the suppression for this alert rule is enabled or disabled. */
-  suppressionEnabled: boolean;
-  /** The severity for alerts created by this alert rule. */
-  severity?: AlertSeverity;
-  /** The tactics of the alert rule */
-  tactics?: AttackTactic[];
-  /** The settings of the incidents that created from alerts triggered by this analytics rule */
-  incidentConfiguration?: IncidentConfiguration;
-  /** Dictionary of string key-value pairs of columns to be attached to the alert */
-  customDetails?: { [propertyName: string]: string };
-  /** Array of the entity mappings of the alert rule */
-  entityMappings?: EntityMapping[];
-  /** The alert details override settings */
-  alertDetailsOverride?: AlertDetailsOverride;
 }
 
 /** Incident Configuration property bag. */
@@ -1480,16 +1558,26 @@ export interface GroupingConfiguration {
 
 /** Scheduled alert rule template property bag. */
 export interface ScheduledAlertRuleCommonProperties {
+  /** The query that creates alerts for this rule. */
+  query?: string;
   /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
   queryFrequency?: string;
   /** The period (in ISO 8601 duration format) that this alert rule looks at. */
   queryPeriod?: string;
+  /** The severity for alerts created by this alert rule. */
+  severity?: AlertSeverity;
   /** The operation against the threshold that triggers alert rule. */
   triggerOperator?: TriggerOperator;
   /** The threshold triggers this alert rule. */
   triggerThreshold?: number;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Dictionary of string key-value pairs of columns to be attached to the alert */
+  customDetails?: { [propertyName: string]: string };
+  /** Array of the entity mappings of the alert rule */
+  entityMappings?: EntityMapping[];
+  /** The alert details override settings */
+  alertDetailsOverride?: AlertDetailsOverride;
 }
 
 /** Event grouping settings property bag. */
@@ -1498,46 +1586,35 @@ export interface EventGroupingSettings {
   aggregationKind?: EventGroupingAggregationKind;
 }
 
-/** The configuration of the run playbook automation rule action */
-export interface AutomationRuleRunPlaybookActionConfiguration {
-  /** The resource id of the playbook resource */
-  logicAppResourceId?: string;
-  /** The tenant id of the playbook resource */
-  tenantId?: string;
-}
-
-/** The configuration of the modify properties automation rule action */
-export interface AutomationRuleModifyPropertiesActionConfiguration {
-  /** The reason the incident was closed */
-  classification?: IncidentClassification;
-  /** Describes the reason the incident was closed */
-  classificationComment?: string;
-  /** The classification reason the incident was closed with */
-  classificationReason?: IncidentClassificationReason;
-  /** List of labels to add to the incident */
-  labels?: IncidentLabel[];
-  /** Describes a user that the incident is assigned to */
-  owner?: IncidentOwnerInfo;
+export interface IncidentPropertiesAction {
   /** The severity of the incident */
   severity?: IncidentSeverity;
   /** The status of the incident */
   status?: IncidentStatus;
+  /** The reason the incident was closed */
+  classification?: IncidentClassification;
+  /** The classification reason the incident was closed with */
+  classificationReason?: IncidentClassificationReason;
+  /** Describes the reason the incident was closed */
+  classificationComment?: string;
+  /** Information on the user an incident is assigned to */
+  owner?: IncidentOwnerInfo;
+  /** List of labels to add to the incident */
+  labels?: IncidentLabel[];
 }
 
-/** The configuration of the automation rule condition */
-export interface AutomationRulePropertyValuesConditionProperties {
-  /** The property to evaluate */
+export interface AutomationRulePropertyValuesCondition {
+  /** The property to evaluate in an automation rule property condition */
   propertyName?: AutomationRulePropertyConditionSupportedProperty;
-  /** The operator to use for evaluation the condition */
   operator?: AutomationRulePropertyConditionSupportedOperator;
-  /** The values to use for evaluating the condition */
   propertyValues?: string[];
 }
 
-/** The Activity query definitions */
-export interface ActivityEntityQueriesPropertiesQueryDefinitions {
-  /** The Activity query to run on a given entity */
-  query?: string;
+export interface PlaybookActionProperties {
+  /** The resource id of the playbook resource */
+  logicAppResourceId?: string;
+  /** The tenant id of the playbook resource */
+  tenantId?: string;
 }
 
 /** An properties abstract Query item for entity */
@@ -1614,6 +1691,26 @@ export interface InsightQueryItemPropertiesReferenceTimeRange {
   beforeRange?: string;
 }
 
+/** The Activity query definitions */
+export interface ActivityEntityQueriesPropertiesQueryDefinitions {
+  /** The Activity query to run on a given entity */
+  query?: string;
+}
+
+/** The Activity query definitions */
+export interface ActivityEntityQueryTemplatePropertiesQueryDefinitions {
+  /** The Activity query to run on a given entity */
+  query?: string;
+  /** The dimensions we want to summarize the timeline results on, this is comma separated list */
+  summarizeBy?: string;
+}
+
+/** The data type definition */
+export interface DataTypeDefinitions {
+  /** The data type name */
+  dataType?: string;
+}
+
 /** The pricing tier of the solution */
 export interface Sku {
   /** The kind of the tier */
@@ -1676,6 +1773,18 @@ export interface AwsS3DataConnectorDataTypes {
 export interface Dynamics365DataConnectorDataTypes {
   /** Common Data Service data type connection. */
   dynamics365CdsActivities: Dynamics365DataConnectorDataTypesDynamics365CdsActivities;
+}
+
+/** The available data types for Office Microsoft Project data connector. */
+export interface Office365ProjectConnectorDataTypes {
+  /** Logs data type. */
+  logs: Office365ProjectConnectorDataTypesLogs;
+}
+
+/** The available data types for Office Microsoft PowerBI data connector. */
+export interface OfficePowerBIConnectorDataTypes {
+  /** Logs data type. */
+  logs: OfficePowerBIConnectorDataTypesLogs;
 }
 
 /** The available data types for office data connector. */
@@ -1765,7 +1874,7 @@ export interface ConnectivityCriteria {
 /** Connector Availability Status */
 export interface Availability {
   /** The connector Availability Status */
-  status?: "1";
+  status?: 1;
   /** Set connector as preview */
   isPreview?: boolean;
 }
@@ -1936,20 +2045,6 @@ export interface CodelessConnectorPollingResponseProperties {
   isGzipCompressed?: boolean;
 }
 
-/** The Activity query definitions */
-export interface ActivityEntityQueryTemplatePropertiesQueryDefinitions {
-  /** The Activity query to run on a given entity */
-  query?: string;
-  /** The dimensions we want to summarize the timeline results on, this is comma separated list */
-  summarizeBy?: string;
-}
-
-/** The data type definition */
-export interface DataTypeDefinitions {
-  /** The data type name */
-  dataType?: string;
-}
-
 /** ThreatIntelligence property bag. */
 export interface ThreatIntelligence {
   /**
@@ -2041,18 +2136,18 @@ export type Entity = Resource & {
   kind: EntityKind;
 };
 
+/** Specific entity query template. */
+export type EntityQueryTemplate = Resource & {
+  /** the entity query template kind */
+  kind: EntityQueryTemplateKind;
+};
+
 /** Consent for Office365 tenant that already made. */
 export type OfficeConsent = Resource & {
   /** The tenantId of the Office365 with the consent. */
   tenantId?: string;
   /** Help to easily cascade among the data layers. */
   consentId?: string;
-};
-
-/** Specific entity query template. */
-export type EntityQueryTemplate = Resource & {
-  /** the entity query template kind */
-  kind: EntityQueryTemplateKind;
 };
 
 /** Action property bag. */
@@ -2068,27 +2163,24 @@ export type ActionRequestProperties = ActionPropertiesBase & {
 };
 
 /** Describes an automation rule condition that evaluates a property's value */
-export type AutomationRulePropertyValuesCondition = AutomationRuleCondition & {
+export type PropertyConditionProperties = AutomationRuleCondition & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "Property";
-  /** The configuration of the automation rule condition */
-  conditionProperties: AutomationRulePropertyValuesConditionProperties;
-};
-
-/** Describes an automation rule action to run a playbook */
-export type AutomationRuleRunPlaybookAction = AutomationRuleAction & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  actionType: "RunPlaybook";
-  /** The configuration of the run playbook automation rule action */
-  actionConfiguration: AutomationRuleRunPlaybookActionConfiguration;
+  conditionProperties?: AutomationRulePropertyValuesCondition;
 };
 
 /** Describes an automation rule action to modify an object's properties */
 export type AutomationRuleModifyPropertiesAction = AutomationRuleAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "ModifyProperties";
-  /** The configuration of the modify properties automation rule action */
-  actionConfiguration: AutomationRuleModifyPropertiesActionConfiguration;
+  actionConfiguration?: IncidentPropertiesAction;
+};
+
+/** Describes an automation rule action to run a playbook */
+export type AutomationRuleRunPlaybookAction = AutomationRuleAction & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  actionType: "RunPlaybook";
+  actionConfiguration?: PlaybookActionProperties;
 };
 
 /** Represents Activity timeline item. */
@@ -3180,6 +3272,22 @@ export type OfficeIRMCheckRequirements = DataConnectorsCheckRequirements & {
   tenantId?: string;
 };
 
+/** Represents Office365 Project requirements check request. */
+export type Office365ProjectCheckRequirements = DataConnectorsCheckRequirements & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Office365Project";
+  /** The tenant id to connect to, and get the data from. */
+  tenantId?: string;
+};
+
+/** Represents Office PowerBI requirements check request. */
+export type OfficePowerBICheckRequirements = DataConnectorsCheckRequirements & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "OfficePowerBI";
+  /** The tenant id to connect to, and get the data from. */
+  tenantId?: string;
+};
+
 /** Threat Intelligence Platforms data connector check requirements */
 export type TICheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3196,117 +3304,36 @@ export type TiTaxiiCheckRequirements = DataConnectorsCheckRequirements & {
   tenantId?: string;
 };
 
-/** Threat intelligence indicator entity used in request body. */
-export type ThreatIntelligenceIndicatorModelForRequestBody = ThreatIntelligenceResourceKind & {
-  /** Etag of the azure resource */
-  etag?: string;
-  /**
-   * A bag of custom fields that should be part of the entity and will be presented to the user.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
-  /**
-   * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
-  /** List of tags */
-  threatIntelligenceTags?: string[];
-  /** Last updated time in UTC */
-  lastUpdatedTimeUtc?: string;
-  /** Source of a threat intelligence entity */
-  source?: string;
-  /** Display name of a threat intelligence entity */
-  displayName?: string;
-  /** Description of a threat intelligence entity */
-  description?: string;
-  /** Indicator types of threat intelligence entities */
-  indicatorTypes?: string[];
-  /** Pattern of a threat intelligence entity */
-  pattern?: string;
-  /** Pattern type of a threat intelligence entity */
-  patternType?: string;
-  /** Pattern version of a threat intelligence entity */
-  patternVersion?: string;
-  /** Kill chain phases */
-  killChainPhases?: ThreatIntelligenceKillChainPhase[];
-  /** Parsed patterns */
-  parsedPattern?: ThreatIntelligenceParsedPattern[];
-  /** External ID of threat intelligence entity */
-  externalId?: string;
-  /** Created by reference of threat intelligence entity */
-  createdByRef?: string;
-  /** Is threat intelligence entity defanged */
-  defanged?: boolean;
-  /** External last updated time in UTC */
-  externalLastUpdatedTimeUtc?: string;
-  /** External References */
-  externalReferences?: ThreatIntelligenceExternalReference[];
-  /** Granular Markings */
-  granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
-  /** Labels  of threat intelligence entity */
-  labels?: string[];
-  /** Is threat intelligence entity revoked */
-  revoked?: boolean;
-  /** Confidence of threat intelligence entity */
-  confidence?: number;
-  /** Threat intelligence entity object marking references */
-  objectMarkingRefs?: string[];
-  /** Language of threat intelligence entity */
-  language?: string;
-  /** Threat types */
-  threatTypes?: string[];
-  /** Valid from */
-  validFrom?: string;
-  /** Valid until */
-  validUntil?: string;
-  /** Created by */
-  created?: string;
-  /** Modified by */
-  modified?: string;
-  /** Extensions map */
-  extensions?: { [propertyName: string]: any };
+/** Represents IoT requirements check request. */
+export type IoTCheckRequirements = DataConnectorsCheckRequirements & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "IOT";
+  /** The subscription id to connect to, and get the data from. */
+  subscriptionId?: string;
 };
 
-/** Threat intelligence information object. */
-export type ThreatIntelligenceInformation = ResourceWithEtag &
-  ThreatIntelligenceResourceKind & {};
-
-/** MLBehaviorAnalytics alert rule template properties. */
-export type MLBehaviorAnalyticsAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase & {
-  /** The severity for alerts created by this alert rule. */
-  severity: AlertSeverity;
-  /** The tactics of the alert rule template. */
+/** Alert rule template with MITRE property bag. */
+export type AlertRuleTemplateWithMitreProperties = AlertRuleTemplatePropertiesBase & {
+  /** The tactics of the alert rule */
   tactics?: AttackTactic[];
-};
-
-/** Fusion alert rule template properties */
-export type FusionAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase & {
-  /** The severity for alerts created by this alert rule. */
-  severity: AlertSeverity;
-  /** The tactics of the alert rule template */
-  tactics?: AttackTactic[];
-};
-
-/** Threat Intelligence alert rule template properties */
-export type ThreatIntelligenceAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase & {
-  /** The severity for alerts created by this alert rule. */
-  severity: AlertSeverity;
-  /** The tactics of the alert rule template */
-  tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
 };
 
 /** MicrosoftSecurityIncidentCreation rule template properties */
-export type MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase &
-  MicrosoftSecurityIncidentCreationAlertRuleCommonProperties & {};
-
-/** Scheduled alert rule template properties */
-export type ScheduledAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase &
-  QueryBasedAlertRuleTemplateProperties &
-  ScheduledAlertRuleCommonProperties & {};
+export type MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase & {
+  /** the alerts' displayNames on which the cases will be generated */
+  displayNamesFilter?: string[];
+  /** the alerts' displayNames on which the cases will not be generated */
+  displayNamesExcludeFilter?: string[];
+  /** The alerts' productName on which the cases will be generated */
+  productFilter?: MicrosoftSecurityProductName;
+  /** the alerts' severities on which the cases will be generated */
+  severitiesFilter?: AlertSeverity[];
+};
 
 /** NRT alert rule template properties */
-export type NrtAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase &
+export type NrtAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties &
   QueryBasedAlertRuleTemplateProperties & {};
 
 /** MicrosoftSecurityIncidentCreation rule property bag. */
@@ -3327,11 +3354,33 @@ export type MicrosoftSecurityIncidentCreationAlertRuleProperties = MicrosoftSecu
 };
 
 /** Scheduled alert rule base property bag. */
-export type ScheduledAlertRuleProperties = ScheduledAlertRuleCommonProperties &
-  QueryBasedAlertRuleProperties & {};
-
-/** Nrt alert rule base property bag. */
-export type NrtAlertRuleProperties = QueryBasedAlertRuleProperties & {};
+export type ScheduledAlertRuleProperties = ScheduledAlertRuleCommonProperties & {
+  /** The Name of the alert rule template used to create this rule. */
+  alertRuleTemplateName?: string;
+  /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
+  templateVersion?: string;
+  /** The description of the alert rule. */
+  description?: string;
+  /** The display name for alerts created by this alert rule. */
+  displayName: string;
+  /** Determines whether this alert rule is enabled or disabled. */
+  enabled: boolean;
+  /**
+   * The last time that this alert rule has been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedUtc?: Date;
+  /** The suppression (in ISO 8601 duration format) to wait since last time this alert rule been triggered. */
+  suppressionDuration: string;
+  /** Determines whether the suppression for this alert rule is enabled or disabled. */
+  suppressionEnabled: boolean;
+  /** The tactics of the alert rule */
+  tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
+  /** The settings of the incidents that created from alerts triggered by this analytics rule */
+  incidentConfiguration?: IncidentConfiguration;
+};
 
 /** Represents Insight Query. */
 export type InsightQueryItemProperties = EntityQueryItemProperties & {
@@ -3380,6 +3429,12 @@ export type OfficeATPCheckRequirementsProperties = DataConnectorTenantId & {};
 /** OfficeIRM (Microsoft Insider Risk Management) requirements check properties. */
 export type OfficeIRMCheckRequirementsProperties = DataConnectorTenantId & {};
 
+/** Office365 Project requirements check properties. */
+export type Office365ProjectCheckRequirementsProperties = DataConnectorTenantId & {};
+
+/** Office PowerBI requirements check properties. */
+export type OfficePowerBICheckRequirementsProperties = DataConnectorTenantId & {};
+
 /** Threat Intelligence Platforms data connector required properties. */
 export type TICheckRequirementsProperties = DataConnectorTenantId & {};
 
@@ -3421,6 +3476,18 @@ export type Dynamics365DataConnectorProperties = DataConnectorTenantId & {
 /** OfficeATP (Office 365 Advanced Threat Protection) data connector properties. */
 export type OfficeATPDataConnectorProperties = DataConnectorTenantId &
   DataConnectorWithAlertsProperties & {};
+
+/** Office Microsoft Project data connector properties. */
+export type Office365ProjectDataConnectorProperties = DataConnectorTenantId & {
+  /** The available data types for the connector. */
+  dataTypes: Office365ProjectConnectorDataTypes;
+};
+
+/** Office Microsoft PowerBI data connector properties. */
+export type OfficePowerBIDataConnectorProperties = DataConnectorTenantId & {
+  /** The available data types for the connector. */
+  dataTypes: OfficePowerBIConnectorDataTypes;
+};
 
 /** OfficeIRM (Microsoft Insider Risk Management) data connector properties. */
 export type OfficeIRMDataConnectorProperties = DataConnectorTenantId &
@@ -3472,6 +3539,12 @@ export type ASCDataConnectorProperties = DataConnectorWithAlertsProperties & {
   subscriptionId?: string;
 };
 
+/** IoT data connector properties. */
+export type IoTDataConnectorProperties = DataConnectorWithAlertsProperties & {
+  /** The subscription id to connect to, and get the data from. */
+  subscriptionId?: string;
+};
+
 /** The available data types for MCAS (Microsoft Cloud App Security) data connector. */
 export type McasDataConnectorDataTypes = AlertsDataTypeOfDataConnector & {
   /** Discovery log data type connection. */
@@ -3501,6 +3574,12 @@ export type AwsS3DataConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 /** Common Data Service data type connection. */
 export type Dynamics365DataConnectorDataTypesDynamics365CdsActivities = DataConnectorDataTypeCommon & {};
+
+/** Logs data type. */
+export type Office365ProjectConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
+
+/** Logs data type. */
+export type OfficePowerBIConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 /** Exchange data type connection. */
 export type OfficeDataConnectorDataTypesExchange = DataConnectorDataTypeCommon & {};
@@ -3556,36 +3635,35 @@ export type ActionRequest = ResourceWithEtag & {
   triggerUri?: string;
 };
 
-/** Represents an automation rule. */
 export type AutomationRule = ResourceWithEtag & {
-  /** The display name of the automation  rule */
-  displayName?: string;
+  /** The display name of the automation rule */
+  displayName: string;
   /** The order of execution of the automation rule */
-  order?: number;
-  /** The triggering logic of the automation rule */
-  triggeringLogic?: AutomationRuleTriggeringLogic;
+  order: number;
+  /** Describes automation rule triggering logic */
+  triggeringLogic: AutomationRuleTriggeringLogic;
   /** The actions to execute when the automation rule is triggered */
-  actions?: AutomationRuleActionUnion[];
-  /**
-   * The time the automation rule was created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimeUtc?: Date;
+  actions: AutomationRuleActionUnion[];
   /**
    * The last time the automation rule was updated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
   /**
-   * Describes the client that created the automation rule
+   * The time the automation rule was created
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdBy?: ClientInfo;
+  readonly createdTimeUtc?: Date;
   /**
-   * Describes the client that last updated the automation rule
+   * Information on the client (user or application) that made some action
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedBy?: ClientInfo;
+  /**
+   * Information on the client (user or application) that made some action
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdBy?: ClientInfo;
 };
 
 /** Represents a bookmark in Azure Security Insights. */
@@ -3616,6 +3694,12 @@ export type Bookmark = ResourceWithEtag & {
   queryEndTime?: Date;
   /** Describes an incident that relates to bookmark */
   incidentInfo?: IncidentInfo;
+  /** Describes the entity mappings of the bookmark */
+  entityMappings?: BookmarkEntityMappings[];
+  /** A list of relevant mitre attacks */
+  tactics?: AttackTactic[];
+  /** A list of relevant mitre techniques */
+  techniques?: string[];
 };
 
 /** Represents a relation between two resources */
@@ -3760,6 +3844,20 @@ export type MetadataModel = ResourceWithEtag & {
   firstPublishDate?: Date;
   /** last publish date for the solution content item */
   lastPublishDate?: Date;
+  /** The custom version of the content. A optional free text */
+  customVersion?: string;
+  /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
+  contentSchemaVersion?: string;
+  /** the icon identifier. this id can later be fetched from the solution template */
+  icon?: string;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalysisTechniques?: string[];
+  /** preview image file names. These will be taken from the solution artifacts */
+  previewImages?: string[];
+  /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
+  previewImagesDark?: string[];
 };
 
 /** Metadata patch request body. */
@@ -3788,6 +3886,20 @@ export type MetadataPatch = ResourceWithEtag & {
   firstPublishDate?: Date;
   /** last publish date for the solution content item */
   lastPublishDate?: Date;
+  /** The custom version of the content. A optional free text */
+  customVersion?: string;
+  /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
+  contentSchemaVersion?: string;
+  /** the icon identifier. this id can later be fetched from the solution template */
+  icon?: string;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalysisTechniques?: string[];
+  /** preview image file names. These will be taken from the solution artifacts */
+  previewImages?: string[];
+  /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
+  previewImagesDark?: string[];
 };
 
 /** Sentinel onboarding state */
@@ -3806,6 +3918,8 @@ export type Settings = ResourceWithEtag & {
 export type SourceControl = ResourceWithEtag & {
   /** The id (a Guid) of the source control */
   idPropertiesId?: string;
+  /** The version number associated with the source control */
+  version?: Version;
   /** The display name of the source control */
   displayName?: string;
   /** A description of the source control */
@@ -3816,6 +3930,16 @@ export type SourceControl = ResourceWithEtag & {
   contentTypes?: ContentType[];
   /** Repository metadata. */
   repository?: Repository;
+  /** Information regarding the resources created in user's repository. */
+  repositoryResourceInfo?: RepositoryResourceInfo;
+  /** Information regarding the latest deployment for the source control. */
+  lastDeploymentInfo?: DeploymentInfo;
+};
+
+/** Threat intelligence information object. */
+export type ThreatIntelligenceInformation = ResourceWithEtag & {
+  /** The kind of the entity. */
+  kind: ThreatIntelligenceResourceKindEnum;
 };
 
 /** Represents a Watchlist in Azure Security Insights. */
@@ -3826,8 +3950,10 @@ export type Watchlist = ResourceWithEtag & {
   displayName?: string;
   /** The provider of the watchlist */
   provider?: string;
-  /** The source of the watchlist */
-  source?: Source;
+  /** The filename of the watchlist, called 'source' */
+  source?: string;
+  /** The sourceType of the watchlist */
+  sourceType?: SourceType;
   /** The time the watchlist was created */
   created?: Date;
   /** The last time the watchlist was updated */
@@ -3860,8 +3986,6 @@ export type Watchlist = ResourceWithEtag & {
   contentType?: string;
   /** The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
-  /** The number of Watchlist Items in the Watchlist */
-  watchlistItemsCount?: number;
 };
 
 /** Represents a Watchlist item in Azure Security Insights. */
@@ -3916,10 +4040,12 @@ export type MLBehaviorAnalyticsAlertRuleTemplate = AlertRuleTemplate & {
   requiredDataConnectors?: AlertRuleTemplateDataSource[];
   /** The alert rule template status. */
   status?: TemplateStatus;
+  /** The tactics of the alert rule */
+  tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-  /** The tactics of the alert rule template. */
-  tactics?: AttackTactic[];
 };
 
 /** Represents Fusion alert rule template. */
@@ -3927,20 +4053,20 @@ export type FusionAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
-   * The last time that this alert rule template has been updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedDateUTC?: Date;
-  /**
    * The time that this alert rule template has been added.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdDateUTC?: Date;
+  /**
+   * The time that this alert rule template was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedDateUTC?: Date;
   /** The description of the alert rule template. */
   description?: string;
   /** The display name for alert rule template. */
   displayName?: string;
-  /** The required data sources for this template */
+  /** The required data connectors for this template */
   requiredDataConnectors?: AlertRuleTemplateDataSource[];
   /** The alert rule template status. */
   status?: TemplateStatus;
@@ -3948,6 +4074,10 @@ export type FusionAlertRuleTemplate = AlertRuleTemplate & {
   severity?: AlertSeverity;
   /** The tactics of the alert rule template */
   tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
+  /** All supported source signal configurations consumed in fusion detection. */
+  sourceSettings?: FusionTemplateSourceSetting[];
 };
 
 /** Represents Threat Intelligence alert rule template. */
@@ -3972,10 +4102,12 @@ export type ThreatIntelligenceAlertRuleTemplate = AlertRuleTemplate & {
   requiredDataConnectors?: AlertRuleTemplateDataSource[];
   /** The alert rule template status. */
   status?: TemplateStatus;
+  /** The tactics of the alert rule */
+  tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-  /** The tactics of the alert rule template */
-  tactics?: AttackTactic[];
 };
 
 /** Represents MicrosoftSecurityIncidentCreation rule template. */
@@ -4015,47 +4147,49 @@ export type ScheduledAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
-   * The last time that this alert rule template has been updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedDateUTC?: Date;
-  /**
    * The time that this alert rule template has been added.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdDateUTC?: Date;
+  /**
+   * The time that this alert rule template was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedDateUTC?: Date;
   /** The description of the alert rule template. */
   description?: string;
   /** The display name for alert rule template. */
   displayName?: string;
-  /** The required data sources for this template */
+  /** The required data connectors for this template */
   requiredDataConnectors?: AlertRuleTemplateDataSource[];
   /** The alert rule template status. */
   status?: TemplateStatus;
   /** The query that creates alerts for this rule. */
   query?: string;
+  /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
+  queryFrequency?: string;
+  /** The period (in ISO 8601 duration format) that this alert rule looks at. */
+  queryPeriod?: string;
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-  /** The tactics of the alert rule */
+  /** The operation against the threshold that triggers alert rule. */
+  triggerOperator?: TriggerOperator;
+  /** The threshold triggers this alert rule. */
+  triggerThreshold?: number;
+  /** The tactics of the alert rule template */
   tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
   /** The version of this template - in format <a.b.c>, where all are numbers. For example <1.0.2>. */
   version?: string;
+  /** The event grouping settings. */
+  eventGroupingSettings?: EventGroupingSettings;
   /** Dictionary of string key-value pairs of columns to be attached to the alert */
   customDetails?: { [propertyName: string]: string };
   /** Array of the entity mappings of the alert rule */
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-  /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
-  queryFrequency?: string;
-  /** The period (in ISO 8601 duration format) that this alert rule looks at. */
-  queryPeriod?: string;
-  /** The operation against the threshold that triggers alert rule. */
-  triggerOperator?: TriggerOperator;
-  /** The threshold triggers this alert rule. */
-  triggerThreshold?: number;
-  /** The event grouping settings. */
-  eventGroupingSettings?: EventGroupingSettings;
 };
 
 /** Represents NRT alert rule template. */
@@ -4080,12 +4214,14 @@ export type NrtAlertRuleTemplate = AlertRuleTemplate & {
   requiredDataConnectors?: AlertRuleTemplateDataSource[];
   /** The alert rule template status. */
   status?: TemplateStatus;
+  /** The tactics of the alert rule */
+  tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
   /** The query that creates alerts for this rule. */
   query?: string;
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-  /** The tactics of the alert rule */
-  tactics?: AttackTactic[];
   /** The version of this template - in format <a.b.c>, where all are numbers. For example <1.0.2>. */
   version?: string;
   /** Dictionary of string key-value pairs of columns to be attached to the alert */
@@ -5189,74 +5325,16 @@ export type ActivityEntityQueryTemplate = EntityQueryTemplate & {
   entitiesFilter?: { [propertyName: string]: string[] };
 };
 
-/** Threat intelligence indicator entity. */
-export type ThreatIntelligenceIndicatorModel = ThreatIntelligenceInformation & {
-  /**
-   * A bag of custom fields that should be part of the entity and will be presented to the user.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
-  /**
-   * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
-  /** List of tags */
-  threatIntelligenceTags?: string[];
-  /** Last updated time in UTC */
-  lastUpdatedTimeUtc?: string;
-  /** Source of a threat intelligence entity */
-  source?: string;
-  /** Display name of a threat intelligence entity */
-  displayName?: string;
-  /** Description of a threat intelligence entity */
-  description?: string;
-  /** Indicator types of threat intelligence entities */
-  indicatorTypes?: string[];
-  /** Pattern of a threat intelligence entity */
-  pattern?: string;
-  /** Pattern type of a threat intelligence entity */
-  patternType?: string;
-  /** Pattern version of a threat intelligence entity */
-  patternVersion?: string;
-  /** Kill chain phases */
-  killChainPhases?: ThreatIntelligenceKillChainPhase[];
-  /** Parsed patterns */
-  parsedPattern?: ThreatIntelligenceParsedPattern[];
-  /** External ID of threat intelligence entity */
-  externalId?: string;
-  /** Created by reference of threat intelligence entity */
-  createdByRef?: string;
-  /** Is threat intelligence entity defanged */
-  defanged?: boolean;
-  /** External last updated time in UTC */
-  externalLastUpdatedTimeUtc?: string;
-  /** External References */
-  externalReferences?: ThreatIntelligenceExternalReference[];
-  /** Granular Markings */
-  granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
-  /** Labels  of threat intelligence entity */
-  labels?: string[];
-  /** Is threat intelligence entity revoked */
-  revoked?: boolean;
-  /** Confidence of threat intelligence entity */
-  confidence?: number;
-  /** Threat intelligence entity object marking references */
-  objectMarkingRefs?: string[];
-  /** Language of threat intelligence entity */
-  language?: string;
-  /** Threat types */
-  threatTypes?: string[];
-  /** Valid from */
-  validFrom?: string;
-  /** Valid until */
-  validUntil?: string;
-  /** Created by */
-  created?: string;
-  /** Modified by */
-  modified?: string;
-  /** Extensions map */
-  extensions?: { [propertyName: string]: any };
+/** MLBehaviorAnalytics alert rule template properties. */
+export type MLBehaviorAnalyticsAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties & {
+  /** The severity for alerts created by this alert rule. */
+  severity: AlertSeverity;
+};
+
+/** Threat Intelligence alert rule template properties */
+export type ThreatIntelligenceAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties & {
+  /** The severity for alerts created by this alert rule. */
+  severity: AlertSeverity;
 };
 
 export type PermissionsCustomsItem = Customs & {};
@@ -5292,6 +5370,11 @@ export type MLBehaviorAnalyticsAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tactics?: AttackTactic[];
+  /**
+   * The techniques of the alert rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly techniques?: string[];
 };
 
 /** Represents Fusion alert rule. */
@@ -5310,6 +5393,10 @@ export type FusionAlertRule = AlertRule & {
   readonly displayName?: string;
   /** Determines whether this alert rule is enabled or disabled. */
   enabled?: boolean;
+  /** Configuration for all supported source signals in fusion detection. */
+  sourceSettings?: FusionSourceSettings[];
+  /** Configuration to exclude scenarios in fusion detection. */
+  scenarioExclusionPatterns?: FusionScenarioExclusionPattern[];
   /**
    * The last time that this alert has been modified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5325,6 +5412,11 @@ export type FusionAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tactics?: AttackTactic[];
+  /**
+   * The techniques of the alert rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly techniques?: string[];
 };
 
 /** Represents Threat Intelligence alert rule. */
@@ -5358,6 +5450,11 @@ export type ThreatIntelligenceAlertRule = AlertRule & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tactics?: AttackTactic[];
+  /**
+   * The techniques of the alert rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly techniques?: string[];
 };
 
 /** Represents MicrosoftSecurityIncidentCreation rule. */
@@ -5387,24 +5484,32 @@ export type MicrosoftSecurityIncidentCreationAlertRule = AlertRule & {
 
 /** Represents scheduled alert rule. */
 export type ScheduledAlertRule = AlertRule & {
+  /** The query that creates alerts for this rule. */
+  query?: string;
   /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
   queryFrequency?: string;
   /** The period (in ISO 8601 duration format) that this alert rule looks at. */
   queryPeriod?: string;
+  /** The severity for alerts created by this alert rule. */
+  severity?: AlertSeverity;
   /** The operation against the threshold that triggers alert rule. */
   triggerOperator?: TriggerOperator;
   /** The threshold triggers this alert rule. */
   triggerThreshold?: number;
   /** The event grouping settings. */
   eventGroupingSettings?: EventGroupingSettings;
+  /** Dictionary of string key-value pairs of columns to be attached to the alert */
+  customDetails?: { [propertyName: string]: string };
+  /** Array of the entity mappings of the alert rule */
+  entityMappings?: EntityMapping[];
+  /** The alert details override settings */
+  alertDetailsOverride?: AlertDetailsOverride;
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
   templateVersion?: string;
   /** The description of the alert rule. */
   description?: string;
-  /** The query that creates alerts for this rule. */
-  query?: string;
   /** The display name for alerts created by this alert rule. */
   displayName?: string;
   /** Determines whether this alert rule is enabled or disabled. */
@@ -5418,18 +5523,12 @@ export type ScheduledAlertRule = AlertRule & {
   suppressionDuration?: string;
   /** Determines whether the suppression for this alert rule is enabled or disabled. */
   suppressionEnabled?: boolean;
-  /** The severity for alerts created by this alert rule. */
-  severity?: AlertSeverity;
   /** The tactics of the alert rule */
   tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
   /** The settings of the incidents that created from alerts triggered by this analytics rule */
   incidentConfiguration?: IncidentConfiguration;
-  /** Dictionary of string key-value pairs of columns to be attached to the alert */
-  customDetails?: { [propertyName: string]: string };
-  /** Array of the entity mappings of the alert rule */
-  entityMappings?: EntityMapping[];
-  /** The alert details override settings */
-  alertDetailsOverride?: AlertDetailsOverride;
 };
 
 /** Represents NRT alert rule. */
@@ -5442,6 +5541,10 @@ export type NrtAlertRule = AlertRule & {
   description?: string;
   /** The query that creates alerts for this rule. */
   query?: string;
+  /** The tactics of the alert rule */
+  tactics?: AttackTactic[];
+  /** The techniques of the alert rule */
+  techniques?: string[];
   /** The display name for alerts created by this alert rule. */
   displayName?: string;
   /** Determines whether this alert rule is enabled or disabled. */
@@ -5457,8 +5560,6 @@ export type NrtAlertRule = AlertRule & {
   suppressionEnabled?: boolean;
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-  /** The tactics of the alert rule */
-  tactics?: AttackTactic[];
   /** The settings of the incidents that created from alerts triggered by this analytics rule */
   incidentConfiguration?: IncidentConfiguration;
   /** Dictionary of string key-value pairs of columns to be attached to the alert */
@@ -5582,6 +5683,76 @@ export type Ueba = Settings & {
   dataSources?: UebaDataSources[];
 };
 
+/** Threat intelligence indicator entity. */
+export type ThreatIntelligenceIndicatorModel = ThreatIntelligenceInformation & {
+  /**
+   * A bag of custom fields that should be part of the entity and will be presented to the user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
+  /**
+   * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+  /** List of tags */
+  threatIntelligenceTags?: string[];
+  /** Last updated time in UTC */
+  lastUpdatedTimeUtc?: string;
+  /** Source of a threat intelligence entity */
+  source?: string;
+  /** Display name of a threat intelligence entity */
+  displayName?: string;
+  /** Description of a threat intelligence entity */
+  description?: string;
+  /** Indicator types of threat intelligence entities */
+  indicatorTypes?: string[];
+  /** Pattern of a threat intelligence entity */
+  pattern?: string;
+  /** Pattern type of a threat intelligence entity */
+  patternType?: string;
+  /** Pattern version of a threat intelligence entity */
+  patternVersion?: string;
+  /** Kill chain phases */
+  killChainPhases?: ThreatIntelligenceKillChainPhase[];
+  /** Parsed patterns */
+  parsedPattern?: ThreatIntelligenceParsedPattern[];
+  /** External ID of threat intelligence entity */
+  externalId?: string;
+  /** Created by reference of threat intelligence entity */
+  createdByRef?: string;
+  /** Is threat intelligence entity defanged */
+  defanged?: boolean;
+  /** External last updated time in UTC */
+  externalLastUpdatedTimeUtc?: string;
+  /** External References */
+  externalReferences?: ThreatIntelligenceExternalReference[];
+  /** Granular Markings */
+  granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
+  /** Labels  of threat intelligence entity */
+  labels?: string[];
+  /** Is threat intelligence entity revoked */
+  revoked?: boolean;
+  /** Confidence of threat intelligence entity */
+  confidence?: number;
+  /** Threat intelligence entity object marking references */
+  objectMarkingRefs?: string[];
+  /** Language of threat intelligence entity */
+  language?: string;
+  /** Threat types */
+  threatTypes?: string[];
+  /** Valid from */
+  validFrom?: string;
+  /** Valid until */
+  validUntil?: string;
+  /** Created by */
+  created?: string;
+  /** Modified by */
+  modified?: string;
+  /** Extensions map */
+  extensions?: { [propertyName: string]: any };
+};
+
 /** Represents AAD (Azure Active Directory) data connector. */
 export type AADDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
@@ -5666,6 +5837,22 @@ export type OfficeATPDataConnector = DataConnector & {
   dataTypes?: AlertsDataTypeOfDataConnector;
 };
 
+/** Represents Office Microsoft Project data connector. */
+export type Office365ProjectDataConnector = DataConnector & {
+  /** The tenant id to connect to, and get the data from. */
+  tenantId?: string;
+  /** The available data types for the connector. */
+  dataTypes?: Office365ProjectConnectorDataTypes;
+};
+
+/** Represents Office Microsoft PowerBI data connector. */
+export type OfficePowerBIDataConnector = DataConnector & {
+  /** The tenant id to connect to, and get the data from. */
+  tenantId?: string;
+  /** The available data types for the connector. */
+  dataTypes?: OfficePowerBIConnectorDataTypes;
+};
+
 /** Represents OfficeIRM (Microsoft Insider Risk Management) data connector. */
 export type OfficeIRMDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
@@ -5724,6 +5911,14 @@ export type TiTaxiiDataConnector = DataConnector & {
   dataTypes?: TiTaxiiDataConnectorDataTypes;
 };
 
+/** Represents IoT data connector. */
+export type IoTDataConnector = DataConnector & {
+  /** The available data types for the connector. */
+  dataTypes?: AlertsDataTypeOfDataConnector;
+  /** The subscription id to connect to, and get the data from. */
+  subscriptionId?: string;
+};
+
 /** Represents Codeless UI data connector. */
 export type CodelessUiDataConnector = DataConnector & {
   /** Config to describe the instructions blade */
@@ -5737,6 +5932,18 @@ export type CodelessApiPollingDataConnector = DataConnector & {
   /** Config to describe the polling instructions */
   pollingConfig?: CodelessConnectorPollingConfigProperties;
 };
+
+/** Defines headers for Watchlists_delete operation. */
+export interface WatchlistsDeleteHeaders {
+  /** Contains the status URL on which clients are expected to poll the status of the delete operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Watchlists_createOrUpdate operation. */
+export interface WatchlistsCreateOrUpdateHeaders {
+  /** Contains the status URL on which clients are expected to poll the status of the operation. */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link AlertRuleKind} that the service accepts. */
 export enum KnownAlertRuleKind {
@@ -5812,23 +6019,23 @@ export enum KnownTriggersWhen {
  */
 export type TriggersWhen = string;
 
-/** Known values of {@link AutomationRuleConditionType} that the service accepts. */
-export enum KnownAutomationRuleConditionType {
+/** Known values of {@link ConditionType} that the service accepts. */
+export enum KnownConditionType {
   /** Evaluate an object property value */
   Property = "Property"
 }
 
 /**
- * Defines values for AutomationRuleConditionType. \
- * {@link KnownAutomationRuleConditionType} can be used interchangeably with AutomationRuleConditionType,
+ * Defines values for ConditionType. \
+ * {@link KnownConditionType} can be used interchangeably with ConditionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Property**: Evaluate an object property value
  */
-export type AutomationRuleConditionType = string;
+export type ConditionType = string;
 
-/** Known values of {@link AutomationRuleActionType} that the service accepts. */
-export enum KnownAutomationRuleActionType {
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
   /** Modify an object's properties */
   ModifyProperties = "ModifyProperties",
   /** Run a playbook on an object */
@@ -5836,14 +6043,14 @@ export enum KnownAutomationRuleActionType {
 }
 
 /**
- * Defines values for AutomationRuleActionType. \
- * {@link KnownAutomationRuleActionType} can be used interchangeably with AutomationRuleActionType,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ModifyProperties**: Modify an object's properties \
  * **RunPlaybook**: Run a playbook on an object
  */
-export type AutomationRuleActionType = string;
+export type ActionType = string;
 
 /** Known values of {@link IncidentSeverity} that the service accepts. */
 export enum KnownIncidentSeverity {
@@ -5868,6 +6075,52 @@ export enum KnownIncidentSeverity {
  * **Informational**: Informational severity
  */
 export type IncidentSeverity = string;
+
+/** Known values of {@link AttackTactic} that the service accepts. */
+export enum KnownAttackTactic {
+  Reconnaissance = "Reconnaissance",
+  ResourceDevelopment = "ResourceDevelopment",
+  InitialAccess = "InitialAccess",
+  Execution = "Execution",
+  Persistence = "Persistence",
+  PrivilegeEscalation = "PrivilegeEscalation",
+  DefenseEvasion = "DefenseEvasion",
+  CredentialAccess = "CredentialAccess",
+  Discovery = "Discovery",
+  LateralMovement = "LateralMovement",
+  Collection = "Collection",
+  Exfiltration = "Exfiltration",
+  CommandAndControl = "CommandAndControl",
+  Impact = "Impact",
+  PreAttack = "PreAttack",
+  ImpairProcessControl = "ImpairProcessControl",
+  InhibitResponseFunction = "InhibitResponseFunction"
+}
+
+/**
+ * Defines values for AttackTactic. \
+ * {@link KnownAttackTactic} can be used interchangeably with AttackTactic,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Reconnaissance** \
+ * **ResourceDevelopment** \
+ * **InitialAccess** \
+ * **Execution** \
+ * **Persistence** \
+ * **PrivilegeEscalation** \
+ * **DefenseEvasion** \
+ * **CredentialAccess** \
+ * **Discovery** \
+ * **LateralMovement** \
+ * **Collection** \
+ * **Exfiltration** \
+ * **CommandAndControl** \
+ * **Impact** \
+ * **PreAttack** \
+ * **ImpairProcessControl** \
+ * **InhibitResponseFunction**
+ */
+export type AttackTactic = string;
 
 /** Known values of {@link EntityKind} that the service accepts. */
 export enum KnownEntityKind {
@@ -5944,54 +6197,6 @@ export enum KnownEntityKind {
  */
 export type EntityKind = string;
 
-/** Known values of {@link Enum8} that the service accepts. */
-export enum KnownEnum8 {
-  Expansion = "Expansion",
-  Activity = "Activity"
-}
-
-/**
- * Defines values for Enum8. \
- * {@link KnownEnum8} can be used interchangeably with Enum8,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Expansion** \
- * **Activity**
- */
-export type Enum8 = string;
-
-/** Known values of {@link EntityQueryKind} that the service accepts. */
-export enum KnownEntityQueryKind {
-  Expansion = "Expansion",
-  Insight = "Insight",
-  Activity = "Activity"
-}
-
-/**
- * Defines values for EntityQueryKind. \
- * {@link KnownEntityQueryKind} can be used interchangeably with EntityQueryKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Expansion** \
- * **Insight** \
- * **Activity**
- */
-export type EntityQueryKind = string;
-
-/** Known values of {@link CustomEntityQueryKind} that the service accepts. */
-export enum KnownCustomEntityQueryKind {
-  Activity = "Activity"
-}
-
-/**
- * Defines values for CustomEntityQueryKind. \
- * {@link KnownCustomEntityQueryKind} can be used interchangeably with CustomEntityQueryKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Activity**
- */
-export type CustomEntityQueryKind = string;
-
 /** Known values of {@link EntityTimelineKind} that the service accepts. */
 export enum KnownEntityTimelineKind {
   /** activity */
@@ -6028,43 +6233,67 @@ export enum KnownEntityItemQueryKind {
  */
 export type EntityItemQueryKind = string;
 
-/** Known values of {@link AttackTactic} that the service accepts. */
-export enum KnownAttackTactic {
-  InitialAccess = "InitialAccess",
-  Execution = "Execution",
-  Persistence = "Persistence",
-  PrivilegeEscalation = "PrivilegeEscalation",
-  DefenseEvasion = "DefenseEvasion",
-  CredentialAccess = "CredentialAccess",
-  Discovery = "Discovery",
-  LateralMovement = "LateralMovement",
-  Collection = "Collection",
-  Exfiltration = "Exfiltration",
-  CommandAndControl = "CommandAndControl",
-  Impact = "Impact",
-  PreAttack = "PreAttack"
+/** Known values of {@link EntityQueryKind} that the service accepts. */
+export enum KnownEntityQueryKind {
+  Expansion = "Expansion",
+  Insight = "Insight",
+  Activity = "Activity"
 }
 
 /**
- * Defines values for AttackTactic. \
- * {@link KnownAttackTactic} can be used interchangeably with AttackTactic,
+ * Defines values for EntityQueryKind. \
+ * {@link KnownEntityQueryKind} can be used interchangeably with EntityQueryKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InitialAccess** \
- * **Execution** \
- * **Persistence** \
- * **PrivilegeEscalation** \
- * **DefenseEvasion** \
- * **CredentialAccess** \
- * **Discovery** \
- * **LateralMovement** \
- * **Collection** \
- * **Exfiltration** \
- * **CommandAndControl** \
- * **Impact** \
- * **PreAttack**
+ * **Expansion** \
+ * **Insight** \
+ * **Activity**
  */
-export type AttackTactic = string;
+export type EntityQueryKind = string;
+
+/** Known values of {@link Enum12} that the service accepts. */
+export enum KnownEnum12 {
+  Expansion = "Expansion",
+  Activity = "Activity"
+}
+
+/**
+ * Defines values for Enum12. \
+ * {@link KnownEnum12} can be used interchangeably with Enum12,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Expansion** \
+ * **Activity**
+ */
+export type Enum12 = string;
+
+/** Known values of {@link CustomEntityQueryKind} that the service accepts. */
+export enum KnownCustomEntityQueryKind {
+  Activity = "Activity"
+}
+
+/**
+ * Defines values for CustomEntityQueryKind. \
+ * {@link KnownCustomEntityQueryKind} can be used interchangeably with CustomEntityQueryKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Activity**
+ */
+export type CustomEntityQueryKind = string;
+
+/** Known values of {@link EntityQueryTemplateKind} that the service accepts. */
+export enum KnownEntityQueryTemplateKind {
+  Activity = "Activity"
+}
+
+/**
+ * Defines values for EntityQueryTemplateKind. \
+ * {@link KnownEntityQueryTemplateKind} can be used interchangeably with EntityQueryTemplateKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Activity**
+ */
+export type EntityQueryTemplateKind = string;
 
 /** Known values of {@link IncidentClassification} that the service accepts. */
 export enum KnownIncidentClassification {
@@ -6119,7 +6348,7 @@ export enum KnownIncidentLabelType {
   /** Label manually created by a user */
   User = "User",
   /** Label automatically created by the system */
-  System = "System"
+  AutoAssigned = "AutoAssigned"
 }
 
 /**
@@ -6128,7 +6357,7 @@ export enum KnownIncidentLabelType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: Label manually created by a user \
- * **System**: Label automatically created by the system
+ * **AutoAssigned**: Label automatically created by the system
  */
 export type IncidentLabelType = string;
 
@@ -6339,7 +6568,10 @@ export enum KnownKind {
   Parser = "Parser",
   Watchlist = "Watchlist",
   WatchlistTemplate = "WatchlistTemplate",
-  Solution = "Solution"
+  Solution = "Solution",
+  AzureFunction = "AzureFunction",
+  LogicAppsCustomConnector = "LogicAppsCustomConnector",
+  AutomationRule = "AutomationRule"
 }
 
 /**
@@ -6360,7 +6592,10 @@ export enum KnownKind {
  * **Parser** \
  * **Watchlist** \
  * **WatchlistTemplate** \
- * **Solution**
+ * **Solution** \
+ * **AzureFunction** \
+ * **LogicAppsCustomConnector** \
+ * **AutomationRule**
  */
 export type Kind = string;
 
@@ -6454,6 +6689,22 @@ export enum KnownRepoType {
  */
 export type RepoType = string;
 
+/** Known values of {@link Version} that the service accepts. */
+export enum KnownVersion {
+  V1 = "V1",
+  V2 = "V2"
+}
+
+/**
+ * Defines values for Version. \
+ * {@link KnownVersion} can be used interchangeably with Version,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2**
+ */
+export type Version = string;
+
 /** Known values of {@link ContentType} that the service accepts. */
 export enum KnownContentType {
   AnalyticRule = "AnalyticRule",
@@ -6470,21 +6721,110 @@ export enum KnownContentType {
  */
 export type ContentType = string;
 
-/** Known values of {@link Source} that the service accepts. */
-export enum KnownSource {
+/** Known values of {@link DeploymentFetchStatus} that the service accepts. */
+export enum KnownDeploymentFetchStatus {
+  Success = "Success",
+  Unauthorized = "Unauthorized",
+  NotFound = "NotFound"
+}
+
+/**
+ * Defines values for DeploymentFetchStatus. \
+ * {@link KnownDeploymentFetchStatus} can be used interchangeably with DeploymentFetchStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Success** \
+ * **Unauthorized** \
+ * **NotFound**
+ */
+export type DeploymentFetchStatus = string;
+
+/** Known values of {@link DeploymentState} that the service accepts. */
+export enum KnownDeploymentState {
+  InProgress = "In_Progress",
+  Completed = "Completed",
+  Queued = "Queued",
+  Canceling = "Canceling"
+}
+
+/**
+ * Defines values for DeploymentState. \
+ * {@link KnownDeploymentState} can be used interchangeably with DeploymentState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **In_Progress** \
+ * **Completed** \
+ * **Queued** \
+ * **Canceling**
+ */
+export type DeploymentState = string;
+
+/** Known values of {@link DeploymentResult} that the service accepts. */
+export enum KnownDeploymentResult {
+  Success = "Success",
+  Canceled = "Canceled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for DeploymentResult. \
+ * {@link KnownDeploymentResult} can be used interchangeably with DeploymentResult,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Success** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type DeploymentResult = string;
+
+/** Known values of {@link ThreatIntelligenceResourceKindEnum} that the service accepts. */
+export enum KnownThreatIntelligenceResourceKindEnum {
+  /** Entity represents threat intelligence indicator in the system. */
+  Indicator = "indicator"
+}
+
+/**
+ * Defines values for ThreatIntelligenceResourceKindEnum. \
+ * {@link KnownThreatIntelligenceResourceKindEnum} can be used interchangeably with ThreatIntelligenceResourceKindEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **indicator**: Entity represents threat intelligence indicator in the system.
+ */
+export type ThreatIntelligenceResourceKindEnum = string;
+
+/** Known values of {@link ThreatIntelligenceSortingCriteriaEnum} that the service accepts. */
+export enum KnownThreatIntelligenceSortingCriteriaEnum {
+  Unsorted = "unsorted",
+  Ascending = "ascending",
+  Descending = "descending"
+}
+
+/**
+ * Defines values for ThreatIntelligenceSortingCriteriaEnum. \
+ * {@link KnownThreatIntelligenceSortingCriteriaEnum} can be used interchangeably with ThreatIntelligenceSortingCriteriaEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unsorted** \
+ * **ascending** \
+ * **descending**
+ */
+export type ThreatIntelligenceSortingCriteriaEnum = string;
+
+/** Known values of {@link SourceType} that the service accepts. */
+export enum KnownSourceType {
   LocalFile = "Local file",
   RemoteStorage = "Remote storage"
 }
 
 /**
- * Defines values for Source. \
- * {@link KnownSource} can be used interchangeably with Source,
+ * Defines values for SourceType. \
+ * {@link KnownSourceType} can be used interchangeably with SourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Local file** \
  * **Remote storage**
  */
-export type Source = string;
+export type SourceType = string;
 
 /** Known values of {@link DataConnectorKind} that the service accepts. */
 export enum KnownDataConnectorKind {
@@ -6496,6 +6836,8 @@ export enum KnownDataConnectorKind {
   Office365 = "Office365",
   OfficeATP = "OfficeATP",
   OfficeIRM = "OfficeIRM",
+  Office365Project = "Office365Project",
+  OfficePowerBI = "OfficePowerBI",
   AmazonWebServicesCloudTrail = "AmazonWebServicesCloudTrail",
   AmazonWebServicesS3 = "AmazonWebServicesS3",
   AzureAdvancedThreatProtection = "AzureAdvancedThreatProtection",
@@ -6504,7 +6846,8 @@ export enum KnownDataConnectorKind {
   MicrosoftThreatProtection = "MicrosoftThreatProtection",
   MicrosoftThreatIntelligence = "MicrosoftThreatIntelligence",
   GenericUI = "GenericUI",
-  APIPolling = "APIPolling"
+  APIPolling = "APIPolling",
+  IOT = "IOT"
 }
 
 /**
@@ -6520,6 +6863,8 @@ export enum KnownDataConnectorKind {
  * **Office365** \
  * **OfficeATP** \
  * **OfficeIRM** \
+ * **Office365Project** \
+ * **OfficePowerBI** \
  * **AmazonWebServicesCloudTrail** \
  * **AmazonWebServicesS3** \
  * **AzureAdvancedThreatProtection** \
@@ -6528,7 +6873,8 @@ export enum KnownDataConnectorKind {
  * **MicrosoftThreatProtection** \
  * **MicrosoftThreatIntelligence** \
  * **GenericUI** \
- * **APIPolling**
+ * **APIPolling** \
+ * **IOT**
  */
 export type DataConnectorKind = string;
 
@@ -6583,53 +6929,6 @@ export enum KnownDataConnectorLicenseState {
  * **Unknown**
  */
 export type DataConnectorLicenseState = string;
-
-/** Known values of {@link ThreatIntelligenceResourceKindEnum} that the service accepts. */
-export enum KnownThreatIntelligenceResourceKindEnum {
-  /** Entity represents threat intelligence indicator in the system. */
-  Indicator = "indicator"
-}
-
-/**
- * Defines values for ThreatIntelligenceResourceKindEnum. \
- * {@link KnownThreatIntelligenceResourceKindEnum} can be used interchangeably with ThreatIntelligenceResourceKindEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **indicator**: Entity represents threat intelligence indicator in the system.
- */
-export type ThreatIntelligenceResourceKindEnum = string;
-
-/** Known values of {@link ThreatIntelligenceSortingCriteriaEnum} that the service accepts. */
-export enum KnownThreatIntelligenceSortingCriteriaEnum {
-  Unsorted = "unsorted",
-  Ascending = "ascending",
-  Descending = "descending"
-}
-
-/**
- * Defines values for ThreatIntelligenceSortingCriteriaEnum. \
- * {@link KnownThreatIntelligenceSortingCriteriaEnum} can be used interchangeably with ThreatIntelligenceSortingCriteriaEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unsorted** \
- * **ascending** \
- * **descending**
- */
-export type ThreatIntelligenceSortingCriteriaEnum = string;
-
-/** Known values of {@link EntityQueryTemplateKind} that the service accepts. */
-export enum KnownEntityQueryTemplateKind {
-  Activity = "Activity"
-}
-
-/**
- * Defines values for EntityQueryTemplateKind. \
- * {@link KnownEntityQueryTemplateKind} can be used interchangeably with EntityQueryTemplateKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Activity**
- */
-export type EntityQueryTemplateKind = string;
 
 /** Known values of {@link TemplateStatus} that the service accepts. */
 export enum KnownTemplateStatus {
@@ -6809,15 +7108,17 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   IncidentSeverity = "IncidentSeverity",
   /** The status of the incident */
   IncidentStatus = "IncidentStatus",
-  /** The tactics of the incident */
-  IncidentTactics = "IncidentTactics",
   /** The related Analytic rule ids of the incident */
   IncidentRelatedAnalyticRuleIds = "IncidentRelatedAnalyticRuleIds",
+  /** The tactics of the incident */
+  IncidentTactics = "IncidentTactics",
+  /** The labels of the incident */
+  IncidentLabel = "IncidentLabel",
   /** The provider name of the incident */
   IncidentProviderName = "IncidentProviderName",
   /** The account Azure Active Directory tenant id */
   AccountAadTenantId = "AccountAadTenantId",
-  /** The account Azure Active Directory user id. */
+  /** The account Azure Active Directory user id */
   AccountAadUserId = "AccountAadUserId",
   /** The account name */
   AccountName = "AccountName",
@@ -6831,6 +7132,8 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   AccountObjectGuid = "AccountObjectGuid",
   /** The account user principal name suffix */
   AccountUPNSuffix = "AccountUPNSuffix",
+  /** The name of the product of the alert */
+  AlertProductNames = "AlertProductNames",
   /** The Azure resource id */
   AzureResourceResourceId = "AzureResourceResourceId",
   /** The Azure resource subscription id */
@@ -6857,7 +7160,7 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   HostNTDomain = "HostNTDomain",
   /** The host operating system */
   HostOSVersion = "HostOSVersion",
-  /** The IoT device id */
+  /** "The IoT device id */
   IoTDeviceId = "IoTDeviceId",
   /** The IoT device name */
   IoTDeviceName = "IoTDeviceName",
@@ -6916,17 +7219,19 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **IncidentDescription**: The description of the incident \
  * **IncidentSeverity**: The severity of the incident \
  * **IncidentStatus**: The status of the incident \
- * **IncidentTactics**: The tactics of the incident \
  * **IncidentRelatedAnalyticRuleIds**: The related Analytic rule ids of the incident \
+ * **IncidentTactics**: The tactics of the incident \
+ * **IncidentLabel**: The labels of the incident \
  * **IncidentProviderName**: The provider name of the incident \
  * **AccountAadTenantId**: The account Azure Active Directory tenant id \
- * **AccountAadUserId**: The account Azure Active Directory user id. \
+ * **AccountAadUserId**: The account Azure Active Directory user id \
  * **AccountName**: The account name \
  * **AccountNTDomain**: The account NetBIOS domain name \
  * **AccountPUID**: The account Azure Active Directory Passport User ID \
  * **AccountSid**: The account security identifier \
  * **AccountObjectGuid**: The account unique identifier \
  * **AccountUPNSuffix**: The account user principal name suffix \
+ * **AlertProductNames**: The name of the product of the alert \
  * **AzureResourceResourceId**: The Azure resource id \
  * **AzureResourceSubscriptionId**: The Azure resource subscription id \
  * **CloudApplicationAppId**: The cloud application identifier \
@@ -6940,7 +7245,7 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **HostNetBiosName**: The host NetBIOS name \
  * **HostNTDomain**: The host NT domain \
  * **HostOSVersion**: The host operating system \
- * **IoTDeviceId**: The IoT device id \
+ * **IoTDeviceId**: "The IoT device id \
  * **IoTDeviceName**: The IoT device name \
  * **IoTDeviceType**: The IoT device type \
  * **IoTDeviceVendor**: The IoT device vendor \
@@ -7483,13 +7788,6 @@ export interface AlertRuleTemplatesListNextOptionalParams
 export type AlertRuleTemplatesListNextResponse = AlertRuleTemplatesList;
 
 /** Optional parameters. */
-export interface AutomationRulesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AutomationRulesListResponse = AutomationRulesList;
-
-/** Optional parameters. */
 export interface AutomationRulesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -7498,7 +7796,10 @@ export type AutomationRulesGetResponse = AutomationRule;
 
 /** Optional parameters. */
 export interface AutomationRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The automation rule */
+  automationRuleToUpsert?: AutomationRule;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type AutomationRulesCreateOrUpdateResponse = AutomationRule;
@@ -7507,12 +7808,109 @@ export type AutomationRulesCreateOrUpdateResponse = AutomationRule;
 export interface AutomationRulesDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the delete operation. */
+export type AutomationRulesDeleteResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface AutomationRulesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AutomationRulesListResponse = AutomationRulesList;
+
 /** Optional parameters. */
 export interface AutomationRulesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AutomationRulesListNextResponse = AutomationRulesList;
+
+/** Optional parameters. */
+export interface IncidentsRunPlaybookOptionalParams
+  extends coreClient.OperationOptions {
+  requestBody?: ManualTriggerRequestBody;
+}
+
+/** Contains response data for the runPlaybook operation. */
+export type IncidentsRunPlaybookResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface IncidentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type IncidentsListResponse = IncidentList;
+
+/** Optional parameters. */
+export interface IncidentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IncidentsGetResponse = Incident;
+
+/** Optional parameters. */
+export interface IncidentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IncidentsCreateOrUpdateResponse = Incident;
+
+/** Optional parameters. */
+export interface IncidentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IncidentsCreateTeamOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createTeam operation. */
+export type IncidentsCreateTeamResponse = TeamInformation;
+
+/** Optional parameters. */
+export interface IncidentsListAlertsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAlerts operation. */
+export type IncidentsListAlertsResponse = IncidentAlertList;
+
+/** Optional parameters. */
+export interface IncidentsListBookmarksOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBookmarks operation. */
+export type IncidentsListBookmarksResponse = IncidentBookmarkList;
+
+/** Optional parameters. */
+export interface IncidentsListEntitiesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEntities operation. */
+export type IncidentsListEntitiesResponse = IncidentEntitiesResponse;
+
+/** Optional parameters. */
+export interface IncidentsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type IncidentsListNextResponse = IncidentList;
 
 /** Optional parameters. */
 export interface BookmarksListOptionalParams
@@ -7618,44 +8016,6 @@ export interface DomainWhoisGetOptionalParams
 export type DomainWhoisGetResponse = EnrichmentDomainWhois;
 
 /** Optional parameters. */
-export interface EntityQueriesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The entity query kind we want to fetch */
-  kind?: Enum8;
-}
-
-/** Contains response data for the list operation. */
-export type EntityQueriesListResponse = EntityQueryList;
-
-/** Optional parameters. */
-export interface EntityQueriesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type EntityQueriesGetResponse = EntityQueryUnion;
-
-/** Optional parameters. */
-export interface EntityQueriesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type EntityQueriesCreateOrUpdateResponse = EntityQueryUnion;
-
-/** Optional parameters. */
-export interface EntityQueriesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface EntityQueriesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The entity query kind we want to fetch */
-  kind?: Enum8;
-}
-
-/** Contains response data for the listNext operation. */
-export type EntityQueriesListNextResponse = EntityQueryList;
-
-/** Optional parameters. */
 export interface EntitiesListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -7744,82 +8104,63 @@ export interface EntityRelationsGetRelationOptionalParams
 export type EntityRelationsGetRelationResponse = Relation;
 
 /** Optional parameters. */
-export interface IncidentsListOptionalParams
+export interface EntityQueriesListOptionalParams
   extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
+  /** The entity query kind we want to fetch */
+  kind?: Enum12;
 }
 
 /** Contains response data for the list operation. */
-export type IncidentsListResponse = IncidentList;
+export type EntityQueriesListResponse = EntityQueryList;
 
 /** Optional parameters. */
-export interface IncidentsGetOptionalParams
+export interface EntityQueriesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IncidentsGetResponse = Incident;
+export type EntityQueriesGetResponse = EntityQueryUnion;
 
 /** Optional parameters. */
-export interface IncidentsCreateOrUpdateOptionalParams
+export interface EntityQueriesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IncidentsCreateOrUpdateResponse = Incident;
+export type EntityQueriesCreateOrUpdateResponse = EntityQueryUnion;
 
 /** Optional parameters. */
-export interface IncidentsDeleteOptionalParams
+export interface EntityQueriesDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IncidentsCreateTeamOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createTeam operation. */
-export type IncidentsCreateTeamResponse = TeamInformation;
-
-/** Optional parameters. */
-export interface IncidentsListAlertsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAlerts operation. */
-export type IncidentsListAlertsResponse = IncidentAlertList;
-
-/** Optional parameters. */
-export interface IncidentsListBookmarksOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBookmarks operation. */
-export type IncidentsListBookmarksResponse = IncidentBookmarkList;
-
-/** Optional parameters. */
-export interface IncidentsListEntitiesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listEntities operation. */
-export type IncidentsListEntitiesResponse = IncidentEntitiesResponse;
-
-/** Optional parameters. */
-export interface IncidentsListNextOptionalParams
+export interface EntityQueriesListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
+  /** The entity query kind we want to fetch */
+  kind?: Enum12;
 }
 
 /** Contains response data for the listNext operation. */
-export type IncidentsListNextResponse = IncidentList;
+export type EntityQueriesListNextResponse = EntityQueryList;
+
+/** Optional parameters. */
+export interface EntityQueryTemplatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EntityQueryTemplatesListResponse = EntityQueryTemplateList;
+
+/** Optional parameters. */
+export interface EntityQueryTemplatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EntityQueryTemplatesGetResponse = EntityQueryTemplateUnion;
+
+/** Optional parameters. */
+export interface EntityQueryTemplatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
 
 /** Optional parameters. */
 export interface IncidentCommentsListOptionalParams
@@ -7979,6 +8320,31 @@ export interface MetadataListNextOptionalParams
 export type MetadataListNextResponse = MetadataList;
 
 /** Optional parameters. */
+export interface OfficeConsentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OfficeConsentsListResponse = OfficeConsentList;
+
+/** Optional parameters. */
+export interface OfficeConsentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OfficeConsentsGetResponse = OfficeConsent;
+
+/** Optional parameters. */
+export interface OfficeConsentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface OfficeConsentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OfficeConsentsListNextResponse = OfficeConsentList;
+
+/** Optional parameters. */
 export interface SentinelOnboardingStatesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8078,117 +8444,6 @@ export interface SourceControlsListNextOptionalParams
 export type SourceControlsListNextResponse = SourceControlList;
 
 /** Optional parameters. */
-export interface WatchlistsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type WatchlistsListResponse = WatchlistList;
-
-/** Optional parameters. */
-export interface WatchlistsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WatchlistsGetResponse = Watchlist;
-
-/** Optional parameters. */
-export interface WatchlistsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface WatchlistsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type WatchlistsCreateOrUpdateResponse = Watchlist;
-
-/** Optional parameters. */
-export interface WatchlistsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WatchlistsListNextResponse = WatchlistList;
-
-/** Optional parameters. */
-export interface WatchlistItemsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type WatchlistItemsListResponse = WatchlistItemList;
-
-/** Optional parameters. */
-export interface WatchlistItemsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WatchlistItemsGetResponse = WatchlistItem;
-
-/** Optional parameters. */
-export interface WatchlistItemsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface WatchlistItemsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type WatchlistItemsCreateOrUpdateResponse = WatchlistItem;
-
-/** Optional parameters. */
-export interface WatchlistItemsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WatchlistItemsListNextResponse = WatchlistItemList;
-
-/** Optional parameters. */
-export interface DataConnectorsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DataConnectorsListResponse = DataConnectorList;
-
-/** Optional parameters. */
-export interface DataConnectorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DataConnectorsGetResponse = DataConnectorUnion;
-
-/** Optional parameters. */
-export interface DataConnectorsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DataConnectorsCreateOrUpdateResponse = DataConnectorUnion;
-
-/** Optional parameters. */
-export interface DataConnectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DataConnectorsConnectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DataConnectorsDisconnectOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DataConnectorsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DataConnectorsListNextResponse = DataConnectorList;
-
-/** Optional parameters. */
-export interface DataConnectorsCheckRequirementsPostOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the post operation. */
-export type DataConnectorsCheckRequirementsPostResponse = DataConnectorRequirementsState;
-
-/** Optional parameters. */
 export interface ThreatIntelligenceIndicatorCreateIndicatorOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8278,6 +8533,132 @@ export interface ThreatIntelligenceIndicatorMetricsListOptionalParams
 export type ThreatIntelligenceIndicatorMetricsListResponse = ThreatIntelligenceMetricsList;
 
 /** Optional parameters. */
+export interface WatchlistsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WatchlistsListResponse = WatchlistList;
+
+/** Optional parameters. */
+export interface WatchlistsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WatchlistsGetResponse = Watchlist;
+
+/** Optional parameters. */
+export interface WatchlistsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the delete operation. */
+export type WatchlistsDeleteResponse = WatchlistsDeleteHeaders;
+
+/** Optional parameters. */
+export interface WatchlistsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WatchlistsCreateOrUpdateResponse = Watchlist;
+
+/** Optional parameters. */
+export interface WatchlistsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type WatchlistsListNextResponse = WatchlistList;
+
+/** Optional parameters. */
+export interface WatchlistItemsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WatchlistItemsListResponse = WatchlistItemList;
+
+/** Optional parameters. */
+export interface WatchlistItemsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WatchlistItemsGetResponse = WatchlistItem;
+
+/** Optional parameters. */
+export interface WatchlistItemsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WatchlistItemsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WatchlistItemsCreateOrUpdateResponse = WatchlistItem;
+
+/** Optional parameters. */
+export interface WatchlistItemsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type WatchlistItemsListNextResponse = WatchlistItemList;
+
+/** Optional parameters. */
+export interface DataConnectorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DataConnectorsListResponse = DataConnectorList;
+
+/** Optional parameters. */
+export interface DataConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DataConnectorsGetResponse = DataConnectorUnion;
+
+/** Optional parameters. */
+export interface DataConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DataConnectorsCreateOrUpdateResponse = DataConnectorUnion;
+
+/** Optional parameters. */
+export interface DataConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DataConnectorsConnectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DataConnectorsDisconnectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DataConnectorsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DataConnectorsListNextResponse = DataConnectorList;
+
+/** Optional parameters. */
+export interface DataConnectorsCheckRequirementsPostOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the post operation. */
+export type DataConnectorsCheckRequirementsPostResponse = DataConnectorRequirementsState;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8290,52 +8671,6 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationsList;
-
-/** Optional parameters. */
-export interface OfficeConsentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OfficeConsentsListResponse = OfficeConsentList;
-
-/** Optional parameters. */
-export interface OfficeConsentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type OfficeConsentsGetResponse = OfficeConsent;
-
-/** Optional parameters. */
-export interface OfficeConsentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface OfficeConsentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OfficeConsentsListNextResponse = OfficeConsentList;
-
-/** Optional parameters. */
-export interface EntityQueryTemplatesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type EntityQueryTemplatesListResponse = EntityQueryTemplateList;
-
-/** Optional parameters. */
-export interface EntityQueryTemplatesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type EntityQueryTemplatesGetResponse = EntityQueryTemplateUnion;
-
-/** Optional parameters. */
-export interface EntityQueryTemplatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
 
 /** Optional parameters. */
 export interface SecurityInsightsOptionalParams

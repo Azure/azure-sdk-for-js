@@ -42,8 +42,14 @@ To use this client library in the browser, first you need to use a bundler. For 
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
 
-// Configure exporters, tracer providers, etc.
-// Please refer to the OpenTelemetry documentation for more information.
+// Set-up and configure a Node Tracer Provider using OpenTelemetry
+const opentelemetry = require("@opentelemetry/api");
+const { NodeTracerProvider } = require("@opentelemetry/node");
+const { SimpleSpanProcessor, ConsoleSpanExporter } = require("@opentelemetry/tracing");
+
+const provider = new NodeTracerProvider();
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.register();
 
 registerInstrumentations({
   instrumentations: [createAzureSdkInstrumentation()],
@@ -53,7 +59,24 @@ registerInstrumentations({
 
 const { keyClient } = require("@azure/keyvault-keys");
 
-// Do something cool with the keyClient...
+async function main() {
+  // Tracing is now enabled using automatic span propagation with an active context.
+  await keyClient.getKey("MyKeyName");
+
+  // If your scenario requires manual span propagation, all Azure client libraries
+  // support explicitly passing a parent context via an `options` parameter.
+  // Get a tracer from a registered provider, create a span, and get the current context.
+  const tracer = opentelemetry.trace.getTracer("my-tracer");
+  const span = tracer.startSpan("main");
+  const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), span);
+
+  await keyClient.getKey("MyKeyName", {
+    tracingOptions: {
+      // ctx will be used as the parent context for all operations.
+      tracingContext: ctx,
+    },
+  });
+}
 ```
 
 ## Troubleshooting

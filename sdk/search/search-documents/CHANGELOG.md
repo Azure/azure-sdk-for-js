@@ -1,5 +1,15 @@
 # Release History
 
+## 11.3.0-beta.8 (unreleased)
+
+Added `core-http-compat` dependency
+
+## 11.3.0-beta.7 (2022-03-08)
+
+### Features Added
+
+- Added new APIs `createAlias`, `createOrUpdateAlias`, `deleteAlias`, `getAlias` & `listAliases` operations to the `SearchIndexClient`.
+
 ## 11.3.0-beta.6 (2022-02-08)
 
 ### Features Added

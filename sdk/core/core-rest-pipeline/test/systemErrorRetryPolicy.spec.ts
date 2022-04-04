@@ -4,13 +4,14 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
-  createHttpHeaders,
-  systemErrorRetryPolicy,
   RestError,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+  systemErrorRetryPolicy,
 } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("systemErrorRetryPolicy", function () {
   afterEach(function () {
@@ -69,7 +70,7 @@ describe("systemErrorRetryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 });

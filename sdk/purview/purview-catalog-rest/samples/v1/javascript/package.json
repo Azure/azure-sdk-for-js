@@ -1,5 +1,5 @@
 {
-  "name": "azure-purview-catalog-samples-js",
+  "name": "@azure-samples/purview-catalog-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Purview Scanning rest client library samples for JavaScript",

@@ -6,6 +6,8 @@ $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 
+. "$PSScriptRoot/docs/Docs-ToC.ps1"
+
 function Confirm-NodeInstallation
 {
   if (!(Get-Command npm -ErrorAction SilentlyContinue))
@@ -253,10 +255,11 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
   return $validationOutput
 }
 
-$PackageExclusions = @{ 
+$PackageExclusions = @{
   '@azure/identity-vscode'              = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
   '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
+  '@azure/communication-react'          = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/20574';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {

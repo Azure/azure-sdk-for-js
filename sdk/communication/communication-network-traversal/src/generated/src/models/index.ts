@@ -20,6 +20,10 @@ export interface CommunicationRelayConfigurationRequest {
    * Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers.
    */
   routeType?: RouteType;
+  /**
+   * The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it.
+   */
+  ttl?: number;
 }
 
 /**

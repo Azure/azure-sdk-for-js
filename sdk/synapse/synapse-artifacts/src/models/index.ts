@@ -160,6 +160,10 @@ export type LinkedServiceUnion =
   | SapEccLinkedService
   | SapOpenHubLinkedService
   | RestServiceLinkedService
+  | TeamDeskLinkedService
+  | QuickbaseLinkedService
+  | SmartsheetLinkedService
+  | ZendeskLinkedService
   | AmazonS3LinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
@@ -424,6 +428,7 @@ export type ExecutionActivityUnion =
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
   | ExecuteDataFlowActivity
+  | ScriptActivity
   | SynapseNotebookActivity
   | SynapseSparkJobDefinitionActivity;
 export type MultiplePipelineTriggerUnion =
@@ -1053,6 +1058,10 @@ export interface LinkedService {
     | "SapEcc"
     | "SapOpenHub"
     | "RestService"
+    | "TeamDesk"
+    | "Quickbase"
+    | "Smartsheet"
+    | "Zendesk"
     | "AmazonS3"
     | "AmazonRedshift"
     | "CustomDataSource"
@@ -1540,6 +1549,7 @@ export interface Activity {
     | "AzureFunctionActivity"
     | "WebHook"
     | "ExecuteDataFlow"
+    | "Script"
     | "SynapseNotebook"
     | "SparkJob"
     | "SqlPoolStoredProcedure";
@@ -2451,8 +2461,8 @@ export interface ExposureControlResponse {
 export interface SynapseNotebookReference {
   /** Synapse notebook reference type. */
   type: NotebookReferenceType;
-  /** Reference notebook name. */
-  referenceName: string;
+  /** Reference notebook name. Type: string (or Expression with resultType string). */
+  referenceName: any;
 }
 
 /** Synapse spark job reference type. */
@@ -2469,6 +2479,14 @@ export interface SqlPoolReference {
   type: SqlPoolReferenceType;
   /** Reference SQL pool name. */
   referenceName: string;
+}
+
+/** Big data pool reference type. */
+export interface BigDataPoolParametrizationReference {
+  /** Big data pool reference type. */
+  type: BigDataPoolReferenceType;
+  /** Reference big data pool name. Type: string (or Expression with resultType string). */
+  referenceName: any;
 }
 
 /** Request body structure for starting data flow debug session. */
@@ -3297,6 +3315,38 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
   computeType?: DataFlowComputeType;
   /** Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. */
   coreCount?: number;
+}
+
+/** Script block of scripts. */
+export interface ScriptActivityScriptBlock {
+  /** The query text. Type: string (or Expression with resultType string). */
+  text: any;
+  /** The type of the query. Type: string. */
+  type: ScriptType;
+  /** Array of script parameters. Type: array. */
+  parameters?: ScriptActivityParameter[];
+}
+
+/** Parameters of a script block. */
+export interface ScriptActivityParameter {
+  /** The name of the parameter. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** The type of the parameter. */
+  type?: ScriptActivityParameterType;
+  /** The value of the parameter. */
+  value?: any;
+  /** The direction of the parameter. */
+  direction?: ScriptActivityParameterDirection;
+  /** The size of the output direction parameter. */
+  size?: number;
+}
+
+/** Log settings of script activity. */
+export interface ScriptActivityTypePropertiesLogSettings {
+  /** The destination of logs. Type: string. */
+  logDestination: ScriptActivityLogDestination;
+  /** Log location settings customer needs to provide when enabling log. */
+  logLocationSettings?: LogLocationSettings;
 }
 
 /** The workflow trigger recurrence. */
@@ -5456,6 +5506,64 @@ export type RestServiceLinkedService = LinkedService & {
   encryptedCredential?: any;
 };
 
+/** Linked service for TeamDesk. */
+export type TeamDeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TeamDesk";
+  /** The authentication type to use. */
+  authenticationType: TeamDeskAuthenticationType;
+  /** The url to connect TeamDesk source. Type: string (or Expression with resultType string). */
+  url: any;
+  /** The username of the TeamDesk source. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The password of the TeamDesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the TeamDesk source. */
+  apiToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for Quickbase. */
+export type QuickbaseLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Quickbase";
+  /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
+  url: any;
+  /** The user token for the Quickbase source. */
+  userToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for Smartsheet. */
+export type SmartsheetLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Smartsheet";
+  /** The api token for the Smartsheet source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Linked service for Zendesk. */
+export type ZendeskLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Zendesk";
+  /** The authentication type to use. */
+  authenticationType: ZendeskAuthenticationType;
+  /** The url to connect Zendesk source. Type: string (or Expression with resultType string). */
+  url: any;
+  /** The username of the Zendesk source. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The password of the Zendesk source. */
+  password?: SecretBaseUnion;
+  /** The api token for the Zendesk source. */
+  apiToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
 /** Linked service for Amazon S3. */
 export type AmazonS3LinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6645,6 +6753,7 @@ export type ExecutionActivity = Activity & {
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
     | "ExecuteDataFlow"
+    | "Script"
     | "SynapseNotebook"
     | "SparkJob";
   /** Linked service reference. */
@@ -9086,12 +9195,24 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   runConcurrently?: any;
 };
 
+/** Script activity type. */
+export type ScriptActivity = ExecutionActivity & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Script";
+  /** Array of script blocks. Type: array. */
+  scripts?: ScriptActivityScriptBlock[];
+  /** Log settings of script activity. */
+  logSettings?: ScriptActivityTypePropertiesLogSettings;
+};
+
 /** Execute Synapse notebook activity. */
 export type SynapseNotebookActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SynapseNotebook";
   /** Synapse notebook reference. */
   notebook: SynapseNotebookReference;
+  /** The name of the big data pool which will be used to execute the notebook. */
+  sparkPool?: BigDataPoolParametrizationReference;
   /** Notebook parameters. */
   parameters?: { [propertyName: string]: NotebookParameter };
 };
@@ -9104,6 +9225,22 @@ export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
   sparkJob: SynapseSparkJobReference;
   /** User specified arguments to SynapseSparkJobDefinitionActivity. */
   arguments?: any[];
+  /** The main file used for the job, which will override the 'file' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  file?: any;
+  /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  className?: any;
+  /** Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
+  files?: any[];
+  /** The name of the big data pool which will be used to execute the spark batch job, which will override the 'targetBigDataPool' of the spark job definition you provide. */
+  targetBigDataPool?: BigDataPoolParametrizationReference;
+  /** Number of core and memory to be used for executors allocated in the specified Spark pool for the job, which will be used for overriding 'executorCores' and 'executorMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  executorSize?: any;
+  /** Spark configuration properties, which will override the 'conf' of the spark job definition you provide. */
+  conf?: any;
+  /** Number of core and memory to be used for driver allocated in the specified Spark pool for the job, which will be used for overriding 'driverCores' and 'driverMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
+  driverSize?: any;
+  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. */
+  numExecutors?: number;
 };
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -10656,6 +10793,38 @@ export enum KnownRestServiceAuthenticationType {
  */
 export type RestServiceAuthenticationType = string;
 
+/** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
+export enum KnownTeamDeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for TeamDeskAuthenticationType. \
+ * {@link KnownTeamDeskAuthenticationType} can be used interchangeably with TeamDeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type TeamDeskAuthenticationType = string;
+
+/** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
+export enum KnownZendeskAuthenticationType {
+  Basic = "Basic",
+  Token = "Token"
+}
+
+/**
+ * Defines values for ZendeskAuthenticationType. \
+ * {@link KnownZendeskAuthenticationType} can be used interchangeably with ZendeskAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Token**
+ */
+export type ZendeskAuthenticationType = string;
+
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {
   Basic = "Basic",
@@ -11351,6 +11520,92 @@ export enum KnownDataFlowComputeType {
  * **ComputeOptimized**
  */
 export type DataFlowComputeType = string;
+
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  Query = "Query",
+  NonQuery = "NonQuery"
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
+/** Known values of {@link ScriptActivityParameterType} that the service accepts. */
+export enum KnownScriptActivityParameterType {
+  Boolean = "Boolean",
+  DateTime = "DateTime",
+  DateTimeOffset = "DateTimeOffset",
+  Decimal = "Decimal",
+  Double = "Double",
+  Guid = "Guid",
+  Int16 = "Int16",
+  Int32 = "Int32",
+  Int64 = "Int64",
+  Single = "Single",
+  String = "String",
+  Timespan = "Timespan"
+}
+
+/**
+ * Defines values for ScriptActivityParameterType. \
+ * {@link KnownScriptActivityParameterType} can be used interchangeably with ScriptActivityParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Boolean** \
+ * **DateTime** \
+ * **DateTimeOffset** \
+ * **Decimal** \
+ * **Double** \
+ * **Guid** \
+ * **Int16** \
+ * **Int32** \
+ * **Int64** \
+ * **Single** \
+ * **String** \
+ * **Timespan**
+ */
+export type ScriptActivityParameterType = string;
+
+/** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
+export enum KnownScriptActivityParameterDirection {
+  Input = "Input",
+  Output = "Output",
+  InputOutput = "InputOutput"
+}
+
+/**
+ * Defines values for ScriptActivityParameterDirection. \
+ * {@link KnownScriptActivityParameterDirection} can be used interchangeably with ScriptActivityParameterDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Input** \
+ * **Output** \
+ * **InputOutput**
+ */
+export type ScriptActivityParameterDirection = string;
+
+/** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
+export enum KnownScriptActivityLogDestination {
+  ActivityOutput = "ActivityOutput",
+  ExternalStore = "ExternalStore"
+}
+
+/**
+ * Defines values for ScriptActivityLogDestination. \
+ * {@link KnownScriptActivityLogDestination} can be used interchangeably with ScriptActivityLogDestination,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActivityOutput** \
+ * **ExternalStore**
+ */
+export type ScriptActivityLogDestination = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {

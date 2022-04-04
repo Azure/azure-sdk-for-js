@@ -81,17 +81,18 @@ async function makeRequest(uri: string, requestOptions: RequestOptions): Promise
 }
 
 async function getImageTag() {
-  // Grab the tag from the `/eng/common/testproxy/docker-start-proxy.ps1` file [..is used to run the proxy-tool in the CI]
+  // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
+  // Example content:
   //
-  // $SELECTED_IMAGE_TAG = "1147815";
+  // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInPWSHScript = await fs.readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
+    const contentInVersionFile = await fs.readFile(
+      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
       "utf-8"
     );
 
-    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG = "(.*)"/)?.[1];
+    const tag = contentInVersionFile.trim();
     if (tag === undefined) {
       throw new Error();
     }

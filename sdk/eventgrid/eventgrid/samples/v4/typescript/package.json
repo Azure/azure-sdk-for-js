@@ -1,5 +1,5 @@
 {
-  "name": "azure-eventgrid-samples-ts",
+  "name": "@azure-samples/eventgrid-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Event Grid client library samples for TypeScript",

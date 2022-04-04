@@ -57,7 +57,7 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param endpoint - The url of the Communication Services resouce.
+   * @param endpoint - The url of the Communication Services resource.
    * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */

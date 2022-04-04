@@ -24,7 +24,7 @@ import {
   RoleAssignmentsListForScopeNextResponse
 } from "../models";
 
-/** Class representing a RoleAssignments. */
+/** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {
   private readonly client: KeyVaultClientContext;
 

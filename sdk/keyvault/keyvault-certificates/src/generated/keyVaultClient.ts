@@ -12,56 +12,73 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion73Preview,
-  KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientGetCertificatesResponse,
-  KeyVaultClientDeleteCertificateResponse,
+  ApiVersion73,
+  GetCertificatesOptionalParams,
+  GetCertificatesResponse,
+  DeleteCertificateOptionalParams,
+  DeleteCertificateResponse,
   Contacts,
-  KeyVaultClientSetCertificateContactsResponse,
-  KeyVaultClientGetCertificateContactsResponse,
-  KeyVaultClientDeleteCertificateContactsResponse,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetCertificateIssuersResponse,
-  KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientSetCertificateIssuerResponse,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateIssuerResponse,
-  KeyVaultClientGetCertificateIssuerResponse,
-  KeyVaultClientDeleteCertificateIssuerResponse,
-  KeyVaultClientCreateCertificateOptionalParams,
-  KeyVaultClientCreateCertificateResponse,
-  KeyVaultClientImportCertificateOptionalParams,
-  KeyVaultClientImportCertificateResponse,
-  KeyVaultClientGetCertificateVersionsOptionalParams,
-  KeyVaultClientGetCertificateVersionsResponse,
-  KeyVaultClientGetCertificatePolicyResponse,
+  SetCertificateContactsOptionalParams,
+  SetCertificateContactsResponse,
+  GetCertificateContactsOptionalParams,
+  GetCertificateContactsResponse,
+  DeleteCertificateContactsOptionalParams,
+  DeleteCertificateContactsResponse,
+  GetCertificateIssuersOptionalParams,
+  GetCertificateIssuersResponse,
+  SetCertificateIssuerOptionalParams,
+  SetCertificateIssuerResponse,
+  UpdateCertificateIssuerOptionalParams,
+  UpdateCertificateIssuerResponse,
+  GetCertificateIssuerOptionalParams,
+  GetCertificateIssuerResponse,
+  DeleteCertificateIssuerOptionalParams,
+  DeleteCertificateIssuerResponse,
+  CreateCertificateOptionalParams,
+  CreateCertificateResponse,
+  ImportCertificateOptionalParams,
+  ImportCertificateResponse,
+  GetCertificateVersionsOptionalParams,
+  GetCertificateVersionsResponse,
+  GetCertificatePolicyOptionalParams,
+  GetCertificatePolicyResponse,
   CertificatePolicy,
-  KeyVaultClientUpdateCertificatePolicyResponse,
-  KeyVaultClientUpdateCertificateOptionalParams,
-  KeyVaultClientUpdateCertificateResponse,
-  KeyVaultClientGetCertificateResponse,
-  KeyVaultClientUpdateCertificateOperationResponse,
-  KeyVaultClientGetCertificateOperationResponse,
-  KeyVaultClientDeleteCertificateOperationResponse,
-  KeyVaultClientMergeCertificateOptionalParams,
-  KeyVaultClientMergeCertificateResponse,
-  KeyVaultClientBackupCertificateResponse,
-  KeyVaultClientRestoreCertificateResponse,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
-  KeyVaultClientGetDeletedCertificatesResponse,
-  KeyVaultClientGetDeletedCertificateResponse,
-  KeyVaultClientRecoverDeletedCertificateResponse,
-  KeyVaultClientGetCertificatesNextOptionalParams,
-  KeyVaultClientGetCertificatesNextResponse,
-  KeyVaultClientGetCertificateIssuersNextOptionalParams,
-  KeyVaultClientGetCertificateIssuersNextResponse,
-  KeyVaultClientGetCertificateVersionsNextOptionalParams,
-  KeyVaultClientGetCertificateVersionsNextResponse,
-  KeyVaultClientGetDeletedCertificatesNextOptionalParams,
-  KeyVaultClientGetDeletedCertificatesNextResponse
+  UpdateCertificatePolicyOptionalParams,
+  UpdateCertificatePolicyResponse,
+  UpdateCertificateOptionalParams,
+  UpdateCertificateResponse,
+  GetCertificateOptionalParams,
+  GetCertificateResponse,
+  UpdateCertificateOperationOptionalParams,
+  UpdateCertificateOperationResponse,
+  GetCertificateOperationOptionalParams,
+  GetCertificateOperationResponse,
+  DeleteCertificateOperationOptionalParams,
+  DeleteCertificateOperationResponse,
+  MergeCertificateOptionalParams,
+  MergeCertificateResponse,
+  BackupCertificateOptionalParams,
+  BackupCertificateResponse,
+  RestoreCertificateOptionalParams,
+  RestoreCertificateResponse,
+  GetDeletedCertificatesOptionalParams,
+  GetDeletedCertificatesResponse,
+  GetDeletedCertificateOptionalParams,
+  GetDeletedCertificateResponse,
+  PurgeDeletedCertificateOptionalParams,
+  RecoverDeletedCertificateOptionalParams,
+  RecoverDeletedCertificateResponse,
+  GetCertificatesNextOptionalParams,
+  GetCertificatesNextResponse,
+  GetCertificateIssuersNextOptionalParams,
+  GetCertificateIssuersNextResponse,
+  GetCertificateVersionsNextOptionalParams,
+  GetCertificateVersionsNextResponse,
+  GetDeletedCertificatesNextOptionalParams,
+  GetDeletedCertificatesNextResponse
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -69,7 +86,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion73,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
@@ -83,8 +100,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getCertificates(
     vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificatesOptionalParams
-  ): Promise<KeyVaultClientGetCertificatesResponse> {
+    options?: GetCertificatesOptionalParams
+  ): Promise<GetCertificatesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -92,7 +109,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificatesOperationSpec
-    ) as Promise<KeyVaultClientGetCertificatesResponse>;
+    ) as Promise<GetCertificatesResponse>;
   }
 
   /**
@@ -106,8 +123,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   deleteCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientDeleteCertificateResponse> {
+    options?: DeleteCertificateOptionalParams
+  ): Promise<DeleteCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -116,7 +133,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       deleteCertificateOperationSpec
-    ) as Promise<KeyVaultClientDeleteCertificateResponse>;
+    ) as Promise<DeleteCertificateResponse>;
   }
 
   /**
@@ -129,8 +146,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   setCertificateContacts(
     vaultBaseUrl: string,
     contacts: Contacts,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientSetCertificateContactsResponse> {
+    options?: SetCertificateContactsOptionalParams
+  ): Promise<SetCertificateContactsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       contacts,
@@ -139,7 +156,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       setCertificateContactsOperationSpec
-    ) as Promise<KeyVaultClientSetCertificateContactsResponse>;
+    ) as Promise<SetCertificateContactsResponse>;
   }
 
   /**
@@ -150,8 +167,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getCertificateContacts(
     vaultBaseUrl: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetCertificateContactsResponse> {
+    options?: GetCertificateContactsOptionalParams
+  ): Promise<GetCertificateContactsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -159,7 +176,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateContactsOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateContactsResponse>;
+    ) as Promise<GetCertificateContactsResponse>;
   }
 
   /**
@@ -170,8 +187,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   deleteCertificateContacts(
     vaultBaseUrl: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientDeleteCertificateContactsResponse> {
+    options?: DeleteCertificateContactsOptionalParams
+  ): Promise<DeleteCertificateContactsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -179,7 +196,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       deleteCertificateContactsOperationSpec
-    ) as Promise<KeyVaultClientDeleteCertificateContactsResponse>;
+    ) as Promise<DeleteCertificateContactsResponse>;
   }
 
   /**
@@ -190,8 +207,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getCertificateIssuers(
     vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificateIssuersOptionalParams
-  ): Promise<KeyVaultClientGetCertificateIssuersResponse> {
+    options?: GetCertificateIssuersOptionalParams
+  ): Promise<GetCertificateIssuersResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -199,7 +216,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateIssuersOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateIssuersResponse>;
+    ) as Promise<GetCertificateIssuersResponse>;
   }
 
   /**
@@ -214,8 +231,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     issuerName: string,
     provider: string,
-    options?: KeyVaultClientSetCertificateIssuerOptionalParams
-  ): Promise<KeyVaultClientSetCertificateIssuerResponse> {
+    options?: SetCertificateIssuerOptionalParams
+  ): Promise<SetCertificateIssuerResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       issuerName,
@@ -225,7 +242,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       setCertificateIssuerOperationSpec
-    ) as Promise<KeyVaultClientSetCertificateIssuerResponse>;
+    ) as Promise<SetCertificateIssuerResponse>;
   }
 
   /**
@@ -238,8 +255,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   updateCertificateIssuer(
     vaultBaseUrl: string,
     issuerName: string,
-    options?: KeyVaultClientUpdateCertificateIssuerOptionalParams
-  ): Promise<KeyVaultClientUpdateCertificateIssuerResponse> {
+    options?: UpdateCertificateIssuerOptionalParams
+  ): Promise<UpdateCertificateIssuerResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       issuerName,
@@ -248,7 +265,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       updateCertificateIssuerOperationSpec
-    ) as Promise<KeyVaultClientUpdateCertificateIssuerResponse>;
+    ) as Promise<UpdateCertificateIssuerResponse>;
   }
 
   /**
@@ -261,8 +278,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getCertificateIssuer(
     vaultBaseUrl: string,
     issuerName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetCertificateIssuerResponse> {
+    options?: GetCertificateIssuerOptionalParams
+  ): Promise<GetCertificateIssuerResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       issuerName,
@@ -271,7 +288,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateIssuerOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateIssuerResponse>;
+    ) as Promise<GetCertificateIssuerResponse>;
   }
 
   /**
@@ -284,8 +301,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   deleteCertificateIssuer(
     vaultBaseUrl: string,
     issuerName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientDeleteCertificateIssuerResponse> {
+    options?: DeleteCertificateIssuerOptionalParams
+  ): Promise<DeleteCertificateIssuerResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       issuerName,
@@ -294,7 +311,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       deleteCertificateIssuerOperationSpec
-    ) as Promise<KeyVaultClientDeleteCertificateIssuerResponse>;
+    ) as Promise<DeleteCertificateIssuerResponse>;
   }
 
   /**
@@ -307,8 +324,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   createCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: KeyVaultClientCreateCertificateOptionalParams
-  ): Promise<KeyVaultClientCreateCertificateResponse> {
+    options?: CreateCertificateOptionalParams
+  ): Promise<CreateCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -317,7 +334,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       createCertificateOperationSpec
-    ) as Promise<KeyVaultClientCreateCertificateResponse>;
+    ) as Promise<CreateCertificateResponse>;
   }
 
   /**
@@ -335,8 +352,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     base64EncodedCertificate: string,
-    options?: KeyVaultClientImportCertificateOptionalParams
-  ): Promise<KeyVaultClientImportCertificateResponse> {
+    options?: ImportCertificateOptionalParams
+  ): Promise<ImportCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -346,7 +363,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       importCertificateOperationSpec
-    ) as Promise<KeyVaultClientImportCertificateResponse>;
+    ) as Promise<ImportCertificateResponse>;
   }
 
   /**
@@ -359,8 +376,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getCertificateVersions(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: KeyVaultClientGetCertificateVersionsOptionalParams
-  ): Promise<KeyVaultClientGetCertificateVersionsResponse> {
+    options?: GetCertificateVersionsOptionalParams
+  ): Promise<GetCertificateVersionsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -369,7 +386,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateVersionsOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateVersionsResponse>;
+    ) as Promise<GetCertificateVersionsResponse>;
   }
 
   /**
@@ -382,8 +399,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getCertificatePolicy(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetCertificatePolicyResponse> {
+    options?: GetCertificatePolicyOptionalParams
+  ): Promise<GetCertificatePolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -392,7 +409,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificatePolicyOperationSpec
-    ) as Promise<KeyVaultClientGetCertificatePolicyResponse>;
+    ) as Promise<GetCertificatePolicyResponse>;
   }
 
   /**
@@ -407,8 +424,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     certificatePolicy: CertificatePolicy,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientUpdateCertificatePolicyResponse> {
+    options?: UpdateCertificatePolicyOptionalParams
+  ): Promise<UpdateCertificatePolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -418,7 +435,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       updateCertificatePolicyOperationSpec
-    ) as Promise<KeyVaultClientUpdateCertificatePolicyResponse>;
+    ) as Promise<UpdateCertificatePolicyResponse>;
   }
 
   /**
@@ -434,8 +451,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     certificateVersion: string,
-    options?: KeyVaultClientUpdateCertificateOptionalParams
-  ): Promise<KeyVaultClientUpdateCertificateResponse> {
+    options?: UpdateCertificateOptionalParams
+  ): Promise<UpdateCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -445,7 +462,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       updateCertificateOperationSpec
-    ) as Promise<KeyVaultClientUpdateCertificateResponse>;
+    ) as Promise<UpdateCertificateResponse>;
   }
 
   /**
@@ -461,8 +478,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     certificateVersion: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetCertificateResponse> {
+    options?: GetCertificateOptionalParams
+  ): Promise<GetCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -472,7 +489,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateResponse>;
+    ) as Promise<GetCertificateResponse>;
   }
 
   /**
@@ -487,8 +504,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     cancellationRequested: boolean,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientUpdateCertificateOperationResponse> {
+    options?: UpdateCertificateOperationOptionalParams
+  ): Promise<UpdateCertificateOperationResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -498,7 +515,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       updateCertificateOperationOperationSpec
-    ) as Promise<KeyVaultClientUpdateCertificateOperationResponse>;
+    ) as Promise<UpdateCertificateOperationResponse>;
   }
 
   /**
@@ -511,8 +528,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getCertificateOperation(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetCertificateOperationResponse> {
+    options?: GetCertificateOperationOptionalParams
+  ): Promise<GetCertificateOperationResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -521,7 +538,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateOperationOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateOperationResponse>;
+    ) as Promise<GetCertificateOperationResponse>;
   }
 
   /**
@@ -534,8 +551,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   deleteCertificateOperation(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientDeleteCertificateOperationResponse> {
+    options?: DeleteCertificateOperationOptionalParams
+  ): Promise<DeleteCertificateOperationResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -544,7 +561,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       deleteCertificateOperationOperationSpec
-    ) as Promise<KeyVaultClientDeleteCertificateOperationResponse>;
+    ) as Promise<DeleteCertificateOperationResponse>;
   }
 
   /**
@@ -559,8 +576,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     x509Certificates: Uint8Array[],
-    options?: KeyVaultClientMergeCertificateOptionalParams
-  ): Promise<KeyVaultClientMergeCertificateResponse> {
+    options?: MergeCertificateOptionalParams
+  ): Promise<MergeCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -570,7 +587,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       mergeCertificateOperationSpec
-    ) as Promise<KeyVaultClientMergeCertificateResponse>;
+    ) as Promise<MergeCertificateResponse>;
   }
 
   /**
@@ -583,8 +600,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   backupCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientBackupCertificateResponse> {
+    options?: BackupCertificateOptionalParams
+  ): Promise<BackupCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -593,7 +610,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       backupCertificateOperationSpec
-    ) as Promise<KeyVaultClientBackupCertificateResponse>;
+    ) as Promise<BackupCertificateResponse>;
   }
 
   /**
@@ -606,8 +623,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreCertificate(
     vaultBaseUrl: string,
     certificateBundleBackup: Uint8Array,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientRestoreCertificateResponse> {
+    options?: RestoreCertificateOptionalParams
+  ): Promise<RestoreCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateBundleBackup,
@@ -616,7 +633,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       restoreCertificateOperationSpec
-    ) as Promise<KeyVaultClientRestoreCertificateResponse>;
+    ) as Promise<RestoreCertificateResponse>;
   }
 
   /**
@@ -629,8 +646,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getDeletedCertificates(
     vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
-  ): Promise<KeyVaultClientGetDeletedCertificatesResponse> {
+    options?: GetDeletedCertificatesOptionalParams
+  ): Promise<GetDeletedCertificatesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -638,7 +655,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getDeletedCertificatesOperationSpec
-    ) as Promise<KeyVaultClientGetDeletedCertificatesResponse>;
+    ) as Promise<GetDeletedCertificatesResponse>;
   }
 
   /**
@@ -652,8 +669,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetDeletedCertificateResponse> {
+    options?: GetDeletedCertificateOptionalParams
+  ): Promise<GetDeletedCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -662,7 +679,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getDeletedCertificateOperationSpec
-    ) as Promise<KeyVaultClientGetDeletedCertificateResponse>;
+    ) as Promise<GetDeletedCertificateResponse>;
   }
 
   /**
@@ -676,7 +693,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
   purgeDeletedCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
+    options?: PurgeDeletedCertificateOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
@@ -701,8 +718,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientRecoverDeletedCertificateResponse> {
+    options?: RecoverDeletedCertificateOptionalParams
+  ): Promise<RecoverDeletedCertificateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -711,7 +728,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       recoverDeletedCertificateOperationSpec
-    ) as Promise<KeyVaultClientRecoverDeletedCertificateResponse>;
+    ) as Promise<RecoverDeletedCertificateResponse>;
   }
 
   /**
@@ -723,8 +740,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getCertificatesNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: KeyVaultClientGetCertificatesNextOptionalParams
-  ): Promise<KeyVaultClientGetCertificatesNextResponse> {
+    options?: GetCertificatesNextOptionalParams
+  ): Promise<GetCertificatesNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       nextLink,
@@ -733,7 +750,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificatesNextOperationSpec
-    ) as Promise<KeyVaultClientGetCertificatesNextResponse>;
+    ) as Promise<GetCertificatesNextResponse>;
   }
 
   /**
@@ -745,8 +762,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getCertificateIssuersNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: KeyVaultClientGetCertificateIssuersNextOptionalParams
-  ): Promise<KeyVaultClientGetCertificateIssuersNextResponse> {
+    options?: GetCertificateIssuersNextOptionalParams
+  ): Promise<GetCertificateIssuersNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       nextLink,
@@ -755,7 +772,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateIssuersNextOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateIssuersNextResponse>;
+    ) as Promise<GetCertificateIssuersNextResponse>;
   }
 
   /**
@@ -769,8 +786,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     nextLink: string,
-    options?: KeyVaultClientGetCertificateVersionsNextOptionalParams
-  ): Promise<KeyVaultClientGetCertificateVersionsNextResponse> {
+    options?: GetCertificateVersionsNextOptionalParams
+  ): Promise<GetCertificateVersionsNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       certificateName,
@@ -780,7 +797,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getCertificateVersionsNextOperationSpec
-    ) as Promise<KeyVaultClientGetCertificateVersionsNextResponse>;
+    ) as Promise<GetCertificateVersionsNextResponse>;
   }
 
   /**
@@ -792,8 +809,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedCertificatesNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: KeyVaultClientGetDeletedCertificatesNextOptionalParams
-  ): Promise<KeyVaultClientGetDeletedCertificatesNextResponse> {
+    options?: GetDeletedCertificatesNextOptionalParams
+  ): Promise<GetDeletedCertificatesNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       nextLink,
@@ -802,7 +819,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       operationArguments,
       getDeletedCertificatesNextOperationSpec
-    ) as Promise<KeyVaultClientGetDeletedCertificatesNextResponse>;
+    ) as Promise<GetDeletedCertificatesNextResponse>;
   }
 }
 // Operation Specifications

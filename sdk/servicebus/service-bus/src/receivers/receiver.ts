@@ -193,7 +193,7 @@ export interface ServiceBusReceiver {
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void>;
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
@@ -219,7 +219,7 @@ export interface ServiceBusReceiver {
    */
   deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void>;
   /**
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
@@ -246,7 +246,7 @@ export interface ServiceBusReceiver {
    */
   deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: any }
+    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }
   ): Promise<void>;
   /**
    * Renews the lock on the message for the duration as specified during the Queue/Subscription
@@ -543,7 +543,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -559,7 +559,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -575,7 +575,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: any }
+    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);

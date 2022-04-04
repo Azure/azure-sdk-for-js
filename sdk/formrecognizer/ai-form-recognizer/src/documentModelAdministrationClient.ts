@@ -236,13 +236,13 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param modelId - the unique ID of the model to create
-   * @param componentModels - an Iterable of strings representing the unique model IDs of the models to compose
+   * @param componentModelIds - an Iterable of strings representing the unique model IDs of the models to compose
    * @param options - optional settings for model creation
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginComposeModel(
     modelId: string,
-    componentModels: Iterable<string>,
+    componentModelIds: Iterable<string>,
     options: BuildModelOptions = {}
   ): Promise<TrainingPoller> {
     return this.createTrainingPoller({
@@ -251,7 +251,7 @@ export class DocumentModelAdministrationClient {
         this._restClient.composeDocumentModel(
           {
             modelId,
-            componentModels: [...componentModels].map((submodelId) => ({
+            componentModels: [...componentModelIds].map((submodelId) => ({
               modelId: submodelId,
             })),
             description: options.description,
@@ -263,7 +263,7 @@ export class DocumentModelAdministrationClient {
   }
 
   /**
-   * Creates an authorization to copy a model into the resource, used with the `beginCopyModel` method.
+   * Creates an authorization to copy a model into the resource, used with the `beginCopyModelTo` method.
    *
    * The `CopyAuthorization` grants another cognitive service resource the right to create a model in this client's
    * resource with the model ID and optional description that are encoded into the authorization.
@@ -312,7 +312,7 @@ export class DocumentModelAdministrationClient {
    * const copyAuthorization = await client.getCopyAuthorization("<destination model ID>");
    *
    * // Finally, use the _source_ client to copy the model and await the copy operation
-   * const poller = await sourceClient.beginCopyModel("<source model ID>");
+   * const poller = await sourceClient.beginCopyModelTo("<source model ID>");
    *
    * // Model copying, like all other model creation operations, returns a poller that eventually produces a ModelInfo
    * // object
@@ -331,7 +331,7 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for
    * @returns a long-running operation (poller) that will eventually produce the copied model information or an error
    */
-  public async beginCopyModel(
+  public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
     options: CopyModelOptions = {}

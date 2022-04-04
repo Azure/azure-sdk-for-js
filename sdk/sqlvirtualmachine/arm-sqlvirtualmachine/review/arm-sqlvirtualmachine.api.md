@@ -16,9 +16,31 @@ export interface AdditionalFeaturesServerConfigurations {
 }
 
 // @public
+export interface AgConfiguration {
+    readonly replicas?: AgReplica[];
+}
+
+// @public
+export interface AgReplica {
+    commit?: Commit;
+    failover?: Failover;
+    readableSecondary?: ReadableSecondary;
+    role?: Role;
+    sqlVirtualMachineInstanceId?: string;
+}
+
+// @public
+export interface AssessmentSettings {
+    enable?: boolean;
+    runImmediately?: boolean;
+    schedule?: Schedule;
+}
+
+// @public
 export interface AutoBackupSettings {
     backupScheduleType?: BackupScheduleType;
     backupSystemDbs?: boolean;
+    daysOfWeek?: DaysOfWeek[];
     enable?: boolean;
     enableEncryption?: boolean;
     fullBackupFrequency?: FullBackupFrequencyType;
@@ -29,6 +51,7 @@ export interface AutoBackupSettings {
     retentionPeriod?: number;
     storageAccessKey?: string;
     storageAccountUrl?: string;
+    storageContainerName?: string;
 }
 
 // @public
@@ -41,11 +64,13 @@ export interface AutoPatchingSettings {
 
 // @public
 export type AvailabilityGroupListener = ProxyResource & {
+    readonly systemData?: SystemData;
     readonly provisioningState?: string;
     availabilityGroupName?: string;
     loadBalancerConfigurations?: LoadBalancerConfiguration[];
     createDefaultAvailabilityGroupIfNotExist?: boolean;
     port?: number;
+    availabilityGroupConfiguration?: AgConfiguration;
 };
 
 // @public
@@ -81,6 +106,7 @@ export interface AvailabilityGroupListenersDeleteOptionalParams extends coreClie
 
 // @public
 export interface AvailabilityGroupListenersGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
 }
 
 // @public
@@ -110,13 +136,25 @@ export type ClusterConfiguration = string;
 export type ClusterManagerType = string;
 
 // @public
+export type Commit = string;
+
+// @public
 export type ConnectivityType = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
+export type DaysOfWeek = string;
+
+// @public
 export type DiskConfigurationType = string;
+
+// @public
+export type Failover = string;
 
 // @public
 export type FullBackupFrequencyType = string;
@@ -154,6 +192,14 @@ export enum KnownClusterManagerType {
 }
 
 // @public
+export enum KnownCommit {
+    // (undocumented)
+    AsynchronousCommit = "ASYNCHRONOUS_COMMIT",
+    // (undocumented)
+    SynchronousCommit = "SYNCHRONOUS_COMMIT"
+}
+
+// @public
 export enum KnownConnectivityType {
     // (undocumented)
     Local = "LOCAL",
@@ -161,6 +207,36 @@ export enum KnownConnectivityType {
     Private = "PRIVATE",
     // (undocumented)
     Public = "PUBLIC"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
+}
+
+// @public
+export enum KnownDaysOfWeek {
+    // (undocumented)
+    Friday = "Friday",
+    // (undocumented)
+    Monday = "Monday",
+    // (undocumented)
+    Saturday = "Saturday",
+    // (undocumented)
+    Sunday = "Sunday",
+    // (undocumented)
+    Thursday = "Thursday",
+    // (undocumented)
+    Tuesday = "Tuesday",
+    // (undocumented)
+    Wednesday = "Wednesday"
 }
 
 // @public
@@ -174,6 +250,14 @@ export enum KnownDiskConfigurationType {
 }
 
 // @public
+export enum KnownFailover {
+    // (undocumented)
+    Automatic = "AUTOMATIC",
+    // (undocumented)
+    Manual = "MANUAL"
+}
+
+// @public
 export enum KnownFullBackupFrequencyType {
     // (undocumented)
     Daily = "Daily",
@@ -184,6 +268,8 @@ export enum KnownFullBackupFrequencyType {
 // @public
 export enum KnownIdentityType {
     // (undocumented)
+    None = "None",
+    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
@@ -193,6 +279,24 @@ export enum KnownOperationOrigin {
     System = "system",
     // (undocumented)
     User = "user"
+}
+
+// @public
+export enum KnownReadableSecondary {
+    // (undocumented)
+    ALL = "ALL",
+    // (undocumented)
+    NO = "NO",
+    // (undocumented)
+    ReadOnly = "READ_ONLY"
+}
+
+// @public
+export enum KnownRole {
+    // (undocumented)
+    Primary = "PRIMARY",
+    // (undocumented)
+    Secondary = "SECONDARY"
 }
 
 // @public
@@ -328,6 +432,9 @@ export interface PrivateIPAddress {
 export type ProxyResource = Resource & {};
 
 // @public
+export type ReadableSecondary = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -342,12 +449,25 @@ export interface ResourceIdentity {
 }
 
 // @public
+export type Role = string;
+
+// @public
 export type ScaleType = string;
+
+// @public (undocumented)
+export interface Schedule {
+    dayOfWeek?: DayOfWeek;
+    enable?: boolean;
+    monthlyOccurrence?: number;
+    startTime?: string;
+    weeklyInterval?: number;
+}
 
 // @public
 export interface ServerConfigurationsManagementSettings {
     additionalFeaturesServerConfigurations?: AdditionalFeaturesServerConfigurations;
     sqlConnectivityUpdateSettings?: SqlConnectivityUpdateSettings;
+    sqlInstanceSettings?: SQLInstanceSettings;
     sqlStorageUpdateSettings?: SqlStorageUpdateSettings;
     sqlWorkloadTypeUpdateSettings?: SqlWorkloadTypeUpdateSettings;
 }
@@ -362,6 +482,15 @@ export interface SqlConnectivityUpdateSettings {
 
 // @public
 export type SqlImageSku = string;
+
+// @public
+export interface SQLInstanceSettings {
+    collation?: string;
+    isOptimizeForAdHocWorkloadsEnabled?: boolean;
+    maxDop?: number;
+    maxServerMemoryMB?: number;
+    minServerMemoryMB?: number;
+}
 
 // @public
 export type SqlManagementMode = string;
@@ -382,9 +511,21 @@ export interface SqlStorageUpdateSettings {
     startingDeviceId?: number;
 }
 
+// @public (undocumented)
+export interface SQLTempDbSettings {
+    dataFileCount?: number;
+    dataFileSize?: number;
+    dataGrowth?: number;
+    defaultFilePath?: string;
+    logFileSize?: number;
+    logGrowth?: number;
+    luns?: number[];
+}
+
 // @public
 export type SqlVirtualMachine = TrackedResource & {
     identity?: ResourceIdentity;
+    readonly systemData?: SystemData;
     virtualMachineResourceId?: string;
     readonly provisioningState?: string;
     sqlImageOffer?: string;
@@ -398,10 +539,12 @@ export type SqlVirtualMachine = TrackedResource & {
     keyVaultCredentialSettings?: KeyVaultCredentialSettings;
     serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
     storageConfigurationSettings?: StorageConfigurationSettings;
+    assessmentSettings?: AssessmentSettings;
 };
 
 // @public
 export type SqlVirtualMachineGroup = TrackedResource & {
+    readonly systemData?: SystemData;
     readonly provisioningState?: string;
     sqlImageOffer?: string;
     sqlImageSku?: SqlVmGroupImageSku;
@@ -534,6 +677,10 @@ export interface SqlVirtualMachines {
     beginCreateOrUpdateAndWait(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams): Promise<SqlVirtualMachinesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams): Promise<void>;
+    beginRedeploy(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRedeployAndWait(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams): Promise<void>;
+    beginStartAssessment(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStartAssessmentAndWait(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SqlVirtualMachinesUpdateResponse>, SqlVirtualMachinesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams): Promise<SqlVirtualMachinesUpdateResponse>;
     get(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesGetOptionalParams): Promise<SqlVirtualMachinesGetResponse>;
@@ -608,6 +755,18 @@ export interface SqlVirtualMachinesListOptionalParams extends coreClient.Operati
 export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult;
 
 // @public
+export interface SqlVirtualMachinesRedeployOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SqlVirtualMachinesStartAssessmentOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SqlVirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -639,12 +798,23 @@ export interface StorageConfigurationSettings {
     diskConfigurationType?: DiskConfigurationType;
     sqlDataSettings?: SQLStorageSettings;
     sqlLogSettings?: SQLStorageSettings;
-    sqlTempDbSettings?: SQLStorageSettings;
+    sqlSystemDbOnDataDisk?: boolean;
+    sqlTempDbSettings?: SQLTempDbSettings;
     storageWorkloadType?: StorageWorkloadType;
 }
 
 // @public
 export type StorageWorkloadType = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export type TrackedResource = Resource & {

@@ -8,11 +8,11 @@ import { Transform } from "stream";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
+  HttpHeaders,
   PipelineRequest,
   PipelineResponse,
-  TransferProgressEvent,
-  HttpHeaders,
   RequestBodyType,
+  TransferProgressEvent,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -95,8 +95,8 @@ class NodeHttpClient implements HttpClient {
     const acceptEncoding = request.headers.get("Accept-Encoding");
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
-    let body = request.body;
 
+    let body = typeof request.body === "function" ? request.body() : request.body;
     if (body && !request.headers.has("Content-Length")) {
       const bodyLength = getBodyLength(body);
       if (bodyLength !== null) {

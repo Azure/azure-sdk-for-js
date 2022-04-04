@@ -1,16 +1,15 @@
 import { enterStage, exitStage } from "./barrier";
 import { AbortController } from "@azure/abort-controller";
 import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore";
-import { PerfParallel } from "./parallel";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
-import { DefaultPerfOptions, PerfOptionDictionary } from "./options";
+import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
 
 export class WorkerPerfProgram implements PerfProgram {
   private testClass: PerfTestConstructor;
   private tests: PerfTestBase[];
   private workerData: WorkerData;
-  private options: PerfOptionDictionary<DefaultPerfOptions>;
+  private options: Required<ParsedPerfOptions<DefaultPerfOptions>>;
   private workerUtils: WorkerMulticoreUtils;
 
   constructor(testClass: PerfTestConstructor) {
@@ -33,32 +32,35 @@ export class WorkerPerfProgram implements PerfProgram {
   private async runTests(durationSeconds: number) {
     const durationMilliseconds = durationSeconds * 1000;
     const abortController = new AbortController();
-    const parallels: PerfParallel[] = this.tests.map(() => ({
-      completedOperations: 0,
-      lastMillisecondsElapsed: 0,
-    }));
 
     const updateInterval = setInterval(() => {
       this.workerUtils.sendMessage({
         tag: "statusUpdate",
-        parallels,
+        parallels: this.tests.map((test) => ({
+          completedOperations: test.completedOperations,
+          lastMillisecondsElapsed: test.lastMillisecondsElapsed,
+        })),
       });
     }, this.options["milliseconds-to-log"].value);
 
     // Even though we've set a setTimeout here, the eventLoop might get too busy to load it on time.
-    // For this reason, we also check if the time has passed inside of runLoop.
-    setTimeout(() => abortController.abort(), durationMilliseconds);
+    // For this reason, we also check if the time has passed inside of runAll.
+    const durationTimeout = setTimeout(() => abortController.abort(), durationMilliseconds);
 
-    await Promise.all(
-      this.tests.map((test, i) => test.runAll(parallels[i], durationMilliseconds, abortController))
-    );
+    await Promise.all(this.tests.map((test) => test.runAll(durationMilliseconds, abortController)));
 
     clearInterval(updateInterval);
 
     this.workerUtils.sendMessage({
       tag: "reportResults",
-      parallels,
+      parallels: this.tests.map((test) => ({
+        completedOperations: test.completedOperations,
+        lastMillisecondsElapsed: test.lastMillisecondsElapsed,
+      })),
     });
+
+    // if the runAll ended before the duration, we need to clear the timeout
+    clearTimeout(durationTimeout);
   }
 
   public async run(): Promise<void> {

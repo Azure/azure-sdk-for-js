@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-phone-numbers-samples-js",
+  "name": "@azure-samples/communication-phone-numbers-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - Phone Numbers client library samples for JavaScript",

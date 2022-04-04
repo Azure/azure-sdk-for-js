@@ -1,11 +1,5 @@
 {
   "name": "GitHub Codespaces (Default)",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "args": {
-      "INSTALL_DOCKER": "true"
-    }
-  },
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash",
     "go.useGoProxyToCheckForToolUpdates": false,
@@ -43,7 +37,7 @@
     "MS-vsliveshare.vsliveshare",
     "VisualStudioExptTeam.vscodeintellicode"
   ],
-  "postCreateCommand": "echo 'skipping Oryx'" // Disable Oryx build which runs npm install and creates a phantom node_modules folder
+  "postCreateCommand": "npm install -g @microsoft/rush" // This both overrides Oryx build which will run npm install and create a phantom node_modules directory and ensures that rush is available for use.
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

@@ -1,5 +1,5 @@
 {
-  "name": "azure-event-hubs-samples-express",
+  "name": "@azure-samples/event-hubs-samples-express",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Event Hubs client library samples with Express",

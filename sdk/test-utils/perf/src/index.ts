@@ -3,6 +3,7 @@
 export { PerfTestConstructor, PerfTestBase } from "./perfTestBase";
 export { PerfTest } from "./perfTest";
 export { BatchPerfTest } from "./batchPerfTest";
+export { EventPerfTest } from "./eventPerfTest";
 export * from "./options";
 export * from "./policy";
 export * from "./parallel";

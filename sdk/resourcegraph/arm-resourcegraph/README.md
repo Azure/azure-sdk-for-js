@@ -49,8 +49,7 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { ResourceGraphClient } = require("@azure/arm-resourcegraph");
 const { DefaultAzureCredential } = require("@azure/identity");
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ResourceGraphClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ResourceGraphClient(new DefaultAzureCredential());
 ```
 
 

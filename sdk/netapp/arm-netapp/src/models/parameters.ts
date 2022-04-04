@@ -26,13 +26,16 @@ import {
   AuthorizeRequest as AuthorizeRequestMapper,
   PoolChangeRequest as PoolChangeRequestMapper,
   Snapshot as SnapshotMapper,
+  SnapshotRestoreFiles as SnapshotRestoreFilesMapper,
   SnapshotPolicy as SnapshotPolicyMapper,
   SnapshotPolicyPatch as SnapshotPolicyPatchMapper,
   Backup as BackupMapper,
   BackupPatch as BackupPatchMapper,
   BackupPolicy as BackupPolicyMapper,
   BackupPolicyPatch as BackupPolicyPatchMapper,
-  VolumeGroupDetails as VolumeGroupDetailsMapper
+  VolumeGroupDetails as VolumeGroupDetailsMapper,
+  SubvolumeInfo as SubvolumeInfoMapper,
+  SubvolumePatchRequest as SubvolumePatchRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -62,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2021-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -257,6 +260,16 @@ export const body8: OperationParameter = {
   mapper: VolumePatchMapper
 };
 
+export const forceDelete: OperationQueryParameter = {
+  parameterPath: ["options", "forceDelete"],
+  mapper: {
+    serializedName: "forceDelete",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const body9: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeRevertMapper
@@ -305,6 +318,11 @@ export const body14: OperationParameter = {
   }
 };
 
+export const body15: OperationParameter = {
+  parameterPath: "body",
+  mapper: SnapshotRestoreFilesMapper
+};
+
 export const snapshotPolicyName: OperationURLParameter = {
   parameterPath: "snapshotPolicyName",
   mapper: {
@@ -316,12 +334,12 @@ export const snapshotPolicyName: OperationURLParameter = {
   }
 };
 
-export const body15: OperationParameter = {
+export const body16: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotPolicyMapper
 };
 
-export const body16: OperationParameter = {
+export const body17: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotPolicyPatchMapper
 };
@@ -337,12 +355,12 @@ export const backupName: OperationURLParameter = {
   }
 };
 
-export const body17: OperationParameter = {
+export const body18: OperationParameter = {
   parameterPath: "body",
   mapper: BackupMapper
 };
 
-export const body18: OperationParameter = {
+export const body19: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: BackupPatchMapper
 };
@@ -358,12 +376,12 @@ export const backupPolicyName: OperationURLParameter = {
   }
 };
 
-export const body19: OperationParameter = {
+export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: BackupPolicyMapper
 };
 
-export const body20: OperationParameter = {
+export const body21: OperationParameter = {
   parameterPath: "body",
   mapper: BackupPolicyPatchMapper
 };
@@ -384,7 +402,33 @@ export const volumeGroupName: OperationURLParameter = {
   }
 };
 
-export const body21: OperationParameter = {
+export const body22: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeGroupDetailsMapper
+};
+
+export const subvolumeName: OperationURLParameter = {
+  parameterPath: "subvolumeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9\\-_]{0,63}$"),
+      MaxLength: 64,
+      MinLength: 1
+    },
+    serializedName: "subvolumeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body23: OperationParameter = {
+  parameterPath: "body",
+  mapper: SubvolumeInfoMapper
+};
+
+export const body24: OperationParameter = {
+  parameterPath: "body",
+  mapper: SubvolumePatchRequestMapper
 };

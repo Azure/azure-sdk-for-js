@@ -357,6 +357,32 @@ describe("FileClient", () => {
     );
   });
 
+  it("startCopyFromURL ignore readonly", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+    await newFileClient.create(2048, {
+      fileAttributes: FileSystemAttributes.parse("ReadOnly"),
+    });
+
+    const options: FileStartCopyOptions = {
+      filePermission: filePermissionInSDDL,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: true,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: false,
+      },
+    };
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const sourceProperties = await fileClient.getProperties();
+    const targetProperties = await newFileClient.getProperties();
+
+    assert.equal(targetProperties.contentLength, 1024);
+    assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
+  });
+
   it("startCopyFromURL with smb options", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));

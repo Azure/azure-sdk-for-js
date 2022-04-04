@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import child_process from "child_process";
 import { assert } from "chai";
+import child_process from "child_process";
 import Sinon, { createSandbox } from "sinon";
+import { GetTokenOptions } from "@azure/core-auth";
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 
 describe("AzureCliCredential (internal)", function () {
@@ -42,6 +43,36 @@ describe("AzureCliCredential (internal)", function () {
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azArgs, [
       ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true }
+    );
+  });
+
+  it("authenticates with tenantId on getToken", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default", {
+      tenantId: "TENANT-ID",
+    } as GetTokenOptions);
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      [
+        "account",
+        "get-access-token",
+        "--output",
+        "json",
+        "--resource",
+        "https://service",
+        "--tenant",
+        "TENANT-ID",
+      ],
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(

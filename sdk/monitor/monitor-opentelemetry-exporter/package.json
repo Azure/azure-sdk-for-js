@@ -106,6 +106,7 @@
   },
   "dependencies": {
     "@azure/core-client": "^1.0.0",
+    "@azure/core-http": "^2.2.5",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@opentelemetry/api": "~1.0.3",
     "@opentelemetry/core": "~1.0.1",

@@ -346,6 +346,9 @@ export interface ExtendedLocation {
 export type ExtendedLocationTypes = string;
 
 // @public
+export type Format = string;
+
+// @public
 export type GPUInstanceProfile = string;
 
 // @public
@@ -765,6 +768,12 @@ export enum KnownExpander {
 export enum KnownExtendedLocationTypes {
     // (undocumented)
     EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownFormat {
+    Azure = "azure",
+    Exec = "exec"
 }
 
 // @public
@@ -1464,6 +1473,7 @@ export type ManagedClustersListClusterMonitoringUserCredentialsResponse = Creden
 
 // @public
 export interface ManagedClustersListClusterUserCredentialsOptionalParams extends coreClient.OperationOptions {
+    format?: Format;
     serverFqdn?: string;
 }
 
@@ -1761,6 +1771,7 @@ export interface Resource {
     readonly id?: string;
     location: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1804,7 +1815,6 @@ export type ScaleSetPriority = string;
 
 // @public
 export type Snapshot = Resource & {
-    readonly systemData?: SystemData;
     creationData?: CreationData;
     snapshotType?: SnapshotType;
     readonly kubernetesVersion?: string;

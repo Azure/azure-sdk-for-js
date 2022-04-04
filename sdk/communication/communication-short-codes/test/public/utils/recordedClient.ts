@@ -5,27 +5,23 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import {
-  env,
   Recorder,
-  record,
   RecorderEnvironmentSetup,
+  env,
+  isLiveMode,
   isPlaybackMode,
+  record,
 } from "@azure-tools/test-recorder";
-import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  isNode,
-  TokenCredential,
-  WebResourceLike,
-} from "@azure/core-http";
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 if (isNode) {
   dotenv.config();
 }
+
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export interface RecordedClient<T> {
   client: T;
@@ -58,15 +54,17 @@ export function createRecordedClient(context: Context): RecordedClient<ShortCode
   // casting is a workaround to enable min-max testing
   return {
     client: new ShortCodesClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient(),
+      httpClient,
     } as ShortCodesClientOptions),
     recorder,
   };
 }
 
-export function createMockToken(): TokenCredential {
+export function createMockToken(): {
+  getToken: (_scopes: string) => Promise<{ token: string; expiresOnTimestamp: number }>;
+} {
   return {
-    getToken: async (_scopes) => {
+    getToken: async (_scopes: string) => {
       return { token: "testToken", expiresOnTimestamp: 11111 };
     },
   };
@@ -86,7 +84,7 @@ export function createRecordedClientWithToken(
     // casting is a workaround to enable min-max testing
     return {
       client: new ShortCodesClient(endpoint, credential, {
-        httpClient: createTestHttpClient(),
+        httpClient,
       } as ShortCodesClientOptions),
       recorder,
     };
@@ -105,7 +103,7 @@ export function createRecordedClientWithToken(
   // casting is a workaround to enable min-max testing
   return {
     client: new ShortCodesClient(endpoint, credential, {
-      httpClient: createTestHttpClient(),
+      httpClient,
     } as ShortCodesClientOptions),
     recorder,
   };
@@ -114,24 +112,3 @@ export function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
-
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
-}

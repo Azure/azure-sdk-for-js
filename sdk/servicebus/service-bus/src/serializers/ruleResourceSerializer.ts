@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { FullOperationResponse } from "@azure/core-client";
 import { CorrelationRuleFilter } from "../core/managementClient";
 import {
   AtomXmlSerializer,
@@ -243,7 +243,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest("RuleDescription", buildInternalRuleResource(rule));
   }
 
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName", "RuleName"], response);
   }
 }

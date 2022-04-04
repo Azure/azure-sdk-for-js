@@ -836,9 +836,12 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
   details?: Details[];
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language;
   /**
@@ -847,7 +850,7 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
   descriptionExclude?: DescriptionExclude[];
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -862,9 +865,12 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
   maxCandidates?: number;
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language1;
   /**
@@ -873,7 +879,7 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
   descriptionExclude?: DescriptionExclude[];
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -884,7 +890,7 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
 export interface ComputerVisionClientDetectObjectsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -895,14 +901,17 @@ export interface ComputerVisionClientDetectObjectsOptionalParams extends msRest.
 export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language2;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -920,7 +929,7 @@ export interface ComputerVisionClientRecognizePrintedTextOptionalParams extends 
   language?: OcrLanguages;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -931,14 +940,17 @@ export interface ComputerVisionClientRecognizePrintedTextOptionalParams extends 
 export interface ComputerVisionClientTagImageOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language3;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -953,7 +965,7 @@ export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msR
   smartCropping?: boolean;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -964,7 +976,7 @@ export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msR
 export interface ComputerVisionClientGetAreaOfInterestOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1033,9 +1045,12 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
   details?: Details[];
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language4;
   /**
@@ -1044,7 +1059,7 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
   descriptionExclude?: DescriptionExclude[];
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1055,7 +1070,7 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
 export interface ComputerVisionClientGetAreaOfInterestInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1070,9 +1085,12 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
   maxCandidates?: number;
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language5;
   /**
@@ -1081,7 +1099,7 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
   descriptionExclude?: DescriptionExclude[];
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1092,7 +1110,7 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
 export interface ComputerVisionClientDetectObjectsInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1107,7 +1125,7 @@ export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams ext
   smartCropping?: boolean;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1118,14 +1136,17 @@ export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams ext
 export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language6;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1143,7 +1164,7 @@ export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams 
   language?: OcrLanguages;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1154,14 +1175,17 @@ export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams 
 export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
-   * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
-   * Japanese, pt - Portuguese, zh - Simplified Chinese. Possible values include: 'en', 'es', 'ja',
-   * 'pt', 'zh'. Default value: 'en'.
+   * value is "en". See https://aka.ms/cv-languages for list of supported languages. Possible
+   * values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+   * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+   * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'. Default value:
+   * 'en'.
    */
   language?: Language7;
   /**
    * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
-   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   * "2021-04-01", "2021-05-01". Defaults to "latest". Default value: 'latest'.
    */
   modelVersion?: string;
 }
@@ -1325,67 +1349,91 @@ export type Details = 'Celebrities' | 'Landmarks';
 
 /**
  * Defines values for Language.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language1.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language1 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language1 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language2.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language2 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language2 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language3.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language3 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language3 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language4.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language4 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language4 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language5.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language5 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language5 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language6.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language6 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language6 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Defines values for Language7.
- * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
+ * Possible values include: 'ar', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es',
+ * 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'he', 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kk', 'ko', 'lt',
+ * 'lv', 'mk', 'ms', 'nb', 'nl', 'pl', 'prs', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sk', 'sl',
+ * 'sr-Cyrl', 'sr-Latn', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zh-Hans', 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type Language7 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language7 = 'ar' | 'az' | 'bg' | 'bs' | 'ca' | 'cs' | 'cy' | 'da' | 'de' | 'el' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fr' | 'ga' | 'gl' | 'he' | 'hi' | 'hr' | 'hu' | 'id' | 'it' | 'ja' | 'kk' | 'ko' | 'lt' | 'lv' | 'mk' | 'ms' | 'nb' | 'nl' | 'pl' | 'prs' | 'pt' | 'pt-BR' | 'pt-PT' | 'ro' | 'ru' | 'sk' | 'sl' | 'sr-Cyrl' | 'sr-Latn' | 'sv' | 'th' | 'tr' | 'uk' | 'vi' | 'zh' | 'zh-Hans' | 'zh-Hant';
 
 /**
  * Contains response data for the analyzeImage operation.

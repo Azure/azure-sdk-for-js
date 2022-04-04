@@ -101,7 +101,7 @@ const publishCloudEventEventsOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.events1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.topicHostname],
-  headerParameters: [Parameters.contentType1],
+  headerParameters: [Parameters.contentType1, Parameters.aegChannelName],
   mediaType: "json",
   serializer
 };

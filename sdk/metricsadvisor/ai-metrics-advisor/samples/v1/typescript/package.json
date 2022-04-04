@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-metrics-advisor-samples-ts",
+  "name": "@azure-samples/ai-metrics-advisor-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Metrics Advisor client library samples for TypeScript",

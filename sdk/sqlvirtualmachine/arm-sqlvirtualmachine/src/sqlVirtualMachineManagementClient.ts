@@ -54,7 +54,7 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sqlvirtualmachine/5.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-sqlvirtualmachine/5.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -77,7 +77,7 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2017-03-01-preview";
+    this.apiVersion = options.apiVersion || "2021-11-01-preview";
     this.availabilityGroupListeners = new AvailabilityGroupListenersImpl(this);
     this.operations = new OperationsImpl(this);
     this.sqlVirtualMachineGroups = new SqlVirtualMachineGroupsImpl(this);

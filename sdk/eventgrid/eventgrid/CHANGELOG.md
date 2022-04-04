@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.1 (Unreleased)
+## 4.8.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.8.0 (2022-03-08)
+
+### Features Added
+
+- Added new value `IdentityUnsupported` to `MediaJobErrorCode` and `Account` to `MediaJobErrorCategory` for `Microsoft.Media` events.
 
 ## 4.7.0 (2022-02-08)
 

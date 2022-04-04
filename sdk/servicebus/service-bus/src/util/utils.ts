@@ -8,8 +8,9 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
+import { PipelineResponse } from "@azure/core-rest-pipeline";
 import { isDefined } from "./typeGuards";
+import { HttpResponse, toHttpResponse } from "./compat";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -630,17 +631,11 @@ export function formatUserAgentPrefix(prefix?: string): string {
 
 /**
  * @internal
- * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
+ * Helper method which returns `HttpResponse` from an object of shape `PipelineResponse`.
+ * TODO: remove this and use toHttpResponse() directly
  */
-export const getHttpResponseOnly = ({
-  request,
-  status,
-  headers,
-}: HttpOperationResponse): HttpResponse => ({
-  request,
-  status,
-  headers,
-});
+export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpResponse =>
+  toHttpResponse(pipelineResponse);
 
 /**
  * @internal

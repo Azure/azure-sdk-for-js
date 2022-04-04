@@ -225,6 +225,88 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     // Transforms
 
+    describe("Transforms", () => {
+      it("ApiVersionTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "ApiVersionTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "api-version", value: "myapiversion" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "api-version": "myapiversion" } : {}
+        );
+      });
+
+      it("ClientIdTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "ClientIdTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "x-ms-client-id", value: "myclientid" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-ms-client-id": "myclientid" } : {}
+        );
+      });
+
+      it("HeaderTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({
+          type: "HeaderTransform",
+          params: { key: "x-test-header", value: "test-value" },
+        });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-test-header": "test-value" } : {}
+        );
+      });
+
+      it("StorageRequestIdTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "StorageRequestIdTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "x-ms-client-request-id", value: "requestid" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-ms-client-request-id": "requestid" } : {}
+        );
+      });
+    });
+
     describe("Other methods", () => {
       it("transformsInfo()", async () => {
         if (!isLiveMode()) {

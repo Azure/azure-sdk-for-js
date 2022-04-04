@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.10 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.9 (2022-03-14)
+
+### Features Added
+
+Added more supported types in `LinkedServiceOperations`
+
+### Other Changes
+
+Taking latest codegen changes which include merging Client and ClientContext classes
 
 ## 1.0.0-beta.8 (2022-01-12)
 

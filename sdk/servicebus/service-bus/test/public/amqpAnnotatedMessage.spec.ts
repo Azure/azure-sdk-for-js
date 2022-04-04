@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { TestClientType } from "./utils/testUtils";
 
 const should = chai.should();

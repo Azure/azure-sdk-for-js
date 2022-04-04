@@ -7,12 +7,15 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { CommonClientOptions } from '@azure/core-client';
+import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 // @public
 export interface AnalyzedTokenInfo {
@@ -274,6 +277,9 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
+export type CreateAliasOptions = OperationOptions;
+
+// @public
 export type CreateDataSourceConnectionOptions = OperationOptions;
 
 // @public
@@ -281,6 +287,11 @@ export type CreateIndexerOptions = OperationOptions;
 
 // @public
 export type CreateIndexOptions = OperationOptions;
+
+// @public
+export interface CreateOrUpdateAliasOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
@@ -395,6 +406,11 @@ export const DEFAULT_RETRY_COUNT: number;
 export type DefaultCognitiveServicesAccount = BaseCognitiveServicesAccount & {
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 };
+
+// @public
+export interface DeleteAliasOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface DeleteDataSourceConnectionOptions extends OperationOptions {
@@ -556,6 +572,9 @@ export class GeographyPoint {
     longitude: number;
     toJSON(): Record<string, unknown>;
 }
+
+// @public
+export type GetAliasOptions = OperationOptions;
 
 // @public
 export type GetDataSourceConnectionOptions = OperationOptions;
@@ -1542,6 +1561,9 @@ export type LimitTokenFilter = BaseTokenFilter & {
 export type LineEnding = string;
 
 // @public
+export type ListAliasesOptions = OperationOptions;
+
+// @public
 export type ListDataSourceConnectionsOptions = OperationOptions;
 
 // @public
@@ -1810,6 +1832,13 @@ export interface ScoringProfile {
 export type ScoringStatistics = "local" | "global";
 
 // @public
+export interface SearchAlias {
+    etag?: string;
+    indexes: string[];
+    name: string;
+}
+
+// @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     // @deprecated
@@ -1831,7 +1860,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 }
 
 // @public
-export interface SearchClientOptions extends CommonClientOptions {
+export interface SearchClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
     serviceVersion?: string;
@@ -1884,23 +1913,31 @@ export interface SearchIndex {
 }
 
 // @public
+export type SearchIndexAlias = SearchAlias;
+
+// @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: SearchIndexClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     // @deprecated
     readonly apiVersion: string;
+    createAlias(alias: SearchIndexAlias, options?: CreateAliasOptions): Promise<SearchIndexAlias>;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
+    createOrUpdateAlias(alias: SearchIndexAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexAlias>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    deleteAlias(alias: string | SearchIndexAlias, options?: DeleteAliasOptions): Promise<void>;
     deleteIndex(index: string | SearchIndex, options?: DeleteIndexOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
+    getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
     getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listAliases(options?: ListAliasesOptions): AliasIterator;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
@@ -1909,7 +1946,7 @@ export class SearchIndexClient {
 }
 
 // @public
-export interface SearchIndexClientOptions extends CommonClientOptions {
+export interface SearchIndexClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
     serviceVersion?: string;
@@ -1971,7 +2008,7 @@ export class SearchIndexerClient {
 }
 
 // @public
-export interface SearchIndexerClientOptions extends CommonClientOptions {
+export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
     // @deprecated
     apiVersion?: string;
     serviceVersion?: string;
@@ -2291,6 +2328,7 @@ export type SentimentSkillV3 = BaseSearchIndexerSkill & {
 
 // @public
 export interface ServiceCounters {
+    aliasCounter?: ResourceCounter;
     dataSourceCounter: ResourceCounter;
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;

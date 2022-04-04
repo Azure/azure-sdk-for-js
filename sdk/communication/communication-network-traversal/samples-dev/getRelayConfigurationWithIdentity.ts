@@ -2,11 +2,16 @@
 // Licensed under the MIT License.
 
 /**
+ *
  * @summary Issue a new Relay configuration providing a user identity
+ * @azsdk-weight 20
  */
 
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { CommunicationRelayClient } from "@azure/communication-network-traversal";
+import {
+  CommunicationRelayClient,
+  GetRelayConfigurationOptions,
+} from "@azure/communication-network-traversal";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -25,11 +30,11 @@ export async function main() {
   console.log("Creating User");
 
   const user = await identityClient.createUser();
-
+  const options: GetRelayConfigurationOptions = { id: user.communicationUserId };
   const relayClient = new CommunicationRelayClient(connectionString);
   console.log("Getting relay configuration");
 
-  const config = await relayClient.getRelayConfiguration(user);
+  const config = await relayClient.getRelayConfiguration(options);
   console.log("RelayConfig", config);
 }
 

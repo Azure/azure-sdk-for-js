@@ -1162,8 +1162,8 @@ export const filePermissionCopyMode: OperationParameter = {
 export const ignoreReadOnly1: OperationParameter = {
   parameterPath: ["options", "copyFileSmbInfo", "ignoreReadOnly"],
   mapper: {
-    serializedName: "x-ms-file-copy-ignore-read-only",
-    xmlName: "x-ms-file-copy-ignore-read-only",
+    serializedName: "x-ms-file-copy-ignore-readonly",
+    xmlName: "x-ms-file-copy-ignore-readonly",
     type: {
       name: "Boolean"
     }

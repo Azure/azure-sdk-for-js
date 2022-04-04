@@ -13,3 +13,4 @@ export * from "./patchSchedules";
 export * from "./linkedServer";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./asyncOperationStatus";

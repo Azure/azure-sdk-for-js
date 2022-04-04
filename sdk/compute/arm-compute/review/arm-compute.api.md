@@ -65,6 +65,12 @@ export interface ApplicationProfile {
 }
 
 // @public
+export type Architecture = string;
+
+// @public
+export type ArchitectureTypes = string;
+
+// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
@@ -1121,6 +1127,9 @@ export interface CreationData {
 }
 
 // @public
+export type DataAccessAuthMode = string;
+
+// @public
 export interface DataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
@@ -1431,6 +1440,7 @@ export type Disk = Resource & {
     securityProfile?: DiskSecurityProfile;
     completionPercent?: number;
     publicNetworkAccess?: PublicNetworkAccess;
+    dataAccessAuthMode?: DataAccessAuthMode;
 };
 
 // @public
@@ -1936,6 +1946,7 @@ export type DisksUpdateResponse = Disk;
 // @public
 export interface DiskUpdate {
     burstingEnabled?: boolean;
+    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
     diskIopsReadWrite?: number;
@@ -2345,6 +2356,7 @@ export type GalleryImage = Resource & {
     purchasePlan?: ImagePurchasePlan;
     readonly provisioningState?: GalleryImagePropertiesProvisioningState;
     features?: GalleryImageFeature[];
+    architecture?: Architecture;
 };
 
 // @public
@@ -2442,6 +2454,7 @@ export type GalleryImageUpdate = UpdateResourceDefinition & {
     purchasePlan?: ImagePurchasePlan;
     readonly provisioningState?: GalleryImagePropertiesProvisioningState;
     features?: GalleryImageFeature[];
+    architecture?: Architecture;
 };
 
 // @public
@@ -2853,6 +2866,22 @@ export enum KnownAggregatedReplicationState {
 }
 
 // @public
+export enum KnownArchitecture {
+    // (undocumented)
+    Arm64 = "Arm64",
+    // (undocumented)
+    X64 = "x64"
+}
+
+// @public
+export enum KnownArchitectureTypes {
+    // (undocumented)
+    Arm64 = "Arm64",
+    // (undocumented)
+    X64 = "x64"
+}
+
+// @public
 export enum KnownAvailabilitySetSkuTypes {
     // (undocumented)
     Aligned = "Aligned",
@@ -2900,6 +2929,12 @@ export enum KnownConsistencyModeTypes {
     CrashConsistent = "CrashConsistent",
     // (undocumented)
     FileSystemConsistent = "FileSystemConsistent"
+}
+
+// @public
+export enum KnownDataAccessAuthMode {
+    AzureActiveDirectory = "AzureActiveDirectory",
+    None = "None"
 }
 
 // @public
@@ -5269,6 +5304,7 @@ export type Snapshot = Resource & {
     supportsHibernation?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     completionPercent?: number;
+    dataAccessAuthMode?: DataAccessAuthMode;
 };
 
 // @public
@@ -5379,6 +5415,7 @@ export type SnapshotsUpdateResponse = Snapshot;
 
 // @public
 export interface SnapshotUpdate {
+    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskSizeGB?: number;
     encryption?: Encryption;
@@ -5555,6 +5592,7 @@ export type SubResourceWithColocationStatus = SubResource & {
 // @public
 export interface SupportedCapabilities {
     acceleratedNetwork?: boolean;
+    architecture?: Architecture;
 }
 
 // @public
@@ -5961,6 +5999,7 @@ export type VirtualMachineImage = VirtualMachineImageResource & {
     hyperVGeneration?: HyperVGenerationTypes;
     disallowed?: DisallowedConfiguration;
     features?: VirtualMachineImageFeature[];
+    architecture?: ArchitectureTypes;
 };
 
 // @public

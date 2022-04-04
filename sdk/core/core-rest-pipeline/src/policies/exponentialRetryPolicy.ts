@@ -4,6 +4,7 @@
 import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
@@ -15,7 +16,7 @@ export const exponentialRetryPolicyName = "exponentialRetryPolicy";
  */
 export interface ExponentialRetryPolicyOptions {
   /**
-   * The maximum number of retry attempts. Defaults to 10.
+   * The maximum number of retry attempts. Defaults to 3.
    */
   maxRetries?: number;
 
@@ -48,7 +49,7 @@ export function exponentialRetryPolicy(
       }),
     ],
     {
-      maxRetries: options.maxRetries ?? 10,
+      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
     }
   );
 }
