@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { AzureDigitalTwinsAPIOptionalParams } from "./models";
 
 const packageName = "@azure/digital-twins-core";
-const packageVersion = "1.1.0";
+const packageVersion = "1.1.0-beta.1";
 
 export class AzureDigitalTwinsAPIContext extends coreHttp.ServiceClient {
   $host: string;
@@ -41,6 +41,6 @@ export class AzureDigitalTwinsAPIContext extends coreHttp.ServiceClient {
     // Assigning values to Constant parameters
     this.$host =
       options.$host || "https://digitaltwins-name.digitaltwins.azure.net";
-    this.apiVersion = options.apiVersion || "2020-10-31";
+    this.apiVersion = options.apiVersion || "2021-06-30-preview";
   }
 }

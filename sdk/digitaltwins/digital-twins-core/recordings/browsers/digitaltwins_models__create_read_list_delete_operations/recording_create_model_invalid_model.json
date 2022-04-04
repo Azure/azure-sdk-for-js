@@ -1,34 +1,10 @@
 {
  "recordings": [
   {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1325",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:31 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - EUS ProdSlices",
-    "x-ms-request-id": "6614c87c-7b25-4e3b-be59-8c46ab088e01"
-   }
-  },
-  {
    "method": "DELETE",
    "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2021-06-30-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -36,16 +12,16 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:31 GMT",
+    "date": "Thu, 31 Mar 2022 17:41:12 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-afb597ee9471614ab52a2c791d44f02c-456124a5c9c7b546-01"
+    "traceresponse": "00-7496709984759f4f899454b206289ab9-1e4d6068165af945-01"
    }
   },
   {
    "method": "DELETE",
    "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2021-06-30-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -53,33 +29,33 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:32 GMT",
+    "date": "Thu, 31 Mar 2022 17:41:12 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a2e5d8e89448ee468f098192909f297d-d26d4cf2f01d0643-01"
+    "traceresponse": "00-754bffe55759cf418526982a591e9a72-cf691c7ccfa5a548-01"
    }
   },
   {
    "method": "POST",
    "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2021-06-30-preview"
    },
    "requestBody": "[{\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]}]",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"DTDLParserError\",\"message\":\"None of the models in this request could be created due to a problem with one or more models: Top-level element requires an identifer but none provided. Add an '@id' property whose value is a string that conforms to the DTMI syntax -- see https://github.com/Azure/digital-twin-model-identifier.. See model documentation(http://aka.ms/ADTv2Models) for supported format.\"}}",
+   "response": "{\"error\":{\"code\":\"DTDLParserError\",\"message\":\"None of the models in this request could be created due to a problem with one or more models: Top-level element requires an identifer but none provided. Add an '@id' property whose value is a string that conforms to the DTMI syntax -- see https://github.com/Azure/digital-twin-model-identifier.. See model documentation(https://aka.ms/ADTv2Models) for supported format.\"}}",
    "responseHeaders": {
-    "content-length": "417",
+    "content-length": "418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:32 GMT",
+    "date": "Thu, 31 Mar 2022 17:41:12 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-44de40d33b37ac4ba7d770b79c4464a1-e7d61cf3bf2a3e4d-01"
+    "traceresponse": "00-9b752694861a0748896b7edda245d731-6b8445a300e2c546-01"
    }
   },
   {
    "method": "DELETE",
    "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2021-06-30-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -87,16 +63,16 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:32 GMT",
+    "date": "Thu, 31 Mar 2022 17:41:12 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-bc19413c7c0c2e448d71e33fc4fb4c48-1a94e0e80cb16e43-01"
+    "traceresponse": "00-3ec08a1adb2b8a4e83c59f773a291583-aba703ac91729247-01"
    }
   },
   {
    "method": "DELETE",
    "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2020-10-31"
+    "api-version": "2021-06-30-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -104,9 +80,9 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 30 Jun 2021 15:29:32 GMT",
+    "date": "Thu, 31 Mar 2022 17:41:12 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-9805d340207ac94c93212f858a783124-7012cbe9021f374e-01"
+    "traceresponse": "00-96c072854e2bfb48b1d84233c12c2f5b-538636e7223b2a40-01"
    }
   }
  ],
@@ -114,5 +90,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "ae8a3b65252dea9c7b3cfc8c5abad8f1"
+ "hash": "08698e5c35df5540ac3ef38045dea6ad"
 }
