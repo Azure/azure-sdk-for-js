@@ -1,5 +1,5 @@
 import { isProxyToolActive } from "./testProxyUtils";
-import concurrently from "concurrently";
+import * as concurrently from 'concurrently';
 import { createPrinter } from "./printer";
 
 const log = createPrinter("preparing-proxy-tool");
@@ -23,15 +23,16 @@ async function shouldRunProxyTool(): Promise<boolean> {
 }
 
 export async function runTestsWithProxyTool(
-  testCommandObj: concurrently.CommandObj
+  testCommandObj: Partial<concurrently.Command>
 ): Promise<boolean> {
+  let result: Promise<concurrently.CloseEvent[]>;
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {
     const testProxyStartCMD = "dev-tool test-proxy start";
     const testProxyStopCMD = "dev-tool test-proxy stop";
     const waitForProxyEndpointCMD = "dev-tool test-proxy wait-for-proxy-endpoint";
-    await concurrently(
+    ({ result } = concurrently.default(
       [
         { command: testProxyStartCMD },
         {
@@ -43,9 +44,13 @@ export async function runTestsWithProxyTool(
         killOthers: ["failure", "success"],
         successCondition: "first",
       }
-    );
+    ));
+    await result;
   } else {
-    await concurrently([testCommandObj]);
+    ({ result } = concurrently.default([testCommandObj]));
   }
+
+  await result;
+
   return true;
 }
