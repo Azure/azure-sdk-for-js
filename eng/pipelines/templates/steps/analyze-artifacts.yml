@@ -87,18 +87,13 @@ steps:
   #     Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
   #     CheckLinkGuidance: $true
 
-  - script: |
-      Get-ChildItem *.* -Path ./ -Recurse -Include *.html
-    displayName: "Show files"
+  # - script: |
+  #     Get-ChildItem *.* -Path ./ -Recurse -Include *.html
+  #   displayName: "Show files"
 
-  - script: |
-      Get-ChildItem -Path ./ -Recurse -Include *.html
-    displayName: "Show files"
-
-  # Experiment: Hardcoded path
   - template: /eng/common/pipelines/templates/steps/verify-links.yml
     parameters:
-      Directory: "/html-docs/azure-search-documents/11.3.0-beta.8/classes"
+      Directory: "/html-docs"
       WorkingDirectory: "$(Build.SourcesDirectory)"
       Urls: (Get-ChildItem *.* -Path ./ -Recurse -Include *.html)
       CheckLinkGuidance: $true
