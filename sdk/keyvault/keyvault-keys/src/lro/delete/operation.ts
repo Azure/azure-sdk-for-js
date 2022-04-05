@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
+import { DeleteKeyOptions, DeletedKey, GetDeletedKeyOptions } from "../../keysModels";
 import { tracingClient } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";

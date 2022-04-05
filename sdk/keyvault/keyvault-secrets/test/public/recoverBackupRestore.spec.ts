@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";

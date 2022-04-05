@@ -4,13 +4,13 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 
 import {
-  KeyClient,
   CreateEcKeyOptions,
-  UpdateKeyPropertiesOptions,
   GetKeyOptions,
+  KeyClient,
+  UpdateKeyPropertiesOptions,
 } from "../../src";
 import {
   assertThrowsAbortError,
