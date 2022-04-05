@@ -121,27 +121,25 @@ export class AzureCliCredential implements TokenCredential {
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
-      if (obj.stderr) {
-        const isLoginError = obj.stderr.match("(.*)az login(.*)");
-        const isNotInstallError =
-          obj.stderr.match("az:(.*)not found") || obj.stderr.startsWith("'az' is not recognized");
-        if (isNotInstallError) {
-          const error = new CredentialUnavailableError(
-            "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
-          );
-          logger.getToken.info(formatError(scopes, error));
-          throw error;
-        } else if (isLoginError) {
-          const error = new CredentialUnavailableError(
-            "Please run 'az login' from a command prompt to authenticate before using this credential."
-          );
-          logger.getToken.info(formatError(scopes, error));
-          throw error;
-        }
-        const error = new CredentialUnavailableError(obj.stderr);
+      const isLoginError = obj.stderr?.match("(.*)az login(.*)");
+      const isNotInstallError = obj.stderr?.match("az:(.*)not found") || obj.stderr?.startsWith("'az' is not recognized")
+
+      if (isNotInstallError) {
+        const error = new CredentialUnavailableError(
+          "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+        );
         logger.getToken.info(formatError(scopes, error));
         throw error;
-      } else {
+      }
+      if (isLoginError) {
+        const error = new CredentialUnavailableError(
+          "Please run 'az login' from a command prompt to authenticate before using this credential."
+        );
+        logger.getToken.info(formatError(scopes, error));
+        throw error;
+      }
+
+      try {
         responseData = obj.stdout;
         const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
         logger.getToken.info(formatSuccess(scopes));
@@ -150,6 +148,13 @@ export class AzureCliCredential implements TokenCredential {
           expiresOnTimestamp: new Date(response.expiresOn).getTime(),
         };
         return returnValue;
+      } catch (e) {
+        if (obj.stderr) {
+          const error = new CredentialUnavailableError(obj.stderr);
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
+        throw e;
       }
     } catch (err) {
       const error = new Error(
