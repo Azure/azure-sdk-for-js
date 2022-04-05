@@ -4,85 +4,41 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-    parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: "template"
-      TestPipeline: ${{ parameters.TestPipeline }}
-
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish Report Artifacts"
-    inputs:
-      artifactName: package-diffs
-      path: $(Build.ArtifactStagingDirectory)
+  - download: current
   
-  - script: |
-      echo "TEST INFO";
-      echo "Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)";
-      echo "Build.SourcesDirectory = $(Build.SourcesDirectory)";
-      echo "artifacts name = ${{parameters.artifacts[0].name}}";
-      echo "workspace = $(Pipeline.Workspace)";
-      echo "parameters.ServiceDirectory = ${{ parameters.ServiceDirectory }}"
-      echo "ArtifactsDirectory = $(System.ArtifactsDirectory)"
-    displayName: "Log script"
+  - ${{ each artifact in parameters.Artifacts }}:
 
-  - script: |
-      tree $(Pipeline.Workspace)
-    displayName: "Show tree"
+    - script: |
+        tree $(Build.ArtifactStagingDirectory)
+      displayName: "Show tree"
 
-  # FIRST CONSUME ARTIFACTS
-  # - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
-  
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      source: 'current' # Options: current, specific
-      #project: # Required when source == Specific
-      #pipeline: # Required when source == Specific
-      #preferTriggeringPipeline: false # Optional
-      #runVersion: 'latest' # Required when source == Specific# Options: latest, latestFromBranch, specific
-      #runBranch: 'refs/heads/master' # Required when source == Specific && RunVersion == LatestFromBranch
-      #runId: # Required when source == Specific && RunVersion == Specific
-      #tags: # Optional
-      artifact: 'packages' # Optional
-      #patterns: '**' # Optional
-      path: '$(Build.SourcesDirectory)/downloaded-artifacts'
-  - script: |
-      tree $(Build.SourcesDirectory)/downloaded-artifacts
-    displayName: "Show tree"
+    # FIRST CONSUME ARTIFACTS
+    # - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
+    
+    # THEN CONSUME THE FILES AND STORE THEM SOMEWHERE
+    # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
+    - task: ExtractFiles@
+      inputs:
+        archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/packages/${{artifact.name}}/documentation/**/*.zip' 
+        destinationFolder: '$(Pipeline.Workspace)/html-docs/'
 
-  # THEN CONSUME THE FILES AND STORE THEM SOMEWHERE
-  # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
-  - task: ExtractFiles@1
-    inputs:
-      archiveFilePatterns: '$(Build.SourcesDirectory)/downloaded-artifacts/**/*.zip' 
-      destinationFolder: '$(Build.SourcesDirectory)/html-docs/'
-      #cleanDestinationFolder: true 
-      #overwriteExistingFiles: false
 
-  - script: |
-      tree $(Build.SourcesDirectory)/html-docs
-    displayName: "Show tree"
+    - script: |
+        tree $(Pipeline.Workspace)/html-docs
+      displayName: "Show tree"
 
-  # NOW CALL VERIFY LINKS, with the artifactS url
+    # NOW CALL VERIFY LINKS, with the artifactS url
 
-  # - template: /eng/common/pipelines/templates/steps/verify-links.yml
-  #   parameters:
-  #     Directory: "/html-docs/"
-  #     WorkingDirectory: "$(Build.SourcesDirectory)"
-  #     Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
-  #     CheckLinkGuidance: $true
+    # - template: /eng/common/pipelines/templates/steps/verify-links.yml
+    #   parameters:
+    #     Directory: "/html-docs/"
+    #     WorkingDirectory: "$(Build.SourcesDirectory)"
+    #     Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
+    #     CheckLinkGuidance: $true
 
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      Directory: "/html-docs/azure-search-documents/11.3.0-beta.8/classes"
-      WorkingDirectory: "$(Build.SourcesDirectory)"
-      Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
-      CheckLinkGuidance: $true
-
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'reports'
-
-  - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml
+    # - template: /eng/common/pipelines/templates/steps/verify-links.yml
+    #   parameters:
+    #     Directory: "/html-docs/azure-search-documents/11.3.0-beta.8/classes"
+    #     WorkingDirectory: "$(Build.SourcesDirectory)"
+    #     Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
+    #     CheckLinkGuidance: $true
