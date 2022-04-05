@@ -9,7 +9,7 @@ steps:
   - ${{ each artifact in parameters.Artifacts }}:
 
     - script: |
-        tree $(Build.ArtifactStagingDirectory)
+        tree $(Pipeline.Workspace)
       displayName: "Show tree"
 
     # FIRST CONSUME ARTIFACTS
@@ -19,7 +19,7 @@ steps:
     # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
     - task: ExtractFiles@1
       inputs:
-        archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/packages/${{artifact.name}}/documentation/**/*.zip' 
+        archiveFilePatterns: '$(Pipeline.Workspace)/packages/${{artifact.name}}/documentation/**/*.zip' 
         destinationFolder: '$(Pipeline.Workspace)/html-docs/'
 
 
