@@ -45,7 +45,6 @@ export async function runTestsWithProxyTool(
         successCondition: "first",
       }
     ));
-    await result;
   } else {
     ({ result } = concurrently.default([testCommandObj]));
   }
