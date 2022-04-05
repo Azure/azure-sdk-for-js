@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-idDocument:analyze?locale=thisIsNotAValidLocaleString\u0026api-version=2022-01-30-preview",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-idDocument:analyze?locale=thisIsNotAValidLocaleString\u0026api-version=2022-03-31-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,21 +10,21 @@
         "Content-Length": "71",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "9d5c2ef3-c6d4-48cb-a3f1-3ef56cad4e00"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.0 Node/v16.14.0 OS/(x64-Linux-5.16.18-100.fc34.x86_64)",
+        "x-ms-client-request-id": "281decb5-3f6a-4cd6-82f8-3169d0cdc13b"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/license.jpg?sastoken"
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "4e98bb44-19d3-4dd4-91e3-8b234cab1647",
+        "apim-request-id": "a3c08925-785a-44e6-8d2d-0ed01ee541a9",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Feb 2022 23:11:41 GMT",
+        "Date": "Mon, 04 Apr 2022 20:41:40 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "102"
+        "x-envoy-upstream-service-time": "85"
       },
       "ResponseBody": {
         "error": {

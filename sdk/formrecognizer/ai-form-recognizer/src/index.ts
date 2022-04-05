@@ -43,6 +43,8 @@ export {
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
   SelectionMarkState,
+  DocumentTableCaption,
+  DocumentTableFootnote
 } from "./generated";
 export {
   AnalysisPoller,

@@ -29,7 +29,10 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix(
-  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
+  [
+    [/* true, */ false],
+    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
+  ] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
@@ -156,7 +159,7 @@ matrix(
               assert.isNotEmpty(tables);
               const [table] = tables!;
 
-              assert.ok(table.boundingRegions?.[0].boundingBox);
+              assert.ok(table.boundingRegions?.[0].polygon);
               assert.equal(table.boundingRegions?.[0].pageNumber, 1);
 
               assert.ok(document.fields);

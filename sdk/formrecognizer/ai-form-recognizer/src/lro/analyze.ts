@@ -151,6 +151,17 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
  */
 export interface DocumentPage {
   /**
+   * The kind of page. One of:
+   *
+   * - "document"
+   * - "sheet"
+   * - "slide"
+   * - "image"
+   *
+   * This list is non-exhaustive, and new values may be introduced in future versions of the Form Recognizer service.
+   */
+  kind: string;
+  /**
    * 1-based page number in the input document.
    */
   pageNumber: number;
@@ -193,7 +204,7 @@ export interface DocumentPage {
   /**
    * Extracted lines from the page, potentially containing both textual and visual elements.
    */
-  lines: DocumentLine[];
+  lines?: DocumentLine[];
 }
 
 /**
@@ -205,8 +216,9 @@ export interface DocumentPage {
  */
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   // We will just overwrite the `lines` property with the transformed one rather than create a new object.
-  generated.lines = generated.lines.map((line) => toDocumentLineFromGenerated(line, generated));
-
+  if (generated.lines) {
+    generated.lines = generated.lines.map((line) => toDocumentLineFromGenerated(line, generated));
+  }
   return generated as DocumentPage;
 }
 
@@ -456,7 +468,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-    AnalyzeDocumentOptions<Result>;
+  AnalyzeDocumentOptions<Result>;
 }
 
 /**
