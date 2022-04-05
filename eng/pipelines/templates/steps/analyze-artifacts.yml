@@ -17,7 +17,7 @@ steps:
     
     # THEN CONSUME THE FILES AND STORE THEM SOMEWHERE
     # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
-    - task: ExtractFiles@
+    - task: ExtractFiles@1
       inputs:
         archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/packages/${{artifact.name}}/documentation/**/*.zip' 
         destinationFolder: '$(Pipeline.Workspace)/html-docs/'
