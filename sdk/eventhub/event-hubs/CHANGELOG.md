@@ -1,8 +1,6 @@
 # Release History
 
-## 5.8.0-beta.3 (Unreleased)
-
-### Features Added
+## 5.8.0-beta.3 (04-05-2022)
 
 ### Breaking Changes
 - `MessageWithMetadata` has been renamed to `MessageContent`.
@@ -10,6 +8,7 @@
 - `MessageAdapter`'s `consumeMessage` and `produceMessage` have been renamed to `consume` and `produce`.
 
 ### Bugs Fixed
+- The hashing algorithm used to map partition keys to IDs in the buffered producer is no longer sensitive to the endianness of the local machine [Issue #21190](https://github.com/Azure/azure-sdk-for-js/issues/21190).
 
 ### Other Changes
 
