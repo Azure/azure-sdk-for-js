@@ -9,7 +9,6 @@ parameters:
   type: object
   default:
   - name: <packagename>
-    groupId: com.azure
     safeName: safename
     skipTagRepository: true
     skipPublishPackage: true
