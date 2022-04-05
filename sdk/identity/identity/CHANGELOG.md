@@ -1,5 +1,17 @@
 # Release History
 
+## 2.1.0-beta.3 (Unknown)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a bug that would break the AzureCliCredential if the Azure CLI reported a warning. See: [21075](https://github.com/Azure/azure-sdk-for-js/issues/21075).
+
+### Other Changes
+
 ## 2.1.0-beta.2 (2022-03-22)
 
 ### Features Added
