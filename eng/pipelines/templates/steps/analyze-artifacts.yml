@@ -31,7 +31,7 @@ steps:
     - template: /eng/common/pipelines/templates/steps/verify-links.yml
       parameters:
         Directory: "/html-docs/"
-        WorkingDirectory: "$(Build.SourcesDirectory)"
+        WorkingDirectory: "$(Pipeline.Workspace)"
         Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
         CheckLinkGuidance: $true
 
