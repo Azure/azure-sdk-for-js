@@ -24,6 +24,9 @@ const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 // The connection string for Event Hubs
 const eventHubsConnectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
+// The name of Event Hub the client will connect to
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
+
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
   type: "record",
@@ -81,6 +84,7 @@ export async function main() {
 
   const eventHubsBufferedProducerClient = new EventHubBufferedProducerClient(
     eventHubsConnectionString,
+    eventHubName,
     {
       onSendEventsErrorHandler: handleError,
     }
