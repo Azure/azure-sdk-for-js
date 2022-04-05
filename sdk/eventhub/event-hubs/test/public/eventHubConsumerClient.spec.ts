@@ -1272,22 +1272,29 @@ testWithServiceTypes((serviceVersion) => {
       it(`Uint8Array is received as Buffer`, async function (): Promise<void> {
         const partitionId = partitionIds[0];
         const startingPositions = await getStartingPositionsForTests(consumerClient);
-        const data = [0,1,2];
-        await producerClient.sendBatch([{body: Uint8Array.from(data), contentType: "avro/binary+1234"}], {
-          partitionId
-        });
+        const data = [0, 1, 2];
+        await producerClient.sendBatch(
+          [{ body: Uint8Array.from(data), contentType: "avro/binary+1234" }],
+          {
+            partitionId,
+          }
+        );
         let subscription: Subscription;
         const receivedEvent = await new Promise<ReceivedEventData>((resolve, reject) => {
-          subscription = consumerClient.subscribe(partitionId, {
-            processEvents: async (events: ReceivedEventData[]) => {
-              resolve(events[0]);
+          subscription = consumerClient.subscribe(
+            partitionId,
+            {
+              processEvents: async (events: ReceivedEventData[]) => {
+                resolve(events[0]);
+              },
+              processError: async (err) => {
+                reject(err);
+              },
             },
-            processError: async (err) => {
-              reject(err);
-            },
-          }, {
-            startPosition: startingPositions
-          });
+            {
+              startPosition: startingPositions,
+            }
+          );
         });
         await subscription!.close();
         should.exist(receivedEvent);
