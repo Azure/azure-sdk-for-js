@@ -14,16 +14,16 @@ import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
 import { GetRelayConfigurationOptions } from "../../src/models";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationNetworkingClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationRelayClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       if (useAad) {
-        ({ client, recorder } = createRecordedCommunicationRelayClientWithToken(this));
+        ({ client, recorder } = await createRecordedCommunicationRelayClientWithToken(this));
       } else {
-        ({ client, recorder } = createRecordedCommunicationRelayClient(this));
+        ({ client, recorder } = await createRecordedCommunicationRelayClient(this));
       }
     });
 
@@ -35,7 +35,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("successfully gets a turn credential with user identity", async function () {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
-      const identityClient = new CommunicationIdentityClient(connectionString);
+      const identityClient = new CommunicationIdentityClient(connectionString ?? "");
       const user: CommunicationUserIdentifier = await identityClient.createUser();
       const options: GetRelayConfigurationOptions = { id: user.communicationUserId };
 
@@ -156,7 +156,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("successfully gets a turn credential with all options", async function () {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
-      const identityClient = new CommunicationIdentityClient(connectionString);
+      const identityClient = new CommunicationIdentityClient(connectionString ?? "");
       const user: CommunicationUserIdentifier = await identityClient.createUser();
       const options: GetRelayConfigurationOptions = {
         id: user.communicationUserId,

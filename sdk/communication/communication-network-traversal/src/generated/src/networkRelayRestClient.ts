@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
+import { CommunicationNetworkTraversalImpl } from "./operations";
+import { CommunicationNetworkTraversal } from "./operationsInterfaces";
 import { NetworkRelayRestClientContext } from "./networkRelayRestClientContext";
 import { NetworkRelayRestClientOptionalParams } from "./models";
 
-class NetworkRelayRestClient extends NetworkRelayRestClientContext {
+export class NetworkRelayRestClient extends NetworkRelayRestClientContext {
   /**
    * Initializes a new instance of the NetworkRelayRestClient class.
    * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
@@ -23,20 +22,10 @@ class NetworkRelayRestClient extends NetworkRelayRestClientContext {
     options?: NetworkRelayRestClientOptionalParams
   ) {
     super(endpoint, options);
-    this.communicationNetworkTraversal = new operations.CommunicationNetworkTraversal(
+    this.communicationNetworkTraversal = new CommunicationNetworkTraversalImpl(
       this
     );
   }
 
-  communicationNetworkTraversal: operations.CommunicationNetworkTraversal;
+  communicationNetworkTraversal: CommunicationNetworkTraversal;
 }
-
-// Operation Specifications
-
-export {
-  NetworkRelayRestClient,
-  NetworkRelayRestClientContext,
-  Models as NetworkRelayRestModels,
-  Mappers as NetworkRelayRestMappers
-};
-export * from "./operations";
