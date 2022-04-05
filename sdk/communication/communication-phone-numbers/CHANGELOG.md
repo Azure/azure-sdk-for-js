@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Update minimum version of dependency "@azure/core-client" to "1.5.0"
+
 ## 1.2.0-beta.2 (2022-03-10)
 
 ### Features Added
