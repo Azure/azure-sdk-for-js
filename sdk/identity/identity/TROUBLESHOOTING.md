@@ -198,6 +198,10 @@ The Client ID is the app ID of the registered app / service principal in Azure A
 
 The tenant ID is the Global Unique Identifier (GUID) that identifies your organization. It's a required parameter for `ClientSecretCredential` and `ClientCertificateCredential`. If you've already created your service principal, you can retrieve the client/app ID by following the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in).
 
+| Error Code | Description | Mitigation |
+|---|---|---|
+| endpoints_resolution_error| Could not resolve endpoints. Please check network and try again. Detail: ClientAuthError: openid_config_error: Could not retrieve endpoints. Check your authority and verify the .well-known/openid-configuration endpoint returns the required endpoints.| Ensure the specified `tenantId` are correct for your application registration.  For multi-tenant apps, ensure the application has been added to the desired tenant by a tenant admin. To add a new application in the desired tenant, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-2-create-a-new-application-secret).|
+
 ### Client secret credential issues
 
 #### AuthenticationRequiredError
