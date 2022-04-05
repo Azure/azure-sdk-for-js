@@ -4,24 +4,23 @@ parameters:
   TestPipeline: false
 
 steps:
+  # FIRST CONSUME ARTIFACTS
+
   - download: current
+    displayName: "Download artifacts"
   
+  # Some projects can have several artifacts, so we need to loop through them.
   - ${{ each artifact in parameters.Artifacts }}:
 
     - script: |
         tree $(Pipeline.Workspace)
       displayName: "Show tree"
-
-    # FIRST CONSUME ARTIFACTS
-    # - powershell: gci env:* | sort-object name | Format-Table -AutoSize | Out-File $env:BUILD_ARTIFACTSTAGINGDIRECTORY/environment-variables.txt
     
-    # THEN CONSUME THE FILES AND STORE THEM SOMEWHERE
-    # Extract a variety of archive and compression files such as .7z, .rar, .tar.gz, and .zip
+    # THEN EXTRACT THE DOCUMENTATION ZIP FILE
     - task: ExtractFiles@1
       inputs:
         archiveFilePatterns: '$(Pipeline.Workspace)/packages/${{artifact.name}}/documentation/**/*.zip' 
         destinationFolder: '$(Pipeline.Workspace)/html-docs/'
-
 
     - script: |
         tree $(Pipeline.Workspace)/html-docs
@@ -29,12 +28,12 @@ steps:
 
     # NOW CALL VERIFY LINKS, with the artifactS url
 
-    # - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    #   parameters:
-    #     Directory: "/html-docs/"
-    #     WorkingDirectory: "$(Build.SourcesDirectory)"
-    #     Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
-    #     CheckLinkGuidance: $true
+    - template: /eng/common/pipelines/templates/steps/verify-links.yml
+      parameters:
+        Directory: "/html-docs/"
+        WorkingDirectory: "$(Build.SourcesDirectory)"
+        Urls: (Get-ChildItem -Path ./ -Recurse -Include *.html)
+        CheckLinkGuidance: $true
 
     # - template: /eng/common/pipelines/templates/steps/verify-links.yml
     #   parameters:
