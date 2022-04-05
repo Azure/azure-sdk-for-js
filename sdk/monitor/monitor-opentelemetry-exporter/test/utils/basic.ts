@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/tracing";
+import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";

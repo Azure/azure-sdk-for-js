@@ -44,7 +44,7 @@ const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrume
 
 // Set-up and configure a Node Tracer Provider using OpenTelemetry
 const opentelemetry = require("@opentelemetry/api");
-const { NodeTracerProvider } = require("@opentelemetry/node");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { SimpleSpanProcessor, ConsoleSpanExporter } = require("@opentelemetry/tracing");
 
 const provider = new NodeTracerProvider();

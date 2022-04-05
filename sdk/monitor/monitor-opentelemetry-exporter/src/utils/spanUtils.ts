@@ -3,7 +3,7 @@
 
 import os from "os";
 import { URL } from "url";
-import { ReadableSpan } from "@opentelemetry/tracing";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
 import {
@@ -64,14 +64,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
-          httpRoute as string
-        }`;
+        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${httpRoute as string
+          }`;
       } else if (httpUrl) {
         try {
           let url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex) {}
+        } catch (ex) { }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -220,7 +219,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         let dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex) {}
+      } catch (ex) { }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -242,7 +241,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (error) {}
+      } catch (error) { }
       remoteDependencyData.target = `${target}`;
     }
   }

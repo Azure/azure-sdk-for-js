@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ReadableSpan, SpanExporter, SpanProcessor } from "@opentelemetry/tracing";
+import { ReadableSpan, SpanExporter, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Span Processor that only exports spans on flush
  */
 export class FlushSpanProcessor implements SpanProcessor {
   private _spans: ReadableSpan[] = [];
-  constructor(public exporter: SpanExporter) {}
+  constructor(public exporter: SpanExporter) { }
 
   forceFlush(): Promise<void> {
     return new Promise((resolve) => {

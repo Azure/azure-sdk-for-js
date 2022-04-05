@@ -3,7 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
+import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
@@ -68,9 +68,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk."),
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk."),
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
