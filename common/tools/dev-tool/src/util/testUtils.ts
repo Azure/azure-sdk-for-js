@@ -1,5 +1,5 @@
 import { isProxyToolActive } from "./testProxyUtils";
-import * as concurrently from 'concurrently';
+import * as concurrently from "concurrently";
 import { createPrinter } from "./printer";
 
 const log = createPrinter("preparing-proxy-tool");
