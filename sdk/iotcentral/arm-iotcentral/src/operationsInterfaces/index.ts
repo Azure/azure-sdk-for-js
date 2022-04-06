@@ -7,4 +7,6 @@
  */
 
 export * from "./apps";
+export * from "./privateEndpointConnections";
+export * from "./privateLinks";
 export * from "./operations";
