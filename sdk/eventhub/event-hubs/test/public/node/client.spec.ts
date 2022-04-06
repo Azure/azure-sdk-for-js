@@ -9,7 +9,6 @@ import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
 import { testWithServiceTypes } from "../utils/testWithServiceTypes";
 import Sinon from "sinon";
-import { tracingClient } from "../../../src/diagnostics/tracing";
 
 chai.use(chaiString);
 const should = shouldFn();
