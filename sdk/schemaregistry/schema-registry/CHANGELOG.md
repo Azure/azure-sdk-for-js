@@ -3,6 +3,7 @@
 ## 1.0.2 (Unreleased)
 
 ### Features Added
+- Added support for distributed tracing using OpenTelemetry - please refer to the [@azure/opentelemetry-instrumentation-azure-sdk](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
 ### Breaking Changes
 

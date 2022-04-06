@@ -86,7 +86,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schema - Schema to register.
    * @returns Registered schema's ID.
    */
-  async registerSchema(
+  registerSchema(
     schema: SchemaDescription,
     options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
@@ -114,7 +114,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schema - Schema to match.
    * @returns Matched schema's ID.
    */
-  async getSchemaProperties(
+  getSchemaProperties(
     schema: SchemaDescription,
     options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
@@ -152,7 +152,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schemaId - Unique schema ID.
    * @returns Schema with given ID.
    */
-  async getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
+  getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
     return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
       this._client.schema.getById(schemaId, updatedOptions).then(convertSchemaResponse)
     );
