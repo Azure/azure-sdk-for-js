@@ -91,16 +91,19 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this._tracing.withSpan("registerSchema", options, (updatedOptions) =>
-      this._client.schema
-        .register(
-          groupName,
-          schemaName,
-          `application/json; serialization=${format}`,
-          schemaContent,
-          updatedOptions
-        )
-        .then(convertSchemaIdResponse(format))
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.registerSchema",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .register(
+            groupName,
+            schemaName,
+            `application/json; serialization=${format}`,
+            schemaContent,
+            updatedOptions
+          )
+          .then(convertSchemaIdResponse(format))
     );
   }
 
@@ -116,16 +119,19 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this._tracing.withSpan("getSchemaProperties", options, (updatedOptions) =>
-      this._client.schema
-        .queryIdByContent(
-          groupName,
-          schemaName,
-          `application/json; serialization=${format}`,
-          schemaContent,
-          updatedOptions
-        )
-        .then(convertSchemaIdResponse(format))
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchemaProperties",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .queryIdByContent(
+            groupName,
+            schemaName,
+            `application/json; serialization=${format}`,
+            schemaContent,
+            updatedOptions
+          )
+          .then(convertSchemaIdResponse(format))
     );
   }
 
@@ -147,7 +153,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @returns Schema with given ID.
    */
   async getSchema(schemaId: string, options: GetSchemaOptions = {}): Promise<Schema> {
-    return this._tracing.withSpan("getSchema", options, (updatedOptions) =>
+    return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
       this._client.schema.getById(schemaId, updatedOptions).then(convertSchemaResponse)
     );
   }
