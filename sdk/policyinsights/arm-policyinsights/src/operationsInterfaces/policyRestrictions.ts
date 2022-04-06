@@ -11,7 +11,10 @@ import {
   PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams,
   PolicyRestrictionsCheckAtSubscriptionScopeResponse,
   PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams,
-  PolicyRestrictionsCheckAtResourceGroupScopeResponse
+  PolicyRestrictionsCheckAtResourceGroupScopeResponse,
+  CheckManagementGroupRestrictionsRequest,
+  PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams,
+  PolicyRestrictionsCheckAtManagementGroupScopeResponse
 } from "../models";
 
 /** Interface representing a PolicyRestrictions. */
@@ -37,4 +40,15 @@ export interface PolicyRestrictions {
     parameters: CheckRestrictionsRequest,
     options?: PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams
   ): Promise<PolicyRestrictionsCheckAtResourceGroupScopeResponse>;
+  /**
+   * Checks what restrictions Azure Policy will place on resources within a management group.
+   * @param managementGroupId Management group ID.
+   * @param parameters The check policy restrictions parameters.
+   * @param options The options parameters.
+   */
+  checkAtManagementGroupScope(
+    managementGroupId: string,
+    parameters: CheckManagementGroupRestrictionsRequest,
+    options?: PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
+  ): Promise<PolicyRestrictionsCheckAtManagementGroupScopeResponse>;
 }
