@@ -25,6 +25,10 @@ steps:
     - script: |
         tree $(Pipeline.Workspace)/html-docs
       displayName: "Show tree"
+    
+    - script: |
+        rm -r $(Pipeline.Workspace)/html-docs/**/assets
+      displayName: "Remove assets"
 
     # NOW CALL VERIFY LINKS, with the artifactS url
 
