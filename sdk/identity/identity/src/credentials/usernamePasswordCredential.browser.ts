@@ -5,7 +5,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth"
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { IdentityClient } from "../client/identityClient";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";
 import { checkTenantId } from "../util/checkTenantId";
@@ -66,35 +66,44 @@ export class UsernamePasswordCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    return tracingClient.withSpan(
+    const { span, updatedOptions: newOptions } = tracingClient.startSpan(
       "UsernamePasswordCredential.getToken",
-      options || {},
-      async (updatedOptions) => {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-        const params = new URLSearchParams({
-          response_type: "token",
-          grant_type: "password",
-          client_id: this.clientId,
-          username: this.username,
-          password: this.password,
-          scope: typeof scopes === "string" ? scopes : scopes.join(" "),
-        });
-        const webResource = createPipelineRequest({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
-          method: "POST",
-          body: params.toString(),
-          headers: createHttpHeaders({
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
-          }),
-          abortSignal: options && options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        });
-
-        const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-        logger.getToken.info(formatSuccess(scopes));
-        return (tokenResponse && tokenResponse.accessToken) || null;
-      }
+      options
     );
+    try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+      const params = new URLSearchParams({
+        response_type: "token",
+        grant_type: "password",
+        client_id: this.clientId,
+        username: this.username,
+        password: this.password,
+        scope: typeof scopes === "string" ? scopes : scopes.join(" "),
+      });
+      const webResource = createPipelineRequest({
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+        method: "POST",
+        body: params.toString(),
+        headers: createHttpHeaders({
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }),
+        abortSignal: options && options.abortSignal,
+        tracingOptions: newOptions.tracingOptions,
+      });
+
+      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logger.getToken.info(formatSuccess(scopes));
+      return (tokenResponse && tokenResponse.accessToken) || null;
+    } catch (err) {
+      span.setStatus({
+        status: "error",
+        error: err,
+      });
+      logger.getToken.info(formatError(scopes, err));
+      throw err;
+    } finally {
+      span.end();
+    }
   }
 }

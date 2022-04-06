@@ -3,7 +3,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
@@ -65,6 +65,11 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const { span, updatedOptions: newOptions } = tracingClient.startSpan(
+      `${this.constructor.name}.getToken`,
+      options
+    );
+
     const query = new URLSearchParams({
       response_type: "token",
       grant_type: "client_credentials",
@@ -73,27 +78,32 @@ export class ClientSecretCredential implements TokenCredential {
       scope: typeof scopes === "string" ? scopes : scopes.join(" "),
     });
 
-    return tracingClient.withSpan(
-      "ClientSecretCredential.getToken",
-      options || {},
-      async (updatedOptions) => {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-        const request = createPipelineRequest({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
-          method: "POST",
-          body: query.toString(),
-          headers: createHttpHeaders({
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
-          }),
-          abortSignal: options && options.abortSignal,
-          tracingOptions: updatedOptions?.tracingOptions,
-        });
+    try {
+      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
+      const request = createPipelineRequest({
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
+        method: "POST",
+        body: query.toString(),
+        headers: createHttpHeaders({
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }),
+        abortSignal: options && options.abortSignal,
+        tracingOptions: newOptions?.tracingOptions,
+      });
 
-        const tokenResponse = await this.identityClient.sendTokenRequest(request);
-        logger.getToken.info(formatSuccess(scopes));
-        return (tokenResponse && tokenResponse.accessToken) || null;
-      }
-    );
+      const tokenResponse = await this.identityClient.sendTokenRequest(request);
+      logger.getToken.info(formatSuccess(scopes));
+      return (tokenResponse && tokenResponse.accessToken) || null;
+    } catch (err) {
+      span.setStatus({
+        status: "error",
+        error: err,
+      });
+      logger.getToken.info(formatError(scopes, err));
+      throw err;
+    } finally {
+      span.end();
+    }
   }
 }
