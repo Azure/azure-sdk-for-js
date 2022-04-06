@@ -31,7 +31,7 @@ steps:
     - task: PowerShell@2
       inputs:
         targetType: 'inline' # Optional. Options: filePath, inline
-        script: 'Get-ChildItem -Path ./ -Recurse -Include *.html' # Required when targetType == Inline
+        script: 'Get-ChildItem -Path ./$(Pipeline.Workspace)/html-docs/ -Recurse -Include *.html' # Required when targetType == Inline
 
     
     # PowerShell
@@ -41,7 +41,7 @@ steps:
         targetType: 'inline' # Optional. Options: filePath, inline
         #filePath: # Required when targetType == FilePath
         #arguments: # Optional
-        script: 'rm -r $(Pipeline.Workspace)/html-docs/**/assets ' # Required when targetType == Inline
+        script: 'rm -r $(Pipeline.Workspace)/html-docs/*/*/assets ' # Required when targetType == Inline
         #errorActionPreference: 'stop' # Optional. Options: default, stop, continue, silentlyContinue
         #warningPreference: 'default' # Optional. Options: default, stop, continue, silentlyContinue
         #informationPreference: 'default' # Optional. Options: default, stop, continue, silentlyContinue
