@@ -6,13 +6,14 @@ import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
-  createHttpHeaders,
   RestError,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
   retryPolicy,
 } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("retryPolicy", function () {
   afterEach(function () {
@@ -94,7 +95,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 
@@ -173,7 +174,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
   });
@@ -281,7 +282,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -294,21 +295,7 @@ describe("retryPolicy", function () {
         "Retry 2: Attempting to send request [Request Id]",
         "Retry 2: Processing 1 retry strategies.",
         "Retry 3: Attempting to send request [Request Id]",
-        "Retry 3: Processing 1 retry strategies.",
-        "Retry 4: Attempting to send request [Request Id]",
-        "Retry 4: Processing 1 retry strategies.",
-        "Retry 5: Attempting to send request [Request Id]",
-        "Retry 5: Processing 1 retry strategies.",
-        "Retry 6: Attempting to send request [Request Id]",
-        "Retry 6: Processing 1 retry strategies.",
-        "Retry 7: Attempting to send request [Request Id]",
-        "Retry 7: Processing 1 retry strategies.",
-        "Retry 8: Attempting to send request [Request Id]",
-        "Retry 8: Processing 1 retry strategies.",
-        "Retry 9: Attempting to send request [Request Id]",
-        "Retry 9: Processing 1 retry strategies.",
-        "Retry 10: Attempting to send request [Request Id]",
-        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error.",
+        "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
       ]
     );
 
@@ -319,13 +306,6 @@ describe("retryPolicy", function () {
         "Retry 1: Received an error from request [Request Id]",
         "Retry 2: Received an error from request [Request Id]",
         "Retry 3: Received an error from request [Request Id]",
-        "Retry 4: Received an error from request [Request Id]",
-        "Retry 5: Received an error from request [Request Id]",
-        "Retry 6: Received an error from request [Request Id]",
-        "Retry 7: Received an error from request [Request Id]",
-        "Retry 8: Received an error from request [Request Id]",
-        "Retry 9: Received an error from request [Request Id]",
-        "Retry 10: Received an error from request [Request Id]",
       ]
     );
 
@@ -337,20 +317,6 @@ describe("retryPolicy", function () {
         "Retry 1: Retry strategy testRetryStrategy retries after 100",
         "Retry 2: Processing retry strategy testRetryStrategy.",
         "Retry 2: Retry strategy testRetryStrategy retries after 100",
-        "Retry 3: Processing retry strategy testRetryStrategy.",
-        "Retry 3: Retry strategy testRetryStrategy retries after 100",
-        "Retry 4: Processing retry strategy testRetryStrategy.",
-        "Retry 4: Retry strategy testRetryStrategy retries after 100",
-        "Retry 5: Processing retry strategy testRetryStrategy.",
-        "Retry 5: Retry strategy testRetryStrategy retries after 100",
-        "Retry 6: Processing retry strategy testRetryStrategy.",
-        "Retry 6: Retry strategy testRetryStrategy retries after 100",
-        "Retry 7: Processing retry strategy testRetryStrategy.",
-        "Retry 7: Retry strategy testRetryStrategy retries after 100",
-        "Retry 8: Processing retry strategy testRetryStrategy.",
-        "Retry 8: Retry strategy testRetryStrategy retries after 100",
-        "Retry 9: Processing retry strategy testRetryStrategy.",
-        "Retry 9: Retry strategy testRetryStrategy retries after 100",
       ],
       error: [],
     });
@@ -397,7 +363,7 @@ describe("retryPolicy", function () {
     });
     await clock.runAllAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -405,69 +371,17 @@ describe("retryPolicy", function () {
       [
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
-        "Retry 1: Attempting to send request [Request Id]",
-        "Retry 1: Processing 1 retry strategies.",
-        "Retry 2: Attempting to send request [Request Id]",
-        "Retry 2: Processing 1 retry strategies.",
-        "Retry 3: Attempting to send request [Request Id]",
-        "Retry 3: Processing 1 retry strategies.",
-        "Retry 4: Attempting to send request [Request Id]",
-        "Retry 4: Processing 1 retry strategies.",
-        "Retry 5: Attempting to send request [Request Id]",
-        "Retry 5: Processing 1 retry strategies.",
-        "Retry 6: Attempting to send request [Request Id]",
-        "Retry 6: Processing 1 retry strategies.",
-        "Retry 7: Attempting to send request [Request Id]",
-        "Retry 7: Processing 1 retry strategies.",
-        "Retry 8: Attempting to send request [Request Id]",
-        "Retry 8: Processing 1 retry strategies.",
-        "Retry 9: Attempting to send request [Request Id]",
-        "Retry 9: Processing 1 retry strategies.",
-        "Retry 10: Attempting to send request [Request Id]",
-        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error.",
+        "None of the retry strategies could work with the received error. Throwing it.",
       ]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      [
-        "Retry 0: Received an error from request [Request Id]",
-        "Retry 1: Received an error from request [Request Id]",
-        "Retry 2: Received an error from request [Request Id]",
-        "Retry 3: Received an error from request [Request Id]",
-        "Retry 4: Received an error from request [Request Id]",
-        "Retry 5: Received an error from request [Request Id]",
-        "Retry 6: Received an error from request [Request Id]",
-        "Retry 7: Received an error from request [Request Id]",
-        "Retry 8: Received an error from request [Request Id]",
-        "Retry 9: Received an error from request [Request Id]",
-        "Retry 10: Received an error from request [Request Id]",
-      ]
+      ["Retry 0: Received an error from request [Request Id]"]
     );
 
     assert.deepEqual(strategyLogger.params, {
-      info: [
-        "Retry 0: Processing retry strategy testRetryStrategy.",
-        "Retry 0: Skipped.",
-        "Retry 1: Processing retry strategy testRetryStrategy.",
-        "Retry 1: Skipped.",
-        "Retry 2: Processing retry strategy testRetryStrategy.",
-        "Retry 2: Skipped.",
-        "Retry 3: Processing retry strategy testRetryStrategy.",
-        "Retry 3: Skipped.",
-        "Retry 4: Processing retry strategy testRetryStrategy.",
-        "Retry 4: Skipped.",
-        "Retry 5: Processing retry strategy testRetryStrategy.",
-        "Retry 5: Skipped.",
-        "Retry 6: Processing retry strategy testRetryStrategy.",
-        "Retry 6: Skipped.",
-        "Retry 7: Processing retry strategy testRetryStrategy.",
-        "Retry 7: Skipped.",
-        "Retry 8: Processing retry strategy testRetryStrategy.",
-        "Retry 8: Skipped.",
-        "Retry 9: Processing retry strategy testRetryStrategy.",
-        "Retry 9: Skipped.",
-      ],
+      info: ["Retry 0: Processing retry strategy testRetryStrategy.", "Retry 0: Skipped."],
       error: [],
     });
   });
@@ -643,7 +557,7 @@ describe("retryPolicy", function () {
     await clock.runAllAsync();
 
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 11);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
 
@@ -657,21 +571,7 @@ describe("retryPolicy", function () {
         "Retry 2: Attempting to send request [Request Id]",
         "Retry 2: Processing 1 retry strategies.",
         "Retry 3: Attempting to send request [Request Id]",
-        "Retry 3: Processing 1 retry strategies.",
-        "Retry 4: Attempting to send request [Request Id]",
-        "Retry 4: Processing 1 retry strategies.",
-        "Retry 5: Attempting to send request [Request Id]",
-        "Retry 5: Processing 1 retry strategies.",
-        "Retry 6: Attempting to send request [Request Id]",
-        "Retry 6: Processing 1 retry strategies.",
-        "Retry 7: Attempting to send request [Request Id]",
-        "Retry 7: Processing 1 retry strategies.",
-        "Retry 8: Attempting to send request [Request Id]",
-        "Retry 8: Processing 1 retry strategies.",
-        "Retry 9: Attempting to send request [Request Id]",
-        "Retry 9: Processing 1 retry strategies.",
-        "Retry 10: Attempting to send request [Request Id]",
-        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error.",
+        "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
       ]
     );
 
@@ -682,13 +582,6 @@ describe("retryPolicy", function () {
         "Retry 1: Received an error from request [Request Id]",
         "Retry 2: Received an error from request [Request Id]",
         "Retry 3: Received an error from request [Request Id]",
-        "Retry 4: Received an error from request [Request Id]",
-        "Retry 5: Received an error from request [Request Id]",
-        "Retry 6: Received an error from request [Request Id]",
-        "Retry 7: Received an error from request [Request Id]",
-        "Retry 8: Received an error from request [Request Id]",
-        "Retry 9: Received an error from request [Request Id]",
-        "Retry 10: Received an error from request [Request Id]",
       ]
     );
 
@@ -700,20 +593,6 @@ describe("retryPolicy", function () {
         "Retry 1: Retry strategy testRetryStrategy redirects to https://not-bing.com",
         "Retry 2: Processing retry strategy testRetryStrategy.",
         "Retry 2: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 3: Processing retry strategy testRetryStrategy.",
-        "Retry 3: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 4: Processing retry strategy testRetryStrategy.",
-        "Retry 4: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 5: Processing retry strategy testRetryStrategy.",
-        "Retry 5: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 6: Processing retry strategy testRetryStrategy.",
-        "Retry 6: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 7: Processing retry strategy testRetryStrategy.",
-        "Retry 7: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 8: Processing retry strategy testRetryStrategy.",
-        "Retry 8: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 9: Processing retry strategy testRetryStrategy.",
-        "Retry 9: Retry strategy testRetryStrategy redirects to https://not-bing.com",
       ],
       error: [],
     });

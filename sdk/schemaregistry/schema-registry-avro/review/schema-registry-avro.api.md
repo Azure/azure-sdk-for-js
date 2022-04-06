@@ -7,34 +7,44 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export class AvroEncoder<MessageT = MessageWithMetadata> {
-    constructor(client: SchemaRegistry, options?: AvroEncoderOptions<MessageT>);
-    decodeMessageData(message: MessageT, options?: DecodeMessageDataOptions): Promise<unknown>;
-    encodeMessageData(value: unknown, schema: string): Promise<MessageT>;
+export class AvroError extends Error {
+    constructor(message: string, options?: {
+        innerError?: unknown;
+        schemaId?: string;
+    });
+    innerError?: unknown;
+    schemaId?: string;
 }
 
 // @public
-export interface AvroEncoderOptions<MessageT> {
+export class AvroSerializer<MessageT = MessageContent> {
+    constructor(client: SchemaRegistry, options?: AvroSerializerOptions<MessageT>);
+    deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown>;
+    serialize(value: unknown, schema: string): Promise<MessageT>;
+}
+
+// @public
+export interface AvroSerializerOptions<MessageT> {
     autoRegisterSchemas?: boolean;
     groupName?: string;
     messageAdapter?: MessageAdapter<MessageT>;
 }
 
 // @public
-export interface DecodeMessageDataOptions {
+export interface DeserializeOptions {
     schema?: string;
 }
 
 // @public
 export interface MessageAdapter<MessageT> {
-    consumeMessage: (message: MessageT) => MessageWithMetadata;
-    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+    consume: (message: MessageT) => MessageContent;
+    produce: (messageContent: MessageContent) => MessageT;
 }
 
 // @public
-export interface MessageWithMetadata {
-    body: Uint8Array;
+export interface MessageContent {
     contentType: string;
+    data: Uint8Array;
 }
 
 // (No @packageDocumentation comment for this package)

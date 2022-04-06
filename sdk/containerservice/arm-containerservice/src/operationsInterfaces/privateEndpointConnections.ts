@@ -22,7 +22,7 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -33,7 +33,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsListResponse>;
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -46,7 +46,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Updates a private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param parameters The updated private endpoint connection.
@@ -61,7 +61,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsUpdateResponse>;
   /**
    * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -74,7 +74,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.

@@ -3,7 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
+import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
@@ -39,6 +39,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       ...DEFAULT_EXPORTER_CONFIG,
     };
     this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
+    this._options.aadTokenCredential = options.aadTokenCredential;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);

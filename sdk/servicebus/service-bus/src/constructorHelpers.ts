@@ -16,7 +16,7 @@ import {
   TokenCredential,
 } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
-import { UserAgentOptions } from "@azure/core-http";
+import { UserAgentPolicyOptions } from "@azure/core-rest-pipeline";
 import {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties,
@@ -51,7 +51,7 @@ export interface ServiceBusClientOptions {
   /**
    * Options for adding user agent details to outgoing requests.
    */
-  userAgentOptions?: UserAgentOptions;
+  userAgentOptions?: UserAgentPolicyOptions;
 }
 
 /**

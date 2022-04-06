@@ -24,6 +24,16 @@ export const CommunicationRelayConfigurationRequest: coreHttp.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      ttl: {
+        defaultValue: 172800,
+        constraints: {
+          InclusiveMaximum: 172800
+        },
+        serializedName: "ttl",
+        type: {
+          name: "Number"
+        }
       }
     }
   }

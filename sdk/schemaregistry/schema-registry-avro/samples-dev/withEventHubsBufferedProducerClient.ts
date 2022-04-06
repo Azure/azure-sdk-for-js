@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client.
+ * @summary Demonstrates the use of AvroSerializer to create messages with avro-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { AvroEncoder } from "@azure/schema-registry-avro";
+import { AvroSerializer } from "@azure/schema-registry-avro";
 import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
@@ -23,6 +23,9 @@ const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // The connection string for Event Hubs
 const eventHubsConnectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+
+// The name of Event Hub the client will connect to
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
@@ -69,26 +72,27 @@ export async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `encodeMessageData` automatically register
+  // You can also skip this step and let `serialize` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
-  // Create a new encoder backed by the client
-  const encoder = new AvroEncoder(schemaRegistryClient, {
+  // Create a new serializer backed by the client
+  const serializer = new AvroSerializer(schemaRegistryClient, {
     groupName,
     messageAdapter: createEventDataAdapter(),
   });
 
   const eventHubsBufferedProducerClient = new EventHubBufferedProducerClient(
     eventHubsConnectionString,
+    eventHubName,
     {
       onSendEventsErrorHandler: handleError,
     }
   );
 
-  // encode an object that matches the schema
+  // serialize an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };
-  const message = await encoder.encodeMessageData(value, schema);
+  const message = await serializer.serialize(value, schema);
   console.log("Created message:");
   console.log(message);
 

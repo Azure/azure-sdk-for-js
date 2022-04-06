@@ -8,6 +8,7 @@ import {
   TracingSpan,
 } from "@azure/core-tracing";
 import { MockContext, spanKey } from "./mockContext";
+
 import { MockTracingSpan } from "./mockTracingSpan";
 
 /**
@@ -17,7 +18,7 @@ export class MockInstrumenter implements Instrumenter {
   private isEnabled: boolean;
 
   constructor() {
-    this.isEnabled = false;
+    this.isEnabled = true;
   }
 
   /**

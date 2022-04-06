@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
-import { FullOperationResponse, OperationOptions, CommonClientOptions } from "@azure/core-client";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
@@ -68,11 +68,12 @@ import {
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters,
 } from "./constants";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 /**
  * Client options used to configure API requests.
  */
-export interface MetricsAdvisorAdministrationClientOptions extends CommonClientOptions {}
+export interface MetricsAdvisorAdministrationClientOptions extends ExtendedCommonClientOptions {}
 
 /**
  * Options for listing data feed ingestion status

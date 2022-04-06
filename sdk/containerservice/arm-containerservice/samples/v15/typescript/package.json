@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-containerservice-samples-ts",
+  "name": "@azure-samples/arm-containerservice-ts",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",

@@ -1240,6 +1240,7 @@ export interface CustomContainer {
     command?: string[];
     containerImage?: string;
     imageRegistryCredential?: ImageRegistryCredential;
+    languageFramework?: string;
     server?: string;
 }
 
@@ -2119,6 +2120,10 @@ export enum KnownProvisioningState {
     // (undocumented)
     Moving = "Moving",
     // (undocumented)
+    Starting = "Starting",
+    // (undocumented)
+    Stopping = "Stopping",
+    // (undocumented)
     Succeeded = "Succeeded",
     // (undocumented)
     Updating = "Updating"
@@ -2229,6 +2234,9 @@ export interface ManagedIdentityProperties {
     principalId?: string;
     tenantId?: string;
     type?: ManagedIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedManagedIdentity;
+    };
 }
 
 // @public
@@ -2955,6 +2963,12 @@ export type UploadedUserSourceInfo = UserSourceInfo & {
 
 // @public (undocumented)
 export type UploadedUserSourceInfoUnion = UploadedUserSourceInfo | JarUploadedUserSourceInfo | SourceUploadedUserSourceInfo | NetCoreZipUploadedUserSourceInfo;
+
+// @public
+export interface UserAssignedManagedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface UserSourceInfo {

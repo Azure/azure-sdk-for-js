@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 export type DataSourceCredentialUnion =
   | DataSourceCredential
@@ -2445,7 +2446,7 @@ export type GetAnomalyDetectionConfigurationsByMetricNextResponse = AnomalyDetec
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

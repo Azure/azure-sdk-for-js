@@ -24,6 +24,9 @@
   "browser": {
     "./dist-esm/src/internal/cryptoHelpers.js": "./dist-esm/src/internal/cryptoHelpers.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",

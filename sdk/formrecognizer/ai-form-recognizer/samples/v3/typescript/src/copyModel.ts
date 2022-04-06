@@ -38,7 +38,7 @@ export async function main() {
   );
 
   const sourceClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await sourceClient.beginCopyModel(sourceModelId, authorization, {
+  const poller = await sourceClient.beginCopyModelTo(sourceModelId, authorization, {
     onProgress: (state) => {
       console.log(`Copy model status: ${state.status}`);
     }

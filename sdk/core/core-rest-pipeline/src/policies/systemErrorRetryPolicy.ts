@@ -4,6 +4,7 @@
 import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
  * Name of the {@link systemErrorRetryPolicy}
@@ -15,7 +16,7 @@ export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
  */
 export interface SystemErrorRetryPolicyOptions {
   /**
-   * The maximum number of retry attempts. Defaults to 10.
+   * The maximum number of retry attempts. Defaults to 3.
    */
   maxRetries?: number;
 
@@ -52,7 +53,7 @@ export function systemErrorRetryPolicy(
         }),
       ],
       {
-        maxRetries: options.maxRetries ?? 10,
+        maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
       }
     ).sendRequest,
   };

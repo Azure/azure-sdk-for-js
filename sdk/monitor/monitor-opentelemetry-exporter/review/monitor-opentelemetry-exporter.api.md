@@ -5,11 +5,13 @@
 ```ts
 
 import { ExportResult } from '@opentelemetry/core';
-import { ReadableSpan } from '@opentelemetry/tracing';
-import { SpanExporter } from '@opentelemetry/tracing';
+import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface AzureExporterConfig {
+    aadTokenCredential?: TokenCredential;
     apiVersion?: ServiceApiVersion;
     connectionString?: string;
 }
@@ -25,7 +27,6 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 export enum ServiceApiVersion {
     V2 = "2020-09-15_Preview"
 }
-
 
 // (No @packageDocumentation comment for this package)
 

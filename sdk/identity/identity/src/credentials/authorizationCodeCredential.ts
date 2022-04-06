@@ -25,7 +25,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private redirectUri: string;
 
   /**
-   * Creates an instance of CodeFlowCredential with the details needed
+   * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.
    *
@@ -55,7 +55,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   );
   /**
-   * Creates an instance of CodeFlowCredential with the details needed
+   * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.
    *

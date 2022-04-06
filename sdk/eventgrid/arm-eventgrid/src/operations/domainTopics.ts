@@ -192,10 +192,12 @@ export class DomainTopicsImpl implements DomainTopics {
       { resourceGroupName, domainName, domainTopicName, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -277,10 +279,12 @@ export class DomainTopicsImpl implements DomainTopics {
       { resourceGroupName, domainName, domainTopicName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -444,8 +448,8 @@ const listByDomainNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.domainName
   ],
   headerParameters: [Parameters.accept],
   serializer

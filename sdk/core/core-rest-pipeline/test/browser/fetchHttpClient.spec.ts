@@ -321,6 +321,84 @@ describe("FetchHttpClient", function () {
     assert.isTrue(downloadCalled, "no download progress");
   });
 
+  it("should handle ReadableStream request body type", async () => {
+    const client = createFetchHttpClient();
+    const requestText = "testing resettable stream";
+    const url = `http://localhost:3000/formdata/stream/uploadfile`;
+
+    let bodySent = false;
+    const stream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(requestText);
+        controller.close();
+      },
+    });
+    fetchMock.callsFake(async (_url, options) => {
+      const body = options.body;
+      assert.isTrue(
+        body &&
+          typeof (body as ReadableStream).getReader === "function" &&
+          typeof (body as ReadableStream).tee === "function",
+        "expecting ReadableStream request body"
+      );
+      const reader = (body as ReadableStream).getReader();
+      const data = await reader.read();
+      assert.equal(data.value, requestText, "unexpected request text");
+      bodySent = true;
+      return new Response(undefined, { status: 200 });
+    });
+    const request = createPipelineRequest({
+      url,
+      method: "PUT",
+      body: stream,
+      headers: createHttpHeaders({ "content-type": "application/octet-stream" }),
+      allowInsecureConnection: true,
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
+    });
+    await client.sendRequest(request);
+    assert.isTrue(bodySent, "body should have been sent to request");
+  });
+
+  it("should handle () => ReadableStream request body type", async () => {
+    const client = createFetchHttpClient();
+    const requestText = "testing resettable stream";
+    const url = `http://localhost:3000/formdata/stream/uploadfile`;
+
+    let bodySent = false;
+    const factoryMethod = () => {
+      return new ReadableStream({
+        start(controller) {
+          controller.enqueue(requestText);
+          controller.close();
+        },
+      });
+    };
+    fetchMock.callsFake(async (_url, options) => {
+      const body = options.body;
+      assert.isTrue(
+        body &&
+          typeof (body as ReadableStream).getReader === "function" &&
+          typeof (body as ReadableStream).tee === "function",
+        "expecting ReadableStream request body"
+      );
+      const reader = (body as ReadableStream).getReader();
+      const data = await reader.read();
+      assert.equal(data.value, requestText, "unexpected request text");
+      bodySent = true;
+      return new Response(undefined, { status: 200 });
+    });
+    const request = createPipelineRequest({
+      url,
+      method: "PUT",
+      body: factoryMethod,
+      headers: createHttpHeaders({ "content-type": "application/octet-stream" }),
+      allowInsecureConnection: true,
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
+    });
+    await client.sendRequest(request);
+    assert.isTrue(bodySent, "body should have been sent to request");
+  });
+
   it("should honor timeout", async function () {
     const timeoutLength = 2000;
     const mockedResponse = createResponse(404);

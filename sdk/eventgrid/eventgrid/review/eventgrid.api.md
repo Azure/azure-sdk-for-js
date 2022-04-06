@@ -838,10 +838,10 @@ export interface MediaJobError {
 }
 
 // @public
-export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content";
+export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content" | "Account";
 
 // @public
-export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported";
+export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported" | "IdentityUnsupported";
 
 // @public
 export interface MediaJobErrorDetail {

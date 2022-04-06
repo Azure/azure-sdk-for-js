@@ -185,7 +185,7 @@
       "name": "reset-workspace",
       "summary": "Reset your workspace - !!DANGER!! unlink dependencies, purge downloaded node_modules, and remove all untracked files and directories",
       "safeForSimultaneousRushProcesses": true,
-      "shellCommand": "rush unlink && echo \"\nStarting \\\"git clean\\\"\" && git clean -dfx && rush purge"
+      "shellCommand": "rush unlink && echo \"\nStarting \\\"git clean\\\"\" && git clean -dfx -e *.env -e launch.json && rush purge"
     },
     {
       "commandKind": "global",

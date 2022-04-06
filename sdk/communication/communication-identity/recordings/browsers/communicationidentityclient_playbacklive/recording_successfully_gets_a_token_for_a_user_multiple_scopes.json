@@ -1,55 +1,99 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities",
-   "query": {
-    "api-version": "2021-10-31-preview"
-   },
-   "requestBody": null,
-   "status": 201,
-   "response": "{\"identity\":{\"id\":\"sanitized\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
-    "content-length": "101",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:01 GMT",
-    "ms-cv": "fAjW7dqDSkqQJl2tCjvFOQ.0",
-    "request-context": "appId=",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0KuluYQAAAAB8eB2DAPJ8SaDsQcOA3tPjUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "95ms"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities/sanitized/:issueAccessToken",
-   "query": {
-    "api-version": "2021-10-31-preview"
-   },
-   "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
-   "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-10-20T15:50:02.642183+00:00\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
-    "content-length": "810",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 19 Oct 2021 15:50:01 GMT",
-    "ms-cv": "go069fbotEaN6b5D5iP4Xg.0",
-    "request-context": "appId=",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0KuluYQAAAABkf4QXJvZ7Q4X17zxbFI1nUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "97ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "c65693e9b048a671a89d9f47969e5b57"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2021-10-31-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 14 Mar 2022 08:16:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Length": "31",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Mar 2022 08:16:36 GMT",
+        "MS-CV": "HtspnpfdqEiQOc099Z8zLw.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "05fkuYgAAAABjNqgCQWpUSb/hZjENajALUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "30ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "sanitized"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "EqW/vFkRi/EMVlRLG6\u002Bkt0X27SowO7NytIh/miHOZlY=",
+        "x-ms-date": "Mon, 14 Mar 2022 08:16:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "scopes": [
+          "chat",
+          "voip"
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Length": "69",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Mar 2022 08:16:36 GMT",
+        "MS-CV": "jNUGILS8mkWbKoKraHf\u002BAg.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "05fkuYgAAAABNPAr6qd5qTqtyl8WA711\u002BUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "37ms"
+      },
+      "ResponseBody": {
+        "token": "sanitized",
+        "expiresOn": "2022-03-15T08:16:37.6783836\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {}
 }

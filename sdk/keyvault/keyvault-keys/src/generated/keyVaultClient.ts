@@ -12,7 +12,7 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion73Preview,
+  ApiVersion73,
   JsonWebKeyType,
   CreateKeyOptionalParams,
   CreateKeyResponse,
@@ -80,7 +80,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion73,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);

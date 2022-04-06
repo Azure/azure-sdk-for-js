@@ -4,26 +4,26 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  tracingPolicy,
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
-  createHttpHeaders,
   RestError,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+  tracingPolicy,
 } from "../src";
 import {
+  SpanAttributeValue,
+  SpanAttributes,
   SpanContext,
+  SpanOptions,
+  SpanStatus,
+  SpanStatusCode,
   TraceFlags,
   TraceState,
   context,
   setSpan,
-  SpanStatus,
-  SpanStatusCode,
-  SpanAttributes,
-  SpanAttributeValue,
-  SpanOptions,
 } from "@azure/core-tracing";
-import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
+import { Span, Tracer, TracerProvider, trace } from "@opentelemetry/api";
 
 export class MockSpan implements Span {
   private _endCalled = false;

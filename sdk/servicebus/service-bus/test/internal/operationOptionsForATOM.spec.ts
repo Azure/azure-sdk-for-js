@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 import { ServiceBusAdministrationClient } from "../../src";
 import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
-import { WebResource } from "@azure/core-http";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
 import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
@@ -37,7 +37,6 @@ describe("Operation Options", () => {
         assert.fail();
       } catch (err) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
       }
     }
 
@@ -210,19 +209,18 @@ describe("Operation Options", () => {
         assert.fail();
       } catch (err) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
       }
     });
   });
 
   describe("RequestOptions custom headers", () => {
     it("requestOptions.customHeaders should be populated", async () => {
-      const webResource = new WebResource(
-        `https://${(serviceBusAtomManagementClient as any).endpoint}/`
-      );
+      const request = createPipelineRequest({
+        url: `https://${(serviceBusAtomManagementClient as any).endpoint}/`,
+      });
       await executeAtomXmlOperation(
         serviceBusAtomManagementClient,
-        webResource,
+        request,
         new NamespaceResourceSerializer(),
         {
           requestOptions: {
@@ -231,7 +229,7 @@ describe("Operation Options", () => {
         }
       );
       assert.equal(
-        webResource.headers.get("state"),
+        request.headers.get("state"),
         "WA",
         "Custom header from the requestOptions is not populated as expected."
       );

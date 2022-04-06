@@ -923,7 +923,7 @@ export interface WorkbookErrorDefinition {
 
 /** The parameters that can be provided when updating workbook properties properties. */
 export interface WorkbookUpdateParameters {
-  /** The kind of workbook. Choices are user and shared. */
+  /** The kind of workbook. Only valid value is shared. */
   kind?: SharedTypeKind;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
@@ -1340,7 +1340,7 @@ export type ApplicationInsightsComponent = ComponentsResource & {
 export type WorkbookResource = TrackedResource & {
   /** Identity used for BYOS */
   identity?: WorkbookResourceIdentity;
-  /** The kind of workbook. Choices are user and shared. */
+  /** The kind of workbook. Only valid value is shared. */
   kind?: Kind;
   /** Resource etag */
   etag?: string;
@@ -2204,7 +2204,10 @@ export type WorkbooksListByResourceGroupResponse = WorkbooksListResult;
 
 /** Optional parameters. */
 export interface WorkbooksGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
+  canFetchContent?: boolean;
+}
 
 /** Contains response data for the get operation. */
 export type WorkbooksGetResponse = Workbook;

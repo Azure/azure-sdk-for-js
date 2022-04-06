@@ -430,20 +430,20 @@ export type DeletedKeyItem = KeyItem & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion73Preview} that the service accepts. */
-export enum KnownApiVersion73Preview {
-  /** Api Version '7.3-preview' */
-  Seven3Preview = "7.3-preview"
+/** Known values of {@link ApiVersion73} that the service accepts. */
+export enum KnownApiVersion73 {
+  /** Api Version '7.3' */
+  Seven3 = "7.3"
 }
 
 /**
- * Defines values for ApiVersion73Preview. \
- * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
+ * Defines values for ApiVersion73. \
+ * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.3-preview**: Api Version '7.3-preview'
+ * **7.3**: Api Version '7.3'
  */
-export type ApiVersion73Preview = string;
+export type ApiVersion73 = string;
 
 /** Known values of {@link JsonWebKeyType} that the service accepts. */
 export enum KnownJsonWebKeyType {
@@ -556,8 +556,7 @@ export enum KnownJsonWebKeyCurveName {
  * **P-256**: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. \
  * **P-384**: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1. \
  * **P-521**: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. \
- * **P-256K**: The SECG SECP256K1 elliptic curve. \
- * **Ed25519**: The Ed25519 Edwards curve.
+ * **P-256K**: The SECG SECP256K1 elliptic curve.
  */
 export type JsonWebKeyCurveName = string;
 

@@ -2,24 +2,27 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable sort-imports */
 
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { createPersistence } from "./setup.spec";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import assert from "assert";
-import { createPersistence } from "./setup.spec";
-import { isLiveMode } from "@azure-tools/test-recorder";
 
 describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
+  let recorder: Recorder;
 
-  beforeEach(function (this: Mocha.Context) {
-    const setup = msalNodeTestSetup(this);
+  beforeEach(async function (this: Mocha.Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
+    recorder = setup.recorder;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
@@ -55,9 +58,11 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const persistence = await createPersistence(tokenCachePersistenceOptions);
     persistence?.save("{}");
 
-    const credential = new DeviceCodeCredential({
-      tokenCachePersistenceOptions,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tokenCachePersistenceOptions,
+      })
+    );
 
     await credential.getToken(scope);
     const result = await persistence?.load();
@@ -85,9 +90,11 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const persistence = await createPersistence(tokenCachePersistenceOptions);
     persistence?.save("{}");
 
-    const credential = new DeviceCodeCredential({
-      tokenCachePersistenceOptions,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tokenCachePersistenceOptions,
+      })
+    );
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
@@ -122,23 +129,27 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const persistence = await createPersistence(tokenCachePersistenceOptions);
     persistence?.save("{}");
 
-    const credential = new DeviceCodeCredential({
-      // To be able to re-use the account, the Token Cache must also have been provided.
-      // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-      tokenCachePersistenceOptions,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        // To be able to re-use the account, the Token Cache must also have been provided.
+        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
+        tokenCachePersistenceOptions,
+      })
+    );
 
     const account = await credential.authenticate(scope);
     assert.ok(account);
     assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
 
-    const credential2 = new DeviceCodeCredential({
-      authenticationRecord: account,
-      // To be able to re-use the account, the Token Cache must also have been provided.
-      // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-      tokenCachePersistenceOptions,
-    });
+    const credential2 = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        authenticationRecord: account,
+        // To be able to re-use the account, the Token Cache must also have been provided.
+        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
+        tokenCachePersistenceOptions,
+      })
+    );
 
     // The cache should have a token a this point
     const result = await persistence?.load();

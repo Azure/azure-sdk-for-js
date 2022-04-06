@@ -4,67 +4,22 @@
 import { mockedPoller, runMockedLro } from "./utils/router";
 import { RawResponse } from "../src/lroEngine/models";
 import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 describe("Lro Engine", function () {
-  it("put201Succeeded", async function () {
-    const result = await runMockedLro("PUT", "/put/201/succeeded");
-    assert.equal(result.id, "100");
-    assert.equal(result.name, "foo");
-    assert.equal(result.properties?.provisioningState, "Succeeded");
-  });
+  describe("No polling", () => {
+    it("should handle delete204Succeeded", async () => {
+      const response = await runMockedLro("DELETE", "/delete/204/succeeded");
+      assert.equal(response.statusCode, 204);
+    });
 
-  describe("BodyPolling Strategy", () => {
-    it("put200Succeeded", async function () {
-      const result = await runMockedLro("PUT", "/put/200/succeeded");
+    it("put201Succeeded", async function () {
+      const result = await runMockedLro("PUT", "/put/201/succeeded");
+      assert.equal(result.id, "100");
+      assert.equal(result.name, "foo");
       assert.equal(result.properties?.provisioningState, "Succeeded");
     });
 
-    it("should handle initial response with terminal state without provisioning State", async () => {
-      const result = await runMockedLro("PUT", "/put/200/succeeded/nostate");
-      assert.deepEqual(result.id, "100");
-      assert.deepEqual(result.name, "foo");
-    });
-
-    it("should handle initial response creating followed by success through an Azure Resource", async () => {
-      const result = await runMockedLro("PUT", "/put/201/creating/succeeded/200");
-      assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-      assert.deepEqual(result.id, "100");
-      assert.deepEqual(result.name, "foo");
-    });
-
-    it("should handle put200Acceptedcanceled200", async () => {
-      try {
-        await runMockedLro("PUT", "/put/200/accepted/canceled/200");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: canceled."
-        );
-      }
-    });
-
-    it("should handle put200UpdatingSucceeded204", async () => {
-      const result = await runMockedLro("PUT", "/put/200/updating/succeeded/200");
-      assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-      assert.deepEqual(result.id, "100");
-      assert.deepEqual(result.name, "foo");
-    });
-
-    it("should handle put201CreatingFailed200", async () => {
-      try {
-        await runMockedLro("PUT", "/put/201/created/failed/200");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: failed."
-        );
-      }
-    });
-  });
-
-  describe("Location Strategy", () => {
     it("should handle post202Retry200", async () => {
       const response = await runMockedLro("POST", "/post/202/retry/200");
       assert.equal(response.statusCode, 200);
@@ -154,28 +109,54 @@ describe("Lro Engine", function () {
     });
   });
 
-  describe("Passthrough strategy", () => {
-    it("should handle delete204Succeeded", async () => {
-      const response = await runMockedLro("DELETE", "/delete/204/succeeded");
-      assert.equal(response.statusCode, 204);
-    });
-  });
-
-  describe("Azure Async Operation Strategy", () => {
-    it("should handle postDoubleHeadersFinalLocationGet", async () => {
-      const result = await runMockedLro("POST", "/LROPostDoubleHeadersFinalLocationGet");
-      assert.equal(result.id, "100");
-      assert.equal(result.name, "foo");
+  describe("Polling from body", () => {
+    it("put200Succeeded", async function () {
+      const result = await runMockedLro("PUT", "/put/200/succeeded");
+      assert.equal(result.properties?.provisioningState, "Succeeded");
     });
 
-    it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
-      const result = await runMockedLro(
-        "POST",
-        "/LROPostDoubleHeadersFinalAzureHeaderGet",
-        undefined,
-        "azure-async-operation"
-      );
-      assert.equal(result.id, "100");
+    it("should handle initial response with terminal state without provisioning State", async () => {
+      const result = await runMockedLro("PUT", "/put/200/succeeded/nostate");
+      assert.deepEqual(result.id, "100");
+      assert.deepEqual(result.name, "foo");
+    });
+
+    it("should handle initial response creating followed by success through an Azure Resource", async () => {
+      const result = await runMockedLro("PUT", "/put/201/creating/succeeded/200");
+      assert.deepEqual(result.properties?.provisioningState, "Succeeded");
+      assert.deepEqual(result.id, "100");
+      assert.deepEqual(result.name, "foo");
+    });
+
+    it("should handle put200Acceptedcanceled200", async () => {
+      try {
+        await runMockedLro("PUT", "/put/200/accepted/canceled/200");
+        throw new Error("should have thrown instead");
+      } catch (e) {
+        assert.equal(
+          e.message,
+          "The long running operation has failed. The provisioning state: canceled."
+        );
+      }
+    });
+
+    it("should handle put200UpdatingSucceeded204", async () => {
+      const result = await runMockedLro("PUT", "/put/200/updating/succeeded/200");
+      assert.deepEqual(result.properties?.provisioningState, "Succeeded");
+      assert.deepEqual(result.id, "100");
+      assert.deepEqual(result.name, "foo");
+    });
+
+    it("should handle put201CreatingFailed200", async () => {
+      try {
+        await runMockedLro("PUT", "/put/201/created/failed/200");
+        throw new Error("should have thrown instead");
+      } catch (e) {
+        assert.equal(
+          e.message,
+          "The long running operation has failed. The provisioning state: failed."
+        );
+      }
     });
 
     it("should handle post200WithPayload", async () => {
@@ -183,160 +164,187 @@ describe("Lro Engine", function () {
       assert.equal(result.id, "1");
       assert.equal(result.name, "product");
     });
+  });
 
-    it("should handle postDoubleHeadersFinalAzureHeaderGetDefault", async () => {
-      const result = await runMockedLro("POST", "/LROPostDoubleHeadersFinalAzureHeaderGetDefault");
-      assert.equal(result.id, "100");
-      assert.equal(result.statusCode, 200);
-    });
+  matrix([["async", "location"]] as const, async function (rootPrefix: string) {
+    describe(`Polling from ${
+      rootPrefix === "async" ? "Azure-AsyncOperation" : "Operation-Location"
+    }`, function () {
+      const rootPrefix1 =
+        rootPrefix === "location" ? rootPrefix.charAt(0).toUpperCase() + rootPrefix.slice(1) : "";
 
-    it("should handle deleteAsyncRetrySucceeded", async () => {
-      const response = await runMockedLro("DELETE", "/deleteasync/retry/succeeded");
-      assert.equal(response.statusCode, 200);
-    });
-
-    it("should handle deleteAsyncNoRetrySucceeded", async () => {
-      const response = await runMockedLro("DELETE", "/deleteasync/noretry/succeeded");
-      assert.equal(response.statusCode, 200);
-    });
-
-    it("should handle deleteAsyncRetrycanceled", async () => {
-      try {
-        await runMockedLro("DELETE", "/deleteasync/retry/canceled");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: canceled."
+      it("should handle postDoubleHeadersFinalLocationGet", async () => {
+        const result = await runMockedLro(
+          "POST",
+          `/LROPost${rootPrefix1}DoubleHeadersFinalLocationGet`
         );
-      }
-    });
+        assert.equal(result.id, "100");
+        assert.equal(result.name, "foo");
+      });
 
-    it("should handle DeleteAsyncRetryFailed", async () => {
-      try {
-        await runMockedLro("DELETE", "/deleteasync/retry/failed");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: failed."
+      it("should handle postDoubleHeadersFinalAzureHeaderGet", async () => {
+        const result = await runMockedLro(
+          "POST",
+          `/LRO${rootPrefix1}PostDoubleHeadersFinalAzureHeaderGet`,
+          undefined,
+          "azure-async-operation"
         );
-      }
-    });
+        assert.equal(result.id, "100");
+      });
 
-    it("should handle putAsyncRetrySucceeded", async () => {
-      const result = await runMockedLro("PUT", "/putasync/noretry/succeeded");
-      assert.equal(result.id, "100");
-      assert.equal(result.name, "foo");
-      assert.equal(result.properties?.provisioningState, "Succeeded");
-    });
-
-    it("should handle put201Succeeded", async () => {
-      const result = await runMockedLro("PUT", "/put/201/succeeded");
-      assert.equal(result.id, "100");
-      assert.equal(result.name, "foo");
-      assert.equal(result.properties?.provisioningState, "Succeeded");
-    });
-
-    it("should handle post202List", async () => {
-      const result = await runMockedLro("POST", "/list");
-      assert.equal((result as any)[0].id, "100");
-      assert.equal((result as any)[0].name, "foo");
-    });
-
-    it("should handle putAsyncRetryFailed", async () => {
-      try {
-        await runMockedLro("PUT", "/putasync/retry/failed");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: failed."
+      it("should handle postDoubleHeadersFinalAzureHeaderGetDefault", async () => {
+        const result = await runMockedLro(
+          "POST",
+          `/LRO${rootPrefix1}PostDoubleHeadersFinalAzureHeaderGetDefault`
         );
-      }
-    });
+        assert.equal(result.id, "100");
+        assert.equal(result.statusCode, 200);
+      });
 
-    it("should handle putAsyncNonResource", async () => {
-      const result = await runMockedLro("PUT", "/putnonresourceasync/202/200");
-      assert.equal(result.name, "sku");
-      assert.equal(result.id, "100");
-    });
+      it("should handle deleteAsyncRetrySucceeded", async () => {
+        const response = await runMockedLro("DELETE", `/delete${rootPrefix}/retry/succeeded`);
+        assert.equal(response.statusCode, 200);
+      });
 
-    it("should handle patchAsync", async () => {
-      const result = await runMockedLro("PATCH", "/patchasync/202/200");
-      assert.equal(result.name, "sku");
-      assert.equal(result.id, "100");
-    });
+      it("should handle deleteAsyncNoRetrySucceeded", async () => {
+        const response = await runMockedLro("DELETE", `/delete${rootPrefix}/noretry/succeeded`);
+        assert.equal(response.statusCode, 200);
+      });
 
-    it("should handle putAsyncNoHeaderInRetry", async () => {
-      const result = await runMockedLro("PUT", "/putasync/noheader/201/200");
-      assert.equal(result.name, "foo");
-      assert.equal(result.id, "100");
-      assert.deepEqual(result.properties?.provisioningState, "Succeeded");
-    });
+      it("should handle deleteAsyncRetrycanceled", async () => {
+        try {
+          await runMockedLro("DELETE", `/delete${rootPrefix}/retry/canceled`);
+          throw new Error("should have thrown instead");
+        } catch (e) {
+          assert.equal(
+            e.message,
+            "The long running operation has failed. The provisioning state: canceled."
+          );
+        }
+      });
 
-    it("should handle putAsyncNoRetrySucceeded", async () => {
-      const result = await runMockedLro("PUT", "/putasync/noretry/succeeded");
-      assert.equal(result.name, "foo");
-      assert.equal(result.id, "100");
-    });
+      it("should handle DeleteAsyncRetryFailed", async () => {
+        try {
+          await runMockedLro("DELETE", `/delete${rootPrefix}/retry/failed`);
+          throw new Error("should have thrown instead");
+        } catch (e) {
+          assert.equal(
+            e.message,
+            "The long running operation has failed. The provisioning state: failed."
+          );
+        }
+      });
 
-    it("should handle putAsyncNoRetrycanceled", async () => {
-      try {
-        await runMockedLro("PUT", "/putasync/noretry/canceled");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: canceled."
+      it("should handle putAsyncRetrySucceeded", async () => {
+        const result = await runMockedLro("PUT", `/put${rootPrefix}/noretry/succeeded`);
+        assert.equal(result.id, "100");
+        assert.equal(result.name, "foo");
+        assert.equal(result.properties?.provisioningState, "Succeeded");
+      });
+
+      it("should handle post202List", async () => {
+        const result = await runMockedLro(
+          "POST",
+          `/list${rootPrefix === "location" ? "location" : ""}`
         );
-      }
-    });
+        assert.equal((result as any)[0].id, "100");
+        assert.equal((result as any)[0].name, "foo");
+      });
 
-    it("should handle putAsyncSubResource", async () => {
-      const result = await runMockedLro("PUT", "/putsubresourceasync/202/200");
-      assert.equal(result.id, "100");
-      assert.equal(result.properties?.provisioningState, "Succeeded");
-    });
+      it("should handle putAsyncRetryFailed", async () => {
+        try {
+          await runMockedLro("PUT", `/put${rootPrefix}/retry/failed`);
+          throw new Error("should have thrown instead");
+        } catch (e) {
+          assert.equal(
+            e.message,
+            "The long running operation has failed. The provisioning state: failed."
+          );
+        }
+      });
 
-    it("should handle deleteAsyncNoHeaderInRetry", async () => {
-      const response = await runMockedLro("DELETE", "/deleteasync/noheader/202/204");
-      assert.equal(response.statusCode, 200);
-    });
+      it("should handle putAsyncNonResource", async () => {
+        const result = await runMockedLro("PUT", `/putnonresource${rootPrefix}/202/200`);
+        assert.equal(result.name, "sku");
+        assert.equal(result.id, "100");
+      });
 
-    it("should handle postAsyncNoRetrySucceeded", async () => {
-      const result = await runMockedLro("POST", "/postasync/noretry/succeeded");
-      assert.deepInclude(result, { id: "100", name: "foo" });
-    });
+      it("should handle patchAsync", async () => {
+        const result = await runMockedLro("PATCH", `/patch${rootPrefix}/202/200`);
+        assert.equal(result.name, "sku");
+        assert.equal(result.id, "100");
+      });
 
-    it("should handle postAsyncRetryFailed", async () => {
-      try {
-        await runMockedLro("POST", "/postasync/retry/failed");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: failed."
-        );
-      }
-    });
+      it("should handle putAsyncNoHeaderInRetry", async () => {
+        const result = await runMockedLro("PUT", `/put${rootPrefix}/noheader/201/200`);
+        assert.equal(result.name, "foo");
+        assert.equal(result.id, "100");
+        assert.deepEqual(result.properties?.provisioningState, "Succeeded");
+      });
 
-    it("should handle postAsyncRetrySucceeded", async () => {
-      const result = await runMockedLro("POST", "/postasync/retry/succeeded");
+      it("should handle putAsyncNoRetrySucceeded", async () => {
+        const result = await runMockedLro("PUT", `/put${rootPrefix}/noretry/succeeded`);
+        assert.equal(result.name, "foo");
+        assert.equal(result.id, "100");
+      });
 
-      assert.deepInclude(result, { id: "100", name: "foo" });
-    });
+      it("should handle putAsyncNoRetrycanceled", async () => {
+        try {
+          await runMockedLro("PUT", `/put${rootPrefix}/noretry/canceled`);
+          throw new Error("should have thrown instead");
+        } catch (e) {
+          assert.equal(
+            e.message,
+            "The long running operation has failed. The provisioning state: canceled."
+          );
+        }
+      });
 
-    it("should handle postAsyncRetrycanceled", async () => {
-      try {
-        await runMockedLro("POST", "/postasync/retry/canceled");
-        throw new Error("should have thrown instead");
-      } catch (e) {
-        assert.equal(
-          e.message,
-          "The long running operation has failed. The provisioning state: canceled."
-        );
-      }
+      it("should handle putAsyncSubResource", async () => {
+        const result = await runMockedLro("PUT", `/putsubresource${rootPrefix}/202/200`);
+        assert.equal(result.id, "100");
+        assert.equal(result.properties?.provisioningState, "Succeeded");
+      });
+
+      it("should handle deleteAsyncNoHeaderInRetry", async () => {
+        const response = await runMockedLro("DELETE", `/delete${rootPrefix}/noheader/202/204`);
+        assert.equal(response.statusCode, 200);
+      });
+
+      it("should handle postAsyncNoRetrySucceeded", async () => {
+        const result = await runMockedLro("POST", `/post${rootPrefix}/noretry/succeeded`);
+        assert.deepInclude(result, { id: "100", name: "foo" });
+      });
+
+      it("should handle postAsyncRetryFailed", async () => {
+        try {
+          await runMockedLro("POST", `/post${rootPrefix}/retry/failed`);
+          throw new Error("should have thrown instead");
+        } catch (e) {
+          assert.equal(
+            e.message,
+            "The long running operation has failed. The provisioning state: failed."
+          );
+        }
+      });
+
+      it("should handle postAsyncRetrySucceeded", async () => {
+        const result = await runMockedLro("POST", `/post${rootPrefix}/retry/succeeded`);
+
+        assert.deepInclude(result, { id: "100", name: "foo" });
+      });
+
+      it("should handle postAsyncRetrycanceled", async () => {
+        try {
+          await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
+          throw new Error("should have thrown instead");
+        } catch (e) {
+          assert.equal(
+            e.message,
+            "The long running operation has failed. The provisioning state: canceled."
+          );
+        }
+      });
     });
   });
 

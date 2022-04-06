@@ -9,6 +9,23 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export interface AssociatedResourcesListResult {
+    readonly nextLink?: string;
+    readonly totalCount?: number;
+    readonly value?: AzureResource[];
+}
+
+// @public
+export interface AzureResource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly resourceGroup?: string;
+    readonly subscriptionDisplayName?: string;
+    readonly subscriptionId?: string;
+    readonly type?: string;
+}
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -149,6 +166,7 @@ export interface UserAssignedIdentities {
     createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Identity, options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams): Promise<UserAssignedIdentitiesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesGetOptionalParams): Promise<UserAssignedIdentitiesGetResponse>;
+    listAssociatedResources(resourceGroupName: string, resourceName: string, options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams): PagedAsyncIterableIterator<AzureResource>;
     listByResourceGroup(resourceGroupName: string, options?: UserAssignedIdentitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Identity>;
     listBySubscription(options?: UserAssignedIdentitiesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Identity>;
     update(resourceGroupName: string, resourceName: string, parameters: IdentityUpdate, options?: UserAssignedIdentitiesUpdateOptionalParams): Promise<UserAssignedIdentitiesUpdateResponse>;
@@ -171,6 +189,30 @@ export interface UserAssignedIdentitiesGetOptionalParams extends coreClient.Oper
 
 // @public
 export type UserAssignedIdentitiesGetResponse = Identity;
+
+// @public
+export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    skiptoken?: string;
+    top?: number;
+}
+
+// @public
+export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
+
+// @public
+export interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    skiptoken?: string;
+    top?: number;
+}
+
+// @public
+export type UserAssignedIdentitiesListAssociatedResourcesResponse = AssociatedResourcesListResult;
 
 // @public
 export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {

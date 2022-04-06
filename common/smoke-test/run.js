@@ -5,13 +5,12 @@ async function main() {
   // Read manifest
   const manifest = require("./run-manifest.json");
 
-  let exitCode = 0;
-  let samplesToExecute = [];
-  let failures = [];
+  const samplesToExecute = [];
+  const failures = [];
 
   // Bring all samples and includes into memory
-  for (let entry of manifest) {
-    console.log(`Importing samples for ${entry.Name}...`);
+  for (const entry of manifest) {
+    console.log(`Gathering samples for ${entry.Name}...`);
 
     // Read configuration from package.json's //sampleConfiguration field
     const packageJson = require(`${entry.PackageDirectory}/package.json`);
@@ -22,71 +21,67 @@ async function main() {
     }
 
     const skipFiles = smokeTestConfig.skip || [];
-    const jsFiles = fs.readdirSync(entry.SamplesDirectory)
+    const jsFiles = fs
+      .readdirSync(entry.SamplesDirectory)
       .filter((name) => name.endsWith(".js"))
       .filter((name) => !skipFiles.includes(name));
 
-    for (let targetSample of jsFiles) {
-      const sampleModule = require(`${entry.SamplesDirectory}/${targetSample}`);
+    for (const targetSample of jsFiles) {
       samplesToExecute.push({
-        entrypoint: sampleModule.main,
         name: entry.Name,
         sampleFile: targetSample,
-        directory: entry.SamplesDirectory
+        directory: entry.SamplesDirectory,
       });
     }
   }
 
   // Run all samples
-  for (let sample of samplesToExecute) {
-    let result = await executeSample(sample);
+  for (const sample of samplesToExecute) {
+    const result = await executeSample(sample);
 
     if (!result.success) {
-      exitCode = 1;
       failures.push({
         sample,
-        result
+        result,
       });
     }
   }
 
   if (failures.length > 0) {
     console.log("SMOKE TEST FAILURES");
-    for (let failure of failures) {
+    for (const failure of failures) {
       console.error(
         `Test Failed - Package: ${failure.sample.name} - Sample File:${failure.sample.sampleFile}`
       );
       console.log(`Exception: ${failure.result.exception}`);
       console.log(failure);
     }
+    process.exit(1);
   }
 
   // TODO: Don't do it this way if possible?
-  process.exit(exitCode);
+  process.exit();
 }
 
 async function executeSample(sample) {
+  const { name, sampleFile, directory } = sample;
   console.log("============== SMOKE TESTS ==============");
-  console.log(`Sample Name: ${sample.name}`);
-  console.log(`Sample File: ${sample.sampleFile}`);
+  console.log(`  Sample Name: ${name}`);
+  console.log(`  Sample File: ${sampleFile}`);
 
-  let result = {
-    success: true
-  };
-
-  let currentDir = process.cwd();
+  const currentDir = process.cwd();
 
   try {
     // Set the process directory to the sample's directory because some samples
     // use file paths relative to the sample's directory.
-    process.chdir(sample.directory);
-
-    await sample.entrypoint();
+    process.chdir(directory);
+    const entryPoint = require(`${directory}/${sampleFile}`).main;
+    await entryPoint();
   } catch (exception) {
-    console.log("FAILURE");
-    result = {
+    console.log("  FAILURE");
+    return {
       success: false,
-      exception
+      exception,
     };
   } finally {
     // Reset the working directory to the root directory after execution
@@ -95,7 +90,7 @@ async function executeSample(sample) {
 
   console.log("=========================================");
 
-  return result;
+  return { success: true };
 }
 
 // If command line parameter `--devops-logging` is set, then have console.error

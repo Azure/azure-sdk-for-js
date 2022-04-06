@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClient } from "@azure/core-client";
 import { KeepAliveOptions } from "./policies/keepAliveOptions";
 import { createDisableKeepAlivePolicy } from "./policies/disableKeepAlivePolicy";
 import { RedirectOptions } from "./policies/redirectOptions";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
-import { ServiceClientOptions } from "@azure/core-client";
-import { CommonClientOptions } from "@azure/core-client";
+import {
+  ServiceClient,
+  ServiceClientOptions,
+  CommonClientOptions,
+  OperationArguments,
+  OperationSpec,
+  FullOperationResponse,
+  RawResponseCallback,
+} from "@azure/core-client";
+import { toWebResourceLike, toHttpHeaderLike } from "./util";
 
 /**
  * Options specific to Shim Clients.
@@ -49,5 +56,52 @@ export class ExtendedServiceClient extends ServiceClient {
         name: redirectPolicyName,
       });
     }
+  }
+
+  /**
+   * Compatible send operation request function.
+   *
+   * @param operationArguments - Operation arguments
+   * @param operationSpec - Operation Spec
+   * @returns
+   */
+  async sendOperationRequest<T>(
+    operationArguments: OperationArguments,
+    operationSpec: OperationSpec
+  ): Promise<T> {
+    const userProvidedCallBack: RawResponseCallback | undefined =
+      operationArguments?.options?.onResponse;
+
+    let lastResponse: FullOperationResponse | undefined;
+
+    function onResponse(
+      rawResponse: FullOperationResponse,
+      flatResponse: unknown,
+      error?: unknown
+    ): void {
+      lastResponse = rawResponse;
+      if (userProvidedCallBack) {
+        userProvidedCallBack(rawResponse, flatResponse, error);
+      }
+    }
+
+    operationArguments.options = {
+      ...operationArguments.options,
+      onResponse,
+    };
+
+    const result: T = await super.sendOperationRequest(operationArguments, operationSpec);
+
+    if (lastResponse) {
+      Object.defineProperty(result, "_response", {
+        value: {
+          ...lastResponse,
+          request: toWebResourceLike(lastResponse.request),
+          headers: toHttpHeaderLike(lastResponse.headers),
+        },
+      });
+    }
+
+    return result;
   }
 }

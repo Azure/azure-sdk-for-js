@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/appservice/ci.mgmt.yml
       - sdk/appservice/arm-appservice/
+      - sdk/appservice/arm-appservice-profile-2020-09-01-hybrid
 pr:
   branches:
     include:
@@ -23,7 +24,7 @@ pr:
     include:
       - sdk/appservice/ci.mgmt.yml
       - sdk/appservice/arm-appservice/
-      
+      - sdk/appservice/arm-appservice-profile-2020-09-01-hybrid
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -31,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-arm-appservice
         safeName: azurearmappservice
+      - name: azure-arm-appservice-profile-2020-09-01-hybrid
+        safeName: azurearmappserviceprofile20200901hybrid

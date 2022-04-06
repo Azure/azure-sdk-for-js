@@ -162,7 +162,7 @@ describe("supports tracing", function () {
     it("beginCopyModel", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dmac.beginCopyModel(
+          await dmac.beginCopyModelTo(
             "test",
             {
               targetModelId: "test",

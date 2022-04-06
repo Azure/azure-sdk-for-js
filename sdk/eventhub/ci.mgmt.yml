@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub/
+      - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
 pr:
   branches:
     include:
@@ -23,7 +24,7 @@ pr:
     include:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub/
-
+      - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -31,4 +32,6 @@ extends:
     RunUnitTests: true
     Artifacts:
       - name: azure-arm-eventhub
-        safeName: azurearmeventhub       
+        safeName: azurearmeventhub
+      - name: azure-arm-eventhub-profile-2020-09-01-hybrid
+        safeName: azurearmeventhubprofile20200901hybrid
