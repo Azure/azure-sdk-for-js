@@ -1,5 +1,7 @@
 import { ClientSecretCredential } from "@azure/identity";
-import { createClient, CreateDataFeed201Response, CreateDataFeeddefaultResponse, CreateDataFeedParameters, GeneratedClientLike, MetricsAdvisorKeyCredential, paginate, paginatePost, UpdateDataFeedParameters } from "@azure-rest/ai-metrics-advisor";
+import { createClient } from "../src/credentialHelper";
+import { CreateDataFeed201Response, CreateDataFeeddefaultResponse, CreateDataFeedParameters, GeneratedClient, paginate, UpdateDataFeedParameters } from "../src/generated";
+import { MetricsAdvisorKeyCredential } from "../src/metricsAdvisorKeyCredentialPolicy";
 
 export async function main() {
   testWithAPIKeyCredential();
@@ -68,7 +70,7 @@ async function testWithAADCredential() {
   await deleteDataFeed(client, getLatestOne?.body?.dataFeedId || "");
 }
 
-async function listDataFeeds(client: GeneratedClientLike) {
+async function listDataFeeds(client: GeneratedClient) {
   console.log("Listing Datafeeds ...");
   console.log("  using while loop");
   const initResponse = await client.listDataFeeds({
@@ -85,7 +87,7 @@ async function listDataFeeds(client: GeneratedClientLike) {
 }
 
 async function createDataFeed(
-  client: GeneratedClientLike
+  client: GeneratedClient
 ): Promise<CreateDataFeed201Response | CreateDataFeeddefaultResponse> {
   console.log("Creating Datafeed...");
   const feed: CreateDataFeedParameters = {
@@ -134,7 +136,7 @@ async function createDataFeed(
   return result;
 }
 
-async function getDataFeed(client: GeneratedClientLike, dataFeedId: string) {
+async function getDataFeed(client: GeneratedClient, dataFeedId: string) {
   console.log("Retrieving datafeed by id...");
   const result = await client.getDataFeedById(dataFeedId);
   if (result.status != "200") {
@@ -147,7 +149,7 @@ async function getDataFeed(client: GeneratedClientLike, dataFeedId: string) {
   return result;
 }
 
-async function updateDataFeed(client: GeneratedClientLike, dataFeedId: string) {
+async function updateDataFeed(client: GeneratedClient, dataFeedId: string) {
   const patch: UpdateDataFeedParameters = {
     body: {
       dataSourceType: "AzureBlob",
@@ -174,7 +176,7 @@ async function updateDataFeed(client: GeneratedClientLike, dataFeedId: string) {
   }
 }
 
-async function deleteDataFeed(client: GeneratedClientLike, dataFeedId: string) {
+async function deleteDataFeed(client: GeneratedClient, dataFeedId: string) {
   console.log(`Deleting datafeed ${dataFeedId}...`);
   const res = await client.deleteDataFeed(dataFeedId);
   console.dir(res);
