@@ -1,14 +1,10 @@
 # Release History
 
-## 8.0.1 (Unreleased)
+## 8.0.2 (2022-04-06)
 
-### Features Added
+**features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Bug fix
 
 ## 8.0.0 (2021-12-13)
 
