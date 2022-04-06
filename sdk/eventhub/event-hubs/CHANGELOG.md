@@ -1,6 +1,6 @@
 # Release History
 
-## 5.8.0-beta.3 (04-05-2022)
+## 5.8.0-beta.3 (2022-04-05)
 
 ### Breaking Changes
 - `MessageWithMetadata` has been renamed to `MessageContent`.
