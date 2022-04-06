@@ -27,7 +27,7 @@ export class SerializeTest extends AvroSerializerTest<SerializePerfTestOptions> 
   }
 
   async run(): Promise<void> {
-    await this.serializer.serializeMessageData(
+    await this.serializer.serialize(
       {
         name: "test",
         favoriteNumbers: this.array,

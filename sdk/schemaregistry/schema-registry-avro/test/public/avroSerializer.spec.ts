@@ -9,6 +9,7 @@ import {
 import { assert, use as chaiUse } from "chai";
 import { testAvroType, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
+import { MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { isLive } from "./utils/isLive";
@@ -23,11 +24,14 @@ describe("AvroSerializer", function () {
   it("serializes to the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer({ ...noAutoRegisterOptions, registry });
-    const message = await serializer.serializeMessageData(testValue, testSchema);
-    assert.isUndefined((message.body as Buffer).readBigInt64BE);
-    const buffer = Buffer.from(message.body);
-    assert.strictEqual(`avro/binary+${schemaId}`, message.contentType);
+    const serializer = await createTestSerializer<MessageContent>({
+      ...noAutoRegisterOptions,
+      registry,
+    });
+    const { contentType, data } = await serializer.serialize(testValue, testSchema);
+    assert.isUndefined((data as Buffer).readBigInt64BE);
+    const buffer = Buffer.from(data);
+    assert.strictEqual(`avro/binary+${schemaId}`, contentType);
     assert.deepStrictEqual(testAvroType.fromBuffer(buffer), testValue);
     assert.equal(serializer["cacheById"].size, 1);
     assert.equal(
@@ -41,11 +45,14 @@ describe("AvroSerializer", function () {
   it("deserializes from the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer({ ...noAutoRegisterOptions, registry });
-    const payload = testAvroType.toBuffer(testValue);
+    const serializer = await createTestSerializer<MessageContent>({
+      ...noAutoRegisterOptions,
+      registry,
+    });
+    const data = testAvroType.toBuffer(testValue);
     assert.deepStrictEqual(
-      await serializer.deserializeMessageData({
-        body: payload,
+      await serializer.deserialize({
+        data,
         contentType: `avro/binary+${schemaId}`,
       }),
       testValue
@@ -54,20 +61,20 @@ describe("AvroSerializer", function () {
 
   it("serializes and deserializes in round trip", async () => {
     let serializer = await createTestSerializer();
-    let message = await serializer.serializeMessageData(testValue, testSchema);
-    assert.deepStrictEqual(await serializer.deserializeMessageData(message), testValue);
+    let message = await serializer.serialize(testValue, testSchema);
+    assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
-    // again for cache hit coverage on serializeMessageData
-    message = await serializer.serializeMessageData(testValue, testSchema);
-    assert.deepStrictEqual(await serializer.deserializeMessageData(message), testValue);
+    // again for cache hit coverage on serialize
+    message = await serializer.serialize(testValue, testSchema);
+    assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
-    // throw away serializer for cache miss coverage on deserializeMessageData
+    // throw away serializer for cache miss coverage on deserialize
     serializer = await createTestSerializer(noAutoRegisterOptions);
-    assert.deepStrictEqual(await serializer.deserializeMessageData(message), testValue);
+    assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer again and cover getSchemaProperties instead of registerSchema
     serializer = await createTestSerializer(noAutoRegisterOptions);
-    assert.deepStrictEqual(await serializer.serializeMessageData(testValue, testSchema), message);
+    assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
   });
 
   it("works with trivial example in README", async () => {
@@ -85,18 +92,18 @@ describe("AvroSerializer", function () {
     const value = { score: 42 };
 
     // serialize value to a message
-    const message = await serializer.serializeMessageData(value, schema);
+    const message = await serializer.serialize(value, schema);
 
     // Deserialize message to value
-    const deserializedValue = await serializer.deserializeMessageData(message);
+    const deserializedValue = await serializer.deserialize(message);
 
     assert.deepStrictEqual(deserializedValue, value);
   });
 
   it("deserializes from a compatible reader schema", async () => {
     const serializer = await createTestSerializer();
-    const message = await serializer.serializeMessageData(testValue, testSchema);
-    const deserializedValue: any = await serializer.deserializeMessageData(message, {
+    const message = await serializer.serialize(testValue, testSchema);
+    const deserializedValue: any = await serializer.deserialize(message, {
       /**
        * This schema is missing the favoriteNumber field that exists in the writer schema
        * and adds an "age" field with a default value.
@@ -126,15 +133,18 @@ describe("AvroSerializer", function () {
   it("deserializes from the old format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer({ ...noAutoRegisterOptions, registry });
+    const serializer = await createTestSerializer<MessageContent>({
+      ...noAutoRegisterOptions,
+      registry,
+    });
     const payload = testAvroType.toBuffer(testValue);
-    const buffer = Buffer.alloc(36 + payload.length);
+    const data = Buffer.alloc(36 + payload.length);
 
-    buffer.write(schemaId, 4, 32, "utf-8");
-    payload.copy(buffer, 36);
+    data.write(schemaId, 4, 32, "utf-8");
+    payload.copy(data, 36);
     assert.deepStrictEqual(
-      await serializer.deserializeMessageData({
-        body: buffer,
+      await serializer.deserialize({
+        data,
         contentType: "avro/binary+000",
       }),
       testValue
@@ -189,7 +199,7 @@ describe("AvroSerializer", function () {
           },
         ],
       });
-      await serializer.serializeMessageData(valueToBeSerialized, schemaToSerializeWith);
+      await serializer.serialize(valueToBeSerialized, schemaToSerializeWith);
       if (i < maxCacheEntriesCount) {
         assert.equal(serializer["cacheById"].size, i + 1);
         assert.equal(serializer["cacheBySchemaDefinition"].size, i + 1);
