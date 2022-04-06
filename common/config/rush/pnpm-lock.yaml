@@ -1128,21 +1128,6 @@ packages:
       - encoding
     dev: false
 
-  /@azure/keyvault-secrets/4.3.0:
-    resolution: {integrity: sha512-bhdAr2Yjx+XpgfkClOufpTxcnKqDIwyOSKrbI9mJ2q5wQNb7Z1WPnPnIhjdsw1on/NRXzMaarYFNkf/MdS73FA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.2.4
-      '@azure/core-lro': 2.2.3
-      '@azure/core-paging': 1.2.1
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger': 1.0.3
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /@azure/keyvault-secrets/4.4.0:
     resolution: {integrity: sha512-D7s5f+YDJYBLjjAY25Bl0P32h0ztFdHExViqbydsx8QjcrRgq62DJfbYBC4+9/M80BSBH5jRzKw5VWNFFp++AA==}
     engines: {node: '>=12.0.0'}
@@ -9297,7 +9282,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@azure/keyvault-secrets': 4.3.0
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.67.1
@@ -10797,7 +10782,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-ofKBbGhpxjgn265CcuDyyY2Jh9YKSpabL2H710R22vW02srcO+W2MXREXspsz4qQ1vifxU49YpwiBv/IaGtctQ==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-H3xZqwMIvwuq6HXGKkJ3QBJHT5gjVqXPJYsuASQ7qZOFZ8D8zr7OpMSRYKtfqyDJQt3pCgrbDUuFS0mJwsjVJg==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -10806,18 +10791,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.67.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.67.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.67.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.67.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.67.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.67.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.1
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -15649,7 +15635,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@azure/keyvault-secrets': 4.3.0
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.43
