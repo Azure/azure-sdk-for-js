@@ -161,6 +161,7 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
     value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked,
+    _response: hasUnderscoreResponse(kvp) ? kvp._response : undefined
   };
 
   delete setting.locked;
@@ -297,8 +298,13 @@ export function errorMessageForUnexpectedSetting(
 export function assertResponse<T extends object>(
   result: T
 ): asserts result is T & HttpResponseField<any> {
-  if (!Object.prototype.hasOwnProperty.call(result, "_response")) {
-    // throw? log?
-    throw new Error("expected _response(raw response) to be part of the response");
+  if (!hasUnderscoreResponse(result)) {
+    throw new Error("Something went wrong, _response(raw response) is supposed to be part of the response.");
   }
+}
+
+export function hasUnderscoreResponse<T extends object>(
+  result: T
+): result is T & HttpResponseField<any> {
+  return Object.prototype.hasOwnProperty.call(result, "_response");
 }

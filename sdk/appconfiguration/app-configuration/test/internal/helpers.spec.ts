@@ -3,26 +3,28 @@
 
 import {
   checkAndFormatIfAndIfNoneMatch,
-  extractAfterTokenFromNextLink,
-  formatFieldsForSelect,
   formatFiltersAndSelect,
-  makeConfigurationSettingEmpty,
+  extractAfterTokenFromNextLink,
   quoteETag,
-  serializeAsConfigurationSettingParam,
+  makeConfigurationSettingEmpty,
   transformKeyValue,
-  transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
+  transformKeyValueResponse,
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam,
 } from "../../src/internal/helpers";
 import { assert } from "chai";
 import {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  HttpResponseFields,
   featureFlagContentType,
+  HttpResponseField,
+  HttpResponseFields,
   secretReferenceContentType,
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -176,11 +178,36 @@ describe("helper methods", () => {
     });
   });
 
+  const fakeHttp204Response: HttpResponseField<any> = {
+    _response: {
+      request: {
+        url: "unused",
+        abortSignal: {
+          aborted: true,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          addEventListener: () => { },
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          removeEventListener: () => { },
+        },
+        method: "GET",
+        withCredentials: false,
+        headers: createHttpHeaders(),
+        timeout: 0,
+        requestId: "",
+      },
+      status: 204,
+      headers: createHttpHeaders(),
+      bodyAsText: "",
+      parsedHeaders: {},
+    },
+  };
+
   it("makeConfigurationSettingEmpty", () => {
-    const response: ConfigurationSetting & HttpResponseFields = {
+    const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
       key: "mykey",
       statusCode: 204,
       isReadOnly: false,
+      ...fakeHttp204Response,
     };
 
     makeConfigurationSettingEmpty(response);
@@ -192,6 +219,10 @@ describe("helper methods", () => {
       assert.ok(!response[name], name);
     }
 
+    // These point is these properties are untouched and won't throw
+    // since they're the only properties the user is allowed to touch on these
+    // "body empty" objects.
+    assert.equal(204, response._response.status);
     assert.equal(204, response.statusCode);
   });
 
@@ -201,51 +232,65 @@ describe("helper methods", () => {
       locked: true,
     });
 
-    assert.deepEqual(configurationSetting as unknown, {
+    assert.deepEqual(configurationSetting, {
       // the 'locked' property should not be present in the object since
       // it should be 'renamed' to readOnly
+      _response: undefined,
       isReadOnly: true,
       key: "hello",
       value: undefined,
-    });
+    } as unknown);
   });
 
   it("transformKeyValueResponseWithStatusCode", () => {
-    const configurationSetting = transformKeyValueResponseWithStatusCode(
-      {
-        key: "hello",
-        locked: true,
-      },
-      204
-    );
+    const configurationSetting = transformKeyValueResponseWithStatusCode({
+      key: "hello",
+      locked: true,
+      ...fakeHttp204Response,
+    }, 204);
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
-    assert.deepEqual(actualKeys, ["isReadOnly", "key", "statusCode", "value"]);
+    // _response is explictly set to not enumerate, even in our copied object.
+    assert.deepEqual(actualKeys, ["_response", "isReadOnly", "key", "statusCode", "value"]);
+
+    // now make it enumerable so we can do our comparison
+    Object.defineProperty(configurationSetting, "_response", {
+      enumerable: true,
+    });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
       key: "hello",
       value: undefined,
       statusCode: 204,
-    });
+      _response: fakeHttp204Response._response,
+    } as unknown);
   });
 
   it("transformKeyValueResponse", () => {
     const configurationSetting = transformKeyValueResponse({
       key: "hello",
       locked: true,
+      ...fakeHttp204Response,
     });
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
-    assert.deepEqual(actualKeys, ["isReadOnly", "key", "value"]);
+    // _response is explictly set to not enumerate, even in our copied object.
+    assert.deepEqual(actualKeys, ["_response", "isReadOnly", "key", "value"]);
+
+    // now make it enumerable so we can do our comparison
+    Object.defineProperty(configurationSetting, "_response", {
+      enumerable: true,
+    });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
       key: "hello",
       value: undefined,
-    });
+      _response: fakeHttp204Response._response,
+    } as unknown);
   });
 
   it("normalizeFilterFields", () => {
