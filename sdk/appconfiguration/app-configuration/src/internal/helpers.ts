@@ -7,6 +7,7 @@ import {
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
+  HttpResponseField,
   HttpResponseFields,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -247,7 +248,7 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
   kvp: T
 ): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
-  delete (setting).eTag;
+  delete setting.eTag;
   return setting;
 }
 
@@ -291,4 +292,13 @@ export function errorMessageForUnexpectedSetting(
   expectedType: "FeatureFlag" | "SecretReference"
 ): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
+}
+
+export function assertResponse<T extends object>(
+  result: T
+): asserts result is T & HttpResponseField<any> {
+  if (!Object.prototype.hasOwnProperty.call(result, "_response")) {
+    // throw? log?
+    throw new Error("expected _response(raw response) to be part of the response");
+  }
 }

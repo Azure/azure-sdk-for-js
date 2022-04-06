@@ -34,6 +34,7 @@ import {
   SetReadOnlyResponse,
 } from "./models";
 import {
+  assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -46,7 +47,12 @@ import {
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
-import { AppConfigurationDeleteKeyValueHeaders, AppConfigurationGetKeyValueHeaders, AppConfigurationGetKeyValuesHeaders, AppConfigurationGetRevisionsHeaders, AppConfigurationPutKeyValueHeaders, DeleteKeyValueResponse, DeleteLockResponse, GetKeyValueResponse, GetKeyValuesResponse, GetRevisionsResponse, PutKeyValueResponse, PutLockResponse } from "./generated/src/models";
+import {
+  AppConfigurationGetKeyValuesHeaders,
+  AppConfigurationGetRevisionsHeaders,
+  GetKeyValuesResponse,
+  GetRevisionsResponse,
+} from "./generated/src/models";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
@@ -76,7 +82,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions { }
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -186,8 +192,10 @@ export class AppConfigurationClient {
         label: configurationSetting.label,
         entity: keyValue,
         ...newOptions,
-      }) as PutKeyValueResponse & HttpResponseField<AppConfigurationPutKeyValueHeaders>;
-      return transformKeyValueResponse(originalResponse);
+      });
+      const response = transformKeyValueResponse(originalResponse);
+      assertResponse(response);
+      return response;
     });
   }
 
@@ -214,9 +222,11 @@ export class AppConfigurationClient {
         onResponse: (response) => {
           status = response.status;
         },
-      }) as DeleteKeyValueResponse & HttpResponseField<AppConfigurationDeleteKeyValueHeaders>;
+      });
 
-      return transformKeyValueResponseWithStatusCode(originalResponse, status);
+      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+      assertResponse(response);
+      return response;
     });
   }
 
@@ -245,12 +255,9 @@ export class AppConfigurationClient {
         onResponse: (response) => {
           status = response.status;
         },
-      }) as GetKeyValueResponse & HttpResponseField<AppConfigurationGetKeyValueHeaders>;
+      });
 
-      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
-        originalResponse,
-        status
-      );
+      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -262,7 +269,7 @@ export class AppConfigurationClient {
         // and now we'll undefine all the other properties that are not HTTP related
         makeConfigurationSettingEmpty(response);
       }
-
+      assertResponse(response);
       return response;
     });
   }
@@ -324,7 +331,8 @@ export class AppConfigurationClient {
           after: options.continuationToken,
         });
 
-        return response as GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+        return response as GetKeyValuesResponse &
+          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
       }
     );
 
@@ -343,7 +351,8 @@ export class AppConfigurationClient {
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
           });
 
-          return response as GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+          return response as GetKeyValuesResponse &
+            HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
         }
       );
 
@@ -359,7 +368,7 @@ export class AppConfigurationClient {
     currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
   ): Generator<ListConfigurationSettingPage> {
     yield {
-      ...(currentResponse),
+      ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
@@ -421,20 +430,21 @@ export class AppConfigurationClient {
         after: options.continuationToken,
       });
 
-      return response as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      return response as GetRevisionsResponse &
+        HttpResponseField<AppConfigurationGetRevisionsHeaders>;
     });
 
     yield* this.createListRevisionsPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this._trace("listRevisions", options, (newOptions) => {
+      currentResponse = (await this._trace("listRevisions", options, (newOptions) => {
         return this.client.getRevisions({
           ...newOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
           after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
         });
-      }) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      })) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
 
       if (!currentResponse.items) {
         break;
@@ -444,7 +454,9 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListRevisionsPageFromResponse(currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>) {
+  private *createListRevisionsPageFromResponse(
+    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
+  ) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
@@ -474,14 +486,16 @@ export class AppConfigurationClient {
   ): Promise<SetConfigurationSettingResponse> {
     return this._trace("setConfigurationSetting", options, async (newOptions) => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-      const response = await this.client.putKeyValue(configurationSetting.key, {
-        ...newOptions,
-        label: configurationSetting.label,
-        entity: keyValue,
-        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-      }) as PutKeyValueResponse & HttpResponseField<any>;
-
-      return transformKeyValueResponse(response);
+      const response = transformKeyValueResponse(
+        await this.client.putKeyValue(configurationSetting.key, {
+          ...newOptions,
+          label: configurationSetting.label,
+          entity: keyValue,
+          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+        })
+      );
+      assertResponse(response);
+      return response;
     });
   }
 
@@ -495,23 +509,23 @@ export class AppConfigurationClient {
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
     return this._trace("setReadOnly", options, async (newOptions) => {
+      let response;
       if (readOnly) {
-        const response = await this.client.putLock(id.key, {
+        response = await this.client.putLock(id.key, {
           ...newOptions,
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-        }) as PutLockResponse & HttpResponseField<any>;
-
-        return transformKeyValueResponse(response);
+        });
       } else {
-        const response = await this.client.deleteLock(id.key, {
+        response = await this.client.deleteLock(id.key, {
           ...newOptions,
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-        }) as DeleteLockResponse & HttpResponseField<any>;
-
-        return transformKeyValueResponse(response);
+        });
       }
+      response = transformKeyValueResponse(response);
+      assertResponse(response);
+      return response;
     });
   }
 
