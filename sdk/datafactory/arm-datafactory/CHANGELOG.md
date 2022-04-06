@@ -1,15 +1,23 @@
 # Release History
+    
+## 10.3.0 (2022-04-06)
+    
+**Features**
 
-## 10.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ExecutePipelineActivityPolicy
+  - Added Type Alias CredentialReferenceType
+  - Added Type Alias DataFlowReferenceType
+  - Added Type Alias ManagedVirtualNetworkReferenceType
+  - Added Type Alias TriggerReferenceType
+  - Type Alias ExecutePipelineActivity has a new parameter policy
+  - Type Alias SqlServerStoredProcedureActivity has a new parameter storedProcedureParameters
+  - Type Alias WebActivity has a new parameter disableCertValidation
+  - Added Enum KnownCredentialReferenceType
+  - Added Enum KnownDataFlowReferenceType
+  - Added Enum KnownManagedVirtualNetworkReferenceType
+  - Added Enum KnownTriggerReferenceType
+    
+    
 ## 10.2.0 (2022-02-22)
     
 **Features**
