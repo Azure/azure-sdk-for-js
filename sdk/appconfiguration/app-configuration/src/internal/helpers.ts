@@ -160,8 +160,7 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
   const setting: T & ConfigurationSetting & KeyValue = {
     value: undefined,
     ...kvp,
-    isReadOnly: !!kvp.locked,
-    _response: hasUnderscoreResponse(kvp) ? kvp._response : undefined
+    isReadOnly: !!kvp.locked
   };
 
   delete setting.locked;
@@ -236,10 +235,18 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
   kvp: T,
   status: number | undefined
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
-  return {
+  const response = {
     ...transformKeyValue(kvp),
     statusCode: status,
   };
+
+  if (hasUnderscoreResponse(kvp)) {
+    Object.defineProperty(response, "_response", {
+      enumerable: false,
+      value: kvp._response,
+    });
+  }
+  return response;
 }
 
 /**
@@ -249,6 +256,13 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
   kvp: T
 ): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
+  if (hasUnderscoreResponse(kvp)) {
+    Object.defineProperty(setting, "_response", {
+      enumerable: false,
+      value: kvp._response,
+    });
+  }
+
   delete setting.eTag;
   return setting;
 }

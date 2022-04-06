@@ -235,7 +235,6 @@ describe("helper methods", () => {
     assert.deepEqual(configurationSetting, {
       // the 'locked' property should not be present in the object since
       // it should be 'renamed' to readOnly
-      _response: undefined,
       isReadOnly: true,
       key: "hello",
       value: undefined,
@@ -252,7 +251,7 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(actualKeys, ["_response", "isReadOnly", "key", "statusCode", "value"]);
+    assert.deepEqual(actualKeys, ["isReadOnly", "key", "statusCode", "value"]);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
@@ -278,7 +277,7 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(actualKeys, ["_response", "isReadOnly", "key", "value"]);
+    assert.deepEqual(actualKeys, ["isReadOnly", "key", "value"]);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
