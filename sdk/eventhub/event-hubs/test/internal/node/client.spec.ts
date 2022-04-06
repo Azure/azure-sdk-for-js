@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
-import { chai, should as shouldFn } from "@azure/test-utils";
-import chaiString from "chai-string";
-import { createMockServer } from "../utils/mockService";
-import { testWithServiceTypes } from "../utils/testWithServiceTypes";
+import { assert, should as shouldFn } from "@azure/test-utils";
 
-chai.use(chaiString);
+import Sinon from "sinon";
+import { createMockServer } from "../../public/utils/mockService";
+import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
+import { tracingClient } from "../../../src/diagnostics/tracing";
+
 const should = shouldFn();
 
 testWithServiceTypes((serviceVersion) => {
@@ -26,7 +27,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("Create clients using Azure Identity", function (): void {
+  describe("Create clients using Azure Identity (Internal)", function (): void {
     let endpoint: string;
     let credential: TokenCredential;
     let client: EventHubConsumerClient | EventHubProducerClient;
@@ -67,16 +68,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("creates an EventHubProducerClient from an Azure.Identity credential", async function (): Promise<void> {
-      client = new EventHubProducerClient(endpoint, env.EVENTHUB_NAME, credential);
-      should.equal(client.fullyQualifiedNamespace, endpoint);
-
-      // Extra check involving actual call to the service to ensure this works
-      const hubInfo = await client.getEventHubProperties();
-      should.equal(hubInfo.name, client.eventHubName);
-    });
-
-    it("creates an EventHubConsumerClient from an Azure.Identity credential", async function (): Promise<void> {
+    it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {
       client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         endpoint,
@@ -85,9 +77,30 @@ testWithServiceTypes((serviceVersion) => {
       );
       should.equal(client.fullyQualifiedNamespace, endpoint);
 
-      // Extra check involving actual call to the service to ensure this works
-      const hubInfo = await client.getEventHubProperties();
-      should.equal(hubInfo.name, client.eventHubName);
+      const withSpanStub = Sinon.spy(tracingClient, "withSpan");
+
+      // Ensure tracing is implemented correctly
+      await assert.supportsTracing(
+        (options) => client.getEventHubProperties(options),
+        ["ManagementClient.getEventHubProperties"]
+      );
+
+      // Additional validation that we created the correct initial span options
+      const expectedSpanOptions = {
+        spanAttributes: {
+          "peer.address": client.fullyQualifiedNamespace,
+          "message_bus.destination": client.eventHubName,
+        },
+      };
+
+      assert.isTrue(
+        withSpanStub.calledWith(
+          Sinon.match.any,
+          Sinon.match.any,
+          Sinon.match.any,
+          expectedSpanOptions
+        )
+      );
     });
   });
 });
