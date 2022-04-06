@@ -471,7 +471,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       sqlQuerySpec["query"] = rewrittenQuery;
     }
 
-    const options = JSON.parse(JSON.stringify(this.options));
+    const options = { ...this.options };
     options.continuationToken = continuationToken;
 
     return new DocumentProducer(
