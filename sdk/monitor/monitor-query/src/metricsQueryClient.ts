@@ -3,6 +3,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CommonClientOptions } from "@azure/core-client";
+import {tracingClient} from "./tracing";
 
 import {
   ListMetricDefinitionsOptions,
@@ -106,14 +107,16 @@ export class MetricsQueryClient {
   async queryResource(
     resourceUri: string,
     metricNames: string[],
-    options?: MetricsQueryOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options: MetricsQueryOptions = {} // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<MetricsQueryResult> {
-    const response = await this._metricsClient.metrics.list(
-      resourceUri,
-      convertRequestForMetrics(metricNames, options)
-    );
-
-    return convertResponseForMetrics(response);
+    return tracingClient.withSpan("MetricsQueryClient.queryResource",options, async (updatedOptions) => {
+      const response = await this._metricsClient.metrics.list(
+        resourceUri,
+        convertRequestForMetrics(metricNames, updatedOptions)
+      );
+  
+      return convertResponseForMetrics(response);
+    });    
   }
 
   /**

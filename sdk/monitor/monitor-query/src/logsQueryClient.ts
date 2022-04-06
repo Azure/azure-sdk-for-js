@@ -161,15 +161,17 @@ export class LogsQueryClient {
    */
   async queryBatch(
     batch: QueryBatch[],
-    options?: LogsQueryBatchOptions
+    options: LogsQueryBatchOptions = {}
   ): Promise<LogsQueryBatchResult> {
-    const generatedRequest = convertRequestForQueryBatch(batch);
-    const { flatResponse, rawResponse } = await getRawResponse(
-      (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
-      options || {}
-    );
-    const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
-    return result;
+    return tracingClient.withSpan("LogsQueryClient.queryBatch",options, async (updatedOptions) => {
+      const generatedRequest = convertRequestForQueryBatch(batch);
+      const { flatResponse, rawResponse } = await getRawResponse(
+        (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
+        updatedOptions || {}
+      );
+      const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
+      return result;
+    })    
   }
 }
 
