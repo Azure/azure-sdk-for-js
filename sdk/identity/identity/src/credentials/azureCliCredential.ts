@@ -3,9 +3,8 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
-import { createSpan } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { CredentialUnavailableError } from "../errors";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
@@ -117,7 +116,7 @@ export class AzureCliCredential implements TokenCredential {
 
     let responseData = "";
 
-    const { span } = createSpan(`${this.constructor.name}.getToken`, options);
+    const { span } = tracingClient.startSpan(`${this.constructor.name}.getToken`, options || {});
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
@@ -156,8 +155,8 @@ export class AzureCliCredential implements TokenCredential {
         (err as Error).message || "Unknown error while trying to retrieve the access token"
       );
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
+        status: "error",
+        error,
       });
       logger.getToken.info(formatError(scopes, error));
       throw error;

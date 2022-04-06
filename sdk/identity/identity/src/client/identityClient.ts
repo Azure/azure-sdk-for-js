@@ -3,7 +3,6 @@
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
@@ -15,8 +14,8 @@ import {
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { DefaultAuthorityHost } from "../constants";
-import { createSpan } from "../util/tracing";
+import { SDK_VERSION, DefaultAuthorityHost } from "../constants";
+import { tracingClient } from "../util/tracing";
 import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
@@ -80,7 +79,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.1.0-beta.2`;
+    const packageDetails = SDK_VERSION;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -166,7 +165,10 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
 
-    const { span, updatedOptions } = createSpan("IdentityClient-refreshAccessToken", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "IdentityClient-refreshAccessToken",
+      options
+    );
 
     const refreshParams = {
       grant_type: "refresh_token",
@@ -208,8 +210,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         // initiate the authentication flow again.
         logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: err.message,
+          status: "error",
+          error: err,
         });
 
         return null;
@@ -218,8 +220,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
         );
         span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: err.message,
+          status: "error",
+          error: err,
         });
         throw err;
       }

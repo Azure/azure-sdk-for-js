@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 /**
+ * Current version of the @azure/identity package.
+ */
+export const SDK_VERSION = `azsdk-js-identity/2.1.0-beta.2`;
+
+/**
  * The default client ID for authentication
  * @internal
  */

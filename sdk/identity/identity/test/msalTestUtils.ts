@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 import Sinon, { createSandbox } from "sinon";
-import { assert } from "chai";
-import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
 import { isNode } from "@azure/core-util";
 import * as dotenv from "dotenv";
@@ -232,42 +229,5 @@ export async function msalNodeTestSetup(
       await recorder.stop();
       sandbox.restore();
     },
-  };
-}
-
-export interface TestTracingOptions {
-  test(options: OperationTracingOptions): Promise<void>;
-  children: any[];
-}
-
-export function testTracing(options: TestTracingOptions): () => Promise<void> {
-  return async function () {
-    const { test, children } = options;
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-
-    const tracingContext = setSpan(otContext.active(), rootSpan);
-
-    await test({
-      tracingContext,
-    });
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children,
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   };
 }

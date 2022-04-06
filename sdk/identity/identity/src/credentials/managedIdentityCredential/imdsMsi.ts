@@ -9,11 +9,10 @@ import {
   PipelineRequestOptions,
   RestError,
 } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { AuthenticationError } from "../../errors";
-import { createSpan } from "../../util/tracing";
+import { tracingClient } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
@@ -122,7 +121,7 @@ export const imdsMsi: MSI = {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
       return false;
     }
-    const { span, updatedOptions: options } = createSpan(
+    const { span, updatedOptions: options } = tracingClient.startSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
@@ -168,8 +167,8 @@ export const imdsMsi: MSI = {
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           span.setStatus({
-            code: SpanStatusCode.ERROR,
-            message: err.message,
+            status: "error",
+            error: err,
           });
           return false;
         }
@@ -185,8 +184,8 @@ export const imdsMsi: MSI = {
         `${msiName}: Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
       );
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
+        status: "error",
+        error: err,
       });
       throw err;
     } finally {

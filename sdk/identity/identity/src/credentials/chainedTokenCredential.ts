@@ -4,8 +4,7 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 
 import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
-import { createSpan } from "../util/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "../util/tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 /**
@@ -60,7 +59,10 @@ export class ChainedTokenCredential implements TokenCredential {
     let successfulCredentialName = "";
     const errors = [];
 
-    const { span, updatedOptions } = createSpan("ChainedTokenCredential.getToken", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ChainedTokenCredential.getToken",
+      options
+    );
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
@@ -85,8 +87,8 @@ export class ChainedTokenCredential implements TokenCredential {
         "ChainedTokenCredential authentication failed."
       );
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
+        status: "error",
+        error: err,
       });
       logger.getToken.info(formatError(scopes, err));
       throw err;
