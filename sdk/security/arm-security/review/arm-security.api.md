@@ -63,10 +63,10 @@ export interface AdaptiveApplicationControlIssueSummary {
 
 // @public
 export interface AdaptiveApplicationControls {
-    delete(groupName: string, options?: AdaptiveApplicationControlsDeleteOptionalParams): Promise<void>;
-    get(groupName: string, options?: AdaptiveApplicationControlsGetOptionalParams): Promise<AdaptiveApplicationControlsGetResponse>;
+    delete(ascLocation: string, groupName: string, options?: AdaptiveApplicationControlsDeleteOptionalParams): Promise<void>;
+    get(ascLocation: string, groupName: string, options?: AdaptiveApplicationControlsGetOptionalParams): Promise<AdaptiveApplicationControlsGetResponse>;
     list(options?: AdaptiveApplicationControlsListOptionalParams): Promise<AdaptiveApplicationControlsListResponse>;
-    put(groupName: string, body: AdaptiveApplicationControlGroup, options?: AdaptiveApplicationControlsPutOptionalParams): Promise<AdaptiveApplicationControlsPutResponse>;
+    put(ascLocation: string, groupName: string, body: AdaptiveApplicationControlGroup, options?: AdaptiveApplicationControlsPutOptionalParams): Promise<AdaptiveApplicationControlsPutResponse>;
 }
 
 // @public
@@ -244,20 +244,19 @@ export type AlertNotifications = string;
 
 // @public
 export interface Alerts {
-    beginSimulate(alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginSimulateAndWait(alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams): Promise<void>;
-    getResourceGroupLevel(alertName: string, resourceGroupName: string, options?: AlertsGetResourceGroupLevelOptionalParams): Promise<AlertsGetResourceGroupLevelResponse>;
-    getSubscriptionLevel(alertName: string, options?: AlertsGetSubscriptionLevelOptionalParams): Promise<AlertsGetSubscriptionLevelResponse>;
+    getResourceGroupLevel(ascLocation: string, alertName: string, resourceGroupName: string, options?: AlertsGetResourceGroupLevelOptionalParams): Promise<AlertsGetResourceGroupLevelResponse>;
+    getSubscriptionLevel(ascLocation: string, alertName: string, options?: AlertsGetSubscriptionLevelOptionalParams): Promise<AlertsGetSubscriptionLevelResponse>;
     list(options?: AlertsListOptionalParams): PagedAsyncIterableIterator<Alert>;
     listByResourceGroup(resourceGroupName: string, options?: AlertsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Alert>;
-    listResourceGroupLevelByRegion(resourceGroupName: string, options?: AlertsListResourceGroupLevelByRegionOptionalParams): PagedAsyncIterableIterator<Alert>;
-    listSubscriptionLevelByRegion(options?: AlertsListSubscriptionLevelByRegionOptionalParams): PagedAsyncIterableIterator<Alert>;
-    updateResourceGroupLevelStateToActivate(alertName: string, resourceGroupName: string, options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams): Promise<void>;
-    updateResourceGroupLevelStateToDismiss(alertName: string, resourceGroupName: string, options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams): Promise<void>;
-    updateResourceGroupLevelStateToResolve(alertName: string, resourceGroupName: string, options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams): Promise<void>;
-    updateSubscriptionLevelStateToActivate(alertName: string, options?: AlertsUpdateSubscriptionLevelStateToActivateOptionalParams): Promise<void>;
-    updateSubscriptionLevelStateToDismiss(alertName: string, options?: AlertsUpdateSubscriptionLevelStateToDismissOptionalParams): Promise<void>;
-    updateSubscriptionLevelStateToResolve(alertName: string, options?: AlertsUpdateSubscriptionLevelStateToResolveOptionalParams): Promise<void>;
+    listResourceGroupLevelByRegion(ascLocation: string, resourceGroupName: string, options?: AlertsListResourceGroupLevelByRegionOptionalParams): PagedAsyncIterableIterator<Alert>;
+    listSubscriptionLevelByRegion(ascLocation: string, options?: AlertsListSubscriptionLevelByRegionOptionalParams): PagedAsyncIterableIterator<Alert>;
+    simulate(ascLocation: string, alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams): Promise<void>;
+    updateResourceGroupLevelStateToActivate(ascLocation: string, alertName: string, resourceGroupName: string, options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams): Promise<void>;
+    updateResourceGroupLevelStateToDismiss(ascLocation: string, alertName: string, resourceGroupName: string, options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams): Promise<void>;
+    updateResourceGroupLevelStateToResolve(ascLocation: string, alertName: string, resourceGroupName: string, options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams): Promise<void>;
+    updateSubscriptionLevelStateToActivate(ascLocation: string, alertName: string, options?: AlertsUpdateSubscriptionLevelStateToActivateOptionalParams): Promise<void>;
+    updateSubscriptionLevelStateToDismiss(ascLocation: string, alertName: string, options?: AlertsUpdateSubscriptionLevelStateToDismissOptionalParams): Promise<void>;
+    updateSubscriptionLevelStateToResolve(ascLocation: string, alertName: string, options?: AlertsUpdateSubscriptionLevelStateToResolveOptionalParams): Promise<void>;
 }
 
 // @public
@@ -355,8 +354,6 @@ export type AlertsListSubscriptionLevelByRegionResponse = AlertList;
 
 // @public
 export interface AlertsSimulateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -456,9 +453,9 @@ export type AlertSyncSettings = Setting & {
 
 // @public
 export interface AllowedConnections {
-    get(resourceGroupName: string, connectionType: ConnectionType_2, options?: AllowedConnectionsGetOptionalParams): Promise<AllowedConnectionsGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, connectionType: ConnectionType_2, options?: AllowedConnectionsGetOptionalParams): Promise<AllowedConnectionsGetResponse>;
     list(options?: AllowedConnectionsListOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
-    listByHomeRegion(options?: AllowedConnectionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
+    listByHomeRegion(ascLocation: string, options?: AllowedConnectionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<AllowedConnectionsResource>;
 }
 
 // @public
@@ -988,11 +985,11 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAWS";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "InformationProtectionAws";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | InformationProtectionAwsOffering;
 
 // @public
 export type Compliance = Resource & {
@@ -1420,7 +1417,7 @@ export interface DefenderForContainersAwsOfferingKubernetesService {
 
 // @public
 export type DefenderForServersAwsOffering = CloudOffering & {
-    offeringType: "DefenderForServersAWS";
+    offeringType: "DefenderForServersAws";
     defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
     arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
 };
@@ -1528,9 +1525,9 @@ export interface DiscoveredSecuritySolutionList {
 
 // @public
 export interface DiscoveredSecuritySolutions {
-    get(resourceGroupName: string, discoveredSecuritySolutionName: string, options?: DiscoveredSecuritySolutionsGetOptionalParams): Promise<DiscoveredSecuritySolutionsGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, discoveredSecuritySolutionName: string, options?: DiscoveredSecuritySolutionsGetOptionalParams): Promise<DiscoveredSecuritySolutionsGetResponse>;
     list(options?: DiscoveredSecuritySolutionsListOptionalParams): PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
-    listByHomeRegion(options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
+    listByHomeRegion(ascLocation: string, options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
 }
 
 // @public
@@ -1582,15 +1579,6 @@ export type EnforcementMode = string;
 
 // @public
 export type EnforcementSupport = string;
-
-// @public
-export type Enum15 = string;
-
-// @public
-export type Enum17 = string;
-
-// @public
-export type Enum73 = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -1646,9 +1634,9 @@ export interface ExternalSecuritySolutionProperties {
 
 // @public
 export interface ExternalSecuritySolutions {
-    get(resourceGroupName: string, externalSecuritySolutionsName: string, options?: ExternalSecuritySolutionsGetOptionalParams): Promise<ExternalSecuritySolutionsGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, externalSecuritySolutionsName: string, options?: ExternalSecuritySolutionsGetOptionalParams): Promise<ExternalSecuritySolutionsGetResponse>;
     list(options?: ExternalSecuritySolutionsListOptionalParams): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
-    listByHomeRegion(options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
+    listByHomeRegion(ascLocation: string, options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
 }
 
 // @public
@@ -1750,6 +1738,17 @@ export interface HybridComputeSettingsProperties {
 export type ImplementationEffort = string;
 
 // @public
+export type InformationProtectionAwsOffering = CloudOffering & {
+    offeringType: "InformationProtectionAws";
+    informationProtection?: InformationProtectionAwsOfferingInformationProtection;
+};
+
+// @public
+export interface InformationProtectionAwsOfferingInformationProtection {
+    cloudRoleArn?: string;
+}
+
+// @public
 export interface InformationProtectionKeyword {
     canBeNumeric?: boolean;
     custom?: boolean;
@@ -1759,8 +1758,8 @@ export interface InformationProtectionKeyword {
 
 // @public
 export interface InformationProtectionPolicies {
-    createOrUpdate(scope: string, informationProtectionPolicyName: Enum17, informationProtectionPolicy: InformationProtectionPolicy, options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams): Promise<InformationProtectionPoliciesCreateOrUpdateResponse>;
-    get(scope: string, informationProtectionPolicyName: Enum17, options?: InformationProtectionPoliciesGetOptionalParams): Promise<InformationProtectionPoliciesGetResponse>;
+    createOrUpdate(scope: string, informationProtectionPolicyName: InformationProtectionPolicyName, informationProtectionPolicy: InformationProtectionPolicy, options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams): Promise<InformationProtectionPoliciesCreateOrUpdateResponse>;
+    get(scope: string, informationProtectionPolicyName: InformationProtectionPolicyName, options?: InformationProtectionPoliciesGetOptionalParams): Promise<InformationProtectionPoliciesGetResponse>;
     list(scope: string, options?: InformationProtectionPoliciesListOptionalParams): PagedAsyncIterableIterator<InformationProtectionPolicy>;
 }
 
@@ -1809,6 +1808,9 @@ export interface InformationProtectionPolicyList {
     readonly nextLink?: string;
     value?: InformationProtectionPolicy[];
 }
+
+// @public
+export type InformationProtectionPolicyName = string;
 
 // @public
 export interface InformationType {
@@ -2176,14 +2178,14 @@ export interface IoTSeverityMetrics {
 
 // @public
 export interface JitNetworkAccessPolicies {
-    createOrUpdate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicy, options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams): Promise<JitNetworkAccessPoliciesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, jitNetworkAccessPolicyName: string, options?: JitNetworkAccessPoliciesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, jitNetworkAccessPolicyName: string, options?: JitNetworkAccessPoliciesGetOptionalParams): Promise<JitNetworkAccessPoliciesGetResponse>;
-    initiate(resourceGroupName: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicyInitiateRequest, options?: JitNetworkAccessPoliciesInitiateOptionalParams): Promise<JitNetworkAccessPoliciesInitiateResponse>;
+    createOrUpdate(resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicy, options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams): Promise<JitNetworkAccessPoliciesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, options?: JitNetworkAccessPoliciesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, options?: JitNetworkAccessPoliciesGetOptionalParams): Promise<JitNetworkAccessPoliciesGetResponse>;
+    initiate(resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicyInitiateRequest, options?: JitNetworkAccessPoliciesInitiateOptionalParams): Promise<JitNetworkAccessPoliciesInitiateResponse>;
     list(options?: JitNetworkAccessPoliciesListOptionalParams): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
-    listByRegion(options?: JitNetworkAccessPoliciesListByRegionOptionalParams): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
+    listByRegion(ascLocation: string, options?: JitNetworkAccessPoliciesListByRegionOptionalParams): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
     listByResourceGroup(resourceGroupName: string, options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
-    listByResourceGroupAndRegion(resourceGroupName: string, options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
+    listByResourceGroupAndRegion(resourceGroupName: string, ascLocation: string, options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
 }
 
 // @public
@@ -2609,40 +2611,6 @@ export enum KnownEnforcementSupport {
 }
 
 // @public
-export enum KnownEnum15 {
-    // (undocumented)
-    Activate = "Activate",
-    // (undocumented)
-    Close = "Close",
-    // (undocumented)
-    Dismiss = "Dismiss",
-    // (undocumented)
-    Resolve = "Resolve",
-    // (undocumented)
-    Start = "Start"
-}
-
-// @public
-export enum KnownEnum17 {
-    // (undocumented)
-    Custom = "custom",
-    // (undocumented)
-    Effective = "effective"
-}
-
-// @public
-export enum KnownEnum73 {
-    // (undocumented)
-    Mcas = "MCAS",
-    // (undocumented)
-    Sentinel = "Sentinel",
-    // (undocumented)
-    Wdatp = "WDATP",
-    // (undocumented)
-    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW"
-}
-
-// @public
 export enum KnownEventSource {
     // (undocumented)
     Alerts = "Alerts",
@@ -2728,6 +2696,14 @@ export enum KnownImplementationEffort {
 }
 
 // @public
+export enum KnownInformationProtectionPolicyName {
+    // (undocumented)
+    Custom = "custom",
+    // (undocumented)
+    Effective = "effective"
+}
+
+// @public
 export enum KnownIntent {
     Collection = "Collection",
     CommandAndControl = "CommandAndControl",
@@ -2759,7 +2735,9 @@ export enum KnownOfferingType {
     // (undocumented)
     DefenderForContainersAws = "DefenderForContainersAws",
     // (undocumented)
-    DefenderForServersAws = "DefenderForServersAws"
+    DefenderForServersAws = "DefenderForServersAws",
+    // (undocumented)
+    InformationProtectionAws = "InformationProtectionAws"
 }
 
 // @public
@@ -2990,6 +2968,18 @@ export enum KnownSettingKind {
 }
 
 // @public
+export enum KnownSettingName {
+    // (undocumented)
+    Mcas = "MCAS",
+    // (undocumented)
+    Sentinel = "Sentinel",
+    // (undocumented)
+    Wdatp = "WDATP",
+    // (undocumented)
+    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW"
+}
+
+// @public
 export enum KnownSeverity {
     // (undocumented)
     High = "High",
@@ -3066,7 +3056,9 @@ export enum KnownSubAssessmentStatusCode {
 // @public
 export enum KnownSupportedCloudEnum {
     // (undocumented)
-    AWS = "AWS"
+    AWS = "AWS",
+    // (undocumented)
+    GCP = "GCP"
 }
 
 // @public
@@ -3099,6 +3091,20 @@ export enum KnownTactics {
     Reconnaissance = "Reconnaissance",
     // (undocumented)
     ResourceDevelopment = "Resource Development"
+}
+
+// @public
+export enum KnownTaskUpdateActionType {
+    // (undocumented)
+    Activate = "Activate",
+    // (undocumented)
+    Close = "Close",
+    // (undocumented)
+    Dismiss = "Dismiss",
+    // (undocumented)
+    Resolve = "Resolve",
+    // (undocumented)
+    Start = "Start"
 }
 
 // @public
@@ -3385,7 +3391,7 @@ export { Location_2 as Location }
 
 // @public
 export interface Locations {
-    get(options?: LocationsGetOptionalParams): Promise<LocationsGetResponse>;
+    get(ascLocation: string, options?: LocationsGetOptionalParams): Promise<LocationsGetResponse>;
     list(options?: LocationsListOptionalParams): PagedAsyncIterableIterator<AscLocation>;
 }
 
@@ -3554,6 +3560,7 @@ export type PermissionProperty = string;
 // @public
 export type Pricing = Resource & {
     pricingTier?: PricingTier;
+    subPlan?: string;
     readonly freeTrialRemainingTime?: string;
 };
 
@@ -4258,7 +4265,7 @@ export type SecurityAssessmentResponse = Resource & {
 export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, ascLocation: string, options?: SecurityCenterOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SecurityCenterOptionalParams);
     // (undocumented)
     adaptiveApplicationControls: AdaptiveApplicationControls;
     // (undocumented)
@@ -4271,8 +4278,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
     alertsSuppressionRules: AlertsSuppressionRules;
     // (undocumented)
     allowedConnections: AllowedConnections;
-    // (undocumented)
-    ascLocation: string;
     // (undocumented)
     assessments: Assessments;
     // (undocumented)
@@ -4537,7 +4542,7 @@ export interface SecuritySolutionList {
 
 // @public
 export interface SecuritySolutions {
-    get(resourceGroupName: string, securitySolutionName: string, options?: SecuritySolutionsGetOptionalParams): Promise<SecuritySolutionsGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, securitySolutionName: string, options?: SecuritySolutionsGetOptionalParams): Promise<SecuritySolutionsGetResponse>;
     list(options?: SecuritySolutionsListOptionalParams): PagedAsyncIterableIterator<SecuritySolution>;
 }
 
@@ -4596,7 +4601,7 @@ export type SecuritySolutionsReferenceDataListResponse = SecuritySolutionsRefere
 // @public
 export interface SecuritySolutionsReferenceDataOperations {
     list(options?: SecuritySolutionsReferenceDataListOptionalParams): Promise<SecuritySolutionsReferenceDataListResponse>;
-    listByHomeRegion(options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams): Promise<SecuritySolutionsReferenceDataListByHomeRegionResponse>;
+    listByHomeRegion(ascLocation: string, options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams): Promise<SecuritySolutionsReferenceDataListByHomeRegionResponse>;
 }
 
 // @public
@@ -4731,10 +4736,13 @@ export type Setting = Resource & {
 export type SettingKind = string;
 
 // @public
+export type SettingName = string;
+
+// @public
 export interface Settings {
-    get(settingName: Enum73, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
+    get(settingName: SettingName, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
     list(options?: SettingsListOptionalParams): PagedAsyncIterableIterator<SettingUnion>;
-    update(settingName: Enum73, setting: SettingUnion, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
+    update(settingName: SettingName, setting: SettingUnion, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
 }
 
 // @public
@@ -5037,13 +5045,13 @@ export interface TagsResource {
 
 // @public
 export interface Tasks {
-    getResourceGroupLevelTask(resourceGroupName: string, taskName: string, options?: TasksGetResourceGroupLevelTaskOptionalParams): Promise<TasksGetResourceGroupLevelTaskResponse>;
-    getSubscriptionLevelTask(taskName: string, options?: TasksGetSubscriptionLevelTaskOptionalParams): Promise<TasksGetSubscriptionLevelTaskResponse>;
+    getResourceGroupLevelTask(resourceGroupName: string, ascLocation: string, taskName: string, options?: TasksGetResourceGroupLevelTaskOptionalParams): Promise<TasksGetResourceGroupLevelTaskResponse>;
+    getSubscriptionLevelTask(ascLocation: string, taskName: string, options?: TasksGetSubscriptionLevelTaskOptionalParams): Promise<TasksGetSubscriptionLevelTaskResponse>;
     list(options?: TasksListOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
-    listByHomeRegion(options?: TasksListByHomeRegionOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
-    listByResourceGroup(resourceGroupName: string, options?: TasksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
-    updateResourceGroupLevelTaskState(resourceGroupName: string, taskName: string, taskUpdateActionType: Enum15, options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams): Promise<void>;
-    updateSubscriptionLevelTaskState(taskName: string, taskUpdateActionType: Enum15, options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams): Promise<void>;
+    listByHomeRegion(ascLocation: string, options?: TasksListByHomeRegionOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
+    listByResourceGroup(resourceGroupName: string, ascLocation: string, options?: TasksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
+    updateResourceGroupLevelTaskState(resourceGroupName: string, ascLocation: string, taskName: string, taskUpdateActionType: TaskUpdateActionType, options?: TasksUpdateResourceGroupLevelTaskStateOptionalParams): Promise<void>;
+    updateSubscriptionLevelTaskState(ascLocation: string, taskName: string, taskUpdateActionType: TaskUpdateActionType, options?: TasksUpdateSubscriptionLevelTaskStateOptionalParams): Promise<void>;
 }
 
 // @public
@@ -5117,6 +5125,9 @@ export interface TasksUpdateSubscriptionLevelTaskStateOptionalParams extends cor
 }
 
 // @public
+export type TaskUpdateActionType = string;
+
+// @public
 export type Techniques = string;
 
 // @public
@@ -5143,9 +5154,9 @@ export type TimeWindowCustomAlertRuleUnion = TimeWindowCustomAlertRule | ActiveC
 
 // @public
 export interface Topology {
-    get(resourceGroupName: string, topologyResourceName: string, options?: TopologyGetOptionalParams): Promise<TopologyGetResponse>;
+    get(resourceGroupName: string, ascLocation: string, topologyResourceName: string, options?: TopologyGetOptionalParams): Promise<TopologyGetResponse>;
     list(options?: TopologyListOptionalParams): PagedAsyncIterableIterator<TopologyResource>;
-    listByHomeRegion(options?: TopologyListByHomeRegionOptionalParams): PagedAsyncIterableIterator<TopologyResource>;
+    listByHomeRegion(ascLocation: string, options?: TopologyListByHomeRegionOptionalParams): PagedAsyncIterableIterator<TopologyResource>;
 }
 
 // @public

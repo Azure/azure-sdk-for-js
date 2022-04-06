@@ -5,6 +5,10 @@
 // as part of our template project.
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { assert } from "chai";
+import { calculateDigest } from "../../src/utils/digest";
+import { Readable } from "stream";
+import { parseWWWAuthenticate } from "../../src/utils/wwwAuthenticateParser";
+import { expect } from "@azure/test-utils";
 
 describe("ContainerRegistryClient functional test", async function () {
   ["", null, undefined].forEach((value) => {
@@ -106,6 +110,42 @@ describe("RegistryArtifact functional test", async function () {
       } catch (e) {
         assert.equal((e as Error).message, "invalid tag");
       }
+    });
+  });
+});
+
+describe("digest calculation helper", () => {
+  it("should calculate the digest correctly from a buffer", async () => {
+    const buf = Buffer.from("Hello world!", "utf8");
+    const expectedChecksum = "c0535e4be2b79ffd93291305436bf889314e4a3faec05ecffcbb7df31ad9e51a";
+
+    assert.equal(await calculateDigest(buf), `sha256:${expectedChecksum}`);
+  });
+
+  it("should calculate the digest correctly from a stream", async () => {
+    const buf = Buffer.from("Hello world!", "utf8");
+    const stream = Readable.from(buf);
+    const expectedChecksum = "c0535e4be2b79ffd93291305436bf889314e4a3faec05ecffcbb7df31ad9e51a";
+
+    assert.equal(await calculateDigest(stream), `sha256:${expectedChecksum}`);
+  });
+});
+
+describe("WWW-Authenticate parser", () => {
+  it("should extract properties correctly", () => {
+    const token = `Bearer authorization="some_authorization", resource="https://some.url"`;
+    expect(parseWWWAuthenticate(token)).to.deep.equal({
+      authorization: "some_authorization",
+      resource: "https://some.url",
+    });
+  });
+
+  it("should extract properties correctly when a property value contains a comma", () => {
+    const token = `Bearer realm="https://dummy.azurecr.io/oauth2/token",service="dummy.azurecr.io",scope="repository:dummyrepo:pull,push"`;
+    expect(parseWWWAuthenticate(token)).to.deep.equal({
+      realm: "https://dummy.azurecr.io/oauth2/token",
+      service: "dummy.azurecr.io",
+      scope: "repository:dummyrepo:pull,push",
     });
   });
 });
