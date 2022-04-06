@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-- Update minimum version of dependency "@azure/core-client" to "1.5.0"
+- Update minimum version of dependency "@azure/core-client" to "1.5.0", which allows adding additional policies to the rest pipeline after initialization.
 
 ## 1.2.0-beta.2 (2022-03-10)
 
