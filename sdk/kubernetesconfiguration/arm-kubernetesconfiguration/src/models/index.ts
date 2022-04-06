@@ -8,77 +8,38 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Represents an Extension Type. */
-export interface ExtensionType {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Extension release train: preview or stable
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly releaseTrains?: string[];
-  /**
-   * Cluster types
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clusterTypes?: ClusterTypes;
-  /**
-   * Extension scopes
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly supportedScopes?: SupportedScopes;
+/** Scope of the extension. It can be either Cluster or Namespace; but not both. */
+export interface Scope {
+  /** Specifies that the scope of the extension is Cluster */
+  cluster?: ScopeCluster;
+  /** Specifies that the scope of the extension is Namespace */
+  namespace?: ScopeNamespace;
 }
 
-/** Extension scopes */
-export interface SupportedScopes {
-  /** Default extension scopes: cluster or namespace */
-  defaultScope?: string;
-  /** Scope settings */
-  clusterScopeSettings?: ClusterScopeSettings;
+/** Specifies that the scope of the extension is Cluster */
+export interface ScopeCluster {
+  /** Namespace where the extension Release must be placed, for a Cluster scoped extension.  If this namespace does not exist, it will be created */
+  releaseNamespace?: string;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+/** Specifies that the scope of the extension is Namespace */
+export interface ScopeNamespace {
+  /** Namespace where the extension will be created for an Namespace scoped extension.  If this namespace does not exist, it will be created */
+  targetNamespace?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
+/** Status from the extension. */
+export interface ExtensionStatus {
+  /** Status code provided by the Extension */
+  code?: string;
+  /** Short description of status of the extension. */
+  displayStatus?: string;
+  /** Level of the status. */
+  level?: LevelType;
+  /** Detailed message of the status from the Extension. */
+  message?: string;
+  /** DateLiteral (per ISO8601) noting the time of installation status. */
+  time?: string;
 }
 
 /** The error detail. */
@@ -124,68 +85,6 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** List Extension Types */
-export interface ExtensionTypeList {
-  /** The list of Extension Types */
-  value?: ExtensionType[];
-  /** The link to fetch the next page of Extension Types */
-  nextLink?: string;
-}
-
-/** List versions for an Extension */
-export interface ExtensionVersionList {
-  /** Versions available for this Extension Type */
-  versions?: ExtensionVersionListVersionsItem[];
-  /** The link to fetch the next page of Extension Types */
-  nextLink?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-export interface ExtensionVersionListVersionsItem {
-  /** The release train for this Extension Type */
-  releaseTrain?: string;
-  /** Versions available for this Extension Type and release train */
-  versions?: string[];
-}
-
-/** Scope of the extension. It can be either Cluster or Namespace; but not both. */
-export interface Scope {
-  /** Specifies that the scope of the extension is Cluster */
-  cluster?: ScopeCluster;
-  /** Specifies that the scope of the extension is Namespace */
-  namespace?: ScopeNamespace;
-}
-
-/** Specifies that the scope of the extension is Cluster */
-export interface ScopeCluster {
-  /** Namespace where the extension Release must be placed, for a Cluster scoped extension.  If this namespace does not exist, it will be created */
-  releaseNamespace?: string;
-}
-
-/** Specifies that the scope of the extension is Namespace */
-export interface ScopeNamespace {
-  /** Namespace where the extension will be created for an Namespace scoped extension.  If this namespace does not exist, it will be created */
-  targetNamespace?: string;
-}
-
-/** Status from the extension. */
-export interface ExtensionStatus {
-  /** Status code provided by the Extension */
-  code?: string;
-  /** Short description of status of the extension. */
-  displayStatus?: string;
-  /** Level of the status. */
-  level?: LevelType;
-  /** Detailed message of the status from the Extension. */
-  message?: string;
-  /** DateLiteral (per ISO8601) noting the time of installation status. */
-  time?: string;
-}
-
 /** Identity of the Extension resource in an AKS cluster */
 export interface ExtensionPropertiesAksAssignedIdentity {
   /**
@@ -199,7 +98,7 @@ export interface ExtensionPropertiesAksAssignedIdentity {
    */
   readonly tenantId?: string;
   /** The identity type. */
-  type?: "SystemAssigned";
+  type?: AKSIdentityType;
 }
 
 /** Identity for the resource. */
@@ -216,6 +115,47 @@ export interface Identity {
   readonly tenantId?: string;
   /** The identity type. */
   type?: "SystemAssigned";
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
 /** The Extension Patch Request object. */
@@ -315,10 +255,15 @@ export interface BucketDefinition {
 
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
 export interface KustomizationDefinition {
+  /**
+   * Name of the Kustomization, matching the key in the Kustomizations object map.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
   /** The path in the source reference to reconcile on the cluster. */
   path?: string;
   /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
-  dependsOn?: DependsOnDefinition[];
+  dependsOn?: string[];
   /** The maximum time to attempt to reconcile the Kustomization on the cluster. */
   timeoutInSeconds?: number;
   /** The interval at which to re-reconcile the Kustomization on the cluster. */
@@ -329,12 +274,6 @@ export interface KustomizationDefinition {
   prune?: boolean;
   /** Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an immutable field change. */
   force?: boolean;
-}
-
-/** Specify which kustomizations must succeed reconciliation on the cluster prior to reconciling this kustomization */
-export interface DependsOnDefinition {
-  /** Name of the kustomization to claim dependency on */
-  kustomizationName?: string;
 }
 
 /** Statuses of objects deployed by the user-specified kustomizations from the git repository. */
@@ -377,6 +316,7 @@ export interface ObjectStatusConditionDefinition {
   type?: string;
 }
 
+/** Properties for HelmRelease objects */
 export interface HelmReleasePropertiesDefinition {
   /** The revision number of the last released object change */
   lastRevisionApplied?: number;
@@ -399,7 +339,7 @@ export interface FluxConfigurationPatch {
   /** Parameters to reconcile to the GitRepository source kind type. */
   gitRepository?: GitRepositoryPatchDefinition;
   /** Parameters to reconcile to the Bucket source kind type. */
-  bucket?: BucketDefinition;
+  bucket?: BucketPatchDefinition;
   /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
   kustomizations?: {
     [propertyName: string]: KustomizationPatchDefinition | null;
@@ -428,12 +368,30 @@ export interface GitRepositoryPatchDefinition {
   localAuthRef?: string;
 }
 
+/** Parameters to reconcile to the GitRepository source kind type. */
+export interface BucketPatchDefinition {
+  /** The URL to sync for the flux configuration S3 bucket. */
+  url?: string;
+  /** The bucket name to sync from the url endpoint for the flux configuration. */
+  bucketName?: string;
+  /** Specify whether to use insecure communication when puling data from the S3 bucket. */
+  insecure?: boolean;
+  /** The maximum time to attempt to reconcile the cluster git repository source with the remote. */
+  timeoutInSeconds?: number;
+  /** The interval at which to re-reconcile the cluster git repository source with the remote. */
+  syncIntervalInSeconds?: number;
+  /** Plaintext access key used to securely access the S3 bucket */
+  accessKey?: string;
+  /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
+  localAuthRef?: string;
+}
+
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
 export interface KustomizationPatchDefinition {
   /** The path in the source reference to reconcile on the cluster. */
   path?: string;
   /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
-  dependsOn?: DependsOnDefinition[];
+  dependsOn?: string[];
   /** The maximum time to attempt to reconcile the Kustomization on the cluster. */
   timeoutInSeconds?: number;
   /** The interval at which to re-reconcile the Kustomization on the cluster. */
@@ -552,34 +510,8 @@ export interface ResourceProviderOperationDisplay {
   description?: string;
 }
 
-/** Parameters to reconcile to the GitRepository source kind type. */
-export interface BucketPatchDefinition {
-  /** The URL to sync for the flux configuration S3 bucket. */
-  url?: string;
-  /** The bucket name to sync from the url endpoint for the flux configuration. */
-  bucketName?: string;
-  /** Specify whether to use insecure communication when puling data from the S3 bucket. */
-  insecure?: boolean;
-  /** The maximum time to attempt to reconcile the cluster git repository source with the remote. */
-  timeoutInSeconds?: number;
-  /** The interval at which to re-reconcile the cluster git repository source with the remote. */
-  syncIntervalInSeconds?: number;
-  /** Plaintext access key used to securely access the S3 bucket */
-  accessKey?: string;
-  /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string;
-}
-
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export type ProxyResource = Resource & {};
-
-/** Extension scope settings */
-export type ClusterScopeSettings = ProxyResource & {
-  /** Describes if multiple instances of the extension are allowed */
-  allowMultipleInstances?: boolean;
-  /** Default extension release namespace */
-  defaultReleaseNamespace?: string;
-};
 
 /** The Extension object. */
 export type Extension = ProxyResource & {
@@ -596,7 +528,7 @@ export type Extension = ProxyResource & {
   autoUpgradeMinorVersion?: boolean;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
   releaseTrain?: string;
-  /** Version of the extension for this extension, if it is 'pinned' to a specific version. autoUpgradeMinorVersion must be 'false'. */
+  /** User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion must be 'false'. */
   version?: string;
   /** Scope at which the extension is installed. */
   scope?: Scope;
@@ -604,6 +536,11 @@ export type Extension = ProxyResource & {
   configurationSettings?: { [propertyName: string]: string };
   /** Configuration settings that are sensitive, as name-value pairs for configuring this extension. */
   configurationProtectedSettings?: { [propertyName: string]: string };
+  /**
+   * Installed version of the extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly installedVersion?: string;
   /**
    * Status of installation of this extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -664,15 +601,20 @@ export type FluxConfiguration = ProxyResource & {
    */
   readonly repositoryPublicKey?: string;
   /**
-   * Branch and SHA of the last source commit synced with the cluster.
+   * Branch and/or SHA of the source commit synced with the cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastSourceUpdatedCommitId?: string;
+  readonly sourceSyncedCommitId?: string;
   /**
-   * Datetime the fluxConfiguration last synced its source on the cluster.
+   * Datetime the fluxConfiguration synced its source on the cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastSourceUpdatedAt?: Date;
+  readonly sourceUpdatedAt?: Date;
+  /**
+   * Datetime the fluxConfiguration synced its status on the cluster with Azure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusUpdatedAt?: Date;
   /**
    * Combined status of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -734,58 +676,6 @@ export type SourceControlConfiguration = ProxyResource & {
   readonly complianceStatus?: ComplianceStatus;
 };
 
-/** Known values of {@link Enum0} that the service accepts. */
-export enum KnownEnum0 {
-  MicrosoftContainerService = "Microsoft.ContainerService",
-  MicrosoftKubernetes = "Microsoft.Kubernetes"
-}
-
-/**
- * Defines values for Enum0. \
- * {@link KnownEnum0} can be used interchangeably with Enum0,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Microsoft.ContainerService** \
- * **Microsoft.Kubernetes**
- */
-export type Enum0 = string;
-
-/** Known values of {@link Enum1} that the service accepts. */
-export enum KnownEnum1 {
-  ManagedClusters = "managedClusters",
-  ConnectedClusters = "connectedClusters"
-}
-
-/**
- * Defines values for Enum1. \
- * {@link KnownEnum1} can be used interchangeably with Enum1,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **managedClusters** \
- * **connectedClusters**
- */
-export type Enum1 = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   Succeeded = "Succeeded",
@@ -827,6 +717,26 @@ export enum KnownLevelType {
  * **Information**
  */
 export type LevelType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link ScopeType} that the service accepts. */
 export enum KnownScopeType {
@@ -991,57 +901,8 @@ export enum KnownKustomizationValidationType {
  * **server**
  */
 export type KustomizationValidationType = string;
-/** Defines values for ClusterTypes. */
-export type ClusterTypes = "connectedClusters" | "managedClusters";
-
-/** Optional parameters. */
-export interface ClusterExtensionTypeGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ClusterExtensionTypeGetResponse = ExtensionType;
-
-/** Optional parameters. */
-export interface ClusterExtensionTypesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ClusterExtensionTypesListResponse = ExtensionTypeList;
-
-/** Optional parameters. */
-export interface ClusterExtensionTypesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ClusterExtensionTypesListNextResponse = ExtensionTypeList;
-
-/** Optional parameters. */
-export interface ExtensionTypeVersionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ExtensionTypeVersionsListResponse = ExtensionVersionList;
-
-/** Optional parameters. */
-export interface ExtensionTypeVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ExtensionTypeVersionsListNextResponse = ExtensionVersionList;
-
-/** Optional parameters. */
-export interface LocationExtensionTypesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type LocationExtensionTypesListResponse = ExtensionTypeList;
-
-/** Optional parameters. */
-export interface LocationExtensionTypesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type LocationExtensionTypesListNextResponse = ExtensionTypeList;
+/** Defines values for AKSIdentityType. */
+export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
 
 /** Optional parameters. */
 export interface ExtensionsCreateOptionalParams
