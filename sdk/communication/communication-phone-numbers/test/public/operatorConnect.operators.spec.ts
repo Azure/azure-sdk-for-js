@@ -19,7 +19,7 @@ matrix([[true, false]], async function (useAad) {
         await client.stopRecorder();
       }
     });
-
+    
     it("can retrieve operators list", async function (this: Context) {
       let all = 0;
       for await (const operator of client.listOperators({
@@ -29,6 +29,24 @@ matrix([[true, false]], async function (useAad) {
       })) {
         assert.isNotEmpty(operator.friendlyName);
         all++;
+      }
+
+      assert.isTrue(all > 0);
+    }).timeout(60000);
+    
+
+    it("can retrieve operators list by page", async function (this: Context) {
+      let all = 0;
+      for await (const operatorsPage of client.listOperators({
+        requestOptions: {
+          customHeaders: { "x-ms-useragent": "acs-mock-test" },
+        },
+      }).byPage({maxPageSize: 5})) {
+        assert.isTrue(operatorsPage.length <=5)
+        for(const operator of operatorsPage){
+          assert.isNotEmpty(operator.friendlyName);
+          all++;
+        }
       }
 
       assert.isTrue(all > 0);

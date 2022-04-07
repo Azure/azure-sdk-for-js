@@ -49,8 +49,8 @@ export type ConsentStatus = "Active" | "Removed" | "Suspended";
 
 // @public (undocumented)
 export interface Contact {
-    email?: string;
-    fullName?: string;
+    email: string;
+    fullName: string;
     phoneNumber?: string;
 }
 
@@ -92,9 +92,9 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 export interface Operator {
     acquiredNumbersCount: number;
     friendlyName: string;
-    landingPage: string;
-    logoThumbnailUri: string;
-    logoUri: string;
+    landingPage?: string;
+    logoThumbnailUri?: string;
+    logoUri?: string;
     // (undocumented)
     offerings: OperatorOffering[];
     operatorId: string;
@@ -119,8 +119,8 @@ export interface OperatorConnectClientOptions extends CommonClientOptions {
 
 // @public (undocumented)
 export interface OperatorOffering {
-    availableCountries?: string[];
-    offerType?: string;
+    availableCountries: string[];
+    offerType: string;
 }
 
 // @public

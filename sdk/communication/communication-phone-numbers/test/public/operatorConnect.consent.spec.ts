@@ -259,21 +259,21 @@ matrix([[true, false]], async function (useAad) {
     
 
     it("can handle not found error in get consent", async function (this: Context) {
-      assertThrows(404, async () =>
+      await assertThrows(404, async () =>
         await client.getConsent(operatorId, {
           requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
         }));
     }).timeout(defaultTimeoutMs);
 
     it("can handle bad request error in get consent", async function (this: Context) {
-      assertThrows(400, async () =>
+      await assertThrows(400, async () =>
         await client.getConsent(nonExistingOperatorId, {
           requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
         }));
     }).timeout(defaultTimeoutMs);
 
     it("can handle not found error in remove consent", async function (this: Context) {
-      assertThrows(404, async () =>
+      await assertThrows(404, async () =>
         await client.removeConsent({
           operatorId, 
           lastModifiedBy: contact,
@@ -282,7 +282,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can handle bad request error in remove consent", async function (this: Context) {
-      assertThrows(400, async () =>
+      await assertThrows(400, async () =>
         await client.removeConsent({
           operatorId: nonExistingOperatorId, 
           lastModifiedBy: contact,
@@ -291,7 +291,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can handle bad request error in create consent", async function (this: Context) {
-      assertThrows(400, async () =>
+      await assertThrows(400, async () =>
         await client.createConsent({
           operatorId: nonExistingOperatorId,
           companyName: companyName,
@@ -302,7 +302,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can handle not found error in update consent", async function (this: Context) {
-      assertThrows(404, async () =>
+      await assertThrows(404, async () =>
         await client.updateConsent({
           operatorId: operatorId,
           companyName: companyName,
@@ -313,7 +313,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(defaultTimeoutMs);
 
     it("can handle bad request error in update consent", async function (this: Context) {
-      assertThrows(400, async () =>
+      await assertThrows(400, async () =>
         await client.updateConsent({
           operatorId: nonExistingOperatorId,
           companyName: companyName,

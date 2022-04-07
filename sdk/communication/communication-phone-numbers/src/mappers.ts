@@ -32,56 +32,56 @@ export function toOperatorResponse(operator: Generated.Operator): Public.Operato
 }
 
 export function toConsentResponseIterator(
-  constentsIterator: PagedAsyncIterableIterator<
+  iterator: PagedAsyncIterableIterator<
     Generated.Consent,
     Generated.Consent[],
     PageSettings
   >
 ): PagedAsyncIterableIterator<Public.Consent, Public.Consent[], PageSettings> {
-  const inter = getIterator(constentsIterator, toConsentResponse);
+  const iter = getIterator(iterator, toConsentResponse);
   return {
     [Symbol.asyncIterator]() {
       return this;
     },
     byPage: (settings?: PageSettings) =>
-      getNextPage(settings, constentsIterator, toConsentResponse),
-    next: inter.next,
+      getNextPage(settings, iterator, toConsentResponse),
+    next: () => iter.next(),
   };
 }
 
 export function toOperatorsResponseIterator(
-  constentsIterator: PagedAsyncIterableIterator<
+  iterator: PagedAsyncIterableIterator<
     Generated.Operator,
     Generated.Operator[],
     PageSettings
   >
 ): PagedAsyncIterableIterator<Public.Operator, Public.Operator[], PageSettings> {
-  const inter = getIterator(constentsIterator, toOperatorResponse);
+  const iter = getIterator(iterator, toOperatorResponse);
   return {
     [Symbol.asyncIterator]() {
       return this;
     },
     byPage: (settings?: PageSettings) =>
-      getNextPage(settings, constentsIterator, toOperatorResponse),
-    next: inter.next,
+      getNextPage(settings, iterator, toOperatorResponse),
+    next: () => iter.next(),
   };
 }
 
 async function* getIterator<TResult, TOrig>(
-  constentsIterator: PagedAsyncIterableIterator<TOrig, TOrig[], PageSettings>,
+  iterator: PagedAsyncIterableIterator<TOrig, TOrig[], PageSettings>,
   convert: (orig: TOrig) => TResult
 ): AsyncIterableIterator<TResult> {
-  for await (const item of constentsIterator) {
+  for await (const item of iterator) {
     yield convert(item);
   }
 }
 
 async function* getNextPage<TResult, TOrig>(
   settings: PageSettings | undefined,
-  constentsIterator: PagedAsyncIterableIterator<TOrig, TOrig[], PageSettings>,
+  iterator: PagedAsyncIterableIterator<TOrig, TOrig[], PageSettings>,
   convert: (orig: TOrig) => TResult
 ): AsyncIterableIterator<TResult[]> {
-  for await (const page of constentsIterator.byPage(settings)) {
+  for await (const page of iterator.byPage(settings)) {
     yield page.map((item) => convert(item));
   }
 }
