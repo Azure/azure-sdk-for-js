@@ -218,6 +218,8 @@ export interface PipelineRequest {
     requestId: string;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
+    // Warning: (ae-forgotten-export) The symbol "TlsSettings" needs to be exported by the entry point index.d.ts
+    tlsSettings?: TlsSettings;
     tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials: boolean;

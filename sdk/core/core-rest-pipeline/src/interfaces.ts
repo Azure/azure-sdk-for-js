@@ -195,7 +195,7 @@ export interface PipelineRequest {
   enableBrowserStreams?: boolean;
 
   /** Settings for configuring TLS authentication */
-  tlsSettings?: TLSSettings;
+  tlsSettings?: TlsSettings;
 }
 
 /**
@@ -393,7 +393,7 @@ export interface CertificateCredential {
 /**
  * Represents a certificate for TLS authentication.
  */
-export interface TLSSettings {
+export interface TlsSettings {
   /**
    * Optionally override the trusted CA certificates. Default is to trust
    * the well-known CAs curated by Mozilla. Mozilla's CAs are completely

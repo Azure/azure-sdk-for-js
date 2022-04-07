@@ -12,6 +12,7 @@ import {
   PipelineRequest,
   PipelineResponse,
   RequestBodyType,
+  TlsSettings,
   TransferProgressEvent,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
@@ -57,13 +58,18 @@ class ReportTransform extends Transform {
   }
 }
 
+interface CachedAgent {
+  tlsSettings?: TlsSettings;
+  agent: http.Agent;
+}
+
 /**
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
  */
 class NodeHttpClient implements HttpClient {
-  private httpsKeepAliveAgent?: https.Agent;
-  private httpKeepAliveAgent?: http.Agent;
+  private httpKeepAliveAgent?: CachedAgent;
+  private httpsKeepAliveAgent: WeakMap<TlsSettings, CachedAgent> = new WeakMap();
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
@@ -246,6 +252,14 @@ class NodeHttpClient implements HttpClient {
     if (!request.tlsSettings && request.disableKeepAlive) {
       return isInsecure ? http.globalAgent : https.globalAgent;
     }
+    const settingsIndex = request.tlsSettings ?? {};
+    let agent: http.Agent | undefined = isInsecure
+      ? this.httpKeepAliveAgent?.agent
+      : this.httpsKeepAliveAgent?.get(settingsIndex)?.agent;
+
+    if (agent) {
+      return agent;
+    }
 
     const agentOptions: https.AgentOptions = {
       ...request.tlsSettings,
@@ -253,11 +267,17 @@ class NodeHttpClient implements HttpClient {
     };
 
     if (isInsecure) {
-      this.httpKeepAliveAgent = new http.Agent(agentOptions);
-      return this.httpKeepAliveAgent;
+      agent = new http.Agent(agentOptions);
+      this.httpKeepAliveAgent = { agent };
+      return agent;
     } else {
-      this.httpsKeepAliveAgent = new https.Agent(agentOptions);
-      return this.httpsKeepAliveAgent;
+      agent = new https.Agent(agentOptions);
+      this.httpsKeepAliveAgent.set(settingsIndex, {
+        agent,
+        tlsSettings: request.tlsSettings,
+      });
+
+      return agent;
     }
   }
 }

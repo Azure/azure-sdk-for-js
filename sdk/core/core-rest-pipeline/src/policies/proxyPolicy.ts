@@ -28,18 +28,6 @@ let noProxyListLoaded: boolean = false;
 /** A cache of whether a host should bypass the proxy. */
 const globalBypassedMap: Map<string, boolean> = new Map();
 
-let httpsProxyAgent: https.Agent | undefined;
-let httpProxyAgent: http.Agent | undefined;
-
-/**
- * A function to reset the cached agents.
- * @internal
- */
-export function resetCachedProxyAgents(): void {
-  httpsProxyAgent = undefined;
-  httpProxyAgent = undefined;
-}
-
 function getEnvironmentValue(name: string): string | undefined {
   if (process.env[name]) {
     return process.env[name];
@@ -168,7 +156,7 @@ export function getProxyAgentOptions(
   return proxyAgentOptions;
 }
 
-function setProxyAgentOnRequest(request: PipelineRequest): void {
+function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAgents): void {
   // Custom Agent should take precedence so if one is present
   // we should skip to avoid overwriting it.
   if (request.agent) {
@@ -182,19 +170,24 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
   const proxySettings = request.proxySettings;
   if (proxySettings) {
     if (isInsecure) {
-      if (!httpProxyAgent) {
+      if (!cachedAgents.httpProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
       }
-      request.agent = httpProxyAgent;
+      request.agent = cachedAgents.httpProxyAgent;
     } else {
-      if (!httpsProxyAgent) {
+      if (!cachedAgents.httpsProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
       }
-      request.agent = httpsProxyAgent;
+      request.agent = cachedAgents.httpsProxyAgent;
     }
   }
+}
+
+interface CachedAgents {
+  httpsProxyAgent?: https.Agent;
+  httpProxyAgent?: http.Agent;
 }
 
 /**
@@ -214,6 +207,9 @@ export function proxyPolicy(
   if (!noProxyListLoaded) {
     globalNoProxyList.push(...loadNoProxy());
   }
+
+  const cachedAgents: CachedAgents = {};
+
   return {
     name: proxyPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -229,7 +225,7 @@ export function proxyPolicy(
       }
 
       if (request.proxySettings) {
-        setProxyAgentOnRequest(request);
+        setProxyAgentOnRequest(request, cachedAgents);
       }
       return next(request);
     },

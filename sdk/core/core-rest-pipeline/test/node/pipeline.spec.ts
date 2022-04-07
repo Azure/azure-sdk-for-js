@@ -3,6 +3,7 @@
 
 import { assert } from "chai";
 import * as https from "https";
+import * as http from "https";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import sinon from "sinon";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
@@ -10,18 +11,10 @@ import { createHttpHeaders } from "../../src/httpHeaders";
 import { HttpClient } from "../../src/interfaces";
 import { createNodeHttpClient } from "../../src/nodeHttpClient";
 import { createEmptyPipeline } from "../../src/pipeline";
-import {
-  proxyPolicy,
-  proxyPolicyName,
-  resetCachedProxyAgents,
-} from "../../src/policies/proxyPolicy";
+import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
 import { tlsPolicy } from "../../src/policies/tlsPolicy";
 
 describe("HttpsPipeline", function () {
-  afterEach(() => {
-    resetCachedProxyAgents();
-  });
-
   describe("Agent creation", function () {
     afterEach(() => {
       sinon.restore();
@@ -100,6 +93,100 @@ describe("HttpsPipeline", function () {
           timeout: 10000,
           url: "https://localhost",
           withCredentials: false,
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+    });
+
+    it("should use cached agent when TLS settings did not change", async function () {
+      const pipeline = createEmptyPipeline();
+      const fakePfx = "fakecert";
+      const httpClient: HttpClient = createNodeHttpClient();
+      let cachedAgent: http.Agent;
+      sinon.stub(https, "request").callsFake((request: any) => {
+        assert.equal(request.agent.options.pfx, fakePfx);
+        if (cachedAgent) {
+          // Should cache Agent
+          assert.equal(request.agent, cachedAgent);
+        }
+        cachedAgent = request.agent;
+        throw new Error("ok");
+      });
+
+      pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+    });
+
+    it("should create a new agent if new tlsSettings are set", async function () {
+      const pipeline = createEmptyPipeline();
+      const fakePfx = "fakecert";
+      const newFakePfx = "newFakeCert";
+
+      const httpClient: HttpClient = createNodeHttpClient();
+      let cachedAgent: http.Agent;
+      sinon.stub(https, "request").callsFake((request: any) => {
+        if (cachedAgent) {
+          assert.equal(request.agent.options.pfx, newFakePfx);
+          // Should cache Agent
+          assert.notEqual(request.agent, cachedAgent);
+        } else {
+          assert.equal(request.agent.options.pfx, fakePfx);
+          cachedAgent = request.agent;
+        }
+        
+        throw new Error("ok");
+      });
+
+      pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+          tlsSettings: { pfx: newFakePfx },
         })
         .catch((error) => {
           assert.equal(error.message, "ok");
