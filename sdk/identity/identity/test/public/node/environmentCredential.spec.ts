@@ -113,7 +113,7 @@ describe("EnvironmentCredential", function () {
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["EnvironmentCredential.getToken", "ClientSecretCredential.getToken"]
+      ["EnvironmentCredential.getToken"]
     );
   });
 
@@ -135,7 +135,7 @@ describe("EnvironmentCredential", function () {
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["EnvironmentCredential.getToken", "ClientCertificateCredential.getToken"]
+      ["EnvironmentCredential.getToken"]
     );
   });
 
@@ -158,7 +158,7 @@ describe("EnvironmentCredential", function () {
           // We will focus our test on making sure the underlying getToken was called.
         }
       },
-      ["EnvironmentCredential.getToken", "UsernamePasswordCredential.getToken"]
+      ["EnvironmentCredential.getToken"]
     );
   });
 
