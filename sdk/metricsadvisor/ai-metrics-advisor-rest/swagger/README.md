@@ -14,22 +14,24 @@ autorest --typescript ./swagger/README.md
 ## Configuration
 
 ```yaml
-package-name: "@azure-rest/ai-metrics-advisor"
+package-name: "@azure-rest/ai-metrics-advisor-rest"
 title: MetricsAdvisorRestClient
 description: Metrics Advisor Rest Client
 open-api: data-plane
-generate-metadata: false
+generate-metadata: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 rlc-shortcut: true
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c8a9d7277a795543e2960ed58963769f95945096/specification/cognitiveservices/data-plane/MetricsAdvisor/stable/v1.0/MetricsAdvisor.json
+input-file: ./metricsadvisor.json
 package-version: 1.0.0-beta.2
 rest-level-client: true
 override-client-name: GeneratedClient
-add-credentials: false
+credential-scopes: https://cognitiveservices.azure.com/.default
+add-credentials: true
+generate-test: true
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "file:../../../../autorest.typescript/"
 ```
 
 ### Metric output type - add description

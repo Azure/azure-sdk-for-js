@@ -1586,7 +1586,7 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure-rest/ai-metrics-advisor",
+      "packageName": "@azure-rest/ai-metrics-advisor-rest",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor-rest",
       "versionPolicyName": "client"
     }

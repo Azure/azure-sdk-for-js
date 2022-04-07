@@ -908,6 +908,6 @@ export interface Routes {
   ): GetEnrichmentStatusByMetric;
 }
 
-export type GeneratedClientLike = Client & {
+export type GeneratedClient = Client & {
   path: Routes;
 } & ClientOperations;

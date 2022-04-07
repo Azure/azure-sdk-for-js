@@ -2,13 +2,22 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { GeneratedClientLike } from "./clientDefinitions";
+import { TokenCredential } from "@azure/core-auth";
+import { GeneratedClient } from "./clientDefinitions";
 
-export default function GeneratedClient(
+export default function createClient(
   endpoint: string,
+  credentials: TokenCredential,
   options: ClientOptions = {}
-): GeneratedClientLike {
+): GeneratedClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/metricsadvisor/v1.0`;
+
+  options = {
+    ...options,
+    credentials: {
+      scopes: ["https://cognitiveservices.azure.com/.default"]
+    }
+  };
 
   const userAgentInfo = `azsdk-js-ai-metrics-advisor-rest/1.0.0-beta.2`;
   const userAgentPrefix =
@@ -22,7 +31,7 @@ export default function GeneratedClient(
     }
   };
 
-  const client = getClient(baseUrl, options) as GeneratedClientLike;
+  const client = getClient(baseUrl, credentials, options) as GeneratedClient;
 
   return {
     ...client,
