@@ -13,7 +13,7 @@ import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for AppConfig.
  */
-export function createAppConfigKeyCredentialPolicy(
+export function appConfigKeyCredentialPolicy(
   credential: string,
   secret: string
 ): PipelinePolicy {

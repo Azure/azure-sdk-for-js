@@ -4,7 +4,7 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import { createAppConfigKeyCredentialPolicy } from "./appConfigCredential";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -148,7 +148,7 @@ export class AppConfigurationClient {
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigEndpoint = regexMatch[1];
-        authPolicy = createAppConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
+        authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
