@@ -70,7 +70,8 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   if (packageJson.name.includes("arm-")) {
-    log.warn("SKipping ARM samples");
+    log.warn("Skipping ARM samples");
+    return true;
   }
 
   const samples = options.args.map((dir) => path.resolve(dir));
