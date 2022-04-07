@@ -313,9 +313,10 @@ export function assertResponse<T extends object>(
   result: T
 ): asserts result is T & HttpResponseField<any> {
   if (!hasUnderscoreResponse(result)) {
-    throw new Error(
-      "Something went wrong, _response(raw response) is supposed to be part of the response."
-    );
+    Object.defineProperty(result, "_response", {
+      enumerable: false,
+      value: "Something went wrong, _response(raw response) is supposed to be part of the response. Please file a bug at https://github.com/Azure/azure-sdk-for-js",
+    });
   }
 }
 
