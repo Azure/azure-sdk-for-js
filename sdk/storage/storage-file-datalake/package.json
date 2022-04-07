@@ -20,6 +20,7 @@
     "./dist-esm/storage-file-datalake/src/utils/utils.node.js": "./dist-esm/storage-file-datalake/src/utils/utils.browser.js",
     "./dist-esm/storage-file-datalake/test/utils/index.js": "./dist-esm/storage-file-datalake/test/utils/index.browser.js",
     "./dist-esm/storage-common/src/index.js": "./dist-esm/storage-common/src/index.browser.js",
+    "./dist-esm/storage-common/src/BufferScheduler.js": "./dist-esm/storage-common/src/BufferScheduler.browser.js",
     "fs": false,
     "os": false,
     "process": false
