@@ -8,6 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type SecretBaseUnion =
+  | SecretBase
+  | SecureString
+  | AzureKeyVaultSecretReference;
 export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
   | IntegrationRuntime
@@ -227,10 +231,6 @@ export type TriggerUnion =
   | MultiplePipelineTriggerUnion
   | TumblingWindowTrigger
   | ChainingTrigger;
-export type SecretBaseUnion =
-  | SecretBase
-  | SecureString
-  | AzureKeyVaultSecretReference;
 export type DatasetLocationUnion =
   | DatasetLocation
   | AzureBlobStorageLocation
@@ -501,6 +501,208 @@ export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
 
+export interface LinkConnectionListResponse {
+  /** List link connection value */
+  value: LinkConnectionResource[];
+  /** List link connections next link */
+  nextLink?: string;
+}
+
+export interface LinkConnectionResource {
+  /** Link connection id */
+  id?: string;
+  /** Link connection name */
+  name?: string;
+  /** Link connection type */
+  type?: string;
+  /** Properties of link connection */
+  properties: LinkConnection;
+}
+
+export interface LinkConnection {
+  /** Properties of link connection's source database */
+  sourceDatabase?: LinkConnectionSourceDatabase;
+  /** Properties of link connection's target database */
+  targetDatabase?: LinkConnectionTargetDatabase;
+  /** Properties of link connection's landing zone */
+  landingZone?: LinkConnectionLandingZone;
+  /** Properties of link connection's compute */
+  compute?: LinkConnectionCompute;
+}
+
+export interface LinkConnectionSourceDatabase {
+  /** Linked service reference */
+  linkedService?: LinkedServiceReference;
+  /** Source database type properties */
+  typeProperties?: LinkConnectionSourceDatabaseTypeProperties;
+}
+
+/** Linked service reference type. */
+export interface LinkedServiceReference {
+  /** Linked service reference type. */
+  type: Type;
+  /** Reference LinkedService name. */
+  referenceName: string;
+  /** Arguments for LinkedService. */
+  parameters?: Record<string, unknown>;
+}
+
+export interface LinkConnectionSourceDatabaseTypeProperties {
+  /** Link connection source database server's resource id */
+  resourceId?: string;
+  /** Link connection source database server's principal id */
+  principalId?: string;
+}
+
+export interface LinkConnectionTargetDatabase {
+  /** Linked service reference */
+  linkedService?: LinkedServiceReference;
+}
+
+export interface LinkConnectionLandingZone {
+  /** Linked service reference */
+  linkedService?: LinkedServiceReference;
+  /** Landing zone's file system name */
+  fileSystem?: string;
+  /** Landing zone's folder path name */
+  folderPath?: string;
+  /** Landing zone's sas token */
+  sasToken?: SecureString;
+}
+
+/** The base definition of a secret type. */
+export interface SecretBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SecureString" | "AzureKeyVaultSecret";
+}
+
+export interface LinkConnectionCompute {
+  /** Link connection's compute core count */
+  coreCount?: number;
+  /** Link connection's compute type */
+  computeType?: string;
+}
+
+/** The object that defines the structure of an Azure Synapse error response. */
+export interface CloudError {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudError[];
+}
+
+export interface EditTablesRequest {
+  /** Edit link tables request */
+  linkTables?: LinkTableRequest[];
+}
+
+export interface LinkTableRequest {
+  /** Link table id */
+  id?: string;
+  /** Source table properties for link table request */
+  source?: LinkTableRequestSource;
+  /** Target table properties for link table request */
+  target?: LinkTableRequestTarget;
+  /** Link table operation type */
+  operationType?: string;
+}
+
+export interface LinkTableRequestSource {
+  /** Source table table name */
+  tableName?: string;
+  /** Source table schema name */
+  schemaName?: string;
+}
+
+export interface LinkTableRequestTarget {
+  /** Target table table name */
+  tableName?: string;
+  /** Target table schema name */
+  schemaName?: string;
+  /** Target table distribution options for link table request */
+  distributionOptions?: LinkTableRequestTargetDistributionOptions;
+}
+
+export interface LinkTableRequestTargetDistributionOptions {
+  /** Target table distribution type */
+  type?: string;
+  /** Target table distribution column */
+  distributionColumn?: string;
+}
+
+export interface LinkConnectionDetailedStatus {
+  /** Link connection id */
+  id?: string;
+  /** Link connection name */
+  name?: string;
+  /** Is link connection applying changes */
+  isApplyingChanges?: boolean;
+  /** Is link connection partially failed */
+  isPartiallyFailed?: boolean;
+  /** Link connection start time */
+  startTime?: any;
+  /** Link connection stop time */
+  stopTime?: any;
+  /** Link connection status */
+  status?: string;
+  /** Link connection's corresponding continuous run id */
+  continuousRunId?: string;
+  /** Link connection error */
+  error?: any;
+}
+
+export interface LinkTableListResponse {
+  /** List link table value */
+  value?: LinkTableResource[];
+}
+
+export interface LinkTableResource {
+  /** Link table id */
+  id?: string;
+  /** Link table name */
+  name?: string;
+  /** Source table properties for link table request */
+  source?: LinkTableRequestSource;
+  /** Target table properties for link table request */
+  target?: LinkTableRequestTarget;
+}
+
+export interface QueryTableStatusRequest {
+  /** Max segment count to query table status */
+  maxSegmentCount?: number;
+  /** Continuation token to query table status */
+  continuationToken?: any;
+}
+
+export interface LinkConnectionQueryTableStatus {
+  /** Link tables' status */
+  value?: LinkTableStatus[];
+  /** Continuation token to query table status */
+  continuationToken?: any;
+}
+
+export interface LinkTableStatus {
+  /** Link table id */
+  id?: string;
+  /** Link table status */
+  status?: string;
+  /** Link table error message */
+  errorMessage?: string;
+  /** Link table start time */
+  startTime?: any;
+  /** Link table stop time */
+  stopTime?: any;
+}
+
+export interface UpdateLandingZoneCredential {
+  /** Landing zone's sas token */
+  sasToken?: SecureString;
+}
+
 export interface KqlScriptsResourceCollectionResponse {
   value?: KqlScriptResource[];
   nextLink?: string;
@@ -661,7 +863,7 @@ export interface Resource {
 }
 
 /** The object that defines the structure of an Azure Synapse error response. */
-export interface CloudError {
+export interface CloudErrorAutoGenerated {
   /** Error code. */
   code: string;
   /** Error message. */
@@ -669,7 +871,7 @@ export interface CloudError {
   /** Property name/path in request associated with error. */
   target?: string;
   /** Array with additional error details. */
-  details?: CloudError[];
+  details?: CloudErrorAutoGenerated[];
 }
 
 /** Collection of Big Data pool information */
@@ -760,7 +962,7 @@ export interface DataFlowFolder {
 }
 
 /** The object that defines the structure of an Azure Synapse error response. */
-export interface CloudErrorAutoGenerated {
+export interface CloudErrorAutoGenerated2 {
   /** Error code. */
   code: string;
   /** Error message. */
@@ -768,7 +970,7 @@ export interface CloudErrorAutoGenerated {
   /** Property name/path in request associated with error. */
   target?: string;
   /** Array with additional error details. */
-  details?: CloudErrorAutoGenerated[];
+  details?: CloudErrorAutoGenerated2[];
 }
 
 /** A list of data flow resources. */
@@ -973,7 +1175,7 @@ export interface Dataset {
   /** Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement. */
   schema?: any;
   /** Linked service reference. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** Parameters for dataset. */
   parameters?: { [propertyName: string]: ParameterSpecification };
   /** List of tags that can be used for describing the Dataset. */
@@ -983,7 +1185,7 @@ export interface Dataset {
 }
 
 /** Linked service reference type. */
-export interface LinkedServiceReference {
+export interface LinkedServiceReferenceAutoGenerated {
   /** Linked service reference type. */
   type: Type;
   /** Reference LinkedService name. */
@@ -1139,7 +1341,7 @@ export interface IntegrationRuntimeReference {
 /** Staging info for execute data flow activity. */
 export interface DataFlowStagingInfo {
   /** Staging linked service reference. */
-  linkedService?: LinkedServiceReference;
+  linkedService?: LinkedServiceReferenceAutoGenerated;
   /** Folder path for staging blob. */
   folderPath?: string;
 }
@@ -1347,7 +1549,7 @@ export interface OperationResult {
   /** Property name/path in request associated with error. */
   target?: string;
   /** Array with additional error details. */
-  details?: CloudErrorAutoGenerated[];
+  details?: CloudErrorAutoGenerated2[];
 }
 
 /** A list of linked service resources. */
@@ -2316,12 +2518,6 @@ export interface Expression {
   value: string;
 }
 
-/** The base definition of a secret type. */
-export interface SecretBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SecureString" | "AzureKeyVaultSecret";
-}
-
 /** Defines the response of a provision trigger dependency operation. */
 export interface TriggerDependencyProvisioningStatus {
   /** Trigger name. */
@@ -2576,7 +2772,7 @@ export interface Transformation {
   /** Dataset reference. */
   dataset?: DatasetReference;
   /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
+  linkedService?: LinkedServiceReferenceAutoGenerated;
   /** Flowlet Reference */
   flowlet?: DataFlowReference;
 }
@@ -2936,7 +3132,7 @@ export interface StagingSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Staging linked service reference. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The path to storage for storing the interim data. Type: string (or Expression with resultType string). */
   path?: any;
   /** Specifies whether to use compression when copying data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean). */
@@ -2958,7 +3154,7 @@ export interface LogStorageSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Log storage linked service reference. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string). */
   path?: any;
   /** Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string). */
@@ -2988,7 +3184,7 @@ export interface CopyActivityLogSettings {
 /** Log location settings. */
 export interface LogLocationSettings {
   /** Log storage linked service reference. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string). */
   path?: any;
 }
@@ -3098,7 +3294,7 @@ export interface NetezzaPartitionSettings {
 /** The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3. */
 export interface RedshiftUnloadSettings {
   /** The name of the Amazon S3 linked service which will be used for the unload operation when copying from the Amazon Redshift source. */
-  s3LinkedServiceName: LinkedServiceReference;
+  s3LinkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The bucket of the interim Amazon S3 which will be used to store the unloaded data from Amazon Redshift source. The bucket must be in the same region as the Amazon Redshift source. Type: string (or Expression with resultType string). */
   bucketName: any;
 }
@@ -3274,7 +3470,7 @@ export interface SsisLogLocation {
 /** Reference objects for custom activity */
 export interface CustomActivityReferenceObject {
   /** Linked service references. */
-  linkedServices?: LinkedServiceReference[];
+  linkedServices?: LinkedServiceReferenceAutoGenerated[];
   /** Dataset references. */
   datasets?: DatasetReference[];
 }
@@ -3306,7 +3502,7 @@ export interface AzureMLWebServiceFile {
   /** The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string). */
   filePath: any;
   /** Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
 }
 
 /** Compute properties for data flow activity. */
@@ -3539,6 +3735,26 @@ export interface LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "Key" | "RBAC";
 }
+
+/** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
+export type SecureString = SecretBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SecureString";
+  /** Value of secure string. */
+  value: string;
+};
+
+/** Azure Key Vault secret reference. */
+export type AzureKeyVaultSecretReference = SecretBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureKeyVaultSecret";
+  /** The Azure Key Vault linked service reference. */
+  store: LinkedServiceReferenceAutoGenerated;
+  /** The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string). */
+  secretName: any;
+  /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
+  secretVersion?: any;
+};
 
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
 export type AzureEntityResource = Resource & {
@@ -4779,7 +4995,7 @@ export type AzureBatchLinkedService = LinkedService & {
   /** The Azure Batch pool name. Type: string (or Expression with resultType string). */
   poolName: any;
   /** The Azure Storage linked service reference. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 };
@@ -4909,9 +5125,9 @@ export type HDInsightLinkedService = LinkedService & {
   /** HDInsight cluster password. */
   password?: SecretBaseUnion;
   /** The Azure Storage linked service reference. */
-  linkedServiceName?: LinkedServiceReference;
+  linkedServiceName?: LinkedServiceReferenceAutoGenerated;
   /** A reference to the Azure SQL linked service that points to the HCatalog database. */
-  hcatalogLinkedServiceName?: LinkedServiceReference;
+  hcatalogLinkedServiceName?: LinkedServiceReferenceAutoGenerated;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
   /** Specify if the HDInsight is created with ESP (Enterprise Security Package). Type: Boolean. */
@@ -6386,7 +6602,7 @@ export type HDInsightOnDemandLinkedService = LinkedService & {
   /** Version of the HDInsight cluster.  Type: string (or Expression with resultType string). */
   version: any;
   /** Azure Storage linked service to be used by the on-demand cluster for storing and processing data. */
-  linkedServiceName: LinkedServiceReference;
+  linkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The customer’s subscription to host the cluster. Type: string (or Expression with resultType string). */
   hostSubscriptionId: any;
   /** The service principal id for the hostSubscriptionId. Type: string (or Expression with resultType string). */
@@ -6408,9 +6624,9 @@ export type HDInsightOnDemandLinkedService = LinkedService & {
   /** The password to SSH remotely connect cluster’s node (for Linux). */
   clusterSshPassword?: SecretBaseUnion;
   /** Specifies additional storage accounts for the HDInsight linked service so that the Data Factory service can register them on your behalf. */
-  additionalLinkedServiceNames?: LinkedServiceReference[];
+  additionalLinkedServiceNames?: LinkedServiceReferenceAutoGenerated[];
   /** The name of Azure SQL linked service that point to the HCatalog database. The on-demand HDInsight cluster is created by using the Azure SQL database as the metastore. */
-  hcatalogLinkedServiceName?: LinkedServiceReference;
+  hcatalogLinkedServiceName?: LinkedServiceReferenceAutoGenerated;
   /** The cluster type. Type: string (or Expression with resultType string). */
   clusterType?: any;
   /** The version of spark if the cluster type is 'spark'. Type: string (or Expression with resultType string). */
@@ -6757,7 +6973,7 @@ export type ExecutionActivity = Activity & {
     | "SynapseNotebook"
     | "SparkJob";
   /** Linked service reference. */
-  linkedServiceName?: LinkedServiceReference;
+  linkedServiceName?: LinkedServiceReferenceAutoGenerated;
   /** Activity policy. */
   policy?: ActivityPolicy;
 };
@@ -6839,36 +7055,16 @@ export type ChainingTrigger = Trigger & {
   runDimension: string;
 };
 
-/** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
-export type SecureString = SecretBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SecureString";
-  /** Value of secure string. */
-  value: string;
-};
-
-/** Azure Key Vault secret reference. */
-export type AzureKeyVaultSecretReference = SecretBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureKeyVaultSecret";
-  /** The Azure Key Vault linked service reference. */
-  store: LinkedServiceReference;
-  /** The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string). */
-  secretName: any;
-  /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
-  secretVersion?: any;
-};
-
 /** Transformation for data flow source. */
 export type DataFlowSource = Transformation & {
   /** Schema linked service reference. */
-  schemaLinkedService?: LinkedServiceReference;
+  schemaLinkedService?: LinkedServiceReferenceAutoGenerated;
 };
 
 /** Transformation for data flow sink. */
 export type DataFlowSink = Transformation & {
   /** Schema linked service reference. */
-  schemaLinkedService?: LinkedServiceReference;
+  schemaLinkedService?: LinkedServiceReferenceAutoGenerated;
 };
 
 /** The location of azure blob dataset. */
@@ -8814,7 +9010,7 @@ export type HDInsightHiveActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightHive";
   /** Storage linked service references. */
-  storageLinkedServices?: LinkedServiceReference[];
+  storageLinkedServices?: LinkedServiceReferenceAutoGenerated[];
   /** User specified arguments to HDInsightActivity. */
   arguments?: any[];
   /** Debug info option. */
@@ -8822,7 +9018,7 @@ export type HDInsightHiveActivity = ExecutionActivity & {
   /** Script path. Type: string (or Expression with resultType string). */
   scriptPath?: any;
   /** Script linked service reference. */
-  scriptLinkedService?: LinkedServiceReference;
+  scriptLinkedService?: LinkedServiceReferenceAutoGenerated;
   /** Allows user to specify defines for Hive job request. */
   defines?: { [propertyName: string]: any };
   /** User specified arguments under hivevar namespace. */
@@ -8836,7 +9032,7 @@ export type HDInsightPigActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightPig";
   /** Storage linked service references. */
-  storageLinkedServices?: LinkedServiceReference[];
+  storageLinkedServices?: LinkedServiceReferenceAutoGenerated[];
   /** User specified arguments to HDInsightActivity. Type: array (or Expression with resultType array). */
   arguments?: any;
   /** Debug info option. */
@@ -8844,7 +9040,7 @@ export type HDInsightPigActivity = ExecutionActivity & {
   /** Script path. Type: string (or Expression with resultType string). */
   scriptPath?: any;
   /** Script linked service reference. */
-  scriptLinkedService?: LinkedServiceReference;
+  scriptLinkedService?: LinkedServiceReferenceAutoGenerated;
   /** Allows user to specify defines for Pig job request. */
   defines?: { [propertyName: string]: any };
 };
@@ -8854,7 +9050,7 @@ export type HDInsightMapReduceActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightMapReduce";
   /** Storage linked service references. */
-  storageLinkedServices?: LinkedServiceReference[];
+  storageLinkedServices?: LinkedServiceReferenceAutoGenerated[];
   /** User specified arguments to HDInsightActivity. */
   arguments?: any[];
   /** Debug info option. */
@@ -8864,7 +9060,7 @@ export type HDInsightMapReduceActivity = ExecutionActivity & {
   /** Jar path. Type: string (or Expression with resultType string). */
   jarFilePath: any;
   /** Jar linked service reference. */
-  jarLinkedService?: LinkedServiceReference;
+  jarLinkedService?: LinkedServiceReferenceAutoGenerated;
   /** Jar libs. */
   jarLibs?: any[];
   /** Allows user to specify defines for the MapReduce job request. */
@@ -8876,7 +9072,7 @@ export type HDInsightStreamingActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightStreaming";
   /** Storage linked service references. */
-  storageLinkedServices?: LinkedServiceReference[];
+  storageLinkedServices?: LinkedServiceReferenceAutoGenerated[];
   /** User specified arguments to HDInsightActivity. */
   arguments?: any[];
   /** Debug info option. */
@@ -8892,7 +9088,7 @@ export type HDInsightStreamingActivity = ExecutionActivity & {
   /** Paths to streaming job files. Can be directories. */
   filePaths: any[];
   /** Linked service reference where the files are located. */
-  fileLinkedService?: LinkedServiceReference;
+  fileLinkedService?: LinkedServiceReferenceAutoGenerated;
   /** Combiner executable name. Type: string (or Expression with resultType string). */
   combiner?: any;
   /** Command line environment values. */
@@ -8914,7 +9110,7 @@ export type HDInsightSparkActivity = ExecutionActivity & {
   /** Debug info option. */
   getDebugInfo?: HDInsightActivityDebugInfoOption;
   /** The storage linked service for uploading the entry file and dependencies, and for receiving logs. */
-  sparkJobLinkedService?: LinkedServiceReference;
+  sparkJobLinkedService?: LinkedServiceReferenceAutoGenerated;
   /** The application's Java/Spark main class. */
   className?: string;
   /** The user to impersonate that will execute the job. Type: string (or Expression with resultType string). */
@@ -8964,7 +9160,7 @@ export type CustomActivity = ExecutionActivity & {
   /** Command for custom activity Type: string (or Expression with resultType string). */
   command: any;
   /** Resource linked service reference. */
-  resourceLinkedService?: LinkedServiceReference;
+  resourceLinkedService?: LinkedServiceReferenceAutoGenerated;
   /** Folder path for resource files Type: string (or Expression with resultType string). */
   folderPath?: any;
   /** Reference objects */
@@ -9046,7 +9242,7 @@ export type WebActivity = ExecutionActivity & {
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
-  linkedServices?: LinkedServiceReference[];
+  linkedServices?: LinkedServiceReferenceAutoGenerated[];
   /** The integration runtime reference. */
   connectVia?: IntegrationRuntimeReference;
 };
@@ -9084,7 +9280,7 @@ export type AzureMLUpdateResourceActivity = ExecutionActivity & {
   /** Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string). */
   trainedModelName: any;
   /** Name of Azure Storage linked service holding the .ilearner file that will be uploaded by the update operation. */
-  trainedModelLinkedServiceName: LinkedServiceReference;
+  trainedModelLinkedServiceName: LinkedServiceReferenceAutoGenerated;
   /** The relative file path in trainedModelLinkedService to represent the .ilearner file that will be uploaded by the update operation.  Type: string (or Expression with resultType string). */
   trainedModelFilePath: any;
 };
@@ -9112,7 +9308,7 @@ export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
   /** Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string). */
   scriptPath: any;
   /** Script linked service reference. */
-  scriptLinkedService: LinkedServiceReference;
+  scriptLinkedService: LinkedServiceReferenceAutoGenerated;
   /** The maximum number of nodes simultaneously used to run the job. Default value is 1. Type: integer (or Expression with resultType integer), minimum: 1. */
   degreeOfParallelism?: any;
   /** Determines which jobs out of all that are queued should be selected to run first. The lower the number, the higher the priority. Default value is 1000. Type: integer (or Expression with resultType integer), minimum: 1. */
@@ -9260,7 +9456,7 @@ export type BlobTrigger = MultiplePipelineTrigger & {
   /** The max number of parallel files to handle when it is triggered. */
   maxConcurrency: number;
   /** The Azure Storage linked service reference. */
-  linkedService: LinkedServiceReference;
+  linkedService: LinkedServiceReferenceAutoGenerated;
 };
 
 /** Trigger that runs every time a Blob event occurs. */
@@ -9973,6 +10169,20 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
   location?: string;
 }
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  LinkedServiceReference = "LinkedServiceReference"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LinkedServiceReference**
+ */
+export type Type = string;
+
 /** Known values of {@link RequestStatus} that the service accepts. */
 export enum KnownRequestStatus {
   Running = "Running",
@@ -10066,20 +10276,6 @@ export enum KnownIntegrationRuntimeType {
  * **SelfHosted**
  */
 export type IntegrationRuntimeType = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  LinkedServiceReference = "LinkedServiceReference"
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LinkedServiceReference**
- */
-export type Type = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
@@ -12055,6 +12251,75 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
+
+/** Optional parameters. */
+export interface LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkConnectionsByWorkspace operation. */
+export type LinkConnectionListLinkConnectionsByWorkspaceResponse = LinkConnectionListResponse;
+
+/** Optional parameters. */
+export interface LinkConnectionCreateOrUpdateLinkConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateLinkConnection operation. */
+export type LinkConnectionCreateOrUpdateLinkConnectionResponse = LinkConnectionResource;
+
+/** Optional parameters. */
+export interface LinkConnectionGetLinkConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkConnection operation. */
+export type LinkConnectionGetLinkConnectionResponse = LinkConnectionResource;
+
+/** Optional parameters. */
+export interface LinkConnectionDeleteLinkConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionEditTablesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionStartOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionStopOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionGetDetailedStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDetailedStatus operation. */
+export type LinkConnectionGetDetailedStatusResponse = LinkConnectionDetailedStatus;
+
+/** Optional parameters. */
+export interface LinkConnectionListLinkTablesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkTables operation. */
+export type LinkConnectionListLinkTablesResponse = LinkTableListResponse;
+
+/** Optional parameters. */
+export interface LinkConnectionQueryTableStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryTableStatus operation. */
+export type LinkConnectionQueryTableStatusResponse = LinkConnectionQueryTableStatus;
+
+/** Optional parameters. */
+export interface LinkConnectionUpdateLandingZoneCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionListLinkConnectionsByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkConnectionsByWorkspaceNext operation. */
+export type LinkConnectionListLinkConnectionsByWorkspaceNextResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
 export interface KqlScriptsGetAllOptionalParams
