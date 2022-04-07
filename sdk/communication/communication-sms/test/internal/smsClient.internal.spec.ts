@@ -10,7 +10,7 @@
 
 import { matrix } from "@azure/test-utils";
 import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";

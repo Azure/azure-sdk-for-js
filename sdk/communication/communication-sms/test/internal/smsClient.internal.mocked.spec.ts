@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "@azure/core-http";
+import { HttpClient } from "@azure/core-rest-pipeline";
 
 import { Uuid } from "../../src/utils/uuid";
 import { generateSendMessageRequest } from "../../src/utils/smsUtils";

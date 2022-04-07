@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, isNode } from "@azure/core-http";
-
+import { isNode } from "@azure/core-util";
+import { HttpClient } from "@azure/core-rest-pipeline";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";

@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-sms
+package-name: "@azure/communication-sms"
 title: SmsApiClient
 description: SMS Client
 generate-metadata: false
@@ -16,9 +16,9 @@ require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/896d05e37d
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200623.2"
+  "@autorest/typescript": "6.0.0-beta.15"
 azure-arm: false
 add-credentials: false
-package-version: 1.1.0
+package-version: 1.2.0-beta.1
 v3: true
 ```

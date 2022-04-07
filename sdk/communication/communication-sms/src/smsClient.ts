@@ -9,15 +9,12 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-} from "@azure/core-http";
+  CommonClientOptions,
+  OperationOptions
+} from "@azure/core-client";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
@@ -26,7 +23,7 @@ import { generateSendMessageRequest } from "./utils/smsUtils";
 /**
  * Client options used to configure SMS Client API requests.
  */
-export interface SmsClientOptions extends PipelineOptions {}
+export interface SmsClientOptions extends CommonClientOptions {}
 
 /**
  * Values used to configure Sms message
@@ -132,18 +129,7 @@ export class SmsClient {
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSmsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
-    const libInfo = `azsdk-js-communication-sms/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
+    
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       ...{
@@ -154,8 +140,8 @@ export class SmsClient {
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.api = new SmsApiClient(url, pipeline);
+    this.api = new SmsApiClient(url, internalPipelineOptions);
+    this.api.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -174,7 +160,7 @@ export class SmsClient {
     try {
       const response = await this.api.sms.send(
         generateSendMessageRequest(sendRequest, restOptions),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
       return response.value;
     } catch (e) {
