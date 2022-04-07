@@ -1412,13 +1412,15 @@ export class ContainerClient extends StorageClient {
       });
 
       response.segment.blobItems = [];
-      if (response.segment["Blob"] !== undefined) {
-        response.segment.blobItems = ProcessBlobItems(response.segment["Blob"]);
+      if ((response.segment as any)["Blob"] !== undefined) {
+        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
       }
 
       response.segment.blobPrefixes = [];
-      if (response.segment["BlobPrefix"] !== undefined) {
-        response.segment.blobPrefixes = ProcessBlobPrefixes(response.segment["BlobPrefix"]);
+      if ((response.segment as any)["BlobPrefix"] !== undefined) {
+        response.segment.blobPrefixes = ProcessBlobPrefixes(
+          (response.segment as any)["BlobPrefix"]
+        );
       }
 
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {

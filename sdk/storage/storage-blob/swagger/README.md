@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/564d0137d08defea63d9de2413ef5336fbfe2e6d/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1028,6 +1028,26 @@ directive:
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
       $["x-ms-error-code"]["type"] = "string";
       $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Hide x-ms-pageable in PageBlob_GetPageRanges
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in PageBlob_GetPageRangesDiff
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist&diff"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
 ```
 
 ### Add error code to response header - PageBlob_CopyIncremental

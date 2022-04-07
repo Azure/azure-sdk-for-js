@@ -351,6 +351,83 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
+  it("syncCopyFromURL - with COPY tags", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    await blobClient.setTags({
+      tag1: "val1",
+    });
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwdt"),
+        containerName,
+        blobName,
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const result = await newBlobClient.syncCopyFromURL(copyURL, {
+      copySourceTags: "COPY",
+    });
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    const sourceBlobTags = await blobClient.getTags();
+    const destBlobTags = await newBlobClient.getTags();
+    assert.deepStrictEqual(sourceBlobTags.tags, destBlobTags.tags);
+  });
+
+  it("syncCopyFromURL - with REPLACE tags", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    await blobClient.setTags({
+      tag1: "val1",
+    });
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwd"),
+        containerName,
+        blobName,
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const tags = {
+      tag2: "val2",
+    };
+    const result = await newBlobClient.syncCopyFromURL(copyURL, {
+      tags: tags,
+      copySourceTags: "REPLACE",
+    });
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    const destBlobTags = await newBlobClient.getTags();
+    assert.deepStrictEqual(tags, destBlobTags.tags);
+  });
+
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
@@ -785,7 +862,7 @@ describe("BlobClient Node.js only", () => {
     });
     assert.equal(
       (await streamToBuffer3(response.readableStreamBody!)).toString("hex"),
-      "ffffffff800000001000000000000a000c000600050008000a000000000103000c000000080008000000040008000000040000000100000014000000100014000800060007000c000000100010000000000001072400000014000000040000000000000008000c0004000800080000000400000002000000040000006e616d650000000000000000ffffffff700000001000000000000a000e000600050008000a000000000303001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+      "ffffffff800000001000000000000a000c000600050008000a000000000104000c000000080008000000040008000000040000000100000014000000100014000800060007000c0000001000100000000000010710000000200000000400000000000000040000006e616d650000000008000c000400080008000000040000000200000000000000ffffffff700000001000000000000a000e000600050008000a000000000304001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000ffffffff00000000"
     );
   });
 
