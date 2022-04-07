@@ -24,7 +24,7 @@ import {
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
-import { HttpHeaders } from "../public/utils/testHelpers";
+import { HttpHeadersLike } from "@azure/core-http-compat";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -185,18 +185,18 @@ describe("helper methods", () => {
         abortSignal: {
           aborted: true,
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => {},
+          addEventListener: () => { },
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => {},
+          removeEventListener: () => { },
         },
         method: "GET",
         withCredentials: false,
-        headers: new HttpHeaders(),
+        headers: {} as HttpHeadersLike,
         timeout: 0,
         requestId: "",
       },
       status: 204,
-      headers: new HttpHeaders(),
+      headers: {} as HttpHeadersLike,
       bodyAsText: "",
       parsedHeaders: {},
     },
