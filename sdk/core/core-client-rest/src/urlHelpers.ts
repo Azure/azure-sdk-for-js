@@ -34,10 +34,7 @@ export function buildRequestUrl(
   );
 }
 
-function appendQueryParams(
-  url: string,
-  options: RequestParameters = {}
-) {
+function appendQueryParams(url: string, options: RequestParameters = {}) {
   if (!options.queryParameters) {
     return url;
   }
@@ -96,9 +93,11 @@ export function buildBaseUrl(baseUrl: string, options: RequestParameters): strin
   return baseUrl;
 }
 
-function buildRoutePath(routePath: string,
+function buildRoutePath(
+  routePath: string,
   pathParameters: string[],
-  options: RequestParameters = {}) {
+  options: RequestParameters = {}
+) {
   for (const pathParam of pathParameters) {
     let value = pathParam;
     if (!options.skipUrlEncoding) {

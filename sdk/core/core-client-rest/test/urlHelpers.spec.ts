@@ -38,7 +38,7 @@ describe("urlHelpers", () => {
   it("should skip encoding for values in query parameter", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
       queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },
-      skipUrlEncoding: true
+      skipUrlEncoding: true,
     });
 
     assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&$maxpagesize=1&$skip=$_20`);
@@ -47,10 +47,13 @@ describe("urlHelpers", () => {
   it("should enable encoding for values in query parameter", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
       queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },
-      skipUrlEncoding: false
+      skipUrlEncoding: false,
     });
 
-    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`);
+    assert.equal(
+      result,
+      `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`
+    );
   });
 
   it("should append date query parameter as ISO string", () => {
@@ -78,22 +81,20 @@ describe("urlHelpers", () => {
   });
 
   it("should build url with array queries", () => {
-    const testArray = [
-      "ArrayQuery1",
-      "begin!*'();:@ &=+$,/?#[]end",
-      null as any,
-      ""
-    ] as string[];
+    const testArray = ["ArrayQuery1", "begin!*'();:@ &=+$,/?#[]end", null as any, ""] as string[];
     let result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {
-        arrayQuery: testArray
+        arrayQuery: testArray,
       },
     });
 
-    assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`);
+    assert.equal(
+      result,
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`
+    );
     result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {
-        arrayQuery: []
+        arrayQuery: [],
       },
     });
     assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=`);
