@@ -13751,7 +13751,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-YqwqjqvbsxN+86jD8WiqsV0F2LLUEa+lKEVxOkshL+IIWqXU0Aurdl2Iqg9hXjRy7B6tVK1Ai8SrihO0uDqg7Q==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-F2p5XwoV7jQhN9ZEN8CJLDdTq1UBXLM0Ch9Ciz0KgJIsHFEnC6gts26YWXpJnvqligsIbdgdSoEGQSGxEEcfAA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -14056,7 +14056,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-efgxx/5lr5+VFVtYRJA1RDpz855G4/vWDu46HSfmlDgbpmZLRreKcUeB3/2vG8tPyxyJc1BNPDzmpg2SjRKVxw==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-FLvHt8YCR95J93gFFd+J0Q6yX1RQMrjeteihyIWNmdk/tukSYrqDAWOlTgvJtPFc9Rw5wVPPkvhkY7GtEjz7xQ==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -14069,6 +14069,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.43
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -14095,6 +14096,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug

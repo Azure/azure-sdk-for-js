@@ -4,9 +4,11 @@
 import { parseConnectionString } from "@azure/communication-common";
 import { isNode } from "@azure/core-util";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { createXhrHttpClient } from "@azure/test-utils";
 import { SmsClient, SmsClientOptions } from "../../../src";
+
+const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -49,7 +51,8 @@ function createCredential(): TokenCredential {
       return new ClientSecretCredential(
         env.AZURE_TENANT_ID,
         env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
+        env.AZURE_CLIENT_SECRET,
+        { httpClient }
       );
     }
   }
@@ -58,7 +61,7 @@ function createCredential(): TokenCredential {
 export function createSmsClient(): SmsClient {
   // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-    httpClient: createXhrHttpClient(),
+    httpClient,
   } as SmsClientOptions);
 }
 
@@ -67,6 +70,6 @@ export function createSmsClientWithToken(): SmsClient {
   const credential: TokenCredential = createCredential();
   // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(endpoint, credential, {
-    httpClient: createXhrHttpClient(),
+    httpClient,
   } as SmsClientOptions);
 }
