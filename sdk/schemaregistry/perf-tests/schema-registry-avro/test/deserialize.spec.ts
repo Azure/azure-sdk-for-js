@@ -19,7 +19,7 @@ export class DeserializeTest extends AvroSerializerTest<SerializePerfTestOptions
       defaultValue: 1000,
     },
   };
-  serialized: MessageContent | undefined;
+  private serialized: MessageContent | undefined;
 
   constructor() {
     super();
