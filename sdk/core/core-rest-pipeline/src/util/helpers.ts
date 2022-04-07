@@ -122,3 +122,17 @@ export function parseHeaderValueAsNumber(
   if (Number.isNaN(valueAsNum)) return;
   return valueAsNum;
 }
+
+/**
+ * @internal
+ * Typeguard for an error object shape (has name and message)
+ * @param e Something caught by a catch clause.
+ */
+export function isError(e: unknown): e is Error {
+  if (isObject(e)) {
+    const hasName = typeof e.name === "string";
+    const hasMessage = typeof e.message === "string";
+    return hasName && hasMessage;
+  }
+  return false;
+}
