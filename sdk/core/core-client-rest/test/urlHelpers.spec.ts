@@ -32,7 +32,7 @@ describe("urlHelpers", () => {
       queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: 2 },
     });
 
-    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&$maxpagesize=1&$skip=2`);
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=2`);
   });
 
   it("should skip encoding for values in query parameter", () => {
@@ -50,7 +50,7 @@ describe("urlHelpers", () => {
       skipUrlEncoding: false
     });
 
-    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&$maxpagesize=1&$skip=%24_20`);
+    assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`);
   });
 
   it("should append date query parameter as ISO string", () => {
@@ -90,7 +90,7 @@ describe("urlHelpers", () => {
       },
     });
 
-    assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin!*%27()%3B%3A%40%20%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`);
+    assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`);
     result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {
         arrayQuery: []
@@ -113,7 +113,7 @@ describe("urlHelpers", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       queryParameters: { foo: " aaaa", bar: "b= " },
     });
-    assert.equal(result, `https://example.org/foo?foo=%20aaaa&bar=b%3D%20`);
+    assert.equal(result, `https://example.org/foo?foo=+aaaa&bar=b%3D+`);
   });
 
   it("should encode url when skip encoding path parameter", () => {

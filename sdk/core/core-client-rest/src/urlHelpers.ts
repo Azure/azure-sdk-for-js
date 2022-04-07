@@ -41,7 +41,7 @@ function appendQueryParams(
   if (!options.queryParameters) {
     return url;
   }
-  const parsedUrl = new URL(url);
+  let parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
   for (const key of Object.keys(queryParams)) {
     const param = queryParams[key] as any;
@@ -55,17 +55,24 @@ function appendQueryParams(
     parsedUrl.searchParams.append(key, value);
   }
 
+  if (options.skipUrlEncoding) {
+    parsedUrl = skipQueryParameterEncoding(parsedUrl);
+  }
+  return parsedUrl.toString();
+}
+
+function skipQueryParameterEncoding(url: URL) {
+  if (!url) {
+    return url;
+  }
   const searchPieces: string[] = [];
-  for (let [name, value] of parsedUrl.searchParams) {
-    // QUIRK: encode only values by default
-    if (!options.skipUrlEncoding) {
-      value = encodeURIComponent(value);
-    }
+  for (let [name, value] of url.searchParams) {
+    // QUIRK: searchParams.get will NOT encode the values
     searchPieces.push(`${name}=${value}`);
   }
   // QUIRK: we have to set search manually as searchParams will encode comma when it shouldn't.
-  parsedUrl.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
-  return parsedUrl.toString();
+  url.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+  return url;
 }
 
 export function buildBaseUrl(baseUrl: string, options: RequestParameters): string {
