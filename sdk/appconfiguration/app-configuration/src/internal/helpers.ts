@@ -315,7 +315,8 @@ export function assertResponse<T extends object>(
   if (!hasUnderscoreResponse(result)) {
     Object.defineProperty(result, "_response", {
       enumerable: false,
-      value: "Something went wrong, _response(raw response) is supposed to be part of the response. Please file a bug at https://github.com/Azure/azure-sdk-for-js",
+      value:
+        "Something went wrong, _response(raw response) is supposed to be part of the response. Please file a bug at https://github.com/Azure/azure-sdk-for-js",
     });
   }
 }
