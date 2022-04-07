@@ -83,7 +83,7 @@ export interface HttpResponseFields {
   /**
    * The HTTP status code for the response
    */
-  statusCode: number | undefined;
+  statusCode: number;
 }
 /**
  * HTTP response related information - headers and raw body.

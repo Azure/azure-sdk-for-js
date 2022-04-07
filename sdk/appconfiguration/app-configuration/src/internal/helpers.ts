@@ -237,7 +237,7 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   const response = {
     ...transformKeyValue(kvp),
-    statusCode: status,
+    statusCode: isDefined(status) ? status : -1,
   };
 
   if (hasUnderscoreResponse(kvp)) {
