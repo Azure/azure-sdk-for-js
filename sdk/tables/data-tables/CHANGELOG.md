@@ -1,10 +1,6 @@
 # Release History
 
-## 13.1.0 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 13.1.0 (2022-04-07)
 
 ### Bugs Fixed
 
