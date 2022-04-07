@@ -21,6 +21,8 @@ pr:
     include:
       - sdk/test-utils/
 
+variables:
+   Skip.PublishDocs: true
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,15 +32,19 @@ extends:
         safeName: azuretoolstestrecorder
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+        skipPublishDevFeed: true
       - name: azure-test-utils-perf
         safeName: azuretestutilsperf
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+        skipPublishDevFeed: true
       - name: azure-tools-test-credential
         safeName: azuretoolstestcredential
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+        skipPublishDevFeed: true
       - name: azure-test-utils
         safeName: azuretestutils
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+        skipPublishDevFeed: true
