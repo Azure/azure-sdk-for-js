@@ -82,7 +82,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions { }
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.

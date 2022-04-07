@@ -201,8 +201,6 @@ export async function assertThrowsAbortError(
   }
 }
 
-
-
 export function toWebResourceLike(request: PipelineRequest): WebResourceLike {
   return {
     url: request.url,

@@ -185,9 +185,9 @@ describe("helper methods", () => {
         abortSignal: {
           aborted: true,
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => { },
+          addEventListener: () => {},
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => { },
+          removeEventListener: () => {},
         },
         method: "GET",
         withCredentials: false,
@@ -242,11 +242,14 @@ describe("helper methods", () => {
   });
 
   it("transformKeyValueResponseWithStatusCode", () => {
-    const configurationSetting = transformKeyValueResponseWithStatusCode({
-      key: "hello",
-      locked: true,
-      ...fakeHttp204Response,
-    }, 204);
+    const configurationSetting = transformKeyValueResponseWithStatusCode(
+      {
+        key: "hello",
+        locked: true,
+        ...fakeHttp204Response,
+      },
+      204
+    );
 
     const actualKeys = Object.keys(configurationSetting).sort();
 

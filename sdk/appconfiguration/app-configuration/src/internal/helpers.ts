@@ -160,7 +160,7 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
   const setting: T & ConfigurationSetting & KeyValue = {
     value: undefined,
     ...kvp,
-    isReadOnly: !!kvp.locked
+    isReadOnly: !!kvp.locked,
   };
 
   delete setting.locked;
@@ -313,7 +313,9 @@ export function assertResponse<T extends object>(
   result: T
 ): asserts result is T & HttpResponseField<any> {
   if (!hasUnderscoreResponse(result)) {
-    throw new Error("Something went wrong, _response(raw response) is supposed to be part of the response.");
+    throw new Error(
+      "Something went wrong, _response(raw response) is supposed to be part of the response."
+    );
   }
 }
 
