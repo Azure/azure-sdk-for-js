@@ -204,7 +204,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/8.0.0`;
+    const packageDetails = `azsdk-js-arm-apimanagement/8.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -219,7 +219,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -380,11 +381,13 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       },
       performConnectivityCheckAsyncOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

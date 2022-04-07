@@ -9122,7 +9122,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-ENVu3UL1ZJ5O9P35Nwlhz1hPCGrauuaQvCl9+4PbVQ6/GllKYFsGNmmWK+o6cnVD3v84gnuVOk1McZwm/JZVbQ==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-Oi1ozF73WEuz5zNrqxAH2jOiPbOi3Q2P2o5U3T2jgT898bPxTQdk/4LXHPgvyvX5nAsw/ifQnEBvdm5kNWaqBg==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9131,18 +9131,19 @@ packages:
       '@microsoft/api-extractor': 7.20.0
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.3
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13766,7 +13767,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-vSGhVRX/S963VBFVN+EY5q41snGccSQVK12fWrXbp2Ax6jL/xBvgL0VA8zsIeAmVJpmet3u4hpAdMPfQ3T9sUg==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-RYpkEN5UKmvxajg+S3fv15al2vGVOzpAGbZ8E8EC5twk3jqn5FMs3CmaDbUOVJC3kxn+ufsvISg2lCxGfEIlnA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -15633,7 +15634,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-H8pkflcvtwsHkplTQ1FEyc0a4tD+mBcoNB47groMc4NedEKt2ta0wOHbJ99VlhmcT0kFmAkVkk8g+hlzlOMx9g==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-UkBfBxmUvPc9uN3mQnUGVHM1nbWKH2ZxdwLKgJsqg/XUmvzBClWigUOejTQwD2kZdruXN7vVlNB0I8IvZe1/1Q==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -15644,6 +15645,8 @@ packages:
       '@opentelemetry/instrumentation-http': 0.27.0_@opentelemetry+api@1.0.4
       '@opentelemetry/node': 0.24.0_@opentelemetry+api@1.0.4
       '@opentelemetry/resources': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/sdk-trace-base': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/sdk-trace-node': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 1.0.1
       '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
       '@types/mocha': 7.0.2
@@ -16465,7 +16468,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-aCzHzXCe1KSsts+Lrsm8CFbEVlGVvq/B4+x1pJWvMLbXEMwIZ0ANnITfSiyBjqowZRt6HxazAk3pVR6QovIv+g==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-YR7NND+QgROSxRzMGYKwVSzsdVe9kL0wC/KH8Aq2xXnLAA5YhuhHZsPvGR4wLXC7Q9fL4X7hGAF3m1bjRNVdsQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
