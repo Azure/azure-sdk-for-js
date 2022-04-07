@@ -19,8 +19,6 @@ import {
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/core-auth";
 
-import "@azure/core-asynciterator-polyfill";
-
 import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
