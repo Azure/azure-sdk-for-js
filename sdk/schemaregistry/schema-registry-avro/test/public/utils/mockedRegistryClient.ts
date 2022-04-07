@@ -73,6 +73,8 @@ function createMockedTestRegistry(): SchemaRegistry {
         properties: {
           id: newId(),
           format: schema.format,
+          groupName: schema.groupName,
+          name: schema.name,
         },
       };
       mapByContent.set(result.definition, result);
