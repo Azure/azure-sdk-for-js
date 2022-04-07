@@ -17296,10 +17296,11 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-Xer6XFqtF+++PkuM8klXusuoFnbtFT0MYT+SSptHozyW84/FdCf2V5t0VZJmqSYF7AM42GVSnRMbl6KF/pzevA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-/nQUimXgJbk3MGKM+7K4SBfQPHm4fnNDe0cJ5Q/ZgfLjWoMrs3GIF8aLlslr4ckXjCIMro0S5XTPrq2516aHDQ==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.20.0
       '@types/chai': 4.3.0
       '@types/express': 4.17.13
       '@types/fs-extra': 8.1.2
