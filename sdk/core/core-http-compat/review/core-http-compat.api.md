@@ -16,9 +16,7 @@ import { ServiceClientOptions } from '@azure/core-client';
 
 // @public
 export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
-    // Warning: (ae-forgotten-export) The symbol "HttpHeadersLike" needs to be exported by the entry point index.d.ts
     headers: HttpHeadersLike;
-    // Warning: (ae-forgotten-export) The symbol "WebResourceLike" needs to be exported by the entry point index.d.ts
     request: WebResourceLike;
 }
 
@@ -44,6 +42,24 @@ export class ExtendedServiceClient extends ServiceClient {
 export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClientOptions;
 
 // @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    // Warning: (ae-forgotten-export) The symbol "HttpHeader" needs to be exported by the entry point index.d.ts
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    // Warning: (ae-forgotten-export) The symbol "RawHttpHeaders" needs to be exported by the entry point index.d.ts
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
+}
+
+// @public
 export interface KeepAliveOptions {
     enable?: boolean;
 }
@@ -52,6 +68,31 @@ export interface KeepAliveOptions {
 export interface RedirectOptions {
     handleRedirects?: boolean;
     maxRetries?: number;
+}
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    body?: any;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    // Warning: (ae-forgotten-export) The symbol "TransferProgressEvent" needs to be exported by the entry point index.d.ts
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    withCredentials: boolean;
 }
 
 ```
