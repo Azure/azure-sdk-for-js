@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export { CustomMatcherOptions } from "./matcher";
 export { Recorder } from "./recorder";
+export { HeaderTransformParams, Transform, TransformType } from "./transform";
+export { delay } from "./utils/delay";
+export { env } from "./utils/env";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator";
 export {
-  SanitizerOptions,
-  RecorderStartOptions,
-  isLiveMode,
+  assertEnvironmentVariable, BodyKeySanitizer, ConnectionStringSanitizer, ContinuationSanitizer, FindReplaceSanitizer, HeaderSanitizer, isLiveMode,
   isPlaybackMode,
-  isRecordMode,
-  assertEnvironmentVariable,
+  isRecordMode, RecorderStartOptions, RegexSanitizer, RemoveHeaderSanitizer, SanitizerOptions, StringSanitizer
 } from "./utils/utils";
-export { env } from "./utils/env";
-export { delay } from "./utils/delay";
-export { CustomMatcherOptions } from "./matcher";

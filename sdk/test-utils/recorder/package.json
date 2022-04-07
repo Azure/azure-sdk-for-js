@@ -5,7 +5,7 @@
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/tools-test-recorder.d.ts",
   "browser": {
     "./dist-esm/src/utils/relativePathCalculator.js": "./dist-esm/src/utils/relativePathCalculator.browser.js",
     "./dist-esm/src/utils/env.js": "./dist-esm/src/utils/env.browser.js",

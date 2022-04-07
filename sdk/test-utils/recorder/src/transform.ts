@@ -9,12 +9,12 @@ interface ApplyCondition {
   uriRegex: string;
 }
 
-type TransformType<TType extends string, TParams = undefined> = {
+export type TransformType<TType extends string, TParams = undefined> = {
   type: TType;
   applyCondition?: ApplyCondition;
 } & (TParams extends undefined ? unknown : { params: TParams });
 
-interface HeaderTransformParams {
+export interface HeaderTransformParams {
   key: string;
   value: string;
 }
