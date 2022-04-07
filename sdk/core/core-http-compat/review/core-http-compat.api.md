@@ -42,15 +42,19 @@ export class ExtendedServiceClient extends ServiceClient {
 export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClientOptions;
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
 export interface HttpHeadersLike {
     clone(): HttpHeadersLike;
     contains(headerName: string): boolean;
     get(headerName: string): string | undefined;
     headerNames(): string[];
-    // Warning: (ae-forgotten-export) The symbol "HttpHeader" needs to be exported by the entry point index.d.ts
     headersArray(): HttpHeader[];
     headerValues(): string[];
-    // Warning: (ae-forgotten-export) The symbol "RawHttpHeaders" needs to be exported by the entry point index.d.ts
     rawHeaders(): RawHttpHeaders;
     remove(headerName: string): boolean;
     set(headerName: string, headerValue: string | number): void;
@@ -63,6 +67,11 @@ export interface HttpHeadersLike {
 export interface KeepAliveOptions {
     enable?: boolean;
 }
+
+// @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
 
 // @public
 export interface RedirectOptions {
