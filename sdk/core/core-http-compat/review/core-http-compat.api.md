@@ -80,6 +80,11 @@ export interface RedirectOptions {
 }
 
 // @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
+
+// @public
 export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
     body?: any;
@@ -89,7 +94,6 @@ export interface WebResourceLike {
     keepAlive?: boolean;
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    // Warning: (ae-forgotten-export) The symbol "TransferProgressEvent" needs to be exported by the entry point index.d.ts
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     query?: {
