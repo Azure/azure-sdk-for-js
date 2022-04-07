@@ -28,9 +28,17 @@ extends:
     Artifacts:
       - name: azure-tools-test-recorder
         safeName: azuretoolstestrecorder
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
       - name: azure-test-utils-perf
         safeName: azuretestutilsperf
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
       - name: azure-tools-test-credential
         safeName: azuretoolstestcredential
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
       - name: azure-test-utils
         safeName: azuretestutils
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
