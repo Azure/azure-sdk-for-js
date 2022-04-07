@@ -4,7 +4,6 @@
 
 ### Features Added
 - Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint. 
-- Added a new property apiVersion in ServiceClientOptions to allow customer customize the apiVersion before sending the request.
 
 ## 1.5.0 (2022-02-03)
 
