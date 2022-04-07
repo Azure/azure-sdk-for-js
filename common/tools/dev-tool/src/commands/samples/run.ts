@@ -69,7 +69,7 @@ export default leafCommand(commandInfo, async (options) => {
     log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
   }
 
-  if (packageJson.name.includes("-arm")) {
+  if (packageJson.name.includes("arm-")) {
     log.warn("SKipping ARM samples");
   }
 
