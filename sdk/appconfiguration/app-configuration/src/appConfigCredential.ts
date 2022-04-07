@@ -20,7 +20,7 @@ export function appConfigKeyCredentialPolicy(
   return {
     name: "AppConfigKeyCredentialPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const verb = request.method.toUpperCase();
+      const verb = request.method;
       const utcNow = new Date().toUTCString();
       const contentHash = await sha256Digest(request.body?.toString() || "");
       const signedHeaders = "x-ms-date;host;x-ms-content-sha256";
