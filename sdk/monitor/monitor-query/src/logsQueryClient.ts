@@ -97,60 +97,64 @@ export class LogsQueryClient {
     options: LogsQueryOptions = {}
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
-    return tracingClient.withSpan("LogsQueryClient.queryWorkspace",options, async (updatedOptions) => {
-      if (timespan) {
-        timeInterval = convertTimespanToInterval(timespan);
-      }
-      const { flatResponse, rawResponse } = await getRawResponse(
-        (paramOptions) =>
-          this._logAnalytics.query.execute(
-            workspaceId,
-            {
-              query,
-              timespan: timeInterval,
-              workspaces: options?.additionalWorkspaces,
-            },
-            paramOptions
-          ),
-        {
-          ...updatedOptions,
-          requestOptions: {
-            customHeaders: {
-              ...formatPreferHeader(options),
-            },
-          },
+    return tracingClient.withSpan(
+      "LogsQueryClient.queryWorkspace",
+      options,
+      async (updatedOptions) => {
+        if (timespan) {
+          timeInterval = convertTimespanToInterval(timespan);
         }
-      );
-  
-      const parsedBody = JSON.parse(rawResponse.bodyAsText!);
-      flatResponse.tables = parsedBody.tables;
-  
-      const res = {
-        tables: flatResponse.tables.map(convertGeneratedTable),
-        statistics: flatResponse.statistics,
-        visualization: flatResponse.render,
-      };
-  
-      if (!flatResponse.error) {
-        // if there is no error field, it is success
-        const result: LogsQuerySuccessfulResult = {
-          tables: res.tables,
-          statistics: res.statistics,
-          visualization: res.visualization,
-          status: LogsQueryResultStatus.Success,
+        const { flatResponse, rawResponse } = await getRawResponse(
+          (paramOptions) =>
+            this._logAnalytics.query.execute(
+              workspaceId,
+              {
+                query,
+                timespan: timeInterval,
+                workspaces: options?.additionalWorkspaces,
+              },
+              paramOptions
+            ),
+          {
+            ...updatedOptions,
+            requestOptions: {
+              customHeaders: {
+                ...formatPreferHeader(options),
+              },
+            },
+          }
+        );
+
+        const parsedBody = JSON.parse(rawResponse.bodyAsText!);
+        flatResponse.tables = parsedBody.tables;
+
+        const res = {
+          tables: flatResponse.tables.map(convertGeneratedTable),
+          statistics: flatResponse.statistics,
+          visualization: flatResponse.render,
         };
-        return result;
-      } else {
-        const result: LogsQueryPartialResult = {
-          partialTables: res.tables,
-          status: LogsQueryResultStatus.PartialFailure,
-          partialError: mapError(flatResponse.error),
-          statistics: res.statistics,
-          visualization: res.visualization,
-        };
-        return result;
+
+        if (!flatResponse.error) {
+          // if there is no error field, it is success
+          const result: LogsQuerySuccessfulResult = {
+            tables: res.tables,
+            statistics: res.statistics,
+            visualization: res.visualization,
+            status: LogsQueryResultStatus.Success,
+          };
+          return result;
+        } else {
+          const result: LogsQueryPartialResult = {
+            partialTables: res.tables,
+            status: LogsQueryResultStatus.PartialFailure,
+            partialError: mapError(flatResponse.error),
+            statistics: res.statistics,
+            visualization: res.visualization,
+          };
+          return result;
+        }
       }
-    })    
+    );
   }
 
   /**
@@ -163,7 +167,7 @@ export class LogsQueryClient {
     batch: QueryBatch[],
     options: LogsQueryBatchOptions = {}
   ): Promise<LogsQueryBatchResult> {
-    return tracingClient.withSpan("LogsQueryClient.queryBatch",options, async (updatedOptions) => {
+    return tracingClient.withSpan("LogsQueryClient.queryBatch", options, async (updatedOptions) => {
       const generatedRequest = convertRequestForQueryBatch(batch);
       const { flatResponse, rawResponse } = await getRawResponse(
         (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
@@ -171,7 +175,7 @@ export class LogsQueryClient {
       );
       const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
       return result;
-    })    
+    });
   }
 }
 

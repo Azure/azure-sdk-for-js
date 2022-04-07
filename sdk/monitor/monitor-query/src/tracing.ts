@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 //
-import { createTracingClient} from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
