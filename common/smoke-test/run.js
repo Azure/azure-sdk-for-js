@@ -79,8 +79,14 @@ async function executeSample(sample) {
     // Set the process directory to the sample's directory because some samples
     // use file paths relative to the sample's directory.
     process.chdir(directory);
-    const entryPoint = require(`${directory}/${sampleFile}`).main;
-    await entryPoint();
+    const moduleExports = require(`${directory}/${sampleFile}`) ?? {};
+
+    for (const key of Object.keys(moduleExports)) {
+      if(typeof moduleExports[key] === "function") {
+        await entryPoint();
+        break;
+      }
+    }
   } catch (exception) {
     console.log("  FAILURE");
     return {
