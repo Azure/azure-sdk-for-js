@@ -57,7 +57,9 @@ export interface TracingClient {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
         span: TracingSpan;
-        updatedOptions: Options;
+        updatedOptions: Options & {
+            tracingOptions: Required<OperationTracingOptions>;
+        };
     };
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     withSpan<Options extends {

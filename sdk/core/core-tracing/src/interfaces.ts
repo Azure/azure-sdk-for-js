@@ -62,7 +62,10 @@ export interface TracingClient {
     name: string,
     operationOptions?: Options,
     spanOptions?: TracingSpanOptions
-  ): { span: TracingSpan; updatedOptions: Options };
+  ): {
+    span: TracingSpan;
+    updatedOptions: Options & { tracingOptions: Required<OperationTracingOptions> };
+  };
   /**
    * Wraps a callback with an active context and calls the callback.
    * Depending on the implementation, this may set the globally available active context.

@@ -28,7 +28,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     spanOptions?: TracingSpanOptions
   ): {
     span: TracingSpan;
-    updatedOptions: Options;
+    updatedOptions: Options & { tracingOptions: Required<OperationTracingOptions> };
   } {
     const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
@@ -42,12 +42,10 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
       tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
     }
     span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
-    const updatedOptions = {
-      ...operationOptions,
-      tracingOptions: {
-        tracingContext: tracingContext,
-      },
-    } as Options;
+    const updatedOptions = Object.assign({}, operationOptions, {
+      tracingOptions: { tracingContext },
+    });
+
     return {
       span,
       updatedOptions,
@@ -68,7 +66,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   ): Promise<Resolved<ReturnType<Callback>>> {
     const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
-      const result = await withContext(updatedOptions.tracingOptions!.tracingContext!, () =>
+      const result = await withContext(updatedOptions.tracingOptions.tracingContext, () =>
         Promise.resolve(callback(updatedOptions, span))
       );
       span.setStatus({ status: "success" });
