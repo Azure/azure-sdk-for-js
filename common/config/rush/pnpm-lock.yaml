@@ -1116,21 +1116,6 @@ packages:
       - encoding
     dev: false
 
-  /@azure/keyvault-secrets/4.3.0:
-    resolution: {integrity: sha512-bhdAr2Yjx+XpgfkClOufpTxcnKqDIwyOSKrbI9mJ2q5wQNb7Z1WPnPnIhjdsw1on/NRXzMaarYFNkf/MdS73FA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.2.4
-      '@azure/core-lro': 2.2.3
-      '@azure/core-paging': 1.2.1
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger': 1.0.3
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /@azure/keyvault-secrets/4.4.0:
     resolution: {integrity: sha512-D7s5f+YDJYBLjjAY25Bl0P32h0ztFdHExViqbydsx8QjcrRgq62DJfbYBC4+9/M80BSBH5jRzKw5VWNFFp++AA==}
     engines: {node: '>=12.0.0'}
@@ -9114,7 +9099,7 @@ packages:
       '@azure/core-http-compat': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@azure/keyvault-secrets': 4.3.0
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.0
@@ -9225,7 +9210,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-ENVu3UL1ZJ5O9P35Nwlhz1hPCGrauuaQvCl9+4PbVQ6/GllKYFsGNmmWK+o6cnVD3v84gnuVOk1McZwm/JZVbQ==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-Oi1ozF73WEuz5zNrqxAH2jOiPbOi3Q2P2o5U3T2jgT898bPxTQdk/4LXHPgvyvX5nAsw/ifQnEBvdm5kNWaqBg==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9234,18 +9219,19 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
       '@rollup/plugin-json': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11135,27 +11121,28 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-WZg71YvDdPGtDtvV0pbOL0q/IVClW62tWKYU6BHcWceyG6YZhUYHevr+9UkSf0UompbEOxd5vIInYpcqYObSUw==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-/OPnKso0zq6dW/YbxuN3OCZHGfGnAImBRICR7YbEXzTZp70H5idw1yudbprd8F1qgId9REYtIMesPtTKtGtiRg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -15448,7 +15435,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@azure/keyvault-secrets': 4.3.0
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.46
@@ -16601,7 +16588,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-aCzHzXCe1KSsts+Lrsm8CFbEVlGVvq/B4+x1pJWvMLbXEMwIZ0ANnITfSiyBjqowZRt6HxazAk3pVR6QovIv+g==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-YR7NND+QgROSxRzMGYKwVSzsdVe9kL0wC/KH8Aq2xXnLAA5YhuhHZsPvGR4wLXC7Q9fL4X7hGAF3m1bjRNVdsQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
