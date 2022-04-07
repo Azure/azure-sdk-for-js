@@ -4,6 +4,7 @@
 import { Durations, LogsQueryClient } from "../../../src";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { assert } from "chai";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("LogsQueryClient unit tests", () => {
   /**
@@ -44,4 +45,23 @@ describe("LogsQueryClient unit tests", () => {
       });
     }
   });
+
+  it.only("verify tracing",async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new LogsQueryClient(credential, {
+      endpoint: "https://customEndpoint1",
+    });
+    await assert.supportsTracing(
+      async (options) => {
+        const promises: Promise<any>[] = [
+          client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes },options)
+        ];
+        // We don't care about errors, only that we created (and closed) the appropriate spans.
+        await Promise.all(promises.map((p) => p.catch(() => undefined)));
+      },
+      [
+        "LogsQueryClient.query"
+      ]
+    );
+  })
 });
