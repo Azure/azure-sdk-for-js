@@ -24,7 +24,7 @@ import {
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpHeaders } from "../public/utils/testHelpers";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -191,12 +191,12 @@ describe("helper methods", () => {
         },
         method: "GET",
         withCredentials: false,
-        headers: createHttpHeaders(),
+        headers: new HttpHeaders(),
         timeout: 0,
         requestId: "",
       },
       status: 204,
-      headers: createHttpHeaders(),
+      headers: new HttpHeaders(),
       bodyAsText: "",
       parsedHeaders: {},
     },

@@ -4,11 +4,23 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
+import { FullOperationResponse } from '@azure/core-client';
+import { HttpMethods } from '@azure/core-rest-pipeline';
 import { OperationArguments } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
+
+// @public
+export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+    // Warning: (ae-forgotten-export) The symbol "HttpHeadersLike" needs to be exported by the entry point index.d.ts
+    headers: HttpHeadersLike;
+    // Warning: (ae-forgotten-export) The symbol "WebResourceLike" needs to be exported by the entry point index.d.ts
+    request: WebResourceLike;
+}
 
 // @public (undocumented)
 export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";

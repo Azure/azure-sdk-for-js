@@ -7,7 +7,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CommonClientOptions } from '@azure/core-client';
-import { FullOperationResponse } from '@azure/core-client';
+import { CompatResponse } from '@azure/core-http-compat';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
@@ -122,7 +122,7 @@ export interface HttpOnlyIfUnchangedField {
 
 // @public
 export interface HttpResponseField<HeadersT> {
-    _response: FullOperationResponse & {
+    _response: CompatResponse & {
         parsedHeaders: HeadersT;
         bodyAsText: string;
     };
