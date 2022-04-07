@@ -20,6 +20,10 @@ async function main() {
       continue;
     }
 
+    if (packageJson.name.includes("arm-")) {
+      continue;
+    }
+
     const skipFiles = smokeTestConfig.skip || [];
     const jsFiles = fs
       .readdirSync(entry.SamplesDirectory)
