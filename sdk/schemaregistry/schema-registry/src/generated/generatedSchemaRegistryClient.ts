@@ -6,12 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import { SchemaGroupsOperationsImpl, SchemaImpl } from "./operations";
 import { SchemaGroupsOperations, Schema } from "./operationsInterfaces";
-import { GeneratedSchemaRegistryClientContext } from "./generatedSchemaRegistryClientContext";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
-export class GeneratedSchemaRegistryClient extends GeneratedSchemaRegistryClientContext {
+export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
+  endpoint: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the GeneratedSchemaRegistryClient class.
    * @param endpoint The Schema Registry service endpoint, for example
@@ -22,7 +25,38 @@ export class GeneratedSchemaRegistryClient extends GeneratedSchemaRegistryClient
     endpoint: string,
     options?: GeneratedSchemaRegistryClientOptionalParams
   ) {
-    super(endpoint, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: GeneratedSchemaRegistryClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-schema-registry/1.1.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint ?? options.baseUri ?? "https://{endpoint}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2021-10";
     this.schemaGroupsOperations = new SchemaGroupsOperationsImpl(this);
     this.schema = new SchemaImpl(this);
   }
