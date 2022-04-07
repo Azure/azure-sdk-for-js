@@ -159,7 +159,7 @@ describe("HttpsPipeline", function () {
           assert.equal(request.agent.options.pfx, fakePfx);
           cachedAgent = request.agent;
         }
-        
+
         throw new Error("ok");
       });
 
