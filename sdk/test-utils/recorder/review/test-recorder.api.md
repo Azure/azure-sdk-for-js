@@ -163,14 +163,12 @@ export type Transform = TransformType<"ApiVersionTransform"> | TransformType<"Cl
 // @public (undocumented)
 export type TransformType<TType extends string, TParams = undefined> = {
     type: TType;
-    applyCondition?: ApplyCondition;
+    applyCondition?: {
+        uriRegex: string;
+    };
 } & (TParams extends undefined ? unknown : {
     params: TParams;
 });
-
-// Warnings were encountered during analysis:
-//
-// src/transform.ts:14:3 - (ae-forgotten-export) The symbol "ApplyCondition" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

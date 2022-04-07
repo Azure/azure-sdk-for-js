@@ -5,13 +5,11 @@ import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
 import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
-interface ApplyCondition {
-  uriRegex: string;
-}
-
 export type TransformType<TType extends string, TParams = undefined> = {
   type: TType;
-  applyCondition?: ApplyCondition;
+  applyCondition?: {
+    uriRegex: string;
+  };
 } & (TParams extends undefined ? unknown : { params: TParams });
 
 export interface HeaderTransformParams {
