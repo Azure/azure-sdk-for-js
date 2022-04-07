@@ -21,7 +21,7 @@ async function attestationProvidersCreate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "MyResourceGroup";
   const providerName = "myattestationprovider";
-  const creationParams = {};
+  const creationParams = { location: "eastus", properties: {} };
   const credential = new DefaultAzureCredential();
   const client = new AttestationManagementClient(credential, subscriptionId);
   const result = await client.attestationProviders.create(
