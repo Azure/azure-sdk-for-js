@@ -338,7 +338,7 @@ export class AppConfigurationClient {
 
     while (currentResponse.nextLink) {
       currentResponse = await tracingClient.withSpan(
-        "listConfigurationSettings",
+        "AppConfigurationClient.listConfigurationSettings",
         options,
         // TODO: same code up above. Unify.
         async (updatedOptions) => {
