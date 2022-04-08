@@ -629,6 +629,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/app-configuration/1.3.1:
+    resolution: {integrity: sha512-QNP0TsYoX3qtdKFJsQVrGWSPLW5/aF3MxgPg52RgGdnkGfRAPfYHIe2E5O83Q+iTd/pUxJAntaRx6UOblhLpgQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-asynciterator-polyfill': 1.0.2
+      '@azure/core-auth': 1.3.2
+      '@azure/core-http': 2.2.4
+      '@azure/core-paging': 1.2.1
+      '@azure/core-tracing': 1.0.0-preview.13
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@azure/arm-msi/2.0.0:
     resolution: {integrity: sha512-yBprEoMQRNLyHtR/RuJh8ehQCcF6rO5049Pfped79uRd/Y8EW+pNpbW0EjqWC5lVllC1VG4B89aC5PwE3XeISA==}
     engines: {node: '>=12.0.0'}
@@ -9006,7 +9021,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-uyrepJ22xaI7YRKoj836BZZvdlSapK28XMSnGqz0uFz6du/cF3TlVWEo45p8RImylkFy6Eq/emY5wu/MQ46VVA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-viaBpInDzOxVVDJHOq/AoRzgfQnK5lFalmAQraZZtv9miXnnhjpocos/smSYGMRNObwHKPXgJRZXinZJEpd0jA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -9025,6 +9040,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9056,6 +9072,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.3
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -15841,10 +15858,11 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-rccgi02zKEYv4757oYGxlp3MWr6PVn286zyZuXuGPXcclT0kl1zYDCeDq+5S5wsnWiQCRR6ccL9kyO0IWmE44A==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-yLv5yrEmKWC4dhjkjHhqql3y8rUmcPyR69MAYeW6cA8oWpGpXkbfDFmqdhRBAsQpu5peWHp6TWspwkOmRwp+NA==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
+      '@azure/app-configuration': 1.3.1
       '@types/node': 12.20.47
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
@@ -15858,6 +15876,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
@@ -16212,10 +16231,11 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-oZJMkkyGGrsJvrjmhTTIkJtiHSeH87KkAOFX9ux87EY4/M0fAXY3LfIYKiF7wSIH09u5r/9WWGw2LuE/hw5khw==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-e4cL0LE0/Tb/EoFUxLPtqtx7G74godAg2YieBZP1TeeuH3vmQrjSDZ5bs/ICpBcFkEyFF/I6sI1WSiyIzcvzaA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
+      '@azure/app-configuration': 1.3.1
       '@azure/identity': 2.0.4
       '@types/node': 12.20.47
       '@types/uuid': 8.3.4
@@ -16231,6 +16251,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - debug
+      - encoding
       - supports-color
     dev: false
 
@@ -16410,7 +16431,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-ADG9wO8rIljoktGdVnP+v8jdrxc43TL0hQgHi7cSXkrJxFGGB6M8XqcDhuT8hYCLfLkRzCwpwH7VSnsjBDVdpg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-9TumFphoGCJiaHQVfz2Z9AsSbhal4ZtZWx7L9fG19JdfEZKJT5uUykYq81plFNWAReFMs83oFPUO//K+BhRuLQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -17550,7 +17571,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-7qvVc3+mTZX3L5BoserPH04Nwu7kDUUNR5KCtK+ugSa+uTQ5jM0uPXJ3sxgajKuLX+a63eftQtMg2Zcf9K3HZw==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-vAYE6Sk0Olihti+uB+3ac0P3Y+d/XtBXwF2rq0PblaciuLhY/J/3+Y9dpOYDpgTiTyZuAmm+7DDRAq8AYkSETQ==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
