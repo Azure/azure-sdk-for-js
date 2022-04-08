@@ -122,6 +122,7 @@ function buildPipelineRequest(
     formData,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
+    enableBrowserStreams: true,
     streamResponseStatusCodes: options.responseAsStream
       ? new Set([Number.POSITIVE_INFINITY])
       : undefined,
