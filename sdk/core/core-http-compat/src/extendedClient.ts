@@ -14,7 +14,7 @@ import {
   FullOperationResponse,
   RawResponseCallback,
 } from "@azure/core-client";
-import { toWebResourceLike, toHttpHeaderLike } from "./util";
+import { toWebResourceLike, toHttpHeaderLike, WebResourceLike, HttpHeadersLike } from "./util";
 
 /**
  * Options specific to Shim Clients.
@@ -104,4 +104,18 @@ export class ExtendedServiceClient extends ServiceClient {
 
     return result;
   }
+}
+
+/**
+ * Http Response that is compatible with the core-v1(core-http).
+ */
+export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+  /**
+   * A description of a HTTP request to be made to a remote server.
+   */
+  request: WebResourceLike;
+  /**
+   * A collection of HTTP header key/value pairs.
+   */
+  headers: HttpHeadersLike;
 }
