@@ -319,7 +319,7 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
     let currentResponse = await tracingClient.withSpan(
-      "listConfigurationSettings",
+      "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
         const response = await this.client.getKeyValues({
